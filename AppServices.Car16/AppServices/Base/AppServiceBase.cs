@@ -1,0 +1,170 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using System.Threading.Tasks;
+using AutoMapper;
+using AppServices.Car16.Interfaces.Base;
+using Domain.Core.DomainServices.Base;
+using Domain.Core.Entities.Base;
+using Domain.Core.Interfaces.DomainServices.Base;
+using Domain.Core.Interfaces.Entities;
+using Domain.Core.Interfaces.UnitOfWork;
+using Domain.Core.Interfaces.Repositories;
+
+namespace AppServices.Car16.AppServices.Base
+{
+   
+    public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity :class
+    {
+        private readonly IUnitOfWork _unitOfWork;
+        public Dictionary<Type, object> appDomainServices = new Dictionary<Type, object>();
+
+        public AppServiceBase(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+            Mapper.Initialize(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
+        }
+
+        #region dispose
+        private bool disposed = false;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        // Protected implementation of Dispose pattern.
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Free any other managed objects here.
+                    if (this._unitOfWork != null)
+                    {
+                        this._unitOfWork.Dispose();
+                    }
+                }
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        public IUnitOfWork AppServiceUnitOfWork()
+        {
+            return _unitOfWork;
+        }
+
+        public IDomainServiceBase<T> domainService<T>() where T : class
+        {
+            IDomainServiceBase<T> domainService = null;
+
+            if (appDomainServices.Keys.Contains(typeof(T)))
+            {
+                domainService = appDomainServices[typeof(T)] as IDomainServiceBase<T>;
+            }
+            else
+            {
+                domainService = new DomainServiceBase<T>(_unitOfWork);
+            }
+
+            if (domainService != null)
+            {
+                appDomainServices.Add(typeof(T), domainService);
+            }
+
+            return domainService;
+        }
+
+        public virtual void Add(TDtoEntityModel dtoItem)
+        {
+            //var config = new MapperConfiguration(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
+            TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
+            this.domainService<TEntity>().Add(entityTmp);
+        }
+
+        public virtual void AddRange(IEnumerable<TDtoEntityModel> dtoItens)
+        {
+            IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
+            this.domainService<TEntity>().AddRange(listEntities);
+        }
+
+        public virtual IEnumerable<TDtoEntityModel> GetAll()
+        {
+            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetAll();
+            IEnumerable<TDtoEntityModel> listDtoEntities = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            return listDtoEntities;
+        }
+
+        public virtual void Update(TDtoEntityModel dtoItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void Remove(long id)
+        {
+            this.domainService<TEntity>().Remove(id);
+        }
+
+
+        public virtual void Remove(TDtoEntityModel dtoitem)
+        {
+            TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoitem);
+            this.domainService<TEntity>().Remove(entityTmp);
+        }
+
+        public virtual void RemoveRange(IEnumerable<TDtoEntityModel> dtoItens)
+        {
+            IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
+            this.domainService<TEntity>().RemoveRange(listEntities);
+        }
+
+        public virtual TDtoEntityModel GetById(long id)
+        {
+            TEntity entityTmp = this.domainService<TEntity>().GetById(id);
+            TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
+            return dtoEntityTmp;
+        }
+
+        public virtual IEnumerable<TDtoEntityModel> GetWhere(Expression<Func<TEntity, bool>> expression)
+        {
+            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhere(expression);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            return listDto;
+        }
+
+        public virtual IEnumerable<TDtoEntityModel> GetWhere(ISpecification<TEntity> specification)
+        {
+            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhere(specification);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            return listDto;
+        }
+
+        public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        {
+            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            return listDto;
+        }
+
+        public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

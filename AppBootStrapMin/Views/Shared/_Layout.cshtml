@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - App Cartoon Soft</title>
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Cartoon Soft</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li class="active"><a href="#">Home</a></li>
+                <li >
+                    <a href="#cadastrosSubmenu" data-toggle="collapse" aria-expanded="false">Cadastros</a>
+                    <ul class="collapse list-unstyled" id="cadastrosSubmenu">
+                        <li><a href="#">Paizes</a></li>
+                        <li><a href="#">teste 2</a></li>
+                        <li><a href="#">teste 3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">About</a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li><a href="#">Page 1</a></li>
+                        <li><a href="#">Page 2</a></li>
+                        <li><a href="#">Page 3</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Portfolio</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+            <ul class="list-unstyled CTAs">
+                <li><a href="#" class="download">Download</a></li>
+                <li><a href="#" class="article">article</a></li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                    </div>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Usuario</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#"><i class="menu-icon fa fa-user"></i><span> Conta</span></a></li>
+                                <li><a href="#"><i class="menu-icon fa fa-lock" aria-hidden="true"></i><span> Trocar senha</span></a></li>
+                                <li><a href="#"><i class="menu-icon fa fa-question"></i><span> Algo</span></a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a href="#"><i class="fa fa-sign-out"></i> Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            @RenderBody()
+        </div>
+    </div>
+
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            // when opening the sidebar
+            $('#sidebarCollapse').on('click', function () {
+                // open sidebar
+                $('#sidebar').addClass('active');
+                // fade in the overlay
+                $('.overlay').fadeIn();
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+
+
+            // if dismiss or overlay was clicked
+            $('#dismiss, .overlay').on('click', function () {
+                // hide the sidebar
+                $('#sidebar').removeClass('active');
+                // fade out the overlay
+                $('.overlay').fadeOut();
+            });
+
+        });
+    </script>
+
+</body>
+</html>
