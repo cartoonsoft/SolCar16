@@ -17,6 +17,7 @@ namespace AppServices.Car16.AutoMapper
             CreateMap<DtoUfModel, Uf>();
             CreateMap<DtoMunicipioModel, Municipio>();
             CreateMap<DtoPessoaModel, Pessoa>();
+            CreateMap<DtoArquivoModeloDocxModel, ArquivoModeloDocx>();
         }
     }
 }

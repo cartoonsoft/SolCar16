@@ -19,8 +19,11 @@ namespace Infra.Data.Car16.Context
             //
         }
 
+        #region | DB SETS |
         public DbSet<Pais> PaisDb { get; set; }
-        
+        public DbSet<ArquivoModeloDocx> ArquivoModeloDocxDb { get; set; }
+        #endregion
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new ClienteConfig());
