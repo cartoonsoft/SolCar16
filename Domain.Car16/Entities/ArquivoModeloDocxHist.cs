@@ -16,7 +16,7 @@ namespace Domain.Car16.Entities
         [Column("ID_ARQUIVO_MODELO_DOCX_HIST")]
         public override long Id { get; set; }
         [Column("ID_ARQUIVO_MODELO_DOCX")]
-        public int ArquivoModeloDocx { get; set; }
+        public long ArquivoModeloDocxId { get; set; }
         [Column("NUM_VERSAO")]
         public int Versao { get; set; }
     }

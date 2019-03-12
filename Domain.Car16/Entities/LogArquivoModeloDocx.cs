@@ -21,7 +21,7 @@ namespace Domain.Car16.Entities
         public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
 
         [Column("ID_ARQUIVO_MODELO_DOCX")]
-        public int ArquivoID { get; set; }
+        public long ArquivoID { get; set; }
 
         [Column("IP_USUARIO")]
         public string IP { get; set; }

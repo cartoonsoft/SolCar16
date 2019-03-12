@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Base\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cadastros\DtoArquivoModeloDocxModel.cs" />
     <Compile Include="Entities\Cadastros\DtoMunicipioModel.cs" />
     <Compile Include="Entities\Cadastros\DtoPaisModel.cs" />
     <Compile Include="Entities\Cadastros\DtoPessoaModel.cs" />
@@ -55,6 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
+      <Project>{AE8086A7-8173-4A35-BC8F-67574C1BD7DD}</Project>
+      <Name>Domain.Car16</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

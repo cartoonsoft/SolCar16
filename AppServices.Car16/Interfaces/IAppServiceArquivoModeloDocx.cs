@@ -11,5 +11,6 @@ namespace AppServices.Car16.Interfaces
 {
     public interface IAppServiceArquivoModeloDocx : IAppServiceBase<DtoArquivoModeloDocxModel, ArquivoModeloDocx>
     {
+        int BuscarUltimaVersao(long IdArquivo);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Domain.Car16.Entities.Attributes;
+﻿using Domain.Car16.Entities;
+using Domain.Car16.Entities.Attributes;
 using Domain.Car16.Enumeradores;
 using Dto.Car16.Entities.Base;
 using System;
@@ -23,13 +24,27 @@ namespace Dto.Car16.Entities.Cadastros
         [Display(Name = "Tipo de Modelo")]
         [Required(ErrorMessage = "Selecione algum tipo de modelo")]
         public NaturezaArquivoModeloDocx TipoArquivoModelo { get; set; }
-
-        [Required(AllowEmptyStrings =false)]
-        public string IP { get; set; }
-
+   
         [Display(Name = "Arquivo")]
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
         public List<HttpPostedFileBase> Files { get; set; }
+
+        #region | Dados nao obrigatorios |
+        [Display(Name = "Log Arquivo")]
+        public LogArquivoModeloDocx LogArquivoModeloDocx { get; set; }
+
+        [Display(Name = "Caminho Arquivo")]
+        public string CaminhoArquivo { get; set; }
+
+        [Display(Name ="Nome do Arquivo")]
+        public string NomeArquivo { get; set; }
+
+        [Display(Name ="Extensao Arquivo")]
+        public string ExtensaoArquivo { get; set; }
+
+        [Display(Name ="Bytes Arquivo")]
+        public byte[] ArquivoByte { get; set; }
+        #endregion
     }
 }

@@ -57,22 +57,21 @@ namespace ConsoleAppTeste
             
 
             Console.Clear();
-            Console.WriteLine("----------------------------------------------------------------");
-            Console.WriteLine("***************|       RELATORIO     |**************************");
-            Console.WriteLine("----------------------------------------------------------------");
+            //Console.WriteLine("----------------------------------------------------------------");
+            //Console.WriteLine("***************|       RELATORIO     |**************************");
+            //Console.WriteLine("----------------------------------------------------------------");
 
             using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
             {
-                using (AppServicePais appService = new AppServicePais(unitOfWork))
+                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                 {
-                    List<DtoPaisModel> listPaizes = appService.GetAll().ToList<DtoPaisModel>();
 
-                    foreach (var pais in listPaizes)
+                    appService.SalvarModelo(new DtoArquivoModeloDocxModel()
                     {
-                        Console.WriteLine("        {0}           {1}", pais.Id, pais.NomePais);
-                    }
-                    Console.WriteLine("----------------------------fim relatório----------------------");
+                        NomeArquivo = "Pedro"
+                    });
                 }
+                unitOfWork.Commit();
             }
 
             Console.ReadKey();

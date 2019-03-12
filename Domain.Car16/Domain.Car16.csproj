@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,16 +49,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainServices\ArquivoModeloDocxDomainService.cs" />
+    <Compile Include="DomainServices\ArquivoModeloDocxHistDomainService.cs" />
+    <Compile Include="DomainServices\LogArquivoModeloDocx.cs" />
     <Compile Include="DomainServices\PessoaDomainService.cs" />
     <Compile Include="DomainServices\PaisDomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
+    <Compile Include="Entities\ArquivoModeloDocx.cs" />
+    <Compile Include="Entities\ArquivoModeloDocxHist.cs" />
+    <Compile Include="Entities\Attributes\IsWordFile.cs" />
+    <Compile Include="Entities\Attributes\RequiredHttpPostedFileBase.cs" />
+    <Compile Include="Entities\LogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Municipio.cs" />
     <Compile Include="Entities\Pais.cs" />
     <Compile Include="Entities\Pessoa.cs" />
     <Compile Include="Entities\Uf.cs" />
+    <Compile Include="Enumeradores\NaturezaArquivoModeloDocx.cs" />
+    <Compile Include="Enumeradores\TipoLogArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\DomainServices\IArquivoModeloDocxDomainService.cs" />
+    <Compile Include="Interfaces\DomainServices\IArquivoModeloDocxHistDomainService.cs" />
+    <Compile Include="Interfaces\DomainServices\ILogArquivoModeloDocxDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IUfDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPessoaDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
