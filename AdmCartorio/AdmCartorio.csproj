@@ -13,7 +13,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AdmCartorio</RootNamespace>
     <AssemblyName>AdmCartorio</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
@@ -927,6 +927,7 @@
     <Content Include="Views\Forms\Validator.cshtml" />
     <Content Include="Views\Misc\Versions.cshtml" />
     <Content Include="Views\Graphs\HighCharts.cshtml" />
+    <Content Include="Views\Arquivos\Cadastrar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -971,15 +972,33 @@
     <Compile Include="Models\ArquivoModeloDocxViewModel.cs" />
     <Compile Include="Models\Attributes\IsWordFile.cs" />
     <Compile Include="Models\Attributes\RequiredHttpPostedFileBase.cs" />
-    <Compile Include="Models\Enumeradores\NaturezaArquivoModeloDocx.cs" />
-    <Compile Include="Models\Enumeradores\TipoLogArquivoModeloDocx.cs" />
-    <Compile Include="Models\LogArquivoModeloDocxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\realestate\thumbs\" />
-    <Folder Include="Views\Arquivos\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">
+      <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
+      <Name>AppServices.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
+      <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
+      <Name>Domain.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
+      <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
+      <Name>Dto.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
+      <Project>{1214a5f7-317d-47b4-ac8d-88a3db601f39}</Project>
+      <Name>Infra.Data.Car16</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

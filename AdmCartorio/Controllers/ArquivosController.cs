@@ -1,5 +1,12 @@
-﻿using System;
+﻿using AdmCartorio.Models;
+using AppServices.Car16.AppServices;
+using Domain.Car16.Enumeradores;
+using Dto.Car16.Entities.Cadastros;
+using Infra.Data.Car16.Context;
+using Infra.Data.Car16.UnitOfWorkCar16;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,75 +21,77 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        // GET: Arquivos/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Cadastrar()
         {
-            return View();
-        }
+            ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
 
-        // GET: Arquivos/Create
-        public ActionResult Create()
-        {
             return View();
         }
 
         // POST: Arquivos/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        //[ValidateAntiForgeryToken]
+        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel)
         {
             try
             {
-                // TODO: Add insert logic here
+                if (ModelState.IsValid)
+                {
+                    for (int i = 0; i < arquivoModel.Files.Count; i++)
+                    {
+                        //Pega os dados do arquivo
+                        HttpPostedFileBase arquivo = arquivoModel.Files[i];
+                        var extension = Path.GetExtension(arquivo.FileName);
+                        var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
 
-                return RedirectToAction("Index");
+                        #region | Gravacao do arquivo fisicamente |
+                        // Salva o arquivo fisicamente
+                        var filePath = Path.Combine(Server.MapPath("~/Documents/"),
+                            nomeArquivo + extension);
+                        arquivo.SaveAs(filePath);
+                        #endregion
+                        #region | Populando variavel do banco |
+
+                        arquivoModel.ArquivoByte = System.IO.File.ReadAllBytes(filePath);
+                        arquivoModel.CaminhoArquivo = filePath;
+                        arquivoModel.NomeArquivo = nomeArquivo;
+                        arquivoModel.ExtensaoArquivo = extension;
+
+                        #endregion
+                        #region |Cadastrando no banco|
+                        ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
+                        using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
+                        {
+                            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                            {
+
+                                appService.SalvarModelo(new DtoArquivoModeloDocxModel()
+                                {
+                                    ArquivoByte = arquivoModel.ArquivoByte,
+                                    CaminhoArquivo = arquivoModel.CaminhoArquivo,
+                                    ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
+                                    Files = arquivoModel.Files,
+                                    NomeArquivo = arquivoModel.NomeArquivo,
+                                    NomeModelo = arquivoModel.NomeModelo,
+                                    NaturezaArquivoModeloDocx = arquivoModel.NaturezaArquivoModeloDocx,
+                                    LogArquivoModeloDocx = arquivoModel.LogArquivoModeloDocx
+                                });
+                            }
+                            unitOfWork.Commit();
+                        }
+                        #endregion
+                    }
+
+                    ViewBag.resultado = "Arquivo salvo com sucesso!";
+                    return View(nameof(Cadastrar));
+                }
+
+                return View(nameof(Cadastrar));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
-            }
-        }
-
-        // GET: Arquivos/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Arquivos/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Arquivos/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Arquivos/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
+                Console.WriteLine(ex.Message);
+                return View(nameof(Cadastrar));
             }
         }
     }

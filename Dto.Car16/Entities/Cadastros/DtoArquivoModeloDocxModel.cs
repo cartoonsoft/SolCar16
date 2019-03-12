@@ -23,7 +23,7 @@ namespace Dto.Car16.Entities.Cadastros
 
         [Display(Name = "Tipo de Modelo")]
         [Required(ErrorMessage = "Selecione algum tipo de modelo")]
-        public NaturezaArquivoModeloDocx TipoArquivoModelo { get; set; }
+        public NaturezaArquivoModeloDocx NaturezaArquivoModeloDocx { get; set; }
    
         [Display(Name = "Arquivo")]
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Enumeradores
 {
-    [Flags]
     public enum NaturezaArquivoModeloDocx
     {
         [Description("Imóveis")]

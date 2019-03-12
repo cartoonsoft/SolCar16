@@ -1,9 +1,8 @@
-﻿using AdmCartorio.Models.Attributes;
-using AdmCartorio.Models.Enumeradores;
-using System;
+﻿using Domain.Car16.Entities;
+using Domain.Car16.Entities.Attributes;
+using Domain.Car16.Enumeradores;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web;
 
 namespace AdmCartorio.Models
@@ -28,7 +27,7 @@ namespace AdmCartorio.Models
 
         #region | Dados nao obrigatorios |
         [Display(Name = "Log Arquivo")]
-        public LogArquivoModeloDocxViewModel LogArquivoModeloDocxViewModel { get; set; }
+        public LogArquivoModeloDocx LogArquivoModeloDocx { get; set; }
 
         [Display(Name = "Caminho Arquivo")]
         public string CaminhoArquivo { get; set; }

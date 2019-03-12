@@ -38,7 +38,7 @@ namespace AppServices.Car16.AppServices
                     ExtensaoArquivo = dtoArq.ExtensaoArquivo,
                     NomeArquivo = dtoArq.NomeArquivo,
                     NomeModelo = dtoArq.NomeModelo,
-                    TipoArquivoModelo = dtoArq.TipoArquivoModelo
+                    NaturezaArquivoModeloDocx = dtoArq.NaturezaArquivoModeloDocx
                 };
                 this.domainService<ArquivoModeloDocx>().Add(arquivoModelo);
 

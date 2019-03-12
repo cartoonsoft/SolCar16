@@ -19,7 +19,7 @@ namespace Domain.Car16.Entities
         [Column("NOME_MODELO")]
         public string NomeModelo { get; set; }
         [Column("TIPO_ARQUIVO_MODELO_DOCX")]
-        public NaturezaArquivoModeloDocx TipoArquivoModelo { get; set; }
+        public NaturezaArquivoModeloDocx NaturezaArquivoModeloDocx { get; set; }
         [Column("NOME_ARQUIVO")]
         public string NomeArquivo { get; set; }
         [Column("CAMINHO_ARQUIVO")]
