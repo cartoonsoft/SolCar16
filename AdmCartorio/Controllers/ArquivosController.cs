@@ -21,9 +21,15 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+
         public ActionResult Cadastrar()
         {
-            ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+             ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
 
             return View();
         }
@@ -83,16 +89,17 @@ namespace AdmCartorio.Controllers
                     }
 
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
-                    return View(nameof(Cadastrar));
+                    return View();
                 }
 
-                return View(nameof(Cadastrar));
+                return View();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return View(nameof(Cadastrar));
+                return View();
             }
         }
+
     }
 }

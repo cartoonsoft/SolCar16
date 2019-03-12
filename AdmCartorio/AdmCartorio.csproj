@@ -928,6 +928,7 @@
     <Content Include="Views\Misc\Versions.cshtml" />
     <Content Include="Views\Graphs\HighCharts.cshtml" />
     <Content Include="Views\Arquivos\Cadastrar.cshtml" />
+    <Content Include="Views\Arquivos\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

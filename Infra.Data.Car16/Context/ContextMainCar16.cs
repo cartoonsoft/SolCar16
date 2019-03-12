@@ -22,6 +22,8 @@ namespace Infra.Data.Car16.Context
         #region | DB SETS |
         public DbSet<Pais> PaisDb { get; set; }
         public DbSet<ArquivoModeloDocx> ArquivoModeloDocxDb { get; set; }
+        public DbSet<LogArquivoModeloDocx> LogArquivoModeloDocx { get; set; }
+
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
