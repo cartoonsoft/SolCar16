@@ -19,7 +19,7 @@
 
         <ul>
             <li class="@Html.RouteIf("index", "active")">
-                <a href="#" title="Painel"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Painel</span></a>
+                <a href="#" title="Painel"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Home</span></a>
                 <ul>
                     <li class="@Html.RouteIf("index", "active")">
                         <a href="@Url.Action("index", "home")" title="Painel"><span class="menu-item-parent">Boas vindas</span></a>
@@ -29,6 +29,19 @@
                     </li>
                 </ul>
             </li>
+            <!-- ARQUIVOS-->
+            <li class="top-menu-invisible @Html.RouteIf("modelos", "active" )">
+                <a href="#"><i class="fa fa-file-word-o "></i> <span class="menu-item-parent">Modelos</span></a>
+                <ul>
+                    <li class="@Html.RouteIf("cadastrar", "active")">
+                        <a href="@Url.Action("Cadastrar", "Arquivos")" title="Cadastrar Modelo"><i class="glyphicon glyphicon-upload"></i> <span class="menu-item-parent">Cadastrar</span></a>
+                    </li>
+                    <li class="@Html.RouteIf("editar", "active")">
+                        <a href="@Url.Action("Editar", "Arquivos")" title="Lista de Modelos"><i class="glyphicon glyphicon-list-alt"></i> <span class="menu-item-parent">Lista de Modelos</span></a>
+                    </li>
+                </ul>
+            </li>
+            <!-- FIM ARQUIVOS-->
             <li class="top-menu-invisible @Html.RouteIf(" intel", "active" )">
                 <a href="#"><i class="fa fa-lg fa-fw fa-cube txt-color-blue"></i> <span class="menu-item-parent">SmartAdmin Intel</span></a>
                 <ul>
@@ -213,7 +226,7 @@
                         <a href="@Url.Action("googlemap", "features")"><i class="fa fa-lg fa-fw fa-map-marker"></i> <span class="menu-item-parent">GMap Skins</span><span class="badge bg-color-greenLight pull-right inbox-badge">9</span></a>
                     </li>
                 </ul>
-            </li>	
+            </li>
             <li class="@Html.RouteIf("appviews", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw fa-puzzle-piece"></i> <span class="menu-item-parent">App Views</span></a>
                 <ul>
@@ -261,7 +274,7 @@
                         <a href="@Url.Action("detail", "commerce")">Products Detail</a>
                     </li>
                 </ul>
-            </li>	
+            </li>
             <li class="@Html.RouteIf("misc", "active")">
                 <a href="#"><i class="fa fa-lg fa-fw fa-windows"></i> <span class="menu-item-parent">Miscellaneous</span></a>
                 <ul>

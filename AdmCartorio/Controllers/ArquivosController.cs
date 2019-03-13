@@ -61,26 +61,9 @@ namespace AdmCartorio.Controllers
                         arquivoModel.ExtensaoArquivo = extension;
 
                         #endregion
-                        //#region |Cadastrando no banco|
-                        //ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
-                        //using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
-                        //{
-                        //    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-                        //    {
-
-                        //        appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                        //        {
-                        //            ArquivoByte = arquivoModel.ArquivoByte,
-                        //            CaminhoArquivo = arquivoModel.CaminhoArquivo,
-                        //            ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
-                        //            Files = arquivoModel.Files,
-                        //            NomeArquivo = arquivoModel.NomeArquivo,
-                        //            NomeModelo = arquivoModel.NomeModelo
-                        //        });
-                        //    }
-                        //    unitOfWork.Commit();
-                        //}
-                        //#endregion
+                        #region |Cadastrando no banco|
+                        //CadastraArquivoModeloDocx(arquivoModel);
+                        #endregion
                     }
 
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
@@ -110,8 +93,31 @@ namespace AdmCartorio.Controllers
 
             return View();
         }
-        #endregion
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar(ArquivoModeloDocxViewModel arquivoModeloDocxViewModel)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // Fazendo Upload do arquivo
+                    //UploadArquivo(arquivoModeloDocxViewModel);
+
+                    ViewBag.resultado = "Arquivo salvo com sucesso!";
+                    return View(nameof(Editar));
+
+                }
+                return View(nameof(Editar));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return View(nameof(Editar));
+            }
+        }
+        #endregion
         #region | METODOS COMPARTILHADOS |
         [ValidateAntiForgeryToken]
         public void CadastrarLogUpload(string IP)
@@ -124,6 +130,32 @@ namespace AdmCartorio.Controllers
             //    tipologarquivomodelodocx = admcartorio.models.enumeradores.tipologarquivomodelodocx.download
             //};
             return;
+        }
+
+        public int? CadastraArquivoModeloDocx(ArquivoModeloDocxViewModel arquivoModel)
+        {
+            ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
+            int? resultado;
+
+            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
+            {
+                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                {
+
+                    appService.SalvarModelo(new DtoArquivoModeloDocxModel()
+                    {
+                        ArquivoByte = arquivoModel.ArquivoByte,
+                        CaminhoArquivo = arquivoModel.CaminhoArquivo,
+                        ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
+                        Files = arquivoModel.Files,
+                        NomeArquivo = arquivoModel.NomeArquivo,
+                        NomeModelo = arquivoModel.NomeModelo
+                    });
+                }
+                resultado = unitOfWork.Commit();
+            }
+
+            return resultado;
         }
         #endregion
     }
