@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Editar";
 }
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
 
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
@@ -14,7 +14,7 @@
                     @Html.AntiForgeryToken()
 
                     <header>
-                        Edição de Modelos
+                        <h1>Edição de Modelos</h1>
                     </header>
                     <fieldset>
                         <!-- SELECAO DE ARQUIVO-->
@@ -44,10 +44,16 @@
             </div>
         </div>
     </div>
+    <iframe src="~/App_Data/testeWord.docx" hidden></iframe>
+
 </article>
 
+@*<iframe src="~/App_Data/Modelos/@(Model.NomeArquivo+Model.ExtensaoArquivo)" hidden></iframe>*@
 
 <script type="text/javascript">
+
+
+    debugger;
 
      @*$('#upload').on('click',
         function () {
@@ -81,7 +87,7 @@
         var token = $('input[name="__RequestVerificationToken"]', form).val();
 
         $.ajax({
-            url: '@Url.Action("CadastrarLogUpload", "Arquivos")',
+            url: '@Url.Action("CadastrarLogDownload", "Arquivos")',
             type: 'POST',
             dataType: 'json',
             data: {

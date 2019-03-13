@@ -5,12 +5,12 @@
     ViewBag.Title = "Cadastrar";
 }
 
-@*@if (ViewBag.resultado != null)
+@if (ViewBag.resultado != null)
 {
     <div class="alert alert-success">
         <label class="">@ViewBag.resultado</label>
     </div>
-}*@
+}
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
@@ -22,7 +22,7 @@
                     @Html.AntiForgeryToken()
 
                     <header>
-                        Cadastro de Modelos
+                        <h1>Cadastro de Modelos</h1>
                     </header>
                     <fieldset>
                         <!-- NOME MODELO E NATUREZA-->

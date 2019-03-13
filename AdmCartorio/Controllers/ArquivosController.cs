@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -18,17 +19,45 @@ namespace AdmCartorio.Controllers
         // GET: Arquivos
         public ActionResult Index()
         {
-            return View();
+
+            var dados = new List<ArquivoModeloDocxViewModel>()
+            {
+                new ArquivoModeloDocxViewModel()
+                {
+                    Id = 50,
+                    NomeModelo = "Modelo 50",
+                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                },
+                new ArquivoModeloDocxViewModel()
+                {
+                    Id = 2,
+                    NomeModelo = "Modelo 2",
+                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                },
+                new ArquivoModeloDocxViewModel()
+                {
+                    Id = 3,
+                    NomeModelo = "Modelo 3",
+                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                }
+            };
+            return View(dados);
         }
         #region | CADASTRAR |
-        [HttpGet]
         // GET: Arquivos/Cadastrar
         public ActionResult Cadastrar()
         {
+            try
+            { 
+                ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
 
-            ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
-
-            return View();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
         }
 
         // POST: Arquivos/Cadastrar
@@ -53,6 +82,7 @@ namespace AdmCartorio.Controllers
                             nomeArquivo + extension);
                         arquivo.SaveAs(filePath);
                         #endregion
+                        
                         #region | Populando variavel do banco |
 
                         arquivoModel.ArquivoByte = System.IO.File.ReadAllBytes(filePath);
@@ -61,11 +91,12 @@ namespace AdmCartorio.Controllers
                         arquivoModel.ExtensaoArquivo = extension;
 
                         #endregion
+                        
                         #region |Cadastrando no banco|
                         //CadastraArquivoModeloDocx(arquivoModel);
                         #endregion
                     }
-
+                    ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
                     return View(nameof(Cadastrar));
                 }
@@ -75,23 +106,44 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return View();
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
 
         #endregion
         #region | EDITAR |
         // GET: Arquivos/Editar/{ID}
-        [HttpGet]
-        public ActionResult Editar(int ID)
+        public ActionResult Editar(int? ID)
         {
-            #region | Busca dos dados do Arquivo |
+            if(ID.HasValue)
+            {
+                try { 
+                
+                    #region | Busca dos dados do Arquivo |
 
-            //ArquivoViewModel arquivoViewModel = new ArquivoViewModel();
+                    var arquivoViewModel = new ArquivoModeloDocxViewModel()
+                    {
+                        Id = 1,
+                        NomeModelo = "Modelo 1",
+                        NomeArquivo = "testeWord",
+                        ExtensaoArquivo =".docx"
+                    };
 
-            #endregion
 
-            return View();
+                    #endregion
+
+                    return View(arquivoViewModel);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+            }
+            else{
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
         }
 
         [HttpPost]
@@ -114,13 +166,13 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return View(nameof(Editar));
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
         #endregion
         #region | METODOS COMPARTILHADOS |
         [ValidateAntiForgeryToken]
-        public void CadastrarLogUpload(string IP)
+        public void CadastrarLogDownload(string IP)
         {
             //var arquivolog = new logarquivomodelodocxviewmodel()
             //{
@@ -156,6 +208,12 @@ namespace AdmCartorio.Controllers
             }
 
             return resultado;
+        }
+
+        public void DesativarArquivoModeloDocx(int ID,string ip)
+        {
+
+            return;
         }
         #endregion
     }

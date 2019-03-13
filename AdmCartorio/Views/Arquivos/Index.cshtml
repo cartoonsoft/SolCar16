@@ -1,0 +1,175 @@
+﻿@model IEnumerable<AdmCartorio.Models.ArquivoModeloDocxViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ registros por página",
+                "zeroRecords": "Nenhum Registro Encontrado",
+                "info": "Mostrando Página _PAGE_ de _PAGES_",
+                "infoEmpty": "Nenhum registro Disponível",
+                "infoFiltered": "(filtrado de MAX registro no total)"
+            },
+            "bLengthChange": false,
+            "columnDefs": [
+                {
+                    "targets": [3],
+                    orderable: false
+                },
+            ]
+        });
+    });
+
+    // funcao remove uma linha da tabela
+    function removeLinha(linha) {
+        var linha = linha.closest("tr");
+        var i = linha.rowIndex;
+        var id = linha.getAttribute("id");
+
+        var IP = document.getElementById('IP').value;
+        var form = $('#formEnvio');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        $.ajax({
+            url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                ip: IP,
+                __RequestVerificationToken: token,
+                id
+            },
+            success: function (result) {
+                console.log(result);
+                console.log("Deu certo");
+
+            },
+            error: function (error) {
+                console.log(error);
+                console.log("Deu erro");
+            }
+        });
+        document.getElementById('myTable').deleteRow(i);
+
+
+    }  
+
+
+    //Pega o ip
+    function getIp(callback) {
+        function response(s) {
+            callback(window.userip);
+
+            s.onload = s.onerror = null;
+            document.body.removeChild(s);
+        }
+
+        function trigger() {
+            window.userip = false;
+
+            var s = document.createElement("script");
+            s.async = true;
+            s.onload = function () {
+                response(s);
+
+            };
+            s.onerror = function () {
+                response(s);
+            };
+
+            s.src = "https://l2.io/ip.js?var=userip";
+            document.body.appendChild(s);
+        }
+
+        if (/^(interactive|complete)$/i.test(document.readyState)) {
+            trigger();
+        } else {
+            document.addEventListener('DOMContentLoaded', trigger);
+        }
+    }
+
+    getIp(function (ip) {
+        console.log(ip);
+        // Adiciona Campo Hidden para pegar o IP
+        document.getElementById("IP").value = ip;
+    });
+   
+
+</script>﻿
+
+<input id="IP" hidden />
+<article class="col-sm-12 col-md-12 col-lg-11 sortable-grid ui-sortable" id="content">
+    <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
+        <div>
+            <div class="widget-body no-padding">
+                <header>
+                    <h2 class="col-md-12">
+                        <span class="widget-icon">
+                            <!--<i class="fa fa-plus-circle "></i> -->
+                            @Html.ActionLink(" ", "Cadastrar","Arquivos",null, new { @class = "fa fa-plus-circle " })
+
+                        </span>
+                        Lista de Modelos
+                    </h2>
+                </header>
+                @*<div class="dt-toolbar">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="dataTables_filter" id="dt_basic_filter">
+                            <label>
+                                <span class="input-group-addon">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </span>
+                                <input class="form-control" aria-controls="dt_basic" type="search" placeholder="">
+                            </label>
+                        </div>
+                    </div>
+                </div>*@
+                <table id="myTable" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                    <thead>
+                        <tr role="row">
+                            <th rowspan="1" colspan="1">
+                                Código
+                            </th>
+                            <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                                Nome
+                            </th>
+                            <th rowspan="1" colspan="1">
+                                Natureza
+                            </th>
+                            <th rowspan="1" colspan="1">
+                                Ação
+                            </th>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr role="row" id="@item.Id">
+                                <td>@item.Id</td>
+                                <td>@item.NomeModelo</td>
+                                <td>@item.NaturezaArquivoModeloDocx</td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                        </div>
+                                        <div class="col-sm-2 margin-right-20">
+                                            <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</article>
