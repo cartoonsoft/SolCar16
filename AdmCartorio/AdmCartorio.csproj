@@ -973,6 +973,9 @@
     <Compile Include="Models\ArquivoModeloDocxViewModel.cs" />
     <Compile Include="Models\Attributes\IsWordFile.cs" />
     <Compile Include="Models\Attributes\RequiredHttpPostedFileBase.cs" />
+    <Compile Include="Models\Enumeradores\NaturezaArquivoModeloDocx.cs" />
+    <Compile Include="Models\Enumeradores\TipoLogArquivoModeloDocx.cs" />
+    <Compile Include="Models\LogArquivoModeloDocxViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,6 +1,5 @@
-﻿using Domain.Car16.Entities;
-using Domain.Car16.Entities.Attributes;
-using Domain.Car16.Enumeradores;
+﻿using AdmCartorio.Models.Attributes;
+using AdmCartorio.Models.Enumeradores;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
@@ -9,7 +8,6 @@ namespace AdmCartorio.Models
 {
     public class ArquivoModeloDocxViewModel
     {
-        [Key]
         public long Id { get; set; }
 
         [Display(Name = "Nome Modelo")]
@@ -27,7 +25,7 @@ namespace AdmCartorio.Models
 
         #region | Dados nao obrigatorios |
         [Display(Name = "Log Arquivo")]
-        public LogArquivoModeloDocx LogArquivoModeloDocx { get; set; }
+        public LogArquivoModeloDocxViewModel LogArquivoModeloDocxViewModel { get; set; }
 
         [Display(Name = "Caminho Arquivo")]
         public string CaminhoArquivo { get; set; }

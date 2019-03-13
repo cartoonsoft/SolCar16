@@ -29,7 +29,8 @@ namespace AdmCartorio.Controllers
 
         public ActionResult Cadastrar()
         {
-             ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+
+            ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
 
             return View();
         }
@@ -78,9 +79,7 @@ namespace AdmCartorio.Controllers
                                     ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
                                     Files = arquivoModel.Files,
                                     NomeArquivo = arquivoModel.NomeArquivo,
-                                    NomeModelo = arquivoModel.NomeModelo,
-                                    NaturezaArquivoModeloDocx = arquivoModel.NaturezaArquivoModeloDocx,
-                                    LogArquivoModeloDocx = arquivoModel.LogArquivoModeloDocx
+                                    NomeModelo = arquivoModel.NomeModelo
                                 });
                             }
                             unitOfWork.Commit();

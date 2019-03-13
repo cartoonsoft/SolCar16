@@ -15,42 +15,53 @@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
-@using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio" }))
-{
-    @*@Html.AntiForgeryToken()*@
+<div id="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="well">
+                @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio" }))
+                {
+                    @*@Html.AntiForgeryToken()*@
 
-    <div class="form-horizontal">
-        <hr />
-        <div class="row">
-            <label class="col-form-label col-md-2 margin-top-10">Nome do Modelo</label>
-            <div class="col-md-3">
-                @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NomeModelo, null, new { @class = "text-danger" })
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <label class="col-form-label col-md-2 margin-top-10">Selecione um tipo</label>
-            <div class="col-md-2">
-                @Html.DropDownListFor(model => model.NaturezaArquivoModeloDocx, (ViewBag.NaturezaArquivoModeloDocx as SelectList), new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.NaturezaArquivoModeloDocx, null, new { @class = "text-danger" })
-            </div>
-        </div>
-        <br />
-        <div class="row">
-            <label class="col-form-label col-md-2 margin-top-10">Selecione um modelo</label>
-            <div class="col-md-3">
-                @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
+                    <div class="form-horizontal">
+                        <hr />
+                        <div class="row">
+                            <label class="col-form-label col-md-2 margin-top-10">Nome do Modelo</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NomeModelo, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <label class="col-form-label col-md-2 margin-top-10">Selecione um tipo</label>
+                            <div class="col-md-2">
+                                @Html.DropDownListFor(model => model.NaturezaArquivoModeloDocx, (ViewBag.NaturezaArquivoModeloDocx as SelectList), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NaturezaArquivoModeloDocx, null, new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <label class="col-form-label col-md-2 margin-top-10">Selecione um modelo</label>
+                            <div class="col-md-3">
+                                @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
 
-                @Html.HiddenFor(model => model.LogArquivoModeloDocx.IP)
+                                @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
+                            </div>
+                        </div>
+                        <input type="submit" value="Upload" id="upload" class="btn btn-default" />
+                    </div>
+                }
+
+                @Html.ActionLink("Editar", "Editar")
             </div>
         </div>
-        <input type="submit" value="Upload" id="upload" class="btn btn-default" />
     </div>
-}
+    
+</div>
 
-@Html.ActionLink("Editar", "Editar")
+
 
 <script type="text/javascript">
 
