@@ -38,7 +38,7 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Create
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel)
+        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel/*DtoArquivoModeloDocxModel arq*/)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace AdmCartorio.Controllers
 
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
-                        var filePath = Path.Combine(Server.MapPath("~/Documents/"),
+                        var filePath = Path.Combine(Server.MapPath("~/App_Data/Modelos/"),
                             nomeArquivo + extension);
                         arquivo.SaveAs(filePath);
                         #endregion
@@ -65,33 +65,33 @@ namespace AdmCartorio.Controllers
                         arquivoModel.ExtensaoArquivo = extension;
 
                         #endregion
-                        #region |Cadastrando no banco|
-                        ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
-                        using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
-                        {
-                            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-                            {
+                        //#region |Cadastrando no banco|
+                        //ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
+                        //using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
+                        //{
+                        //    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                        //    {
 
-                                appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                                {
-                                    ArquivoByte = arquivoModel.ArquivoByte,
-                                    CaminhoArquivo = arquivoModel.CaminhoArquivo,
-                                    ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
-                                    Files = arquivoModel.Files,
-                                    NomeArquivo = arquivoModel.NomeArquivo,
-                                    NomeModelo = arquivoModel.NomeModelo
-                                });
-                            }
-                            unitOfWork.Commit();
-                        }
-                        #endregion
+                        //        appService.SalvarModelo(new DtoArquivoModeloDocxModel()
+                        //        {
+                        //            ArquivoByte = arquivoModel.ArquivoByte,
+                        //            CaminhoArquivo = arquivoModel.CaminhoArquivo,
+                        //            ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
+                        //            Files = arquivoModel.Files,
+                        //            NomeArquivo = arquivoModel.NomeArquivo,
+                        //            NomeModelo = arquivoModel.NomeModelo
+                        //        });
+                        //    }
+                        //    unitOfWork.Commit();
+                        //}
+                        //#endregion
                     }
 
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
-                    return View();
+                    return View(nameof(Cadastrar));
                 }
-
-                return View();
+                ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+                return View(nameof(Cadastrar));
             }
             catch (Exception ex)
             {

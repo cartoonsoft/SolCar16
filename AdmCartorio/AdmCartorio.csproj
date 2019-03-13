@@ -979,7 +979,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <Folder Include="App_Data\Modelos\" />
     <Folder Include="Content\img\realestate\thumbs\" />
   </ItemGroup>
   <ItemGroup>

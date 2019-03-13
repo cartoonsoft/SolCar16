@@ -5,7 +5,6 @@
     ViewBag.Title = "Cadastrar";
 }
 
-<h2>Upload de Arquivos</h2>
 @*@if (ViewBag.resultado != null)
     {
         <div class="alert alert-success">
@@ -14,52 +13,57 @@
     }*@
 
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
-
-<div id="content">
-    <div class="row">
-        <div class="col-sm-12">
-            <div class="well">
-                @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio" }))
+<article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
+    <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
+        <div>
+            <div class="widget-body no-padding">
+                @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
                 {
-                    @*@Html.AntiForgeryToken()*@
-
-                    <div class="form-horizontal">
-                        <hr />
+                    <header>
+                        Cadastro de Modelos
+                    </header>
+                    <fieldset>
+                        <!-- NOME MODELO E NATUREZA-->
                         <div class="row">
-                            <label class="col-form-label col-md-2 margin-top-10">Nome do Modelo</label>
-                            <div class="col-md-3">
-                                @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control" })
+                            <section class="col col-6">
+                                <label class="col-form-label margin-top-10">Nome do Modelo</label>
+                                @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
                                 @Html.ValidationMessageFor(model => model.NomeModelo, null, new { @class = "text-danger" })
-                            </div>
-                        </div>
-                        <br />
-                        <div class="row">
-                            <label class="col-form-label col-md-2 margin-top-10">Selecione um tipo</label>
-                            <div class="col-md-2">
+                            </section>
+                            <section class="col col-6">
+                                <label class="col-form-label margin-top-10">Selecione uma natureza</label>
                                 @Html.DropDownListFor(model => model.NaturezaArquivoModeloDocx, (ViewBag.NaturezaArquivoModeloDocx as SelectList), new { @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.NaturezaArquivoModeloDocx, null, new { @class = "text-danger" })
-                            </div>
+                            </section>
                         </div>
-                        <br />
+                        <!-- FIM NOME MODELO E NATUREZA-->
+                        <!-- SELECAO DE ARQUIVO-->
                         <div class="row">
-                            <label class="col-form-label col-md-2 margin-top-10">Selecione um modelo</label>
-                            <div class="col-md-3">
+                            <section class="col col-7">
+                                <label class="col-form-label">Selecione um modelo</label>
                                 @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
 
                                 @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
-                            </div>
+                            </section>
                         </div>
-                        <input type="submit" value="Upload" id="upload" class="btn btn-default" />
-                    </div>
-                }
+                        <!-- SELECAO DE ARQUIVO-->
 
-                @Html.ActionLink("Editar", "Editar")
+                    </fieldset>   
+                    <footer>
+                        <button type="submit" id="upload" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            Upload
+                        </button>
+                        <button class="btn btn-default col-sm-2" onclick="window.history.back();" type="button">
+                            Voltar
+                        </button>
+                    </footer>
+                }
             </div>
         </div>
     </div>
-    
-</div>
+</article>
 
 
 
