@@ -1,44 +1,22 @@
 ﻿@model AdmCartorio.Models.ArquivoModeloDocxViewModel
 
-
 @{
-    ViewBag.Title = "Cadastrar";
+    ViewBag.Title = "Editar";
 }
-
-@*@if (ViewBag.resultado != null)
-{
-    <div class="alert alert-success">
-        <label class="">@ViewBag.resultado</label>
-    </div>
-}*@
-
 <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
         <div>
             <div class="widget-body no-padding">
-                @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
+                @using (Html.BeginForm("Editar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
                 {
                     @Html.AntiForgeryToken()
 
                     <header>
-                        Cadastro de Modelos
+                        Edição de Modelos
                     </header>
                     <fieldset>
-                        <!-- NOME MODELO E NATUREZA-->
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="col-form-label margin-top-10">Nome do Modelo</label>
-                                @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
-                                @Html.ValidationMessageFor(model => model.NomeModelo, null, new { @class = "text-danger" })
-                            </section>
-                            <section class="col col-6">
-                                <label class="col-form-label margin-top-10">Selecione uma natureza</label>
-                                @Html.DropDownListFor(model => model.NaturezaArquivoModeloDocx, (ViewBag.NaturezaArquivoModeloDocx as SelectList), new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.NaturezaArquivoModeloDocx, null, new { @class = "text-danger" })
-                            </section>
-                        </div>
-                        <!-- FIM NOME MODELO E NATUREZA-->
                         <!-- SELECAO DE ARQUIVO-->
                         <div class="row">
                             <section class="col col-6">
@@ -47,6 +25,7 @@
                                 @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
 
                                 @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
+                                @Html.HiddenFor(model => model.Id)
                             </section>
                         </div>
                         <!-- SELECAO DE ARQUIVO-->
@@ -55,7 +34,7 @@
                     <footer>
                         <button type="submit" id="upload" class="btn btn-primary">
                             <i class="glyphicon glyphicon-upload"></i>
-                            Upload
+                            Atualizar
                         </button>
                         <button class="btn btn-default col-sm-2" onclick="window.history.back();" type="button">
                             Voltar
@@ -66,7 +45,6 @@
         </div>
     </div>
 </article>
-
 
 
 <script type="text/javascript">
@@ -96,6 +74,32 @@
                 }
             })
         });*@
+    function CadastrarLogDownload(){
+
+        var IP = document.getElementById('LogArquivoModeloDocxViewModel_IP').value;
+        var form = $('#formEnvio');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+        $.ajax({
+            url: '@Url.Action("CadastrarLogUpload", "Arquivos")',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                IP: IP,
+                __RequestVerificationToken: token,
+            },
+            success: function (result) {
+                console.log(result);
+                console.log("Deu certo");
+            },
+            error: function (error) {
+                console.log(error);
+                console.log("Deu erro");
+            }
+        });
+    }
+
+
     function getIp(callback) {
         function response(s) {
             callback(window.userip);
@@ -133,5 +137,6 @@
         // Adiciona Campo Hidden para pegar o IP
         //document.getElementById("ip").value = ip;
         document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
+        CadastrarLogDownload();
     });
 </script>

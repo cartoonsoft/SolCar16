@@ -20,13 +20,9 @@ namespace AdmCartorio.Controllers
         {
             return View();
         }
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-
+        #region | CADASTRAR |
+        [HttpGet]
+        // GET: Arquivos/Cadastrar
         public ActionResult Cadastrar()
         {
 
@@ -35,9 +31,9 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        // POST: Arquivos/Create
+        // POST: Arquivos/Cadastrar
         [HttpPost]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel/*DtoArquivoModeloDocxModel arq*/)
         {
             try
@@ -100,5 +96,35 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        #endregion
+        #region | EDITAR |
+        // GET: Arquivos/Editar/{ID}
+        [HttpGet]
+        public ActionResult Editar(int ID)
+        {
+            #region | Busca dos dados do Arquivo |
+
+            //ArquivoViewModel arquivoViewModel = new ArquivoViewModel();
+
+            #endregion
+
+            return View();
+        }
+        #endregion
+
+        #region | METODOS COMPARTILHADOS |
+        [ValidateAntiForgeryToken]
+        public void CadastrarLogUpload(string IP)
+        {
+            //var arquivolog = new logarquivomodelodocxviewmodel()
+            //{
+            //    arquivoid = id,
+            //    datahora = datetime.now,
+            //    ip = ip,
+            //    tipologarquivomodelodocx = admcartorio.models.enumeradores.tipologarquivomodelodocx.download
+            //};
+            return;
+        }
+        #endregion
     }
 }

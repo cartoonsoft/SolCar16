@@ -9,7 +9,6 @@ namespace AdmCartorio.Models
 {
     public class LogArquivoModeloDocxViewModel
     {
-        [Key]
         public long Id { get; set; }
 
         public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
@@ -19,7 +18,7 @@ namespace AdmCartorio.Models
         [Required]
         public string IP { get; set; }
 
-        [Required]
+        //[Required]
         public string NomeUsuario { get; set; }
 
         public DateTime DataHora { get; set; }
