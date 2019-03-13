@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using Oracle.ManagedDataAccess.EntityFramework;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Infra.Data.Car16.Context
 {
@@ -13,6 +14,7 @@ namespace Infra.Data.Car16.Context
         public OraDbConfiguration()
         {
             SetProviderServices("Oracle.ManagedDataAccess.Client", EFOracleProviderServices.Instance);
+            SetProviderFactory("Oracle.ManagedDataAccess.Client", new OracleClientFactory());
         }
     }
 }

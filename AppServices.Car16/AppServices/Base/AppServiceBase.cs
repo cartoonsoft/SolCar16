@@ -19,7 +19,8 @@ namespace AppServices.Car16.AppServices.Base
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity :class
     {
         private readonly IUnitOfWork _unitOfWork;
-        public Dictionary<Type, object> appDomainServices = new Dictionary<Type, object>();
+
+        protected Dictionary<Type, object> appDomainServices = new Dictionary<Type, object>();
 
         public AppServiceBase(IUnitOfWork unitOfWork)
         {
@@ -110,7 +111,6 @@ namespace AppServices.Car16.AppServices.Base
         {
             this.domainService<TEntity>().Remove(id);
         }
-
 
         public virtual void Remove(TDtoEntityModel dtoitem)
         {

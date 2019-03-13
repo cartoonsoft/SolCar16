@@ -10,15 +10,13 @@ using Infra.Data.Car16.Context.Base;
 
 namespace Infra.Data.Car16.Context
 {
-    [DbConfigurationType(typeof(OraDbConfiguration))]
     public class ContextMainCar16: ContextOraBase
     {
-        private readonly string _connName;
         public ContextMainCar16(string connName) : base(connName)
         {
+            //this.Database.
             //
         }
-
         public DbSet<Pais> PaisDb { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

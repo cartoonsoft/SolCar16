@@ -8,6 +8,7 @@
 Todos os direitos reservados ®                       
 -----------------------------------------------------------------------------*/
 using Domain.Core.Interfaces.Data;
+using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,6 +16,7 @@ using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.Entity.Validation;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,7 @@ namespace Infra.Data.Car16.Context.Base
     /// <summary>
     /// Context para banco de dados oracle
     /// </summary>
+    [DbConfigurationType(typeof(OraDbConfiguration))]
     public class ContextOraBase: DbContext, IContextCore
     {
         private readonly string _contexName;
@@ -37,22 +40,35 @@ namespace Infra.Data.Car16.Context.Base
             _contexName = contexName;
         }
 
+        public string ContextName
+        {
+            get { return _contexName; }
+        }
+
         //public DbSet<Cliente> Clientes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
+            if (this.Database.Connection is OracleConnection)
+            {
+                modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
+                modelBuilder.Properties<string>()
+                    .Configure(p => p.HasColumnType("VARCHAR2"));
+            }
+            else if (this.Database.Connection is SqlConnection)
+            {
+                modelBuilder.HasDefaultSchema("dbo");
+            }
 
             // General Custom Context Properties
             modelBuilder.Properties()
                 .Where(p => p.Name == "Id")
                 .Configure(p => p.IsKey());
 
-            modelBuilder.Properties<string>()
-                .Configure(p => p.HasColumnType("varchar2"));
 
             modelBuilder.Properties<string>()
                 .Configure(p => p.HasMaxLength(100));

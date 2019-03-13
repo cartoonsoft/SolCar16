@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdmCartorio", "AdmCartorio\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTeste", "ConsoleAppTeste\ConsoleAppTeste.csproj", "{987DB189-FC8F-4F5A-9CD4-EBF0246BC397}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppTeste2", "ConsoleAppTeste2\ConsoleAppTeste2.csproj", "{1895D9A7-8673-44E4-81CE-D4BA48A66C03}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{987DB189-FC8F-4F5A-9CD4-EBF0246BC397}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{987DB189-FC8F-4F5A-9CD4-EBF0246BC397}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{987DB189-FC8F-4F5A-9CD4-EBF0246BC397}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1895D9A7-8673-44E4-81CE-D4BA48A66C03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1895D9A7-8673-44E4-81CE-D4BA48A66C03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1895D9A7-8673-44E4-81CE-D4BA48A66C03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1895D9A7-8673-44E4-81CE-D4BA48A66C03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{91F70BFD-7647-452B-86A8-77A81B1140AE} = {F3B737E5-4237-41A9-B243-DEDB3B7E0ED5}
 		{D435ADAD-D19E-427A-B24B-B2ACA872914A} = {F3B737E5-4237-41A9-B243-DEDB3B7E0ED5}
 		{987DB189-FC8F-4F5A-9CD4-EBF0246BC397} = {F3B737E5-4237-41A9-B243-DEDB3B7E0ED5}
+		{1895D9A7-8673-44E4-81CE-D4BA48A66C03} = {F3B737E5-4237-41A9-B243-DEDB3B7E0ED5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F5A36D4-9F3F-4E2B-AF4A-2828D7D92CE9}

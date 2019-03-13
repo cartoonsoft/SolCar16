@@ -22,16 +22,16 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IContextCore _contextCore;
+        private IContextCore contextCore;
         protected DbContextTransaction  transaction = null;
-        public Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
+        private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
         /// Método construtor
         /// </summary>
-        public UnitOfWork(IContextCore context)
+        public UnitOfWork()
         {
-            _contextCore = context;
+            contextCore = null;
             transaction = null;
         }
 
@@ -52,9 +52,9 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
                 if (disposing)
                 {
                     // Free any other managed objects here.
-                    if (this._contextCore != null)
+                    if (this.contextCore != null)
                     {
-                        this._contextCore.Dispose();
+                        this.contextCore.Dispose();
                     }
                 }
             }
@@ -62,16 +62,32 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             disposed = true;
         }
         #endregion
+        
+        private void VerifyContext()
+        {
+            if (contextCore == null)
+            {
+                throw new ArgumentNullException("Contexto é nulo. verificar!");
+            }
+        }
+
+        protected IContextCore Context
+        {
+            get { return this.contextCore; }
+            set { contextCore = value; }
+        }
 
         public IRepositoryBase<TEntity> Repository<TEntity>() where TEntity : class
         {
+            this.VerifyContext();
+
             IRepositoryBase<TEntity> repository = null;
 
             if (Repositories.Keys.Contains(typeof(TEntity)))
             {
                 repository = Repositories[typeof(TEntity)] as IRepositoryBase<TEntity>;
             } else {
-                repository = new RepositoryBase<TEntity>(_contextCore);
+                repository = new RepositoryBase<TEntity>(contextCore);
             }
 
             if (repository != null)
@@ -84,9 +100,10 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {
+            this.VerifyContext();
             if (this.transaction == null)
             {
-                this.transaction = this._contextCore.Database.BeginTransaction(pIsolationLevel);
+                this.transaction = this.contextCore.Database.BeginTransaction(pIsolationLevel);
             }
             disposed = false;
         }
@@ -97,11 +114,13 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
         /// <returns></returns>
         public virtual int? Commit()
         {
+            this.VerifyContext();
+
             int? resposta = null;
 
             try
             {
-                resposta = this._contextCore.SaveChanges();
+                resposta = this.contextCore.SaveChanges();
                 this.CommitTransaction();
                 return resposta;
             }
@@ -125,6 +144,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
         public virtual void RollBack()
         {
+            this.VerifyContext();
             this.RollbackTransaction();
         }
 
@@ -148,12 +168,14 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
         protected virtual void SaveLog(OracleException ex)
         {
-            throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
+            //todo: 3 implementar savelog -ronaldo
+            //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
 
         protected virtual void SaveLog(Exception ex)
         {
-            throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
+            //todo: implementar savelog
+            //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
 
     }

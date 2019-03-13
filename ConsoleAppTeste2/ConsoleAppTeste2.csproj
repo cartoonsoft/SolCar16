@@ -4,16 +4,32 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1214A5F7-317D-47B4-AC8D-88A3DB601F39}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Infra.Data.Car16</RootNamespace>
-    <AssemblyName>Infra.Data.Car16</AssemblyName>
+    <ProjectGuid>{1895D9A7-8673-44E4-81CE-D4BA48A66C03}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ConsoleAppTeste2</RootNamespace>
+    <AssemblyName>ConsoleAppTeste2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -37,17 +54,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.ManagedDataAccess, Version=4.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.18.3.0\lib\net40\Oracle.ManagedDataAccess.dll</HintPath>
-    </Reference>
-    <Reference Include="Oracle.ManagedDataAccess.EntityFramework, Version=6.122.18.3, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
-      <HintPath>..\packages\Oracle.ManagedDataAccess.EntityFramework.18.3.0\lib\net45\Oracle.ManagedDataAccess.EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,21 +65,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\Base\ContextOraBase.cs" />
-    <Compile Include="Context\ContextMainCar16.cs" />
-    <Compile Include="Context\OraDbConfiguration.cs" />
-    <Compile Include="EntityConfig\PedidoConfig.cs" />
-    <Compile Include="EntityConfig\PedidoItemConfig.cs" />
-    <Compile Include="enuns\BaseDados.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Base\InfraDataEventLogging.cs" />
-    <Compile Include="Repositories\Base\RepositoryBase.cs" />
-    <Compile Include="Repositories\RepositoryPais.cs" />
-    <Compile Include="UnitOfWork\Base\UnitOfWork.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkCar16.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
@@ -78,14 +75,38 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">
+      <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
+      <Name>AppServices.Car16</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
-      <Project>{AE8086A7-8173-4A35-BC8F-67574C1BD7DD}</Project>
+      <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
       <Name>Domain.Car16</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
+      <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
+      <Name>Dto.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
+      <Project>{1214a5f7-317d-47b4-ac8d-88a3db601f39}</Project>
+      <Name>Infra.Data.Car16</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

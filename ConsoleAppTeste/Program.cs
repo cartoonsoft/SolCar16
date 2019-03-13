@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AppServices.Car16.AppServices;
 using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.Context;
+using Infra.Data.Car16.enuns;
 using Infra.Data.Car16.UnitOfWorkCar16;
 
 namespace ConsoleAppTeste
@@ -61,7 +62,7 @@ namespace ConsoleAppTeste
             Console.WriteLine("***************|       RELATORIO     |**************************");
             Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(context))
+            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
             {
                 using (AppServicePais appService = new AppServicePais(unitOfWork))
                 {
