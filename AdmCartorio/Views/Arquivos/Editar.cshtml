@@ -5,6 +5,14 @@
 }
 <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
 
+@if (ViewBag.resultado != null)
+{
+    <div class="alert alert-success">
+        <label class="">@ViewBag.resultado</label>
+    </div>
+}
+
+
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
         <div>
@@ -14,10 +22,17 @@
                     @Html.AntiForgeryToken()
 
                     <header>
-                        <h1>Edição de Modelos</h1>
+                        <h1>
+                            Edição de Modelos |
+                            <a href="@Url.Action("DownloadFile","Arquivos"@*,new { id = Model.Id }*@)" class="">
+                                <i class="glyphicon glyphicon-download"></i>
+                                <span>
+                                    <strong>Download</strong>
+                                </span>
+                            </a>
+                        </h1>
                     </header>
                     <fieldset>
-                        <!-- SELECAO DE ARQUIVO-->
                         <div class="row">
                             <section class="col col-6">
                                 <label class="col-form-label">Selecione um modelo</label>
@@ -44,11 +59,7 @@
             </div>
         </div>
     </div>
-    <iframe src="~/App_Data/testeWord.docx" hidden></iframe>
-
 </article>
-
-@*<iframe src="~/App_Data/Modelos/@(Model.NomeArquivo+Model.ExtensaoArquivo)" hidden></iframe>*@
 
 <script type="text/javascript">
 
@@ -80,31 +91,6 @@
                 }
             })
         });*@
-    function CadastrarLogDownload(){
-
-        var IP = document.getElementById('LogArquivoModeloDocxViewModel_IP').value;
-        var form = $('#formEnvio');
-        var token = $('input[name="__RequestVerificationToken"]', form).val();
-
-        $.ajax({
-            url: '@Url.Action("CadastrarLogDownload", "Arquivos")',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                IP: IP,
-                __RequestVerificationToken: token,
-            },
-            success: function (result) {
-                console.log(result);
-                console.log("Deu certo");
-            },
-            error: function (error) {
-                console.log(error);
-                console.log("Deu erro");
-            }
-        });
-    }
-
 
     function getIp(callback) {
         function response(s) {
@@ -143,6 +129,5 @@
         // Adiciona Campo Hidden para pegar o IP
         //document.getElementById("ip").value = ip;
         document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
-        CadastrarLogDownload();
     });
 </script>

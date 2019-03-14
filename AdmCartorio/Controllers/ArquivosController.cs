@@ -78,7 +78,7 @@ namespace AdmCartorio.Controllers
 
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
-                        var filePath = Path.Combine(Server.MapPath("~/App_Data/Modelos/"),
+                        var filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/"),
                             nomeArquivo + extension);
                         arquivo.SaveAs(filePath);
                         #endregion
@@ -111,6 +111,7 @@ namespace AdmCartorio.Controllers
         }
 
         #endregion
+        
         #region | EDITAR |
         // GET: Arquivos/Editar/{ID}
         public ActionResult Editar(int? ID)
@@ -131,7 +132,6 @@ namespace AdmCartorio.Controllers
 
 
                     #endregion
-
                     return View(arquivoViewModel);
                 }
                 catch (Exception ex)
@@ -166,13 +166,13 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
         #endregion
+        
         #region | METODOS COMPARTILHADOS |
-        [ValidateAntiForgeryToken]
-        public void CadastrarLogDownload(string IP)
+        private void CadastrarLogDownload(string IP)
         {
             //var arquivolog = new logarquivomodelodocxviewmodel()
             //{
@@ -210,11 +210,33 @@ namespace AdmCartorio.Controllers
             return resultado;
         }
 
-        public void DesativarArquivoModeloDocx(int ID,string ip)
+        //[ValidateAntiForgeryToken]
+        public void DesativarArquivoModeloDocx(string ip, int id)
         {
-
-            return;
+            
         }
+
+        [ValidateAntiForgeryToken]
+        public FileResult DownloadFile()
+        {
+            string filePath = Server.MapPath("~/App_Data/Arquivos/testeWord.docx");
+            try
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                string fileName = "testeWord.docx";
+
+                //Cadastro de LOG
+                CadastrarLogDownload("X");
+
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
         #endregion
     }
 }

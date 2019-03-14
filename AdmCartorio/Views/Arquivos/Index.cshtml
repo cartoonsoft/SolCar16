@@ -32,36 +32,43 @@
     function removeLinha(linha) {
         var linha = linha.closest("tr");
         var i = linha.rowIndex;
-        var id = linha.getAttribute("id");
+        var ID = parseInt(linha.getAttribute("id"));
 
         var IP = document.getElementById('IP').value;
         var form = $('#formEnvio');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-        $.ajax({
-            url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
-            type: 'POST',
-            dataType: 'json',
-            data: {
-                ip: IP,
-                __RequestVerificationToken: token,
-                id
-            },
-            success: function (result) {
-                console.log(result);
-                console.log("Deu certo");
+        var postParam = {
+            ip: IP,
+            id: ID
+        };
 
-            },
-            error: function (error) {
-                console.log(error);
-                console.log("Deu erro");
-            }
-        });
-        document.getElementById('myTable').deleteRow(i);
+        var res = confirm("Deseja desativar o modelo de ID: " + ID);
 
+        if (res) {
+            $.ajax({
+                url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
+                type: 'POST',
+                data: {
+                    ip: IP,
+                    id: ID,
+                    __RequestVerificationToken: token, 
 
+                },
+                success: function (result) {
+                    console.log(result);
+                    console.log("Deu certo");
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Deu erro");
+                }
+            });
+
+            document.getElementById('myTable').deleteRow(i);
+
+        }
     }  
-
 
     //Pega o ip
     function getIp(callback) {
