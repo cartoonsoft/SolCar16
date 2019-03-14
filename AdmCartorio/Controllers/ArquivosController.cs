@@ -216,7 +216,7 @@ namespace AdmCartorio.Controllers
             
         }
 
-        public FileResult DownloadFile()
+        public FileResult DownloadFile(int ID, string IP = "x")
         {
             string filePath = Server.MapPath("~/App_Data/Arquivos/testeWord.docx");
             try

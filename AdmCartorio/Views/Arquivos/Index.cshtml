@@ -35,7 +35,6 @@
         var ID = parseInt(linha.getAttribute("id"));
 
         var IP = document.getElementById('IP').value;
-        var form = $('#formEnvio');
         var token = $('input[name="__RequestVerificationToken"]').val();
 
         var postParam = {
@@ -66,6 +65,8 @@
                     console.log("Deu erro");
                 }
             });
+
+
         }
     }  
 

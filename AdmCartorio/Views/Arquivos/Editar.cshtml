@@ -5,13 +5,6 @@
 }
 <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
 
-@if (ViewBag.resultado != null)
-{
-    <div class="alert alert-success">
-        <label class="">@ViewBag.resultado</label>
-    </div>
-}
-
 
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
@@ -23,11 +16,12 @@
 
                     <header>
                         <h1>
-                            Edição de Modelos |
-                            <a href="@Url.Action("DownloadFile","Arquivos"@*,new { id = Model.Id }*@)" class="">
+                            Edição de Modelos | 
+                            <a id="downloadBtn"
+                               href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "2" })" class="">
                                 <i class="glyphicon glyphicon-download"></i>
                                 <span>
-                                    <strong>Download</strong>
+                                    <strong>Download  </strong>
                                 </span>
                             </a>
                         </h1>
@@ -91,7 +85,7 @@
                 }
             })
         });*@
-
+    
     function getIp(callback) {
         function response(s) {
             callback(window.userip);
@@ -129,5 +123,8 @@
         // Adiciona Campo Hidden para pegar o IP
         //document.getElementById("ip").value = ip;
         document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
+        var id = parseInt($('#Id').val());
+
+        $('#downloadBtn').attr("href","/Arquivos/DownloadFile/"+id+"?IP="+ip);
     });
 </script>
