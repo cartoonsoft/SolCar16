@@ -210,13 +210,12 @@ namespace AdmCartorio.Controllers
             return resultado;
         }
 
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public void DesativarArquivoModeloDocx(string ip, int id)
         {
             
         }
 
-        [ValidateAntiForgeryToken]
         public FileResult DownloadFile()
         {
             string filePath = Server.MapPath("~/App_Data/Arquivos/testeWord.docx");

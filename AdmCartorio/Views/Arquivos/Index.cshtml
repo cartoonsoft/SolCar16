@@ -36,7 +36,7 @@
 
         var IP = document.getElementById('IP').value;
         var form = $('#formEnvio');
-        var token = $('input[name="__RequestVerificationToken"]', form).val();
+        var token = $('input[name="__RequestVerificationToken"]').val();
 
         var postParam = {
             ip: IP,
@@ -58,15 +58,14 @@
                 success: function (result) {
                     console.log(result);
                     console.log("Deu certo");
+                    document.getElementById('myTable').deleteRow(i);
+
                 },
                 error: function (error) {
                     console.log(error);
                     console.log("Deu erro");
                 }
             });
-
-            document.getElementById('myTable').deleteRow(i);
-
         }
     }  
 
@@ -163,6 +162,7 @@
                                 <td>@item.NomeModelo</td>
                                 <td>@item.NaturezaArquivoModeloDocx</td>
                                 <td>
+                                    @Html.AntiForgeryToken()
                                     <div class="row">
                                         <div class="col-sm-3">
                                             @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
