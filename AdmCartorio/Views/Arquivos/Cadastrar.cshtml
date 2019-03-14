@@ -57,9 +57,7 @@
                             <i class="glyphicon glyphicon-upload"></i>
                             Upload
                         </button>
-                        <button class="btn btn-default col-sm-2" onclick="window.history.back();" type="button">
-                            Voltar
-                        </button>
+                        @Html.ActionLink("Voltar", "Index", "Arquivos", null, new { @class = "btn btn-default col-sm-2" })
                     </footer>
                 }
             </div>

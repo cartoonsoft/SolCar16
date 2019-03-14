@@ -63,7 +63,7 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Cadastrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel/*DtoArquivoModeloDocxModel arq*/)
+        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel)
         {
             try
             {
@@ -111,7 +111,7 @@ namespace AdmCartorio.Controllers
         }
 
         #endregion
-        
+
         #region | EDITAR |
         // GET: Arquivos/Editar/{ID}
         public ActionResult Editar(int? ID)
@@ -161,7 +161,7 @@ namespace AdmCartorio.Controllers
                     return View(nameof(Editar));
 
                 }
-                return View(nameof(Editar));
+                return View(nameof(Editar), arquivoModeloDocxViewModel);
             }
             catch (Exception ex)
             {
@@ -211,12 +211,12 @@ namespace AdmCartorio.Controllers
         }
 
         [ValidateAntiForgeryToken]
-        public void DesativarArquivoModeloDocx(string ip, int id)
+        public void DesativarArquivoModeloDocx([Bind(Include ="Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
             
         }
 
-        public FileResult DownloadFile(int ID, string IP = "x")
+        public FileResult DownloadFile([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
             string filePath = Server.MapPath("~/App_Data/Arquivos/testeWord.docx");
             try

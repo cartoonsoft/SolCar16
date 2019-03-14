@@ -4,7 +4,12 @@
     ViewBag.Title = "Editar";
 }
 <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
-
+<style type="text/css">
+    .flutua-direita {
+        float: right;
+        margin-right: 3px;
+    }
+</style>
 
 <article class="col-sm-12 col-md-12 col-lg-6 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
@@ -29,7 +34,7 @@
                     <fieldset>
                         <div class="row">
                             <section class="col col-6">
-                                <label class="col-form-label">Selecione um modelo</label>
+                                <label class="col-form-label">Selecione o novo modelo</label>
                                 @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
                                 @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
 
@@ -38,16 +43,14 @@
                             </section>
                         </div>
                         <!-- SELECAO DE ARQUIVO-->
-
+                        <span class="text-danger flutua-direita"> Faça o download antes de atualizar </span>
                     </fieldset>
                     <footer>
-                        <button type="submit" id="upload" class="btn btn-primary">
+                        <button type="submit" id="upload" class="btn btn-primary" disabled>
                             <i class="glyphicon glyphicon-upload"></i>
                             Atualizar
                         </button>
-                        <button class="btn btn-default col-sm-2" onclick="window.history.back();" type="button">
-                            Voltar
-                        </button>
+                        @Html.ActionLink("Voltar", "Index", "Arquivos", null, new {@class="btn btn-default col-sm-2" })                     
                     </footer>
                 }
             </div>
@@ -56,9 +59,6 @@
 </article>
 
 <script type="text/javascript">
-
-
-    debugger;
 
      @*$('#upload').on('click',
         function () {
@@ -85,7 +85,12 @@
                 }
             })
         });*@
-    
+
+    $('#downloadBtn').on('click', function () {
+        $('#upload').removeAttr('disabled');
+    });
+
+
     function getIp(callback) {
         function response(s) {
             callback(window.userip);
@@ -125,6 +130,6 @@
         document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
         var id = parseInt($('#Id').val());
 
-        $('#downloadBtn').attr("href","/Arquivos/DownloadFile/"+id+"?IP="+ip);
+        $('#downloadBtn').attr("href", "/Arquivos/DownloadFile/" + id + "?Ip=" + ip);
     });
 </script>

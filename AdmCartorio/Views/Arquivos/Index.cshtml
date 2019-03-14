@@ -37,9 +37,9 @@
         var IP = document.getElementById('IP').value;
         var token = $('input[name="__RequestVerificationToken"]').val();
 
-        var postParam = {
-            ip: IP,
-            id: ID
+        var dadosPost = {
+            Ip: IP,
+            Id: ID
         };
 
         var res = confirm("Deseja desativar o modelo de ID: " + ID);
@@ -49,8 +49,7 @@
                 url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
                 type: 'POST',
                 data: {
-                    ip: IP,
-                    id: ID,
+                    dadosPost,
                     __RequestVerificationToken: token, 
 
                 },
