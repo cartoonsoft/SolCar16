@@ -1,10 +1,12 @@
-﻿@model AccountRegistrationModel
+﻿@using AdmCartorio.ViewModels.Identity
+
+@model AccountRegisterViewModel
 @{
     ViewBag.PageId = "extr-page";
 }
 
 @section topright{
-    <span id="extr-page-header-space"> <span class="hidden-mobile">Already registered?</span> <a href="@Url.Action("login", "account")" class="btn btn-danger">Sign In</a> </span>
+    <span id="extr-page-header-space"> <span class="hidden-mobile">Já é Registrado?</span> <a href="@Url.Action("login", "account")" class="btn btn-danger">Entrar</a> </span>
 }
 
 <div id="content" class="container">
@@ -14,7 +16,7 @@
             <div class="well no-padding">
                 <form action="@Url.Action("register", "account")" method="POST" id="smart-form-register" class="smart-form client-form">
                     <header>
-                        Registration
+                        Registrar usuário
                     </header>
                     @Html.AntiForgeryToken()
                     @Html.ValidationBootstrap()
@@ -22,74 +24,44 @@
                         <section>
                             <label class="input">
                                 <i class="icon-append fa fa-user"></i>
-                                <input type="text" name="username" placeholder="Username" id="username" autocomplete="off" value="@Model.Username">
-                                <b class="tooltip tooltip-bottom-right">(Optional) Used to display the profile name on the website</b>
+                                <input type="text" name="username" placeholder="Nome" id="username" autocomplete="off" value="@Model.Username">
+                                <b class="tooltip tooltip-bottom-right">Nome do Usuário</b>
                             </label>
                         </section>
                         <section>
                             <label class="input">
                                 <i class="icon-append fa fa-envelope"></i>
-                                <input type="email" name="email" placeholder="Email address" id="email" autocomplete="off" value="@Model.Email">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                <input type="email" name="email" placeholder="Digite seu e-mail" id="email" autocomplete="off" value="@Model.Email">
+                                <b class="tooltip tooltip-bottom-right">Campo é requerido</b>
                             </label>
                         </section>
                         <section>
                             <label class="input">
                                 <i class="icon-append fa fa-envelope"></i>
-                                <input type="email" name="emailConfirm" placeholder="Confirm email address" autocomplete="off" value="@Model.EmailConfirm">
+                                <input type="email" name="emailConfirm" placeholder="Confirme seu e-mail" autocomplete="off" value="@Model.EmailConfirm">
                                 <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
                             </label>
                         </section>
                         <section>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password" placeholder="Password" id="password" autocomplete="off">
-                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                <input type="password" name="password" placeholder="Senha" id="password" autocomplete="off">
+                                <b class="tooltip tooltip-bottom-right"></b>
                             </label>
                         </section>
                         <section>
                             <label class="input">
                                 <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="passwordConfirm" placeholder="Confirm password" autocomplete="off">
-                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                <input type="password" name="passwordConfirm" placeholder="Confirme sua senha" autocomplete="off">
+                                <b class="tooltip tooltip-bottom-right"></b>
                             </label>
                         </section>
                     </fieldset>
                     <fieldset>
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="input">
-                                    <input type="text" name="firstname" placeholder="First name">
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                                <label class="input">
-                                    <input type="text" name="lastname" placeholder="Last name">
-                                </label>
-                            </section>
-                        </div>
-                        <div class="row">
-                            <section class="col col-6">
-                                <label class="select">
-                                    <select name="gender">
-                                        <option value="0" selected="selected" disabled="disabled">Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Prefer not to answer</option>
-                                    </select> <i></i>
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                                <label class="input">
-                                    <i class="icon-append fa fa-calendar"></i>
-                                    <input type="text" name="birthdate" placeholder="Birthdate" class="datepicker" data-dateformat='dd/mm/yy'>
-                                </label>
-                            </section>
-                        </div>
                         <section>
                             <label class="checkbox">
                                 <input type="checkbox" name="terms" id="terms">
-                                <i></i>I agree with the <a href="#" data-toggle="modal" data-target="#myModal"> Terms and Conditions </a>
+                                <i></i>Eu concordo com os <a href="#" data-toggle="modal" data-target="#myModal"> Termos de uso </a>
                             </label>
                         </section>
                     </fieldset>
@@ -106,7 +78,6 @@
                     </div>
                 </form>
             </div>
-            @{ Html.RenderPartial("_SocialMedia"); }
         </div>
     </div>
 </div>
@@ -169,23 +140,23 @@
                 // Messages for form validation
                 messages: {
                     email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
+                        required: 'Por gentileza, digite seu e-mail',
+                        email: 'Por gentileza, digite um e-mail válido'
                     },
                     emailConfirm: {
-                        required: 'Please enter your email address one more time',
-                        email: 'Please enter a VALID email address',
-                        equalTo: 'Please enter the same email address as above'
+                        required: 'Confirme seu e-mail',
+                        email: 'Por gentileza, digite um e-mail válido',
+                        equalTo: 'E-mails digitados estão diferetes, favor repetir!'
                     },
                     password: {
-                        required: 'Please enter your password'
+                        required: 'Por gentileza, digite sua senha'
                     },
                     passwordConfirm: {
-                        required: 'Please enter your password one more time',
-                        equalTo: 'Please enter the same password as above'
+                        required: 'Confirme sua senha',
+                        equalTo: 'Senha digitadas, não conferen, favor repetir!'
                     },
                     terms: {
-                        required: 'You must agree with Terms and Conditions'
+                        required: 'Para seguir, é necessário que você concorde com os termos de uso!'
                     }
                 },
 

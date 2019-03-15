@@ -120,5 +120,15 @@ namespace Infra.Data.Car16.Context.Base
             return base.SaveChanges();
         }
 
+        public override DbSet Set(Type entityType)
+        {
+            return base.Set(entityType);
+        }
+
+        public override DbSet<TEntity> Set<TEntity>()
+        {
+            return base.Set<TEntity>();
+        }
+
     }
 }

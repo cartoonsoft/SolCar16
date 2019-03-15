@@ -4,7 +4,7 @@ using System.Web.Optimization;
 
 #endregion
 
-namespace AdmCartorio
+namespace AdmCartorio.App_Start
 {
     public static class BundleConfig
     {

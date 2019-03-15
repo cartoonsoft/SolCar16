@@ -5,7 +5,7 @@ using System.Web.Routing;
 
 #endregion
 
-namespace AdmCartorio
+namespace AdmCartorio.App_Start
 {
     public static class RouteConfig
     {
