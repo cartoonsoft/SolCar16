@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities;
+using Domain.Car16.Entities.API;
 using Infra.Data.Car16.Context.Base;
 
 namespace Infra.Data.Car16.Context
@@ -22,8 +23,10 @@ namespace Infra.Data.Car16.Context
         #region | DB SETS |
         public DbSet<Pais> PaisDb { get; set; }
         public DbSet<ArquivoModeloDocx> ArquivoModeloDocxDb { get; set; }
-        public DbSet<LogArquivoModeloDocx> LogArquivoModeloDocx { get; set; }
-
+        public DbSet<LogArquivoModeloDocx> LogArquivoModeloDocxDb { get; set; }
+        public DbSet<CampoArquivoModelo> CampoArquivoModeloDb { get; set; }
+        public DbSet<NaturezaCampoArquivoModelo> NaturezaCampoArquivoModeloDb { get; set; }
+        
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

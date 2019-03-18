@@ -64,6 +64,8 @@
     <Compile Include="Repositories\Base\InfraDataEventLogging.cs" />
     <Compile Include="Repositories\Base\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Repositories\RepositoryCampoArquivoModelo.cs" />
+    <Compile Include="Repositories\RepositoryNaturezaCampoArquivoModelo.cs" />
     <Compile Include="Repositories\RepositoryPais.cs" />
     <Compile Include="UnitOfWork\Base\UnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWorkCar16.cs" />
