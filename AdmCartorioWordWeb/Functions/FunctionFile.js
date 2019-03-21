@@ -2,6 +2,6 @@
 (function () {
     Office.initialize = function (reason) {
         // Se precisar inicializar algo, poderá fazê-lo aqui.
-      
+        
     };
 })();

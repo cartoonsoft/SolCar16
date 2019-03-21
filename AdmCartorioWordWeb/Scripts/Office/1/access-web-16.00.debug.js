@@ -2601,7 +2601,7 @@ OSF.SerializerVersion = {
 };
 
 (function (window) {
-    "use strict";
+    //"use strict";
     var stringRegEx = new RegExp('"(\\\\.|[^"\\\\])*"', 'g'), trueFalseNullRegEx = new RegExp('\\b(true|false|null)\\b', 'g'), numbersRegEx = new RegExp('-?(0|([1-9]\\d*))(\\.\\d+)?([eE][+-]?\\d+)?', 'g'), badBracketsRegEx = new RegExp('[^{:,\\[\\s](?=\\s*\\[)'), badRemainderRegEx = new RegExp('[^\\s\\[\\]{}:,]'), jsonErrorMsg = "Cannot deserialize. The data does not correspond to valid JSON.";
     function addHandler(element, eventName, handler) {
         if (element.addEventListener) {
@@ -4464,7 +4464,7 @@ var OSFLog;
 
 var Logger;
 (function (Logger) {
-    "use strict";
+    //"use strict";
 
     
 
@@ -4569,7 +4569,7 @@ var Logger;
 
 var OSFAppTelemetry;
 (function (OSFAppTelemetry) {
-    "use strict";
+    //"use strict";
     var appInfo;
     var sessionId = OSF.OUtil.Guid.generateNewGuid();
     var osfControlAppCorrelationId = "";

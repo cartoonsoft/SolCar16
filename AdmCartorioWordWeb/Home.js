@@ -4,7 +4,6 @@
         // Office is ready
         $(document).ready(function () {
 
-                       
             // The document is ready
             // Use this to check whether the API is supported in the Word client.
             if (Office.context.requirements.isSetSupported('WordApi', 1.1)) {
@@ -25,10 +24,6 @@
             }
         });
     });
-
-
-
-
 
     /**Adicionar campo HTML */
     function criarElementoDeControle() {

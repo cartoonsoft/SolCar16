@@ -26,6 +26,7 @@
   <!-- Domínios que serão permitidos ao navegar. Por exemplo, se você usar ShowTaskpane e, em seguida, tiver um link href, a navegação só será permitida se o domínio estiver na lista. -->
   <AppDomains>
     <AppDomain>http://localhost</AppDomain>
+    <AppDomain>http://localhost/api</AppDomain>
     <AppDomain>https://localhost</AppDomain>
     <AppDomain>https://microsoft</AppDomain>
     <AppDomain>https://ajax.googleapis</AppDomain>

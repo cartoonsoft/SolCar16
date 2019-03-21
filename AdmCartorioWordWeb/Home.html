@@ -23,14 +23,13 @@
     <!-- Para habilitar o uso do Office UI Fabric offline, use: -->
     <!-- link rel="stylesheet" href="Content/fabric.min.css" -->
     <!-- link rel="stylesheet" href="Content/fabric.components.min.css" -->
-    
     <!-- ANGULAR JS-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 
 
 
     <script type="text/javascript">
-        
+
         /**** ANGULAR JS */
         var module = angular.module("criaModelo", []);
 
@@ -38,17 +37,18 @@
             $scope.valorCampo = "";
 
             $scope.testeGet = [];
-            $scope.respostaTeste;
+            $scope.respostaTeste = 0;
 
-            $http({
-                method: 'GET',
-                url: 'http://localhost:65395/api/camposarquivomodelo'
-            }).then(function successCallback(response) {
-                $scope.testeGet = response.data;
-                $scope.respostaTeste = 1;
-            }, function errorCallback(response) {
-                $scope.respostaTeste = 2;
-            });
+            //$http({
+            //    method: 'GET',
+            //    url: 'http://localhost:56110/arquivos/cadastrar'
+            //    
+            //}).then(function successCallback(response) {
+            //    $scope.testeGet = response.data;
+            //    $scope.respostaTeste = 1;
+            //}, function errorCallback(response) {
+            //    $scope.respostaTeste = 2;
+            //});
 
 
             $scope.data = {
@@ -170,6 +170,8 @@
             </div>
             <label>{{testeGet}}</label>
             <label>{{respostaTeste}}</label>
+
+            <a href="http://localhost:56110/arquivos/cadastrar">TESTE</a>
         </div>
     </div>
     <br />
