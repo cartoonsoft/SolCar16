@@ -1,6 +1,8 @@
-﻿using Domain.Car16.Interfaces.UnitOfWork;
+﻿using Domain.Car16.Interfaces.Repositories;
+using Domain.Car16.Interfaces.UnitOfWork;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.enuns;
+using Infra.Data.Car16.Repositories;
 using Infra.Data.Car16.Repositories.Base;
 using Infra.Data.Car16.UnitOfWorkCar16.Base;
 using System;
@@ -17,21 +19,22 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
         
-        private readonly ContextMainCar16 _context;
+        private readonly ContextMainCar16 _contextCar16;
         private readonly InfraDataEventLogging _log;
+        private readonly IRepositoriesCar16 _repositoriesCar16;
 
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="context"></param>
-        public UnitOfWorkCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null ) : base()
+        public UnitOfWorkCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null ) : base(context)
         {
             //
             string contextName = string.Empty;
 
-            _context = context;
+            this._contextCar16 = context;
 
-            if (_context == null)
+            if (_contextCar16 == null)
             {
                 switch (baseDados)
                 {
@@ -57,16 +60,23 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                         break;
                 }
 
-                _context = new ContextMainCar16(contextName); 
+                _contextCar16 = new ContextMainCar16(contextName); 
             }
 
-            this.Context = _context;
+            _repositoriesCar16 = new RepositoriesCar16(_contextCar16);
+
             _log = log;
+            
+        }
+
+        public IRepositoriesCar16 repositories
+        {
+            get { return _repositoriesCar16; }
         }
 
         public ContextMainCar16 GetContextMainCar16
         {
-            get { return _context; }
+            get { return _contextCar16; }
         }
 
         public override int? Commit()

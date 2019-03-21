@@ -24,7 +24,6 @@ namespace AppServices.Car16.Interfaces.Base
 
         //void Merge(TEntity persisted, TEntity current);
         IDomainServiceBase<T> domainService<T>() where T: class;
-        IUnitOfWork AppServiceUnitOfWork();
 
         TDtoEntityModel GetById(long id);
         IEnumerable<TDtoEntityModel> GetAll();

@@ -9,7 +9,8 @@ using Domain.Core.Interfaces.DomainServices.Base;
 namespace Domain.Car16.Interfaces.DomainServices
 {
     public interface IPaisDomainService : IDomainServiceBase<Pais>
-    {
+    { 
+        IEnumerable<Pais> BuscarPorNome(string nome);
 
     }
 }

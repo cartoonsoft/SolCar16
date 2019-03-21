@@ -163,8 +163,8 @@
   <ItemGroup>
     <Compile Include="ViewModels\Identity\AccountViewModels.cs" />
     <Compile Include="ViewModels\Identity\AdminViewModel.cs" />
-    <Compile Include="ViewModels\Identity\ClaimsViewModel.cs" />
     <Compile Include="ViewModels\Identity\ClaimViewModel.cs" />
+    <Compile Include="ViewModels\Identity\ClaimViewModel2.cs" />
     <Compile Include="Models\Identity\Client.cs" />
     <Compile Include="ViewModels\Identity\ManageViewModels.cs" />
     <Compile Include="ViewModels\Identity\RoleViewModel.cs" />

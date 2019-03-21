@@ -22,16 +22,15 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private IContextCore contextCore;
+        private readonly IContextCore _contextCore;
         protected DbContextTransaction  transaction = null;
-        private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
         /// Método construtor
         /// </summary>
-        public UnitOfWork()
+        public UnitOfWork(IContextCore contextCore)
         {
-            contextCore = null;
+            _contextCore = contextCore;
             transaction = null;
         }
 
@@ -52,9 +51,9 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
                 if (disposing)
                 {
                     // Free any other managed objects here.
-                    if (this.contextCore != null)
+                    if (this._contextCore != null)
                     {
-                        this.contextCore.Dispose();
+                        this._contextCore.Dispose();
                     }
                 }
             }
@@ -62,48 +61,14 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             disposed = true;
         }
         #endregion
-        
-        private void VerifyContext()
-        {
-            if (contextCore == null)
-            {
-                throw new ArgumentNullException("Contexto é nulo. verificar!");
-            }
-        }
 
-        protected IContextCore Context
-        {
-            get { return this.contextCore; }
-            set { contextCore = value; }
-        }
-
-        public IRepositoryBase<TEntity> Repository<TEntity>() where TEntity : class
-        {
-            this.VerifyContext();
-
-            IRepositoryBase<TEntity> repository = null;
-
-            if (Repositories.Keys.Contains(typeof(TEntity)))
-            {
-                repository = Repositories[typeof(TEntity)] as IRepositoryBase<TEntity>;
-            } else {
-                repository = new RepositoryBase<TEntity>(contextCore);
-            }
-
-            if (repository != null)
-            {
-                Repositories.Add(typeof(TEntity), repository);
-            }
-
-            return repository;
-        }
+        public IRepositoriesBase repositoriesBase => throw new NotImplementedException();
 
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {
-            this.VerifyContext();
             if (this.transaction == null)
             {
-                this.transaction = this.contextCore.Database.BeginTransaction(pIsolationLevel);
+                this.transaction = this._contextCore.Database.BeginTransaction(pIsolationLevel);
             }
             disposed = false;
         }
@@ -114,13 +79,11 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
         /// <returns></returns>
         public virtual int? Commit()
         {
-            this.VerifyContext();
-
             int? resposta = null;
 
             try
             {
-                resposta = this.contextCore.SaveChanges();
+                resposta = this._contextCore.SaveChanges();
                 this.CommitTransaction();
                 return resposta;
             }
@@ -144,7 +107,6 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
         public virtual void RollBack()
         {
-            this.VerifyContext();
             this.RollbackTransaction();
         }
 

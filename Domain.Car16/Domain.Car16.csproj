@@ -58,6 +58,9 @@
     <Compile Include="Interfaces\DomainServices\IUfDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPessoaDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoriesCar16.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

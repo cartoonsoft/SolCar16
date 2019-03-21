@@ -12,6 +12,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 #endregion
 
 namespace AdmCartorio.Controllers
@@ -109,15 +111,17 @@ namespace AdmCartorio.Controllers
 
             // Coletando Claims externos (se houver)
             ClaimsIdentity ext = await AuthenticationManager.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
+            
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.TwoFactorCookie, DefaultAuthenticationTypes.ApplicationCookie);
-            AuthenticationManager.SignIn
-                (
-                    new AuthenticationProperties { IsPersistent = isPersistent },
-                    // Criação da instancia do Identity e atribuição dos Claims
-                    await user.GenerateUserIdentityAsync(UserManager, ext)
-                );
-        }
+
+            AuthenticationManager.SignIn(
+                new AuthenticationProperties { IsPersistent = isPersistent },
+                // Criação da instancia do Identity e atribuição dos Claims
+                await user.GenerateUserIdentityAsync(UserManager, ext)
+            );
+
+    }
 
         //
         // GET: /Account/VerifyCode
@@ -183,22 +187,43 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(AccountRegisterViewModel model)
         {
+            List<string> emailsAdmin = new List<string> 
+            {
+                "ronaldo.moreira@cartoonsoft.com.br",
+                "pedro.pires@cartoonsoft.com.br",
+                "cris@cartoonsoft.com.br"
+            };
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                if (emailsAdmin.Any(e => e.Equals(user.Email))) //(emailsAdmin.Exists(e => e.EndsWith("teste")))
+                {
+                    user.Claims.Add(new IdentityUserClaim
+                    {
+                        UserId = user.Id,
+                        ClaimType = "AdminUsers",
+                        ClaimValue = "true"
+                    });
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
+
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'></a>");
+                    await UserManager.SendEmailAsync(user.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'>Confirme sua Conta</a>");
                     ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                    //return View("DisplayEmail");
                 }
+
                 AddErrors(result);
             }
 
-            // No caso de falha, reexibir a view. 
+            // reexibir a view. 
             return View(model);
         }
 

@@ -13,19 +13,13 @@ using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryPais : RepositoryBase<Pais>, IRepositoryPais
+    public class RepositoryMunicipio : RepositoryBase<Municipio>, IRepositoryMunicipio
     {
         private readonly ContextMainCar16 _contexRep;
 
-        public RepositoryPais(ContextMainCar16 contexRep): base (contexRep)
+        public RepositoryMunicipio(ContextMainCar16 contexRep): base (contexRep)
         {
             _contexRep = contexRep; 
-        }
-
-        public IEnumerable<Pais> BuscarPorNome(string nome)
-        {
-            //todo: ronaldo, não fiz ainda
-            throw new NotImplementedException();
         }
     }
 }

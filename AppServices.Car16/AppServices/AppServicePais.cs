@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
+using AutoMapper;
 using Domain.Car16.DomainServices;
 using Domain.Car16.Entities;
 using Domain.Car16.Interfaces.DomainServices;
@@ -15,25 +16,25 @@ namespace AppServices.Car16.AppServices
 {
     public class AppServicePais : AppServiceBase<DtoPaisModel, Pais>, IAppServicePais
     {
-        private readonly IPaisDomainService  paisDs = null;
+        private readonly IPaisDomainService paisDomainService = null;
 
         public AppServicePais(IUnitOfWorkCar16 unitOfWork) : base(unitOfWork)
         {
-            //
-            //appDomainServices.Add(typeof(PaisDomainService), new PaisDomainService(unitOfWork));
-            //paisDs = domainService<PaisDomainService>() as IPaisDomainService;
+            paisDomainService = new PaisDomainService(unitOfWork);
 
-            //paisDs = this.domainService<IPaisDomainService>
-            //this.appDomainServices<>(); //.Add(new PaisDomainService(null)); //.Add(new PaisDomainService()); // do .domainService<Pais>() as IPaisDomainService; 
-            
+            Type listType = typeof(List<string>);
+            List<string> instance = (List<string>)Activator.CreateInstance(listType);
         }
 
         public IEnumerable<DtoPaisModel> BuscarPorNome(string nome)
         {
-            //domainService<Pais>().
 
-            //var rep = AppServiceUnitOfWork().Repository<Pais>();
-            return null;
+            
+
+            IEnumerable<Pais> listpaizes = paisDomainService.BuscarPorNome(nome);
+            IEnumerable<DtoPaisModel> listPaizes = Mapper.Map<IEnumerable<Pais>, IEnumerable<DtoPaisModel>>(listpaizes);
+
+            return listPaizes;
         }
     }
 }

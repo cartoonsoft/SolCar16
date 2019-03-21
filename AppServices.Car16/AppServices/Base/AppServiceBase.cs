@@ -56,11 +56,6 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-        public IUnitOfWork AppServiceUnitOfWork()
-        {
-            return _unitOfWork;
-        }
-
         public IDomainServiceBase<T> domainService<T>() where T : class
         {
             IDomainServiceBase<T> domainService = null;

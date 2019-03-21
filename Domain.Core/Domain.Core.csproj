@@ -56,6 +56,7 @@
     <Compile Include="Interfaces\Data\IContextCore.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServiceBase.cs" />
     <Compile Include="Interfaces\Entities\IEntity.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoriesBase.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBase.cs" />
     <Compile Include="Interfaces\Repositories\ISpecification.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWork.cs" />

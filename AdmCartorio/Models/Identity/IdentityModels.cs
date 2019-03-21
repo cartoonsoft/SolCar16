@@ -37,9 +37,7 @@ namespace AdmCartorio.Models.Identity
             }
 
             //  Adicione novos Claims aqui //
-            // Gerenciamento de Claims para informaçoes do usuario
-            //claims.Add(new Claim(ClaimTypes.Role, "Administradores"));
-
+            //claims.Add(new Claim("AdminUsers", "true"));
 
             // Adicionando Claims externos capturados no login
             if (ext != null)

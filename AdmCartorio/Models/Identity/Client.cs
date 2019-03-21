@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IdentitySample.Models
 {
+    //bronsers que o usuario marcou remember me
     [Table("AspNetClients")]
     public class Client
     {

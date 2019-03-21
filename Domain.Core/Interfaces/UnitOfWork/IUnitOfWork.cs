@@ -20,9 +20,11 @@ namespace Domain.Core.Interfaces.UnitOfWork
 {
     public interface IUnitOfWork: IDisposable
     {
+        IRepositoriesBase repositoriesBase {
+            get;
+        }
         int? Commit();
         void BeginTransaction(IsolationLevel pIsolationLevel);
         void RollBack();
-        IRepositoryBase<TEntity> Repository<TEntity>() where TEntity : class;
     }
 }
