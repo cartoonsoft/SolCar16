@@ -1,0 +1,89 @@
+﻿@*<div class="modal fade" id="BuscaMatriculaModel" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">*@
+
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Busca de Matriculas</h4>
+            </div>
+            <div class="modal-body">
+                <fieldset>
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <label class="margin-top-10">CPF</label>
+                            <input placeholder="Digite o CPF" class="form-control" />
+                            @*@Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
+                                @Html.ValidationMessageFor(model => model.NomeModelo, null, new { @class = "text-danger" })*@
+                        </div>
+                        <div class="col-sm-5">
+                            <label class="col-form-label margin-top-10">Digite a matrícula</label>
+                            <input placeholder="Digite o Nº da Matrícula" class="form-control" />
+
+                            @*@Html.DropDownListFor(model => model.NaturezaArquivoModeloDocx, (ViewBag.NaturezaArquivoModeloDocx as SelectList), new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.NaturezaArquivoModeloDocx, null, new { @class = "text-danger" })*@
+                        </div>
+                        <div class="col-sm-1">
+                            <br />
+                            <button class="btn btn-default margin-top-10 margin-left-5">
+                                <i class="glyphicon glyphicon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </fieldset>
+                
+                    <table id="tabelaNatureza" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                        <thead>
+                            <tr role="row">
+                                <th rowspan="1" colspan="1">
+                                    Nº Matrícula
+                                </th>
+                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                                    Nome do imóvel
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Endereço
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Proprietário atual
+                                </th>
+                                <th rowspan="1" colspan="1">
+                                    Ação
+                                </th>
+                        </thead>
+                        <tbody>
+                            <!-- MOCADO-->
+                            <tr role="row" id="1">
+                                <td>125515</td>
+                                <td>Imovel do Pedro</td>
+                                <td>Rua Pires da silva</td>
+                                <td>Pedro Pires</td>
+                                <td>
+                                    <form role="form">
+                                        <button id="btnUsar1"
+                                                class="btn btn-success" type="submit">Confirmar</button>
+                                    </form>
+
+                                </td>
+                            </tr>
+                            <tr role="row" id="2">
+                                <td>289852</td>
+                                <td>Johny's Property</td>
+                                <td>Caucaia do alto - CE</td>
+                                <td>Johny Walker</td>
+                                <td>
+                                    <form role="form">
+                                        <button class="btn btn-success" type="submit">Confirmar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            <!-- FIM MOCADO-->
+                        </tbody>
+                    </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+@*</div>*@

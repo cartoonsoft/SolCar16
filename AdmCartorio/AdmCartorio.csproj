@@ -930,6 +930,9 @@
     <Content Include="Views\Arquivos\Cadastrar.cshtml" />
     <Content Include="Views\Arquivos\Editar.cshtml" />
     <Content Include="Views\Arquivos\Index.cshtml" />
+    <Content Include="Views\Matricula\Index.cshtml" />
+    <Content Include="Views\Matricula\BuscaMatricula.cshtml" />
+    <Content Include="Views\Matricula\BuscaModelo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -965,6 +968,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IconsController.cs" />
     <Compile Include="Controllers\IntelController.cs" />
+    <Compile Include="Controllers\MatriculaController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Global.asax.cs">

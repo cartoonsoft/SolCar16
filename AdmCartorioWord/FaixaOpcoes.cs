@@ -62,6 +62,11 @@ namespace AdmCartorioWord
             //Insere o campo no Word
             InserirCampoNoWord(posicao, NomeCampo);
 
+            FormFields itens = Globals.ThisAddIn.Application.ActiveDocument.FormFields;
+            foreach (var item in itens)
+            {
+                Console.WriteLine(item);
+            }
         }
         #region |Funções Auxiliares com Banco |
 
