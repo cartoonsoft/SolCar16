@@ -71,18 +71,18 @@ namespace AdmCartorioWord
         #region |Funções Auxiliares com Banco |
 
         /// <summary>
-        /// Função que recarrega os campos do combobox a partir do id da natureza
+        /// Função que recarrega os campos do combobox a partir do id do tipo do ato
         /// </summary>
-        /// <param name="IdNatureza">Identificador da Natureza (Imoveis,Civil etc.)</param>
-        private void RecarregarCamposPorNatureza(int IdNatureza)
+        /// <param name="IdTipoAto">Identificador do tipo do ato (inicial,registro etc.)</param>
+        private void RecarregarCamposPorNatureza(int IdTipoAto)
         {
             using (var con = new OracleConnection("Data Source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.16)(PORT =1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME =car12)));Password=senha16ri;User ID=dezesseis_new"))
             {
                 OracleCommand command
-                    = new OracleCommand("SELECT NOME_CAMPO FROM TB_CAMPOS_NAT_DOC WHERE ID_NAT_DOC = :ID_CAMPOS_NAT_DOC", con);
+                    = new OracleCommand("SELECT NOME_CAMPO FROM TB_CAMPOS_TP_MOD WHERE ID_TP_MODELO = :ID_TP_MODELO", con);
                 con.Open();
 
-                command.Parameters.Add(new OracleParameter("ID_CAMPOS_NAT_DOC", IdNatureza));
+                command.Parameters.Add(new OracleParameter("ID_TP_MODELO", IdTipoAto));
 
                 CbCampo.Items.Clear();
                 OracleDataReader reader = command.ExecuteReader();
@@ -187,7 +187,7 @@ namespace AdmCartorioWord
             using (var con = new OracleConnection("Data Source=(DESCRIPTION =(ADDRESS = (PROTOCOL = TCP)(HOST = 192.168.1.16)(PORT =1521))(CONNECT_DATA = (SERVER = DEDICATED)(SERVICE_NAME =car12)));Password=senha16ri;User ID=dezesseis_new"))
             {
                 OracleCommand command
-                    = new OracleCommand("SELECT ID_NAT_DOC,DESCRICAO FROM TB_NAT_DOC", con);
+                    = new OracleCommand("SELECT ID_TP_MODELO,DESCRICAO FROM TB_TP_MODELO", con);
                 con.Open();
                 OracleDataReader reader = command.ExecuteReader();
                 while (reader.Read())

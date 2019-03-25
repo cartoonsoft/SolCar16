@@ -83,6 +83,7 @@
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryCampoArquivoModelo.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryCampoArquivoModeloAPI.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryTipoAtoAPI.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />

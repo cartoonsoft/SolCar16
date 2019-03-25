@@ -65,6 +65,8 @@
     <Compile Include="Repositories\Base\RepositoryBase.cs" />
     <Compile Include="Repositories\RepositoryArquivoModeloDocx.cs" />
     <Compile Include="Repositories\RepositoryCampoArquivoModelo.cs" />
+    <Compile Include="Repositories\RepositoryCampoArquivoModeloAPI.cs" />
+    <Compile Include="Repositories\RepositoryLogArquivoModeloDocx.cs" />
     <Compile Include="Repositories\RepositoryTipoAto.cs" />
     <Compile Include="Repositories\RepositoryTipoAtoAPI.cs" />
     <Compile Include="Repositories\RepositoryPais.cs" />

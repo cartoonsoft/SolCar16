@@ -25,10 +25,6 @@ namespace Dto.Car16.Entities.Cadastros
         [Required(ErrorMessage ="Selecione um tipo")]
         public int IdTipoAto { get; set; }
 
-        //[Display(Name = "Tipo de Modelo")]
-        //[Required(ErrorMessage = "Selecione algum tipo de modelo")]
-        //public TipoArquivoModeloDocx NaturezaArquivoModeloDocx { get; set; }
-
         [Display(Name = "Arquivo")]
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
