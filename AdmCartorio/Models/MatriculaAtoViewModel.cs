@@ -14,5 +14,7 @@ namespace AdmCartorio.Models
         public string ModeloTipoAto { get; set; }
         public string ModeloCPF { get; set; }
 
+        public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
+        public virtual List<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }
     }
 }

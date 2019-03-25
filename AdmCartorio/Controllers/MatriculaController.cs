@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdmCartorio.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,36 @@ namespace AdmCartorio.Controllers
         // GET: Matricula
         public ActionResult Index()
         {
-            return View();
+            var dados = new MatriculaAtoViewModel()
+            {
+                MatriculasViewModel = new List<MatriculaViewModel>()
+                {
+                    new MatriculaViewModel()
+                    {
+                        EnderecoImovel = "Endereço 1",
+                        MatriculaId = 1,
+                        NomeImovel = "Imovel 1",
+                        NomeProprietarioAtual = "Proprietario 1"
+
+                    }
+                },
+                ModelosSimplificadoViewModel = new List<ArquivoModeloSimplificadoViewModel>()
+                {
+                    new ArquivoModeloSimplificadoViewModel()
+                    {
+                        Id = 1,
+                        DescricaoTipoAto = "Ato Inicial",
+                        NomeModelo = "Modelo 1"
+                    },
+                    new ArquivoModeloSimplificadoViewModel()
+                    {
+                        Id = 2,
+                        DescricaoTipoAto = "Registro",
+                        NomeModelo = "Modelo 2"
+                    }
+                }
+            };
+            return View(dados);
         }
         
         public PartialViewResult BuscaMatricula()

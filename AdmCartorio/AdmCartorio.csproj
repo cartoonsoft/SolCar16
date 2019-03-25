@@ -976,11 +976,13 @@
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ArquivoModeloDocxViewModel.cs" />
+    <Compile Include="Models\ArquivoModeloSimplificadoViewModel.cs" />
     <Compile Include="Models\Attributes\IsWordFile.cs" />
     <Compile Include="Models\Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Models\DadosPostArquivoUsuario.cs" />
     <Compile Include="Models\LogArquivoModeloDocxViewModel.cs" />
     <Compile Include="Models\MatriculaAtoViewModel.cs" />
+    <Compile Include="Models\MatriculaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

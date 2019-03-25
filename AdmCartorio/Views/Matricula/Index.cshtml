@@ -19,6 +19,7 @@
         <div class="widget-body no-padding">
             @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
             {
+                @Html.AntiForgeryToken()
                 <header>
                     <h2 class="">
                         Matriculas
@@ -29,7 +30,9 @@
                     <div class="row">
                         <section class="col col-6">
                             <button type="button" class="btn btn-default"
-                                    data-toggle="modal" data-target="#BuscaMatricula">
+                                    data-toggle="modal" data-target="#BuscaMatricula"
+                                    data-id="1"
+                                    id="matricula">
                                 <i class="glyphicon glyphicon-search"></i>
                                 Buscar Matricula
                             </button>
@@ -42,9 +45,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaID,
-                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })
-                                @*<input class="form-control"
-                                       placeholder="Nº da Matricula" disabled />*@
+                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })                          
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -54,8 +55,6 @@
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaEndereco,
                                     new {@class="form-control",@placeholder="Endereço", @disabled = "disabled" })
-                                @*<input class="form-control"
-                                       placeholder="Endereço" disabled />*@
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -65,8 +64,6 @@
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaProprietarioAtual,
                                     new {@class="form-control",@placeholder="Proprietário", @disabled = "disabled" })
-                                @*<input class="form-control"
-                                       placeholder="Proprietário" disabled />*@
                             </div>
                         </section>
                     </div>
@@ -78,6 +75,8 @@
                         <section class="col col-6">
                             <button type="button" class="btn btn-default"
                                     data-toggle="modal" data-target="#BuscaModelo"
+                                    data-id="1"
+                                    id="modelo" disabled
                                     >
                                 <i class="glyphicon glyphicon-search"></i>
                                 Buscar Modelo
@@ -92,8 +91,6 @@
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloNome,
                                     new {@class="form-control",@placeholder="Nome", @disabled = "disabled" })
-                                @*<input class="form-control"
-                                       placeholder="Nome" disabled />*@
                             </div>
                         </section>
                         <section class="col margin-top-10">
@@ -103,8 +100,6 @@
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloTipoAto,
                                     new {@class="form-control", @placeholder="Tipo de ato", @disabled = "disabled" })
-                                @*<input class="form-control"
-                                       placeholder="Tipo" disabled />*@
                             </div>
                         </section>
                         <section class="col col-2 margin-top-10">
@@ -113,10 +108,15 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloCPF,
-                                    new {@class="form-control", @placeholder="CPF",@disabled="disabled" })
-                                @*<input class="form-control"
-                                       placeholder="CPF" disabled />*@
+                                    new {@class="form-control", @placeholder="CPF"})
                             </div>
+                        </section>
+                        <section class="col col-1">
+                            <button id="btnUtilizar"
+                                    class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5"
+                                    disabled>
+                                <h3>Utilizar</h3>
+                            </button>
                         </section>
                     </div>
 
@@ -156,7 +156,7 @@
 <!-- Modal Matricula-->
 <div class="modal fade" id="BuscaMatricula" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
     @{
-        Html.RenderPartial("BuscaMatricula");
+        Html.RenderPartial("BuscaMatricula", Model.MatriculasViewModel);
     }
 </div>
 <!-- Fim Modal Matricula-->
@@ -164,19 +164,11 @@
 <!-- Modal Modelo-->
 <div class="modal fade" id="BuscaModelo" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
     @{ 
-        Html.RenderPartial("BuscaModelo");
+        Html.RenderPartial("BuscaModelo",Model.ModelosSimplificadoViewModel);
     }
 </div>
 <!-- Fim Modal Modelo-->
 
-
-<script>
-    ClassicEditor
-        .create(document.querySelector('#ckEditor'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
 <script>
     DecoupledEditor
         .create(document.querySelector('.document-editor__editable'), {
