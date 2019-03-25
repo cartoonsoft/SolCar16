@@ -1,4 +1,4 @@
-﻿using AdmCartorio.Models.Enumeradores;
+﻿using Domain.Car16.Enumeradores;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

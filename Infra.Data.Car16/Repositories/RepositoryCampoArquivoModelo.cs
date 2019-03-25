@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryCampoArquivoModelo : RepositoryBase<CampoArquivoModelo>, IRepositoryCampoArquivoModelo
+    public class RepositoryCampoArquivoModelo : RepositoryBase<CampoArquivoModeloAPI>, IRepositoryCampoArquivoModelo
     {
         private readonly ContextMainCar16 _contexRep;
 

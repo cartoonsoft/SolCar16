@@ -1,4 +1,5 @@
-﻿
+﻿@model AdmCartorio.Models.MatriculaAtoViewModel
+
 @{
     ViewBag.Title = "Index";
 }
@@ -40,8 +41,10 @@
                         </section>
                         <section class="col col-3">
                             <div>
-                                <input class="form-control"
-                                       placeholder="Nº da Matricula" disabled />
+                                @Html.TextBoxFor(model => model.MatriculaID,
+                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })
+                                @*<input class="form-control"
+                                       placeholder="Nº da Matricula" disabled />*@
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -49,8 +52,10 @@
                         </section>
                         <section class="col col-3">
                             <div>
-                                <input class="form-control"
-                                       placeholder="Endereço" disabled />
+                                @Html.TextBoxFor(model => model.MatriculaEndereco,
+                                    new {@class="form-control",@placeholder="Endereço", @disabled = "disabled" })
+                                @*<input class="form-control"
+                                       placeholder="Endereço" disabled />*@
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -58,8 +63,10 @@
                         </section>
                         <section class="col col-3">
                             <div>
-                                <input class="form-control"
-                                       placeholder="Proprietário" disabled />
+                                @Html.TextBoxFor(model => model.MatriculaProprietarioAtual,
+                                    new {@class="form-control",@placeholder="Proprietário", @disabled = "disabled" })
+                                @*<input class="form-control"
+                                       placeholder="Proprietário" disabled />*@
                             </div>
                         </section>
                     </div>
@@ -78,13 +85,15 @@
                         </section>
                     </div>
                     <div class="row">
-                        <section class="col margin-top-10">
+                        <section class="col margin-top-10">                            
                             <label class="col-form-label">Nome</label>
                         </section>
                         <section class="col col-2">
                             <div>
-                                <input class="form-control"
-                                       placeholder="Nome" disabled />
+                                @Html.TextBoxFor(model => model.ModeloNome,
+                                    new {@class="form-control",@placeholder="Nome", @disabled = "disabled" })
+                                @*<input class="form-control"
+                                       placeholder="Nome" disabled />*@
                             </div>
                         </section>
                         <section class="col margin-top-10">
@@ -92,8 +101,10 @@
                         </section>
                         <section class="col col-2">
                             <div>
-                                <input class="form-control"
-                                       placeholder="Tipo" disabled />
+                                @Html.TextBoxFor(model => model.ModeloTipoAto,
+                                    new {@class="form-control", @placeholder="Tipo de ato", @disabled = "disabled" })
+                                @*<input class="form-control"
+                                       placeholder="Tipo" disabled />*@
                             </div>
                         </section>
                         <section class="col col-2 margin-top-10">
@@ -101,8 +112,10 @@
                         </section>
                         <section class="col col-2">
                             <div>
-                                <input class="form-control"
-                                       placeholder="CPF" disabled />
+                                @Html.TextBoxFor(model => model.ModeloCPF,
+                                    new {@class="form-control", @placeholder="CPF",@disabled="disabled" })
+                                @*<input class="form-control"
+                                       placeholder="CPF" disabled />*@
                             </div>
                         </section>
                     </div>

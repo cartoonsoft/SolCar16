@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.Car16.Interfaces.DomainServices
 {
     public interface INaturezaCampoArquivoModeloDomainService 
-        : IDomainServiceBase<NaturezaCampoArquivoModelo>
+        : IDomainServiceBase<TipoAtoAPI>
     {
     }
 }

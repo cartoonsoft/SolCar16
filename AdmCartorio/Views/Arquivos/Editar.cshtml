@@ -3,6 +3,13 @@
 @{
     ViewBag.Title = "Editar";
 }
+@if (ViewBag.resultado != null)
+{
+    <div class="alert alert-success">
+        <label class="">@ViewBag.resultado</label>
+    </div>
+}
+
 <script src="~/Scripts/libs/jquery-2.1.1.min.js"></script>
 <style type="text/css">
     .flutua-direita {
@@ -18,12 +25,15 @@
                 @using (Html.BeginForm("Editar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
                 {
                     @Html.AntiForgeryToken()
+                    @Html.HiddenFor(model => model.Arquivo)
+                    @Html.HiddenFor(model => model.NomeModelo)
+                    @Html.HiddenFor(model => model.IdTipoAto)
 
                     <header>
                         <h1>
-                            Edição de Modelos | 
+                            Edição de Modelos |
                             <a id="downloadBtn"
-                               href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "2" })" class="">
+                               href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "atualizadoAoIniciar", Arquivo = Model.Arquivo })" class="">
                                 <i class="glyphicon glyphicon-download"></i>
                                 <span>
                                     <strong>Download  </strong>
@@ -46,11 +56,11 @@
                         <span class="text-danger flutua-direita"> Faça o download antes de atualizar </span>
                     </fieldset>
                     <footer>
-                        <button type="submit" id="upload" class="btn btn-primary" disabled>
+                        <button type="submit" id="upload" class="btn btn-primary">
                             <i class="glyphicon glyphicon-upload"></i>
                             Atualizar
                         </button>
-                        @Html.ActionLink("Voltar", "Index", "Arquivos", null, new {@class="btn btn-default col-sm-2" })                     
+                        @Html.ActionLink("Voltar", "Index", "Arquivos", null, new { @class = "btn btn-default col-sm-2" })
                     </footer>
                 }
             </div>
@@ -60,37 +70,9 @@
 
 <script type="text/javascript">
 
-     @*$('#upload').on('click',
-        function () {
-            var MeuIp = document.getElementById('ipDaMaquina').value;
-            var form = $('#formEnvio');
-            var token = $('input[name="__RequestVerificationToken"]', form).val();
-
-
-            $.ajax({
-                url: '@Url.Action("UploadArquivos", "Arquivos")',
-                type: 'POST',
-                dataType: 'json',
-                data: {
-                    ip : MeuIp,
-                    __RequestVerificationToken: token,
-                },
-                success: function (result) {
-                    console.log(result);
-                    console.log("Deu certo");
-                },
-                error: function (error) {
-                    console.log(error);
-                    console.log("Deu erro");
-                }
-            })
-        });*@
-
-    $('#downloadBtn').on('click', function () {
-        $('#upload').removeAttr('disabled');
-    });
-
-
+    //$('#downloadBtn').on('click', function () {
+    //    $('#upload').removeAttr('disabled');
+    //});
     function getIp(callback) {
         function response(s) {
             callback(window.userip);
@@ -125,11 +107,10 @@
 
     getIp(function (ip) {
         console.log(ip);
-        // Adiciona Campo Hidden para pegar o IP
-        //document.getElementById("ip").value = ip;
         document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
         var id = parseInt($('#Id').val());
+        var arquivo = $('#Arquivo').val();
 
-        $('#downloadBtn').attr("href", "/Arquivos/DownloadFile/" + id + "?Ip=" + ip);
+        $('#downloadBtn').attr("href", "/Arquivos/DownloadFile/" + id + "?Ip=" + ip + "&Arquivo=" + arquivo);
     });
 </script>

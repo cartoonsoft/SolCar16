@@ -9,23 +9,18 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.API
 {
-    [Table("TB_NAT_DOC")]
-    public class NaturezaCampoArquivoModelo: EntityBase
+    [Table("TB_TP_MODELO")]
+    public class TipoAtoAPI: EntityBase
     {
-        [Key]
-        [Column("ID_NAT_DOC")]
+        [Column("ID_TP_MODELO")]
         public override long Id { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")]
-        public int IdEmpresaLogada
-        {
-            get { return idEmpresaLogada; }
-            set { idEmpresaLogada = 1; }
-        }
-        private int idEmpresaLogada;
+        public int IdAcessoSistema { get; set; }
 
         [Column("DESCRICAO")]
         public string Descricao { get; set; }
+
 
     }
 }

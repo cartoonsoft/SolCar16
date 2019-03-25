@@ -1,4 +1,4 @@
-﻿using Domain.Car16.Entities.API;
+﻿using Domain.Car16.Entities;
 using Domain.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryNaturezaCampoArquivoModelo: IRepositoryBase<NaturezaCampoArquivoModelo>
+    public interface IRepositoryTipoAto : IRepositoryBase<TipoAto>
     {
     }
 }

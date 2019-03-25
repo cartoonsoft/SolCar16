@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Enumeradores
 {
-    public enum NaturezaArquivoModeloDocx
+    public enum TipoArquivoModeloDocx
     {
-        [Description("Imóveis")]
-        Imoveis = 1,
-        [Description("Civíl")]
-        Civil = 2
+        [Description("Ato Inicial")]
+        Inicial = 1,
+        [Description("Registro")]
+        Registro = 2
     }
 }

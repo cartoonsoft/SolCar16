@@ -65,11 +65,7 @@ namespace ConsoleAppTeste
             {
                 using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                 {
-
-                    appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                    {
-                        NomeArquivo = "Pedro"
-                    });
+                    //
                 }
                 unitOfWork.Commit();
             }

@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryNaturezaCampoArquivoModelo 
-        : RepositoryBase<NaturezaCampoArquivoModelo>, IRepositoryNaturezaCampoArquivoModelo
+    public class RepositoryTipoAtoAPI 
+        : RepositoryBase<TipoAtoAPI>, IRepositoryTipoAtoAPI
     {
         private readonly ContextMainCar16 _contexRep;
 
-        public RepositoryNaturezaCampoArquivoModelo(ContextMainCar16 context) : base(context)
+        public RepositoryTipoAtoAPI(ContextMainCar16 context) : base(context)
         {
             _contexRep = context;
         }

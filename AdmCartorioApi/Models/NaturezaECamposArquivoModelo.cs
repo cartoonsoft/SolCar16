@@ -8,7 +8,7 @@ namespace AdmCartorioApi.Models
 {
     public class NaturezaECamposArquivoModelo
     {
-        public List<CampoArquivoModelo> CamposArquivoModelo { get; set; }
-        public NaturezaCampoArquivoModelo NaturezaCampoArquivoModelo { get; set; }
+        public List<CampoArquivoModeloAPI> CamposArquivoModelo { get; set; }
+        public TipoAtoAPI NaturezaCampoArquivoModelo { get; set; }
     }
 }

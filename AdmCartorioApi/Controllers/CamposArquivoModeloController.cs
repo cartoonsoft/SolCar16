@@ -21,26 +21,26 @@ namespace AdmCartorioApi.Controllers
 
             dados.Add(
                 new NaturezaECamposArquivoModelo(){
-                    NaturezaCampoArquivoModelo = new NaturezaCampoArquivoModelo()
+                    NaturezaCampoArquivoModelo = new TipoAtoAPI()
                     {
-                        Descricao = "Imoveis",
+                        Descricao = "Ato Inicial",
                         Id = 1,
-                        IdEmpresaLogada = 1
+                        IdAcessoSistema = 1
                     },
-                    CamposArquivoModelo = new List<CampoArquivoModelo>(){
-                        new CampoArquivoModelo(){
-                            Nome = "Pune",
-                            IdNaturezaDocumento = 1,
+                    CamposArquivoModelo = new List<CampoArquivoModeloAPI>(){
+                        new CampoArquivoModeloAPI(){
+                            NomeCampo = "Pune",
+                            IdTipoAto = 1,
                             PlaceHolder ="Pune",
-                            IdEmpresaLogada = 1,
+                            IdAcessoSistema = 1,
                             Id = 1
                         },
-                        new CampoArquivoModelo(){
-                            Nome = "Mumbai",
-                            IdNaturezaDocumento = 1,
+                        new CampoArquivoModeloAPI(){
+                            NomeCampo = "Mumbai",
+                            IdTipoAto = 1,
                             PlaceHolder ="Mumbai",
                             Id = 2,
-                            IdEmpresaLogada = 1
+                            IdAcessoSistema = 1
                         }
                     }
                 });

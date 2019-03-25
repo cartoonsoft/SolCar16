@@ -1,5 +1,6 @@
 ﻿using AdmCartorio.Models;
 using AppServices.Car16.AppServices;
+using Domain.Car16.Entities;
 using Domain.Car16.Enumeradores;
 using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.Context;
@@ -26,19 +27,23 @@ namespace AdmCartorio.Controllers
                 {
                     Id = 50,
                     NomeModelo = "Modelo 50",
-                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                    IdTipoAto = 1,
+                    DescricaoTipoAto = "Ato Inicial"
                 },
                 new ArquivoModeloDocxViewModel()
                 {
                     Id = 2,
                     NomeModelo = "Modelo 2",
-                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                    DescricaoTipoAto = "Ato Inicial",
+                    IdTipoAto = 1
                 },
                 new ArquivoModeloDocxViewModel()
                 {
                     Id = 3,
                     NomeModelo = "Modelo 3",
-                    NaturezaArquivoModeloDocx = Models.Enumeradores.NaturezaArquivoModeloDocx.Civil
+                    IdTipoAto = 2,
+                    DescricaoTipoAto = "Registro"
+                    
                 }
             };
             return View(dados);
@@ -48,8 +53,14 @@ namespace AdmCartorio.Controllers
         public ActionResult Cadastrar()
         {
             try
-            { 
-                ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+            {
+                ViewData["IdTipoAto"] = 
+                    new SelectList(
+                        new List<TipoAto>() {
+                            new TipoAto() { Id = 1,Descricao ="Ato Inicial" },
+                            new TipoAto() { Id = 2,Descricao ="Registro"}
+                    }, "Id", "Descricao");
+                //ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(TipoArquivoModeloDocx)), TipoArquivoModeloDocx.Imoveis);
 
                 return View();
             }
@@ -73,22 +84,21 @@ namespace AdmCartorio.Controllers
                     {
                         //Pega os dados do arquivo
                         HttpPostedFileBase arquivo = arquivoModel.Files[i];
-                        var extension = Path.GetExtension(arquivo.FileName);
                         var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
+                        
 
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
                         var filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/"),
-                            nomeArquivo + extension);
+                            nomeArquivo + ".docx");
                         arquivo.SaveAs(filePath);
                         #endregion
                         
                         #region | Populando variavel do banco |
 
                         arquivoModel.ArquivoByte = System.IO.File.ReadAllBytes(filePath);
-                        arquivoModel.CaminhoArquivo = filePath;
-                        arquivoModel.NomeArquivo = nomeArquivo;
-                        arquivoModel.ExtensaoArquivo = extension;
+                        arquivoModel.Arquivo = filePath;
+                        arquivoModel.NomeModelo = arquivoModel.NomeModelo;
 
                         #endregion
                         
@@ -96,11 +106,23 @@ namespace AdmCartorio.Controllers
                         //CadastraArquivoModeloDocx(arquivoModel);
                         #endregion
                     }
-                    ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+                    ViewData["IdTipoAto"] =
+                                        new SelectList(
+                                            new List<TipoAto>() {
+                            new TipoAto() { Id = 1,Descricao ="Ato Inicial" },
+                            new TipoAto() { Id = 2,Descricao ="Registro"}
+                                        }, "Id", "Descricao");
+
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
                     return View(nameof(Cadastrar));
                 }
-                ViewBag.NaturezaArquivoModeloDocx = new SelectList(Enum.GetValues(typeof(NaturezaArquivoModeloDocx)), NaturezaArquivoModeloDocx.Imoveis);
+                ViewData["IdTipoAto"] =
+                                    new SelectList(
+                                        new List<TipoAto>() {
+                            new TipoAto() { Id = 1,Descricao ="Ato Inicial" },
+                            new TipoAto() { Id = 2,Descricao ="Registro"}
+                                    }, "Id", "Descricao");
+
                 return View(nameof(Cadastrar));
             }
             catch (Exception ex)
@@ -126,8 +148,9 @@ namespace AdmCartorio.Controllers
                     {
                         Id = 1,
                         NomeModelo = "Modelo 1",
-                        NomeArquivo = "testeWord",
-                        ExtensaoArquivo =".docx"
+                        Arquivo = "/App_Data/Arquivos/testeWord.docx",
+                        IdTipoAto = 1,
+                        
                     };
 
 
@@ -158,7 +181,7 @@ namespace AdmCartorio.Controllers
                     //UploadArquivo(arquivoModeloDocxViewModel);
 
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
-                    return View(nameof(Editar));
+                    return View(nameof(Editar), arquivoModeloDocxViewModel);
 
                 }
                 return View(nameof(Editar), arquivoModeloDocxViewModel);
@@ -172,15 +195,15 @@ namespace AdmCartorio.Controllers
         #endregion
         
         #region | METODOS COMPARTILHADOS |
-        private void CadastrarLogDownload(string IP)
+        private void CadastrarLogDownload(string IP, int Id)
         {
-            //var arquivolog = new logarquivomodelodocxviewmodel()
-            //{
-            //    arquivoid = id,
-            //    datahora = datetime.now,
-            //    ip = ip,
-            //    tipologarquivomodelodocx = admcartorio.models.enumeradores.tipologarquivomodelodocx.download
-            //};
+            var arquivolog = new LogArquivoModeloDocx()
+            {
+                ArquivoID = Id,
+                DataHora = DateTime.Now,
+                IP = IP,
+                TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Download
+            };
             return;
         }
 
@@ -197,10 +220,8 @@ namespace AdmCartorio.Controllers
                     appService.SalvarModelo(new DtoArquivoModeloDocxModel()
                     {
                         ArquivoByte = arquivoModel.ArquivoByte,
-                        CaminhoArquivo = arquivoModel.CaminhoArquivo,
-                        ExtensaoArquivo = arquivoModel.ExtensaoArquivo,
+                        Arquivo = arquivoModel.Arquivo,
                         Files = arquivoModel.Files,
-                        NomeArquivo = arquivoModel.NomeArquivo,
                         NomeModelo = arquivoModel.NomeModelo
                     });
                 }
@@ -216,16 +237,16 @@ namespace AdmCartorio.Controllers
             
         }
 
-        public FileResult DownloadFile([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
+        public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
         {
-            string filePath = Server.MapPath("~/App_Data/Arquivos/testeWord.docx");
+            string fileName = Path.GetFileNameWithoutExtension(dadosPost.Arquivo);
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/{fileName}.docx");
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                string fileName = "testeWord.docx";
-
+                
                 //Cadastro de LOG
-                CadastrarLogDownload("X");
+                CadastrarLogDownload(dadosPost.Ip,dadosPost.Id);
 
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }

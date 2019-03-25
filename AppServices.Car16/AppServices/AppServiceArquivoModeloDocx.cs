@@ -33,12 +33,10 @@ namespace AppServices.Car16.AppServices
                 // Criando objeto do arquivo 
                 var arquivoModelo = new ArquivoModeloDocx
                 {
-                    ArquivoByte = dtoArq.ArquivoByte,
-                    CaminhoArquivo = dtoArq.CaminhoArquivo,
-                    ExtensaoArquivo = dtoArq.ExtensaoArquivo,
-                    NomeArquivo = dtoArq.NomeArquivo,
+                    ArquivoBytes = dtoArq.ArquivoByte,
+                    CaminhoEArquivo = dtoArq.Arquivo,
                     NomeModelo = dtoArq.NomeModelo,
-                    NaturezaArquivoModeloDocx = dtoArq.NaturezaArquivoModeloDocx
+                    IdTipoAto = dtoArq.IdTipoAto
                 };
                 this.domainService<ArquivoModeloDocx>().Add(arquivoModelo);
 

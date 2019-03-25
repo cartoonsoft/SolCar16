@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryCampoArquivoModelo: IRepositoryBase<CampoArquivoModelo>
+    public interface IRepositoryCampoArquivoModelo: IRepositoryBase<CampoArquivoModeloAPI>
     {
     }
 }

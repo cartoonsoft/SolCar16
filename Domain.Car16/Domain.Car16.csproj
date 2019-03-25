@@ -61,10 +61,12 @@
     <Compile Include="Entities\ArquivoModeloDocxHist.cs" />
     <Compile Include="Entities\Attributes\IsWordFile.cs" />
     <Compile Include="Entities\Attributes\RequiredHttpPostedFileBase.cs" />
+    <Compile Include="Entities\CamposArquivoModeloDocx.cs" />
     <Compile Include="Entities\LogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Municipio.cs" />
     <Compile Include="Entities\Pais.cs" />
     <Compile Include="Entities\Pessoa.cs" />
+    <Compile Include="Entities\TipoAto.cs" />
     <Compile Include="Entities\Uf.cs" />
     <Compile Include="Enumeradores\NaturezaArquivoModeloDocx.cs" />
     <Compile Include="Enumeradores\TipoLogArquivoModeloDocx.cs" />

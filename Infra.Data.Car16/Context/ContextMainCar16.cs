@@ -25,8 +25,10 @@ namespace Infra.Data.Car16.Context
         public DbSet<ArquivoModeloDocx> ArquivoModeloDocxDb { get; set; }
         public DbSet<LogArquivoModeloDocx> LogArquivoModeloDocxDb { get; set; }
         public DbSet<CampoArquivoModelo> CampoArquivoModeloDb { get; set; }
-        public DbSet<NaturezaCampoArquivoModelo> NaturezaCampoArquivoModeloDb { get; set; }
-        
+        public DbSet<TipoAtoAPI> NaturezaCampoArquivoModeloDb { get; set; }
+        public DbSet<TipoAto> TipoAtoDb { get; set; }
+
+
         #endregion
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
