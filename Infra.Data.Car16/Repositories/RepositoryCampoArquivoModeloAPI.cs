@@ -1,5 +1,4 @@
-﻿using Domain.Car16.Entities;
-using Domain.Car16.Entities.API;
+﻿using Domain.Car16.Entities.API;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Core.Interfaces.Data;
 using Infra.Data.Car16.Context;
@@ -12,11 +11,12 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryCampoArquivoModelo : RepositoryBase<CamposArquivoModeloDocx>, IRepositoryCampoArquivoModelo
+    public class RepositoryCampoArquivoModeloAPI
+        : RepositoryBase<CampoArquivoModeloAPI>, IRepositoryCampoArquivoModeloAPI
     {
         private readonly ContextMainCar16 _contexRep;
 
-        public RepositoryCampoArquivoModelo(ContextMainCar16 context) : base(context)
+        public RepositoryCampoArquivoModeloAPI(ContextMainCar16 context) : base(context)
         {
             _contexRep = context;
         }

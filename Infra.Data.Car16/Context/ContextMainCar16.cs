@@ -24,10 +24,10 @@ namespace Infra.Data.Car16.Context
         public DbSet<Pais> PaisDb { get; set; }
         public DbSet<ArquivoModeloDocx> ArquivoModeloDocxDb { get; set; }
         public DbSet<LogArquivoModeloDocx> LogArquivoModeloDocxDb { get; set; }
-        public DbSet<CampoArquivoModelo> CampoArquivoModeloDb { get; set; }
-        public DbSet<TipoAtoAPI> NaturezaCampoArquivoModeloDb { get; set; }
+        public DbSet<CamposArquivoModeloDocx> CampoArquivoModeloDb { get; set; }
+        public DbSet<CampoArquivoModeloAPI> CampoArquivoModeloAPIDb { get; set; }
+        public DbSet<TipoAtoAPI> TipoAtoAPIDb { get; set; }
         public DbSet<TipoAto> TipoAtoDb { get; set; }
-
 
         #endregion
 
