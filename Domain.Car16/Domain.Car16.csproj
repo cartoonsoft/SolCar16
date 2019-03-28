@@ -48,18 +48,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainServices\Base\DomainServiceCar16.cs" />
     <Compile Include="DomainServices\PessoaDomainService.cs" />
     <Compile Include="DomainServices\PaisDomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
+    <Compile Include="Entities\Base\EntityCar16.cs" />
     <Compile Include="Entities\Municipio.cs" />
     <Compile Include="Entities\Pais.cs" />
     <Compile Include="Entities\Pessoa.cs" />
     <Compile Include="Entities\Uf.cs" />
+    <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16.cs" />
     <Compile Include="Interfaces\DomainServices\IUfDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPessoaDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoriesCar16.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />

@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IdentitySample.Models
+namespace AdmCartorio.Models.Identity
 {
     //bronsers que o usuario marcou remember me
     [Table("AspNetClients")]

@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Domain.Core.Interfaces.Repositories
 {
-    public interface IRepositoryBase<TEntity> : IDisposable where TEntity : class
+    public interface IRepositoryBase<TEntity> : IDisposable where TEntity : EntityBase
     {
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> itens);

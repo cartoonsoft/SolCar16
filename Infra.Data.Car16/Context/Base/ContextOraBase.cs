@@ -52,6 +52,11 @@ namespace Infra.Data.Car16.Context.Base
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+            modelBuilder
+                .Properties()
+                .Where(p => p.PropertyType.Name == "String")
+                .Configure(p => p.HasMaxLength(200));
+
 
             if (this.Database.Connection is OracleConnection)
             {

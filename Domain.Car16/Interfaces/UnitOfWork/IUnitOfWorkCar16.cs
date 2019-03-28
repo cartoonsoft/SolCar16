@@ -10,7 +10,7 @@ namespace Domain.Car16.Interfaces.UnitOfWork
 {
     public interface IUnitOfWorkCar16: IUnitOfWork
     {
-        IRepositoriesCar16 repositories
+        IRepositoriesCar16 Repositories
         {
             get;
         }

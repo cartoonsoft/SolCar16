@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using AdmCartorio.App_Start.Identity;
-using AdmCartorio.Models.Identity;
-using AdmCartorio.Models.Identity.Context;
-using IdentitySample.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using AdmCartorio.Models.Identity;
+using AdmCartorio.Models.Identity.Context;
 
-namespace IdentitySample.Identity
+namespace AdmCartorio.App_Start.Identity
 {
     // Configuração do UserManager Customizado
 
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser> store)
-            : base(store)
+        public ApplicationUserManager(IUserStore<ApplicationUser> store): base(store)
         {
+            //
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
-            IOwinContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContextIdentity>()));
-
+            
             // Configurando validator para nome de usuario
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -114,5 +111,6 @@ namespace IdentitySample.Identity
             user.CurrentClientId = null;
             return await UpdateAsync(user);
         }
+
     }
 }

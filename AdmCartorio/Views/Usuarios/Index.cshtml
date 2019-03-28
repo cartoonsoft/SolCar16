@@ -1,0 +1,111 @@
+﻿@model IEnumerable<AdmCartorio.Models.Identity.ApplicationUser>
+
+@{
+    /**/
+
+    ViewBag.Title = "Index";
+}
+
+<div id="content">
+    <section id="widget-grid" class="">
+        <div class="row">
+            <p>
+            <a href="@Url.Action("Create", "Usuarios")"><i class="glyphicon glyphicon-plus"></i> Novo usuário</a>
+            </p>
+
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Usuários</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <table id="tbl-usuarios" class="table table-striped table-bordered table-hover" width="100%">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.UserName)
+                                    </th>
+                                    <th>
+                                        E-mail
+                                    </th>
+                                    <th>
+                                        Telefone
+                                    </th>
+                                    <th>
+                                        E-mail<br />
+                                        confirmado
+                                    </th>
+                                    <th>
+                                        Telefone<br />
+                                        confirmado
+                                    </th>
+                                    <th>
+                                        2 Fatores<br />
+                                        habilidado
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Email)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                                            @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+    </section>
+</div>

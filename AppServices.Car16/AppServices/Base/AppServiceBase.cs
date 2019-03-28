@@ -12,11 +12,12 @@ using Domain.Core.Interfaces.DomainServices.Base;
 using Domain.Core.Interfaces.Entities;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
+using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {
    
-    public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity :class
+    public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -28,50 +29,57 @@ namespace AppServices.Car16.AppServices.Base
             Mapper.Initialize(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
         }
 
-        #region dispose
-        private bool disposed = false;
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
-                    // Free any other managed objects here.
-                    if (this._unitOfWork != null)
-                    {
-                        this._unitOfWork.Dispose();
-                    }
+                    // TODO: dispose managed state (managed objects).
+                    _unitOfWork.Dispose();
                 }
-            }
 
-            disposed = true;
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~AppServiceBase() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
         }
         #endregion
 
-        public IDomainServiceBase<T> domainService<T>() where T : class
+        public IDomainServiceBase<TEntity> DomainService<TEntity>() where TEntity : EntityBase
         {
-            IDomainServiceBase<T> domainService = null;
+            IDomainServiceBase<TEntity> domainService = null;
 
-            if (appDomainServices.Keys.Contains(typeof(T)))
+            if (appDomainServices.Keys.Contains(typeof(TEntity)))
             {
-                domainService = appDomainServices[typeof(T)] as IDomainServiceBase<T>;
+                domainService = appDomainServices[typeof(TEntity)] as IDomainServiceBase<TEntity>;
             }
             else
             {
-                domainService = new DomainServiceBase<T>(_unitOfWork);
+                domainService = new DomainServiceBase<TEntity>(_unitOfWork);
             }
 
             if (domainService != null)
             {
-                appDomainServices.Add(typeof(T), domainService);
+                appDomainServices.Add(typeof(TEntity), domainService);
             }
 
             return domainService;
@@ -81,18 +89,18 @@ namespace AppServices.Car16.AppServices.Base
         {
             //var config = new MapperConfiguration(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
-            this.domainService<TEntity>().Add(entityTmp);
+            this.DomainService<TEntity>().Add(entityTmp);
         }
 
         public virtual void AddRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.domainService<TEntity>().AddRange(listEntities);
+            this.DomainService<TEntity>().AddRange(listEntities);
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetAll()
         {
-            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetAll();
+            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetAll();
             IEnumerable<TDtoEntityModel> listDtoEntities = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDtoEntities;
         }
@@ -104,45 +112,45 @@ namespace AppServices.Car16.AppServices.Base
 
         public virtual void Remove(long id)
         {
-            this.domainService<TEntity>().Remove(id);
+            this.DomainService<TEntity>().Remove(id);
         }
 
         public virtual void Remove(TDtoEntityModel dtoitem)
         {
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoitem);
-            this.domainService<TEntity>().Remove(entityTmp);
+            this.DomainService<TEntity>().Remove(entityTmp);
         }
 
         public virtual void RemoveRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.domainService<TEntity>().RemoveRange(listEntities);
+            this.DomainService<TEntity>().RemoveRange(listEntities);
         }
 
         public virtual TDtoEntityModel GetById(long id)
         {
-            TEntity entityTmp = this.domainService<TEntity>().GetById(id);
+            TEntity entityTmp = this.DomainService<TEntity>().GetById(id);
             TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
             return dtoEntityTmp;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhere(expression);
+            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhere(expression);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(ISpecification<TEntity> specification)
         {
-            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhere(specification);
+            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhere(specification);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntities = this.domainService<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
@@ -161,5 +169,6 @@ namespace AppServices.Car16.AppServices.Base
         {
             throw new NotImplementedException();
         }
+
     }
 }

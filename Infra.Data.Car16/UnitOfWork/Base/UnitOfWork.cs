@@ -34,31 +34,47 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             transaction = null;
         }
 
-        #region dispose
-        private bool disposed = false;
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        // Protected implementation of Dispose pattern.
         protected virtual void Dispose(bool disposing)
         {
-            if (!disposed)
+            if (!disposedValue)
             {
                 if (disposing)
                 {
-                    // Free any other managed objects here.
-                    if (this._contextCore != null)
+                    // TODO: dispose managed state (managed objects).
+                    if (transaction != null)
                     {
-                        this._contextCore.Dispose();
+                        transaction.Dispose();
+                    }
+
+                    if (_contextCore != null)
+                    {
+                        _contextCore.Dispose();
                     }
                 }
-            }
 
-            disposed = true;
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~UnitOfWork() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
         }
         #endregion
 
@@ -70,7 +86,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             {
                 this.transaction = this._contextCore.Database.BeginTransaction(pIsolationLevel);
             }
-            disposed = false;
+            //disposed = false;
         }
 
         /// <summary>
@@ -139,6 +155,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             //todo: implementar savelog
             //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
+
 
     }
 }

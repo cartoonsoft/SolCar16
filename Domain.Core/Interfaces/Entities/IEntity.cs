@@ -15,6 +15,6 @@ namespace Domain.Core.Interfaces.Entities
 {
     public interface IEntity
     {
-        long Id { get; set; }
+        long Id { get; }
     }
 }

@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 namespace Domain.Core.Interfaces.DomainServices.Base
 {
 
-    public interface IDomainServiceBase<TEntity>: IDisposable where TEntity : class
+    public interface IDomainServiceBase<TEntity>: IDisposable where TEntity : EntityBase
     {
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> itens);

@@ -2,6 +2,7 @@
 using Domain.Core.Interfaces.DomainServices.Base;
 using Domain.Core.Interfaces.Repositories;
 using Domain.Core.Interfaces.UnitOfWork;
+using Dto.Car16.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace AppServices.Car16.Interfaces.Base
 {
-    public interface IAppServiceBase <TDtoEntityModel, TEntity>: IDisposable where TDtoEntityModel : class where TEntity : class
+    public interface IAppServiceBase <TDtoEntityModel, TEntity>: IDisposable where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
     {
         void Add(TDtoEntityModel dtoItem);
         void AddRange(IEnumerable<TDtoEntityModel> dtoItens);
@@ -23,7 +24,8 @@ namespace AppServices.Car16.Interfaces.Base
         void RemoveRange(IEnumerable<TDtoEntityModel> dtoItens);
 
         //void Merge(TEntity persisted, TEntity current);
-        IDomainServiceBase<T> domainService<T>() where T: class;
+
+        IDomainServiceBase<T> DomainService<T>() where T: EntityBase;
 
         TDtoEntityModel GetById(long id);
         IEnumerable<TDtoEntityModel> GetAll();

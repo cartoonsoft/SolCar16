@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AdmCartorio.Models.Identity;
-using IdentitySample.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;

@@ -1,8 +1,4 @@
 ﻿#region Using
-using AdmCartorio.App_Start.Identity;
-using AdmCartorio.Models.Identity;
-using AdmCartorio.ViewModels.Identity;
-using IdentitySample.Identity;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -14,6 +10,11 @@ using System.Web.Mvc;
 using System.Web;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
+using AdmCartorio.App_Start.Identity;
+using AdmCartorio.Models.Identity;
+using AdmCartorio.ViewModels.Identity;
+using Newtonsoft.Json.Linq;
+using System;
 #endregion
 
 namespace AdmCartorio.Controllers
@@ -28,10 +29,17 @@ namespace AdmCartorio.Controllers
         {
         }
 
+        /// <summary>
+        /// Método construtor
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+
+
         }
 
         // Definindo a instancia UserManager presente no request.
@@ -39,7 +47,7 @@ namespace AdmCartorio.Controllers
         {
             get
             {
-                return _userManager?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
             private set
             {
@@ -52,7 +60,7 @@ namespace AdmCartorio.Controllers
         {
             get
             {
-                return _signInManager?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
             private set
             {
@@ -60,7 +68,6 @@ namespace AdmCartorio.Controllers
             }
         }
 
-        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -69,7 +76,6 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -81,27 +87,46 @@ namespace AdmCartorio.Controllers
                 return View(model);
             }
 
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false); //trocar: shouldLockout para true (bloqueio por tentativas senha errada)
-            switch (result)
+            var usuario = await UserManager.FindByEmailAsync(model.Email);
+            //var password = await _userManager.CheckPasswordAsync(usuario, model.Password);
+
+            if (usuario != null)
             {
-                case SignInStatus.Success:
-                    var user = await UserManager.FindAsync(model.Email, model.Password);
-                    if (!user.EmailConfirmed)
-                    {
-                        TempData["AvisoEmail"] = "Usuário não confirmado, verifique seu e-mail.";
-                    }
-                    await SignInAsync(user, model.RememberMe);
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Login ou Senha incorretos.");
-                    return View(model);
+
+                var result = await SignInManager.PasswordSignInAsync(usuario.UserName, model.Password, model.RememberMe, shouldLockout: false); //trocar: shouldLockout para true (bloqueio por tentativas senha errada)
+
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        var user = await UserManager.FindAsync(model.Email, model.Password);
+                        if (!user.EmailConfirmed)
+                        {
+                            TempData["AvisoEmail"] = "Usuário não confirmado, verifique seu e-mail.";
+                        }
+                        await SignInAsync(user, model.RememberMe);
+                        return RedirectToLocal(returnUrl);
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Login ou Senha incorretos.");
+                        return View(model);
+                }
+            } else
+            {
+                ModelState.AddModelError("", "Login ou Senha incorretos.");
+                return View(model);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="isPersistent"></param>
+        /// <returns></returns>
         private async Task SignInAsync(ApplicationUser user, bool isPersistent)
         {
             var clientKey = Request.Browser.Type;
@@ -111,7 +136,7 @@ namespace AdmCartorio.Controllers
 
             // Coletando Claims externos (se houver)
             ClaimsIdentity ext = await AuthenticationManager.GetExternalIdentityAsync(DefaultAuthenticationTypes.ExternalCookie);
-            
+
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.TwoFactorCookie, DefaultAuthenticationTypes.ApplicationCookie);
 
@@ -121,9 +146,8 @@ namespace AdmCartorio.Controllers
                 await user.GenerateUserIdentityAsync(UserManager, ext)
             );
 
-    }
+        }
 
-        //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, string userId)
@@ -142,7 +166,6 @@ namespace AdmCartorio.Controllers
             return View(new AccountVerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, UserId = userId });
         }
 
-        //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -170,7 +193,6 @@ namespace AdmCartorio.Controllers
             }
         }
 
-        //
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
@@ -180,54 +202,52 @@ namespace AdmCartorio.Controllers
             return View(registerViewModel);
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(AccountRegisterViewModel model)
         {
-            List<string> emailsAdmin = new List<string> 
-            {
-                "ronaldo.moreira@cartoonsoft.com.br",
-                "pedro.pires@cartoonsoft.com.br",
-                "cris@cartoonsoft.com.br"
-            };
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                string[] arrayAdminEmails = { "cris@cartoonsoft.com.br", "pedro.pires@cartoonsoft.com.br", "ronaldo.moreira@cartoonsoft.com.br" };
+                var usuario = new ApplicationUser { UserName = model.Username, Email = model.Email};
 
-                if (emailsAdmin.Any(e => e.Equals(user.Email))) //(emailsAdmin.Exists(e => e.EndsWith("teste")))
+                if (arrayAdminEmails.Contains(usuario.Email))
                 {
-                    user.Claims.Add(new IdentityUserClaim
+                    usuario.EmailConfirmed = true;
+                    usuario.Claims.Add(new IdentityUserClaim
                     {
-                        UserId = user.Id,
+                        UserId = usuario.Id,
                         ClaimType = "AdminUsers",
                         ClaimValue = "true"
                     });
                 }
 
-                var result = await UserManager.CreateAsync(user, model.Password);
-
+                var result = await UserManager.CreateAsync(usuario, model.Password);
                 if (result.Succeeded)
                 {
-
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'>Confirme sua Conta</a>");
-                    ViewBag.Link = callbackUrl;
+                    if (!usuario.EmailConfirmed)
+                    {
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(usuario.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = usuario.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(usuario.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'>Confirme sua Conta</a>");
+                        ViewBag.Link = callbackUrl;
+                    }
                     //return View("DisplayEmail");
                 }
+                else
+                {
+                    AddErrors(result);
+                }
 
-                AddErrors(result);
             }
 
             // reexibir a view. 
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -240,7 +260,6 @@ namespace AdmCartorio.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -248,7 +267,6 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -278,7 +296,6 @@ namespace AdmCartorio.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
@@ -286,7 +303,6 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
@@ -294,7 +310,6 @@ namespace AdmCartorio.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -320,7 +335,6 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -328,10 +342,9 @@ namespace AdmCartorio.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
@@ -339,7 +352,6 @@ namespace AdmCartorio.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl)
@@ -354,7 +366,6 @@ namespace AdmCartorio.Controllers
             return View(new AccountSendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, UserId = userId });
         }
 
-        //
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -374,9 +385,8 @@ namespace AdmCartorio.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, userId = model.UserId });
         }
 
-        //
         // GET: /Account/ExternalLoginCallback
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await AuthenticationManager.GetExternalLoginInfoAsync();
@@ -415,10 +425,9 @@ namespace AdmCartorio.Controllers
             }
         }
 
-        //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous] bloquedo por segurança
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ExternalLoginConfirmation(AccountExternalLoginConfirmationViewModel model, string returnUrl)
         {
@@ -455,7 +464,6 @@ namespace AdmCartorio.Controllers
             return View(model);
         }
 
-        //
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -466,7 +474,6 @@ namespace AdmCartorio.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -482,7 +489,7 @@ namespace AdmCartorio.Controllers
         {
             get
             {
-                return  HttpContext.GetOwinContext().Authentication;
+                return HttpContext.GetOwinContext().Authentication;
             }
         }
 
@@ -505,9 +512,9 @@ namespace AdmCartorio.Controllers
 
         internal class ChallengeResult : HttpUnauthorizedResult
         {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
+            public ChallengeResult(string provider, string redirectUri): this(provider, redirectUri, null)
             {
+                //
             }
 
             public ChallengeResult(string provider, string redirectUri, string userId)
@@ -554,14 +561,15 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult SignOutClient(int clientId)
         {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            var client = user.Clients.SingleOrDefault(c => c.Id == clientId);
+            var usuario = UserManager.FindById(User.Identity.GetUserId());
+            var client = usuario.Clients.SingleOrDefault(c => c.Id == clientId);
             if (client != null)
             {
-                user.Clients.Remove(client);
+                usuario.Clients.Remove(client);
             }
-            UserManager.Update(user);
+            UserManager.Update(usuario);
             return RedirectToAction("Index", "Home");
         }
+
     }
 }

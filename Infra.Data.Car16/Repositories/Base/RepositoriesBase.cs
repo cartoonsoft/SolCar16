@@ -1,4 +1,5 @@
-﻿using Domain.Core.Interfaces.Data;
+﻿using Domain.Core.Entities.Base;
+using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public abstract class RepositoriesBase
+    public abstract class RepositoriesBase: IRepositoriesBase
     {
         protected readonly IContextCore _context;
 
@@ -19,24 +20,62 @@ namespace Infra.Data.Car16.Repositories.Base
             _context = contextCore;
         }
 
-        public IRepositoryBase<TEntity> GenericRepository<TEntity>() where TEntity : class
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+                GenericRepositories = null;
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~RepositoriesBase() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
+
+        public IRepositoryBase<T> GenericRepository<T>() where T : EntityBase
         {
             this.VerifyContext();
 
-            IRepositoryBase<TEntity> repository = null;
+            IRepositoryBase<T> repository = null;
 
-            if (GenericRepositories.Keys.Contains(typeof(TEntity)))
+            if (GenericRepositories.Keys.Contains(typeof(T)))
             {
-                repository = GenericRepositories[typeof(TEntity)] as IRepositoryBase<TEntity>;
+                repository = GenericRepositories[typeof(T)] as IRepositoryBase<T>;
             }
             else
             {
-                repository = new RepositoryBase<TEntity>(_context);
+                repository = new RepositoryBase<T>(_context);
             }
 
             if (repository != null)
             {
-                GenericRepositories.Add(typeof(TEntity), repository);
+                GenericRepositories.Add(typeof(T), repository);
             }
 
             return repository;

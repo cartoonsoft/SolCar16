@@ -19,11 +19,15 @@ namespace Domain.Core.Entities.Base
     public abstract class EntityBase: IEntity
     {
         private int? _requestedHashCode;
-        private long _Id;
+        private long _Id = 0;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="generateNewId"></param>
         protected EntityBase()
         {
-            //faz nada por enquanto
+
         }
 
         /// <summary>
@@ -35,20 +39,6 @@ namespace Domain.Core.Entities.Base
             {
                 return _Id;
             }
-            set
-            {
-                _Id = value;
-
-                OnSetId();
-            }
-        }
-
-        /// <summary>
-        /// Evento diparado quando um Id é definido
-        /// </summary>
-        protected virtual void OnSetId()
-        {
-
         }
 
         /// <summary>

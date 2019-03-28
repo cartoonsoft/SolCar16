@@ -18,10 +18,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
     {
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
-        
-        private readonly ContextMainCar16 _contextCar16;
         private readonly InfraDataEventLogging _log;
-        private readonly IRepositoriesCar16 _repositoriesCar16;
 
         /// <summary>
         /// Construtor
@@ -32,9 +29,9 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
             //
             string contextName = string.Empty;
 
-            this._contextCar16 = context;
+            this.ContextMainCar16 = context;
 
-            if (_contextCar16 == null)
+            if (ContextMainCar16 == null)
             {
                 switch (baseDados)
                 {
@@ -60,24 +57,47 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                         break;
                 }
 
-                _contextCar16 = new ContextMainCar16(contextName); 
+                this.ContextMainCar16 = new ContextMainCar16(contextName); 
             }
 
-            _repositoriesCar16 = new RepositoriesCar16(_contextCar16);
+            this.Repositories = new RepositoriesCar16(ContextMainCar16);
 
             _log = log;
             
         }
 
-        public IRepositoriesCar16 repositories
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected override void Dispose(bool disposing)
         {
-            get { return _repositoriesCar16; }
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    if (_log != null)
+                    {
+                        //_log.Dispose();
+                    }
+
+                    if (Repositories != null)
+                    {
+                        Repositories.Dispose();
+                    }
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+
+            base.Dispose(disposing);
         }
 
-        public ContextMainCar16 GetContextMainCar16
-        {
-            get { return _contextCar16; }
-        }
+        public IRepositoriesCar16 Repositories { get; private set; }
+
+        public ContextMainCar16 ContextMainCar16 { get; private set; }
 
         public override int? Commit()
         {

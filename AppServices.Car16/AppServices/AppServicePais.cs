@@ -14,13 +14,13 @@ using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServicePais : AppServiceBase<DtoPaisModel, Pais>, IAppServicePais
+    public class AppServicePais : AppServiceCar16<DtoPaisModel, Pais>, IAppServicePais
     {
         private readonly IPaisDomainService paisDomainService = null;
 
-        public AppServicePais(IUnitOfWorkCar16 unitOfWork) : base(unitOfWork)
+        public AppServicePais(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            paisDomainService = new PaisDomainService(unitOfWork);
+            paisDomainService = new PaisDomainService(unitOfWorkCar16);
 
             Type listType = typeof(List<string>);
             List<string> instance = (List<string>)Activator.CreateInstance(listType);
@@ -28,13 +28,11 @@ namespace AppServices.Car16.AppServices
 
         public IEnumerable<DtoPaisModel> BuscarPorNome(string nome)
         {
-
-            
-
             IEnumerable<Pais> listpaizes = paisDomainService.BuscarPorNome(nome);
             IEnumerable<DtoPaisModel> listPaizes = Mapper.Map<IEnumerable<Pais>, IEnumerable<DtoPaisModel>>(listpaizes);
 
             return listPaizes;
         }
+
     }
 }

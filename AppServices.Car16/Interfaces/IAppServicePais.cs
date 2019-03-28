@@ -9,7 +9,7 @@ using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.Interfaces
 {
-    public interface IAppServicePais : IAppServiceBase<DtoPaisModel, Pais>
+    public interface IAppServicePais : IAppServiceCar16<DtoPaisModel, Pais>
     {
         IEnumerable<DtoPaisModel> BuscarPorNome(string nome);
     }

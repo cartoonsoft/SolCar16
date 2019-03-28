@@ -1,9 +1,9 @@
-﻿using IdentitySample.Models;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
@@ -14,21 +14,29 @@ namespace AdmCartorio.Models.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser()
+        private ICollection<Client> clients = new Collection<Client>();
+
+        public ApplicationUser(): base()
         {
-            Clients = new Collection<Client>();
+            //
         }
 
-        public virtual ICollection<Client> Clients { get; set; }
+        public virtual ICollection<Client> Clients
+        {
+            get { return this.clients; }
+            set { clients = value; }
+        }
 
         [NotMapped]
         public string CurrentClientId { get; set; }
+
+        [Display(Name = "Nome")]
+        public override string UserName { get => base.UserName; set => base.UserName = value; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, ClaimsIdentity ext = null)
         {
             // Observe que o authenticationType precisa ser o mesmo que foi definido em CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-
             var claims = new List<Claim>();
 
             if (!string.IsNullOrEmpty(CurrentClientId))
@@ -64,5 +72,6 @@ namespace AdmCartorio.Models.Identity
                 }
             }
         }
+        
     }
 }
