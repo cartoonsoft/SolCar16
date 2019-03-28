@@ -45,7 +45,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaID,
-                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })                          
+                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -76,15 +76,14 @@
                             <button type="button" class="btn btn-default"
                                     data-toggle="modal" data-target="#BuscaModelo"
                                     data-id="1"
-                                    id="modelo" disabled
-                                    >
+                                    id="modelo" disabled>
                                 <i class="glyphicon glyphicon-search"></i>
                                 Buscar Modelo
                             </button>
                         </section>
                     </div>
                     <div class="row">
-                        <section class="col margin-top-10">                            
+                        <section class="col margin-top-10">
                             <label class="col-form-label">Nome</label>
                         </section>
                         <section class="col col-2">
@@ -108,11 +107,12 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloCPF,
-                                    new {@class="form-control", @placeholder="CPF"})
+                                    new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
                             </div>
                         </section>
                         <section class="col col-1">
                             <button id="btnUtilizar"
+                                    type="button"
                                     class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5"
                                     disabled>
                                 <h3>Utilizar</h3>
@@ -125,12 +125,12 @@
 
                     <!-- CK EDITOR-->
                     <br />
-                    <div class="row">
+                    <div class="row" id="ckEditorGrid" hidden>
                         <div class="document-editor">
                             <div class="document-editor__toolbar"></div>
                             <div class="document-editor__editable-container">
                                 <div class="document-editor__editable">
-                                    <p>The initial editor data.</p>
+                                    <p id="paragrafo">texto</p>
                                 </div>
                             </div>
                         </div>
@@ -160,11 +160,10 @@
     }
 </div>
 <!-- Fim Modal Matricula-->
-
 <!-- Modal Modelo-->
 <div class="modal fade" id="BuscaModelo" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-    @{ 
-        Html.RenderPartial("BuscaModelo",Model.ModelosSimplificadoViewModel);
+    @{
+        Html.RenderPartial("BuscaModelo", Model.ModelosSimplificadoViewModel);
     }
 </div>
 <!-- Fim Modal Modelo-->
@@ -206,130 +205,150 @@
         });
     });
 
+    $('#btnUtilizar').on('click', function () {
+        $.ajax({
+            url: '@Url.Action("UsaModeloParaAto", "Matricula")',
+            type: 'POST',
+            success: function (result) {
+                console.log("Deu certo");
+                console.log(result);
 
+                editor.setData(`<p>${result}</p>`);
+
+            },
+            error: function (error) {
+                console.log(error);
+                console.log("Deu erro");
+            }
+        });
+
+        $('#ckEditorGrid').removeAttr('hidden');
+    });
+
+    
 </script>
 <style type="text/css">
-        .document-editor {
-            border: 1px solid var(--ck-color-base-border);
+    .document-editor {
+        border: 1px solid var(--ck-color-base-border);
+        border-radius: var(--ck-border-radius);
+        /* Set vertical boundaries for the document editor. */
+        max-height: 700px;
+        /* This element is a flex container for easier rendering. */
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    .document-editor__toolbar {
+        /* Make sure the toolbar container is always above the editable. */
+        z-index: 1;
+        /* Create the illusion of the toolbar floating over the editable. */
+        box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
+        /* Use the CKEditor CSS variables to keep the UI consistent. */
+        border-bottom: 1px solid var(--ck-color-toolbar-border);
+    }
+
+        /* Adjust the look of the toolbar inside the container. */
+        .document-editor__toolbar .ck-toolbar {
+            border: 0;
+            border-radius: 0;
+        }
+    /* Make the editable container look like the inside of a native word processor application. */
+    .document-editor__editable-container {
+        padding: calc( 2 * var(--ck-spacing-large) );
+        background: var(--ck-color-base-foreground);
+        /* Make it possible to scroll the "page" of the edited content. */
+        overflow-y: scroll;
+        overflow-x: no-display;
+    }
+
+        .document-editor__editable-container .ck-editor__editable {
+            /* Set the dimensions of the "page". */
+            width: 15.8cm;
+            min-height: 21cm;
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 2cm 2cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
             border-radius: var(--ck-border-radius);
-            /* Set vertical boundaries for the document editor. */
-            max-height: 700px;
-            /* This element is a flex container for easier rendering. */
-            display: flex;
-            flex-flow: column nowrap;
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
         }
 
-        .document-editor__toolbar {
-            /* Make sure the toolbar container is always above the editable. */
-            z-index: 1;
-            /* Create the illusion of the toolbar floating over the editable. */
-            box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
-            /* Use the CKEditor CSS variables to keep the UI consistent. */
-            border-bottom: 1px solid var(--ck-color-toolbar-border);
-        }
+    .document-editor .ck-content,
+    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
 
-            /* Adjust the look of the toolbar inside the container. */
-            .document-editor__toolbar .ck-toolbar {
-                border: 0;
-                border-radius: 0;
-            }
-        /* Make the editable container look like the inside of a native word processor application. */
-        .document-editor__editable-container {
-            padding: calc( 2 * var(--ck-spacing-large) );
-            background: var(--ck-color-base-foreground);
-            /* Make it possible to scroll the "page" of the edited content. */
-            overflow-y: scroll;
-            overflow-x: no-display;
-        }
+    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
+        min-width: 6em;
+    }
 
-            .document-editor__editable-container .ck-editor__editable {
-                /* Set the dimensions of the "page". */
-                width: 15.8cm;
-                min-height: 21cm;
-                /* Keep the "page" off the boundaries of the container. */
-                padding: 1cm 2cm 2cm;
-                border: 1px hsl( 0,0%,82.7% ) solid;
-                border-radius: var(--ck-border-radius);
-                background: white;
-                /* The "page" should cast a slight shadow (3D illusion). */
-                box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
-                /* Center the "page". */
-                margin: 0 auto;
-            }
-
-        .document-editor .ck-content,
-        .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-            font: 16px/1.6 "Helvetica Neue", Helvetica, Arial, sans-serif;
-        }
-
-        .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-            line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
-            min-width: 6em;
-        }
-
-        /* Scale down all heading previews because they are way too big to be presented in the UI.
+    /* Scale down all heading previews because they are way too big to be presented in the UI.
     Preserve the relative scale, though. */
-        .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
-            transform: scale(0.8);
-            transform-origin: left;
-        }
+    .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
+        transform: scale(0.8);
+        transform-origin: left;
+    }
 
-        /* Set the styles for "Heading 1". */
-        .document-editor .ck-content h2,
-        .document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
-            font-size: 2.18em;
-            font-weight: normal;
-        }
+    /* Set the styles for "Heading 1". */
+    .document-editor .ck-content h2,
+    .document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
+        font-size: 2.18em;
+        font-weight: normal;
+    }
 
-        .document-editor .ck-content h2 {
-            line-height: 1.37em;
-            padding-top: .342em;
-            margin-bottom: .142em;
-        }
+    .document-editor .ck-content h2 {
+        line-height: 1.37em;
+        padding-top: .342em;
+        margin-bottom: .142em;
+    }
 
-        /* Set the styles for "Heading 2". */
-        .document-editor .ck-content h3,
-        .document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
-            font-size: 1.75em;
-            font-weight: normal;
-            color: hsl( 203, 100%, 50% );
-        }
+    /* Set the styles for "Heading 2". */
+    .document-editor .ck-content h3,
+    .document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
+        font-size: 1.75em;
+        font-weight: normal;
+        color: hsl( 203, 100%, 50% );
+    }
 
-        .document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
-            color: var(--ck-color-list-button-on-text);
-        }
+    .document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
+        color: var(--ck-color-list-button-on-text);
+    }
 
-        /* Set the styles for "Heading 2". */
-        .document-editor .ck-content h3 {
-            line-height: 1.86em;
-            padding-top: .171em;
-            margin-bottom: .357em;
-        }
+    /* Set the styles for "Heading 2". */
+    .document-editor .ck-content h3 {
+        line-height: 1.86em;
+        padding-top: .171em;
+        margin-bottom: .357em;
+    }
 
-        /* Set the styles for "Heading 3". */
-        .document-editor .ck-content h4,
-        .document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
-            font-size: 1.31em;
-            font-weight: bold;
-        }
+    /* Set the styles for "Heading 3". */
+    .document-editor .ck-content h4,
+    .document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
+        font-size: 1.31em;
+        font-weight: bold;
+    }
 
-        .document-editor .ck-content h4 {
-            line-height: 1.24em;
-            padding-top: .286em;
-            margin-bottom: .952em;
-        }
+    .document-editor .ck-content h4 {
+        line-height: 1.24em;
+        padding-top: .286em;
+        margin-bottom: .952em;
+    }
 
-        /* Set the styles for "Paragraph". */
-        .document-editor .ck-content p {
-            font-size: 1em;
-            line-height: 1.63em;
-            padding-top: .5em;
-            margin-bottom: 1.13em;
-        }
+    /* Set the styles for "Paragraph". */
+    .document-editor .ck-content p {
+        font-size: 1em;
+        line-height: 1.63em;
+        padding-top: .5em;
+        margin-bottom: 1.13em;
+    }
 
-        .document-editor .ck-content blockquote {
-            font-family: Georgia, serif;
-            margin-left: calc( 2 * var(--ck-spacing-large) );
-            margin-right: calc( 2 * var(--ck-spacing-large) );
-        }
+    .document-editor .ck-content blockquote {
+        font-family: Georgia, serif;
+        margin-left: calc( 2 * var(--ck-spacing-large) );
+        margin-right: calc( 2 * var(--ck-spacing-large) );
+    }
 </style>

@@ -1,9 +1,13 @@
 ﻿using AdmCartorio.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Xceed.Words.NET;
 
 namespace AdmCartorio.Controllers
 {
@@ -43,7 +47,59 @@ namespace AdmCartorio.Controllers
             };
             return View(dados);
         }
-        
+
+        public string UsaModeloParaAto()
+        {
+            string textoFormatado = null;
+
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/TesteModelo.docx");
+            try
+            {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    DocX docX = DocX.Load(fileStream);
+                    var texto = docX.Text.ToArray();
+
+                    for (int i = 0; i < texto.Length; i++)
+                    {
+                        if (texto[i] == '[')
+                        {
+                            i++;
+                            string nomeCampo = null;
+                            string resultadoQuery = null;
+                            while (texto[i] != ']')
+                            {
+                                nomeCampo += texto[i].ToString().Trim();
+                                i++;
+                                if (i >= texto.Length || texto[i] == '[')
+                                {
+                                    return "Arquivo com campos corrompidos, verifique o modelo";
+                                }
+                            }
+                            //Buscar dado da pessoa aqui
+                            resultadoQuery = "teste query";
+
+                            //atualiza o texto formatado
+                            textoFormatado += resultadoQuery;
+                        }
+                        else
+                        {
+                            textoFormatado += texto[i].ToString();
+                        }
+
+                    }
+                }
+                return textoFormatado;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return "Ocorreu algum erro ao utilizar o modelo";
+            }
+        }
+
+
         public PartialViewResult BuscaMatricula()
         {
             return PartialView();
@@ -53,12 +109,6 @@ namespace AdmCartorio.Controllers
             if (idMatricula.HasValue) { return PartialView(); }
             return PartialView(nameof(BuscaMatricula));
         }
-
-        public JsonResult BuscaMatriculaModal()
-        {
-            return Json(1, JsonRequestBehavior.AllowGet);
-        }
-
 
         // GET: Matricula/Details/5
         public ActionResult Details(int id)

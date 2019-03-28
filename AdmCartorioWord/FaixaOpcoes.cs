@@ -149,22 +149,16 @@ namespace AdmCartorioWord
             if (documentoAtivo == null)
                 return;
 
-            //Cria as variaveis de configuracao do campo
-            //NomeCampo é uma variavel global que se atualiza com o CbCampo
-            object TipoDoCampo = WdTextFormFieldType.wdRegularText;
-            object TextoCampo = $"nome = {nomeCampo}";
-            object Preservar = false;
-
             //Adiciona o campo na lista de campo e na posicao determinada
             FormField input = documentoAtivo.FormFields.Add(posicaoRange,
                 WdFieldType.wdFieldFormTextInput);
 
             // Campo inicialmente vazio, então ele é considerado erro.
+            input.Enabled = false;
             input.Name = nomeCampo;
-            input.TextInput.Default = nomeCampo;
+            input.TextInput.Default = $"[{nomeCampo}]";
             input.HelpText = nomeCampo;
-            input.Result = $" {nomeCampo} ";
-
+            input.Result = $"[{nomeCampo}]";
         }
 
         private void DesbloquearBloquearBotao()

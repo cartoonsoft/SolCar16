@@ -138,13 +138,15 @@ namespace AdmCartorio.Controllers
         // GET: Arquivos/Editar/{ID}
         public ActionResult Editar(int? ID)
         {
-            if(ID.HasValue)
+            if(ID.HasValue && ID > 0)
             {
-                try { 
-                
+                try {
+
                     #region | Busca dos dados do Arquivo |
 
-                    var arquivoViewModel = new ArquivoModeloDocxViewModel()
+                    ArquivoModeloDocxViewModel arquivoViewModel;
+
+                    arquivoViewModel = new ArquivoModeloDocxViewModel()
                     {
                         Id = 1,
                         NomeModelo = "Modelo 1",
@@ -152,6 +154,11 @@ namespace AdmCartorio.Controllers
                         IdTipoAto = 1,
                         
                     };
+
+                    if(arquivoViewModel == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
 
 
                     #endregion
@@ -163,7 +170,7 @@ namespace AdmCartorio.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 }
             }
-            else{
+            else {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
