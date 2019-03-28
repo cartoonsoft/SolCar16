@@ -75,12 +75,10 @@
 <script type="text/javascript">
     function enviarDadosMatricula(objeto) {
         var linha = objeto.closest("tr");
-        debugger;
         var matriculaId = linha.querySelector(".matriculaId");
         var endereco = linha.querySelector(".enderecoImovel");
         var proprietario = linha.querySelector(".nomeProprietario");
 
-        debugger;
         $('#MatriculaID').val(matriculaId.innerText);
         $('#MatriculaEndereco').val(endereco.innerText)
         $('#MatriculaProprietarioAtual').val(proprietario.innerText);

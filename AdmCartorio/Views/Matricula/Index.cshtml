@@ -17,7 +17,7 @@
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
 
         <div class="widget-body no-padding">
-            @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
+            @using (Html.BeginForm("Index", "Matricula", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
             {
                 @Html.AntiForgeryToken()
                 <header>
@@ -101,7 +101,7 @@
                                     new {@class="form-control", @placeholder="Tipo de ato", @disabled = "disabled" })
                             </div>
                         </section>
-                        <section class="col col-2 margin-top-10">
+                        @*<section class="col col-2 margin-top-10">
                             <label class="col-form-label">Utilizar para o CPF</label>
                         </section>
                         <section class="col col-2">
@@ -109,12 +109,12 @@
                                 @Html.TextBoxFor(model => model.ModeloCPF,
                                     new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
                             </div>
-                        </section>
+                        </section>*@
                         <section class="col col-1">
                             <button id="btnUtilizar"
                                     type="button"
                                     class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5"
-                                    disabled>
+                                    >
                                 <h3>Utilizar</h3>
                             </button>
                         </section>
@@ -130,7 +130,7 @@
                             <div class="document-editor__toolbar"></div>
                             <div class="document-editor__editable-container">
                                 <div class="document-editor__editable">
-                                    <p id="paragrafo">texto</p>
+                                    @*<textarea id="paragrafo">texto</textarea>*@
                                 </div>
                             </div>
                         </div>
@@ -140,6 +140,8 @@
 
                 </fieldset>
                 <footer>
+                    @Html.HiddenFor(model => model.Ato)
+
                     <button type="submit" id="upload" class="btn btn-success col-sm-12">
                         <i class="glyphicon glyphicon-upload"></i>
                         Salvar
@@ -205,6 +207,13 @@
         });
     });
 
+    $('#upload').on('click', function () {
+        $('#Ato').val(editor.getData());
+    });
+
+
+
+
     $('#btnUtilizar').on('click', function () {
         $.ajax({
             url: '@Url.Action("UsaModeloParaAto", "Matricula")',
@@ -212,9 +221,7 @@
             success: function (result) {
                 console.log("Deu certo");
                 console.log(result);
-
-                editor.setData(`<p>${result}</p>`);
-
+                editor.setData(result);
             },
             error: function (error) {
                 console.log(error);

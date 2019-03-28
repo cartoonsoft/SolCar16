@@ -54,10 +54,8 @@
     function enviarDados(objeto) {
         var linha = objeto.closest("tr");
         console.log(linha);
-        debugger;
         var modeloNome = linha.querySelector(".nomeModelo");
         var tipoAto = linha.querySelector(".descricaoTipoAto");
-        debugger;
         $('#ModeloNome').val(modeloNome.innerText);
         $('#ModeloTipoAto').val(tipoAto.innerText)
 
