@@ -57,7 +57,9 @@
         var modeloNome = linha.querySelector(".nomeModelo");
         var tipoAto = linha.querySelector(".descricaoTipoAto");
         $('#ModeloNome').val(modeloNome.innerText);
-        $('#ModeloTipoAto').val(tipoAto.innerText)
+        $('#ModeloTipoAto').val(tipoAto.innerText);
+        document.getElementById('ModeloTipoAto').value = tipoAto.innerText;
+
 
         $('#btnUtilizar').removeAttr('disabled');
         $('#BuscaModelo').modal('hide');

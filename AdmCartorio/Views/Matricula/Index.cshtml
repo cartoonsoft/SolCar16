@@ -46,7 +46,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaID,
-                                    new {@class="form-control",@placeholder="Nº da Matricula", @disabled = "disabled" })
+                                    new {@class="form-control",@placeholder="Nº da Matricula", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -55,7 +55,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaEndereco,
-                                    new {@class="form-control",@placeholder="Endereço", @disabled = "disabled" })
+                                    new {@class="form-control",@placeholder="Endereço", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -64,7 +64,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaOutorgante,
-                                    new {@class="form-control",@placeholder= "Outorgante", @disabled = "disabled" })
+                                    new {@class="form-control",@placeholder= "Outorgante", @readonly = "readonly" })
                             </div>
                         </section>
                     </div>
@@ -90,7 +90,7 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloNome,
-                                    new {@class="form-control",@placeholder="Nome", @disabled = "disabled" })
+                                    new {@class="form-control",@placeholder="Nome", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col margin-top-10">
@@ -99,7 +99,7 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloTipoAto,
-                                    new {@class="form-control", @placeholder="Tipo de ato", @disabled = "disabled" })
+                                    new {@class="form-control", @placeholder="Tipo de ato", @readonly = "readonly" })
                             </div>
                         </section>
                         @*<section class="col col-2 margin-top-10">

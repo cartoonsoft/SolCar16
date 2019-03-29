@@ -2,6 +2,7 @@
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -34,13 +35,13 @@ namespace AdmCartorio.Controllers
                     {
                         Id = 1,
                         DescricaoTipoAto = "Ato Inicial",
-                        NomeModelo = "Modelo 1"
+                        NomeModelo = "TesteModelo"
                     },
                     new ArquivoModeloSimplificadoViewModel()
                     {
                         Id = 2,
                         DescricaoTipoAto = "Registro",
-                        NomeModelo = "Modelo 2"
+                        NomeModelo = "testeWord"
                     }
                 };
         }
@@ -72,32 +73,55 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/TesteAto.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx");
 
             try
             {
-                if (modelo.Ato == null) return View(nameof(Index),modelo);
+                if (modelo.Ato == null) {
+                    modelo.MatriculasViewModel = getMatriculaViewModel();
+                    modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                    return View(nameof(Index), modelo);
+                } 
                 //Ajusta a string de ato(HTML) -> ato(String)
                 modelo.Ato = ConvertHtmlToString(modelo.Ato);
 
-
                 if (ModelState.IsValid)
                 {
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite))
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
-
-                        //Pulando linhas por segurança
-                        using (DocX docX = DocX.Load(fileStream))
+                        if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
-                            docX.InsertParagraph();
-                            docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
-                            fileStream.Close();
-                            docX.SaveAs(filePath);
+                            
+                            using (DocX docX = DocX.Create(fileStream, DocumentTypes.Document))
+                            {
+                                docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                                fileStream.Close();
+                                docX.SaveAs(filePath);
+                            }
                         }
+                        else
+                        {
+                            using (DocX docX = DocX.Load(fileStream))
+                            {
+                                var texto = docX.Paragraphs;
+                                foreach (var item in texto)
+                                {
+                                    item.Color(Color.Transparent);
+                                }
 
+                                //docX.InsertParagraph();
+                                //docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                                fileStream.Close();
+                                docX.SaveAs(filePath);
+                            }
+                        }
                         // Gravar no banco o array de bytes
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+                        // Pegar a ultima "versão" do ato
 
+                        // Gravar o ato e buscar o selo e gravar o selo
+
+                        
                     }
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
@@ -227,6 +251,6 @@ namespace AdmCartorio.Controllers
             if (idMatricula.HasValue) { return PartialView(); }
             return PartialView(nameof(BuscaMatricula));
         }
-        
+
     }
 }
