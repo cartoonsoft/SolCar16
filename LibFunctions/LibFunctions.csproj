@@ -48,5 +48,15 @@
     <Compile Include="Functions\StringFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
+      <Project>{07FD67EE-88AB-4D3D-9040-038DFB13D7F3}</Project>
+      <Name>Dto.Car16</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

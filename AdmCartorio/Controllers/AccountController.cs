@@ -38,8 +38,6 @@ namespace AdmCartorio.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
-
-
         }
 
         // Definindo a instancia UserManager presente no request.
@@ -98,12 +96,12 @@ namespace AdmCartorio.Controllers
                 switch (result)
                 {
                     case SignInStatus.Success:
-                        var user = await UserManager.FindAsync(model.Email, model.Password);
-                        if (!user.EmailConfirmed)
+                        //var user = await UserManager.FindAsync(model.Email, model.Password);
+                        if (!usuario.EmailConfirmed)
                         {
                             TempData["AvisoEmail"] = "Usuário não confirmado, verifique seu e-mail.";
                         }
-                        await SignInAsync(user, model.RememberMe);
+                        await SignInAsync(usuario, model.RememberMe);
                         return RedirectToLocal(returnUrl);
                     case SignInStatus.LockedOut:
                         return View("Lockout");

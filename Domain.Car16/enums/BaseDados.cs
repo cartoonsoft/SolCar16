@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infra.Data.Car16.enuns
+namespace Domain.Car16.enums
 {
     public enum BaseDados
     {

@@ -22,12 +22,12 @@ using Oracle.ManagedDataAccess.Types;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : EntityBase
+    public class RepositoryBaseReadWrite<TEntity> : RepositoryBaseRead<TEntity>, IRepositoryBaseReadWrite<TEntity> where TEntity : EntityBase
     {
         private readonly IContextCore _context;
         private readonly IDbSet<TEntity> _dbSet;
 
-        public RepositoryBase(IContextCore context)
+        public RepositoryBaseReadWrite(IContextCore context): base(context)
         {
             _context = context;
             _dbSet = _context.Set<TEntity>();
@@ -36,36 +36,34 @@ namespace Infra.Data.Car16.Repositories.Base
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    // dispose managed state (managed objects).
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
 
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
         // ~RepositoryBase() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
         // }
 
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
+        public override void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
+            base.Dispose();
         }
+
         #endregion
 
         public void Add(TEntity entity)
@@ -76,26 +74,6 @@ namespace Infra.Data.Car16.Repositories.Base
         public void AddRange(IEnumerable<TEntity> itens)
         {
             (_dbSet as DbSet).AddRange(itens);
-        }
-              
-        public IEnumerable<TEntity> GetAll()
-        {
-            List<TEntity> listEntity = null;
-            try
-            {
-                listEntity = _dbSet.ToList();
-            }
-            catch (Exception ex)
-            {
-                var e = ex;
-                throw;
-            }
-            return listEntity;
-        }
-
-        public TEntity GetById(long id)
-        {
-            return _dbSet.Find(id);
         }
 
         public void Remove(long id)
@@ -122,8 +100,9 @@ namespace Infra.Data.Car16.Repositories.Base
 
         public int SaveChanges()
         {
+            int resposta =  _context.SaveChanges();
 
-            throw new NotImplementedException();
+            return resposta;
         }
 
         public void Update(TEntity item)
@@ -139,34 +118,5 @@ namespace Infra.Data.Car16.Repositories.Base
             }
         }
 
-        public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

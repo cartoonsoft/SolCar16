@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Domain.Core.Interfaces.Repositories
 {
-    public interface IRepositoryBase<TEntity> : IDisposable where TEntity : EntityBase
+    public interface IRepositoryBaseReadWrite<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : EntityBase
     {
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> itens);
@@ -27,16 +27,6 @@ namespace Domain.Core.Interfaces.Repositories
         void RemoveRange(IEnumerable<TEntity> itens);
 
         //void Merge(TEntity persisted, TEntity current);
-
-        TEntity GetById(long id);
-
-        IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression);
-        IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification);
-        IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true);
-        IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true);
-        Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true);
-        Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true);
 
     }
 }

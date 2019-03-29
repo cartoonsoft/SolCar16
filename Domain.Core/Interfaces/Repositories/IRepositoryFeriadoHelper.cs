@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Core.Interfaces.Repositories
 {
-    public interface IRepositoryFeriadoHelper: IRepositoryBase<Feriado>
+    public interface IRepositoryFeriadoHelper: IRepositoryBaseReadWrite<Feriado>
     {
         IEnumerable<Feriado> FeriadosDoAno(int Ano);
 

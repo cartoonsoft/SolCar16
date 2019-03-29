@@ -16,7 +16,6 @@ using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {
-   
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -38,17 +37,17 @@ namespace AppServices.Car16.AppServices.Base
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    // dispose managed state (managed objects).
                     _unitOfWork.Dispose();
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
                 disposedValue = true;
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
         // ~AppServiceBase() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
@@ -59,27 +58,27 @@ namespace AppServices.Car16.AppServices.Base
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
+            // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
         #endregion
 
-        public IDomainServiceBase<TEntity> DomainService<TEntity>() where TEntity : EntityBase
+        public IDomainServiceBase<T> DomainService<T>() where T: EntityBase
         {
-            IDomainServiceBase<TEntity> domainService = null;
+            IDomainServiceBase<T> domainService = null;
 
-            if (appDomainServices.Keys.Contains(typeof(TEntity)))
+            if (appDomainServices.Keys.Contains(typeof(T)))
             {
-                domainService = appDomainServices[typeof(TEntity)] as IDomainServiceBase<TEntity>;
+                domainService = appDomainServices[typeof(T)] as IDomainServiceBase<T>;
             }
             else
             {
-                domainService = new DomainServiceBase<TEntity>(_unitOfWork);
+                domainService = new DomainServiceBase<T>(_unitOfWork);
             }
 
             if (domainService != null)
             {
-                appDomainServices.Add(typeof(TEntity), domainService);
+                appDomainServices.Add(typeof(T), domainService);
             }
 
             return domainService;

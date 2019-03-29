@@ -1,15 +1,13 @@
-﻿using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.Data;
-using Domain.Core.Interfaces.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Core.Entities.Base;
+using Domain.Core.Interfaces.Data;
+using Domain.Core.Interfaces.Repositories;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public abstract class RepositoriesBase: IRepositoriesBase
+    public abstract class RepositoriesBase : IRepositoriesBase
     {
         protected readonly IContextCore _context;
 
@@ -30,7 +28,7 @@ namespace Infra.Data.Car16.Repositories.Base
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
-                    
+
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -58,19 +56,19 @@ namespace Infra.Data.Car16.Repositories.Base
         #endregion
 
 
-        public IRepositoryBase<T> GenericRepository<T>() where T : EntityBase
+        public IRepositoryBaseReadWrite<T> GenericRepository<T>() where T : EntityBase
         {
             this.VerifyContext();
 
-            IRepositoryBase<T> repository = null;
+            IRepositoryBaseReadWrite<T> repository = null;
 
             if (GenericRepositories.Keys.Contains(typeof(T)))
             {
-                repository = GenericRepositories[typeof(T)] as IRepositoryBase<T>;
+                repository = GenericRepositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
             }
             else
             {
-                repository = new RepositoryBase<T>(_context);
+                repository = new RepositoryBaseReadWrite<T>(_context);
             }
 
             if (repository != null)

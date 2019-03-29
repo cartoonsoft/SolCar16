@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryUf: IRepositoryBase<Uf>
+    public interface IRepositoryUf: IRepositoryBaseRead<Uf>
     {
 
     }

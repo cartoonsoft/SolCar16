@@ -57,6 +57,7 @@
     <Compile Include="Entities\Pais.cs" />
     <Compile Include="Entities\Pessoa.cs" />
     <Compile Include="Entities\Uf.cs" />
+    <Compile Include="enums\BaseDados.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16.cs" />
     <Compile Include="Interfaces\DomainServices\IUfDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPessoaDomainService.cs" />

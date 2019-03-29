@@ -13,7 +13,7 @@ using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryUf : RepositoryBase<Uf>, IRepositoryUf
+    public class RepositoryUf : RepositoryBaseRead<Uf>, IRepositoryUf
     {
         private readonly ContextMainCar16 _contexRep;
 

@@ -1,16 +1,16 @@
-﻿using Domain.Car16.Interfaces.Repositories;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.enuns;
-using Infra.Data.Car16.Repositories;
-using Infra.Data.Car16.Repositories.Base;
-using Infra.Data.Car16.UnitOfWorkCar16.Base;
-using System;
+﻿using System;
 using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
 using static System.Net.WebRequestMethods;
+using Domain.Car16.enums;
+using Domain.Car16.Interfaces.Repositories;
+using Domain.Car16.Interfaces.UnitOfWork;
+using Infra.Data.Car16.Context;
+using Infra.Data.Car16.Repositories;
+using Infra.Data.Car16.Repositories.Base;
+using Infra.Data.Car16.UnitOfWorkCar16.Base;
 
 namespace Infra.Data.Car16.UnitOfWorkCar16
 {
@@ -74,7 +74,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    // dispose managed state (managed objects).
                     if (_log != null)
                     {
                         //_log.Dispose();
@@ -86,8 +86,8 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                     }
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
 
                 disposedValue = true;
             }

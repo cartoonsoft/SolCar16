@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryMunicipio : IRepositoryBase<Municipio>
+    public interface IRepositoryMunicipio : IRepositoryBaseRead<Municipio>
     {
 
     }

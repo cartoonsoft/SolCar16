@@ -5,18 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppServices.Car16.AppServices;
+using Domain.Car16.Entities;
+using Domain.Car16.enums;
 using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.Context;
-using Infra.Data.Car16.enuns;
 using Infra.Data.Car16.UnitOfWorkCar16;
 
 namespace ConsoleAppTeste
 {
     class Program
     {
-
-
-
         static void Main(string[] args)
         {
 
@@ -38,6 +36,7 @@ namespace ConsoleAppTeste
                         break;
                     case 2:
                         //cancelarAluno(ref codigoAluno, ref nomeAluno);
+                        NovoPais();
                         break;
                     case 9:
                         break;
@@ -53,9 +52,6 @@ namespace ConsoleAppTeste
 
         public static void ListaPaizes()
         {
-
-            ContextMainCar16 context = new ContextMainCar16("connOraDbNew");
-            
 
             Console.Clear();
             Console.WriteLine("----------------------------------------------------------------");
@@ -78,6 +74,27 @@ namespace ConsoleAppTeste
 
             Console.ReadKey();
             Console.Clear();
+
+        }
+
+        public static void NovoPais()
+        {
+            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
+            {
+                using (AppServicePais appService = new AppServicePais(unitOfWork))
+                {
+                    Pais pais = new Pais();
+
+
+                    List<DtoPaisModel> listPaizes = appService.GetAll().ToList<DtoPaisModel>();
+
+                    //foreach (var pais in listPaizes)
+                    //{
+                    //    Console.WriteLine("        {0}           {1}", pais.Id, pais.NomePais);
+                    //}
+                    //Console.WriteLine("----------------------------fim relatório----------------------");
+                }
+            }
 
         }
 

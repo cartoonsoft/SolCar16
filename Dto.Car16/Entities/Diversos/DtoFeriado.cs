@@ -1,26 +1,18 @@
-﻿using System.Linq;
-using System.Text;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Core.Entities.Base;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Domain.Core.enums;
+using Dto.Car16.Entities.Base;
 
-namespace Domain.Core.Entities
+namespace Dto.Car16.Entities.Diversos
 {
-    [Table("TB_FERIADO")]
-    public class Feriado : EntityBase
+    public class DtoFeriado : DtoEntityBaseModel
     {
-        private readonly string _seqName = "SQ_FERIADO";
-
-        public string SeqName
-        {
-            get { return _seqName; }
-        }
-
         [Key]
-        [Column("ID_FERIADO")]
-        public override long Id { get; }
+        public override long Id { get; set; }
 
         public int Ano { get; set; }
 

@@ -36,12 +36,12 @@ namespace Infra.Data.Car16.Repositories
             {
                 if (disposing)
                 {
-                    // TODO: dispose managed state (managed objects).
+                    // dispose managed state (managed objects).
 
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
                 Repositories = null;
 
                 disposedValue = true;
@@ -59,7 +59,7 @@ namespace Infra.Data.Car16.Repositories
             {
                 if (Repositories.Keys.Contains(typeof(T)))
                 {
-                    repository = Repositories[typeof(T)] as IRepositoryBase<T>;
+                    repository = Repositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
                 }
                 else
                 {

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryPessoa: IRepositoryBase<Pessoa>
+    public interface IRepositoryPessoa: IRepositoryBaseReadWrite<Pessoa>
     {
 
         IEnumerable<Pessoa> BuscarPorNome(string nome);

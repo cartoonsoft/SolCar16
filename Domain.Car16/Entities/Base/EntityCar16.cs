@@ -30,8 +30,7 @@ namespace Domain.Car16.Entities.Base
         public EntityCar16(bool generateNewId = false) : base()
         {
             OraSequence oraSequence = (OraSequence)Attribute.GetCustomAttribute(this.GetType(), typeof(OraSequence));
-
-
+            string teste = oraSequence.SequenceName;
 
         }
 

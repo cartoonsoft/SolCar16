@@ -1,12 +1,12 @@
-﻿using AppServices.Car16.AppServices;
-using Dto.Car16.Entities.Cadastros;
-using Infra.Data.Car16.enuns;
-using Infra.Data.Car16.UnitOfWorkCar16;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AppServices.Car16.AppServices;
+using Domain.Car16.enums;
+using Dto.Car16.Entities.Cadastros;
+using Infra.Data.Car16.UnitOfWorkCar16;
 
 namespace ConsoleAppTeste2
 {

@@ -50,11 +50,18 @@
     <Compile Include="Entities\Cadastros\DtoPaisModel.cs" />
     <Compile Include="Entities\Cadastros\DtoPessoaModel.cs" />
     <Compile Include="Entities\Cadastros\DtoUfModel.cs" />
+    <Compile Include="Entities\Diversos\DtoFeriado.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
