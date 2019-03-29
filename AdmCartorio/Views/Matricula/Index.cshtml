@@ -6,6 +6,7 @@
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
+
 <link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -58,12 +59,12 @@
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
-                            <label class="col-form-label">Proprietário</label>
+                            <label class="col-form-label">Outorgante</label>
                         </section>
                         <section class="col col-3">
                             <div>
-                                @Html.TextBoxFor(model => model.MatriculaProprietarioAtual,
-                                    new {@class="form-control",@placeholder="Proprietário", @disabled = "disabled" })
+                                @Html.TextBoxFor(model => model.MatriculaOutorgante,
+                                    new {@class="form-control",@placeholder= "Outorgante", @disabled = "disabled" })
                             </div>
                         </section>
                     </div>
@@ -149,6 +150,8 @@
                 </footer>
 
                 <!-- FIM DADOS MODELO-->
+                @*@Html.HiddenFor(model => model.MatriculasViewModel)*@
+                @*@Html.HiddenFor(model => model.ModelosSimplificadoViewModel)*@
             }
 
         </div>
@@ -175,7 +178,7 @@
         .create(document.querySelector('.document-editor__editable'), {
             cloudServices: {
                 //
-            }
+            }    
         })
         .then(editor => {
             const toolbarContainer = document.querySelector('.document-editor__toolbar');
@@ -210,9 +213,6 @@
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
     });
-
-
-
 
     $('#btnUtilizar').on('click', function () {
         $.ajax({
@@ -299,52 +299,8 @@
         transform: scale(0.8);
         transform-origin: left;
     }
-
-    /* Set the styles for "Heading 1". */
-    .document-editor .ck-content h2,
-    .document-editor .ck-heading-dropdown .ck-heading_heading1 .ck-button__label {
-        font-size: 2.18em;
-        font-weight: normal;
-    }
-
-    .document-editor .ck-content h2 {
-        line-height: 1.37em;
-        padding-top: .342em;
-        margin-bottom: .142em;
-    }
-
-    /* Set the styles for "Heading 2". */
-    .document-editor .ck-content h3,
-    .document-editor .ck-heading-dropdown .ck-heading_heading2 .ck-button__label {
-        font-size: 1.75em;
-        font-weight: normal;
-        color: hsl( 203, 100%, 50% );
-    }
-
-    .document-editor .ck-heading-dropdown .ck-heading_heading2.ck-on .ck-button__label {
-        color: var(--ck-color-list-button-on-text);
-    }
-
-    /* Set the styles for "Heading 2". */
-    .document-editor .ck-content h3 {
-        line-height: 1.86em;
-        padding-top: .171em;
-        margin-bottom: .357em;
-    }
-
-    /* Set the styles for "Heading 3". */
-    .document-editor .ck-content h4,
-    .document-editor .ck-heading-dropdown .ck-heading_heading3 .ck-button__label {
-        font-size: 1.31em;
-        font-weight: bold;
-    }
-
-    .document-editor .ck-content h4 {
-        line-height: 1.24em;
-        padding-top: .286em;
-        margin-bottom: .952em;
-    }
-
+       
+    
     /* Set the styles for "Paragraph". */
     .document-editor .ck-content p {
         font-size: 1em;

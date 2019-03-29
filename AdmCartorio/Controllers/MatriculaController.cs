@@ -20,18 +20,15 @@ namespace AdmCartorio.Controllers
         {
             var dados = new MatriculaAtoViewModel()
             {
-                MatriculasViewModel = new List<MatriculaViewModel>()
-                {
-                    new MatriculaViewModel()
-                    {
-                        EnderecoImovel = "Endereço 1",
-                        MatriculaId = 1,
-                        NomeImovel = "Imovel 1",
-                        NomeProprietarioAtual = "Proprietario 1"
+                MatriculasViewModel = getMatriculaViewModel(),
+                ModelosSimplificadoViewModel = getModeloSimplificadoViewModel()
+            };
+            return View(dados);
+        }
 
-                    }
-                },
-                ModelosSimplificadoViewModel = new List<ArquivoModeloSimplificadoViewModel>()
+        private static List<ArquivoModeloSimplificadoViewModel> getModeloSimplificadoViewModel()
+        {
+            return new List<ArquivoModeloSimplificadoViewModel>()
                 {
                     new ArquivoModeloSimplificadoViewModel()
                     {
@@ -45,19 +42,41 @@ namespace AdmCartorio.Controllers
                         DescricaoTipoAto = "Registro",
                         NomeModelo = "Modelo 2"
                     }
-                }
-            };
-            return View(dados);
+                };
+        }
+
+        private static List<MatriculaViewModel> getMatriculaViewModel()
+        {
+            return new List<MatriculaViewModel>()
+                {
+                    new MatriculaViewModel()
+                    {
+                        EnderecoImovel = "Endereço 1",
+                        MatriculaId = 1,
+                        NomeImovel = "Imovel 1",
+                        NomeProprietarioAtual = "Proprietario 1"
+
+                    },
+                    new MatriculaViewModel()
+                    {
+                        EnderecoImovel = "Endereço 2",
+                        MatriculaId = 2,
+                        NomeImovel = "Imovel 2",
+                        NomeProprietarioAtual = "Proprietario 2"
+
+                    }
+                };
         }
 
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/TesteModelo.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/TesteAto.docx");
 
             try
             {
+                if (modelo.Ato == null) return View(nameof(Index),modelo);
                 //Ajusta a string de ato(HTML) -> ato(String)
                 modelo.Ato = ConvertHtmlToString(modelo.Ato);
 
@@ -68,22 +87,27 @@ namespace AdmCartorio.Controllers
                     {
 
                         //Pulando linhas por segurança
-                        DocX docX = DocX.Load(fileStream);
-                        docX.InsertParagraph();
-                        docX.InsertParagraph().Append(" meu texto").SpacingAfter(5);
-                        fileStream.Close();
-                        docX.SaveAs(filePath);
+                        using (DocX docX = DocX.Load(fileStream))
+                        {
+                            docX.InsertParagraph();
+                            docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                            fileStream.Close();
+                            docX.SaveAs(filePath);
+                        }
 
                         // Gravar no banco o array de bytes
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                     }
                 }
-                return View(nameof(Index));
+                modelo.MatriculasViewModel = getMatriculaViewModel();
+                modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                return View(nameof(Index), modelo);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
             }
         }
@@ -138,50 +162,49 @@ namespace AdmCartorio.Controllers
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
                     //Carrega o Modelo
-                    DocX docX = DocX.Load(fileStream);
-                    //Varre todos os paragrafos do Modelo
-                    foreach (var paragrafo in docX.Paragraphs)
+                    using (DocX docX = DocX.Load(fileStream))
                     {
-
-                        if (paragrafo.Text != "")
+                        //Varre todos os paragrafos do Modelo
+                        foreach (var paragrafo in docX.Paragraphs)
                         {
-                            StringBuilder textoParagrafo = new StringBuilder();
-                            for (int i = 0; i < paragrafo.Text.Length; i++)
+
+                            if (paragrafo.Text != "")
                             {
-                                if (paragrafo.Text[i] == '[')
+                                StringBuilder textoParagrafo = new StringBuilder();
+                                for (int i = 0; i < paragrafo.Text.Length; i++)
                                 {
-                                    i++;
-                                    string nomeCampo = string.Empty;
-                                    string resultadoQuery = string.Empty;
-                                    while (paragrafo.Text[i] != ']')
+                                    if (paragrafo.Text[i] == '[')
                                     {
-                                        nomeCampo += paragrafo.Text[i].ToString().Trim();
                                         i++;
-                                        if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
+                                        string nomeCampo = string.Empty;
+                                        string resultadoQuery = string.Empty;
+                                        while (paragrafo.Text[i] != ']')
                                         {
-                                            return "Arquivo com campos corrompidos, verifique o modelo";
+                                            nomeCampo += paragrafo.Text[i].ToString().Trim();
+                                            i++;
+                                            if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
+                                            {
+                                                return "Arquivo com campos corrompidos, verifique o modelo";
+                                            }
                                         }
+                                        //Buscar dado da pessoa aqui
+                                        resultadoQuery = "teste query";
+
+                                        //atualiza o texto formatado
+                                        textoParagrafo.Append(resultadoQuery);
                                     }
-                                    //Buscar dado da pessoa aqui
-                                    resultadoQuery = "teste query";
+                                    else
+                                    {
+                                        //caso não seja um campo somente adiciona o caractere
+                                        textoParagrafo.Append(paragrafo.Text[i].ToString());
+                                    }
 
-                                    //atualiza o texto formatado
-                                    textoParagrafo.Append(resultadoQuery);
                                 }
-                                else
-                                {
-                                    //caso não seja um campo somente adiciona o caractere
-                                    textoParagrafo.Append(paragrafo.Text[i].ToString());
-                                }
-
+                                // Populando campo de retorno
+                                textoFormatado.Append($"<p>{textoParagrafo}</p>");
                             }
-                            // Populando campo de retorno
-                            textoFormatado.Append($"<p>{textoParagrafo}</p>");
                         }
                     }
-
-
-
                 }
                 return textoFormatado.ToString();
             }
@@ -204,77 +227,6 @@ namespace AdmCartorio.Controllers
             if (idMatricula.HasValue) { return PartialView(); }
             return PartialView(nameof(BuscaMatricula));
         }
-
-        // GET: Matricula/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: Matricula/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Matricula/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Matricula/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: Matricula/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: Matricula/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Matricula/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }
