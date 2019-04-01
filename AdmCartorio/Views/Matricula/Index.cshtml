@@ -12,6 +12,20 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
+@if (ViewBag.sucesso != null)
+{
+    <div class="alert alert-success">
+        <label class="">@ViewBag.sucesso</label>
+    </div>
+}
+@if (ViewBag.erro != null)
+{
+    <div class="alert alert-danger">
+        <label class="">@ViewBag.erro</label>
+    </div>
+}
+
+
 
 
 <article class="col-sm-12 col-md-12 col-lg-9 sortable-grid ui-sortable" id="content">
@@ -103,19 +117,18 @@
                             </div>
                         </section>
                         @*<section class="col col-2 margin-top-10">
-                            <label class="col-form-label">Utilizar para o CPF</label>
-                        </section>
-                        <section class="col col-2">
-                            <div>
-                                @Html.TextBoxFor(model => model.ModeloCPF,
-                                    new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
-                            </div>
-                        </section>*@
+                                <label class="col-form-label">Utilizar para o CPF</label>
+                            </section>
+                            <section class="col col-2">
+                                <div>
+                                    @Html.TextBoxFor(model => model.ModeloCPF,
+                                        new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
+                                </div>
+                            </section>*@
                         <section class="col col-1">
                             <button id="btnUtilizar"
                                     type="button"
-                                    class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5"
-                                    >
+                                    class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5">
                                 <h3>Utilizar</h3>
                             </button>
                         </section>
@@ -143,7 +156,10 @@
                 <footer>
                     @Html.HiddenFor(model => model.Ato)
 
-                    <button type="submit" id="upload" class="btn btn-success col-sm-12">
+                    <button type="submit"
+                            id="upload"
+                            class="btn btn-success col-sm-12"
+                            disabled>
                         <i class="glyphicon glyphicon-upload"></i>
                         Salvar
                     </button>
@@ -178,7 +194,7 @@
         .create(document.querySelector('.document-editor__editable'), {
             cloudServices: {
                 //
-            }    
+            }
         })
         .then(editor => {
             const toolbarContainer = document.querySelector('.document-editor__toolbar');
@@ -215,13 +231,18 @@
     });
 
     $('#btnUtilizar').on('click', function () {
+        var ModeloNome = $('#ModeloNome').val();
         $.ajax({
             url: '@Url.Action("UsaModeloParaAto", "Matricula")',
             type: 'POST',
+            data: {
+                ModeloNome
+            },
             success: function (result) {
                 console.log("Deu certo");
                 console.log(result);
                 editor.setData(result);
+                $('#upload').removeAttr('disabled');
             },
             error: function (error) {
                 console.log(error);
@@ -232,7 +253,7 @@
         $('#ckEditorGrid').removeAttr('hidden');
     });
 
-    
+
 </script>
 <style type="text/css">
     .document-editor {
@@ -299,8 +320,8 @@
         transform: scale(0.8);
         transform-origin: left;
     }
-       
-    
+
+
     /* Set the styles for "Paragraph". */
     .document-editor .ck-content p {
         font-size: 1em;

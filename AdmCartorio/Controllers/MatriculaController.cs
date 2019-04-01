@@ -74,12 +74,12 @@ namespace AdmCartorio.Controllers
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx");
-
             try
             {
                 if (modelo.Ato == null) {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
                     modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                    ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Index), modelo);
                 } 
                 //Ajusta a string de ato(HTML) -> ato(String)
@@ -103,21 +103,21 @@ namespace AdmCartorio.Controllers
                         {
                             using (DocX docX = DocX.Load(fileStream))
                             {
-                                var texto = docX.Paragraphs;
-                                foreach (var item in texto)
-                                {
-                                    item.Color(Color.Transparent);
-                                }
-
-                                //docX.InsertParagraph();
-                                //docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                                //deixa texto transparente
+                                SetTextColorTransparent(docX);
+                                //Espaço de segurança
+                                docX.InsertParagraph();
+                                docX.InsertParagraph();
+                                
+                                //Cadastro do texto e registro do arquivo
+                                docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
                                 fileStream.Close();
                                 docX.SaveAs(filePath);
                             }
                         }
                         // Gravar no banco o array de bytes
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-                        // Pegar a ultima "versão" do ato
+                        // Pegar a ultima "versão" do ato e somar
 
                         // Gravar o ato e buscar o selo e gravar o selo
 
@@ -126,6 +126,8 @@ namespace AdmCartorio.Controllers
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
                 modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                ViewBag.sucesso = "Ato cadastrado com sucesso!";
+
                 return View(nameof(Index), modelo);
             }
             catch (Exception ex)
@@ -133,6 +135,21 @@ namespace AdmCartorio.Controllers
                 Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
+            }
+        }
+
+
+        /// <summary>
+        /// Deixa o texto transparente do arquivo
+        /// </summary>
+        /// <param name="docX">Representa o documento</param>
+        private static void SetTextColorTransparent(DocX docX)
+        {
+            var texto = docX.Paragraphs;
+            foreach (var item in texto)
+            {
+                item.Color(Color.Transparent);
+                item.UnderlineStyle(UnderlineStyle.none);
             }
         }
 
@@ -176,11 +193,11 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto()
+        public string UsaModeloParaAto([Bind(Include ="ModeloNome")]string ModeloNome)
         {
             StringBuilder textoFormatado = new StringBuilder();
 
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/TesteModelo.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/{ModeloNome}.docx");
             try
             {
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -191,7 +208,6 @@ namespace AdmCartorio.Controllers
                         //Varre todos os paragrafos do Modelo
                         foreach (var paragrafo in docX.Paragraphs)
                         {
-
                             if (paragrafo.Text != "")
                             {
                                 StringBuilder textoParagrafo = new StringBuilder();
@@ -235,7 +251,7 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                return "Ocorreu algum erro ao utilizar o modelo";
+                throw new Exception("Ocorreu algum erro ao utilizar o modelo");
             }
         }
 
