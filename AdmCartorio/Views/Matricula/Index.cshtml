@@ -3,11 +3,9 @@
 @{
     ViewBag.Title = "Index";
 }
-<script src="js/jquery-1.11.0.min.js"></script>
-<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+@*<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>*@
 <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
 
-<link rel="stylesheet" href="https://getbootstrap.com/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
@@ -28,7 +26,7 @@
 
 
 
-<article class="col-sm-12 col-md-12 col-lg-9 sortable-grid ui-sortable" id="content">
+<article class="col-sm-12 col-md-12 col-lg-11 sortable-grid ui-sortable" id="content">
     <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
 
         <div class="widget-body no-padding">
@@ -194,11 +192,13 @@
         .create(document.querySelector('.document-editor__editable'), {
             cloudServices: {
                 //
-            }
+            },
+            toolbar: [ 'Underline' ]
         })
         .then(editor => {
             const toolbarContainer = document.querySelector('.document-editor__toolbar');
 
+            
             toolbarContainer.appendChild(editor.ui.view.toolbar.element);
 
             window.editor = editor;
@@ -224,7 +224,10 @@
                 },
             ]
         });
+
+
     });
+
 
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
@@ -243,15 +246,20 @@
                 console.log(result);
                 editor.setData(result);
                 $('#upload').removeAttr('disabled');
+                $('#ckEditorGrid').removeAttr('hidden');
+
             },
             error: function (error) {
                 console.log(error);
                 console.log("Deu erro");
+                alert("Erro, tente novamente!");
             }
         });
 
-        $('#ckEditorGrid').removeAttr('hidden');
     });
+
+
+
 
 
 </script>
@@ -280,18 +288,17 @@
             border: 0;
             border-radius: 0;
         }
-    /* Make the editable container look like the inside of a native word processor application. */
-    .document-editor__editable-container {
-        padding: calc( 2 * var(--ck-spacing-large) );
-        background: var(--ck-color-base-foreground);
-        /* Make it possible to scroll the "page" of the edited content. */
-        overflow-y: scroll;
-        overflow-x: no-display;
-    }
+        /* Make the editable container look like the inside of a native word processor application. */
+        .document-editor__editable-container {
+            padding: calc( 2 * var(--ck-spacing-large) );
+            background: var(--ck-color-base-foreground);
+            /* Make it possible to scroll the "page" of the edited content. */
+            overflow-y: scroll;
+        }
 
         .document-editor__editable-container .ck-editor__editable {
             /* Set the dimensions of the "page". */
-            width: 15.8cm;
+            width: 19.2cm;
             min-height: 21cm;
             /* Keep the "page" off the boundaries of the container. */
             padding: 1cm 2cm 2cm;

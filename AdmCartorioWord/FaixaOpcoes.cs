@@ -120,7 +120,7 @@ namespace AdmCartorioWord
         /// </summary>
         /// <param name="posicao">posicao que inicia o campo</param>
         /// <param name="nomeCampo">Nome que fica no placeholder</param>
-        private static void InserirCampoNoWord(int posicao, string nomeCampo)
+        public static void InserirCampoNoWord(int posicao, string nomeCampo)
         {
 
             Range posicaoRange;

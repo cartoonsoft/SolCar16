@@ -76,6 +76,7 @@ namespace AdmCartorio.Controllers
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx");
             try
             {
+
                 if (modelo.Ato == null) {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
                     modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
@@ -91,28 +92,41 @@ namespace AdmCartorio.Controllers
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
-                            
                             using (DocX docX = DocX.Create(fileStream, DocumentTypes.Document))
                             {
-                                docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                                docX.InsertParagraph().Append(modelo.Ato).Append("pedro").Bold().SpacingAfter(5);
+                                //Espaço de segurança
+                                docX.InsertParagraph();
+                                docX.InsertParagraph().InsertHorizontalLine();
+                                    
+                                
+
                                 fileStream.Close();
                                 docX.SaveAs(filePath);
                             }
                         }
                         else
                         {
+
                             using (DocX docX = DocX.Load(fileStream))
                             {
                                 //deixa texto transparente
                                 SetTextColorTransparent(docX);
-                                //Espaço de segurança
-                                docX.InsertParagraph();
-                                docX.InsertParagraph();
-                                
+
+
                                 //Cadastro do texto e registro do arquivo
                                 docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                                
+                                
+                                //espaço de segurança
+                                docX.InsertParagraph();
+                                docX.InsertParagraph().InsertHorizontalLine();
+
+
+
                                 fileStream.Close();
                                 docX.SaveAs(filePath);
+
                             }
                         }
                         // Gravar no banco o array de bytes
@@ -168,21 +182,10 @@ namespace AdmCartorio.Controllers
 
             foreach (var linhaHtml in documentoHtml.DocumentNode.ChildNodes)
             {
-                switch (linhaHtml.Name)
-                {
-                    case "p":
-                    case "h1":
-                    case "h2":
-                    case "h3":
-                    case "h4":
-                    case "h5":
-                    case "h6":
-                        {
-                            st.Append(linhaHtml.InnerHtml);
-                            st.AppendLine();
-                            break;
-                        }
-                }
+     
+                st.Append(linhaHtml.InnerHtml);
+                st.AppendLine();
+
             }
 
             return st.ToString();
