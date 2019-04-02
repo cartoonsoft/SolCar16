@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AppServices.Car16.Interfaces.Base
 {
-    public interface IAppServiceCar16<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
+    public interface IAppServiceCar16<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
          
     }

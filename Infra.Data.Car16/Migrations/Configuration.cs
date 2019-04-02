@@ -12,7 +12,7 @@ namespace Infra.Data.Car16.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationsEnabled = false;
         }
 
         protected override void Seed(ContextMainCar16 context)

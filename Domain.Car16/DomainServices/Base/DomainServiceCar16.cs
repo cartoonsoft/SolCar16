@@ -10,7 +10,7 @@ using Domain.Core.Entities.Base;
 
 namespace Domain.Car16.DomainServices.Base
 {
-    public class DomainServiceCar16<TEntity> : DomainServiceBase<TEntity>, IDomainServiceCar16<TEntity> where TEntity: EntityBase
+    public class DomainServiceCar16<TEntity> : DomainServiceBase<TEntity>, IDomainServiceCar16<TEntity> where TEntity: class
     {
         private readonly IUnitOfWorkCar16 _unitOfWorkCar16;
 

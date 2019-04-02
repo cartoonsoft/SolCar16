@@ -10,9 +10,9 @@ using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {
-    public class AppServiceCar16<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCar16<TDtoEntityModel, TEntity> where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
+    public class AppServiceCar16<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCar16<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
-        protected readonly IUnitOfWorkCar16 unitOfWorkCar16;
+        protected readonly IUnitOfWorkCar16 _unitOfWorkCar16;
 
         /// <summary>
         /// Método construtor
@@ -20,9 +20,8 @@ namespace AppServices.Car16.AppServices.Base
         /// <param name="unitOfWork"></param>
         public AppServiceCar16(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            this.unitOfWorkCar16 = unitOfWorkCar16;
+            this._unitOfWorkCar16 = unitOfWorkCar16;
         }
-
 
     }
 }

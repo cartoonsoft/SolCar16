@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibFunctions
+namespace Domain.Car16.Entities.Car16
 {
-    public class Class1
+    class Class1
     {
     }
 }

@@ -7,15 +7,14 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public abstract class RepositoriesBase : IRepositoriesBase
+    public class RepositoriesBase : IRepositoriesBase
     {
-        protected readonly IContextCore _context;
-
+        protected readonly IContextCore _contextCore;
         private Dictionary<Type, object> GenericRepositories = new Dictionary<Type, object>();
 
         public RepositoriesBase(IContextCore contextCore)
         {
-            _context = contextCore;
+            _contextCore = contextCore;
         }
 
         #region IDisposable Support
@@ -28,12 +27,16 @@ namespace Infra.Data.Car16.Repositories.Base
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects).
+                    GenericRepositories = null;
+                    if (_contextCore != null)
+                    {
+                        _contextCore.Dispose();
+                    }
 
                 }
 
                 // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // TODO: set large fields to null.
-                GenericRepositories = null;
 
                 disposedValue = true;
             }
@@ -56,7 +59,7 @@ namespace Infra.Data.Car16.Repositories.Base
         #endregion
 
 
-        public IRepositoryBaseReadWrite<T> GenericRepository<T>() where T : EntityBase
+        public IRepositoryBaseReadWrite<T> GenericRepository<T>() where T : class
         {
             this.VerifyContext();
 
@@ -68,7 +71,7 @@ namespace Infra.Data.Car16.Repositories.Base
             }
             else
             {
-                repository = new RepositoryBaseReadWrite<T>(_context);
+                repository = new RepositoryBaseReadWrite<T>(_contextCore);
             }
 
             if (repository != null)
@@ -81,7 +84,7 @@ namespace Infra.Data.Car16.Repositories.Base
 
         protected void VerifyContext()
         {
-            if (_context == null)
+            if (_contextCore == null)
             {
                 throw new ArgumentNullException("Contexto é nulo. verificar!");
             }

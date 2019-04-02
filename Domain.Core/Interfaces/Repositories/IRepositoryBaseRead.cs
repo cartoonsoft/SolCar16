@@ -15,11 +15,12 @@ using System.Text;
 
 namespace Domain.Core.Interfaces.Repositories
 {
-    public interface IRepositoryBaseRead<TEntity> : IDisposable where TEntity : EntityBase
+    public interface IRepositoryBaseRead<TEntity> : IDisposable where TEntity : class
     {
         //void Merge(TEntity persisted, TEntity current);
 
         TEntity GetById(long id);
+        TEntity GetById(params object[] keyValues);
         IEnumerable<TEntity> GetAll();
         IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression);
         IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification);

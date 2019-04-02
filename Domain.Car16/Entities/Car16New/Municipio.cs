@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_MUNICIPIO")]
     public class Municipio : EntityBase
     {
         [Key]
         [Column("ID_MUNICIPIO")]
-        public override long Id { get; }
+        public override long Id { get; set; }
 
         [Column("ID_UF")]
         public long IdUf { get; set; }

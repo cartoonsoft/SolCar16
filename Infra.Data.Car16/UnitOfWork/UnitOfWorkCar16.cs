@@ -3,10 +3,10 @@ using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
-using static System.Net.WebRequestMethods;
 using Domain.Car16.enums;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Car16.Interfaces.UnitOfWork;
+using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories;
 using Infra.Data.Car16.Repositories.Base;
@@ -19,6 +19,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
         private readonly InfraDataEventLogging _log;
+        private readonly IRepositoriesCar16 _repositoriesCar16;
 
         /// <summary>
         /// Construtor
@@ -57,10 +58,12 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                         break;
                 }
 
-                this.ContextMainCar16 = new ContextMainCar16(contextName); 
+                this.ContextMainCar16 = new ContextMainCar16(contextName);
+                this.ContextCore = this.ContextMainCar16;
             }
 
-            this.Repositories = new RepositoriesCar16(ContextMainCar16);
+            _repositoriesCar16  = new RepositoriesCar16(ContextMainCar16);
+            base.Repositories = _repositoriesCar16;
 
             _log = log;
             
@@ -95,8 +98,11 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
             base.Dispose(disposing);
         }
 
-        public IRepositoriesCar16 Repositories { get; private set; }
+        public new IRepositoriesCar16 Repositories
+        {
+            get { return _repositoriesCar16; }
 
+        }
         public ContextMainCar16 ContextMainCar16 { get; private set; }
 
         public override int? Commit()

@@ -1,0 +1,65 @@
+﻿@using Domain.Car16.Entities.Car16;
+
+@model IEnumerable<Matricula>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ENTRADA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SAIDA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MOTIVO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RESPONSAVEL)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HORAENTRADA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HORASAIDA)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ENTRADA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SAIDA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MOTIVO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RESPONSAVEL)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HORAENTRADA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HORASAIDA)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

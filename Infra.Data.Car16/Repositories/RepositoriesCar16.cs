@@ -1,4 +1,5 @@
 ﻿using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.Data;
@@ -16,6 +17,7 @@ namespace Infra.Data.Car16.Repositories
 {
     class RepositoriesCar16 : RepositoriesBase, IRepositoriesCar16
     {
+        private readonly ContextMainCar16 _context;
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
@@ -25,7 +27,7 @@ namespace Infra.Data.Car16.Repositories
         public RepositoriesCar16(ContextMainCar16 context): base(context)
         {
             //
-            
+            this._context = context;
         }
 
         private bool disposedValue = false; // To detect redundant calls
@@ -37,7 +39,11 @@ namespace Infra.Data.Car16.Repositories
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-
+                    Repositories = null;
+                    if (_context != null)
+                    {
+                        _context.Dispose();
+                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -50,7 +56,7 @@ namespace Infra.Data.Car16.Repositories
             base.Dispose(disposing);
         }
 
-        private Object GetRepositoryInstance<T>() where T: EntityBase
+        private Object GetRepositoryInstance<T>() where T: class
         {
             this.VerifyContext();
             Object repository = null;
@@ -65,16 +71,16 @@ namespace Infra.Data.Car16.Repositories
                 {
                     if (typeof(T).Equals(typeof(Pais)))
                     {
-                        repository = new RepositoryPais(this._context as ContextMainCar16);
+                        repository = new RepositoryPais(this._context);
                     }
 
                     if (typeof(T).Equals(typeof(Uf)))
                     {
-                        repository = new RepositoryUf(this._context as ContextMainCar16);
+                        repository = new RepositoryUf(this._context);
                     }
                     if (typeof(T).Equals(typeof(Municipio)))
                     {
-                        repository = new RepositoryMunicipio(this._context as ContextMainCar16);
+                        repository = new RepositoryMunicipio(this._context);
                     }
 
                 }

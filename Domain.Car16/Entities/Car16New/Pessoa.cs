@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 
-namespace Domain.Car16.Entities
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_PESSOA")]
     public class Pessoa : AuditedEntity
     {
         [Key]
         [Column("ID_PESSOA")]
-        public override long Id { get; }
+        public override long Id { get; set; }
 
         [Column("CODIGO")]
         [StringLength(20)]

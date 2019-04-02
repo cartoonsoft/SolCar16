@@ -22,15 +22,11 @@ using Oracle.ManagedDataAccess.Types;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public class RepositoryBaseReadWrite<TEntity> : RepositoryBaseRead<TEntity>, IRepositoryBaseReadWrite<TEntity> where TEntity : EntityBase
+    public class RepositoryBaseReadWrite<TEntity> : RepositoryBaseRead<TEntity>, IRepositoryBaseReadWrite<TEntity> where TEntity : class
     {
-        private readonly IContextCore _context;
-        private readonly IDbSet<TEntity> _dbSet;
-
         public RepositoryBaseReadWrite(IContextCore context): base(context)
         {
-            _context = context;
-            _dbSet = _context.Set<TEntity>();
+            //
         }
 
         #region IDisposable Support
@@ -68,17 +64,18 @@ namespace Infra.Data.Car16.Repositories.Base
 
         public void Add(TEntity entity)
         {
-            _dbSet.Add(entity);
+            //todo: ronaldo incrementar Id
+            this.DbSet.Add(entity);
         }
 
         public void AddRange(IEnumerable<TEntity> itens)
         {
-            (_dbSet as DbSet).AddRange(itens);
+            (this.DbSet as DbSet).AddRange(itens);
         }
 
         public void Remove(long id)
         {
-            var item = _dbSet.Find(id);
+            var item = this.DbSet.Find(id);
             if (item != null)
             {
                 this.Remove(item);
@@ -87,20 +84,20 @@ namespace Infra.Data.Car16.Repositories.Base
 
         public void Remove(TEntity item)
         {
-            if (_dbSet.Find(item) != null)
+            if (this.DbSet.Find(item) != null)
             {
-                _dbSet.Remove(item);
+                this.DbSet.Remove(item);
             }
         }
 
         public void RemoveRange(IEnumerable<TEntity> itens)
         {
-            (_dbSet as DbSet).RemoveRange(itens);
+            (this.DbSet as DbSet).RemoveRange(itens);
         }
 
         public int SaveChanges()
         {
-            int resposta =  _context.SaveChanges();
+            int resposta =  this.Context.SaveChanges();
 
             return resposta;
         }
@@ -109,11 +106,11 @@ namespace Infra.Data.Car16.Repositories.Base
         {
             if (item != null)
             {
-                var entry = _dbSet.Find(item);
+                var entry = this.DbSet.Find(item);
                 if ( entry != null)
                 {
-                    _dbSet.Attach(item);
-                    _context.Entry(item).State = EntityState.Modified;
+                    this.DbSet.Attach(item);
+                    this.Context.Entry(item).State = EntityState.Modified;
                 }
             }
         }

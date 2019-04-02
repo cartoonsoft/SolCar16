@@ -1,0 +1,67 @@
+﻿@using Domain.Car16.Entities.Car16;
+@model Matricula
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>MATRICULA</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ENTRADA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ENTRADA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SAIDA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SAIDA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOTIVO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOTIVO)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RESPONSAVEL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RESPONSAVEL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HORAENTRADA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HORAENTRADA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HORASAIDA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HORASAIDA)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

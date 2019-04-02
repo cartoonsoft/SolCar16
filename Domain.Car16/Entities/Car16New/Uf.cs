@@ -7,14 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 
-namespace Domain.Car16.Entities
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_UF")]
     public class Uf : EntityBase
     {
         [Key]
         [Column("ID_UF")]
-        public override long Id { get; }
+        public override long Id { get; set; }
 
         [Column("ID_PAIS")]
         public int IdPais { get; set; }

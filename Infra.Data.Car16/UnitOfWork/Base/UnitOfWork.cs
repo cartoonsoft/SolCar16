@@ -22,16 +22,23 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly IContextCore _contextCore;
-        protected DbContextTransaction  transaction = null;
+        private IContextCore contextCore;
+        protected DbContextTransaction transaction = null;
 
         /// <summary>
         /// Método construtor
         /// </summary>
         public UnitOfWork(IContextCore contextCore)
         {
-            _contextCore = contextCore;
+            this.contextCore = contextCore;
             transaction = null;
+
+        }
+
+        protected IContextCore ContextCore
+        {
+            get { return contextCore;}
+            set { contextCore = value; }
         }
 
         #region IDisposable Support
@@ -49,9 +56,11 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
                         transaction.Dispose();
                     }
 
-                    if (_contextCore != null)
+                    Repositories = null;
+
+                    if (this.contextCore != null)
                     {
-                        _contextCore.Dispose();
+                        this.contextCore.Dispose();
                     }
                 }
 
@@ -78,13 +87,13 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
         }
         #endregion
 
-        public IRepositoriesBase repositoriesBase => throw new NotImplementedException();
+        public virtual IRepositoriesBase Repositories { get; set; }
 
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {
             if (this.transaction == null)
             {
-                this.transaction = this._contextCore.Database.BeginTransaction(pIsolationLevel);
+                this.transaction = this.contextCore.Database.BeginTransaction(pIsolationLevel);
             }
             //disposed = false;
         }
@@ -99,7 +108,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
             try
             {
-                resposta = this._contextCore.SaveChanges();
+                resposta = this.contextCore.SaveChanges();
                 this.CommitTransaction();
                 return resposta;
             }
@@ -155,7 +164,6 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             //todo: implementar savelog
             //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
-
 
     }
 }

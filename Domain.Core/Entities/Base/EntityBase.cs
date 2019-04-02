@@ -35,10 +35,8 @@ namespace Domain.Core.Entities.Base
         /// </summary>
         public virtual long Id
         {
-            get
-            {
-                return _Id;
-            }
+            get { return _Id; }
+            set { _Id = value; }
         }
 
         /// <summary>

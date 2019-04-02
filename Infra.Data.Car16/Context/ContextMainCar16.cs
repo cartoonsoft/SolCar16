@@ -5,24 +5,31 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
 using Infra.Data.Car16.Context.Base;
 
 namespace Infra.Data.Car16.Context
 {
+    /// <summary>
+    /// context para Car16 New
+    /// </summary>
     public class ContextMainCar16: ContextOraBase
     {
+
+        DbSet<Pais> DbPais { get; set; }
+
         public ContextMainCar16(string connName) : base(connName)
         {
-            //this.Database.
-            //
+            Database.SetInitializer<ContextMainCar16>(null);
         }
-        public DbSet<Pais> PaisDb { get; set; }
         
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new ClienteConfig());
             //modelBuilder.Configurations.Add(new EnderecoConfig());
+            //modelBuilder.Entity<Matricula>().ToTable("MATRICULAS");
+            //modelBuilder.Ignore<Matricula>();
 
             base.OnModelCreating(modelBuilder);
         }

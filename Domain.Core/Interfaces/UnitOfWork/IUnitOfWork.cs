@@ -20,8 +20,10 @@ namespace Domain.Core.Interfaces.UnitOfWork
 {
     public interface IUnitOfWork: IDisposable
     {
-        IRepositoriesBase repositoriesBase {
+        IRepositoriesBase Repositories
+        {
             get;
+            set;
         }
         int? Commit();
         void BeginTransaction(IsolationLevel pIsolationLevel);

@@ -11,7 +11,7 @@ using Domain.Core.Interfaces.UnitOfWork;
 
 namespace Domain.Core.DomainServices.Base
 {
-    public class DomainServiceBase<TEntity> : IDomainServiceBase<TEntity> where TEntity : EntityBase
+    public class DomainServiceBase<TEntity> : IDomainServiceBase<TEntity> where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -57,78 +57,79 @@ namespace Domain.Core.DomainServices.Base
 
         public void Add(TEntity item)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().Add(item);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().Add(item);
         }
 
         public void AddRange(IEnumerable<TEntity> itens)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().AddRange(itens);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().AddRange(itens);
         }
 
         public IEnumerable<TEntity> GetAll()
         {
-            IEnumerable<TEntity> listEntity = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetAll();
+            //ronaldo verificar 
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetAll();
             return listEntity;
         }
 
         public TEntity GetById(long id)
         {
-            return _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetById(id);
+            return _unitOfWork.Repositories.GenericRepository<TEntity>().GetById(id);
         }
 
         public void Update(TEntity item)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().Update(item);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().Update(item);
         }
 
         public void Remove(long id)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().Remove(id);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().Remove(id);
         }
 
         public void Remove(TEntity item)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().Remove(item);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().Remove(item);
         }
 
         public void RemoveRange(IEnumerable<TEntity> itens)
         {
-            _unitOfWork.repositoriesBase.GenericRepository<TEntity>().RemoveRange(itens);
+            _unitOfWork.Repositories.GenericRepository<TEntity>().RemoveRange(itens);
         }
 
         public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> listEntity = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhere(expression);
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhere(expression);
             return listEntity;
         }
 
         public IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification)
         {
-            IEnumerable<TEntity> listEntity = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhere(specification);
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhere(specification);
             return listEntity;
         }
 
         public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending= true)
         {
-            IEnumerable<TEntity> listEntity = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
             return listEntity;
         }
 
         public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntity = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending = true);
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending = true);
             return listEntity;
         }
 
         public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            Paged<TEntity> pagedTmp = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending = true);
+            Paged<TEntity> pagedTmp = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending = true);
             return pagedTmp;
         }
 
         public Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true)
         {
-            Paged<TEntity> pagedTmp = _unitOfWork.repositoriesBase.GenericRepository<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, expression, fieldSort, ascending);
+            Paged<TEntity> pagedTmp = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, expression, fieldSort, ascending);
             return pagedTmp;
         }
 

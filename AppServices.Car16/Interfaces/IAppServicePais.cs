@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16New;
 using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.Interfaces

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.DomainServices.Base;
-using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.DomainServices;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Car16.Interfaces.UnitOfWork;

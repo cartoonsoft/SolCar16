@@ -16,7 +16,7 @@ using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {
-    public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : DtoEntityBaseModel where TEntity : EntityBase
+    public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -38,7 +38,10 @@ namespace AppServices.Car16.AppServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    _unitOfWork.Dispose();
+                    if (_unitOfWork != null)
+                    {
+                        _unitOfWork.Dispose();
+                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -63,8 +66,13 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-        public IDomainServiceBase<T> DomainService<T>() where T: EntityBase
+        public IDomainServiceBase<T> DomainService<T>() where T: class
         {
+            if (_unitOfWork == null)
+            {
+                throw new NullReferenceException("unit of work não foi isntanciado!");
+            }
+
             IDomainServiceBase<T> domainService = null;
 
             if (appDomainServices.Keys.Contains(typeof(T)))
@@ -156,16 +164,26 @@ namespace AppServices.Car16.AppServices.Base
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            throw new NotImplementedException();
+            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            return listDto;
         }
 
         public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
+            //Paged<TDtoEntityModel> paged = new Paged<TDtoEntityModel>();
+            //this.DomainService<TEntity>().GetWhereOrderByPaged<TEntity>
+            //IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
+            //IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            //return listDto;
             throw new NotImplementedException();
         }
 
         public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true)
         {
+            //IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
+            //IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
+            //return listDto;
             throw new NotImplementedException();
         }
 

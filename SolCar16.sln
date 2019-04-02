@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{D28CA6EB-6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibFunctions", "LibFunctions\LibFunctions.csproj", "{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infra.Cross.Ioc", "Infra.Cross.Ioc\Infra.Cross.Ioc.csproj", "{8D640C84-8708-4D6A-818D-0AAF95AEE1B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D640C84-8708-4D6A-818D-0AAF95AEE1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D640C84-8708-4D6A-818D-0AAF95AEE1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D640C84-8708-4D6A-818D-0AAF95AEE1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D640C84-8708-4D6A-818D-0AAF95AEE1B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -137,6 +143,7 @@ Global
 		{1895D9A7-8673-44E4-81CE-D4BA48A66C03} = {F3B737E5-4237-41A9-B243-DEDB3B7E0ED5}
 		{D28CA6EB-6A2D-4D7F-BE86-19AC54B1FB73} = {69AA352E-2665-49EB-927D-0E4A843052AD}
 		{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE} = {D28CA6EB-6A2D-4D7F-BE86-19AC54B1FB73}
+		{8D640C84-8708-4D6A-818D-0AAF95AEE1B1} = {7EFE034A-C1C3-4065-93E6-7806FB65AD49}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4F5A36D4-9F3F-4E2B-AF4A-2828D7D92CE9}

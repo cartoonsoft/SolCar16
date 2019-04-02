@@ -1,21 +1,18 @@
-﻿using System;
+﻿using Domain.Core.Entities.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Car16.Entities.Base;
 
-namespace Domain.Car16.Entities
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_PAIS")]
-    [OraSequence("SQ_PAI")]
-    public class Pais : EntityCar16
+    public class Pais : EntityBase
     {
         [Key]
         [Column("ID_PAIS")]
-        public override long Id { get; }
+        public override long Id { get; set; }
 
         [Column("COD_IBGE")]
         public string CodIbge { get; set; }

@@ -21,7 +21,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public class RepositoryBaseRead<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : EntityBase
+    public class RepositoryBaseRead<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : class
     {
         private readonly IContextCore _context;
         private readonly IDbSet<TEntity> _dbSet;
@@ -66,7 +66,18 @@ namespace Infra.Data.Car16.Repositories.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
-              
+
+        protected IContextCore Context
+        {
+            get { return _context;}
+
+        }
+
+        protected IDbSet<TEntity> DbSet  
+        {
+            get { return _dbSet; }
+        }
+
         public IEnumerable<TEntity> GetAll()
         {
             List<TEntity> listEntity = null;
@@ -82,10 +93,26 @@ namespace Infra.Data.Car16.Repositories.Base
             return listEntity;
         }
 
+        /// <summary>
+        /// Bucar por chave primaria (long id) padrao no modelo novo
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public TEntity GetById(long id)
         {
             return _dbSet.Find(id);
         }
+
+        /// <summary>
+        /// Buscar por qq tipo de chave primária e chave composta
+        /// </summary>
+        /// <param name="keyValues"></param>
+        /// <returns></returns>
+        public TEntity GetById(params object[] keyValues)
+        {
+            return _dbSet.Find(keyValues);
+        }
+
 
         public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
         {

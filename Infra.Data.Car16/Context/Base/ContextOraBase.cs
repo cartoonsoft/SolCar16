@@ -7,8 +7,6 @@
  \____/\__,_|_|   \__\___/ \___/|_| |_\____/ \___/|_|  \__|
 Todos os direitos reservados ®                       
 -----------------------------------------------------------------------------*/
-using Domain.Core.Interfaces.Data;
-using Oracle.ManagedDataAccess.Client;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -20,6 +18,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Oracle.ManagedDataAccess.Client;
+using Domain.Core.Interfaces.Data;
 
 namespace Infra.Data.Car16.Context.Base
 {
@@ -52,33 +52,34 @@ namespace Infra.Data.Car16.Context.Base
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
-            modelBuilder
-                .Properties()
-                .Where(p => p.PropertyType.Name == "String")
-                .Configure(p => p.HasMaxLength(200));
-
-
-            if (this.Database.Connection is OracleConnection)
-            {
-                modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
-                modelBuilder.Properties<string>()
-                    .Configure(p => p.HasColumnType("VARCHAR2"));
-            }
-            else if (this.Database.Connection is SqlConnection)
-            {
-                modelBuilder.HasDefaultSchema("dbo");
-            }
-
-            // General Custom Context Properties
-            modelBuilder.Properties()
-                .Where(p => p.Name == "Id")
-                .Configure(p => p.IsKey());
-
+            //modelBuilder.Properties()
+            //    .Where(p => p.Name == "Id")
+            //    .Configure(p => p.IsKey());
 
             modelBuilder.Properties<string>()
                 .Configure(p => p.HasMaxLength(100));
 
-            base.OnModelCreating(modelBuilder);
+            if (this.Database.Connection is OracleConnection)
+            {
+                if (_contexName == "contextOraDevCartorioNew")
+                {
+                    modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
+                }
+                else if (_contexName == "contextOraDevCartorioNew")
+                {
+                    modelBuilder.HasDefaultSchema("DEZESSEIS");
+                }
+            }
+
+            //    modelBuilder.Properties<string>()
+                //        .Configure(p => p.HasColumnType("VARCHAR2"));
+                //}
+                //else if (this.Database.Connection is SqlConnection)
+                //{
+                //    modelBuilder.HasDefaultSchema("dbo");
+                //}
+
+                base.OnModelCreating(modelBuilder);
         }
 
         /// <summary>

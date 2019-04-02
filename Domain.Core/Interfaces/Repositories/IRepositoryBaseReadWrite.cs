@@ -15,7 +15,7 @@ using System.Text;
 
 namespace Domain.Core.Interfaces.Repositories
 {
-    public interface IRepositoryBaseReadWrite<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : EntityBase
+    public interface IRepositoryBaseReadWrite<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : class
     {
         void Add(TEntity item);
         void AddRange(IEnumerable<TEntity> itens);

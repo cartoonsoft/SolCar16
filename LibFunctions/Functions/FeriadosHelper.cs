@@ -82,7 +82,6 @@ namespace LibFunctions.Functions
             return DataPascoa.AddDays(+60);
         }
 
-
         /// <summary>
         /// Inicializa a classe feriados com o ano corrente
         /// </summary>

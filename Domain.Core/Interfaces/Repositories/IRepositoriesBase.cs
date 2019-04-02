@@ -9,7 +9,7 @@ namespace Domain.Core.Interfaces.Repositories
 {
     public interface IRepositoriesBase: IDisposable
     {
-        IRepositoryBaseReadWrite<TEntity> GenericRepository<TEntity>() where TEntity : EntityBase;
+        IRepositoryBaseReadWrite<TEntity> GenericRepository<TEntity>() where TEntity : class;
 
     }
 }
