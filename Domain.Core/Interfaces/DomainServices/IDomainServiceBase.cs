@@ -16,7 +16,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Core.Interfaces.DomainServices.Base
+namespace Domain.Core.Interfaces.DomainServices
 {
 
     public interface IDomainServiceBase<TEntity>: IDisposable where TEntity : class
@@ -33,6 +33,7 @@ namespace Domain.Core.Interfaces.DomainServices.Base
         //void Merge(TEntity persisted, TEntity current);
 
         TEntity GetById(long id);
+        TEntity GetById(params object[] keyValues);
 
         IEnumerable<TEntity> GetAll();
 

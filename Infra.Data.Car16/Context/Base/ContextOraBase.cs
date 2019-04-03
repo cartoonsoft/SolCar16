@@ -65,7 +65,7 @@ namespace Infra.Data.Car16.Context.Base
                 {
                     modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
                 }
-                else if (_contexName == "contextOraDevCartorioNew")
+                else if (_contexName == "contextOraDevCartorio")
                 {
                     modelBuilder.HasDefaultSchema("DEZESSEIS");
                 }

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.DomainServices.Base;
+using Domain.Core.Interfaces.DomainServices;
 
 namespace Domain.Car16.Interfaces.DomainServices
 {
-    public interface IUfDomainService : IDomainServiceCar16<Uf>
+    public interface IMunicipioDomainService : IDomainServiceCar16<Municipio>
     {
 
     }

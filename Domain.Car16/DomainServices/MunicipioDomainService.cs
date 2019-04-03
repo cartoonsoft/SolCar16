@@ -11,16 +11,14 @@ using Domain.Car16.Interfaces.UnitOfWork;
 
 namespace Domain.Car16.DomainServices
 {
-    public class PessoaDomainService : DomainServiceCar16<Pessoa>, IPessoaDomainService
+    public class MunicipioDomainService : DomainServiceCar16<Municipio> , IMunicipioDomainService
     {
-        private readonly IRepositoryPessoa _repositoryPessoa;
 
-        public PessoaDomainService(IUnitOfWorkCar16 unitOfWorkCar16): base(unitOfWorkCar16)
+        private readonly IRepositoryUf _repositoryUf;
+
+        public MunicipioDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            //todo: ronaldo fazer
-
-            _repositoryPessoa = null; // this.UnitOfWorkCar16.Repositories.RepositoryPessoa;
-
+            _repositoryUf = this.UnitOfWorkCar16.Repositories.RepositoryUf;
         }
 
     }

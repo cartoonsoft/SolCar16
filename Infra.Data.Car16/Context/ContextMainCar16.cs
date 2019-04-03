@@ -16,8 +16,16 @@ namespace Infra.Data.Car16.Context
     /// </summary>
     public class ContextMainCar16: ContextOraBase
     {
-
+        /// <summary>
+        /// Base de dados: dezesseis_new 
+        /// </summary>
         DbSet<Pais> DbPais { get; set; }
+
+        /// <summary>
+        /// Base de dados: dezesseis
+        /// </summary>
+        /// <param name="connName"></param>
+        DbSet<Matricula> DbMatricula { get; set; }
 
         public ContextMainCar16(string connName) : base(connName)
         {

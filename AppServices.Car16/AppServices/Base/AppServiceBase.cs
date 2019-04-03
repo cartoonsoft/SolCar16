@@ -6,21 +6,16 @@ using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using AppServices.Car16.Interfaces.Base;
-using Domain.Core.DomainServices.Base;
 using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.DomainServices.Base;
-using Domain.Core.Interfaces.Entities;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
-using Dto.Car16.Entities.Base;
+using Domain.Core.Interfaces.DomainServices;
 
 namespace AppServices.Car16.AppServices.Base
 {
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
-
-        protected Dictionary<Type, object> appDomainServices = new Dictionary<Type, object>();
 
         public AppServiceBase(IUnitOfWork unitOfWork)
         {
@@ -66,48 +61,36 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-        public IDomainServiceBase<T> DomainService<T>() where T: class
-        {
-            if (_unitOfWork == null)
-            {
-                throw new NullReferenceException("unit of work não foi isntanciado!");
-            }
-
-            IDomainServiceBase<T> domainService = null;
-
-            if (appDomainServices.Keys.Contains(typeof(T)))
-            {
-                domainService = appDomainServices[typeof(T)] as IDomainServiceBase<T>;
-            }
-            else
-            {
-                domainService = new DomainServiceBase<T>(_unitOfWork);
-            }
-
-            if (domainService != null)
-            {
-                appDomainServices.Add(typeof(T), domainService);
-            }
-
-            return domainService;
-        }
+        public virtual IDomainServicesFactoryBase DomainServices { get; set; }
 
         public virtual void Add(TDtoEntityModel dtoItem)
         {
             //var config = new MapperConfiguration(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
-            this.DomainService<TEntity>().Add(entityTmp);
+            this.DomainServices.GenericDomainService<TEntity>().Add(entityTmp);
         }
 
         public virtual void AddRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.DomainService<TEntity>().AddRange(listEntities);
+            this.DomainServices.GenericDomainService<TEntity>().AddRange(listEntities);
+        }
+        public virtual TDtoEntityModel GetById(long id)
+        {
+            TEntity entityTmp = this.DomainServices.GenericDomainService<TEntity>().GetById(id);
+            TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
+            return dtoEntityTmp;
+        }
+        public TDtoEntityModel GetById(params object[] keyValues)
+        {
+            TEntity entityTmp = this.DomainServices.GenericDomainService<TEntity>().GetById(keyValues);
+            TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
+            return dtoEntityTmp;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetAll()
         {
-            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetAll();
+            IEnumerable<TEntity> listEntities = this.DomainServices.GenericDomainService<TEntity>().GetAll();
             IEnumerable<TDtoEntityModel> listDtoEntities = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDtoEntities;
         }
@@ -119,52 +102,45 @@ namespace AppServices.Car16.AppServices.Base
 
         public virtual void Remove(long id)
         {
-            this.DomainService<TEntity>().Remove(id);
+            this.DomainServices.GenericDomainService<TEntity>().Remove(id);
         }
 
         public virtual void Remove(TDtoEntityModel dtoitem)
         {
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoitem);
-            this.DomainService<TEntity>().Remove(entityTmp);
+            this.DomainServices.GenericDomainService<TEntity>().Remove(entityTmp);
         }
 
         public virtual void RemoveRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.DomainService<TEntity>().RemoveRange(listEntities);
-        }
-
-        public virtual TDtoEntityModel GetById(long id)
-        {
-            TEntity entityTmp = this.DomainService<TEntity>().GetById(id);
-            TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
-            return dtoEntityTmp;
+            this.DomainServices.GenericDomainService<TEntity>().RemoveRange(listEntities);
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhere(expression);
+            IEnumerable<TEntity> listEntities = this.DomainServices.GenericDomainService<TEntity>().GetWhere(expression);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(ISpecification<TEntity> specification)
         {
-            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhere(specification);
+            IEnumerable<TEntity> listEntities = this.DomainServices.GenericDomainService<TEntity>().GetWhere(specification);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntities = this.DomainServices.GenericDomainService<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntities = this.DomainServices.GenericDomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }

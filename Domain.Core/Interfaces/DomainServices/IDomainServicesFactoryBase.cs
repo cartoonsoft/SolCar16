@@ -9,24 +9,17 @@ Todos os direitos reservados ®
 -----------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Core.Interfaces.Repositories;
+using Domain.Core.Entities.Base;
+using Domain.Core.Interfaces.DomainServices;
 
-namespace Domain.Core.Interfaces.UnitOfWork
+namespace Domain.Core.Interfaces.DomainServices
 {
-    public interface IUnitOfWork: IDisposable
+    public interface IDomainServicesFactoryBase: IDisposable
     {
-        IRepositoriesFactoryBase Repositories
-        {
-            get;
-            set;
-        }
-        int? Commit();
-        void BeginTransaction(IsolationLevel pIsolationLevel);
-        void RollBack();
+        IDomainServiceBase<TEntity> GenericDomainService<TEntity>() where TEntity : class;
+
     }
 }

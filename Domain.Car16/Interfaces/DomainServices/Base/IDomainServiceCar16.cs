@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.DomainServices.Base;
+using Domain.Core.Interfaces.DomainServices;
 
 namespace Domain.Car16.Interfaces.DomainServices.Base
 {

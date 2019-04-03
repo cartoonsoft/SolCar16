@@ -35,12 +35,6 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
         }
 
-        protected IContextCore ContextCore
-        {
-            get { return contextCore;}
-            set { contextCore = value; }
-        }
-
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
@@ -87,7 +81,16 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
         }
         #endregion
 
-        public virtual IRepositoriesBase Repositories { get; set; }
+        protected IContextCore ContextCore
+        {
+            get { return contextCore; }
+            set { contextCore = value; }
+        }
+
+        /// <summary>
+        /// Repositories factory
+        /// </summary>
+        public virtual IRepositoriesFactoryBase Repositories { get; set; }
 
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {

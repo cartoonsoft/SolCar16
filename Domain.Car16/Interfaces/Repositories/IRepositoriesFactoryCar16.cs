@@ -7,7 +7,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoriesCar16: IRepositoriesBase
+    public interface IRepositoriesFactoryCar16: IRepositoriesFactoryBase
     {
         IRepositoryPais RepositoryPais {
             get;

@@ -48,17 +48,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DomainServices\Base\DomainServiceBase.cs" />
+    <Compile Include="DomainServices\DomainServiceBase.cs" />
+    <Compile Include="DomainServices\DomainServicesFactoryBase.cs" />
     <Compile Include="Entities\Base\AuditedEntity.cs" />
     <Compile Include="Entities\Base\EntityBase.cs" />
     <Compile Include="Entities\Base\Paged.cs" />
     <Compile Include="Entities\Base\SynchronizableEntity.cs" />
     <Compile Include="enums\TiposFeriado.cs" />
     <Compile Include="Interfaces\Data\IContextCore.cs" />
-    <Compile Include="Interfaces\DomainServices\Base\IDomainServiceBase.cs" />
+    <Compile Include="Interfaces\DomainServices\IDomainServiceBase.cs" />
     <Compile Include="Entities\Feriado.cs" />
+    <Compile Include="Interfaces\DomainServices\IDomainServicesFactoryBase.cs" />
     <Compile Include="Interfaces\Entities\IEntity.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoriesBase.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoriesFactoryBase.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBaseReadWrite.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBaseRead.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />

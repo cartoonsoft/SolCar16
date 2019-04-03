@@ -7,12 +7,12 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
-    public class RepositoriesBase : IRepositoriesBase
+    public class RepositoriesFactoryBase : IRepositoriesFactoryBase
     {
         protected readonly IContextCore _contextCore;
         private Dictionary<Type, object> GenericRepositories = new Dictionary<Type, object>();
 
-        public RepositoriesBase(IContextCore contextCore)
+        public RepositoriesFactoryBase(IContextCore contextCore)
         {
             _contextCore = contextCore;
         }
@@ -57,7 +57,6 @@ namespace Infra.Data.Car16.Repositories.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
-
 
         public IRepositoryBaseReadWrite<T> GenericRepository<T>() where T : class
         {

@@ -1,15 +1,23 @@
-﻿using System;
+﻿/*----------------------------------------------------------------------------
+  _____            _                    _____        __ _   
+/  __ \          | |                  /  ___|      / _| |  
+| /  \/ __ _ _ __| |_ ___   ___  _ __ \ `--.  ___ | |_| |_ 
+| |    / _` | '__| __/ _ \ / _ \| '_ \ `--. \/ _ \|  _| __|
+| \__/\ (_| | |  | || (_) | (_) | | | /\__/ / (_) | | | |_ 
+ \____/\__,_|_|   \__\___/ \___/|_| |_\____/ \___/|_|  \__|
+Todos os direitos reservados ®                       
+-----------------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.DomainServices.Base;
-using Domain.Core.Interfaces.Repositories;
+using Domain.Core.Interfaces.DomainServices;
 using Domain.Core.Interfaces.UnitOfWork;
 
-namespace Domain.Core.DomainServices.Base
+namespace Domain.Core.DomainServices
 {
     public class DomainServiceBase<TEntity> : IDomainServiceBase<TEntity> where TEntity : class
     {
@@ -30,6 +38,10 @@ namespace Domain.Core.DomainServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
+                    if(_unitOfWork != null)
+                    {
+                        _unitOfWork.Dispose();
+                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -65,16 +77,21 @@ namespace Domain.Core.DomainServices.Base
             _unitOfWork.Repositories.GenericRepository<TEntity>().AddRange(itens);
         }
 
-        public IEnumerable<TEntity> GetAll()
-        {
-            //ronaldo verificar 
-            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetAll();
-            return listEntity;
-        }
-
         public TEntity GetById(long id)
         {
             return _unitOfWork.Repositories.GenericRepository<TEntity>().GetById(id);
+        }
+
+        public TEntity GetById(params object[] keyValues)
+        {
+            return _unitOfWork.Repositories.GenericRepository<TEntity>().GetById(keyValues);
+        }
+
+        public IEnumerable<TEntity> GetAll()
+        {
+            //todo: ronaldo verificar 
+            IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetAll();
+            return listEntity;
         }
 
         public void Update(TEntity item)
@@ -103,7 +120,7 @@ namespace Domain.Core.DomainServices.Base
             return listEntity;
         }
 
-        public IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification)
+        public IEnumerable<TEntity> GetWhere(Interfaces.Repositories.ISpecification<TEntity> specification)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhere(specification);
             return listEntity;
@@ -115,13 +132,13 @@ namespace Domain.Core.DomainServices.Base
             return listEntity;
         }
 
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Interfaces.Repositories.ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending = true);
             return listEntity;
         }
 
-        public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, Interfaces.Repositories.ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             Paged<TEntity> pagedTmp = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending = true);
             return pagedTmp;

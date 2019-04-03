@@ -42,6 +42,10 @@ namespace Infra.Data.Car16.Repositories.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
+                    if (_context != null)
+                    {
+                        _context.Dispose();
+                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.

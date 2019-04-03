@@ -1,19 +1,24 @@
-﻿using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.DomainServices.Base;
-using Domain.Core.Interfaces.Repositories;
-using Domain.Core.Interfaces.UnitOfWork;
-using Dto.Car16.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core.Entities.Base;
+using Domain.Core.Interfaces.DomainServices;
+using Domain.Core.Interfaces.Repositories;
 
 namespace AppServices.Car16.Interfaces.Base
 {
     public interface IAppServiceBase <TDtoEntityModel, TEntity>: IDisposable where TDtoEntityModel : class where TEntity : class
     {
+        //ronaldo arrumar
+        IDomainServicesFactoryBase DomainServices
+        {
+            get;
+            set;
+        }
+
         void Add(TDtoEntityModel dtoItem);
         void AddRange(IEnumerable<TDtoEntityModel> dtoItens);
 
@@ -25,9 +30,8 @@ namespace AppServices.Car16.Interfaces.Base
 
         //void Merge(TEntity persisted, TEntity current);
 
-        IDomainServiceBase<T> DomainService<T>() where T: class;
-
         TDtoEntityModel GetById(long id);
+        TDtoEntityModel GetById(params object[] keyValues);
         IEnumerable<TDtoEntityModel> GetAll();
         IEnumerable<TDtoEntityModel> GetWhere(Expression<Func<TEntity, bool>> expression);
         IEnumerable<TDtoEntityModel> GetWhere(ISpecification<TEntity> specification);

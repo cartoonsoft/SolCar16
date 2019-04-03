@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories
 {
-    class RepositoriesCar16 : RepositoriesBase, IRepositoriesCar16
+    public class RepositoriesFactoryCar16 : RepositoriesFactoryBase, IRepositoriesFactoryCar16
     {
         private readonly ContextMainCar16 _context;
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
@@ -24,7 +24,7 @@ namespace Infra.Data.Car16.Repositories
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public RepositoriesCar16(ContextMainCar16 context): base(context)
+        public RepositoriesFactoryCar16(ContextMainCar16 context): base(context)
         {
             //
             this._context = context;
@@ -93,7 +93,6 @@ namespace Infra.Data.Car16.Repositories
                 {
                     throw new NullReferenceException("repositório é nulo!");
                 }
-
             }
             catch (Exception ex)
             {
@@ -102,7 +101,6 @@ namespace Infra.Data.Car16.Repositories
 
             return repository; // new TRepository();
         }
-
 
         public IRepositoryPais RepositoryPais
         {

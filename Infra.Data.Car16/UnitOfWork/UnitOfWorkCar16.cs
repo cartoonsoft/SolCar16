@@ -6,7 +6,6 @@ using System.Web.Configuration;
 using Domain.Car16.enums;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories;
 using Infra.Data.Car16.Repositories.Base;
@@ -19,7 +18,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
         private readonly InfraDataEventLogging _log;
-        private readonly IRepositoriesCar16 _repositoriesCar16;
+        private readonly IRepositoriesFactoryCar16 _repositoriesCar16;
 
         /// <summary>
         /// Construtor
@@ -59,16 +58,15 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                 }
 
                 this.ContextMainCar16 = new ContextMainCar16(contextName);
-                this.ContextCore = this.ContextMainCar16;
+                base.ContextCore = this.ContextMainCar16;
             }
 
-            _repositoriesCar16  = new RepositoriesCar16(ContextMainCar16);
+            _repositoriesCar16  = new RepositoriesFactoryCar16(ContextMainCar16);
             base.Repositories = _repositoriesCar16;
-
             _log = log;
-            
         }
 
+        #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected override void Dispose(bool disposing)
@@ -83,27 +81,42 @@ namespace Infra.Data.Car16.UnitOfWorkCar16
                         //_log.Dispose();
                     }
 
-                    if (Repositories != null)
+                    if (this._repositoriesCar16 != null)
                     {
-                        Repositories.Dispose();
+                        this._repositoriesCar16.Dispose();
+                    }
+
+                    if(this.ContextMainCar16 != null)
+                    {
+                        ContextMainCar16.Dispose();
                     }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
-
                 disposedValue = true;
             }
 
             base.Dispose(disposing);
         }
 
-        public new IRepositoriesCar16 Repositories
+        public new void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
+
+        public ContextMainCar16 ContextMainCar16 { get; private set; }
+
+        public new IRepositoriesFactoryCar16 Repositories
         {
             get { return _repositoriesCar16; }
 
         }
-        public ContextMainCar16 ContextMainCar16 { get; private set; }
 
         public override int? Commit()
         {
