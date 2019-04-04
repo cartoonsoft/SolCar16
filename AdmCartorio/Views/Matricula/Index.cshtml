@@ -193,7 +193,7 @@
             cloudServices: {
                 //
             },
-            toolbar: [ 'Underline' ]
+            toolbar: []
         })
         .then(editor => {
             const toolbarContainer = document.querySelector('.document-editor__toolbar');
@@ -231,6 +231,23 @@
 
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
+        //var textoHtml = editor.getData();
+        //var str = new String(textoHtml.replace("<p>","").replace("</p>",""));
+        //var strHtml;
+        //var tamanhoStr = str.length;
+        //var tamanhoStrAux = 0;
+
+        //console.log(str);
+        //while (tamanhoStr >= 98) {
+        //    strHtml += "<p>" + str.substr(tamanhoStrAux, 98) + "</p>";
+        //    tamanhoStr -= 98;
+        //    tamanhoStrAux += 98;
+        //    debugger;
+        //}
+        //debugger;
+        //strHtml += "<p>" + str.substr(tamanhoStrAux, tamanhoStr) + "</p>";
+        //debugger;
+
     });
 
     $('#btnUtilizar').on('click', function () {
@@ -298,7 +315,7 @@
 
         .document-editor__editable-container .ck-editor__editable {
             /* Set the dimensions of the "page". */
-            width: 19.2cm;
+            width: 21.0cm;
             min-height: 21cm;
             /* Keep the "page" off the boundaries of the container. */
             padding: 1cm 2cm 2cm;

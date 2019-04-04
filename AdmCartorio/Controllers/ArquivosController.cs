@@ -74,7 +74,7 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Cadastrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar(ArquivoModeloDocxViewModel arquivoModel)
+        public ActionResult Cadastrar([Bind(Include = "NomeModelo,IdTipoAto,Files,LogArquivoModeloDocxViewModel")]ArquivoModeloDocxViewModel arquivoModel)
         {
             try
             {

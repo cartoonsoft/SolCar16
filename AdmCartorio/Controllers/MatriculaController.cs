@@ -94,12 +94,19 @@ namespace AdmCartorio.Controllers
                         {
                             using (DocX docX = DocX.Create(fileStream, DocumentTypes.Document))
                             {
-                                docX.InsertParagraph().Append(modelo.Ato).Append("pedro").Bold().SpacingAfter(5);
+                                docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+
+                                //docX.InsertParagraph().InsertText(modelo.Ato);
+
                                 //Espaço de segurança
                                 docX.InsertParagraph();
                                 docX.InsertParagraph().InsertHorizontalLine();
-                                    
                                 
+                                //docX.InsertParagraph().InsertPageNumber(PageNumberFormat.normal);
+
+                                //docX.Sections.First().InsertParagraph().AppendPageNumber(PageNumberFormat.normal);
+
+                                //docX.InsertParagraph().AppendPageNumber(PageNumberFormat.normal);
 
                                 fileStream.Close();
                                 docX.SaveAs(filePath);
@@ -107,26 +114,32 @@ namespace AdmCartorio.Controllers
                         }
                         else
                         {
+                            //var array = Encoding.GetEncoding("UTF-8").GetBytes(modelo.Ato);
+
+                            //fileStream.Write(array, 0, array.Length);
+                            //fileStream.Flush();
+                            //fileStream.Close();
+                            //fileStream.Dispose();
 
                             using (DocX docX = DocX.Load(fileStream))
                             {
                                 //deixa texto transparente
-                                SetTextColorTransparent(docX);
-
+                                //SetTextColorTransparent(docX);
 
                                 //Cadastro do texto e registro do arquivo
                                 docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
-                                
-                                
+
+
                                 //espaço de segurança
                                 docX.InsertParagraph();
                                 docX.InsertParagraph().InsertHorizontalLine();
 
-
+                                //docX.InsertTable(1,1)
 
                                 fileStream.Close();
+                                //docX.Save();
                                 docX.SaveAs(filePath);
-
+                                //docX.Dispose();
                             }
                         }
                         // Gravar no banco o array de bytes
