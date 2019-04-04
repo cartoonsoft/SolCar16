@@ -9,7 +9,7 @@ using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.AutoMapper
 {
-    public class DtoModelToDomainMappingProfile : Profile
+    public class DtoModelToDomainMappingProfile: Profile
     {
         public DtoModelToDomainMappingProfile()
         {

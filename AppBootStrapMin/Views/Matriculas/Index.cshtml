@@ -1,4 +1,4 @@
-﻿@using Domain.Car16.Entities.Car16;
+﻿@using Domain.Car16.Entities.Car16
 
 @model IEnumerable<Matricula>
 
@@ -11,55 +11,111 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ENTRADA)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SAIDA)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MOTIVO)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RESPONSAVEL)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HORAENTRADA)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.HORASAIDA)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ENTRADA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SAIDA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MOTIVO)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RESPONSAVEL)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HORAENTRADA)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.HORASAIDA)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+<table id="tblMatriculas" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ENTRADA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SAIDA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MOTIVO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RESPONSAVEL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HORAENTRADA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HORASAIDA)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ENTRADA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SAIDA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOTIVO)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RESPONSAVEL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HORAENTRADA)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HORASAIDA)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { NUMERO = item.NUMERO, SEQINC = item.SEQINC }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+@section scripts {
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+            $("#tblMatriculas").DataTable(
+            {
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "searching": false,
+                "language": {
+                    "decimal": ",",
+                    "thousands": ".",
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "zeroRecords": "Pesquis não retornou nenhum dado",
+                    "info": "Mostrado página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Sem registros disponíveis",
+                    "infoFiltered": "(Filtrado de _MAX_ )",
+                    "paginate": {
+                        "previous": "Anterior",
+                        "next": "Próxima",
+                    }
+                }
+            });
+
+            // Add event listener for opening and closing details
+            //$('#tblExemplo_01 tbody').on('click', 'td.details-control', function () {
+            //    var tr = $(this).closest('tr');
+            //    var row = table.row(tr);
+
+            //    if (row.child.isShown()) {
+            //        // This row is already open - close it
+            //        row.child.hide();
+            //        tr.removeClass('shown');
+            //    }
+            //    else {
+            //        // Open this row
+            //        row.child(format(row.data())).show();
+            //        tr.addClass('shown');
+            //    }
+            //});
+
+
+        });
+
+    </script>
+
+}
+

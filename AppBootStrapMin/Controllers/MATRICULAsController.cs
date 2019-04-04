@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Car16;
 using Domain.Car16.Interfaces.UnitOfWork;
 
@@ -13,29 +14,32 @@ namespace AppBootStrapMin.Controllers
 {
     public class MatriculasController : Controller
     {
-        private readonly IUnitOfWorkCar16 _unitOfWorkCar16; 
+        private readonly IUnitOfWorkCar16 _unitOfWorkCar16;
+        private readonly IAppServicePais _appServicePais;
 
-        public MatriculasController(IUnitOfWorkCar16 unitOfWorkCar16)
+        public MatriculasController(IUnitOfWorkCar16 unitOfWorkCar16, IAppServicePais appServicePais)
         {
-            _unitOfWorkCar16 = unitOfWorkCar16;
+            this._unitOfWorkCar16 = unitOfWorkCar16;
+            this._appServicePais = appServicePais;
         }
 
         // GET: Matriculas
         public ActionResult Index()
         {
-            var Matriculas = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetAll();
+            List<Matricula> Matriculas = this._unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetAll().Take(100).ToList();
+            //var Matriculas = _appServicePais.GetAll().ToList();
 
             return View(Matriculas);
         }
 
         // GET: Matriculas/Details/5
-        public ActionResult Details(long? id)
+        public ActionResult Details(long? NUMERO, long? SEQINC)
         {
-            if (id == null)
+            if ((NUMERO == null) || (SEQINC == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(id??0);
+            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(new Object[] { NUMERO, SEQINC });
 
             if (matricula == null)
             {
@@ -68,14 +72,14 @@ namespace AppBootStrapMin.Controllers
         }
 
         // GET: Matriculas/Edit/5
-        public ActionResult Edit(long? id)
+        public ActionResult Edit(long? NUMERO, long? SEQINC)
         {
-            if (id == null)
+            if ((NUMERO == null) || (SEQINC == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(id??0);
+            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(new Object[] { NUMERO, SEQINC } );
             if (matricula == null)
             {
                 return HttpNotFound();
@@ -100,14 +104,14 @@ namespace AppBootStrapMin.Controllers
         }
 
         // GET: Matriculas/Delete/5
-        public ActionResult Delete(long? id)
+        public ActionResult Delete(long? NUMERO, long? SEQINC)
         {
-            if (id == null)
+            if ((NUMERO == null) || (SEQINC == null))
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(id??0);
+            Matricula matricula = _unitOfWorkCar16.Repositories.GenericRepository<Matricula>().GetById(new Object[] { NUMERO, SEQINC });
             if (matricula == null)
             {
                 return HttpNotFound();

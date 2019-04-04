@@ -6,6 +6,11 @@
     <title>@ViewBag.Title - App Cartoon Soft</title>
 
     @Styles.Render("~/Content/css")
+
+    @Styles.Render("~/Content/DataTables/jqueryDataTables")
+    @Styles.Render("~/Content/DataTables/buttonsDataTables")
+    @Styles.Render("~/Content/DataTables/autoFillDataTables")
+    @Styles.Render("~/Content/DataTables/responsiveDataTables")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -19,10 +24,10 @@
             </div>
             <ul class="list-unstyled components">
                 <li class="active"><a href="#">Home</a></li>
-                <li >
+                <li>
                     <a href="#cadastrosSubmenu" data-toggle="collapse" aria-expanded="false">Cadastros</a>
                     <ul class="collapse list-unstyled" id="cadastrosSubmenu">
-                        <li><a href="#">Paizes</a></li>
+                        <li><a href="@Url.Action("index", "Matriculas")"><i class="glyphicon glyphicon-plus"></i> Matriculas</a></a></li>
                         <li><a href="#">teste 2</a></li>
                         <li><a href="#">teste 3</a></li>
                     </ul>
@@ -76,12 +81,13 @@
         </div>
     </div>
 
-
-
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+    @Scripts.Render("~/bundles/DataTables/jqueryDataTables")
+    @Scripts.Render("~/bundles/DataTables/buttonsDataTables")
+    @Scripts.Render("~/bundles/DataTables/autoFillDataTables")
+    @Scripts.Render("~/bundles/DataTables/responsiveDataTables")
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -90,20 +96,19 @@
                 $('#sidebar').toggleClass('active');
             });
 
-            $("#sidebar").mCustomScrollbar({
-                theme: "minimal"
-            });
+            //$("#sidebar").customScrollbar({
+            //    theme: "minimal"
+            //});
 
             // when opening the sidebar
             $('#sidebarCollapse').on('click', function () {
                 // open sidebar
-                $('#sidebar').addClass('active');
+                //$('#sidebar').addClass('active');
                 // fade in the overlay
-                $('.overlay').fadeIn();
-                $('.collapse.in').toggleClass('in');
-                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                //$('.overlay').fadeIn();
+                //$('.collapse.in').toggleClass('in');
+                //$('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
-
 
             // if dismiss or overlay was clicked
             $('#dismiss, .overlay').on('click', function () {
@@ -115,6 +120,8 @@
 
         });
     </script>
+
+    @RenderSection("scripts", required: false)
 
 </body>
 </html>

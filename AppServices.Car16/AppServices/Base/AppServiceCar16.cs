@@ -72,7 +72,6 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-
         public new IDomainServicesFactoryCar16 DomainServices
         {
             get { return _domainServicesFactoryCar16; }

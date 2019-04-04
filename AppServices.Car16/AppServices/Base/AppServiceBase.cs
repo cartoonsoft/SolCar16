@@ -20,7 +20,9 @@ namespace AppServices.Car16.AppServices.Base
         public AppServiceBase(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            Mapper.Initialize(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
+
+            //todo: ronaldo verificar automapper
+            //   Mapper.Initialize(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
         }
 
         #region IDisposable Support
