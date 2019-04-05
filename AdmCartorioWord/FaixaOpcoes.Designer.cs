@@ -35,59 +35,20 @@
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
-            this.GerenciarCamposGroup = this.Factory.CreateRibbonGroup();
-            this.CbNatureza = this.Factory.CreateRibbonComboBox();
-            this.CbCampo = this.Factory.CreateRibbonComboBox();
-            this.BtnAdicionar = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
-            this.GerenciarCamposGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
             // 
-            this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.GerenciarCamposGroup);
             this.tab1.Label = "Adm Cartório";
             this.tab1.Name = "tab1";
-            // 
-            // GerenciarCamposGroup
-            // 
-            this.GerenciarCamposGroup.Items.Add(this.CbNatureza);
-            this.GerenciarCamposGroup.Items.Add(this.CbCampo);
-            this.GerenciarCamposGroup.Items.Add(this.BtnAdicionar);
-            this.GerenciarCamposGroup.Label = "Gerenciador de campos";
-            this.GerenciarCamposGroup.Name = "GerenciarCamposGroup";
-            // 
-            // CbNatureza
-            // 
-            this.CbNatureza.Label = "Natureza";
-            this.CbNatureza.MaxLength = 100;
-            this.CbNatureza.Name = "CbNatureza";
-            this.CbNatureza.Text = "Selecione";
-            this.CbNatureza.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CbNatureza_TextChanged);
-            // 
-            // CbCampo
-            // 
-            this.CbCampo.Label = "Campo";
-            this.CbCampo.Name = "CbCampo";
-            this.CbCampo.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CbCampo_TextChanged);
-            // 
-            // BtnAdicionar
-            // 
-            this.BtnAdicionar.Label = "Adicionar";
-            this.BtnAdicionar.Name = "BtnAdicionar";
-            this.BtnAdicionar.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.BtnAdicionar_Click);
             // 
             // FaixaOpcoes
             // 
             this.Name = "FaixaOpcoes";
-            this.RibbonType = "Microsoft.Word.Document";
-            this.Tabs.Add(this.tab1);
-            this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.FaixaOpcoes_Load);
+            this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.FaixaOpcoes_Load_1);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.GerenciarCamposGroup.ResumeLayout(false);
-            this.GerenciarCamposGroup.PerformLayout();
             this.ResumeLayout(false);
 
         }

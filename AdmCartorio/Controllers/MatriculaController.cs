@@ -1,5 +1,7 @@
 ﻿using AdmCartorio.Models;
 using HtmlAgilityPack;
+using Microsoft.Office.Core;
+using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -77,21 +79,51 @@ namespace AdmCartorio.Controllers
             try
             {
 
-                if (modelo.Ato == null) {
+                if (modelo.Ato == null)
+                {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
                     modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Index), modelo);
-                } 
+                }
                 //Ajusta a string de ato(HTML) -> ato(String)
                 modelo.Ato = ConvertHtmlToString(modelo.Ato);
 
                 if (ModelState.IsValid)
                 {
+
+
                     using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
+                            var app = new Application();
+                            app.Visible = true;
+                            var doc = app.Documents.Add();
+                            //var numeroPagina = doc.PageSetup.LineNumbering;
+                            doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS";
+                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo");
+                            doc.Paragraphs.SpaceAfter = 0;
+
+                            var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+
+                            #region | Configurando Shape | 
+                            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
+                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
+                            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+                            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+                            //shapes[shapes.Count].Left = 200;
+                            //shapes[shapes.Count].Top = 50;
+                            #endregion
+
+
+
+                            doc.Save();
+
+
+
+
+#if false
                             using (DocX docX = DocX.Create(fileStream, DocumentTypes.Document))
                             {
                                 docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
@@ -111,44 +143,47 @@ namespace AdmCartorio.Controllers
                                 fileStream.Close();
                                 docX.SaveAs(filePath);
                             }
+#endif
                         }
                         else
                         {
-                            //var array = Encoding.GetEncoding("UTF-8").GetBytes(modelo.Ato);
 
-                            //fileStream.Write(array, 0, array.Length);
-                            //fileStream.Flush();
-                            //fileStream.Close();
-                            //fileStream.Dispose();
+                            //using (DocX docx = DocX.Load(Server.MapPath($"~/App_Data/Arquivos/ModeloAtoMacro.docm")))
+                            //{
+                            //    SetTextColorTransparent(docx);
+
+                            //    docx.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+
+                            //    //docx.Footers.First.InsertParagraph().Append("TESTE DE RODAPE");
+                            //    fileStream.Close();
+                            //    docx.SaveAs(filePath);
+                            //}
 
                             using (DocX docX = DocX.Load(fileStream))
                             {
                                 //deixa texto transparente
-                                //SetTextColorTransparent(docX);
+                                SetTextColorTransparent(docX);
 
                                 //Cadastro do texto e registro do arquivo
                                 docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
-
 
                                 //espaço de segurança
                                 docX.InsertParagraph();
                                 docX.InsertParagraph().InsertHorizontalLine();
 
-                                //docX.InsertTable(1,1)
-
                                 fileStream.Close();
-                                //docX.Save();
+                                docX.Save();
                                 docX.SaveAs(filePath);
-                                //docX.Dispose();
                             }
                         }
+
                         // Gravar no banco o array de bytes
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
                         // Pegar a ultima "versão" do ato e somar
 
                         // Gravar o ato e buscar o selo e gravar o selo
 
-                        
+
                     }
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
@@ -195,7 +230,7 @@ namespace AdmCartorio.Controllers
 
             foreach (var linhaHtml in documentoHtml.DocumentNode.ChildNodes)
             {
-     
+
                 st.Append(linhaHtml.InnerHtml);
                 st.AppendLine();
 
@@ -209,7 +244,7 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include ="ModeloNome")]string ModeloNome)
+        public string UsaModeloParaAto([Bind(Include = "ModeloNome")]string ModeloNome)
         {
             StringBuilder textoFormatado = new StringBuilder();
 

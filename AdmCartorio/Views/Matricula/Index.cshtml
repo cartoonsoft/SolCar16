@@ -141,7 +141,7 @@
                         <div class="document-editor">
                             <div class="document-editor__toolbar"></div>
                             <div class="document-editor__editable-container">
-                                <div class="document-editor__editable">
+                                <div class="document-editor__editable block">
                                     @*<textarea id="paragrafo">texto</textarea>*@
                                 </div>
                             </div>
@@ -149,7 +149,7 @@
                     </div>
 
                     <!-- FIM CK EDITOR-->
-
+                    
                 </fieldset>
                 <footer>
                     @Html.HiddenFor(model => model.Ato)
@@ -193,10 +193,11 @@
             cloudServices: {
                 //
             },
-            toolbar: []
+            toolbar: ['alignment:justify'],
+            
         })
         .then(editor => {
-            const toolbarContainer = document.querySelector('.document-editor__toolbar');
+            const toolbarContainer = document.querySelector('.document-editor__toolbar ');
 
             
             toolbarContainer.appendChild(editor.ui.view.toolbar.element);
@@ -231,22 +232,8 @@
 
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
-        //var textoHtml = editor.getData();
-        //var str = new String(textoHtml.replace("<p>","").replace("</p>",""));
-        //var strHtml;
-        //var tamanhoStr = str.length;
-        //var tamanhoStrAux = 0;
 
-        //console.log(str);
-        //while (tamanhoStr >= 98) {
-        //    strHtml += "<p>" + str.substr(tamanhoStrAux, 98) + "</p>";
-        //    tamanhoStr -= 98;
-        //    tamanhoStrAux += 98;
-        //    debugger;
-        //}
-        //debugger;
-        //strHtml += "<p>" + str.substr(tamanhoStrAux, tamanhoStr) + "</p>";
-        //debugger;
+        
 
     });
 
@@ -281,6 +268,7 @@
 
 </script>
 <style type="text/css">
+
     .document-editor {
         border: 1px solid var(--ck-color-base-border);
         border-radius: var(--ck-border-radius);
@@ -315,7 +303,7 @@
 
         .document-editor__editable-container .ck-editor__editable {
             /* Set the dimensions of the "page". */
-            width: 21.0cm;
+            width: 18.9cm;
             min-height: 21cm;
             /* Keep the "page" off the boundaries of the container. */
             padding: 1cm 2cm 2cm;
