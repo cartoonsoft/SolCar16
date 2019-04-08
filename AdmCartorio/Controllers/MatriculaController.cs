@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -99,28 +100,128 @@ namespace AdmCartorio.Controllers
                         {
                             var app = new Application();
                             app.Visible = true;
+
+                            //var doc = app.Documents.Open(Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx"));
                             var doc = app.Documents.Add();
+                            var numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
+
+                            //app.DocumentBeforeSave += delegate (Document documento, ref bool SaveAsUI, ref bool Cancel) {
+                            //    var novoNumeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
+                            //    if ( novoNumeroPagina > numeroPagina)
+                            //        throw new Exception("numero de paginas mudou!");
+
+                            //};
+
+                            //Configuração de borda
+                            doc.PageSetup.TopMargin = 20;
+                            doc.PageSetup.BottomMargin = 20;
+
+
                             //var numeroPagina = doc.PageSetup.LineNumbering;
                             doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS";
+
+                            //NEGRITO E SUBLINHADO
+                            var auxLenght = ("LIVRO N.° 2 - REGISTRO".ToString().Length + 52);
+                            var auxLenght2 = auxLenght + ("16.° CARTÓRIO DE REGISTRO DE IMÓVEIS".ToString().Length);
+                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2).Bold = 1;
+                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineSingle;
+
                             doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo");
+                            //NEGRITO E SUBLINHADO
+                            doc.Application.ActiveDocument.Range(auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineNone;
+                            auxLenght = auxLenght2 + 30 + "GERAL".ToString().Length + 79;
+                            auxLenght2 = auxLenght + "de São Paulo".ToString().Length;
+                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 1).Bold = 1;
+                            doc.Application.ActiveDocument.Range(auxLenght + 1, auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineSingle;
+
                             doc.Paragraphs.SpaceAfter = 0;
 
-                            var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha");
+                            //FUNDO BRANCO PARA ILUSAO DE LEGEND DO CAMPO
+                            doc.Application.ActiveDocument.Range(auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineNone;
+                            auxLenght = auxLenght2 + 5;
+                            auxLenght2 = auxLenght + "matrícula".ToString().Length;
+                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdWhite;
+                            auxLenght = auxLenght2 + 30;
+                            auxLenght2 = auxLenght + "ficha".ToString().Length;
+                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdWhite;
+
+                            //Matricula, ficha, local e data
+                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) +
+                                "matrícula" + new string(' ', 30) +
+                                "ficha" + new string(' ', 33) +
+                                "São Paulo," + new string(' ', 4) +
+                                "26 de fevereiro de 2.019");
+                            doc.Application.ActiveDocument.Range(auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                            auxLenght = auxLenght2 + 5 + "matrícula".ToString().Length + 30 + "ficha".ToString().Length + 33 + "São Paulo,".ToString().Length + 4;
+                            auxLenght2 = auxLenght + "26 de fevereiro de 2.019".ToString().Length;
+                            doc.Application.ActiveDocument.Range(auxLenght + 2, auxLenght2 + 3).Bold = 1;
+
+
+
+
 
                             #region | Configurando Shape | 
+                            var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+
                             shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
                                 .ZOrder(MsoZOrderCmd.msoSendBehindText);
                             shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
                             shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
-                            //shapes[shapes.Count].Left = 200;
-                            //shapes[shapes.Count].Top = 50;
+                            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                            shapes[shapes.Count].Left = 85;
+                            shapes[shapes.Count].Top = 57;
+
+                            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 65, 30)
+                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
+                            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+                            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+                            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                            shapes[shapes.Count].Left = 200;
+                            shapes[shapes.Count].Top = 57;
+
+                            InserirShapeMargem(shapes);
                             #endregion
 
+                            doc.Paragraphs.Add().Range.InsertParagraphAfter();
+
+                            var posicao = app.ActiveDocument.Content.End;
+                            app.ActiveDocument.Range(doc.Paragraphs.Add().Range.End).Text = modelo.Ato[0].ToString();
+                            System.Threading.Tasks.Task.Run(() =>
+                            {
+                                while (true)
+
+                                    for (int i = 1; i < modelo.Ato.Length; i++)
+                                    {
+                                        if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
+                                        {
+                                            var shapesTask = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+                                            shapesTask.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
+                                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
+                                            shapesTask[shapesTask.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+                                            shapesTask[shapesTask.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+                                            shapesTask[shapesTask.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+                                            shapesTask[shapesTask.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+                                            shapesTask[shapesTask.Count].Left = 85;
+                                            shapesTask[shapesTask.Count].Top = 57;
+
+                                            throw new Exception("Deu certo");
+                                        }
+                                        else
+                                        {
+                                            app.ActiveDocument.Range(posicao++).Text = modelo.Ato[i].ToString();
+                                        }
+                                    }
+                            });
 
 
-                            doc.Save();
 
 
+
+                            Thread.Sleep(0);
+                            //doc.Save();
 
 
 #if false
@@ -200,6 +301,17 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        private static void InserirShapeMargem(Microsoft.Office.Interop.Word.Shapes shapes)
+        {
+            shapes.AddShape((int)MsoAutoShapeType.msoShapeRectangle, 50, 50, 425, 717)
+                                            .ZOrder(MsoZOrderCmd.msoSendBehindText);
+            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            shapes[shapes.Count].Left = 84;
+            shapes[shapes.Count].Top = 100;
+        }
 
         /// <summary>
         /// Deixa o texto transparente do arquivo
