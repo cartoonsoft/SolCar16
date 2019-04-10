@@ -103,18 +103,14 @@ namespace AdmCartorio.Controllers
 
                             //var doc = app.Documents.Open(Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx"));
                             var doc = app.Documents.Add();
+                            doc.Paragraphs.Format.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
                             var numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
-
-                            //app.DocumentBeforeSave += delegate (Document documento, ref bool SaveAsUI, ref bool Cancel) {
-                            //    var novoNumeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
-                            //    if ( novoNumeroPagina > numeroPagina)
-                            //        throw new Exception("numero de paginas mudou!");
-
-                            //};
+                            int posicao;
 
                             //Configuração de borda
                             doc.PageSetup.TopMargin = 20;
-                            doc.PageSetup.BottomMargin = 20;
+                            doc.PageSetup.BottomMargin = 40;
 
 
                             //var numeroPagina = doc.PageSetup.LineNumbering;
@@ -163,64 +159,107 @@ namespace AdmCartorio.Controllers
 
                             #region | Configurando Shape | 
                             var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
-
-                            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
-                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
-                            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
-                            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
-                            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-                            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
-                            shapes[shapes.Count].Left = 85;
-                            shapes[shapes.Count].Top = 57;
-
-                            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 65, 30)
-                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
-                            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
-                            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
-                            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-                            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
-                            shapes[shapes.Count].Left = 200;
-                            shapes[shapes.Count].Top = 57;
-
+                            //Insere os shapes de matricula e ficha
+                            InserirShapeMatriculaFicha(shapes);
+                            //Insere a ilusão de margem
                             InserirShapeMargem(shapes);
                             #endregion
 
                             doc.Paragraphs.Add().Range.InsertParagraphAfter();
 
-                            var posicao = app.ActiveDocument.Content.End;
-                            app.ActiveDocument.Range(doc.Paragraphs.Add().Range.End).Text = modelo.Ato[0].ToString();
+
                             System.Threading.Tasks.Task.Run(() =>
                             {
+                                posicao = app.ActiveDocument.Content.End - 1;
                                 while (true)
-
-                                    for (int i = 1; i < modelo.Ato.Length; i++)
+                                {
+                                    for (int i = 0; i < modelo.Ato.Length; i++)
                                     {
                                         if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
                                         {
-                                            var shapesTask = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
-                                            shapesTask.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
-                                                .ZOrder(MsoZOrderCmd.msoSendBehindText);
-                                            shapesTask[shapesTask.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
-                                            shapesTask[shapesTask.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
-                                            shapesTask[shapesTask.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-                                            shapesTask[shapesTask.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
-                                            shapesTask[shapesTask.Count].Left = 85;
-                                            shapesTask[shapesTask.Count].Top = 57;
 
-                                            throw new Exception("Deu certo");
+                                            //SELECIONANDO TEXTO PARA SALVAR
+                                            doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
+                                            doc.Application.Selection.GoToPrevious(WdGoToItem.wdGoToLine);
+                                            doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                            var textoParaSalvar = app.Selection.Text;
+
+                                            app.Selection.Delete();
+                                            InserirParagrafo(doc);
+                                            doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                            textoParaSalvar += app.Selection.Text;
+                                            app.Selection.Delete();
+                                            InserirParagrafo(doc);
+
+                                            doc.Application.ActiveDocument.Paragraphs.Add().Range.InsertAfter("(CONTINUA NO VERSO)");
+                                            doc.Application.ActiveDocument.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+                                            InserirParagrafo(doc);
+
+                                            InserirParagrafo(doc);
+                                            doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
+
+                                            var shapesTask = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+                                            //Insere os shapes de matricula e ficha
+                                            InserirShapeMatriculaFicha(shapesTask);
+                                            //Ilusão de margem
+                                            InserirShapeMargem(shapes);
+
+                                            doc.Paragraphs.Add().Range.Text = new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha";
+                                            doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
+                                            var rangeFinal = doc.Application.ActiveDocument.Range().End;
+                                            doc.Application.ActiveDocument.Range(rangeFinal - 7, rangeFinal).HighlightColorIndex = WdColorIndex.wdWhite;
+                                            doc.Application.ActiveDocument.Range(rangeFinal - 46, rangeFinal - 35).HighlightColorIndex = WdColorIndex.wdWhite;
+
+                                            doc.Application.ActiveDocument.Range(rangeFinal - 35,rangeFinal - 7).HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                                            doc.Application.ActiveDocument.Range(rangeFinal - 54, rangeFinal - 46).HighlightColorIndex = WdColorIndex.wdNoHighlight;
+
+
+
+                                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) +
+                                                "matrícula" + new string(' ', 30) +
+                                                "ficha");
+
+                                            doc.Application.ActiveDocument.Range(rangeFinal).HighlightColorIndex = WdColorIndex.wdNoHighlight;
+                                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 59) + "verso");
+
+                                            rangeFinal = doc.Application.ActiveDocument.Range().End;
+                                            doc.Application.ActiveDocument.Range(rangeFinal - 7, rangeFinal).HighlightColorIndex = WdColorIndex.wdWhite;
+                                            InserirParagrafo(doc);
+                                            InserirParagrafo(doc);
+                                            posicao = app.ActiveDocument.Content.End - 1;
+                                            numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
+
+                                            for (int j = 0; j < textoParaSalvar.Length; j++)
+                                            {
+                                                app.ActiveDocument.Range(posicao++).Text = textoParaSalvar[j].ToString();
+                                            }
+                                            posicao = app.ActiveDocument.Content.End - 3;
+                                            i--;
                                         }
                                         else
                                         {
                                             app.ActiveDocument.Range(posicao++).Text = modelo.Ato[i].ToString();
                                         }
+                                    }                                   
+                                    app.ActiveDocument.Paragraphs.Add().Range.InlineShapes.AddHorizontalLineStandard();
+                                    if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
+                                    {
+                                        app.ActiveDocument.InlineShapes[app.ActiveDocument.InlineShapes.Count].Delete();
+                                        app.KeyString(46); app.KeyString(46);
                                     }
+
+
+                                    break;
+                                }
+
                             });
 
 
 
 
 
-                            Thread.Sleep(0);
+                            System.Threading.Tasks.Task.WaitAll();
                             //doc.Save();
 
 
@@ -279,7 +318,7 @@ namespace AdmCartorio.Controllers
                         }
 
                         // Gravar no banco o array de bytes
-                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+                        //var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
                         // Pegar a ultima "versão" do ato e somar
 
                         // Gravar o ato e buscar o selo e gravar o selo
@@ -301,16 +340,52 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        private static void InserirParagrafo(Document doc)
+        {
+            doc.Application.ActiveDocument.Paragraphs.Add();
+        }
+
+        private static void InserirShapeMatriculaFicha(Microsoft.Office.Interop.Word.Shapes shapes)
+        {
+            int index;
+            //Shape do numero de matricula
+            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
+                                                        .ZOrder(MsoZOrderCmd.msoSendBehindText);
+            index = shapes.Count;
+
+            shapes[index].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+            shapes[index].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+            shapes[index].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+            shapes[index].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            shapes[index].Left = 85;
+            shapes[index].Top = 57;
+
+            //Shape da ficha
+            shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 65, 30)
+                .ZOrder(MsoZOrderCmd.msoSendBehindText);
+            index = shapes.Count;
+
+            shapes[index].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+            shapes[index].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+            shapes[index].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+            shapes[index].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            shapes[index].Left = 200;
+            shapes[index].Top = 57;
+        }
+
         private static void InserirShapeMargem(Microsoft.Office.Interop.Word.Shapes shapes)
         {
-            shapes.AddShape((int)MsoAutoShapeType.msoShapeRectangle, 50, 50, 425, 717)
+
+            shapes.AddShape((int)MsoAutoShapeType.msoShapeRectangle, 50, 50, 428, 705)
                                             .ZOrder(MsoZOrderCmd.msoSendBehindText);
-            shapes[shapes.Count].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
-            shapes[shapes.Count].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
-            shapes[shapes.Count].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
-            shapes[shapes.Count].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
-            shapes[shapes.Count].Left = 84;
-            shapes[shapes.Count].Top = 100;
+            int index = shapes.Count;
+
+            shapes[index].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
+            shapes[index].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
+            shapes[index].RelativeHorizontalPosition = WdRelativeHorizontalPosition.wdRelativeHorizontalPositionPage;
+            shapes[index].RelativeVerticalPosition = WdRelativeVerticalPosition.wdRelativeVerticalPositionPage;
+            shapes[index].Left = 84;
+            shapes[index].Top = 100;
         }
 
         /// <summary>
