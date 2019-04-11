@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SimpleInjector;
 using Domain.Car16.Interfaces.UnitOfWork;
-using Infra.Data.Car16.UnitOfWorkCar16;
 using System.Reflection;
 using AppServices.Car16.Interfaces;
 using AppServices.Car16.AppServices;
 using Domain.Car16.enums;
+using Infra.Data.Car16.UnitsOfWork;
 
 namespace Infra.Cross.Ioc
 {
@@ -28,10 +28,12 @@ namespace Infra.Cross.Ioc
 
             // Infra Dados: Context and UnitofWork 
             //ContainerAppMin.Register<ContextMainCar16>(Lifestyle.Scoped);
+
+            // Infra Dados: UnitofWork 
             ContainerAppMin.Register<IUnitOfWorkCar16>(() => new UnitOfWorkCar16(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
-            ContainerAppMin.Register<IAppServicePais>(() => new AppServicePais((IUnitOfWorkCar16)container.GetInstance(typeof(IUnitOfWorkCar16))), Lifestyle.Scoped);
+
             // AppServices 
-            //ContainerAppMin.Register<IAppServicePais, AppServicePais>(Lifestyle.Scoped);
+            ContainerAppMin.Register<IAppServicePais>(() => new AppServicePais((IUnitOfWorkCar16)container.GetInstance(typeof(IUnitOfWorkCar16))), Lifestyle.Scoped);
 
         }
     }

@@ -9,9 +9,9 @@ using Domain.Car16.Interfaces.UnitOfWork;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories;
 using Infra.Data.Car16.Repositories.Base;
-using Infra.Data.Car16.UnitOfWorkCar16.Base;
+using Infra.Data.Car16.UnitsOfWork.Base;
 
-namespace Infra.Data.Car16.UnitOfWorkCar16
+namespace Infra.Data.Car16.UnitsOfWork
 {
     public class UnitOfWorkCar16 : UnitOfWork, IUnitOfWorkCar16
     {

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AppServices.Car16.AppServices;
 using Domain.Car16.enums;
 using Dto.Car16.Entities.Cadastros;
-using Infra.Data.Car16.UnitOfWorkCar16;
+using Infra.Data.Car16.UnitsOfWork;
 
 namespace ConsoleAppTeste2
 {

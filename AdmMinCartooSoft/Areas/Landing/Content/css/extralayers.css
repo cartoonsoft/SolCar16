@@ -174,7 +174,7 @@
 	letter-spacing: 0;
 }
 
-.tp-caption.modern_big_redbg {
+.tp-caption.modern_big_redbContextg {
 	position: absolute;
 	color: #fff;
 	text-shadow: none;
@@ -264,7 +264,7 @@
 	font-size: 50px;
 	line-height: 70px;
 	font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
-	background-color: #db4360;
+	background-color: #dbContext4360;
 	padding: 0px 20px;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -1288,7 +1288,7 @@
 	color: #ffa902;
 }
 
-.largeredbtn {
+.largeredbContexttn {
 	font-family: "Open Sans", Arial, Helvetica, Sans-Serif;
 	font-weight: 900;
 	font-size: 16px;
@@ -1309,7 +1309,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ea5b1f', endColorstr='#e33a0c',GradientType=0 ); /* IE6-9 */
 }
 
-.largeredbtn:hover {
+.largeredbContexttn:hover {
 	background: rgb(227,58,12); /* Old browsers */
 	background: -moz-linear-gradient(top,  rgba(227,58,12,1) 0%, rgba(234,91,31,1) 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(227,58,12,1)), color-stop(100%,rgba(234,91,31,1))); /* Chrome,Safari4+ */

@@ -931,7 +931,7 @@ $.extend( $.validator, {
 			var place, group, errorID, v,
 				error = this.errorsFor( element ),
 				elementID = this.idOrName( element ),
-				describedBy = $( element ).attr( "aria-describedby" );
+				describedBy = $( element ).attr( "aria-describedbContexty" );
 
 			if ( error.length ) {
 
@@ -971,11 +971,11 @@ $.extend( $.validator, {
 					error.attr( "for", elementID );
 
 					// If the element is not a child of an associated label, then it's necessary
-					// to explicitly apply aria-describedby
+					// to explicitly apply aria-describedbContexty
 				} else if ( error.parents( "label[for='" + this.escapeCssMeta( elementID ) + "']" ).length === 0 ) {
 					errorID = error.attr( "id" );
 
-					// Respect existing non-error aria-describedby
+					// Respect existing non-error aria-describedbContexty
 					if ( !describedBy ) {
 						describedBy = errorID;
 					} else if ( !describedBy.match( new RegExp( "\\b" + this.escapeCssMeta( errorID ) + "\\b" ) ) ) {
@@ -983,7 +983,7 @@ $.extend( $.validator, {
 						// Add to end of list if not already present
 						describedBy += " " + errorID;
 					}
-					$( element ).attr( "aria-describedby", describedBy );
+					$( element ).attr( "aria-describedbContexty", describedBy );
 
 					// If this element is grouped, then assign to all elements in the same group
 					group = this.groups[ element.name ];
@@ -992,7 +992,7 @@ $.extend( $.validator, {
 						$.each( v.groups, function( name, testgroup ) {
 							if ( testgroup === group ) {
 								$( "[name='" + v.escapeCssMeta( name ) + "']", v.currentForm )
-									.attr( "aria-describedby", error.attr( "id" ) );
+									.attr( "aria-describedbContexty", error.attr( "id" ) );
 							}
 						} );
 					}
@@ -1011,10 +1011,10 @@ $.extend( $.validator, {
 
 		errorsFor: function( element ) {
 			var name = this.escapeCssMeta( this.idOrName( element ) ),
-				describer = $( element ).attr( "aria-describedby" ),
+				describer = $( element ).attr( "aria-describedbContexty" ),
 				selector = "label[for='" + name + "'], label[for='" + name + "'] *";
 
-			// 'aria-describedby' should directly reference the error element
+			// 'aria-describedbContexty' should directly reference the error element
 			if ( describer ) {
 				selector = selector + ", #" + this.escapeCssMeta( describer )
 					.replace( /\s+/g, ", #" );

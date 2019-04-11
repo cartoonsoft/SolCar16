@@ -155,10 +155,10 @@
           parent = '<div class="' + className + '" ' + (aria ? 'role="' + node[_type] + '" ' : ''),
           helper;
 
-        // Set ARIA "labelledby"
+        // Set ARIA "labelledbContexty"
         if (label.length && aria) {
           label.each(function() {
-            parent += 'aria-labelledby="';
+            parent += 'aria-labelledbContexty="';
 
             if (this.id) {
               parent += this.id;

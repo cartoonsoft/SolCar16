@@ -3183,7 +3183,7 @@
 				.attr( 'aria-live', 'polite' );
 	
 			// Table is described by our info div
-			$(settings.nTable).attr( 'aria-describedby', tid+'_info' );
+			$(settings.nTable).attr( 'aria-describedbContexty', tid+'_info' );
 		}
 	
 		return n[0];

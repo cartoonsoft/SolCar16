@@ -20,7 +20,7 @@ namespace Domain.Core.Entities
 
         [Key]
         [Column("ID_FERIADO")]
-        public override long Id { get; set; }
+        public override long? Id { get; set; }
 
         public int Ano { get; set; }
 

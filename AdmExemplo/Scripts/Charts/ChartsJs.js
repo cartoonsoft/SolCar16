@@ -123,8 +123,8 @@
       },
       {
           value: 300,
-          color: "#3c8dbc",
-          highlight: "#3c8dbc",
+          color: "#3c8dbContextc",
+          highlight: "#3c8dbContextc",
           label: "Opera"
       },
       {

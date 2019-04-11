@@ -19,7 +19,6 @@ namespace Domain.Core.Entities.Base
     public abstract class EntityBase: IEntity
     {
         private int? _requestedHashCode;
-        private long _Id = 0;
 
         /// <summary>
         /// 
@@ -29,14 +28,14 @@ namespace Domain.Core.Entities.Base
         {
 
         }
-
+        
         /// <summary>
         /// Get or set the persisten object identifier
         /// </summary>
-        public virtual long Id
+        public virtual long? Id
         {
-            get { return _Id; }
-            set { _Id = value; }
+            get; 
+            set; 
         }
 
         /// <summary>

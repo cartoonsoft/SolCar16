@@ -565,7 +565,7 @@
 
 .ion-ios-barcode:before { content: "\f3dc"; }
 
-.ion-ios-barcode-outline:before { content: "\f3db"; }
+.ion-ios-barcode-outline:before { content: "\f3dbContext"; }
 
 .ion-ios-baseball:before { content: "\f3de"; }
 
@@ -1259,7 +1259,7 @@
 
 .ion-social-buffer-outline:before { content: "\f228"; }
 
-.ion-social-chrome:before { content: "\f4db"; }
+.ion-social-chrome:before { content: "\f4dbContext"; }
 
 .ion-social-chrome-outline:before { content: "\f4da"; }
 

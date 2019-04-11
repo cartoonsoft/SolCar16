@@ -4264,15 +4264,15 @@ wysihtml5.browser = (function() {
     },
 
     /**
-     * Whether the browser supports sandboxed iframes
+     * Whether the browser supports sandbContextoxed iframes
      * Currently only IE 6+ offers such feature <iframe security="restricted">
      *
      * http://msdn.microsoft.com/en-us/library/ms534622(v=vs.85).aspx
      * http://blogs.msdn.com/b/ie/archive/2008/01/18/using-frames-more-securely.aspx
      *
-     * HTML5 sandboxed iframes are still buggy and their DOM is not reachable from the outside (except when using postMessage)
+     * HTML5 sandbContextoxed iframes are still buggy and their DOM is not reachable from the outside (except when using postMessage)
      */
-    supportsSandboxedIframes: function() {
+    supportsSandbContextoxedIframes: function() {
       return isIE();
     },
 
@@ -4506,7 +4506,7 @@ wysihtml5.browser = (function() {
 
     /**
      * IE9 crashes when setting a getter via Object.defineProperty on XMLHttpRequest or XDomainRequest
-     * See https://connect.microsoft.com/ie/feedback/details/650112
+     * See https://connect.microsoft.com/ie/feedbContextack/details/650112
      * or try the POC http://tifftiff.de/ie9_crash/
      */
     crashesWhenDefineProperty: function(property) {
@@ -5815,7 +5815,7 @@ wysihtml5.dom.observe = function(element, eventNames, handler) {
  * @param {Object} [rules] List of rules for rewriting the HTML, if there's no rule for an element it will
  *    be converted to a "span". Each rule is a key/value pair where key is the tag to convert, and value the
  *    desired substitution.
- * @param {Object} context Document object in which to parse the html, needed to sandbox the parsing
+ * @param {Object} context Document object in which to parse the html, needed to sandbContextox the parsing
  *
  * @return {Element|String} Depends on the elementOrHtml parameter. When html then the sanitized html as string elsewise the element.
  *
@@ -6823,25 +6823,25 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
   dom.resolveList = resolveList;
 })(wysihtml5.dom);
 ;/**
- * Sandbox for executing javascript, parsing css styles and doing dom operations in a secure way
+ * SandbContextox for executing javascript, parsing css styles and doing dom operations in a secure way
  *
  * Browser Compatibility:
  *  - Secure in MSIE 6+, but only when the user hasn't made changes to his security level "restricted"
  *  - Partially secure in other browsers (Firefox, Opera, Safari, Chrome, ...)
  *
- * Please note that this class can't benefit from the HTML5 sandbox attribute for the following reasons:
- *    - sandboxing doesn't work correctly with inlined content (src="javascript:'<html>...</html>'")
- *    - sandboxing of physical documents causes that the dom isn't accessible anymore from the outside (iframe.contentWindow, ...)
+ * Please note that this class can't benefit from the HTML5 sandbContextox attribute for the following reasons:
+ *    - sandbContextoxing doesn't work correctly with inlined content (src="javascript:'<html>...</html>'")
+ *    - sandbContextoxing of physical documents causes that the dom isn't accessible anymore from the outside (iframe.contentWindow, ...)
  *    - setting the "allow-same-origin" flag would fix that, but then still javascript and dom events refuse to fire
  *    - therefore the "allow-scripts" flag is needed, which then would deactivate any security, as the js executed inside the iframe
- *      can do anything as if the sandbox attribute wasn't set
+ *      can do anything as if the sandbContextox attribute wasn't set
  *
- * @param {Function} [readyCallback] Method that gets invoked when the sandbox is ready
+ * @param {Function} [readyCallback] Method that gets invoked when the sandbContextox is ready
  * @param {Object} [config] Optional parameters
  *
  * @example
- *    new wysihtml5.dom.Sandbox(function(sandbox) {
- *      sandbox.getWindow().document.body.innerHTML = '<img src=foo.gif onerror="alert(document.cookie)">';
+ *    new wysihtml5.dom.SandbContextox(function(sandbContextox) {
+ *      sandbContextox.getWindow().document.body.innerHTML = '<img src=foo.gif onerror="alert(document.cookie)">';
  *    });
  */
 (function(wysihtml5) {
@@ -6873,8 +6873,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         "write", "open", "close"
       ];
 
-  wysihtml5.dom.Sandbox = Base.extend(
-    /** @scope wysihtml5.dom.Sandbox.prototype */ {
+  wysihtml5.dom.SandbContextox = Base.extend(
+    /** @scope wysihtml5.dom.SandbContextox.prototype */ {
 
     constructor: function(readyCallback, config) {
       this.callback = readyCallback || wysihtml5.EMPTY_FUNCTION;
@@ -6908,20 +6908,20 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     },
 
     _readyError: function() {
-      throw new Error("wysihtml5.Sandbox: Sandbox iframe isn't loaded yet");
+      throw new Error("wysihtml5.SandbContextox: SandbContextox iframe isn't loaded yet");
     },
 
     /**
-     * Creates the sandbox iframe
+     * Creates the sandbContextox iframe
      *
      * Some important notes:
-     *  - We can't use HTML5 sandbox for now:
+     *  - We can't use HTML5 sandbContextox for now:
      *    setting it causes that the iframe's dom can't be accessed from the outside
      *    Therefore we need to set the "allow-same-origin" flag which enables accessing the iframe's dom
      *    But then there's another problem, DOM events (focus, blur, change, keypress, ...) aren't fired.
      *    In order to make this happen we need to set the "allow-scripts" flag.
-     *    A combination of allow-scripts and allow-same-origin is almost the same as setting no sandbox attribute at all.
-     *  - Chrome & Safari, doesn't seem to support sandboxing correctly when the iframe's html is inlined (no physical document)
+     *    A combination of allow-scripts and allow-same-origin is almost the same as setting no sandbContextox attribute at all.
+     *  - Chrome & Safari, doesn't seem to support sandbContextoxing correctly when the iframe's html is inlined (no physical document)
      *  - IE needs to have the security="restricted" attribute set before the iframe is
      *    inserted into the dom tree
      *  - Believe it or not but in IE "security" in document.createElement("iframe") is false, even
@@ -6933,7 +6933,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
     _createIframe: function() {
       var that   = this,
           iframe = doc.createElement("iframe");
-      iframe.className = "wysihtml5-sandbox";
+      iframe.className = "wysihtml5-sandbContextox";
       wysihtml5.dom.setAttributes({
         "security":           "restricted",
         "allowtransparency":  "true",
@@ -6977,14 +6977,14 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
           iframeWindow   = iframe.contentWindow,
           iframeDocument = iframe.contentWindow.document,
           charset        = doc.characterSet || doc.charset || "utf-8",
-          sandboxHtml    = this._getHtml({
+          sandbContextoxHtml    = this._getHtml({
             charset:      charset,
             stylesheets:  this.config.stylesheets
           });
 
       // Create the basic dom tree including proper DOCTYPE and charset
       iframeDocument.open("text/html", "replace");
-      iframeDocument.write(sandboxHtml);
+      iframeDocument.write(sandbContextoxHtml);
       iframeDocument.close();
 
       this.getWindow = function() { return iframe.contentWindow; };
@@ -6994,10 +6994,10 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       // addEventListener("error") doesn't work properly in some browsers
       // TODO: apparently this doesn't work in IE9!
       iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-        throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+        throw new Error("wysihtml5.SandbContextox: " + errorMessage, fileName, lineNumber);
       };
 
-      if (!wysihtml5.browser.supportsSandboxedIframes()) {
+      if (!wysihtml5.browser.supportsSandbContextoxedIframes()) {
         // Unset a bunch of sensitive variables
         // Please note: This isn't hack safe!
         // It more or less just takes care of basic attacks and prevents accidental theft of sensitive information
@@ -7102,14 +7102,14 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       // creates a new contenteditable and initiates it
       _createElement: function() {
         var element = doc.createElement("div");
-        element.className = "wysihtml5-sandbox";
+        element.className = "wysihtml5-sandbContextox";
         this._loadElement(element);
         return element;
       },
 
       // initiates an allready existent contenteditable
       _bindElement: function(contentEditable) {
-        contentEditable.className = (contentEditable.className && contentEditable.className != '') ? contentEditable.className + " wysihtml5-sandbox" : "wysihtml5-sandbox";
+        contentEditable.className = (contentEditable.className && contentEditable.className != '') ? contentEditable.className + " wysihtml5-sandbContextox" : "wysihtml5-sandbContextox";
         this._loadElement(contentEditable, true);
         return contentEditable;
       },
@@ -7117,8 +7117,8 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
       _loadElement: function(element, contentExists) {
           var that = this;
         if (!contentExists) {
-            var sandboxHtml = this._getHtml();
-            element.innerHTML = sandboxHtml;
+            var sandbContextoxHtml = this._getHtml();
+            element.innerHTML = sandbContextoxHtml;
         }
 
         this.getWindow = function() { return element.ownerDocument.defaultView; };
@@ -7129,7 +7129,7 @@ wysihtml5.dom.replaceWithChildNodes = function(node) {
         // TODO: apparently this doesn't work in IE9!
         // TODO: figure out and bind the errors logic for contenteditble mode
         /*iframeWindow.onerror = function(errorMessage, fileName, lineNumber) {
-          throw new Error("wysihtml5.Sandbox: " + errorMessage, fileName, lineNumber);
+          throw new Error("wysihtml5.SandbContextox: " + errorMessage, fileName, lineNumber);
         }
         */
         this.loaded = true;
@@ -9078,7 +9078,7 @@ wysihtml5.quirks.ensureProperClearing = (function() {
           node, node2, range2,
           newRange;
 
-      // Nothing selected, execute and say goodbye
+      // Nothing selected, execute and say goodbContextye
       if (!range) {
         method(body, body);
         return;
@@ -11793,7 +11793,7 @@ wysihtml5.commands.formatCode = {
 
     _observe: function() {
       var that      = this,
-          doc       = this.composer.sandbox.getDocument(),
+          doc       = this.composer.sandbContextox.getDocument(),
           lastKey;
 
       // Catch CTRL+Z and CTRL+Y
@@ -12042,7 +12042,7 @@ wysihtml5.views.View = Base.extend(
       if (this.config.contentEditableMode) {
           this._initContentEditableArea();
       } else {
-          this._initSandbox();
+          this._initSandbContextox();
       }
     },
 
@@ -12145,28 +12145,28 @@ wysihtml5.views.View = Base.extend(
         var that = this;
 
         if (this.config.noTextarea) {
-            this.sandbox = new dom.ContentEditableArea(function() {
+            this.sandbContextox = new dom.ContentEditableArea(function() {
                 that._create();
             }, {}, this.editableArea);
         } else {
-            this.sandbox = new dom.ContentEditableArea(function() {
+            this.sandbContextox = new dom.ContentEditableArea(function() {
                 that._create();
             });
-            this.editableArea = this.sandbox.getContentEditable();
+            this.editableArea = this.sandbContextox.getContentEditable();
             dom.insert(this.editableArea).after(this.textarea.element);
             this._createWysiwygFormField();
         }
     },
 
-    _initSandbox: function() {
+    _initSandbContextox: function() {
       var that = this;
 
-      this.sandbox = new dom.Sandbox(function() {
+      this.sandbContextox = new dom.SandbContextox(function() {
         that._create();
       }, {
         stylesheets:  this.config.stylesheets
       });
-      this.editableArea  = this.sandbox.getIframe();
+      this.editableArea  = this.sandbContextox.getIframe();
 
       var textareaElement = this.textarea.element;
       dom.insert(this.editableArea).after(textareaElement);
@@ -12187,8 +12187,8 @@ wysihtml5.views.View = Base.extend(
 
     _create: function() {
       var that = this;
-      this.doc                = this.sandbox.getDocument();
-      this.element            = (this.config.contentEditableMode) ? this.sandbox.getContentEditable() : this.doc.body;
+      this.doc                = this.sandbContextox.getDocument();
+      this.element            = (this.config.contentEditableMode) ? this.sandbContextox.getContentEditable() : this.doc.body;
       if (!this.config.noTextarea) {
           this.textarea           = this.parent.textarea;
           this.element.innerHTML  = this.textarea.getValue(true, false);
@@ -12310,7 +12310,7 @@ wysihtml5.views.View = Base.extend(
       // If a user now changes the url in the innerHTML we want to make sure that
       // it's synchronized with the href attribute (as long as the innerHTML is still a url)
       var // Use a live NodeList to check whether there are any links in the document
-          links           = this.sandbox.getDocument().getElementsByTagName("a"),
+          links           = this.sandbContextox.getDocument().getElementsByTagName("a"),
           // The autoLink helper method reveals a reg exp to detect correct urls
           urlRegExp       = dom.autoLink.URL_REG_EXP,
           getTextContent  = function(element) {
@@ -12791,9 +12791,9 @@ wysihtml5.views.View = Base.extend(
   wysihtml5.views.Composer.prototype.observe = function() {
     var that                = this,
         state               = this.getValue(false, false),
-        container           = (this.sandbox.getIframe) ? this.sandbox.getIframe() : this.sandbox.getContentEditable(),
+        container           = (this.sandbContextox.getIframe) ? this.sandbContextox.getIframe() : this.sandbContextox.getContentEditable(),
         element             = this.element,
-        focusBlurElement    = (browser.supportsEventsInIframeCorrectly() || this.sandbox.getContentEditable) ? element : this.sandbox.getWindow(),
+        focusBlurElement    = (browser.supportsEventsInIframeCorrectly() || this.sandbContextox.getContentEditable) ? element : this.sandbContextox.getWindow(),
         pasteEvents         = ["drop", "paste", "beforepaste"],
         interactionEvents   = ["drop", "paste", "mouseup", "focus", "keyup"];
 
@@ -12824,7 +12824,7 @@ wysihtml5.views.View = Base.extend(
 
     if (this.config.handleTables) {
       if(!this.tableClickHandle && this.doc.execCommand && wysihtml5.browser.supportsCommand(this.doc, "enableObjectResizing") && wysihtml5.browser.supportsCommand(this.doc, "enableInlineTableEditing")) {
-        if (this.sandbox.getIframe) {
+        if (this.sandbContextox.getIframe) {
           this.tableClickHandle = dom.observe(container , ["focus", "mouseup", "mouseover"], function() {
             that.doc.execCommand("enableObjectResizing", false, "false");
             that.doc.execCommand("enableInlineTableEditing", false, "false");
@@ -13245,7 +13245,7 @@ wysihtml5.views.View = Base.extend(
     pasteParserRulesets: null,
     // Parser method to use when the user inserts content
     parser:               wysihtml5.dom.parse,
-    // Class name which should be set on the contentEditable element in the created sandbox iframe, can be styled via the 'stylesheets' option
+    // Class name which should be set on the contentEditable element in the created sandbContextox iframe, can be styled via the 'stylesheets' option
     composerClassName:    "wysihtml5-editor",
     // Class name to add to the body when the wysihtml5 editor is supported
     bodyClassName:        "wysihtml5-supported",
@@ -13374,7 +13374,7 @@ wysihtml5.views.View = Base.extend(
     },
 
     parse: function(htmlOrElement, clearInternals) {
-      var parseContext = (this.config.contentEditableMode) ? document : ((this.composer) ? this.composer.sandbox.getDocument() : null);
+      var parseContext = (this.config.contentEditableMode) ? document : ((this.composer) ? this.composer.sandbContextox.getDocument() : null);
       var returnValue = this.config.parser(htmlOrElement, {
         "rules": this.config.parserRules,
         "cleanUp": this.config.cleanUp,

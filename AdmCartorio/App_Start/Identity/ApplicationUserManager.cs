@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using AdmCartorio.Models.Identity;
 using AdmCartorio.Models.Identity.Context;
+using AdmCartorio.Models.Identity.Entities;
 
 namespace AdmCartorio.App_Start.Identity
 {
@@ -36,7 +37,7 @@ namespace AdmCartorio.App_Start.Identity
                 RequiredLength = 4,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
-                RequireLowercase = true,
+                RequireLowercase = false,
                 RequireUppercase = false,
             };
 

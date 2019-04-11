@@ -24,12 +24,12 @@ namespace Infra.Data.Car16.Repositories.Base
     public class RepositoryBaseRead<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : class
     {
         private readonly IContextCore _context;
-        private readonly IDbSet<TEntity> _dbSet;
+        private readonly IDbSet<TEntity> _dbContextSet;
 
         public RepositoryBaseRead(IContextCore context)
         {
             _context = context;
-            _dbSet = _context.Set<TEntity>();
+            _dbContextSet = _context.Set<TEntity>();
         }
 
         #region IDisposable Support
@@ -79,7 +79,7 @@ namespace Infra.Data.Car16.Repositories.Base
 
         protected IDbSet<TEntity> DbSet  
         {
-            get { return _dbSet; }
+            get { return _dbContextSet; }
         }
 
         public IEnumerable<TEntity> GetAll()
@@ -87,7 +87,7 @@ namespace Infra.Data.Car16.Repositories.Base
             List<TEntity> listEntity = null;
             try
             {
-                listEntity = _dbSet.ToList();
+                listEntity = _dbContextSet.ToList();
             }
             catch (Exception ex)
             {
@@ -104,7 +104,7 @@ namespace Infra.Data.Car16.Repositories.Base
         /// <returns></returns>
         public TEntity GetById(long id)
         {
-            return _dbSet.Find(id);
+            return _dbContextSet.Find(id);
         }
 
         /// <summary>
@@ -114,20 +114,20 @@ namespace Infra.Data.Car16.Repositories.Base
         /// <returns></returns>
         public TEntity GetById(params object[] keyValues)
         {
-            return _dbSet.Find(keyValues);
+            return _dbContextSet.Find(keyValues);
         }
 
 
         public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
-            return _dbSet
+            return _dbContextSet
                 .Where(expression)
                 .AsEnumerable();
         }
 
         public IEnumerable<TEntity> GetWhere(ISpecification<TEntity> specification)
         {
-            return _dbSet
+            return _dbContextSet
                 .Where(specification.SatisfiedBy())
                 .AsEnumerable();
         }
@@ -136,14 +136,14 @@ namespace Infra.Data.Car16.Repositories.Base
         {
             if (ascending)
             {
-                return _dbSet
+                return _dbContextSet
                     .Where(expression)
                     .OrderBy(orderByExpression)
                     .AsEnumerable();
             }
             else
             {
-                return _dbSet
+                return _dbContextSet
                     .Where(expression)
                     .OrderByDescending(orderByExpression)
                    .AsEnumerable();
@@ -154,13 +154,13 @@ namespace Infra.Data.Car16.Repositories.Base
         {
             if (ascending)
             {
-                return _dbSet.Where(specification.SatisfiedBy())
+                return _dbContextSet.Where(specification.SatisfiedBy())
                     .OrderBy(orderByExpression)
                     .AsEnumerable();
             }
             else
             {
-                return _dbSet.Where(specification.SatisfiedBy())
+                return _dbContextSet.Where(specification.SatisfiedBy())
                     .OrderByDescending(orderByExpression)
                     .AsEnumerable();
             }
@@ -202,7 +202,7 @@ namespace Infra.Data.Car16.Repositories.Base
 
             if (ascending)
             {
-                paged.listEntities = _dbSet
+                paged.listEntities = _dbContextSet
                     .Where(expression)
                     .OrderBy(sortExpression)
                     .Skip(pageCount * (pageIndex - 1))
@@ -211,7 +211,7 @@ namespace Infra.Data.Car16.Repositories.Base
             }
             else
             {
-                paged.listEntities = _dbSet
+                paged.listEntities = _dbContextSet
                     .Where(expression)
                     .OrderByDescending(sortExpression)
                     .Skip(pageCount * (pageIndex - 1))
@@ -227,14 +227,14 @@ namespace Infra.Data.Car16.Repositories.Base
             Paged<TEntity> paged = new Paged<TEntity>();
             if ((pageIndex > 0 ) && (pageCount > 0))
             {
-                List<TEntity> entities = _dbSet.Where(specification.SatisfiedBy()).ToList<TEntity>();
+                List<TEntity> entities = _dbContextSet.Where(specification.SatisfiedBy()).ToList<TEntity>();
                 double pgesTmp = (entities.Count() / pageCount);
                 paged.TotalPages = (pgesTmp < 1)? 1: (int)Math.Truncate(pgesTmp);
                 paged.CurrentPage = pageIndex;
 
                 if (ascending)
                 {
-                    paged.listEntities = _dbSet
+                    paged.listEntities = _dbContextSet
                         .Where(specification.SatisfiedBy())
                         .OrderBy(orderByExpression)
                         .Skip(pageCount * (pageIndex - 1))
@@ -243,7 +243,7 @@ namespace Infra.Data.Car16.Repositories.Base
                 }
                 else
                 {
-                    paged.listEntities = _dbSet
+                    paged.listEntities = _dbContextSet
                         .Where(specification.SatisfiedBy())
                         .OrderByDescending(orderByExpression)
                         .Skip(pageCount * (pageIndex - 1))

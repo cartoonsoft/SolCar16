@@ -10,9 +10,10 @@ namespace Domain.Car16.Entities.Car16New
     [Table("TB_PAIS")]
     public class Pais : EntityBase
     {
-        [Key]
+        //[Key]
         [Column("ID_PAIS")]
-        public override long Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public override long? Id { get; set; }
 
         [Column("COD_IBGE")]
         public string CodIbge { get; set; }

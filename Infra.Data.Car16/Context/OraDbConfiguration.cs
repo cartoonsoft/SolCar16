@@ -13,6 +13,7 @@ namespace Infra.Data.Car16.Context
     {
         public OraDbConfiguration()
         {
+            SetDefaultConnectionFactory(new OracleConnectionFactory());
             SetProviderServices("Oracle.ManagedDataAccess.Client", EFOracleProviderServices.Instance);
             SetProviderFactory("Oracle.ManagedDataAccess.Client", new OracleClientFactory());
         }

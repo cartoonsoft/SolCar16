@@ -19,7 +19,7 @@ namespace Infra.Data.Car16.Context
         /// <summary>
         /// Base de dados: dezesseis_new 
         /// </summary>
-        DbSet<Pais> DbPais { get; set; }
+        public DbSet<Pais> Pais { get; set; }
 
         /// <summary>
         /// Base de dados: dezesseis

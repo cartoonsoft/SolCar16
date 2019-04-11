@@ -1317,7 +1317,7 @@
                                     caret(input, lastPosition);
                             }
                         }, 0);
-                    }).bind('dblclick.inputmask', function () {
+                    }).bind('dbContextlclick.inputmask', function () {
                         var input = this;
                         setTimeout(function () {
                             caret(input, 0, seekNext(getActiveMaskSet()["lastValidPosition"]));

@@ -87,8 +87,8 @@
               start: new Date(y, m, 28),
               end: new Date(y, m, 29),
               url: 'http://google.com/',
-              backgroundColor: "#3c8dbc", //Primary (light-blue)
-              borderColor: "#3c8dbc" //Primary (light-blue)
+              backgroundColor: "#3c8dbContextc", //Primary (light-blue)
+              borderColor: "#3c8dbContextc" //Primary (light-blue)
           }
         ],
         editable: true,
@@ -121,7 +121,7 @@
     });
 
     /* ADDING EVENTS */
-    var currColor = "#3c8dbc"; //Red by default
+    var currColor = "#3c8dbContextc"; //Red by default
     //Color chooser button
     var colorChooser = $("#color-chooser-btn");
     $("#color-chooser > li > a").click(function (e) {

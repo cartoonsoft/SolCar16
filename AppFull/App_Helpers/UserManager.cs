@@ -47,7 +47,7 @@ namespace SmartAdminMvc
                 Email = "demo@email.com",
                 UserName = "John Doe",
                 PasswordHash = "APc6/pVPfTnpG89SRacXjlT+sRz+JQnZROws0WmCA20+axszJnmxbRulHtDXhiYEuQ==",
-                SecurityStamp = "18272ba5-bf6a-48a7-8116-3ac34dbb7f38"
+                SecurityStamp = "18272ba5-bf6a-48a7-8116-3ac34dbContextb7f38"
             };
 
             UserStore.Context.Set<IdentityUser>().AddOrUpdate(demo);

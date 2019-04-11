@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using AdmCartorio.Models.Identity;
+using AdmCartorio.Models.Identity.Entities;
 
 namespace AdmCartorio.App_Start.Identity
 {

@@ -148,7 +148,7 @@ table.dataTable.display tbody tr.even.selected > .sorting_1, table.dataTable.ord
   background-color: #acbad4;
 }
 table.dataTable.display tbody tr.even.selected > .sorting_2, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_2 {
-  background-color: #adbbd6;
+  background-color: #adbContextbd6;
 }
 table.dataTable.display tbody tr.even.selected > .sorting_3, table.dataTable.order-column.stripe tbody tr.even.selected > .sorting_3 {
   background-color: #afbdd8;

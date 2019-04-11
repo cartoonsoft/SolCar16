@@ -14,7 +14,7 @@ namespace Domain.Car16.Entities.Car16New
     {
         [Key]
         [Column("ID_MUNICIPIO")]
-        public override long Id { get; set; }
+        public override long? Id { get; set; }
 
         [Column("ID_UF")]
         public long IdUf { get; set; }

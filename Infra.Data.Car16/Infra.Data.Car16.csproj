@@ -71,8 +71,10 @@
     <Compile Include="Repositories\RepositoryUf.cs" />
     <Compile Include="Repositories\RepositoryMunicipio.cs" />
     <Compile Include="Repositories\RepositoryPais.cs" />
-    <Compile Include="UnitOfWork\Base\UnitOfWork.cs" />
-    <Compile Include="UnitOfWork\UnitOfWorkCar16.cs" />
+    <Compile Include="UnitsOfWork\Base\UnitOfWork.cs" />
+    <Compile Include="UnitsOfWork\UnitOfWorkCar16.cs" />
+    <Compile Include="UnitsOfWork\UnitOfWorkDataBaseCar16.cs" />
+    <Compile Include="UnitsOfWork\UnitOfWorkDataBaseCar16New.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

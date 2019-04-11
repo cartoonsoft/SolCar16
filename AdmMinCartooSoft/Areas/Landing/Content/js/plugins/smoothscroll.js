@@ -25,7 +25,7 @@ function ssc_init() {
             e.appendChild(i)
         }
     }
-    if (!ssc_fixedback) {
+    if (!ssc_fixedbContextack) {
         e.style.backgroundAttachment = "scroll";
         t.style.backgroundAttachment = "scroll"
     }
@@ -265,7 +265,7 @@ var ssc_direction = {
 };
 
 var ssc_initdone = false;
-var ssc_fixedback = true;
+var ssc_fixedbContextack = true;
 var ssc_root = document.documentElement;
 var ssc_activeElement;
 var ssc_key = {

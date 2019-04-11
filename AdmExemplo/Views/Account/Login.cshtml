@@ -36,15 +36,15 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedbContextack">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", placeholder = "Email" })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-envelope form-control-feedbContextack"></span>
                 </div>
-                <div class="form-group has-feedback">
+                <div class="form-group has-feedbContextack">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "Password" })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    <span class="glyphicon glyphicon-lock form-control-feedbContextack"></span>
                 </div>
                 <div class="row">
                     <div class="col-xs-8">

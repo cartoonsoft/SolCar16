@@ -152,6 +152,8 @@
     <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBseCar16.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCar16New.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

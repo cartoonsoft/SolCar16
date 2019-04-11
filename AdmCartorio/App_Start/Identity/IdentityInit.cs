@@ -1,5 +1,6 @@
 ﻿using AdmCartorio.Models.Identity;
 using AdmCartorio.Models.Identity.Context;
+using AdmCartorio.Models.Identity.Entities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Newtonsoft.Json.Linq;

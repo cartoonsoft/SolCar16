@@ -1,42 +1,49 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace AdmCartorio.Models.Identity
+namespace AdmCartorio.Models.Identity.Entities
 {
+    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
-        private ICollection<Client> clients = new Collection<Client>();
-
-        public ApplicationUser(): base()
+        public ApplicationUser()
         {
-            //
+            Clients = new Collection<Client>();
         }
 
-        public virtual ICollection<Client> Clients
-        {
-            get { return this.clients; }
-            set { clients = value; }
-        }
+        public virtual ICollection<Client> Clients { get; set; }
 
         [NotMapped]
         public string CurrentClientId { get; set; }
 
-        [Display(Name = "Nome")]
-        public override string UserName { get => base.UserName; set => base.UserName = value; }
+        [MaxLength(100)]
+        public string Nome { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime CreateDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime LastLoginDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime LastPwdChangedDate { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime LastLockoutDate { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, ClaimsIdentity ext = null)
         {
             // Observe que o authenticationType precisa ser o mesmo que foi definido em CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
+
             var claims = new List<Claim>();
 
             if (!string.IsNullOrEmpty(CurrentClientId))
@@ -45,14 +52,16 @@ namespace AdmCartorio.Models.Identity
             }
 
             //  Adicione novos Claims aqui //
-            //claims.Add(new Claim("AdminUsers", "true"));
 
             // Adicionando Claims externos capturados no login
             if (ext != null)
             {
                 await SetExternalProperties(userIdentity, ext);
             }
-            
+
+            // Gerenciamento de Claims para informaçoes do usuario
+            //claims.Add(new Claim("AdmRoles", "True"));
+
             userIdentity.AddClaims(claims);
 
             return userIdentity;
@@ -72,6 +81,5 @@ namespace AdmCartorio.Models.Identity
                 }
             }
         }
-        
     }
 }

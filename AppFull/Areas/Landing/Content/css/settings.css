@@ -492,7 +492,7 @@
 	letter-spacing: 0;
 }
 
-.tp-caption.modern_big_redbg {
+.tp-caption.modern_big_redbContextg {
 	position: absolute;
 	color: #fff;
 	text-shadow: none;
@@ -622,7 +622,7 @@
 	font-size: 50px;
 	line-height: 70px;
 	font-family: "Open Sans";
-	background-color: #db4360;
+	background-color: #dbContext4360;
 	padding: 0px 20px;
 	-webkit-border-radius: 0px;
 	-moz-border-radius: 0px;
@@ -1913,11 +1913,11 @@
 .caption.slidelink a div, .tp-caption.slidelink a div {
 	width: 3000px;
 	height: 1500px;
-	background: url("/area/landing/assets/coloredbg.png") repeat;
+	background: url("/area/landing/assets/coloredbContextg.png") repeat;
 }
 
 .tp-caption.slidelink a span {
-	background: url(../assets/coloredbg.png) repeat;
+	background: url(../assets/coloredbContextg.png) repeat;
 }
 
 /*****************************************

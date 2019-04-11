@@ -387,7 +387,7 @@
                 "darkgoldenrod": "#b8860b",
                 "darkgray": "#a9a9a9",
                 "darkgreen": "#006400",
-                "darkkhaki": "#bdb76b",
+                "darkkhaki": "#bdbContext76b",
                 "darkmagenta": "#8b008b",
                 "darkolivegreen": "#556b2f",
                 "darkorange": "#ff8c00",

@@ -46,20 +46,9 @@ namespace Infra.Data.Car16.Repositories.Base
 
                 disposedValue = true;
             }
+
+            base.Dispose(disposing);
         }
-
-        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~RepositoryBase() {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        public override void Dispose()
-        {
-            Dispose(true);
-            base.Dispose();
-        }
-
         #endregion
 
         public void Add(TEntity entity)

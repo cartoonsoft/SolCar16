@@ -12,7 +12,7 @@ The plugin supports these options:
 
 	zoom: {
 		interactive: false
-		trigger: "dblclick" // or "click" for single click
+		trigger: "dbContextlclick" // or "click" for single click
 		amount: 1.5         // 2 = 200% (zoom in), 0.5 = 50% (zoom out)
 	}
 
@@ -34,7 +34,7 @@ around; the same for zoom.
 "amount" specifies the default amount to zoom in (so 1.5 = 150%) relative to
 the current viewport.
 
-"cursor" is a standard CSS mouse cursor string used for visual feedback to the
+"cursor" is a standard CSS mouse cursor string used for visual feedbContextack to the
 user when dragging.
 
 "frameRate" specifies the maximum number of times per second the plot will
@@ -113,7 +113,7 @@ Licensed under the MIT License ~ http://threedubmedia.googlecode.com/files/MIT-L
         },
         zoom: {
             interactive: false,
-            trigger: "dblclick", // or "click" for single click
+            trigger: "dbContextlclick", // or "click" for single click
             amount: 1.5 // how much to zoom relative to current position, 2 = 200% (zoom in), 0.5 = 50% (zoom out)
         },
         pan: {

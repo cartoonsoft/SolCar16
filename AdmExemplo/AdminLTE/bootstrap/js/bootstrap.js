@@ -1408,7 +1408,7 @@ if (typeof jQuery === 'undefined') {
 
       this.setContent()
       $tip.attr('id', tipId)
-      this.$element.attr('aria-describedby', tipId)
+      this.$element.attr('aria-describedbContexty', tipId)
 
       if (this.options.animation) $tip.addClass('fade')
 
@@ -1540,7 +1540,7 @@ if (typeof jQuery === 'undefined') {
     function complete() {
       if (that.hoverState != 'in') $tip.detach()
       that.$element
-        .removeAttr('aria-describedby')
+        .removeAttr('aria-describedbContexty')
         .trigger('hidden.bs.' + that.type)
       callback && callback()
     }

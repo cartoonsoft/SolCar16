@@ -167,7 +167,7 @@ h6,
 }
 /* General Links */
 a {
-  color: #3c8dbc;
+  color: #3c8dbContextc;
 }
 a:hover,
 a:active,
@@ -1239,7 +1239,7 @@ a:focus {
   border-color: #d2d6de;
 }
 .form-control:focus {
-  border-color: #3c8dbc;
+  border-color: #3c8dbContextc;
   box-shadow: none;
 }
 .form-control::-moz-placeholder,
@@ -1289,17 +1289,17 @@ a:focus {
   padding-left: 0;
 }
 /* support Font Awesome icons in form-control */
-.form-control-feedback.fa {
+.form-control-feedbContextack.fa {
   line-height: 34px;
 }
-.input-lg + .form-control-feedback.fa,
-.input-group-lg + .form-control-feedback.fa,
-.form-group-lg .form-control + .form-control-feedback.fa {
+.input-lg + .form-control-feedbContextack.fa,
+.input-group-lg + .form-control-feedbContextack.fa,
+.form-group-lg .form-control + .form-control-feedbContextack.fa {
   line-height: 46px;
 }
-.input-sm + .form-control-feedback.fa,
-.input-group-sm + .form-control-feedback.fa,
-.form-group-sm .form-control + .form-control-feedback.fa {
+.input-sm + .form-control-feedbContextack.fa,
+.input-group-sm + .form-control-feedbContextack.fa,
+.form-group-sm .form-control + .form-control-feedbContextack.fa {
   line-height: 30px;
 }
 /*
@@ -1385,7 +1385,7 @@ a:focus {
 }
 .progress-bar-light-blue,
 .progress-bar-primary {
-  background-color: #3c8dbc;
+  background-color: #3c8dbContextc;
 }
 .progress-striped .progress-bar-light-blue,
 .progress-striped .progress-bar-primary {
@@ -1525,7 +1525,7 @@ a:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box.box-primary {
-  border-top-color: #3c8dbc;
+  border-top-color: #3c8dbContextc;
 }
 .box.box-info {
   border-top-color: #00c0ef;
@@ -1586,12 +1586,12 @@ a:focus {
   color: #444444;
 }
 .box.box-solid.box-primary {
-  border: 1px solid #3c8dbc;
+  border: 1px solid #3c8dbContextc;
 }
 .box.box-solid.box-primary > .box-header {
   color: #ffffff;
-  background: #3c8dbc;
-  background-color: #3c8dbc;
+  background: #3c8dbContextc;
+  background-color: #3c8dbContextc;
 }
 .box.box-solid.box-primary > .box-header a,
 .box.box-solid.box-primary > .box-header .btn {
@@ -1914,7 +1914,7 @@ a:focus {
   border-left-color: #00a65a;
 }
 .todo-list .primary {
-  border-left-color: #3c8dbc;
+  border-left-color: #3c8dbContextc;
 }
 .todo-list .handle {
   display: inline-block;
@@ -2216,7 +2216,7 @@ a:focus {
   background-color: #e7e7e7;
 }
 .btn-primary {
-  background-color: #3c8dbc;
+  background-color: #3c8dbContextc;
   border-color: #367fa9;
 }
 .btn-primary:hover,
@@ -2419,7 +2419,7 @@ a:focus {
 .nav-pills > li.active > a,
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
-  border-top-color: #3c8dbc;
+  border-top-color: #3c8dbContextc;
 }
 .nav-pills > li.active > a {
   font-weight: 600;
@@ -2436,7 +2436,7 @@ a:focus {
   background: transparent;
   color: #444;
   border-top: 0;
-  border-left-color: #3c8dbc;
+  border-left-color: #3c8dbContextc;
 }
 .nav-stacked > li.header {
   border-bottom: 1px solid #ddd;
@@ -2484,7 +2484,7 @@ a:focus {
   border-color: transparent;
 }
 .nav-tabs-custom > .nav-tabs > li.active {
-  border-top-color: #3c8dbc;
+  border-top-color: #3c8dbContextc;
 }
 .nav-tabs-custom > .nav-tabs > li.active > a,
 .nav-tabs-custom > .nav-tabs > li.active:hover > a {
@@ -2541,7 +2541,7 @@ a:focus {
   color: #999;
 }
 .nav-tabs-custom.tab-primary > .nav-tabs > li.active {
-  border-top-color: #3c8dbc;
+  border-top-color: #3c8dbContextc;
 }
 .nav-tabs-custom.tab-info > .nav-tabs > li.active {
   border-top-color: #00c0ef;
@@ -2857,13 +2857,13 @@ table.text-center th {
   border-left-color: #dd4b39;
 }
 .direct-chat-primary .right > .direct-chat-text {
-  background: #3c8dbc;
-  border-color: #3c8dbc;
+  background: #3c8dbContextc;
+  border-color: #3c8dbContextc;
   color: #ffffff;
 }
 .direct-chat-primary .right > .direct-chat-text:after,
 .direct-chat-primary .right > .direct-chat-text:before {
-  border-left-color: #3c8dbc;
+  border-left-color: #3c8dbContextc;
 }
 .direct-chat-warning .right > .direct-chat-text {
   background: #f39c12;
@@ -3221,8 +3221,8 @@ table.text-center th {
   border-top: 0;
   color: #666;
 }
-.login-box-body .form-control-feedback,
-.register-box-body .form-control-feedback {
+.login-box-body .form-control-feedbContextack,
+.register-box-body .form-control-feedbContextack {
   color: #777;
 }
 .login-box-msg,
@@ -4191,14 +4191,14 @@ table.text-center th {
   height: 34px;
 }
 .select2-container--default.select2-container--open {
-  border-color: #3c8dbc;
+  border-color: #3c8dbContextc;
 }
 .select2-dropdown {
   border: 1px solid #d2d6de;
   border-radius: 0;
 }
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-  background-color: #3c8dbc;
+  background-color: #3c8dbContextc;
   color: white;
 }
 .select2-results__option {
@@ -4230,7 +4230,7 @@ table.text-center th {
 .select2-dropdown .select2-search__field:focus,
 .select2-search--inline .select2-search__field:focus {
   outline: none;
-  border: 1px solid #3c8dbc;
+  border: 1px solid #3c8dbContextc;
 }
 .select2-container--default .select2-results__option[aria-disabled=true] {
   color: #999;
@@ -4247,13 +4247,13 @@ table.text-center th {
   border-radius: 0;
 }
 .select2-container--default .select2-selection--multiple:focus {
-  border-color: #3c8dbc;
+  border-color: #3c8dbContextc;
 }
 .select2-container--default.select2-container--focus .select2-selection--multiple {
   border-color: #d2d6de;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: #3c8dbc;
+  background-color: #3c8dbContextc;
   border-color: #367fa9;
   padding: 1px 10px;
   color: #fff;
@@ -4406,7 +4406,7 @@ table.text-center th {
 .bg-light-blue,
 .label-primary,
 .modal-primary .modal-body {
-  background-color: #3c8dbc !important;
+  background-color: #3c8dbContextc !important;
 }
 .bg-green,
 .callout.callout-success,
@@ -4454,7 +4454,7 @@ table.text-center th {
 .bg-yellow-active,
 .modal-warning .modal-header,
 .modal-warning .modal-footer {
-  background-color: #db8b0b !important;
+  background-color: #dbContext8b0b !important;
 }
 .bg-aqua-active,
 .modal-info .modal-header,
@@ -4490,7 +4490,7 @@ table.text-center th {
   background-color: #ff7701 !important;
 }
 .bg-fuchsia-active {
-  background-color: #db0ead !important;
+  background-color: #dbContext0ead !important;
 }
 .bg-purple-active {
   background-color: #555299 !important;
@@ -4518,7 +4518,7 @@ table.text-center th {
   color: #111111 !important;
 }
 .text-light-blue {
-  color: #3c8dbc !important;
+  color: #3c8dbContextc !important;
 }
 .text-green {
   color: #00a65a !important;
@@ -4621,21 +4621,21 @@ table.text-center th {
   color: #fff;
 }
 .bg-light-blue-gradient {
-  background: #3c8dbc !important;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3c8dbc), color-stop(1, #67a8ce)) !important;
-  background: -ms-linear-gradient(bottom, #3c8dbc, #67a8ce) !important;
-  background: -moz-linear-gradient(center bottom, #3c8dbc 0%, #67a8ce 100%) !important;
-  background: -o-linear-gradient(#67a8ce, #3c8dbc) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67a8ce', endColorstr='#3c8dbc', GradientType=0) !important;
+  background: #3c8dbContextc !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #3c8dbContextc), color-stop(1, #67a8ce)) !important;
+  background: -ms-linear-gradient(bottom, #3c8dbContextc, #67a8ce) !important;
+  background: -moz-linear-gradient(center bottom, #3c8dbContextc 0%, #67a8ce 100%) !important;
+  background: -o-linear-gradient(#67a8ce, #3c8dbContextc) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#67a8ce', endColorstr='#3c8dbContextc', GradientType=0) !important;
   color: #fff;
 }
 .bg-blue-gradient {
   background: #0073b7 !important;
-  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #0073b7), color-stop(1, #0089db)) !important;
-  background: -ms-linear-gradient(bottom, #0073b7, #0089db) !important;
-  background: -moz-linear-gradient(center bottom, #0073b7 0%, #0089db 100%) !important;
-  background: -o-linear-gradient(#0089db, #0073b7) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0089db', endColorstr='#0073b7', GradientType=0) !important;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #0073b7), color-stop(1, #0089dbContext)) !important;
+  background: -ms-linear-gradient(bottom, #0073b7, #0089dbContext) !important;
+  background: -moz-linear-gradient(center bottom, #0073b7 0%, #0089dbContext 100%) !important;
+  background: -o-linear-gradient(#0089dbContext, #0073b7) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0089dbContext', endColorstr='#0073b7', GradientType=0) !important;
   color: #fff;
 }
 .bg-aqua-gradient {

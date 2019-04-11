@@ -15,6 +15,7 @@ using AdmCartorio.Models.Identity;
 using AdmCartorio.ViewModels.Identity;
 using Newtonsoft.Json.Linq;
 using System;
+using AdmCartorio.Models.Identity.Entities;
 #endregion
 
 namespace AdmCartorio.Controllers
@@ -27,6 +28,7 @@ namespace AdmCartorio.Controllers
 
         public AccountController()
         {
+
         }
 
         /// <summary>
@@ -206,15 +208,16 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(AccountRegisterViewModel model)
         {
-
             if (ModelState.IsValid)
             {
                 string[] arrayAdminEmails = { "cris@cartoonsoft.com.br", "pedro.pires@cartoonsoft.com.br", "ronaldo.moreira@cartoonsoft.com.br" };
-                var usuario = new ApplicationUser { UserName = model.Username, Email = model.Email};
+                var usuario = new ApplicationUser {Nome = model.Nome, UserName = model.Email, Email = model.Email};
 
                 if (arrayAdminEmails.Contains(usuario.Email))
                 {
                     usuario.EmailConfirmed = true;
+                    usuario.CreateDate = DateTime.Now;
+
                     usuario.Claims.Add(new IdentityUserClaim
                     {
                         UserId = usuario.Id,

@@ -1445,7 +1445,7 @@ S2.define('select2/selection/single',[
     var id = container.id + '-container';
 
     this.$selection.find('.select2-selection__rendered').attr('id', id);
-    this.$selection.attr('aria-labelledby', id);
+    this.$selection.attr('aria-labelledbContexty', id);
 
     this.$selection.on('mousedown', function (evt) {
       // Only respond to left clicks
@@ -5747,7 +5747,7 @@ S2.define('select2/dropdown/stopPropagation',[
     'blur',
     'change',
     'click',
-    'dblclick',
+    'dbContextlclick',
     'focus',
     'focusin',
     'focusout',
@@ -5786,7 +5786,7 @@ S2.define('select2/selection/stopPropagation',[
       'blur',
       'change',
       'click',
-      'dblclick',
+      'dbContextlclick',
       'focus',
       'focusin',
       'focusout',

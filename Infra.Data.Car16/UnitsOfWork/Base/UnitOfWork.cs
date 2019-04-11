@@ -16,9 +16,8 @@ using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
 using Domain.Core.Interfaces.Data;
-using Infra.Data.Car16.Repositories.Base;
 
-namespace Infra.Data.Car16.UnitOfWorkCar16.Base
+namespace Infra.Data.Car16.UnitsOfWork.Base
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -122,7 +121,6 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
 
                 throw exOracle;
             }
-
             catch (Exception exGeneirc)
             {
                 this.RollbackTransaction();
@@ -144,6 +142,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             {
                 this.transaction.Commit();
                 this.transaction.Dispose();
+                this.transaction = null;
             }
         }
 
@@ -153,6 +152,7 @@ namespace Infra.Data.Car16.UnitOfWorkCar16.Base
             {
                 this.transaction.Rollback();
                 this.transaction.Dispose();
+                this.transaction = null;
             }
         }
 

@@ -6,19 +6,41 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AdmCartorio.Controllers.Base;
 using AdmCartorio.Models.Identity;
 using AdmCartorio.Models.Identity.Context;
+using AdmCartorio.Models.Identity.Entities;
+using Domain.Car16.Interfaces.UnitOfWork;
 
 namespace AdmCartorio.Controllers
 {
-    public class UsuariosController : Controller
+    public class UsuariosController : AdmCartorioBaseController
     {
-        private ApplicationDbContextIdentity db = new ApplicationDbContextIdentity();
+        private ApplicationDbContextIdentity dbContext = new ApplicationDbContextIdentity();
+
+        //colocar aqui Appp services 
+
+        public UsuariosController(IUnitOfWorkDataBseCar16 unitOfWorkDataBseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New): base (unitOfWorkDataBseCar16, unitOfWorkDataBseCar16New)
+        {
+            
+            //this.UnitOfWorkDataBseCar16
+            
+        }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                dbContext.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(db.Users.ToList());
+            return View(dbContext.Users.ToList());
         }
 
         // GET: Usuarios/Details/5
@@ -28,7 +50,7 @@ namespace AdmCartorio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser applicationUser = dbContext.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -47,12 +69,12 @@ namespace AdmCartorio.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Create([Bind(Include = "Id,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName,Nome,CreateDate,LastLoginDate,LastPwdChangedDate,LastLockoutDate")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
-                db.Users.Add(applicationUser);
-                db.SaveChanges();
+                dbContext.Users.Add(applicationUser);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +89,7 @@ namespace AdmCartorio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser applicationUser = dbContext.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -84,8 +106,8 @@ namespace AdmCartorio.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(applicationUser).State = EntityState.Modified;
-                db.SaveChanges();
+                dbContext.Entry(applicationUser).State = EntityState.Modified;
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(applicationUser);
@@ -98,7 +120,7 @@ namespace AdmCartorio.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = db.Users.Find(id);
+            ApplicationUser applicationUser = dbContext.Users.Find(id);
             if (applicationUser == null)
             {
                 return HttpNotFound();
@@ -111,19 +133,11 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {
-            ApplicationUser applicationUser = db.Users.Find(id);
-            db.Users.Remove(applicationUser);
-            db.SaveChanges();
+            ApplicationUser applicationUser = dbContext.Users.Find(id);
+            dbContext.Users.Remove(applicationUser);
+            dbContext.SaveChanges();
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
     }
 }

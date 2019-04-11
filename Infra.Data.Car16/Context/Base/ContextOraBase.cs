@@ -20,6 +20,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.Data;
+using Domain.Car16.Entities.Car16New;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Infra.Data.Car16.Context.Base
 {
@@ -52,6 +54,7 @@ namespace Infra.Data.Car16.Context.Base
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
+
             //modelBuilder.Properties()
             //    .Where(p => p.Name == "Id")
             //    .Configure(p => p.IsKey());
@@ -76,7 +79,7 @@ namespace Infra.Data.Car16.Context.Base
                 //}
                 //else if (this.Database.Connection is SqlConnection)
                 //{
-                //    modelBuilder.HasDefaultSchema("dbo");
+                //    modelBuilder.HasDefaultSchema("dbContexto");
                 //}
 
                 base.OnModelCreating(modelBuilder);

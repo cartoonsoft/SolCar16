@@ -11,7 +11,7 @@ using Domain.Car16.enums;
 using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories;
-using Infra.Data.Car16.UnitOfWorkCar16;
+using Infra.Data.Car16.UnitsOfWork;
 
 namespace ConsoleAppTeste
 {
@@ -114,22 +114,28 @@ namespace ConsoleAppTeste
         {
             using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
             {
-                using (AppServicePais appService = new AppServicePais(unitOfWork))
-                {
-                    Pais pais = new Pais();
+                //Pais pais = new Pais();
+                //pais.NomePais = "Teste id pelo banco realizado em :" + DateTime.Now.ToString();
+                //pais.SiglaPais = "TES";
+                //pais.CodIbge = "1234";
 
 
-                    List<DtoPaisModel> listPaizes = appService.GetAll().ToList<DtoPaisModel>();
+                Pais pais2 = new Pais();
+                pais2.NomePais = "Teste forneci o id realizado em :" + DateTime.Now.ToString();
+                pais2.SiglaPais = "TES2";
+                pais2.CodIbge = "00111";
 
-                    //foreach (var pais in listPaizes)
-                    //{
-                    //    Console.WriteLine("        {0}           {1}", pais.Id, pais.NomePais);
-                    //}
-                    //Console.WriteLine("----------------------------fim relatório----------------------");
-                }
+                unitOfWork.Repositories.GenericRepository<Pais>().Add(pais2);
+                Console.WriteLine(pais2.Id);
+                //unitOfWork.Repositories.GenericRepository<Pais>().Add(pais2);
+                var resultado = unitOfWork.Commit();
+
+                Console.WriteLine(resultado);
             }
 
+            Console.ReadKey();
         }
+        
 
         public static void Teste()
         {

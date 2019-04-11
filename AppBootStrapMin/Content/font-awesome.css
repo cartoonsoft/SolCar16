@@ -784,7 +784,7 @@
   content: "\f0da";
 }
 .fa-columns:before {
-  content: "\f0db";
+  content: "\f0dbContext";
 }
 .fa-unsorted:before,
 .fa-sort:before {
@@ -1550,7 +1550,7 @@
   content: "\f1da";
 }
 .fa-circle-thin:before {
-  content: "\f1db";
+  content: "\f1dbContext";
 }
 .fa-header:before {
   content: "\f1dc";
@@ -2292,7 +2292,7 @@
 .fa-etsy:before {
   content: "\f2d7";
 }
-.fa-imdb:before {
+.fa-imdbContext:before {
   content: "\f2d8";
 }
 .fa-ravelry:before {
@@ -2302,7 +2302,7 @@
   content: "\f2da";
 }
 .fa-microchip:before {
-  content: "\f2db";
+  content: "\f2dbContext";
 }
 .fa-snowflake-o:before {
   content: "\f2dc";

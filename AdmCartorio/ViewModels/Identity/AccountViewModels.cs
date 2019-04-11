@@ -80,6 +80,9 @@ namespace AdmCartorio.ViewModels.Identity
     public class AccountRegisterViewModel
     {
         [Display(Name = "Nome")]
+        public string Nome { get; set; }
+
+        [Display(Name = "Usuário")]
         public string Username { get; set; }
 
         [Required]

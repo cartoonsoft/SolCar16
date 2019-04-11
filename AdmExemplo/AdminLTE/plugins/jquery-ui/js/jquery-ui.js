@@ -1303,13 +1303,13 @@ $.fn.position = function( options ) {
 		});
 
 		if ( options.using ) {
-			// adds feedback as second argument to using callback, if present
+			// adds feedbContextack as second argument to using callback, if present
 			using = function( props ) {
 				var left = targetOffset.left - position.left,
 					right = left + targetWidth - elemWidth,
 					top = targetOffset.top - position.top,
 					bottom = top + targetHeight - elemHeight,
-					feedback = {
+					feedbContextack = {
 						target: {
 							element: target,
 							left: targetOffset.left,
@@ -1328,17 +1328,17 @@ $.fn.position = function( options ) {
 						vertical: bottom < 0 ? "top" : top > 0 ? "bottom" : "middle"
 					};
 				if ( targetWidth < elemWidth && abs( left + right ) < targetWidth ) {
-					feedback.horizontal = "center";
+					feedbContextack.horizontal = "center";
 				}
 				if ( targetHeight < elemHeight && abs( top + bottom ) < targetHeight ) {
-					feedback.vertical = "middle";
+					feedbContextack.vertical = "middle";
 				}
 				if ( max( abs( left ), abs( right ) ) > max( abs( top ), abs( bottom ) ) ) {
-					feedback.important = "horizontal";
+					feedbContextack.important = "horizontal";
 				} else {
-					feedback.important = "vertical";
+					feedbContextack.important = "vertical";
 				}
-				options.using.call( this, props, feedback );
+				options.using.call( this, props, feedbContextack );
 			};
 		}
 
@@ -1671,7 +1671,7 @@ var accordion = $.widget( "ui.accordion", {
 			.css( "display", "" )
 			.removeAttr( "role" )
 			.removeAttr( "aria-hidden" )
-			.removeAttr( "aria-labelledby" )
+			.removeAttr( "aria-labelledbContexty" )
 			.removeUniqueId();
 
 		if ( this.options.heightStyle !== "content" ) {
@@ -1835,7 +1835,7 @@ var accordion = $.widget( "ui.accordion", {
 					panel = header.next(),
 					panelId = panel.uniqueId().attr( "id" );
 				header.attr( "aria-controls", panelId );
-				panel.attr( "aria-labelledby", headerId );
+				panel.attr( "aria-labelledbContexty", headerId );
 			})
 			.next()
 				.attr( "role", "tabpanel" );
@@ -2269,7 +2269,7 @@ var menu = $.widget( "ui.menu", {
 				.removeClass( "ui-menu ui-widget ui-widget-content ui-menu-icons ui-front" )
 				.removeAttr( "role" )
 				.removeAttr( "tabIndex" )
-				.removeAttr( "aria-labelledby" )
+				.removeAttr( "aria-labelledbContexty" )
 				.removeAttr( "aria-expanded" )
 				.removeAttr( "aria-hidden" )
 				.removeAttr( "aria-disabled" )
@@ -2414,7 +2414,7 @@ var menu = $.widget( "ui.menu", {
 				item
 					.attr( "aria-haspopup", "true" )
 					.prepend( submenuCarat );
-				menu.attr( "aria-labelledby", item.attr( "id" ) );
+				menu.attr( "aria-labelledbContexty", item.attr( "id" ) );
 			});
 
 		menus = submenus.add( this.element );
@@ -8447,12 +8447,12 @@ var dialog = $.widget( "ui.dialog", {
 			}
 		});
 
-		// We assume that any existing aria-describedby attribute means
+		// We assume that any existing aria-describedbContexty attribute means
 		// that the dialog content is marked up properly
 		// otherwise we brute force the content as the description
-		if ( !this.element.find( "[aria-describedby]" ).length ) {
+		if ( !this.element.find( "[aria-describedbContexty]" ).length ) {
 			this.uiDialog.attr({
-				"aria-describedby": this.element.uniqueId().attr( "id" )
+				"aria-describedbContexty": this.element.uniqueId().attr( "id" )
 			});
 		}
 	},
@@ -8502,7 +8502,7 @@ var dialog = $.widget( "ui.dialog", {
 		this._title( uiDialogTitle );
 
 		this.uiDialog.attr({
-			"aria-labelledby": uiDialogTitle.attr( "id" )
+			"aria-labelledbContexty": uiDialogTitle.attr( "id" )
 		});
 	},
 
@@ -12295,7 +12295,7 @@ var selectmenu = $.widget( "ui.selectmenu", {
 		// Create menu
 		this.menu = $( "<ul>", {
 			"aria-hidden": "true",
-			"aria-labelledby": this.ids.button,
+			"aria-labelledbContexty": this.ids.button,
 			id: this.ids.menu
 		});
 
@@ -12661,7 +12661,7 @@ var selectmenu = $.widget( "ui.selectmenu", {
 		var id = this.menuItems.eq( item.index ).attr( "id" );
 
 		this.button.attr({
-			"aria-labelledby": id,
+			"aria-labelledbContexty": id,
 			"aria-activedescendant": id
 		});
 		this.menu.attr( "aria-activedescendant", id );
@@ -15723,9 +15723,9 @@ var tabs = $.widget( "ui.tabs", {
 			}
 			tab.attr({
 				"aria-controls": panelId,
-				"aria-labelledby": anchorId
+				"aria-labelledbContexty": anchorId
 			});
-			panel.attr( "aria-labelledby", anchorId );
+			panel.attr( "aria-labelledbContexty", anchorId );
 		});
 
 		this.panels
@@ -16008,7 +16008,7 @@ var tabs = $.widget( "ui.tabs", {
 					.removeAttr( "aria-live" )
 					.removeAttr( "aria-busy" )
 					.removeAttr( "aria-selected" )
-					.removeAttr( "aria-labelledby" )
+					.removeAttr( "aria-labelledbContexty" )
 					.removeAttr( "aria-hidden" )
 					.removeAttr( "aria-expanded" )
 					.removeAttr( "role" );
@@ -16195,28 +16195,28 @@ var tooltip = $.widget( "ui.tooltip", {
 	},
 
 	_addDescribedBy: function( elem, id ) {
-		var describedby = (elem.attr( "aria-describedby" ) || "").split( /\s+/ );
-		describedby.push( id );
+		var describedbContexty = (elem.attr( "aria-describedbContexty" ) || "").split( /\s+/ );
+		describedbContexty.push( id );
 		elem
 			.data( "ui-tooltip-id", id )
-			.attr( "aria-describedby", $.trim( describedby.join( " " ) ) );
+			.attr( "aria-describedbContexty", $.trim( describedbContexty.join( " " ) ) );
 	},
 
 	_removeDescribedBy: function( elem ) {
 		var id = elem.data( "ui-tooltip-id" ),
-			describedby = (elem.attr( "aria-describedby" ) || "").split( /\s+/ ),
-			index = $.inArray( id, describedby );
+			describedbContexty = (elem.attr( "aria-describedbContexty" ) || "").split( /\s+/ ),
+			index = $.inArray( id, describedbContexty );
 
 		if ( index !== -1 ) {
-			describedby.splice( index, 1 );
+			describedbContexty.splice( index, 1 );
 		}
 
 		elem.removeData( "ui-tooltip-id" );
-		describedby = $.trim( describedby.join( " " ) );
-		if ( describedby ) {
-			elem.attr( "aria-describedby", describedby );
+		describedbContexty = $.trim( describedbContexty.join( " " ) );
+		if ( describedbContexty ) {
+			elem.attr( "aria-describedbContexty", describedbContexty );
 		} else {
-			elem.removeAttr( "aria-describedby" );
+			elem.removeAttr( "aria-describedbContexty" );
 		}
 	},
 
