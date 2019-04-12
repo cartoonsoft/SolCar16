@@ -93,8 +93,6 @@ namespace AdmCartorio.Controllers
 
                 if (ModelState.IsValid)
                 {
-
-
                     using (FileStream fileStream = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
@@ -105,7 +103,17 @@ namespace AdmCartorio.Controllers
                             //var doc = app.Documents.Open(Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx"));
                             var doc = app.Documents.Add();
                             doc.Paragraphs.Format.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-                                                     
+
+                            //teste para impressao;
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "1111111111111";
+                            //app.ActiveDocument.Paragraphs.Add();
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text="2222222222222";
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "2222222222222";
+                            //app.ActiveDocument.Paragraphs.Add();
+                            //app.ActiveDocument.Paragraphs.Add();
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
+                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
 
 
                             var numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
@@ -114,11 +122,13 @@ namespace AdmCartorio.Controllers
                             //Configuração de borda
                             doc.PageSetup.TopMargin = 20;
                             doc.PageSetup.BottomMargin = 40;
-
+                            doc.Application.ActiveDocument.AutoHyphenation = true;
 
                             //var numeroPagina = doc.PageSetup.LineNumbering;
                             doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS";
+
                             
+
                             //NEGRITO E SUBLINHADO
                             var auxLenght = ("LIVRO N.° 2 - REGISTRO".ToString().Length + 52);
                             var auxLenght2 = auxLenght + ("16.° CARTÓRIO DE REGISTRO DE IMÓVEIS".ToString().Length);
@@ -151,14 +161,11 @@ namespace AdmCartorio.Controllers
                                 $"{GetNumeroFicha(doc)}" + new string(' ', 36 + (5 - GetNumeroFicha(doc).ToString().Length)) +
                                 "São Paulo," + new string(' ', 4) +
                                 GetDataPorExtenso());
+
                             doc.Application.ActiveDocument.Range(auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdNoHighlight;
                             auxLenght = auxLenght2 + 5 + "matrícula".ToString().Length + 30 + "ficha".ToString().Length + 33 + "São Paulo,".ToString().Length + 4;
                             auxLenght2 = auxLenght + DateTime.Today.ToString().Length;
                             doc.Application.ActiveDocument.Range(auxLenght + 9, auxLenght2 + 12).Bold = 1;
-
-
-
-
 
                             #region | Configurando Shape | 
                             var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
@@ -176,6 +183,9 @@ namespace AdmCartorio.Controllers
                                 posicao = app.ActiveDocument.Content.End - 1;
                                 while (true)
                                 {
+                                    //Imprimir modelo R-{numeroAtoSequencia}/{MATRICULA} - 
+                                    app.ActiveDocument.Range(posicao).Text = $"R-12/{modelo.MatriculaID} - ";
+                                    posicao = app.ActiveDocument.Content.End - 1;
                                     for (int i = 0; i < modelo.Ato.Length; i++)
                                     {
                                         if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
@@ -311,9 +321,6 @@ namespace AdmCartorio.Controllers
 
                                     }
 
-                                    //HIFENIZAR OS PARAGRAFOS
-                                    var hyphenation = doc.Application.ActiveDocument.Paragraphs.Format.Hyphenation;
-                                    hyphenation = 1;
                                     break;
                                 }
 
@@ -518,33 +525,23 @@ namespace AdmCartorio.Controllers
 
 
 
-                            //using (DocX docx = DocX.Load(Server.MapPath($"~/App_Data/Arquivos/ModeloAtoMacro.docm")))
+                            
+                            //using (DocX docX = DocX.Load(fileStream))
                             //{
-                            //    SetTextColorTransparent(docx);
+                            //    //deixa texto transparente
+                            //    SetTextColorTransparent(docX);
 
-                            //    docx.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
+                            //    //Cadastro do texto e registro do arquivo
+                            //    docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
 
-                            //    //docx.Footers.First.InsertParagraph().Append("TESTE DE RODAPE");
+                            //    //espaço de segurança
+                            //    docX.InsertParagraph();
+                            //    docX.InsertParagraph().InsertHorizontalLine();
+
                             //    fileStream.Close();
-                            //    docx.SaveAs(filePath);
+                            //    docX.Save();
+                            //    docX.SaveAs(filePath);
                             //}
-
-                            using (DocX docX = DocX.Load(fileStream))
-                            {
-                                //deixa texto transparente
-                                SetTextColorTransparent(docX);
-
-                                //Cadastro do texto e registro do arquivo
-                                docX.InsertParagraph().Append(modelo.Ato).SpacingAfter(5);
-
-                                //espaço de segurança
-                                docX.InsertParagraph();
-                                docX.InsertParagraph().InsertHorizontalLine();
-
-                                fileStream.Close();
-                                docX.Save();
-                                docX.SaveAs(filePath);
-                            }
                         }
 
                         // Gravar no banco o array de bytes
@@ -570,6 +567,25 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        /// <summary>
+        /// Imprime após uma quantidade de centimetros em relação ao SHAPE
+        /// </summary>
+        /// <param name="centimetros">Centimetros</param>
+        /// <param name="doc">Documento Ativo</param>
+        private static void ImprimirAposCentrimetros(float centimetros,Document doc)
+        {
+            int quantidadeDeEspacos = (int)Math.Ceiling(centimetros / 0.6);
+            while (quantidadeDeEspacos > 0)
+                doc.Paragraphs.Add();
+        }
+
+
+
+        /// <summary>
+        /// Retorna o numero de matricula do modelo
+        /// </summary>
+        /// <param name="modelo">Modelo</param>
+        /// <returns>N° da Matricula</returns>
         private static long GetNumeroMatricula(MatriculaAtoViewModel modelo)
         {
             return modelo.MatriculaID;
