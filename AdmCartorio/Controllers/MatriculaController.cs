@@ -97,75 +97,50 @@ namespace AdmCartorio.Controllers
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
-                            var app = new Application();
-                            app.Visible = true;
+                            #region | INICIALIZACAO E CONFIGURACAO INICIAL |
+                            var app = new Application
+                            {
+                                Visible = true
+                            };
 
-                            //var doc = app.Documents.Open(Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx"));
                             var doc = app.Documents.Add();
+                            //Configuração do documento
                             doc.Paragraphs.Format.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-
-                            //teste para impressao;
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "1111111111111";
-                            //app.ActiveDocument.Paragraphs.Add();
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text="2222222222222";
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "2222222222222";
-                            //app.ActiveDocument.Paragraphs.Add();
-                            //app.ActiveDocument.Paragraphs.Add();
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
-                            //app.ActiveDocument.Paragraphs.Add().Range.Text = "3333333333333";
-
-
-                            var numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
-                            int posicao;
-
-                            //Configuração de borda
                             doc.PageSetup.TopMargin = 20;
                             doc.PageSetup.BottomMargin = 40;
                             doc.Application.ActiveDocument.AutoHyphenation = true;
 
-                            //var numeroPagina = doc.PageSetup.LineNumbering;
-                            doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS";
+                            var numeroPagina = GetNumeroPagina(doc);
+                            int posicaoCursor;
+                            #endregion
+                            //Inserir paragrafo
+                            InserirParagrafo(doc, "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS"
+                                , false);
 
+                            //NEGRITO E SUBLINHADO                            
+                            Negrito(doc, 74, 110);
+                            Underline(doc, 74, 111, WdUnderline.wdUnderlineSingle);
+                            //Inserir paragrafo após
+                            InserirParagrafo(doc, new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo", true);
                             
-
-                            //NEGRITO E SUBLINHADO
-                            var auxLenght = ("LIVRO N.° 2 - REGISTRO".ToString().Length + 52);
-                            var auxLenght2 = auxLenght + ("16.° CARTÓRIO DE REGISTRO DE IMÓVEIS".ToString().Length);
-                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2).Bold = 1;
-                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineSingle;
-                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo");
-                            //NEGRITO E SUBLINHADO
-                            doc.Application.ActiveDocument.Range(auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineNone;
-                            auxLenght = auxLenght2 + 30 + "GERAL".ToString().Length + 79;
-                            auxLenght2 = auxLenght + "de São Paulo".ToString().Length;
-                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 1).Bold = 1;
-
+                            Underline(doc, 111, WdUnderline.wdUnderlineNone);
+                            Negrito(doc, 224, 237, true);
                             doc.Paragraphs.SpaceAfter = 0;
-
-                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha");
-
-
+                            InserirParagrafo(doc, new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha", true);
+        
                             //FUNDO BRANCO PARA ILUSAO DE LEGEND DO CAMPO
-                            doc.Application.ActiveDocument.Range(auxLenght2 + 1).Font.Underline = WdUnderline.wdUnderlineNone;
-                            auxLenght = auxLenght2 + 5;
-                            auxLenght2 = auxLenght + "matrícula".ToString().Length;
-                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdWhite;
-                            auxLenght = auxLenght2 + 30;
-                            auxLenght2 = auxLenght + "ficha".ToString().Length;
-                            doc.Application.ActiveDocument.Range(auxLenght, auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdWhite;
+                            Underline(doc, 286, WdUnderline.wdUnderlineNone);
+                            SetHighlightColor(doc, 241, 253, WdColorIndex.wdWhite);
+                            SetHighlightColor(doc, 280, 288, WdColorIndex.wdWhite);
 
                             //Matricula, ficha, local e data
-                            doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) +
-                                GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                $"{GetNumeroFicha(doc)}" + new string(' ', 36 + (5 - GetNumeroFicha(doc).ToString().Length)) +
-                                "São Paulo," + new string(' ', 4) +
-                                GetDataPorExtenso());
+                            InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
+                                GetNumeroFicha(doc) + new string(' ', 36 + (5 - GetNumeroFicha(doc).ToString().Length)) + "São Paulo," + new string(' ', 4) + GetDataPorExtenso()
+                                , true);
+                            
 
-                            doc.Application.ActiveDocument.Range(auxLenght2 + 3).HighlightColorIndex = WdColorIndex.wdNoHighlight;
-                            auxLenght = auxLenght2 + 5 + "matrícula".ToString().Length + 30 + "ficha".ToString().Length + 33 + "São Paulo,".ToString().Length + 4;
-                            auxLenght2 = auxLenght + DateTime.Today.ToString().Length;
-                            doc.Application.ActiveDocument.Range(auxLenght + 9, auxLenght2 + 12).Bold = 1;
+                            SetHighlightColor(doc, 288, WdColorIndex.wdNoHighlight);
+                            Negrito(doc, 390, 412, true);
 
                             #region | Configurando Shape | 
                             var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
@@ -174,163 +149,168 @@ namespace AdmCartorio.Controllers
                             //Insere a ilusão de margem
                             InserirShapeMargem(shapes);
                             #endregion
-
+                            
                             doc.Paragraphs.Add().Range.InsertParagraphAfter();
 
 
-                            System.Threading.Tasks.Task.Run(() =>
+
+                            posicaoCursor = app.ActiveDocument.Content.End - 1;
+                            while (true)
                             {
-                                posicao = app.ActiveDocument.Content.End - 1;
-                                while (true)
+                                //Imprimir modelo R-{numeroAtoSequencia}/{MATRICULA} - 
+                                app.ActiveDocument.Range(posicaoCursor).Text = $"R-12/{modelo.MatriculaID} - ";
+                                posicaoCursor = app.ActiveDocument.Content.End - 1;
+                                for (int i = 0; i < modelo.Ato.Length; i++)
                                 {
-                                    //Imprimir modelo R-{numeroAtoSequencia}/{MATRICULA} - 
-                                    app.ActiveDocument.Range(posicao).Text = $"R-12/{modelo.MatriculaID} - ";
-                                    posicao = app.ActiveDocument.Content.End - 1;
-                                    for (int i = 0; i < modelo.Ato.Length; i++)
+                                    if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
                                     {
-                                        if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
+
+                                        //SELECIONANDO TEXTO PARA SALVAR
+                                        doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
+                                        doc.Application.Selection.GoToPrevious(WdGoToItem.wdGoToLine);
+
+                                        doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                        var textoParaSalvar = app.Selection.Text;
+
+                                        app.Selection.Delete();
+                                        InserirParagrafoEmBranco(doc);
+                                        doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                        textoParaSalvar += app.Selection.Text;
+                                        app.Selection.Delete();
+                                        InserirParagrafoEmBranco(doc);
+
+                                        InserirRodape(doc);
+
+                                        //INSERE PARAGRAFOS EM BRANCO ATÉ IR PARA A PROXIMA PÁGINA
+                                        while (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] <= numeroPagina)
                                         {
-
-                                            //SELECIONANDO TEXTO PARA SALVAR
-                                            doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
-                                            doc.Application.Selection.GoToPrevious(WdGoToItem.wdGoToLine);
-                                            doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
-                                            var textoParaSalvar = app.Selection.Text;
-
-                                            app.Selection.Delete();
                                             InserirParagrafoEmBranco(doc);
-                                            doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
-                                            textoParaSalvar += app.Selection.Text;
-                                            app.Selection.Delete();
-                                            InserirParagrafoEmBranco(doc);
-
-                                            InserirRodape(doc);
-                                            if (!IsVerso(GetNumeroPagina(doc)))
-                                            {
-                                                doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 45) + "16.° Oficial de Registro de Imóveis da Capital";
-                                                //Deixa em negrito e sublinhado
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 47, doc.Application.ActiveDocument.Range().End).Bold = 1;
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 47, doc.Application.ActiveDocument.Range().End).Font.Underline = WdUnderline.wdUnderlineSingle;
-                                               
-                                                doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-                                                doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 30) + "GERAL");
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End-36,doc.Application.ActiveDocument.Range().End).Bold = 0;
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End-36,doc.Application.ActiveDocument.Range().End).Font.Underline = WdUnderline.wdUnderlineNone;
-
-                                                doc.Paragraphs.SpaceAfter = 0;
-                                                //doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-
-                                            }
-                                            else
-                                            {
+                                        }
+                                        if (!IsVerso(GetNumeroPagina(doc)))
+                                        {
+                                            //CASO ACONTECEÇA ALGUM PROBLEMA COM A INSERÇÃO DO RODAPÉ INSERE UMA NOVA LINHA
+                                            if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] == numeroPagina)
                                                 InserirParagrafoEmBranco(doc);
-                                            }
-                                            //INSERINDO TEXTO PADRÃO
+
+                                            //SELECIONA O INICIO DA PROXIMA PÁGINA PARA NÃO TER ERRO
                                             doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
 
-                                            var shapesTask = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
-                                            //Insere os shapes de matricula e ficha
-                                            InserirShapeMatriculaFicha(shapesTask);
-                                            //Ilusão de margem
-                                            InserirShapeMargem(shapes);
 
-                                            InserirTextoMatriculaFicha(doc);
+                                            doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 45) + "16.° Oficial de Registro de Imóveis da Capital";
+                                            //Deixa em negrito e sublinhado
+                                            Negrito(doc, GetRangeEnd(doc, 47), GetRangeEnd(doc));
+                                            Underline(doc, GetRangeEnd(doc, 47), GetRangeEnd(doc), WdUnderline.wdUnderlineSingle);
 
                                             doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+                                            InserirParagrafo(doc, new string(' ', 30) + "GERAL", true);
 
-                                            var rangeFinal = doc.Application.ActiveDocument.Range().End;
-                                            AjustarBackGroundShapeMatriculaFicha(doc, rangeFinal);
+                                            Negrito(doc,GetRangeEnd(doc, 36), GetRangeEnd(doc), false);
+                                            Underline(doc, GetRangeEnd(doc, 36), GetRangeEnd(doc), WdUnderline.wdUnderlineNone);
 
-                                            //Numero da matricula e ficha
-                                            if (IsVerso(GetNumeroPagina(doc)))
-                                            {
-                                                doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) +
-                                                    GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                                    $"{GetNumeroFicha(doc)}" + new string(' ', 5 - GetNumeroFicha(doc).ToString().Length));
-
-                                            }
-                                            //numero da matricula,ficha e data.
-                                            else
-                                            {
-                                                doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 5) +
-                                                    GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                                    GetNumeroFicha(doc) + new string(' ', 30 + (5 - GetNumeroFicha(doc).ToString().Length)) +
-                                                    "São Paulo," + new string(' ', 4) +
-                                                    GetDataPorExtenso());
-                                                doc.Application.ActiveDocument.Range(rangeFinal).HighlightColorIndex = WdColorIndex.wdNoHighlight;
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 24, doc.Application.ActiveDocument.Range().End).Bold = 1;
-                                            }
-
-                                            doc.Application.ActiveDocument.Range(rangeFinal).HighlightColorIndex = WdColorIndex.wdNoHighlight;
-                                            if (IsVerso(GetNumeroPagina(doc)))
-                                            {
-                                                doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 59) + "verso");
-
-                                                rangeFinal = doc.Application.ActiveDocument.Range().End;
-                                                doc.Application.ActiveDocument.Range(rangeFinal - 7, rangeFinal).HighlightColorIndex = WdColorIndex.wdWhite;
-
-                                            }
-                                            else
-                                            {
-                                                InserirParagrafoEmBranco(doc);
-                                            }
-                                            InserirParagrafoEmBranco(doc);
-                                            doc.Paragraphs.Last.Range.Bold = 0;
-                                            InserirParagrafoEmBranco(doc);
-                                            if (!IsVerso(GetNumeroPagina(doc)) && GetNumeroFicha(doc) > 1)
-                                            {
-                                                doc.Paragraphs.Add().Range.Text = new string(' ',4) + $"( CONTINUAÇÃO DA FICHA N°. {GetNumeroFicha(doc) - 1} )";
-                                                doc.Paragraphs.Last.Range.Bold = 1;
-                                                InserirParagrafoEmBranco(doc);
-                                                doc.Paragraphs.Last.Range.Bold = 0;
-                                            }
-                                            posicao = app.ActiveDocument.Content.End - 1;
-                                            numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
-
-                                            for (int j = 0; j < textoParaSalvar.Length; j++)
-                                            {
-                                                app.ActiveDocument.Range(posicao++).Text = textoParaSalvar[j].ToString();
-                                            }
-                                            posicao = app.ActiveDocument.Content.End - 3;
-                                            i--;
+                                            doc.Paragraphs.SpaceAfter = 0;
                                         }
                                         else
                                         {
-                                            app.ActiveDocument.Range(posicao++).Text = modelo.Ato[i].ToString();
-                                        }
-                                    }
+                                            InserirParagrafoEmBranco(doc);
 
-                                    app.ActiveDocument.Paragraphs.Add().Range.InlineShapes.AddHorizontalLineStandard();
-                                    if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
+                                        }
+                                        //INSERINDO TEXTO PADRÃO
+                                        doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, 1);
+
+                                        var shapesTask = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+                                        //Insere os shapes de matricula e ficha
+                                        InserirShapeMatriculaFicha(shapesTask);
+                                        //Ilusão de margem
+                                        InserirShapeMargem(shapes);
+
+                                        InserirTextoMatriculaFicha(doc);
+
+                                        doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
+                                        var rangeFinal = doc.Application.ActiveDocument.Range().End;
+                                        AjustarBackGroundShapeMatriculaFicha(doc, rangeFinal);
+
+                                        //Numero da matricula e ficha
+                                        if (IsVerso(GetNumeroPagina(doc)))
+                                        {
+                                            InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
+                                                GetNumeroFicha(doc) + new string(' ', 5 - GetNumeroFicha(doc).ToString().Length)
+                                                , true);
+                                            
+                                        }
+                                        //numero da matricula,ficha e data.
+                                        else
+                                        {
+                                            InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
+                                                GetNumeroFicha(doc) + new string(' ', 30 + (5 - GetNumeroFicha(doc).ToString().Length)) + "São Paulo," + new string(' ', 4) + GetDataPorExtenso()
+                                                , true);
+
+                                            Negrito(doc, GetRangeEnd(doc, 24), GetRangeEnd(doc), true);
+                                        }
+                                        SetHighlightColor(doc,rangeFinal, WdColorIndex.wdNoHighlight);
+
+                                        if (IsVerso(GetNumeroPagina(doc)))
+                                        {
+                                            InserirParagrafo(doc, new string(' ', 59) + "verso", true);                                           
+                                            SetHighlightColor(doc, GetRangeEnd(doc, 7), GetRangeEnd(doc), WdColorIndex.wdWhite);
+                                        }
+                                        else
+                                        {
+                                            InserirParagrafoEmBranco(doc);
+                                        }
+                                        InserirParagrafoEmBranco(doc);
+                                        //Tira do Ultimo Paragrafo o negrito
+                                        doc.Paragraphs.Last.Range.Bold = 0;
+                                        InserirParagrafoEmBranco(doc);
+
+                                        if (!IsVerso(GetNumeroPagina(doc)) && GetNumeroFicha(doc) > 1)
+                                        {
+                                            doc.Paragraphs.Add().Range.Text = new string(' ', 4) + $"( CONTINUAÇÃO DA FICHA N°. {GetNumeroFicha(doc) - 1} )";
+                                            doc.Paragraphs.Last.Range.Bold = 1;
+                                            InserirParagrafoEmBranco(doc);
+                                            doc.Paragraphs.Last.Range.Bold = 0;
+                                        }
+                                        posicaoCursor = app.ActiveDocument.Content.End - 1;
+                                        numeroPagina = GetNumeroPagina(doc);
+
+                                        //Reescreve o texto que foi perdido pelo rodapé e retorna a posição do cursor atualizada
+                                        posicaoCursor = ReescreverTextoDeFinalDePagina(doc, posicaoCursor, textoParaSalvar);
+
+                                        i--;
+                                    }
+                                    else
+                                    {
+                                        app.ActiveDocument.Range(posicaoCursor++).Text = modelo.Ato[i].ToString();
+                                    }
+                                }
+
+                                app.ActiveDocument.Paragraphs.Add().Range.InlineShapes.AddHorizontalLineStandard();
+                                if (GetNumeroPagina(doc) > numeroPagina)
+                                {
+                                    //AJUSTAR PARAGRAFO
+                                    app.ActiveDocument.InlineShapes[app.ActiveDocument.InlineShapes.Count].Delete();
+                                    app.ActiveDocument.Paragraphs.Last.Range.Delete();
+                                }
+                                else
+                                {
+                                    InserirParagrafoEmBranco(doc);
+                                    if (GetNumeroPagina(doc) > numeroPagina)
                                     {
                                         //AJUSTAR PARAGRAFO
+                                        app.ActiveDocument.Paragraphs.Last.Range.Delete();
                                         app.ActiveDocument.InlineShapes[app.ActiveDocument.InlineShapes.Count].Delete();
                                     }
                                     else
                                     {
-                                        InserirParagrafoEmBranco(doc);
-                                        if (doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] > numeroPagina)
-                                        {
-                                            //AJUSTAR PARAGRAFO
-                                            app.ActiveDocument.InlineShapes[app.ActiveDocument.InlineShapes.Count].Delete();
-                                        }
-                                        else
-                                        {
-                                            app.ActiveDocument.Paragraphs.Last.Range.Delete();
-                                        }
+                                        app.ActiveDocument.Paragraphs.Last.Range.Delete();
 
                                     }
 
-                                    break;
                                 }
 
-                            });
+                                break;
+                            }
 
-
-
-
-
-                            System.Threading.Tasks.Task.WaitAll();
                             //doc.Save();
 
 
@@ -363,7 +343,7 @@ namespace AdmCartorio.Controllers
                             app.Visible = true;
 
                             var doc = app.Documents.Open("C:\\Users\\pedro.henrique\\Desktop\\TesteInterrupt.docx");
-                            
+
                             var numeroPagina = doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
 
                             System.Threading.Tasks.Task.Run(() =>
@@ -394,16 +374,18 @@ namespace AdmCartorio.Controllers
                                             {
                                                 doc.Paragraphs.Add().Range.Text = "LIVRO N.° 2 - REGISTRO" + new string(' ', 45) + "16.° Oficial de Registro de Imóveis da Capital";
                                                 //Deixa em negrito e sublinhado
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 47, doc.Application.ActiveDocument.Range().End).Bold = 1;
+                                                Negrito(doc, GetRangeEnd(doc, 47), GetRangeEnd(doc), true);
                                                 doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 47, doc.Application.ActiveDocument.Range().End).Font.Underline = WdUnderline.wdUnderlineSingle;
 
                                                 doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
                                                 doc.Paragraphs.Add().Range.InsertAfter(new string(' ', 30) + "GERAL");
-                                                doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 36, doc.Application.ActiveDocument.Range().End).Bold = 0;
+
+                                                //Tira o negrito e sublinhado
+                                                Negrito(doc, GetRangeEnd(doc, 36), GetRangeEnd(doc), false);
+                                                //doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 36, doc.Application.ActiveDocument.Range().End).Bold = 0;
                                                 doc.Application.ActiveDocument.Range(doc.Application.ActiveDocument.Range().End - 36, doc.Application.ActiveDocument.Range().End).Font.Underline = WdUnderline.wdUnderlineNone;
 
                                                 doc.Paragraphs.SpaceAfter = 0;
-                                                //doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
 
                                             }
                                             else
@@ -525,7 +507,7 @@ namespace AdmCartorio.Controllers
 
 
 
-                            
+
                             //using (DocX docX = DocX.Load(fileStream))
                             //{
                             //    //deixa texto transparente
@@ -567,12 +549,87 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        private static void InserirParagrafo(Document doc, string text , bool insertAfter)
+        {
+            if (!insertAfter)
+            {
+                doc.Paragraphs.Add().Range.Text = text;
+                return;
+            }
+            doc.Paragraphs.Add().Range.InsertAfter(text);
+        }
+
+        private static void Underline(Document doc, int posicaoInicial, WdUnderline wdUnderline)
+        {
+            doc.Application.ActiveDocument.Range(posicaoInicial).Font.Underline = wdUnderline;
+        }
+
+        private static void Underline(Document doc, int posicaoInicial, int posicaoFinal, WdUnderline wdUnderline)
+        {
+            doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Font.Underline = wdUnderline;
+        }
+
+        private static void SetHighlightColor(Document doc, int posicaoInicial, WdColorIndex wdColorIndex)
+        {
+            doc.Application.ActiveDocument.Range(posicaoInicial).HighlightColorIndex = wdColorIndex;
+
+        }
+
+        private static void SetHighlightColor(Document doc, int posicaoInicial, int posicaoFinal, WdColorIndex wdColorIndex)
+        {
+            doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).HighlightColorIndex = wdColorIndex;
+        }
+
+        /// <summary>
+        /// Pega o range final do documento ativo
+        /// </summary>
+        /// <param name="doc">Documento ativo</param>
+        /// <param name="backOFF">Posições que recuam do range final do documento (recuar N posições)</param>
+        /// <returns>Posição do range final do documento</returns>
+        private static int GetRangeEnd(Document doc, int backOFF = 0)
+        {
+            return doc.Application.ActiveDocument.Range().End - backOFF;
+        }
+
+
+        /// <summary>
+        /// Função responsável por controlar o negrito
+        /// </summary>
+        /// <param name="doc">Documento Ativo</param>
+        /// <param name="posicaoInicial">Posição Inicial</param>
+        /// <param name="posicaoFinal">Posição Final</param>
+        /// <param name="negrito"> TRUE - NEGRITO; FALSE - TIRAR NEGRITO </param>
+        private static void Negrito(Document doc, int posicaoInicial, int posicaoFinal, bool negrito = true)
+        {
+            //Coloca o texto em negrito se negrito = true, se não, tira o negrito
+            doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Bold = negrito ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Reescreve o texto final de página que foi perdido pelo rodapé
+        /// </summary>
+        /// <param name="doc">Documento Ativo</param>
+        /// <param name="posicaoCursor">Posição do cursor</param>
+        /// <param name="textoParaSalvar">Texto para salvar</param>
+        /// <returns></returns>
+        private static int ReescreverTextoDeFinalDePagina(Document doc, int posicaoCursor, string textoParaSalvar)
+        {
+            for (int j = 0; j < textoParaSalvar.Length; j++)
+            {
+                doc.Application.ActiveDocument.Range(posicaoCursor++).Text = textoParaSalvar[j].ToString();
+            }
+            /*Reposiciona o cursor no final do arquivo, pois foram reescrita as ultimas linhas
+            devido a inserção de rodapé dinâmica.*/
+            posicaoCursor = doc.Application.ActiveDocument.Content.End - 3;
+            return posicaoCursor;
+        }
+
         /// <summary>
         /// Imprime após uma quantidade de centimetros em relação ao SHAPE
         /// </summary>
         /// <param name="centimetros">Centimetros</param>
         /// <param name="doc">Documento Ativo</param>
-        private static void ImprimirAposCentrimetros(float centimetros,Document doc)
+        private static void ImprimirAposCentrimetros(float centimetros, Document doc)
         {
             int quantidadeDeEspacos = (int)Math.Ceiling(centimetros / 0.6);
             while (quantidadeDeEspacos > 0)
@@ -627,7 +684,7 @@ namespace AdmCartorio.Controllers
         /// </summary>
         /// <param name="doc">Documento ativo</param>
         /// <returns>Numero da pagina (INT) </returns>
-            private static int GetNumeroPagina(Document doc)
+        private static int GetNumeroPagina(Document doc)
         {
             return doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument];
         }
@@ -683,13 +740,15 @@ namespace AdmCartorio.Controllers
             doc.Application.ActiveDocument.Paragraphs.Add();
         }
 
-        private static void InserirShapeMatriculaFicha(Microsoft.Office.Interop.Word.Shapes shapes)
+        private static void InserirShapeMatriculaFicha(Shapes shapes)
         {
             int index;
             //Shape do numero de matricula
             shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
                                                         .ZOrder(MsoZOrderCmd.msoSendBehindText);
             index = shapes.Count;
+
+            
 
             shapes[index].Fill.ForeColor.RGB = (int)XlRgbColor.xlWhite;
             shapes[index].Line.ForeColor.RGB = (int)XlRgbColor.xlBlack;
@@ -711,7 +770,7 @@ namespace AdmCartorio.Controllers
             shapes[index].Top = 57;
         }
 
-        private static void InserirShapeMargem(Microsoft.Office.Interop.Word.Shapes shapes)
+        private static void InserirShapeMargem(Shapes shapes)
         {
 
             shapes.AddShape((int)MsoAutoShapeType.msoShapeRectangle, 50, 50, 428, 705)

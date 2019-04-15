@@ -46,7 +46,7 @@
             // FaixaOpcoes
             // 
             this.Name = "FaixaOpcoes";
-            this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.FaixaOpcoes_Load_1);
+            this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.FaixaOpcoes_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
             this.ResumeLayout(false);
