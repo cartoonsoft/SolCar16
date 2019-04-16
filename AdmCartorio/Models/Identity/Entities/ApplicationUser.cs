@@ -27,6 +27,8 @@ namespace AdmCartorio.Models.Identity.Entities
         [MaxLength(100)]
         public string Nome { get; set; }
 
+        public bool Ativo { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
 

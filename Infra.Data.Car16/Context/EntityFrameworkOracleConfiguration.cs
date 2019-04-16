@@ -9,13 +9,16 @@ using Oracle.ManagedDataAccess.Client;
 
 namespace Infra.Data.Car16.Context
 {
-    public class OraDbConfiguration: DbConfiguration
+    public sealed class EntityFrameworkOracleConfiguration : DbConfiguration
     {
-        public OraDbConfiguration()
+        public static readonly DbConfiguration Instance = new EntityFrameworkOracleConfiguration();
+
+        public EntityFrameworkOracleConfiguration()
         {
             SetDefaultConnectionFactory(new OracleConnectionFactory());
             SetProviderServices("Oracle.ManagedDataAccess.Client", EFOracleProviderServices.Instance);
             SetProviderFactory("Oracle.ManagedDataAccess.Client", new OracleClientFactory());
         }
     }
+
 }

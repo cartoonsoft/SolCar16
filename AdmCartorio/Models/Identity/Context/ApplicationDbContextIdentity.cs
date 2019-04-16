@@ -5,17 +5,20 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using AdmCartorio.Models.Identity.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Oracle.ManagedDataAccess.Client;
+using AdmCartorio.Models.Identity.Entities;
+using Infra.Data.Car16.Context;
 
 namespace AdmCartorio.Models.Identity.Context
 {
+    [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
     public class ApplicationDbContextIdentity : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContextIdentity(): base("contextOraDevUserIdentity", throwIfV1Schema: false)
         {
-            DbConfiguration.SetConfiguration(EntityFrameworkOracleConfiguration.Instance);
+            //coloquei no web.config
+            //DbConfiguration.SetConfiguration(EntityFrameworkOracleConfiguration.Instance);
         }
            
         public static ApplicationDbContextIdentity Create()

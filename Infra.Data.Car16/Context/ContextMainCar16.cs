@@ -14,6 +14,7 @@ namespace Infra.Data.Car16.Context
     /// <summary>
     /// context para Car16 New
     /// </summary>
+    [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
     public class ContextMainCar16: ContextOraBase
     {
         /// <summary>

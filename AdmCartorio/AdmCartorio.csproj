@@ -178,7 +178,6 @@
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Identity\Context\DataBaseIInitializerCar16.cs" />
-    <Compile Include="Models\Identity\Context\EntityFrameworkOracleConfiguration.cs" />
     <Compile Include="Models\Identity\Entities\Claims.cs" />
     <Compile Include="Models\Identity\Entities\ApplicationUser.cs" />
     <Compile Include="ViewModels\Identity\AccountViewModels.cs" />
@@ -1007,10 +1006,9 @@
     <Content Include="Views\Misc\Versions.cshtml" />
     <Content Include="Views\Graphs\HighCharts.cshtml" />
     <Content Include="Views\Usuarios\Create.cshtml" />
-    <Content Include="Views\Usuarios\Delete.cshtml" />
-    <Content Include="Views\Usuarios\Details.cshtml" />
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
+    <Content Include="Views\Usuarios\_frmUsuario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1056,6 +1054,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\realestate\thumbs\" />
+    <Folder Include="Scripts\cartoonsoft\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">

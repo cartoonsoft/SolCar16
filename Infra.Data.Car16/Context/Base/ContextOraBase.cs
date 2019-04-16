@@ -28,7 +28,6 @@ namespace Infra.Data.Car16.Context.Base
     /// <summary>
     /// Context para banco de dados oracle
     /// </summary>
-    [DbConfigurationType(typeof(OraDbConfiguration))]
     public class ContextOraBase: DbContext, IContextCore
     {
         private readonly string _contexName;
@@ -40,6 +39,9 @@ namespace Infra.Data.Car16.Context.Base
         public ContextOraBase(string contexName) : base(contexName)
         {
             _contexName = contexName;
+
+            //coloquei no web.congig
+            //DbConfiguration.SetConfiguration(EntityFrameworkOracleConfiguration.Instance);
         }
 
         public string ContextName

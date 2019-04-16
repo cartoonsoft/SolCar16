@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -67,7 +68,6 @@ namespace AdmCartorio.ViewModels.Identity
 
         [HiddenInput]
         public string UserId { get; set; }
-
     }
 
     public class AccountForgotViewModel
@@ -79,7 +79,23 @@ namespace AdmCartorio.ViewModels.Identity
 
     public class AccountRegisterViewModel
     {
+        public AccountRegisterViewModel()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        [Key]
+        public Guid Id { get; set; }
+
+        [Display(Name = "Usuário administrador")]
+        public bool Admin { get; set; }
+
+        [Display(Name = "Ativo")]
+        [Required]
+        public bool Ativo { get; set; }
+
         [Display(Name = "Nome")]
+        [Required]
         public string Nome { get; set; }
 
         [Display(Name = "Usuário")]
@@ -106,6 +122,10 @@ namespace AdmCartorio.ViewModels.Identity
         [System.ComponentModel.DataAnnotations.Compare("Password")]
         [Display(Name = "Confirme sua senha")]
         public string PasswordConfirm { get; set; }
+
+        //EmailConfirmed //bool se email foi confrimado,PasswordHash,SecurityStamp,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName
+        [Display(Name = "Telefone")]
+        public string PhoneNumber { get; set; }
     }
 
     public class AccountResetPasswordViewModel

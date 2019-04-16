@@ -92,8 +92,15 @@ namespace AdmCartorio.Controllers
 
             if (usuario != null)
             {
+                var result = SignInStatus.Failure;
 
-                var result = await SignInManager.PasswordSignInAsync(usuario.UserName, model.Password, model.RememberMe, shouldLockout: false); //trocar: shouldLockout para true (bloqueio por tentativas senha errada)
+                if (usuario.Ativo)
+                {
+                    result = await SignInManager.PasswordSignInAsync(usuario.UserName, model.Password, model.RememberMe, shouldLockout: false); //trocar: shouldLockout para true (bloqueio por tentativas senha errada)
+                } else {
+                    ModelState.AddModelError("", "Ususário está Inativado!.");
+                    return View(model);
+                }
 
                 switch (result)
                 {
@@ -110,12 +117,12 @@ namespace AdmCartorio.Controllers
                     case SignInStatus.RequiresVerification:
                         return RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
                     case SignInStatus.Failure:
+                        //
                     default:
                         ModelState.AddModelError("", "Login ou Senha incorretos.");
                         return View(model);
                 }
-            } else
-            {
+            } else {
                 ModelState.AddModelError("", "Login ou Senha incorretos.");
                 return View(model);
             }
@@ -145,6 +152,10 @@ namespace AdmCartorio.Controllers
                 // Criação da instancia do Identity e atribuição dos Claims
                 await user.GenerateUserIdentityAsync(UserManager, ext)
             );
+
+            //ronaldo
+            user.LastLoginDate = DateTime.Now;
+            var result = await UserManager.UpdateAsync(user);
 
         }
 
@@ -194,7 +205,7 @@ namespace AdmCartorio.Controllers
         }
 
         // GET: /Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public ActionResult Register()
         {
             AccountRegisterViewModel registerViewModel = new AccountRegisterViewModel();
@@ -204,7 +215,7 @@ namespace AdmCartorio.Controllers
 
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(AccountRegisterViewModel model)
         {
@@ -465,16 +476,6 @@ namespace AdmCartorio.Controllers
             return View(model);
         }
 
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> LogOff()
-        {
-            await SignOutAsync();
-            //AuthenticationManager.SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
@@ -548,6 +549,24 @@ namespace AdmCartorio.Controllers
             await UserManager.SignOutClientAsync(user, clientKey);
             AuthenticationManager.SignOut();
         }
+
+        // POST: /Account/LogOff
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> LogOff()
+        {
+            await SignOutAsync();
+            //AuthenticationManager.SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<ActionResult> SignOut()
+        {
+            UserManager.UpdateSecurityStamp(User.Identity.GetUserId());
+            await SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
