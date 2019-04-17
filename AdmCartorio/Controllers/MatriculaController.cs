@@ -107,57 +107,58 @@ namespace AdmCartorio.Controllers
                             var doc = app.Documents.Add();
                             //Configuração do documento
                             doc.Paragraphs.Format.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-                            doc.PageSetup.TopMargin = 20;
-                            doc.PageSetup.BottomMargin = 40;
+                            doc.PageSetup.PaperSize = WdPaperSize.wdPaperB5;
+                            doc.PageSetup.BottomMargin = 35;
+                            doc.PageSetup.LeftMargin = 62.3f;
+                            doc.PageSetup.RightMargin = 36.5f;
                             doc.Application.ActiveDocument.AutoHyphenation = true;
 
                             var numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                             int posicaoCursor;
                             #endregion
-                            //Inserir paragrafo
-                            WordParagraphHelper.InserirParagrafo(doc, "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS"
-                                , false);
+                            ////Inserir paragrafo
+                            //WordParagraphHelper.InserirParagrafo(doc, "LIVRO N.° 2 - REGISTRO" + new string(' ', 52) + "16.° CARTÓRIO DE REGISTRO DE IMÓVEIS"
+                            //    , false);
 
-                            //NEGRITO E SUBLINHADO                            
-                            WordTextStyleHelper.Bold(doc, 74, 110);
-                            WordTextStyleHelper.Underline(doc, 74, 111, WdUnderline.wdUnderlineSingle);
-                            //Inserir paragrafo após
-                            WordParagraphHelper.InserirParagrafo(doc, new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo", true);
+                            ////NEGRITO E SUBLINHADO                            
+                            //WordTextStyleHelper.Bold(doc, 74, 110);
+                            //WordTextStyleHelper.Underline(doc, 74, 111, WdUnderline.wdUnderlineSingle);
+                            ////Inserir paragrafo após
+                            //WordParagraphHelper.InserirParagrafo(doc, new string(' ', 30) + "GERAL" + new string(' ', 79) + "de São Paulo", true);
 
-                            WordTextStyleHelper.Underline(doc, 111, WdUnderline.wdUnderlineNone);
-                            WordTextStyleHelper.Bold(doc, 224, 237, true);
-                            doc.Paragraphs.SpaceAfter = 0;
-                            WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha", true);
+                            //WordTextStyleHelper.Underline(doc, 111, WdUnderline.wdUnderlineNone);
+                            //WordTextStyleHelper.Bold(doc, 224, 237, true);
+                            //doc.Paragraphs.SpaceAfter = 0;
+                            //WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha", true);
 
-                            //FUNDO BRANCO PARA ILUSAO DE LEGEND DO CAMPO
-                            WordTextStyleHelper.Underline(doc, 286, WdUnderline.wdUnderlineNone);
-                            WordTextStyleHelper.SetHighlightColor(doc, 241, 253, WdColorIndex.wdWhite);
-                            WordTextStyleHelper.SetHighlightColor(doc, 280, 288, WdColorIndex.wdWhite);
+                            ////FUNDO BRANCO PARA ILUSAO DE LEGEND DO CAMPO
+                            //WordTextStyleHelper.Underline(doc, 286, WdUnderline.wdUnderlineNone);
+                            //WordTextStyleHelper.SetHighlightColor(doc, 241, 253, WdColorIndex.wdWhite);
+                            //WordTextStyleHelper.SetHighlightColor(doc, 280, 288, WdColorIndex.wdWhite);
 
-                            //Matricula, ficha, local e data
-                            WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                WordPageHelper.GetNumeroFicha(doc) + new string(' ', 36 + (5 - WordPageHelper.GetNumeroFicha(doc).ToString().Length)) + "São Paulo," + new string(' ', 4) + GetDataPorExtenso()
+                            ////Matricula, ficha, local e data
+                            WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 33 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
+                                WordPageHelper.GetNumeroFicha(doc) + new string(' ', 33 + (5 - WordPageHelper.GetNumeroFicha(doc).ToString().Length)) + "São Paulo," + new string(' ', 4) + GetDataPorExtenso()
                                 , true);
 
 
-                            WordTextStyleHelper.SetHighlightColor(doc, 288, WdColorIndex.wdNoHighlight);
-                            WordTextStyleHelper.Bold(doc, 390, 412, true);
+                            //WordTextStyleHelper.SetHighlightColor(doc, 288, WdColorIndex.wdNoHighlight);
+                            //WordTextStyleHelper.Bold(doc, 390, 412, true);
 
-                            #region | Configurando Shape | 
-                            var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
-                            //Insere os shapes de matricula e ficha
-                            WordShapeHelper.InserirShapeMatriculaFicha(shapes);
-                            //Insere a ilusão de margem
-                            WordShapeHelper.InserirShapeMargem(shapes, 84, 100);
-                            #endregion
+                            //#region | Configurando Shape | 
+                            //var shapes = doc.Paragraphs.Add().Application.ActiveDocument.Shapes;
+                            ////Insere os shapes de matricula e ficha
+                            //WordShapeHelper.InserirShapeMatriculaFicha(shapes);
+                            ////Insere a ilusão de margem
+                            //WordShapeHelper.InserirShapeMargem(shapes, 84, 100);
+                            //#endregion
 
                             doc.Paragraphs.Add().Range.InsertParagraphAfter();
 
 
 
                             posicaoCursor = app.ActiveDocument.Content.End - 1;
-                            while (true)
-                            {
+                            
                                 //Imprimir modelo R-{numeroAtoSequencia}/{MATRICULA} - 
                                 app.ActiveDocument.Range(posicaoCursor).Text = $"R-12/{modelo.MatriculaID} - ";
                                 posicaoCursor = app.ActiveDocument.Content.End - 1;
@@ -222,7 +223,7 @@ namespace AdmCartorio.Controllers
                                         //Insere os shapes de matricula e ficha
                                         WordShapeHelper.InserirShapeMatriculaFicha(shapesTask);
                                         //Ilusão de margem
-                                        WordShapeHelper.InserirShapeMargem(shapes, 84, 100);
+                                        //WordShapeHelper.InserirShapeMargem(shapes, 84, 100);
 
                                         WordShapeHelper.InserirTextoMatriculaFicha(doc);
 
@@ -266,12 +267,14 @@ namespace AdmCartorio.Controllers
 
                                         if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
                                         {
-                                            doc.Paragraphs.Add().Range.Text = new string(' ', 4) + $"( CONTINUAÇÃO DA FICHA N°. {WordPageHelper.GetNumeroFicha(doc) - 1} )";
+                                            WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 4) + $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
+                                            
                                             doc.Paragraphs.Last.Range.Bold = 1;
                                             WordParagraphHelper.InserirParagrafoEmBranco(doc);
                                             doc.Paragraphs.Last.Range.Bold = 0;
                                         }
-                                        posicaoCursor = app.ActiveDocument.Content.End - 1;
+                                        
+                                        posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
                                         numeroPagina = WordPageHelper.GetNumeroPagina(doc);
 
                                         //Reescreve o texto que foi perdido pelo rodapé e retorna a posição do cursor atualizada
@@ -281,7 +284,7 @@ namespace AdmCartorio.Controllers
                                     }
                                     else
                                     {
-                                        app.ActiveDocument.Range(posicaoCursor++).Text = modelo.Ato[i].ToString();
+                                        WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor++, modelo.Ato[i].ToString());
                                     }
                                 }
 
@@ -310,8 +313,8 @@ namespace AdmCartorio.Controllers
 
                                 }
 
-                                break;
-                            }
+                                
+                            
 
                             //doc.Save();
 
@@ -551,7 +554,7 @@ namespace AdmCartorio.Controllers
             }
         }
 
-       
+
 
 
 
@@ -726,7 +729,7 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento Ativo</param>
         /// <param name="posicaoInicial">Posição Inicial</param>
         /// <param name="text">Texto</param>
-        public static void InserirTextoEmRange(Document doc, int posicaoInicial,string text)
+        public static void InserirTextoEmRange(Document doc, int posicaoInicial, string text)
         {
             if (!String.IsNullOrEmpty(text))
 
