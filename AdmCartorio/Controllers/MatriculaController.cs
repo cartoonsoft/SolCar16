@@ -120,7 +120,8 @@ namespace AdmCartorio.Controllers
                         //Imprimir modelo R-{numeroAtoSequencia}/{MATRICULA} - 
                         WordParagraphHelper.InserirParagrafoEmBranco(doc);
                         WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
-                        WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.MatriculaID} - ", true);
+                        WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                        //WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.MatriculaID} - ", true);
 
                         var posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
                         for (int i = 0; i < modelo.Ato.Length; i++)
@@ -247,7 +248,7 @@ namespace AdmCartorio.Controllers
                             }
 
                         }
-                        doc.SaveAs2(Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx"));
+                        doc.SaveAs2(filePath);
                         doc.Close();
                         app.Visible = false;
                         app = null;
@@ -262,7 +263,7 @@ namespace AdmCartorio.Controllers
                             Visible = true
                         };
 
-                        var doc = app.Documents.Open("C:\\Users\\pedro.henrique\\Desktop\\TesteInterrupt.docx");
+                        var doc = app.Documents.Open(filePath);
                         WordParagraphHelper.ParapraphAlignment(doc, WdParagraphAlignment.wdAlignParagraphJustify);
                         WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
 
@@ -277,55 +278,37 @@ namespace AdmCartorio.Controllers
                             {
 
                                 //SELECIONANDO TEXTO PARA SALVAR
-                                doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
-                                doc.Application.Selection.GoToPrevious(WdGoToItem.wdGoToLine);
-                                doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
-                                var textoParaSalvar = app.Selection.Text;
-
+                                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
+                                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToPrevious, 1);
+                                WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                var textoParaSalvar = WordSelectionHelper.GetSelectionText(doc);
 
                                 //AJUSTAR
                                 if (String.IsNullOrEmpty(textoParaSalvar.Replace('\r', ' ').Trim()))
                                 {
-                                    app.Selection.Delete();
-                                    doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
-                                    textoParaSalvar += app.Selection.Text;
-                                    app.Selection.Delete();
+                                    WordSelectionHelper.DeleteSelectionText(doc);
+                                    WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                    textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
+                                    WordSelectionHelper.DeleteSelectionText(doc);
                                     WordParagraphHelper.InserirParagrafoEmBranco(doc);
                                     WordParagraphHelper.InserirRodape(doc);
                                 }
                                 else
                                 {
-                                    app.Selection.Delete();
+                                    WordSelectionHelper.DeleteSelectionText(doc);
                                     WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                    doc.Application.Selection.EndOf(WdUnits.wdParagraph, WdMovementType.wdExtend);
-                                    textoParaSalvar += app.Selection.Text;
-                                    app.Selection.Delete();
-                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-
-                                    WordParagraphHelper.InserirRodape(doc);
+                                    WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
+                                    textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
+                                    WordSelectionHelper.DeleteSelectionText(doc);
                                 }
                                 //INSERE PARAGRAFOS EM BRANCO ATÉ IR PARA A PROXIMA PÁGINA
                                 while (WordPageHelper.GetNumeroPagina(doc) <= numeroPagina)
                                 {
                                     WordParagraphHelper.InserirParagrafoEmBranco(doc);
                                 }
-                                if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
-                                {
-
-                                    //WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-
-                                    doc.Paragraphs.SpaceAfter = 0;
-
-                                }
-                                else
-                                {
-                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                }
-                                //INSERINDO TEXTO PADRÃO
-                                doc.Application.Selection.GoTo(WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WdMovementType.wdExtend);
-
-                                doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+                                app.ActiveDocument.Paragraphs.Last.Range.Delete();
+                                app.ActiveDocument.Paragraphs.Last.Range.Delete();
+                                WordParagraphHelper.InserirRodape(doc);
 
                                 var rangeFinal = WordPageHelper.GetRangeEnd(doc);
 
@@ -333,48 +316,55 @@ namespace AdmCartorio.Controllers
                                 if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
                                 {
                                     WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                        $"{WordPageHelper.GetNumeroFicha(doc)}" + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc).ToString().Length),
-                                        true);
+                                        WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)
+                                        , true);
+
+                                    WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
+                                    WordPageHelper.ConfigurePageLayout(doc, WordPageHelper.GetNumeroPagina(doc));
+
+                                    doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
 
                                 }
                                 //numero da matricula,ficha e data.
                                 else
                                 {
-                                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 30 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
-                                        WordPageHelper.GetNumeroFicha(doc) + new string(' ', 30 + (5 - WordPageHelper.GetNumeroFicha(doc).ToString().Length)) +
-                                        "São Paulo," + new string(' ', 4) +
-                                        GetDataPorExtenso(),
-                                        true);
+                                    //app.ActiveDocument.Paragraphs.Last.Range.Delete();
 
-                                    WordTextStyleHelper.SetHighlightColor(doc, rangeFinal, WdColorIndex.wdNoHighlight);
-                                    WordTextStyleHelper.Bold(doc, WordPageHelper.GetRangeEnd(doc, 24), WordPageHelper.GetRangeEnd(doc));
+                                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 17 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
+                                        WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + GetDataPorExtenso() + "."
+                                        , true);
+                                    WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
+                                    WordPageHelper.ConfigurePageLayout(doc, WordPageHelper.GetNumeroPagina(doc));
+
+                                    doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+
+                                    WordTextStyleHelper.Bold(doc, WordPageHelper.GetRangeEnd(doc, 24), WordPageHelper.GetRangeEnd(doc), true);
                                 }
 
-                                doc.Application.ActiveDocument.Range(rangeFinal).HighlightColorIndex = WdColorIndex.wdNoHighlight;
-                                if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
+                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+
+                                if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
                                 {
-                                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 59) + "verso", true);
-                                    WordTextStyleHelper.SetHighlightColor(doc, WordPageHelper.GetRangeEnd(doc, 7), WordPageHelper.GetRangeEnd(doc),
-                                        WdColorIndex.wdWhite);
+                                    WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
+
+                                    doc.Paragraphs.Last.Range.Bold = 1;
+                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                                    doc.Paragraphs.Last.Range.Bold = 0;
 
                                 }
                                 else
                                 {
-                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                }
-                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                doc.Paragraphs.Last.Range.Bold = 0;
-                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
-                                {
-                                    WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 4) + $"( CONTINUAÇÃO DA FICHA N°. {WordPageHelper.GetNumeroFicha(doc) - 1} )");
-                                    doc.Paragraphs.Last.Range.Bold = 1;
-                                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
                                     doc.Paragraphs.Last.Range.Bold = 0;
                                 }
-                                posicao = WordPageHelper.GetContentEnd(doc, 1);
 
+                                posicao= WordPageHelper.GetContentEnd(doc, 1);
                                 numeroPagina = WordPageHelper.GetNumeroPagina(doc);
+
+                                //Reescreve o texto que foi perdido pelo rodapé e retorna a posição do cursor atualizada
+                                posicao = WordParagraphHelper.ReescreverTextoDeFinalDePagina(doc, posicao, textoParaSalvar);
+
 
                                 // Reescreve o texto final que foi sobreescrito pelo rodapé na quebra de página
                                 posicao = WordParagraphHelper.ReescreverTextoDeFinalDePagina(doc, posicao, textoParaSalvar);
