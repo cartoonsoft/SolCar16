@@ -120,13 +120,14 @@
                                         new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
                                 </div>
                             </section>*@
-                        <section class="col col-1">
+                        @*<section class="col col-1">
                             <button id="btnUtilizar"
                                     type="button"
+                                    disabled
                                     class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5">
                                 <h3>Utilizar</h3>
                             </button>
-                        </section>
+                        </section>*@
                     </div>
 
                 </fieldset>
@@ -231,7 +232,7 @@
         $('#Ato').val(editor.getData());
     });
 
-    $('#btnUtilizar').on('click', function () {
+    function AtualizarModelo(){
         var ModeloNome = $('#ModeloNome').val();
         $.ajax({
             url: '@Url.Action("UsaModeloParaAto", "Matricula")',
@@ -254,7 +255,7 @@
             }
         });
 
-    });
+    }
 
 
 

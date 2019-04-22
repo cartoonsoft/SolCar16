@@ -77,7 +77,7 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}_.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}.docx");
             try
             {
 
@@ -102,7 +102,7 @@ namespace AdmCartorio.Controllers
                         if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
                             //Inicia a variavel que representa o documento
-                            doc = new Application() { Visible = false }.Documents.Add();
+                            doc = new Application() { Visible = true }.Documents.Add();
 
                             //Configuração do documento
                             WordParagraphHelper.ParapraphAlignment(doc, WdParagraphAlignment.wdAlignParagraphJustify);
