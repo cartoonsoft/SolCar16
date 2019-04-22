@@ -141,7 +141,7 @@ namespace AdmCartorio.Controllers
                         //Salvando e finalizando documento
                         doc.SaveAs2(filePath);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         doc.Close(WdSaveOptions.wdDoNotSaveChanges);
                         throw;
@@ -164,7 +164,6 @@ namespace AdmCartorio.Controllers
                     // Gravar o ato e buscar o selo e gravar o selo
 
                 }
-
                 modelo.MatriculasViewModel = getMatriculaViewModel();
                 modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
@@ -178,7 +177,8 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
-        
+
+
         /// <summary>
         /// Retorna o numero de matricula do modelo
         /// </summary>
@@ -452,6 +452,17 @@ namespace AdmCartorio.Controllers
     }
     public static class WordPageHelper
     {
+        /// <summary>
+        /// Configura a ultima página e alinha o texto como justificado
+        /// </summary>
+        /// <param name="doc"></param>
+        public static void ConfigureLastPage(Document doc)
+        {
+            WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
+            ConfigurePageLayout(doc, GetNumeroPagina(doc));
+            doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
+        }
+
         /// <summary>
         /// Pega o numero da página do documento ativo
         /// </summary>
@@ -909,7 +920,36 @@ namespace AdmCartorio.Controllers
             }
         }
 
+        /// <summary>
+        /// Insere o cabeçalho de acordo com o numero da pagina
+        /// </summary>
+        /// <param name="modelo"></param>
+        /// <param name="doc"></param>
+        public static void InserirCabecalho(MatriculaAtoViewModel modelo, Document doc)
+        {
+            if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
+            {
+                //Insere o paragrafo correspondente a matricula e ficha 
+                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 30 + (15 - modelo.MatriculaID.ToString().Length)) +
+                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)
+                    , true);
 
+                //Posiciona o cursor na ultima pagina e configura a pagina
+                WordPageHelper.ConfigureLastPage(doc);
+
+            }
+            else
+            {
+                //Insere o paragrafo correspondente a matricula, ficha e data por extenso
+                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 17 + (15 - modelo.MatriculaID.ToString().Length)) +
+                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
+                    , true);
+                //Posiciona o cursor na ultima pagina e configura a pagina
+                WordPageHelper.ConfigureLastPage(doc);
+
+                WordTextStyleHelper.Bold(doc, WordPageHelper.GetRangeEnd(doc, 24), WordPageHelper.GetRangeEnd(doc), true);
+            }
+        }
     }
     public static class WordHelper
     {
@@ -953,10 +993,13 @@ namespace AdmCartorio.Controllers
             {
                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
             }
+            //Deleta dois paragrafos
             doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
             doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
 
+            //Insere o texto de rodapé
             WordParagraphHelper.InserirRodape(doc);
+
             //Escrever o texto depois do rodapé
             EscreverCabecalhoETexto(modelo, doc, out numeroPagina, out posicaoCursor);
 
@@ -973,60 +1016,35 @@ namespace AdmCartorio.Controllers
         /// <param name="posicaoCursor">Posição do cursor</param>
         public static void EscreverCabecalhoETexto(MatriculaAtoViewModel modelo, Document doc, out int numeroPagina, out int posicaoCursor)
         {
+            if (doc == null) throw new ArgumentNullException("doc", "Documento não pode ser nulo");
+
             if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
             {
-                //SELECIONA O INICIO DA PROXIMA PÁGINA PARA NÃO TER ERRO
+                //Posiciona o cursor na ultima pagina e ajusta o paragrafo
                 WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
                 WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
             }
+            //Insere o cabeçalho
+            WordLayoutPageHelper.InserirCabecalho(modelo, doc);
 
-            //Numero da matricula e ficha
-            if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
-            {
-                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 30 + (15 - modelo.MatriculaID.ToString().Length)) +
-                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)
-                    , true);
-
-                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
-                WordPageHelper.ConfigurePageLayout(doc, WordPageHelper.GetNumeroPagina(doc));
-
-                doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-
-            }
-            //numero da matricula,ficha e data.
-            else
-            {
-                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 17 + (15 - modelo.MatriculaID.ToString().Length)) +
-                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
-                    , true);
-                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
-                WordPageHelper.ConfigurePageLayout(doc, WordPageHelper.GetNumeroPagina(doc));
-
-                doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
-
-                WordTextStyleHelper.Bold(doc, WordPageHelper.GetRangeEnd(doc, 24), WordPageHelper.GetRangeEnd(doc), true);
-            }
-
-            WordParagraphHelper.InserirParagrafoEmBranco(doc);
-            WordParagraphHelper.InserirParagrafoEmBranco(doc);
-
+            //Pula duas linhas para se alinhar com o shape de quadro de margem
+            WordParagraphHelper.InserirParagrafoEmBranco(doc); WordParagraphHelper.InserirParagrafoEmBranco(doc);
+            
+            //Se for continuação de alguma ficha
             if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
             {
                 WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
 
                 doc.Paragraphs.Last.Range.Bold = 1;
                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                doc.Paragraphs.Last.Range.Bold = 0;
+            }
+            doc.Paragraphs.Last.Range.Bold = 0;
 
-            }
-            else
-            {
-                doc.Paragraphs.Last.Range.Bold = 0;
-            }
 
             posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
         }
+
         /// <summary>
         /// Função que escreve o ato no documento
         /// </summary>
@@ -1056,6 +1074,20 @@ namespace AdmCartorio.Controllers
                 }
             }
         }
+
+        /// <summary>
+        /// Verifica se já existe ato inicial
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public static bool ExisteAtoInicial(MatriculaAtoViewModel modelo)
+        {
+            //Busca no banco se existe algum ato para aquela Matricula
+            int quantidadeAtos = 0;
+            //Se ato > 1, então existe o ato inicial
+            return quantidadeAtos > 0; 
+        }
+
 
     }
 }

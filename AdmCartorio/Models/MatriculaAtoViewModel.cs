@@ -18,6 +18,7 @@ namespace AdmCartorio.Models
         //Pode ter mais de um CPF para o mesmo ato
         public string ModeloCPF { get; set; }
         public string Ato { get; set; }
+        public int NumeroAtoSequencia { get; set; }
 
         public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
         public virtual List<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }
