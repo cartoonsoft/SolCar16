@@ -95,6 +95,7 @@ namespace AdmCartorio.Controllers
                 {
 
                     //Representa o documento e o numero de pagina
+                    Application app = new Application();
                     Document doc = null;
                     int numeroPagina;
                     try
@@ -102,7 +103,8 @@ namespace AdmCartorio.Controllers
                         if (modelo.ModeloTipoAto == "Ato Inicial")
                         {
                             //Inicia a variavel que representa o documento
-                            doc = new Application() { Visible = true }.Documents.Add();
+                            app.Visible = true;
+                            doc = app.Documents.Add();
 
                             //Configuração do documento
                             WordParagraphHelper.ParapraphAlignment(doc, WdParagraphAlignment.wdAlignParagraphJustify);
@@ -111,6 +113,11 @@ namespace AdmCartorio.Controllers
                             //Pegando o numero da pagina para configurar o layout
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                             WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
+
+
+                            WordPageHelper.Deslocar(doc, 1, true);
+
+
 
                             ////Matricula, ficha, local e data
                             WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 17 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
@@ -124,7 +131,8 @@ namespace AdmCartorio.Controllers
                         else
                         {
                             //Abre o arquivo para escrever o ATO e faz as configurações iniciais
-                            doc = new Application() { Visible = true }.Documents.Open(filePath);
+                            app.Visible = true;
+                            doc = app.Documents.Open(filePath);
                             WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
 
                             //Numero de paginas do documento e a posição do cursor
@@ -146,20 +154,17 @@ namespace AdmCartorio.Controllers
 
                         //Salvando e finalizando documento
                         doc.SaveAs2(filePath);
+                        doc.Close();
                     }
                     catch (Exception)
                     {
                         doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-                        doc.Saved = false;
                         throw;
                     }
                     finally
                     {
-                        try
-                        {
-                            doc.Close();
-                        }
-                        finally { }
+                        app.Quit();
+                        app = null;
                         doc = null;
                         GC.Collect();
                     }
@@ -482,7 +487,7 @@ namespace AdmCartorio.Controllers
             }
             /*Reposiciona o cursor no final do arquivo, pois foram reescrita as ultimas linhas
             devido a inserção de rodapé dinâmica.*/
-            posicaoCursor = doc.Application.ActiveDocument.Content.End - 3;
+            posicaoCursor = doc.Application.ActiveDocument.Content.End - 2;
             return posicaoCursor;
         }
 
@@ -515,6 +520,35 @@ namespace AdmCartorio.Controllers
     }
     public static class WordPageHelper
     {
+        public static void Deslocar(Document doc, int numeroFicha, bool isVerso)
+        {
+            // 1 1 2 2 3 3 4 4
+            // n V n V n V n V
+            // 2 * numeroFicha - 1(se não verso) 
+            // Subtrai-se 1 porque o arquivo começa na primeira página, ou seja, estamos considerando que começa do 0.
+            var quantidadeRepeticoes = (2 * numeroFicha - (isVerso ? 0 : 1)) - 1;
+
+            //se desloca uma certa quantidade de fichas (verso ou frente)
+            for (int j = 0; j < quantidadeRepeticoes; j++)
+            {
+                //Pula de uma página até a outra
+                for (int i = 0; i < 35; i++)
+                {
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                }
+            }
+            WordParagraphHelper.SpaceAfterParagraphs(doc,0);
+            //WordParagraphHelper.InserirParagrafoEmBranco(doc); WordParagraphHelper.InserirParagrafoEmBranco(doc);
+
+
+            ////Ajusta os paragrafos inseridos em excesso
+            //for (int i = 0; i < (numeroFicha > 1 ? (2 * numeroFicha - (isVerso ? 0 : 1)) : 0); i++)
+            //{
+            //    doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
+            //}
+
+        }
+
         /// <summary>
         /// Configura a ultima página e alinha o texto como justificado
         /// </summary>
@@ -1217,10 +1251,10 @@ namespace AdmCartorio.Controllers
                 {
                     //SELECIONANDO TEXTO PARA SALVAR
                     string textoParaSalvar = WordHelper.SelecionaTextoParaSalvar(doc);
-                    
+
                     //Escreve no documento o texto para salvar
                     posicaoCursor = WordHelper.EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);
-                    
+
                     //Quando ocorre quebra de página ele acaba pulando uma letra
                     i--;
                 }

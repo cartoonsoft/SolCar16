@@ -3,12 +3,96 @@
 @{
     ViewBag.Title = "Index";
 }
-@*<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>*@
-<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
 
+<!--STYLES SPECIFIC-->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+
+<style type="text/css">
+
+    /************************************************************************************
+    ************************* CSS DO EDITOR DE TEXTO DO WORD ****************************
+    *************************************************************************************/
+
+    .document-editor {
+        border: 1px solid var(--ck-color-base-border);
+        border-radius: var(--ck-border-radius);
+        /* Set vertical boundaries for the document editor. */
+        max-height: 700px;
+        /* This element is a flex container for easier rendering. */
+        display: flex;
+        flex-flow: column nowrap;
+    }
+
+    .document-editor__toolbar {
+        /* Make sure the toolbar container is always above the editable. */
+        z-index: 1;
+        /* Create the illusion of the toolbar floating over the editable. */
+        box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
+        /* Use the CKEditor CSS variables to keep the UI consistent. */
+        border-bottom: 1px solid var(--ck-color-toolbar-border);
+    }
+
+        /* Adjust the look of the toolbar inside the container. */
+        .document-editor__toolbar .ck-toolbar {
+            border: 0;
+            border-radius: 0;
+        }
+
+    /* Make the editable container look like the inside of a native word processor application. */
+    .document-editor__editable-container {
+        padding: calc( 2 * var(--ck-spacing-large) );
+        background: var(--ck-color-base-foreground);
+        /* Make it possible to scroll the "page" of the edited content. */
+        overflow-y: scroll;
+    }
+
+        .document-editor__editable-container .ck-editor__editable {
+            /* Set the dimensions of the "page". */
+            width: 14.3cm;
+            min-height: 21cm;
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 1cm 1cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
+            border-radius: var(--ck-border-radius);
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
+        }
+
+    .document-editor .ck-content, .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        font: 18px/1.8 "Times New Roman", Helvetica, Arial, sans-serif;
+    }
+
+    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+        line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
+        min-width: 6em;
+    }
+
+    /* Scale down all heading previews because they are way too big to be presented in the UI.
+    Preserve the relative scale, though. */
+    .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
+        transform: scale(0.8);
+        transform-origin: left;
+    }
+    /* Set the styles for "Paragraph". */
+    .document-editor .ck-content p {
+        font-size: 18px;
+        line-height: 0.6cm;
+        /*padding-top: .5em;*/
+        /*margin-bottom: 0.4cm;*/
+        font-family: "Times New Roman";
+    }
+
+    .document-editor .ck-content blockquote {
+        font-family: Georgia, serif;
+        margin-left: calc( 2 * var(--ck-spacing-large) );
+        margin-right: calc( 2 * var(--ck-spacing-large) );
+    }
+</style>
+<!--STYLES SPECIFIC-->
+
 
 @if (ViewBag.sucesso != null)
 {
@@ -55,7 +139,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaID,
-                                    new {@class="form-control",@placeholder="Nº da Matricula", @readonly = "readonly" })
+                                    new { @class = "form-control", @placeholder = "Nº da Matricula", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -64,7 +148,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaEndereco,
-                                    new {@class="form-control",@placeholder="Endereço", @readonly = "readonly" })
+                                    new { @class = "form-control", @placeholder = "Endereço", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col col-1 margin-top-10">
@@ -73,7 +157,7 @@
                         <section class="col col-3">
                             <div>
                                 @Html.TextBoxFor(model => model.MatriculaOutorgante,
-                                    new {@class="form-control",@placeholder= "Outorgante", @readonly = "readonly" })
+                                    new { @class = "form-control", @placeholder = "Outorgante", @readonly = "readonly" })
                             </div>
                         </section>
                     </div>
@@ -99,7 +183,7 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloNome,
-                                    new {@class="form-control",@placeholder="Nome", @readonly = "readonly" })
+                                    new { @class = "form-control", @placeholder = "Nome", @readonly = "readonly" })
                             </div>
                         </section>
                         <section class="col margin-top-10">
@@ -108,31 +192,12 @@
                         <section class="col col-2">
                             <div>
                                 @Html.TextBoxFor(model => model.ModeloTipoAto,
-                                    new {@class="form-control", @placeholder="Tipo de ato", @readonly = "readonly" })
+                                    new { @class = "form-control", @placeholder = "Tipo de ato", @readonly = "readonly" })
                             </div>
                         </section>
-                        @*<section class="col col-2 margin-top-10">
-                                <label class="col-form-label">Utilizar para o CPF</label>
-                            </section>
-                            <section class="col col-2">
-                                <div>
-                                    @Html.TextBoxFor(model => model.ModeloCPF,
-                                        new {@class="form-control", @placeholder="CPF", @disabled = "disabled"})
-                                </div>
-                            </section>*@
-                        @*<section class="col col-1">
-                            <button id="btnUtilizar"
-                                    type="button"
-                                    disabled
-                                    class="btn btn-success padding-top-5 padding-bottom-5 padding-right-5 padding-left-5">
-                                <h3>Utilizar</h3>
-                            </button>
-                        </section>*@
                     </div>
-
                 </fieldset>
                 <fieldset>
-
                     <!-- CK EDITOR-->
                     <br />
                     <div class="row" id="ckEditorGrid" hidden>
@@ -140,18 +205,14 @@
                             <div class="document-editor__toolbar"></div>
                             <div class="document-editor__editable-container">
                                 <div class="document-editor__editable block">
-                                    @*<textarea id="paragrafo">texto</textarea>*@
                                 </div>
                             </div>
                         </div>
                     </div>
-
                     <!-- FIM CK EDITOR-->
-                    
                 </fieldset>
                 <footer>
                     @Html.HiddenFor(model => model.Ato)
-
                     <button type="submit"
                             id="upload"
                             class="btn btn-success col-sm-12"
@@ -160,9 +221,8 @@
                         Salvar
                     </button>
                 </footer>
-                <!-- FIM DADOS MODELO-->                
+                <!-- FIM DADOS MODELO-->
             }
-
         </div>
     </div>
 </article>
@@ -181,20 +241,28 @@
     }
 </div>
 <!-- Fim Modal Modelo-->
+<!-- SCRIPT SPECIFIC-->
+@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js");
+
+<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
 
 <script>
+    /*************************************************************************************************
+     ******************************* CRIANDO O EDITOR DE TEXTO WORD **********************************
+     *************************************************************************************************/
     DecoupledEditor
         .create(document.querySelector('.document-editor__editable'), {
             cloudServices: {
                 //
             },
             toolbar: ['alignment:justify'],
-            
+
         })
         .then(editor => {
             const toolbarContainer = document.querySelector('.document-editor__toolbar ');
 
-            
+
             toolbarContainer.appendChild(editor.ui.view.toolbar.element);
 
             window.editor = editor;
@@ -202,7 +270,11 @@
         .catch(err => {
             console.error(err);
         });
-
+</script>
+<script>
+    /***************************************************************************************************
+     ****************************** AJUSTANDO A TABELA DA MODEL DE MODELOS *****************************
+     ***************************************************************************************************/
     $(document).ready(function () {
         $('#tabelaModelo').DataTable({
             "language": {
@@ -220,15 +292,15 @@
                 },
             ]
         });
-
-
     });
-
-
+</script>
+<script>
+    //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
     });
 
+    //Busca os dados do modelo cadastrado e popula o editor do word
     function AtualizarModelo(){
         var ModeloNome = $('#ModeloNome').val();
         $.ajax({
@@ -238,8 +310,6 @@
                 ModeloNome
             },
             success: function (result) {
-                console.log("Deu certo");
-                console.log(result);
                 editor.setData(result);
                 $('#upload').removeAttr('disabled');
                 $('#ckEditorGrid').removeAttr('hidden');
@@ -247,94 +317,12 @@
             },
             error: function (error) {
                 console.log(error);
-                console.log("Deu erro");
                 alert("Erro, tente novamente!");
             }
         });
 
     }
-
-
-
-
-
 </script>
-<style type="text/css">
 
-    .document-editor {
-        border: 1px solid var(--ck-color-base-border);
-        border-radius: var(--ck-border-radius);
-        /* Set vertical boundaries for the document editor. */
-        max-height: 700px;
-        /* This element is a flex container for easier rendering. */
-        display: flex;
-        flex-flow: column nowrap;
-    }
 
-    .document-editor__toolbar {
-        /* Make sure the toolbar container is always above the editable. */
-        z-index: 1;
-        /* Create the illusion of the toolbar floating over the editable. */
-        box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
-        /* Use the CKEditor CSS variables to keep the UI consistent. */
-        border-bottom: 1px solid var(--ck-color-toolbar-border);
-    }
-
-        /* Adjust the look of the toolbar inside the container. */
-        .document-editor__toolbar .ck-toolbar {
-            border: 0;
-            border-radius: 0;
-        }
-        /* Make the editable container look like the inside of a native word processor application. */
-        .document-editor__editable-container {
-            padding: calc( 2 * var(--ck-spacing-large) );
-            background: var(--ck-color-base-foreground);
-            /* Make it possible to scroll the "page" of the edited content. */
-            overflow-y: scroll;
-        }
-
-        .document-editor__editable-container .ck-editor__editable {
-            /* Set the dimensions of the "page". */
-            width: 14.3cm;
-            min-height: 21cm;
-            /* Keep the "page" off the boundaries of the container. */
-            padding: 1cm 1cm 1cm;
-            border: 1px hsl( 0,0%,82.7% ) solid;
-            border-radius: var(--ck-border-radius);
-            background: white;
-            /* The "page" should cast a slight shadow (3D illusion). */
-            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
-            /* Center the "page". */
-            margin: 0 auto;
-        }
-
-    .document-editor .ck-content,
-    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-        font: 18px/1.8 "Times New Roman", Helvetica, Arial, sans-serif;
-    }
-
-    .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
-        line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
-        min-width: 6em;
-    }
-
-    /* Scale down all heading previews because they are way too big to be presented in the UI.
-    Preserve the relative scale, though. */
-    .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
-        transform: scale(0.8);
-        transform-origin: left;
-    }
-    /* Set the styles for "Paragraph". */
-    .document-editor .ck-content p {
-        font-size: 18px;
-        line-height: 0.6cm;
-        /*padding-top: .5em;*/
-        /*margin-bottom: 0.4cm;*/
-        font-family: "Times New Roman";
-    }
-    .document-editor .ck-content blockquote {
-        font-family: Georgia, serif;
-        margin-left: calc( 2 * var(--ck-spacing-large) );
-        margin-right: calc( 2 * var(--ck-spacing-large) );
-    }
-</style>
+<!-- SCRIPT SPECIFIC-->
