@@ -116,24 +116,30 @@ namespace AdmCartorio.Controllers
                             WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 17 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
                                 WordPageHelper.GetNumeroFicha(doc) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso());
 
+                            //Inserir paragrafos em branco para alinhar ao shape de margem
                             WordParagraphHelper.InserirParagrafoEmBranco(doc);
                             WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
                             WordParagraphHelper.InserirParagrafoEmBranco(doc);
                         }
                         else
                         {
+                            //Abre o arquivo para escrever o ATO e faz as configurações iniciais
                             doc = new Application() { Visible = true }.Documents.Open(filePath);
                             WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
 
+                            //Numero de paginas do documento e a posição do cursor
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                             var posicao = WordPageHelper.GetContentEnd(doc, 1);
-                            //Pegar o numero do até em sequencia.
+
+                            //TO DO : Pegar o numero do até em sequencia.
+                            //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a matricula
                             WordParagraphHelper.InserirTextoEmRange(doc, posicao, $"R-12/{modelo.MatriculaID} - ");
 
                         }
                         #region | Metodo para escrever o ATO |
-                        //Grava no documento
+                        //Pega a posição do cursor do final do documento
                         var posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+                        //Escreve o ato e ajusta o documento, caso necessário
                         WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
                         WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
                         #endregion
@@ -144,6 +150,7 @@ namespace AdmCartorio.Controllers
                     catch (Exception)
                     {
                         doc.Close(WdSaveOptions.wdDoNotSaveChanges);
+                        doc.Saved = false;
                         throw;
                     }
                     finally
@@ -468,7 +475,7 @@ namespace AdmCartorio.Controllers
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-
+            //Reescreve o texto salvo a partir da posição do cursor. (posicaoCursor++ atualiza a posição a cada letra)
             for (int j = 0; j < textoParaSalvar.Length; j++)
             {
                 doc.Application.ActiveDocument.Range(posicaoCursor++).Text = textoParaSalvar[j].ToString();
@@ -635,9 +642,7 @@ namespace AdmCartorio.Controllers
                 }
                 doc.Application.ActiveDocument.Sections.Last.PageSetup.LeftMargin = 62.3f;
                 doc.Application.ActiveDocument.Sections.Last.PageSetup.RightMargin = 36.5f;
-
             }
-
         }
         /// <summary>
         /// Quebra a seção
@@ -787,10 +792,6 @@ namespace AdmCartorio.Controllers
         /// <returns>Shapes Object</returns>
         public static Shapes GetShapes(Document doc)
         {
-            if (doc == null)
-            {
-                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
-            }
             return doc != null ?
                     doc.Paragraphs.Add().Application.ActiveDocument.Shapes
                 :
@@ -1019,7 +1020,7 @@ namespace AdmCartorio.Controllers
                 while (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                     doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
 
-                //Seleciona as ultimas duas linhas do arquivo para serem salvas
+                #region | Salva o texto das ultimas linhas |
                 WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
                 WordSelectionHelper.EndOf(doc, WdUnits.wdSection, WdMovementType.wdMove);
                 WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToPrevious, 1);
@@ -1030,6 +1031,7 @@ namespace AdmCartorio.Controllers
                 WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
                 textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
                 WordSelectionHelper.DeleteSelectionText(doc);
+                #endregion
 
                 //Insere rodapé e cabeçalho
                 WordParagraphHelper.InserirRodape(doc);
@@ -1044,7 +1046,7 @@ namespace AdmCartorio.Controllers
                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
                 if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                 {
-                    //Deleta o ultimo paragráfo e a linha horizontal
+                    //Deleta os ultimos paragráfos e a linha horizontal
                     doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
                     WordShapeHelper.DeleteLastShape(doc);
                     doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
@@ -1109,12 +1111,15 @@ namespace AdmCartorio.Controllers
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
+            //Vai para a ultima página, volta uma linha e seleciona até o final
             WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
             WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToPrevious, 1);
             WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
-
+            //salva o texto selecionado e exclui a seleção
             var textoParaSalvar = WordSelectionHelper.GetSelectionText(doc);
             WordSelectionHelper.DeleteSelectionText(doc);
+
+            //Insere um paragrafo em branco e seleciona até o fim
             WordParagraphHelper.InserirParagrafoEmBranco(doc);
             WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
             textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
@@ -1137,7 +1142,6 @@ namespace AdmCartorio.Controllers
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            int posicaoCursor;
             //INSERE PARAGRAFOS EM BRANCO ATÉ IR PARA A PROXIMA PÁGINA
             while (WordPageHelper.GetNumeroPagina(doc) <= numeroPagina)
             {
@@ -1151,7 +1155,7 @@ namespace AdmCartorio.Controllers
             WordParagraphHelper.InserirRodape(doc);
 
             //Escrever o texto depois do rodapé
-            EscreverCabecalhoETexto(modelo, doc, out numeroPagina, out posicaoCursor);
+            EscreverCabecalhoETexto(modelo, doc, out numeroPagina, out int posicaoCursor);
 
             //Reescreve o texto que foi perdido pelo rodapé e retorna a posição do cursor atualizada
             posicaoCursor = WordParagraphHelper.ReescreverTextoDeFinalDePagina(doc, posicaoCursor, textoParaSalvar);
@@ -1213,8 +1217,10 @@ namespace AdmCartorio.Controllers
                 {
                     //SELECIONANDO TEXTO PARA SALVAR
                     string textoParaSalvar = WordHelper.SelecionaTextoParaSalvar(doc);
+                    
                     //Escreve no documento o texto para salvar
                     posicaoCursor = WordHelper.EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);
+                    
                     //Quando ocorre quebra de página ele acaba pulando uma letra
                     i--;
                 }
@@ -1237,7 +1243,5 @@ namespace AdmCartorio.Controllers
             //Se ato > 1, então existe o ato inicial
             return quantidadeAtos > 0;
         }
-
-
     }
 }
