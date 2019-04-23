@@ -343,7 +343,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento ativo</param>
         public static void InserirParagrafoEmBranco(Document doc)
         {
-            doc.Paragraphs.Add();
+            if (doc == null)
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            else
+                doc.Paragraphs.Add();
         }
         /// <summary>
         /// Insere um novo paragrafo com texto em range
@@ -352,8 +355,15 @@ namespace AdmCartorio.Controllers
         /// <param name="text">Texto para inserção</param>
         public static void InserirParagrafoEmRange(Document doc, string text)
         {
-            if (!String.IsNullOrEmpty(text))
-                doc.Paragraphs.Add().Range.Text = text;
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(text))
+                    doc.Paragraphs.Add().Range.Text = text;
+            }
         }
         /// <summary>
         /// Adiciona o texto a partir do range
@@ -363,9 +373,15 @@ namespace AdmCartorio.Controllers
         /// <param name="text">Texto</param>
         public static void InserirTextoEmRange(Document doc, int posicaoInicial, string text)
         {
-            if (!String.IsNullOrEmpty(text))
-
-                doc.Application.ActiveDocument.Range(posicaoInicial).Text = text;
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(text))
+                    doc.Application.ActiveDocument.Range(posicaoInicial).Text = text;
+            }
         }
         /// <summary>
         /// Adiciona o texto a partir do range
@@ -376,9 +392,17 @@ namespace AdmCartorio.Controllers
         /// <param name="text">Texto</param>
         public static void InserirTextoEmRange(Document doc, int posicaoInicial, int posicaoFinal, string text)
         {
-            if (!String.IsNullOrEmpty(text) && posicaoFinal >= posicaoInicial)
-
-                doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Text = text;
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(text) && posicaoFinal >= posicaoInicial)
+                    doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Text = text;
+                else
+                    throw new ArgumentOutOfRangeException("Os campos não estão preenchidos corretamente. (text, posicaoInicial ou posicaoFinal)");
+            }
         }
         /// <summary>
         /// Insere um paragrafo, na linha atual ou na próxima
@@ -388,15 +412,27 @@ namespace AdmCartorio.Controllers
         /// <param name="insertAfter">Flag que identifica se o paragrafo é uma continuação</param>
         public static void InserirParagrafo(Document doc, string text, bool insertAfter)
         {
-            if (!String.IsNullOrEmpty(text.Trim()) && doc != null)
+            if (doc == null)
             {
-                if (!insertAfter)
-                {
-                    doc.Paragraphs.Add().Range.Text = text;
-                    return;
-                }
-                doc.Paragraphs.Add().Range.InsertAfter(text);
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
+            else
+            {
+                if (!String.IsNullOrEmpty(text.Trim()))
+                {
+                    if (!insertAfter)
+                    {
+                        doc.Paragraphs.Add().Range.Text = text;
+                        return;
+                    }
+                    doc.Paragraphs.Add().Range.InsertAfter(text);
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("O texto não pode ser nulo");
+                }
+            }
+
         }
         /// <summary>
         /// Método que imprime o rodapé de acordo com o numero da pagina
@@ -404,13 +440,20 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento Ativo</param>
         public static void InserirRodape(Document doc)
         {
-            if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
-                WordParagraphHelper.InserirParagrafo(doc, $"(CONTINUA NA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) + 1})", true);
-
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             else
-                WordParagraphHelper.InserirParagrafo(doc, "(CONTINUA NO VERSO)", true);
+            {
+                if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
+                    WordParagraphHelper.InserirParagrafo(doc, $"(CONTINUA NA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) + 1})", true);
 
-            doc.Application.ActiveDocument.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+                else
+                    WordParagraphHelper.InserirParagrafo(doc, "(CONTINUA NO VERSO)", true);
+
+                doc.Application.ActiveDocument.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphRight;
+            }
         }
         /// <summary>
         /// Reescreve o texto final de página que foi perdido pelo rodapé
@@ -421,6 +464,11 @@ namespace AdmCartorio.Controllers
         /// <returns>Posição do cursor após a inserção</returns>
         public static int ReescreverTextoDeFinalDePagina(Document doc, int posicaoCursor, string textoParaSalvar)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+
             for (int j = 0; j < textoParaSalvar.Length; j++)
             {
                 doc.Application.ActiveDocument.Range(posicaoCursor++).Text = textoParaSalvar[j].ToString();
@@ -429,7 +477,7 @@ namespace AdmCartorio.Controllers
             devido a inserção de rodapé dinâmica.*/
             posicaoCursor = doc.Application.ActiveDocument.Content.End - 3;
             return posicaoCursor;
-        }       
+        }
 
         /// <summary>
         /// Configura o alinhamento dos paragrafos
@@ -438,6 +486,10 @@ namespace AdmCartorio.Controllers
         /// <param name="wdParagraphAlignment">Alinhamento do paragrafo</param>
         public static void ParapraphAlignment(Document doc, WdParagraphAlignment wdParagraphAlignment)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Paragraphs.Format.Alignment = wdParagraphAlignment;
         }
         /// <summary>
@@ -447,6 +499,10 @@ namespace AdmCartorio.Controllers
         /// <param name="spaceLenght"></param>
         public static void SpaceAfterParagraphs(Document doc, float spaceLenght)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Paragraphs.SpaceAfter = spaceLenght;
         }
     }
@@ -458,6 +514,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc"></param>
         public static void ConfigureLastPage(Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
             ConfigurePageLayout(doc, GetNumeroPagina(doc));
             doc.Paragraphs.Last.Alignment = WdParagraphAlignment.wdAlignParagraphJustify;
@@ -471,6 +531,10 @@ namespace AdmCartorio.Controllers
         /// <returns>Numero da pagina (INT) </returns>
         public static int GetNumeroPagina(Document doc, int backOFF = 0)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             return doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] - backOFF;
         }
 
@@ -482,6 +546,10 @@ namespace AdmCartorio.Controllers
         /// <returns>Posição do range final do documento</returns>
         public static int GetRangeEnd(Document doc, int backOFF = 0)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             return doc.Application.ActiveDocument.Range().End - backOFF;
         }
         /// <summary>
@@ -491,6 +559,10 @@ namespace AdmCartorio.Controllers
         /// <returns>Posição final do content</returns>
         public static int GetContentEnd(Document doc, int backOFF = 0)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             return doc.Application.ActiveDocument.Content.End - backOFF;
         }
 
@@ -501,6 +573,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Se é o verso da pagina (TRUE) se a frente (FALSE)</returns>
         public static bool IsVerso(int numeroPagina)
         {
+
             return numeroPagina % 2 == 0;
         }
         /// <summary>
@@ -510,6 +583,10 @@ namespace AdmCartorio.Controllers
         /// <returns>Retorna o numero da ficha para a pagina corrente</returns>
         public static int GetNumeroFicha(Document doc, bool isParagrafo = false)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             return isParagrafo ?
                     ((WordPageHelper.GetNumeroPagina(doc) < 2 ? WordPageHelper.GetNumeroPagina(doc) : WordPageHelper.GetNumeroPagina(doc) + 1) % 2 + (WordPageHelper.GetNumeroPagina(doc) < 2 ? WordPageHelper.GetNumeroPagina(doc) : WordPageHelper.GetNumeroPagina(doc) + 1) / 2)
                 :
@@ -523,6 +600,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento Ativo</param>
         public static void DeslocarCentimetros(float centimetros, Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             //Cada paragrafo desloca aproximadamente 0.6 centrimetros
             int quantidadeDeEspacos = (int)Math.Ceiling(centimetros / 0.6);
             while (quantidadeDeEspacos > 0)
@@ -535,6 +616,10 @@ namespace AdmCartorio.Controllers
         /// <param name="numeroPagina">Numero da página</param>
         public static void ConfigurePageLayout(Document doc, int numeroPagina)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             if (numeroPagina > 0)
             {
                 if (numeroPagina > 1)
@@ -560,6 +645,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento Ativo</param>
         public static void InsertBreakOfSection(Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.Selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
         }
         /// <summary>
@@ -572,6 +661,10 @@ namespace AdmCartorio.Controllers
         /// <param name="autoHyphenation">Deseja auto hifenização? (True of False)</param>
         public static void InicialConfiguration(Document doc, WdPaperSize wdPaperSize, float fontSize, string fontName, bool autoHyphenation)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.PageSetup.PaperSize = wdPaperSize;
             doc.Application.ActiveDocument.AutoHyphenation = autoHyphenation;
             doc.Application.Selection.Font.Size = fontSize;
@@ -589,6 +682,10 @@ namespace AdmCartorio.Controllers
         /// <param name="negrito"> TRUE - NEGRITO; FALSE - TIRAR NEGRITO </param>
         public static void Bold(Document doc, int posicaoInicial, int posicaoFinal, bool negrito = true)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             //Coloca o texto em negrito se negrito = true, se não, tira o negrito
             doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Bold = negrito ? 1 : 0;
         }
@@ -602,6 +699,10 @@ namespace AdmCartorio.Controllers
         /// <param name="wdColorIndex">Configuração da cor de fundo</param>
         public static void SetHighlightColor(Document doc, int posicaoInicial, int posicaoFinal, WdColorIndex wdColorIndex)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).HighlightColorIndex = wdColorIndex;
         }
         /// <summary>
@@ -612,8 +713,11 @@ namespace AdmCartorio.Controllers
         /// <param name="wdColorIndex">Configuração da cor de fundo</param>
         public static void SetHighlightColor(Document doc, int posicaoInicial, WdColorIndex wdColorIndex)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.ActiveDocument.Range(posicaoInicial).HighlightColorIndex = wdColorIndex;
-
         }
         /// <summary>
         /// Função que controla o sublinhado do texto e configura até o final do documento
@@ -623,6 +727,10 @@ namespace AdmCartorio.Controllers
         /// <param name="wdUnderline">Tipo de configuração para o sublinhado</param>
         public static void Underline(Document doc, int posicaoInicial, WdUnderline wdUnderline)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.ActiveDocument.Range(posicaoInicial).Font.Underline = wdUnderline;
         }
         /// <summary>
@@ -634,6 +742,10 @@ namespace AdmCartorio.Controllers
         /// <param name="wdUnderline">Configuração para o sublinhado</param>
         public static void Underline(Document doc, int posicaoInicial, int posicaoFinal, WdUnderline wdUnderline)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.ActiveDocument.Range(posicaoInicial, posicaoFinal).Font.Underline = wdUnderline;
         }
     }
@@ -659,8 +771,13 @@ namespace AdmCartorio.Controllers
         /// Inserir o texto de matricula e ficha dos shapes
         /// </summary>
         /// <param name="doc">Documento Ativo</param>
+        [Obsolete("Não precisa ser mais usado, pois não há necessidade de colocar mais Shape")]
         public static void InserirTextoMatriculaFicha(Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 5) + "matrícula" + new string(' ', 30) + "ficha");
         }
         /// <summary>
@@ -670,9 +787,13 @@ namespace AdmCartorio.Controllers
         /// <returns>Shapes Object</returns>
         public static Shapes GetShapes(Document doc)
         {
-            return doc != null ? 
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            return doc != null ?
                     doc.Paragraphs.Add().Application.ActiveDocument.Shapes
-                :                    
+                :
                     throw new ArgumentNullException("doc", "Documento não pode ser nulo");
         }
         /// <summary>
@@ -796,9 +917,9 @@ namespace AdmCartorio.Controllers
         /// <returns>Quantidade de shapes</returns>
         public static int GetShapesCount(Document doc)
         {
-            return doc == null ? 
+            return doc == null ?
                     throw new ArgumentNullException("doc", "Documento não pode ser nulo!")
-                : 
+                :
                     doc.Application.ActiveDocument.InlineShapes.Count;
         }
         /// <summary>
@@ -824,6 +945,10 @@ namespace AdmCartorio.Controllers
         /// <param name="quantidadeDeslocamento">Quantidade de deslocamento</param>
         public static void Goto(Document doc, WdGoToItem wdGoToItem, WdGoToDirection wdGoToDirection, int quantidadeDeslocamento)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.Selection.GoTo(wdGoToItem, wdGoToDirection, quantidadeDeslocamento);
 
         }
@@ -835,6 +960,10 @@ namespace AdmCartorio.Controllers
         /// <param name="wdMovementType">Tipo de movimento (Extend- Seleciona, Move - Move sem selecionar)</param>
         public static void EndOf(Document doc, WdUnits wdUnits, WdMovementType wdMovementType)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.Selection.EndOf(wdUnits, wdMovementType);
         }
 
@@ -845,6 +974,10 @@ namespace AdmCartorio.Controllers
         /// <returns>Texto selecionado</returns>
         public static string GetSelectionText(Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             return doc.Application.Selection.Text;
         }
         /// <summary>
@@ -853,6 +986,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento ativo</param>
         public static void DeleteSelectionText(Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             doc.Application.Selection.Delete();
         }
     }
@@ -867,6 +1004,10 @@ namespace AdmCartorio.Controllers
         /// <param name="posicaoCursor">Posição do cursor</param>
         public static void AjustarFinalDocumento(Document doc, int numeroPagina, int posicaoCursor, MatriculaAtoViewModel modelo)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             //Vai até o final da seção e adiciona linha de separação
             WordSelectionHelper.EndOf(doc, WdUnits.wdSection, WdMovementType.wdMove);
             WordShapeHelper.InserirLinhaHorizontal(doc);
@@ -893,7 +1034,7 @@ namespace AdmCartorio.Controllers
                 //Insere rodapé e cabeçalho
                 WordParagraphHelper.InserirRodape(doc);
                 WordHelper.EscreverCabecalhoETexto(modelo, doc, out numeroPagina, out posicaoCursor);
-                
+
                 //Reescreve o texto salvo e insere a linha horizontal
                 posicaoCursor = WordParagraphHelper.ReescreverTextoDeFinalDePagina(doc, posicaoCursor, textoParaSalvar);
                 WordShapeHelper.InserirLinhaHorizontal(doc);
@@ -927,6 +1068,10 @@ namespace AdmCartorio.Controllers
         /// <param name="doc"></param>
         public static void InserirCabecalho(MatriculaAtoViewModel modelo, Document doc)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
             {
                 //Insere o paragrafo correspondente a matricula e ficha 
@@ -960,21 +1105,22 @@ namespace AdmCartorio.Controllers
         /// <returns>texto para salvar (string) </returns>
         public static string SelecionaTextoParaSalvar(Document doc)
         {
-            if (doc != null)
+            if (doc == null)
             {
-                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
-                WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToPrevious, 1);
-                WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
-
-                var textoParaSalvar = WordSelectionHelper.GetSelectionText(doc);
-                WordSelectionHelper.DeleteSelectionText(doc);
-                WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
-                textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
-                WordSelectionHelper.DeleteSelectionText(doc);
-                return textoParaSalvar;
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            return string.Empty;
+            WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToPage, WdGoToDirection.wdGoToNext, WordPageHelper.GetNumeroPagina(doc, 1));
+            WordSelectionHelper.Goto(doc, WdGoToItem.wdGoToLine, WdGoToDirection.wdGoToPrevious, 1);
+            WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
+
+            var textoParaSalvar = WordSelectionHelper.GetSelectionText(doc);
+            WordSelectionHelper.DeleteSelectionText(doc);
+            WordParagraphHelper.InserirParagrafoEmBranco(doc);
+            WordSelectionHelper.EndOf(doc, WdUnits.wdParagraph, WdMovementType.wdExtend);
+            textoParaSalvar += WordSelectionHelper.GetSelectionText(doc);
+            WordSelectionHelper.DeleteSelectionText(doc);
+
+            return textoParaSalvar;
         }
 
         /// <summary>
@@ -987,6 +1133,10 @@ namespace AdmCartorio.Controllers
         /// <returns>A posição do cursor para continuar a escrita do documento</returns>
         public static int EscreverNoDocumento(MatriculaAtoViewModel modelo, Document doc, ref int numeroPagina, string textoParaSalvar)
         {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
             int posicaoCursor;
             //INSERE PARAGRAFOS EM BRANCO ATÉ IR PARA A PROXIMA PÁGINA
             while (WordPageHelper.GetNumeroPagina(doc) <= numeroPagina)
@@ -1029,7 +1179,7 @@ namespace AdmCartorio.Controllers
 
             //Pula duas linhas para se alinhar com o shape de quadro de margem
             WordParagraphHelper.InserirParagrafoEmBranco(doc); WordParagraphHelper.InserirParagrafoEmBranco(doc);
-            
+
             //Se for continuação de alguma ficha
             if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
             {
@@ -1058,7 +1208,7 @@ namespace AdmCartorio.Controllers
             if (string.IsNullOrEmpty(modelo.Ato)) throw new ArgumentNullException("modelo", "O ato do modelo não pode ser nulo");
 
             for (int i = 0; i < modelo.Ato.Length; i++)
-            {                
+            {
                 if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                 {
                     //SELECIONANDO TEXTO PARA SALVAR
@@ -1085,7 +1235,7 @@ namespace AdmCartorio.Controllers
             //Busca no banco se existe algum ato para aquela Matricula
             int quantidadeAtos = 0;
             //Se ato > 1, então existe o ato inicial
-            return quantidadeAtos > 0; 
+            return quantidadeAtos > 0;
         }
 
 
