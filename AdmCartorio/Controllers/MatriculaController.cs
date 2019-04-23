@@ -98,6 +98,8 @@ namespace AdmCartorio.Controllers
                     Application app = new Application();
                     Document doc = null;
                     int numeroPagina;
+                    int numeroFichasDeslocar = 2;
+                    bool isVerso = false;
                     try
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
@@ -114,8 +116,10 @@ namespace AdmCartorio.Controllers
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                             WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
 
-
-                            WordPageHelper.Deslocar(doc, 1, true);
+                            if (numeroFichasDeslocar > 0)
+                            {
+                                WordPageHelper.Deslocar(doc, numeroFichasDeslocar, isVerso);
+                            }
 
 
 
@@ -127,6 +131,7 @@ namespace AdmCartorio.Controllers
                             WordParagraphHelper.InserirParagrafoEmBranco(doc);
                             WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
                             WordParagraphHelper.InserirParagrafoEmBranco(doc);
+
                         }
                         else
                         {
@@ -147,9 +152,29 @@ namespace AdmCartorio.Controllers
                         #region | Metodo para escrever o ATO |
                         //Pega a posição do cursor do final do documento
                         var posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+
+                        if (numeroFichasDeslocar > 0)
+                        //Escreve o ato e ajusta o documento, caso necessário
+                        {
+                            //Se for continuação de alguma ficha
+                            if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
+                            {
+                                WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
+
+                                doc.Paragraphs.Last.Range.Bold = 1;
+                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                            }
+                            doc.Paragraphs.Last.Range.Bold = 0;
+
+                            numeroPagina = WordPageHelper.GetNumeroPagina(doc);
+                            posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+
+                        }
+
                         //Escreve o ato e ajusta o documento, caso necessário
                         WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
                         WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
+
                         #endregion
 
                         //Salvando e finalizando documento
@@ -537,7 +562,7 @@ namespace AdmCartorio.Controllers
                     WordParagraphHelper.InserirParagrafoEmBranco(doc);
                 }
             }
-            WordParagraphHelper.SpaceAfterParagraphs(doc,0);
+            WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
             //WordParagraphHelper.InserirParagrafoEmBranco(doc); WordParagraphHelper.InserirParagrafoEmBranco(doc);
 
 
@@ -1240,7 +1265,7 @@ namespace AdmCartorio.Controllers
         /// <param name="doc">Documento ativo</param>
         /// <param name="numeroPagina">Numero da pagina inicial</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public static void EscreverAto(MatriculaAtoViewModel modelo, Document doc, ref int numeroPagina, ref int posicaoCursor)
+        public static void EscreverAto(MatriculaAtoViewModel modelo, Document doc, ref int numeroPagina, ref int posicaoCursor, bool houveDesvio = false)
         {
             if (doc == null) throw new ArgumentNullException("doc", "Documento não pode ser nulo");
             if (string.IsNullOrEmpty(modelo.Ato)) throw new ArgumentNullException("modelo", "O ato do modelo não pode ser nulo");
@@ -1250,7 +1275,9 @@ namespace AdmCartorio.Controllers
                 if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                 {
                     //SELECIONANDO TEXTO PARA SALVAR
-                    string textoParaSalvar = WordHelper.SelecionaTextoParaSalvar(doc);
+                    string textoParaSalvar = string.Empty;
+                    if (!houveDesvio)
+                        textoParaSalvar = SelecionaTextoParaSalvar(doc);
 
                     //Escreve no documento o texto para salvar
                     posicaoCursor = WordHelper.EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);
