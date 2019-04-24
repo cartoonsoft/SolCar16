@@ -99,7 +99,7 @@ namespace AdmCartorio.Controllers
                     Document doc = null;
                     int numeroPagina;
                     int posicaoCursor = 0;
-                    int numeroFicha = 0;
+                    int numeroFicha = 7;
                     float quantidadeCentrimetros = 0;
                     bool isVerso = false;
                     try
@@ -494,14 +494,16 @@ namespace AdmCartorio.Controllers
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            //Reescreve o texto salvo a partir da posição do cursor. (posicaoCursor++ atualiza a posição a cada letra)
-            for (int j = 0; j < textoParaSalvar.Length; j++)
-            {
-                doc.Application.ActiveDocument.Range(posicaoCursor++).Text = textoParaSalvar[j].ToString();
-            }
+            InserirParagrafo(doc, textoParaSalvar, false);
+
+            ////Reescreve o texto salvo a partir da posição do cursor. (posicaoCursor++ atualiza a posição a cada letra)
+            //for (int j = 0; j < textoParaSalvar.Length; j++)
+            //{
+            //    doc.Application.ActiveDocument.Range(posicaoCursor++).Text = textoParaSalvar[j].ToString();
+            //}
             /*Reposiciona o cursor no final do arquivo, pois foram reescrita as ultimas linhas
             devido a inserção de rodapé dinâmica.*/
-            posicaoCursor = doc.Application.ActiveDocument.Content.End - 1;
+            posicaoCursor = doc.Application.ActiveDocument.Content.End - 3;
             return posicaoCursor;
         }
 
@@ -1219,7 +1221,8 @@ namespace AdmCartorio.Controllers
             //Se for continuação de alguma ficha
             if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
             {
-                WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
+                WordParagraphHelper.InserirParagrafo(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )", false);
+                //WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
 
                 doc.Paragraphs.Last.Range.Bold = 1;
                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
