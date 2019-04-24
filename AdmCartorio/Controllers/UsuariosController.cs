@@ -38,7 +38,7 @@ namespace AdmCartorio.Controllers
             SignInManager = signInManager;
         }
 
-        public UsuariosController(IUnitOfWorkDataBseCar16 unitOfWorkDataBseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New): base (unitOfWorkDataBseCar16, unitOfWorkDataBseCar16New)
+        public UsuariosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New): base (unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
         {
             //colocar aqui Appp services 
         }

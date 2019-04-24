@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Infra.Data.Car16.Repositories.Base
 {
@@ -42,10 +43,6 @@ namespace Infra.Data.Car16.Repositories.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_context != null)
-                    {
-                        _context.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -70,6 +67,22 @@ namespace Infra.Data.Car16.Repositories.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        
+
+        protected string AddWhereClause(string sqlWhere, bool firstWhere)
+        {
+            string whereTmp = ""; 
+
+            if (firstWhere)
+            {
+                whereTmp = "where" + System.Environment.NewLine + sqlWhere;
+            } else {
+                whereTmp = "and " + sqlWhere + System.Environment.NewLine;
+            }
+
+            return whereTmp;
+        }
 
         protected IContextCore Context
         {
@@ -254,6 +267,5 @@ namespace Infra.Data.Car16.Repositories.Base
 
             return paged;
         }
-
     }
 }

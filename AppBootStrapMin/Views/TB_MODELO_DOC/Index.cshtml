@@ -1,0 +1,87 @@
+﻿@model IEnumerable<AppBootStrapMin.ViewModels.TB_MODELO_DOC>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID_TP_ATO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ID_CTA_ACESSO_SIST)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ID_USR_CAD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ID_USR_ALTER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_CAD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DT_ALTER)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DESCRICAO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ARQUIVO)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ARQ_BYTES)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ATIVO)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID_TP_ATO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID_CTA_ACESSO_SIST)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID_USR_CAD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ID_USR_ALTER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_CAD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DT_ALTER)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DESCRICAO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ARQUIVO)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ARQ_BYTES)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ATIVO)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID_MODELO_DOC }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID_MODELO_DOC }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID_MODELO_DOC })
+        </td>
+    </tr>
+}
+
+</table>

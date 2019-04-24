@@ -6,8 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities.Car16New;
 using Dto.Car16.Entities.Cadastros;
+using Domain.Car16.Entities.Diversas;
+using Dto.Car16.Entities.Diversos;
 
-namespace AppServices.Car16.AutoMapper
+namespace AdmCartorio.App_Start.AutoMapper
 {
     public class DomainToDtoModelMappingProfile : Profile
     {
@@ -17,6 +19,8 @@ namespace AppServices.Car16.AutoMapper
             CreateMap<Uf, DtoUfModel>();
             CreateMap<Municipio, DtoMunicipioModel>();
             CreateMap<Pessoa, DtoPessoaModel>();
+            CreateMap<ArquivoModeloDocxList, DtoArquivoModeloDocxList>();
+
         }
     }
 }

@@ -15,6 +15,6 @@ namespace Dto.Car16.Interfaces
 {
     public interface IDtoEntityBaseModel
     {
-        long Id { get; set; }
+        long? Id { get; set; }
     }
 }

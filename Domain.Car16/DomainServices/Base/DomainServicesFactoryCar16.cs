@@ -92,7 +92,14 @@ namespace Domain.Car16.DomainServices.Base
                     {
                         domainService = new MunicipioDomainService(this._unitOfWorkCar16);
                     }
-
+                    if (typeof(T).Equals(typeof(Pessoa)))
+                    {
+                        domainService = new PessoaDomainService(this._unitOfWorkCar16);
+                    }
+                    if (typeof(T).Equals(typeof(ArquivoModeloDocx)))
+                    {
+                        domainService = new ArquivoModeloDocxDomainService(this._unitOfWorkCar16);
+                    }
                 }
 
                 if (domainService != null)
@@ -101,27 +108,42 @@ namespace Domain.Car16.DomainServices.Base
                 }
                 else
                 {
-                    throw new NullReferenceException("repositório é nulo!");
+                    throw new NullReferenceException("Domainservice é nulo!");
                 }
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Erro na criação de repositorio, tipo: " + typeof(T).Name + " " + ex.Message);
+                throw new Exception("Erro na criação de domain service, tipo: " + typeof(T).Name + " " + ex.Message);
             }
 
             return domainService; // new TRepository();
         }
 
-        public IPaisDomainService PaisDomainService => throw new NotImplementedException();
+        public IPaisDomainService PaisDomainService
+        {
+            get { return GetDomainServiceInstance<Pais>() as IPaisDomainService; }
 
-        public IUfDomainService UfDomainService => throw new NotImplementedException();
+        }
+        
+        public IUfDomainService UfDomainService
+        {
+            get { return GetDomainServiceInstance<Uf>() as IUfDomainService; }
+        }
 
-        public IMunicipioDomainService MunicipioDomainService => throw new NotImplementedException();
+        public IMunicipioDomainService MunicipioDomainService
+        {
+            get { return GetDomainServiceInstance<Municipio>() as IMunicipioDomainService; }
+        }
 
-        public IPessoaDomainService PessoaDomainService => throw new NotImplementedException();
+        public IPessoaDomainService PessoaDomainService
+        {
+            get { return GetDomainServiceInstance<Pessoa>() as IPessoaDomainService; }
+        }
 
-
-
+        public IArquivoModeloDocxDomainService ArquivoModeloDocxDomainService
+        {
+            get { return GetDomainServiceInstance<ArquivoModeloDocx>() as IArquivoModeloDocxDomainService; }
+        }
     }
 }

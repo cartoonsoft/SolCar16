@@ -16,6 +16,9 @@ using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
 using Domain.Core.Interfaces.Data;
+using System.Data.Entity.Infrastructure;
+using System.Web.Hosting;
+using System.IO;
 
 namespace Infra.Data.Car16.UnitsOfWork.Base
 {
@@ -51,10 +54,6 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
                     Repositories = null;
 
-                    if (this.contextCore != null)
-                    {
-                        this.contextCore.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -90,7 +89,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
         /// Repositories factory
         /// </summary>
         public virtual IRepositoriesFactoryBase Repositories { get; set; }
-
+        
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {
             if (this.transaction == null)
@@ -121,6 +120,16 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
                 throw exOracle;
             }
+            catch (DbUpdateException exUpdate)
+            {
+                this.RollbackTransaction();
+                this.SaveLog(exUpdate);
+
+                throw exUpdate;
+
+
+            }
+
             catch (Exception exGeneirc)
             {
                 this.RollbackTransaction();
@@ -164,6 +173,15 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
         protected virtual void SaveLog(Exception ex)
         {
+            string path = HostingEnvironment.MapPath(@"~/App_Data/errolog.txt");
+
+            using (var errorLog = new StreamWriter(path, true))
+            {
+                errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " Message ==> \"{0}\" ", ex.Message);
+                errorLog.WriteLine("    >> InnerException: \"{0}\"", ex.InnerException.InnerException);
+                errorLog.Close();
+            }
+
             //todo: implementar savelog
             //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }

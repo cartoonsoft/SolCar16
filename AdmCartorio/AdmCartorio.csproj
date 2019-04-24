@@ -48,6 +48,9 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -127,6 +130,9 @@
     <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -173,13 +179,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapper\AutoMapperConfigAdmCartorio.cs" />
+    <Compile Include="App_Start\AutoMapper\DomainToDtoModelMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\DtoModelToDomainMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\ViewModelToDtoMappingProfileAdminCartorio.cs" />
+    <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />
     <Compile Include="App_Start\Identity\IdentityInit.cs" />
+    <Compile Include="Controllers\ArquivosController.cs" />
     <Compile Include="Controllers\Base\AdmCartorioBaseController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Identity\Context\DataBaseIInitializerCar16.cs" />
     <Compile Include="Models\Identity\Entities\Claims.cs" />
     <Compile Include="Models\Identity\Entities\ApplicationUser.cs" />
+    <Compile Include="ViewModels\ArquivoModeloDocxListViewModel.cs" />
+    <Compile Include="ViewModels\ArquivoModeloDocxViewModel.cs" />
+    <Compile Include="ViewModels\DadosPostArquivoUsuario.cs" />
     <Compile Include="ViewModels\Identity\AccountViewModels.cs" />
     <Compile Include="ViewModels\Identity\AdminViewModel.cs" />
     <Compile Include="ViewModels\Identity\ClaimViewModel.cs" />
@@ -187,6 +202,7 @@
     <Compile Include="Models\Identity\Entities\Client.cs" />
     <Compile Include="ViewModels\Identity\ManageViewModels.cs" />
     <Compile Include="ViewModels\Identity\RoleViewModel.cs" />
+    <Compile Include="ViewModels\LogArquivoModeloDocxViewModel.cs" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -1009,6 +1025,9 @@
     <Content Include="Views\Usuarios\Edit.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
     <Content Include="Views\Usuarios\_frmUsuario.cshtml" />
+    <Content Include="Views\Arquivos\Cadastrar.cshtml" />
+    <Content Include="Views\Arquivos\Index.cshtml" />
+    <Content Include="Views\Arquivos\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1061,10 +1080,6 @@
       <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
       <Name>AppServices.Car16</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ConsoleAppTeste\ConsoleAppTeste.csproj">
-      <Project>{987db189-fc8f-4f5a-9cd4-ebf0246bc397}</Project>
-      <Name>ConsoleAppTeste</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
       <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
       <Name>Domain.Car16</Name>
@@ -1080,6 +1095,10 @@
     <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
       <Project>{1214a5f7-317d-47b4-ac8d-88a3db601f39}</Project>
       <Name>Infra.Data.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
+      <Project>{9448e205-b5ff-4c2c-8fd5-f02d33fbd6be}</Project>
+      <Name>LibFunctions</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -30,7 +30,7 @@ namespace Infra.Cross.Ioc
 
             // Infra Dados: UnitofWork 
             ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCar16New>(() => new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
-            ContainerAdmCartorio.Register<IUnitOfWorkDataBseCar16>(() => new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
+            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCar16>(() => new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
 
 
             // AppServices 

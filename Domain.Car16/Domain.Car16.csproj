@@ -40,6 +40,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,15 +49,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\IsWordFile.cs" />
+    <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="DomainServices\Base\DomainServicesFactoryCar16.cs" />
     <Compile Include="DomainServices\Base\DomainServiceCar16.cs" />
+    <Compile Include="DomainServices\ArquivoModeloDocxDomainService.cs" />
     <Compile Include="DomainServices\PessoaDomainService.cs" />
     <Compile Include="DomainServices\PaisDomainService.cs" />
     <Compile Include="DomainServices\MunicipioDomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
+    <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Car16New\CamposArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Car16New\LogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\Municipio.cs" />
     <Compile Include="Entities\Car16New\Pais.cs" />
     <Compile Include="Entities\Car16New\Pessoa.cs" />
+    <Compile Include="Entities\Car16New\TipoAto.cs" />
     <Compile Include="Entities\Car16New\Uf.cs" />
     <Compile Include="Entities\Car16\ACESSO.cs" />
     <Compile Include="Entities\Car16\ATO.cs" />
@@ -72,7 +80,6 @@
     <Compile Include="Entities\Car16\CERTIDAO.cs" />
     <Compile Include="Entities\Car16\CERTIDAOV.cs" />
     <Compile Include="Entities\Car16\CERTN.cs" />
-    <Compile Include="Entities\Car16\Class1.cs" />
     <Compile Include="Entities\Car16\CND.cs" />
     <Compile Include="Entities\Car16\CND2.cs" />
     <Compile Include="Entities\Car16\CNDR.cs" />
@@ -140,19 +147,23 @@
     <Compile Include="Entities\Car16\TITPOS.cs" />
     <Compile Include="Entities\Car16\ULTRP.cs" />
     <Compile Include="Entities\Car16\USUARIO.cs" />
+    <Compile Include="Entities\Diversas\ArquivoModeloDocxList.cs" />
     <Compile Include="enums\BaseDados.cs" />
+    <Compile Include="enums\TipoLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServicesFactoryCar16.cs" />
     <Compile Include="Interfaces\DomainServices\IMunicipioDomainService.cs" />
+    <Compile Include="Interfaces\DomainServices\IArquivoModeloDocxDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IUfDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPessoaDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCar16.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
-    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBseCar16.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCar16.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCar16New.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

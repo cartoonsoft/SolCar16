@@ -20,6 +20,16 @@ namespace Domain.Car16.Interfaces.Repositories
             get;
         }
 
+
+        IRepositoryPessoa RepositoryPessoa
+        {
+            get;
+        }
+        IRepositoryArquivoModeloDocx RepositoryArquivoModeloDocx
+        {
+            get;
+        }
+
     }
 
 }

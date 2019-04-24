@@ -15,6 +15,5 @@ namespace Domain.Car16.Interfaces.UnitOfWork
             get;
         }
 
-
     }
 }

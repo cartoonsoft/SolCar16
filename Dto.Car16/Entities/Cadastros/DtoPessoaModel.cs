@@ -6,13 +6,13 @@ namespace Dto.Car16.Entities.Cadastros
 {
     public class DtoPessoaModel : DtoEntityBaseModel
     {
-        public override long Id { get; set; }
+        public override long? Id { get; set; }
         public string Codigo { get; set; }
         public string CodExterno1 { get; set; }
         public string CodExterno2 { get; set; }
         public string CodExterno3 { get; set; }
         public DateTime? DataImport { get; set; }
-        public char? FlagImport { get; set; }
+        public bool FlagImport { get; set; }
         public string FonteImport { get; set; }
         public string StatusPessoa { get; set; }
         public string NomePessoa { get; set; }

@@ -22,6 +22,9 @@ using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.Data;
 using Domain.Car16.Entities.Car16New;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.IO;
+using System.Web.Hosting;
+using System.Web;
 
 namespace Infra.Data.Car16.Context.Base
 {
@@ -61,8 +64,8 @@ namespace Infra.Data.Car16.Context.Base
             //    .Where(p => p.Name == "Id")
             //    .Configure(p => p.IsKey());
 
-            modelBuilder.Properties<string>()
-                .Configure(p => p.HasMaxLength(100));
+            //modelBuilder.Properties<string>()
+            //    .Configure(p => p.HasMaxLength(1024));
 
             if (this.Database.Connection is OracleConnection)
             {
@@ -128,7 +131,35 @@ namespace Infra.Data.Car16.Context.Base
                 //throw;
             }
 
-            return base.SaveChanges();
+            try
+            {
+                return base.SaveChanges();
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                string path = HostingEnvironment.MapPath(@"~/App_Data/errolog.txt");
+
+                using (var errorLog = new StreamWriter(path, true))
+                {
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " ==> " +
+                            "Entidade do tipo \"{0}\" no estado \"{1}\" tem os seguintes erros de validação:",
+                            eve.Entry.Entity.GetType().Name, eve.Entry.State);
+
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            errorLog.WriteLine("    >> Property: \"{0}\", Erro: \"{1}\"",
+                                ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    errorLog.Close();
+                }
+
+                throw;
+            }
+
         }
 
         public override DbSet Set(Type entityType)

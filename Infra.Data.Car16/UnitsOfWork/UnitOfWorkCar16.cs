@@ -108,9 +108,8 @@ namespace Infra.Data.Car16.UnitsOfWork
             // GC.SuppressFinalize(this);
         }
         #endregion
-
-
-        public ContextMainCar16 ContextMainCar16 { get; private set; }
+        
+        protected ContextMainCar16 ContextMainCar16 { get; private set; }
 
         public new IRepositoriesFactoryCar16 Repositories
         {

@@ -40,10 +40,6 @@ namespace Infra.Data.Car16.Repositories
                 {
                     // dispose managed state (managed objects).
                     Repositories = null;
-                    if (_context != null)
-                    {
-                        _context.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -82,7 +78,14 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryMunicipio(this._context);
                     }
-
+                    if (typeof(T).Equals(typeof(Pessoa)))
+                    {
+                        repository = new RepositoryPessoa(this._context);
+                    }
+                    if (typeof(T).Equals(typeof(ArquivoModeloDocx)))
+                    {
+                        repository = new RepositoryArquivoModeloDocx(this._context);
+                    }
                 }
 
                 if (repository != null)
@@ -125,5 +128,14 @@ namespace Infra.Data.Car16.Repositories
             }
         }
 
+        public IRepositoryPessoa RepositoryPessoa
+        {
+            get { return GetRepositoryInstance<Pessoa>() as RepositoryPessoa; }
+        }
+
+        public IRepositoryArquivoModeloDocx RepositoryArquivoModeloDocx
+        {
+            get { return GetRepositoryInstance<ArquivoModeloDocx>() as RepositoryArquivoModeloDocx; }
+        }
     }
 }

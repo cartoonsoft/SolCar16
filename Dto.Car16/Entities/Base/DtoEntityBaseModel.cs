@@ -9,12 +9,12 @@ namespace Dto.Car16.Entities.Base
 {
     public abstract class DtoEntityBaseModel : IDtoEntityBaseModel
     {
-        private long _Id;
+        private long? _Id;
 
         /// <summary>
         /// Get or set the persisten object identifier
         /// </summary>
-        public virtual long Id
+        public virtual long? Id
         {
             get
             {

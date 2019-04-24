@@ -7,7 +7,7 @@ namespace Dto.Car16.Entities.Cadastros
     public class DtoPaisModel : DtoEntityBaseModel
     {
         [Key]
-        public override long Id { get; set; }
+        public override long? Id { get; set; }
 
         [Display(Name = "Cod. IBGE")]
         public string CodIbge { get; set; }

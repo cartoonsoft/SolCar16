@@ -28,5 +28,12 @@ namespace Domain.Car16.Interfaces.DomainServices.Base
             get;
         }
 
+        IArquivoModeloDocxDomainService ArquivoModeloDocxDomainService
+        {
+            get;
+        }
+
+
+
     }
 }

@@ -17,7 +17,7 @@ namespace Domain.Car16.Entities.Car16New
         public override long? Id { get; set; }
 
         [Column("ID_PAIS")]
-        public int IdPais { get; set; }
+        public long IdPais { get; set; }
 
         [Column("COD_IBGE")]
         public string CodigoIbge { get; set; }

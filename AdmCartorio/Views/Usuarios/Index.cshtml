@@ -161,15 +161,15 @@
                                             @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Editar", "Edit", "Usuarios", new { id = item.Id }, new { @class = "btn btn-secondary" })&ensp;
+                                            @Html.ActionLink("Editar", "Edit", "Usuarios", new { id = item.Id }, new { @class = "btn btn-primary" })&ensp;
                                             @{
                                                 if (item.Ativo)
                                                 {
-                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-secondary">Desativar</a>
+                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-danger">Desativar</a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-secondary">Ativar</a>
+                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-default">Ativar</a>
                                                 }
 
                                             }
@@ -241,8 +241,46 @@
 
         }
 
-        // Validation
+        var responsiveHelper_dt_basic = undefined;
+
         $(document).ready(function () {
+
+            //coloque aqui seu codigo jquery
+            $('#tbl-usuarios').dataTable({
+                columnDefs: [{ orderable: false, targets: [3,4,5,6,7] }],
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tbl-usuarios'));
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                },
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ reg. por página",
+                    "zeroRecords": "Nenhum Registro Encontrado",
+                    "info": "Mostrando Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro Disponível",
+                    "infoFiltered": "(filtrado)",
+                    "loadingRecords": "Lendo...",
+                    "processing": "Processando...",
+                    "search": "Procurar: ",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próx.",
+                        "previous": "Anterior"
+                    },
+                }
+            });
 
 
 

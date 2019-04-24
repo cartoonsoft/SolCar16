@@ -29,10 +29,6 @@ namespace Domain.Car16.DomainServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_unitOfWorkCar16 != null)
-                    {
-                        _unitOfWorkCar16.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.

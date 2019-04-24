@@ -15,12 +15,19 @@ namespace Infra.Data.Car16.Context
     /// context para Car16 New
     /// </summary>
     [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
-    public class ContextMainCar16: ContextOraBase
+    public class ContextMainCar16 : ContextOraBase
     {
         /// <summary>
         /// Base de dados: dezesseis_new 
         /// </summary>
-        public DbSet<Pais> Pais { get; set; }
+        public DbSet<Pais> DbPais { get; set; }
+        public DbSet<Uf> DbUf { get; set; }
+        public DbSet<Municipio> DbMunicipio { get; set; }
+
+        public DbSet<ArquivoModeloDocx> DbArquivoModeloDocx { get; set; }
+        public DbSet<CamposArquivoModeloDocx> DbCamposArquivoModeloDocx { get; set; }
+        public DbSet<LogArquivoModeloDocx> DbLogArquivoModeloDocx { get; set;}
+        public DbSet<TipoAto> DbTipoAto { get; set; }
 
         /// <summary>
         /// Base de dados: dezesseis

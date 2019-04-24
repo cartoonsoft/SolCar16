@@ -28,10 +28,6 @@ namespace Infra.Data.Car16.Repositories.Base
                 {
                     // TODO: dispose managed state (managed objects).
                     GenericRepositories = null;
-                    if (_contextCore != null)
-                    {
-                        _contextCore.Dispose();
-                    }
 
                 }
 

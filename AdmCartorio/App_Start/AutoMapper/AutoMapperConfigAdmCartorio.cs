@@ -2,19 +2,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace AppServices.Car16.AutoMapper
+namespace AdmCartorio.App_Start.AutoMapper
 {
-    class AutoMapperConfig
+    public class AutoMapperConfigAdmCartorio
     {
-        public static void RegisterMappings()
+        public static void RegisterMappingsAdmCartorio()
         {
             Mapper.Initialize(x =>
             {
                 x.AddProfile<DomainToDtoModelMappingProfile>();
                 x.AddProfile<DtoModelToDomainMappingProfile>();
+                x.AddProfile<DtoToViewModelMappingProfileAdminCartorio>();
+                x.AddProfile<ViewModelToDtoMappingProfileAdminCartorio>();
             });
         }
     }

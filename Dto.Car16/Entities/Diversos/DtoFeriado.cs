@@ -12,7 +12,11 @@ namespace Dto.Car16.Entities.Diversos
     public class DtoFeriado : DtoEntityBaseModel
     {
         [Key]
-        public override long Id { get; set; }
+        public override long? Id { get; set; }
+
+        public long? IdUf { get; set; }
+
+        public long? IdMunicipio { get; set; }
 
         public int Ano { get; set; }
 
@@ -26,8 +30,5 @@ namespace Dto.Car16.Entities.Diversos
 
         public bool Ativo { get; set; }
 
-        public long? IdUf { get; set; }
-
-        public long? IdMunicipio { get; set; }
     }
 }

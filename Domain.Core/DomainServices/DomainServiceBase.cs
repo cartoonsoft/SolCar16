@@ -38,10 +38,6 @@ namespace Domain.Core.DomainServices
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if(_unitOfWork != null)
-                    {
-                        _unitOfWork.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.

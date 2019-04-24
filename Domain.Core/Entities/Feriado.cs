@@ -22,6 +22,10 @@ namespace Domain.Core.Entities
         [Column("ID_FERIADO")]
         public override long? Id { get; set; }
 
+        public long? IdUf { get; set; }
+
+        public long? IdMunicipio { get; set; }
+
         public int Ano { get; set; }
 
         public DateTime DataFeriado { get; set; }
@@ -33,9 +37,5 @@ namespace Domain.Core.Entities
         public TiposFeriado TipoFeriado { get; set; }
 
         public bool Ativo { get; set; }
-
-        public long? IdUf { get; set; }
-
-        public long? IdMunicipio { get; set; }
     }
 }

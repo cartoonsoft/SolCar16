@@ -16,7 +16,10 @@ namespace Infra.Data.Car16.UnitsOfWork
         public UnitOfWorkDataBaseCar16New(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
             //
+            
         }
+
+        
 
     }
 }

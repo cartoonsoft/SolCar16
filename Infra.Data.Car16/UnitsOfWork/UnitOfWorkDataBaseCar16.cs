@@ -10,7 +10,7 @@ using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.UnitsOfWork
 {
-    public class UnitOfWorkDataBaseCar16: UnitOfWorkCar16, IUnitOfWorkDataBseCar16
+    public class UnitOfWorkDataBaseCar16: UnitOfWorkCar16, IUnitOfWorkDataBaseCar16
     {
 
         public UnitOfWorkDataBaseCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)

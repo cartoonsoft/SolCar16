@@ -42,11 +42,6 @@ namespace AppServices.Car16.AppServices.Base
                     {
                         _domainServicesFactoryCar16.Dispose();
                     }
-
-                    if (_unitOfWorkCar16 != null)
-                    {
-                        _unitOfWorkCar16.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -71,6 +66,11 @@ namespace AppServices.Car16.AppServices.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        public IUnitOfWorkCar16 UnitOfWorkCar16
+        {
+            get { return this._unitOfWorkCar16; }
+        }
 
         public new IDomainServicesFactoryCar16 DomainServices
         {

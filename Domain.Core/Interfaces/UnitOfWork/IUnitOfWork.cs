@@ -14,6 +14,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.Core.Interfaces.UnitOfWork

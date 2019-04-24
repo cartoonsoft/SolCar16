@@ -8,7 +8,7 @@ using Domain.Core.Interfaces.UnitOfWork;
 
 namespace Domain.Car16.Interfaces.UnitOfWork
 {
-    public interface IUnitOfWorkDataBseCar16: IUnitOfWorkCar16
+    public interface IUnitOfWorkDataBaseCar16: IUnitOfWorkCar16
     {
         //
 

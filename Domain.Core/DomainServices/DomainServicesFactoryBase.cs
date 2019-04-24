@@ -74,23 +74,23 @@ namespace Domain.Core.DomainServices
         {
             this.VerifyUnitOfWork();
 
-            IDomainServiceBase<T> repository = null;
+            IDomainServiceBase<T> domainService = null;
 
             if (GenericDomainServices.Keys.Contains(typeof(T)))
             {
-                repository = GenericDomainServices[typeof(T)] as IDomainServiceBase<T>;
+                domainService = GenericDomainServices[typeof(T)] as IDomainServiceBase<T>;
             }
             else
             {
-                repository = new DomainServiceBase<T>(_unitOfWork);
+                domainService = new DomainServiceBase<T>(_unitOfWork);
             }
 
-            if (repository != null)
+            if (domainService != null)
             {
-                GenericDomainServices.Add(typeof(T), repository);
+                GenericDomainServices.Add(typeof(T), domainService);
             }
 
-            return repository;
+            return domainService;
         }
 
         protected void VerifyUnitOfWork()

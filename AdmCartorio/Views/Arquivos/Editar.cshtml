@@ -1,0 +1,171 @@
+﻿@model AdmCartorio.ViewModels.ArquivoModeloDocxViewModel
+
+@{
+    ViewBag.Title = "Arquivos";
+    ViewBag.SubTitle = "Editar";
+}
+
+@section styles_especific {
+    <style>
+        //coloque aqui seu codigo css
+    </style>
+}
+
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-pencil-square-o fa-fw "></i>
+                @ViewBag.Title
+                <span>
+                    >
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-8">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="false"
+                    data-widget-sortable="false"
+                    -->
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                        <h2>Editar modelos de documentos</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+
+                        <div class="widget-body no-padding">
+                            @using (Html.BeginForm("Editar", "Arquivos", FormMethod.Post, new { id = "frmEditarArquivo", enctype = "multipart/form-data", @class = "smart-form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationBootstrap()
+                                @Html.HiddenFor(model => model.Arquivo)
+                                @Html.HiddenFor(model => model.NomeModelo)
+                                @Html.HiddenFor(model => model.IdTipoAto)
+                                @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
+                                @Html.HiddenFor(model => model.Id)
+
+                                <header>
+                                    <h1>
+                                        Edição de Modelos |
+                                        <a id="btnDownload"
+                                           href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "atualizadoAoIniciar", Arquivo = Model.Arquivo })" class="">
+                                            <i class="glyphicon glyphicon-download"></i>
+                                            <span>
+                                                <strong>Download  </strong>
+                                            </span>
+                                        </a>
+                                    </h1>
+                                </header>
+                                <fieldset>
+                                    <div class="row">
+                                        <section class="col col-6">
+                                            <label class="col-form-label">Selecione o novo modelo</label>
+                                            <label class="input">
+                                                @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
+                                            </label>
+                                        </section>
+                                    </div>
+                                    <!-- SELECAO DE ARQUIVO-->
+                                    <span class="text-danger flutua-direita"> Faça o download antes de atualizar </span>
+                                </fieldset>
+                                <footer>
+                                    <button type="submit" id="btnSbmitFrmEditarArquivo" class="btn btn-primary btn-lg">
+                                        <i class="glyphicon glyphicon-upload"></i>
+                                        Salvar
+                                    </button>
+                                    @Html.ActionLink("Voltar", "Index", "Arquivos", null, new { @class = "btn btn-default col-sm-2" })
+                                </footer>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+@section pagespecific{
+<script type="text/javascript">
+
+    @* Coloque aqui seu codigo javascript *@
+    function getIp(callback) {
+        function response(s) {
+            callback(window.userip);
+
+            s.onload = s.onerror = null;
+            document.body.removeChild(s);
+        }
+
+        function trigger() {
+            window.userip = false;
+
+            var s = document.createElement("script");
+            s.async = true;
+            s.onload = function () {
+                response(s);
+
+            };
+            s.onerror = function () {
+                response(s);
+            };
+
+            s.src = "https://l2.io/ip.js?var=userip";
+            document.body.appendChild(s);
+        }
+
+        if (/^(interactive|complete)$/i.test(document.readyState)) {
+            trigger();
+        } else {
+            document.addEventListener('DOMContentLoaded', trigger);
+        }
+    }
+
+    getIp(function (ip) {
+        console.log(ip);
+        document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
+        var id = parseInt($('#Id').val());
+        var arquivo = $('#Arquivo').val();
+
+        $('#btnDownload').attr("href", "/Arquivos/DownloadFile/" + id + "?Ip=" + ip + "&Arquivo=" + arquivo);
+    });
+
+    $(document).ready(function () {
+
+        //coloque aqui seu codigo jquery
+
+    });
+
+</script>
+}
