@@ -98,7 +98,9 @@ namespace AdmCartorio.Controllers
                     Application app = new Application();
                     Document doc = null;
                     int numeroPagina;
-                    int numeroFichasDeslocar = 2;
+                    int posicaoCursor = 0;
+                    int numeroFicha = 0;
+                    float quantidadeCentrimetros = 0;
                     bool isVerso = false;
                     try
                     {
@@ -115,13 +117,6 @@ namespace AdmCartorio.Controllers
                             //Pegando o numero da pagina para configurar o layout
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                             WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
-
-                            if (numeroFichasDeslocar > 0)
-                            {
-                                WordPageHelper.Deslocar(doc, numeroFichasDeslocar, isVerso);
-                            }
-
-
 
                             ////Matricula, ficha, local e data
                             WordParagraphHelper.InserirParagrafoEmRange(doc, new string(' ', 5) + GetNumeroMatricula(modelo) + new string(' ', 17 + (15 - GetNumeroMatricula(modelo).ToString().Length)) +
@@ -142,34 +137,28 @@ namespace AdmCartorio.Controllers
 
                             //Numero de paginas do documento e a posição do cursor
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-                            var posicao = WordPageHelper.GetContentEnd(doc, 1);
+                            posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
 
-                            //TO DO : Pegar o numero do até em sequencia.
-                            //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a matricula
-                            WordParagraphHelper.InserirTextoEmRange(doc, posicao, $"R-12/{modelo.MatriculaID} - ");
+                            if (numeroFicha > 0)
+                            {
+                                WordPageHelper.DeslocarAte(doc, numeroFicha, isVerso);
+                                //Desloca os centimetros e escreve o cabeçalho, se necessario. Atualiza o numero da pagina e a posição do cursor
+                                WordHelper.DesviarCentimetros(doc, modelo, quantidadeCentrimetros, ref numeroPagina, ref posicaoCursor);                                                               
+                            }
+                            else
+                            {
+                                //Desloca os centimetros e escreve o cabeçalho, se necessario. Atualiza o numero da pagina e a posição do cursor
+                                //WordHelper.DesviarCentimetros(doc, modelo, quantidadeCentrimetros, ref numeroPagina, ref posicaoCursor);
+                                
+                                //TO DO : Pegar o numero do até em sequencia.
+                                //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a matricula
+                                WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.MatriculaID} - ");
+                            }
 
                         }
                         #region | Metodo para escrever o ATO |
                         //Pega a posição do cursor do final do documento
-                        var posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-
-                        if (numeroFichasDeslocar > 0)
-                        //Escreve o ato e ajusta o documento, caso necessário
-                        {
-                            //Se for continuação de alguma ficha
-                            if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
-                            {
-                                WordParagraphHelper.InserirParagrafoEmRange(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )");
-
-                                doc.Paragraphs.Last.Range.Bold = 1;
-                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                            }
-                            doc.Paragraphs.Last.Range.Bold = 0;
-
-                            numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-                            posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-
-                        }
+                        posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
 
                         //Escreve o ato e ajusta o documento, caso necessário
                         WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
@@ -512,7 +501,7 @@ namespace AdmCartorio.Controllers
             }
             /*Reposiciona o cursor no final do arquivo, pois foram reescrita as ultimas linhas
             devido a inserção de rodapé dinâmica.*/
-            posicaoCursor = doc.Application.ActiveDocument.Content.End - 2;
+            posicaoCursor = doc.Application.ActiveDocument.Content.End - 1;
             return posicaoCursor;
         }
 
@@ -545,33 +534,13 @@ namespace AdmCartorio.Controllers
     }
     public static class WordPageHelper
     {
-        public static void Deslocar(Document doc, int numeroFicha, bool isVerso)
+        public static void DeslocarAte(Document doc, int numeroFicha, bool isVerso)
         {
-            // 1 1 2 2 3 3 4 4
-            // n V n V n V n V
-            // 2 * numeroFicha - 1(se não verso) 
-            // Subtrai-se 1 porque o arquivo começa na primeira página, ou seja, estamos considerando que começa do 0.
-            var quantidadeRepeticoes = (2 * numeroFicha - (isVerso ? 0 : 1)) - 1;
-
-            //se desloca uma certa quantidade de fichas (verso ou frente)
-            for (int j = 0; j < quantidadeRepeticoes; j++)
+            while (GetNumeroFicha(doc) < numeroFicha || IsVerso(GetNumeroPagina(doc)) != isVerso)
             {
-                //Pula de uma página até a outra
-                for (int i = 0; i < 35; i++)
-                {
-                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                }
+                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
             }
-            WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
-            //WordParagraphHelper.InserirParagrafoEmBranco(doc); WordParagraphHelper.InserirParagrafoEmBranco(doc);
-
-
-            ////Ajusta os paragrafos inseridos em excesso
-            //for (int i = 0; i < (numeroFicha > 1 ? (2 * numeroFicha - (isVerso ? 0 : 1)) : 0); i++)
-            //{
-            //    doc.Application.ActiveDocument.Paragraphs.Last.Range.Delete();
-            //}
-
         }
 
         /// <summary>
@@ -664,16 +633,20 @@ namespace AdmCartorio.Controllers
         /// </summary>
         /// <param name="centimetros">Centimetros</param>
         /// <param name="doc">Documento Ativo</param>
-        public static void DeslocarCentimetros(float centimetros, Document doc)
+        public static void DeslocarCentimetros(Document doc, float centimetros)
         {
             if (doc == null)
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            //Cada paragrafo desloca aproximadamente 0.6 centrimetros
-            int quantidadeDeEspacos = (int)Math.Ceiling(centimetros / 0.6);
+            //Cada paragrafo desloca aproximadamente 0.85 centrimetros
+            int quantidadeDeEspacos = (int)Math.Ceiling(centimetros / 0.85);
             while (quantidadeDeEspacos > 0)
+            {
                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                quantidadeDeEspacos--;
+            }
+            WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
         }
         /// <summary>
         /// Função responsável por configurar as margens de acordo com a página
@@ -1127,7 +1100,7 @@ namespace AdmCartorio.Controllers
         /// </summary>
         /// <param name="modelo"></param>
         /// <param name="doc"></param>
-        public static void InserirCabecalho(MatriculaAtoViewModel modelo, Document doc)
+        public static void InserirCabecalho(MatriculaAtoViewModel modelo, Document doc, bool houveDesvio = false)
         {
             if (doc == null)
             {
@@ -1138,7 +1111,7 @@ namespace AdmCartorio.Controllers
                 //Insere o paragrafo correspondente a matricula e ficha 
                 WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 30 + (15 - modelo.MatriculaID.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)
-                    , true);
+                    , !houveDesvio);
 
                 //Posiciona o cursor na ultima pagina e configura a pagina
                 WordPageHelper.ConfigureLastPage(doc);
@@ -1149,7 +1122,7 @@ namespace AdmCartorio.Controllers
                 //Insere o paragrafo correspondente a matricula, ficha e data por extenso
                 WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 17 + (15 - modelo.MatriculaID.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
-                    , true);
+                    , !houveDesvio);
                 //Posiciona o cursor na ultima pagina e configura a pagina
                 WordPageHelper.ConfigureLastPage(doc);
 
@@ -1280,7 +1253,7 @@ namespace AdmCartorio.Controllers
                         textoParaSalvar = SelecionaTextoParaSalvar(doc);
 
                     //Escreve no documento o texto para salvar
-                    posicaoCursor = WordHelper.EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);
+                    posicaoCursor = EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);
 
                     //Quando ocorre quebra de página ele acaba pulando uma letra
                     i--;
@@ -1304,5 +1277,47 @@ namespace AdmCartorio.Controllers
             //Se ato > 1, então existe o ato inicial
             return quantidadeAtos > 0;
         }
+
+        /// <summary>
+        /// A função desvia uma certa quantidade de centimetros após a margem
+        /// </summary>
+        /// <param name="doc">Documento Ativo</param>
+        /// <param name="modelo">View Model</param>
+        /// <param name="quantidadeCentrimetros">Quantidade de centimetros</param>
+        public static void DesviarCentimetros(Document doc, MatriculaAtoViewModel modelo,float quantidadeCentrimetros, ref int numeroPagina, ref int posicaoCursor)
+        {
+            if (quantidadeCentrimetros == 0)
+            {
+                //Insere o cabeçalho
+                WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+
+                //Se for continuação de alguma ficha
+                if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
+                {
+                    WordParagraphHelper.InserirParagrafo(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )", true);
+
+                    doc.Paragraphs.Last.Range.Bold = 1;
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                }
+                doc.Paragraphs.Last.Range.Bold = 0;
+            }
+            else
+            {
+                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
+                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+
+                //centimetros apos a borda da margem
+                WordPageHelper.DeslocarCentimetros(doc, quantidadeCentrimetros);
+                WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.MatriculaID} - ", true);
+            }
+
+            numeroPagina = WordPageHelper.GetNumeroPagina(doc);
+            posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+
+        }
+
     }
 }
