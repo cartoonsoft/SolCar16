@@ -34,7 +34,7 @@ namespace AppServices.Car16.AppServices
                     IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,
-                    ArquivoBytes = dtoArq.ArquivoByte,
+                    //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoArq.Arquivo,
                     NomeModelo = dtoArq.NomeModelo,
                 };
@@ -65,18 +65,15 @@ namespace AppServices.Car16.AppServices
         /// </summary>
         /// <param name="Id">ID do modelo</param>
         /// <param name="IdSuario">ID do usuario</param>
-        public int DesativarModelo(int Id, long IdSuario)
+        public int DesativarModelo(long Id/*, long IdSuari0*/)
         {
             try
             {
                 // Criando objeto do arquivo 
-                ArquivoModeloDocx arquivoModelo = this.UnitOfWorkCar16.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
+                ArquivoModeloDocx arquivoModelo = this.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(Id);
                 if (arquivoModelo != null)
                 {
                     arquivoModelo.Ativo = false;
-                    arquivoModelo.IdUsuarioAlteracao = IdSuario;
-
-                    this.DomainServices.GenericDomainService<ArquivoModeloDocx>().Update(arquivoModelo);
                     return 1;
                 }
                 else

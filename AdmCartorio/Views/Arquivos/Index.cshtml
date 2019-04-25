@@ -39,6 +39,7 @@
 }
 
 <div id="content">
+    <input hidden id="IP"/>
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
             <h1 class="page-title txt-color-blueDark">
@@ -106,7 +107,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="@item.Id">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Id)
                                         </td>
@@ -117,7 +118,7 @@
                                             @Html.DisplayFor(modelItem => item.DescricaoAto)
                                         </td>
                                         <td>
-                                            <form>
+                                            <form method="post">
                                                 @Html.AntiForgeryToken()
                                                 @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
                                                 <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
@@ -187,6 +188,47 @@
             });
 
         });
+
+    // funcao remove uma linha da tabela
+    function removeLinha(linha) {
+        var linha = linha.closest("tr");
+        var i = linha.rowIndex;
+        var ID = parseInt(linha.getAttribute("Id"));
+
+        var IP = document.getElementById('IP').value;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var dadosPost = {
+            Ip: IP,
+            Id: ID
+        };
+
+        var res = confirm("Deseja desativar o modelo de ID: " + ID);
+
+        if (res) {
+            $.ajax({
+                url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
+                type: 'POST',
+                data: {
+                    dadosPost,
+                    __RequestVerificationToken: token, 
+
+                },
+                success: function (result) {
+                    console.log(result);
+                    console.log("Deu certo");
+                    document.getElementById('myTable').deleteRow(i);
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Deu erro");
+                }
+            });
+
+
+        }
+    }  
 
     </script>
 }

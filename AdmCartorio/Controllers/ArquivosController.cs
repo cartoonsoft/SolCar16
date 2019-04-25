@@ -242,7 +242,7 @@ namespace AdmCartorio.Controllers
             {
                 using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                 {
-                    respDesativar = appService.DesativarModelo(dadosPost.Id, Convert.ToInt64(UsuarioAtual.Id));
+                     respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
                 }
                 if (respDesativar == 1)
                 {

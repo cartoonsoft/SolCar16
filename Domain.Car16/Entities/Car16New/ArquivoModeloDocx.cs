@@ -40,8 +40,8 @@ namespace Domain.Car16.Entities.Car16New
         [Column("ARQUIVO")]
         public string CaminhoEArquivo { get; set; }
 
-        [Column("ARQ_BYTES")]
-        public byte[] ArquivoBytes { get; set; }
+        //[Column("ARQ_BYTES")]
+        //public byte[] ArquivoBytes { get; set; }
 
         [Column("ATIVO")]
         public bool Ativo { get; set; }
