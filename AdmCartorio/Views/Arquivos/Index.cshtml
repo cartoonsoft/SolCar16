@@ -17,29 +17,35 @@
             width: 100%;
         }
 
-        #tbl-arquivos tr td:nth-child(1) {
-            width: 5%;
-        }
+            #tbl-arquivos tr td:nth-child(1) {
+                width: 5%;
+            }
 
-        #tbl-arquivos tr td:nth-child(2) {
-            width: 50%;
-        }
+            #tbl-arquivos tr td:nth-child(2) {
+                width: 50%;
+            }
 
-        #tbl-arquivos tr td:nth-child(3) {
-            width: 20%;
-        }
+            #tbl-arquivos tr td:nth-child(3) {
+                width: 20%;
+            }
 
-        #tbl-arquivos tr td:nth-child(4) {
-            text-align:right;
-            align-content: flex-end;
-            margin-left: 1em;
-        }
+            #tbl-arquivos tr td:nth-child(4) {
+                text-align: right;
+                align-content: flex-end;
+                margin-left: 1em;
+            }
 
+
+        /**********************************************************************/
+        .desaparecer {
+            opacity: 0;
+            transition: 0.5s;
+        }
     </style>
 }
 
 <div id="content">
-    <input hidden id="IP"/>
+    <input hidden id="IP" />
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
             <h1 class="page-title txt-color-blueDark">
@@ -118,11 +124,8 @@
                                             @Html.DisplayFor(modelItem => item.DescricaoAto)
                                         </td>
                                         <td>
-                                            <form method="post">
-                                                @Html.AntiForgeryToken()
-                                                @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                                <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
-                                            </form>
+                                            @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                            <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
                                         </td>
                                     </tr>
                                 }
@@ -207,17 +210,21 @@
 
         if (res) {
             $.ajax({
-                url: '@Url.Action("DesativarArquivoModeloDocx", "Arquivos")',
+                url: '@Url.Action("Desativar", "Arquivos")',
                 type: 'POST',
                 data: {
                     dadosPost,
-                    __RequestVerificationToken: token, 
-
+                    __RequestVerificationToken: token,
                 },
                 success: function (result) {
                     console.log(result);
                     console.log("Deu certo");
-                    document.getElementById('myTable').deleteRow(i);
+                    //deleta a linha e da efeito
+                    linha.setAttribute("class", "desaparecer");
+                    setTimeout(function () {
+                        linha.remove();
+                    }, 600);
+                    //document.getElementById('myTable').deleteRow(i);
 
                 },
                 error: function (error) {
@@ -228,7 +235,7 @@
 
 
         }
-    }  
+    }
 
     </script>
 }
