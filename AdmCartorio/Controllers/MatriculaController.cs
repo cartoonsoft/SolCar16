@@ -1,4 +1,11 @@
-﻿using AdmCartorio.Models;
+﻿using AdmCartorio.Controllers.Base;
+using AdmCartorio.Models;
+using AdmCartorio.ViewModels;
+using AppServices.Car16.AppServices;
+using AutoMapper;
+using Domain.Car16.Interfaces.UnitOfWork;
+using Dto.Car16.Entities.Cadastros;
+using Dto.Car16.Entities.Diversos;
 using HtmlAgilityPack;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
@@ -15,16 +22,48 @@ using Shapes = Microsoft.Office.Interop.Word.Shapes;
 
 namespace AdmCartorio.Controllers
 {
-    public class MatriculaController : Controller
+    [Authorize]
+    public class MatriculaController : AdmCartorioBaseController
     {
+        #region |Construtores e dispose|
+        public MatriculaController() : base(null, null)
+        {
+            //
+        }
+        public MatriculaController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+        {
+            //Criar instancia dos seus App services aqui
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                //coloque aqui os app servics para dar dispose
+            }
+            base.Dispose(disposing);
+        }
+
+
+        #endregion
+
         // GET: Matricula
         public ActionResult Index()
         {
-            var dados = new MatriculaAtoViewModel()
+            var dados = new MatriculaAtoViewModel();
+
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                MatriculasViewModel = getMatriculaViewModel(),
-                ModelosSimplificadoViewModel = getModeloSimplificadoViewModel()
-            };
+                IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListaModeloSimplificado = appService.ListarArquivoModeloSimplificado();
+                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(ListaModeloSimplificado);
+                dados.MatriculasViewModel = getMatriculaViewModel();
+            }
+
+            //var dados = new MatriculaAtoViewModel()
+            //{
+            //    MatriculasViewModel = getMatriculaViewModel(),
+            //    ModelosSimplificadoViewModel = getModeloSimplificadoViewModel()
+            //};
             return View(dados);
         }
 
@@ -96,9 +135,9 @@ namespace AdmCartorio.Controllers
                     Document doc = null;
                     int numeroPagina;
                     int posicaoCursor = 0;
-                    int numeroFicha = 5;
-                    float quantidadeCentrimetros = 0;
-                    bool isVerso = true;
+                    int numeroFicha = 6;
+                    float quantidadeCentrimetros = 5;
+                    bool isVerso = false;
                     try
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")

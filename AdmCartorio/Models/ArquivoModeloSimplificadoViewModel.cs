@@ -7,10 +7,8 @@ namespace AdmCartorio.Models
 {
     public class ArquivoModeloSimplificadoViewModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
         public string NomeModelo { get; set; }
         public string DescricaoTipoAto { get; set; }
-        public string Arquivo { get; set; }
-        public byte[] ArquivoByte { get; set; }
     }
 }

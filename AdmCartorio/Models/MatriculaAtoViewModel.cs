@@ -21,6 +21,6 @@ namespace AdmCartorio.Models
         public int NumeroAtoSequencia { get; set; }
 
         public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
-        public virtual List<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }
+        public virtual IEnumerable<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }
     }
 }

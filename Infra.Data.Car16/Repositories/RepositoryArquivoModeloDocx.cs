@@ -108,5 +108,74 @@ namespace Infra.Data.Car16.Repositories
 
             return ListaAquivoModeloDocxList;
         }
+        /// <summary>
+        /// Lista de modelos simplificados
+        /// </summary>
+        /// <param name="IdTipoAto"></param>
+        /// <returns></returns>
+        public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
+        {
+            string strQuery = "";
+            string sqlWhere = "";
+            string sqlOrder = "";
+
+            List<ArquivoModeloSimplificadoDocxList> ListaArquivos = new List<ArquivoModeloSimplificadoDocxList>();
+            List<OracleParameter> oracleParameters = new List<OracleParameter>();
+
+
+            strQuery +=
+                @"SELECT 
+                    DOC.ID_MODELO_DOC,
+                    DOC.DESCRICAO,
+                    ATO.DESCRICAO AS DESC_ATO
+                FROM TB_MODELO_DOC DOC
+                    INNER JOIN TB_TP_ATO ATO ON DOC.ID_TP_ATO = ATO.ID_TP_ATO";
+
+            if (IdTipoAto != null)
+            {
+                oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
+                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", (sqlWhere == ""));
+            }
+
+            sqlOrder = "order by DOC.DESCRICAO asc";
+
+            strQuery =
+                strQuery + System.Environment.NewLine +
+                sqlWhere + System.Environment.NewLine +
+                sqlOrder;
+
+            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            {
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(strQuery, conn))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.BindByName = true;
+
+                    foreach (var parametro in oracleParameters)
+                    {
+                        command.Parameters.Add(parametro);
+                    }
+
+                    using (OracleDataReader row = command.ExecuteReader())
+                    {
+                        while (row.Read())
+                        {
+                            ListaArquivos.Add(new ArquivoModeloSimplificadoDocxList
+                            {
+                                Id = row.GetOracleDecimal(row.GetOrdinal("ID_MODELO_DOC")).ToInt64(), // DOC.ID_MODELO_DOC
+                                NomeModelo = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,
+                                DescricaoTipoAto = row.GetOracleString(row.GetOrdinal("DESC_ATO")).ToString() //ATO.DESCRICAO
+                            });
+                        }
+                    }
+                }
+                conn.Close();
+            };
+
+            //List<ArquivoModeloDocxList> aquivoModeloDocxList = this.Context.Database.SqlQuery<ArquivoModeloDocxList>(strQuery).ToList<ArquivoModeloDocxList>();
+
+            return ListaArquivos;
+        }
     }
 }

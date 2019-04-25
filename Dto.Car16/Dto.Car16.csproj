@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Base\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cadastros\DtoArquivoModeloSimplificadoDocxList.cs" />
     <Compile Include="Entities\Diversos\DtoArquivoModeloDocxList.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloDocxModel.cs" />
     <Compile Include="Entities\Cadastros\DtoMunicipioModel.cs" />
