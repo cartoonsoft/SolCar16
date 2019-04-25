@@ -22,7 +22,7 @@ namespace AppBootStrapMin.Controllers
         }
 
         // GET: TB_MODELO_DOC/Details/5
-        public async Task<ActionResult> Details(decimal id)
+        public async Task<ActionResult> Details(long? id)
         {
             if (id == null)
             {
@@ -60,7 +60,7 @@ namespace AppBootStrapMin.Controllers
         }
 
         // GET: TB_MODELO_DOC/Edit/5
-        public async Task<ActionResult> Edit(decimal id)
+        public async Task<ActionResult> Edit(long? id)
         {
             if (id == null)
             {
@@ -91,7 +91,7 @@ namespace AppBootStrapMin.Controllers
         }
 
         // GET: TB_MODELO_DOC/Delete/5
-        public async Task<ActionResult> Delete(decimal id)
+        public async Task<ActionResult> Delete(long? id)
         {
             if (id == null)
             {
