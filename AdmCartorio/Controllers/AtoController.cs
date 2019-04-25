@@ -3,6 +3,7 @@ using AdmCartorio.Models;
 using AdmCartorio.ViewModels;
 using AppServices.Car16.AppServices;
 using AutoMapper;
+using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
@@ -22,47 +23,31 @@ using Shapes = Microsoft.Office.Interop.Word.Shapes;
 
 namespace AdmCartorio.Controllers
 {
-    [Authorize]
-    public class MatriculaController : AdmCartorioBaseController
+    public class AtoController : AdmCartorioBaseController
     {
-        #region |Construtores e dispose|
-        public MatriculaController() : base(null, null)
+        #region
+        public AtoController() : base(null, null)
         {
             //
+
         }
-        public MatriculaController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+
+        public AtoController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
         {
             //Criar instancia dos seus App services aqui
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                //coloque aqui os app servics para dar dispose
-            }
-            base.Dispose(disposing);
-        }
-
         #endregion
 
-        // GET: Matricula
+        // GET: Ato
         public ActionResult Index()
         {
             var dados = new MatriculaAtoViewModel();
-
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListaModeloSimplificado = appService.ListarArquivoModeloSimplificado();
-                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(ListaModeloSimplificado);
+                IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 dados.MatriculasViewModel = getMatriculaViewModel();
             }
-
-            //var dados = new MatriculaAtoViewModel()
-            //{
-            //    MatriculasViewModel = getMatriculaViewModel(),
-            //    ModelosSimplificadoViewModel = getModeloSimplificadoViewModel()
-            //};
             return View(dados);
         }
 
@@ -134,9 +119,9 @@ namespace AdmCartorio.Controllers
                     Document doc = null;
                     int numeroPagina;
                     int posicaoCursor = 0;
-                    int numeroFicha = 6;
-                    float quantidadeCentrimetros = 5;
-                    bool isVerso = false;
+                    int numeroFicha = 5;
+                    float quantidadeCentrimetros = 0;
+                    bool isVerso = true;
                     try
                     {
                         if (modelo.ModeloTipoAto == "Ato Inicial")
@@ -154,7 +139,7 @@ namespace AdmCartorio.Controllers
                             WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
 
                             //Insere o cabeçalho
-                            WordLayoutPageHelper.InserirCabecalho(modelo, doc,true);
+                            //WordLayoutPageHelper.InserirCabecalho(modelo, doc,true);
                         }
                         else
                         {
@@ -198,7 +183,7 @@ namespace AdmCartorio.Controllers
                                     WordTextStyleHelper.Bold(doc, posicaoCursor, false);
 
                                     //TO DO : Pegar o numero do até em sequencia.
-                                    //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a matricula
+                                    //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a Ato
                                     WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.MatriculaID} - ");
                                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
 
@@ -264,11 +249,11 @@ namespace AdmCartorio.Controllers
 
 
         /// <summary>
-        /// Retorna o numero de matricula do modelo
+        /// Retorna o numero de Ato do modelo
         /// </summary>
         /// <param name="modelo">Modelo</param>
-        /// <returns>N° da Matricula</returns>
-        public static long GetNumeroMatricula(MatriculaAtoViewModel modelo)
+        /// <returns>N° da Ato</returns>
+        public static long GetNumeroAto(MatriculaAtoViewModel modelo)
         {
             return modelo.MatriculaID;
         }
@@ -393,14 +378,14 @@ namespace AdmCartorio.Controllers
 
 
 
-        public PartialViewResult BuscaMatricula()
+        public PartialViewResult BuscaAto()
         {
             return PartialView();
         }
-        public PartialViewResult BuscaModelo(int? idMatricula)
+        public PartialViewResult BuscaModelo(int? idAto)
         {
-            if (idMatricula.HasValue) { return PartialView(); }
-            return PartialView(nameof(BuscaMatricula));
+            if (idAto.HasValue) { return PartialView(); }
+            return PartialView(nameof(BuscaAto));
         }
 
     }
@@ -864,13 +849,13 @@ namespace AdmCartorio.Controllers
     public static class WordShapeHelper
     {
         /// <summary>
-        /// Função que ajusta a cor de fundo do texto 'Matricula' e 'ficha' para dar ilusão de legend do shape
+        /// Função que ajusta a cor de fundo do texto 'Ato' e 'ficha' para dar ilusão de legend do shape
         /// Utilizar somente após de inserir o texto da ficha
         /// </summary>
         /// <param name="doc">Documento Ativo</param>
         /// <param name="rangeFinal">Posição Final do texto 'ficha'</param>
         [Obsolete("Não precisa ser mais usado, pois não há necessidade de colocar mais Shape")]
-        public static void AjustarBackGroundShapeMatriculaFicha(Document doc, int rangeFinal)
+        public static void AjustarBackGroundShapeAtoFicha(Document doc, int rangeFinal)
         {
             //Fundo Branco
             WordTextStyleHelper.SetHighlightColor(doc, rangeFinal - 7, rangeFinal, WdColorIndex.wdWhite);
@@ -880,11 +865,11 @@ namespace AdmCartorio.Controllers
             WordTextStyleHelper.SetHighlightColor(doc, rangeFinal - 54, rangeFinal - 46, WdColorIndex.wdNoHighlight);
         }
         /// <summary>
-        /// Inserir o texto de matricula e ficha dos shapes
+        /// Inserir o texto de Ato e ficha dos shapes
         /// </summary>
         /// <param name="doc">Documento Ativo</param>
         [Obsolete("Não precisa ser mais usado, pois não há necessidade de colocar mais Shape")]
-        public static void InserirTextoMatriculaFicha(Document doc)
+        public static void InserirTextoAtoFicha(Document doc)
         {
             if (doc == null)
             {
@@ -925,15 +910,15 @@ namespace AdmCartorio.Controllers
             shapes[index].Top = top;
         }
         /// <summary>
-        /// Função que adiciona um shape para matricula e outro para ficha
+        /// Função que adiciona um shape para Ato e outro para ficha
         /// </summary>
         /// <param name="shapes">Objecto de Shapes</param>
         [Obsolete("Não precisa ser mais usado, pois não há necessidade de colocar mais Shape")]
-        public static void InserirShapeMatriculaFicha(Shapes shapes)
+        public static void InserirShapeAtoFicha(Shapes shapes)
         {
             int index;
 
-            #region | Shape N° Matricula |
+            #region | Shape N° Ato |
             shapes.AddShape((int)MsoAutoShapeType.msoShapeRoundedRectangle, 50, 50, 80, 30)
                                                         .ZOrder(MsoZOrderCmd.msoSendBehindText);
             index = shapes.Count;
@@ -1190,7 +1175,7 @@ namespace AdmCartorio.Controllers
             }
             if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
             {
-                //Insere o paragrafo correspondente a matricula e ficha 
+                //Insere o paragrafo correspondente a Ato e ficha 
                 WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 30 + (15 - modelo.MatriculaID.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, isParagrafo) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, isParagrafo).ToString().Length)
                     , !houveDesvio);
@@ -1201,7 +1186,7 @@ namespace AdmCartorio.Controllers
             }
             else
             {
-                //Insere o paragrafo correspondente a matricula, ficha e data por extenso
+                //Insere o paragrafo correspondente a Ato, ficha e data por extenso
                 WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 17 + (15 - modelo.MatriculaID.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, isParagrafo) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, isParagrafo).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
                     , !houveDesvio);
@@ -1355,7 +1340,7 @@ namespace AdmCartorio.Controllers
         /// <returns></returns>
         public static bool ExisteAtoInicial(MatriculaAtoViewModel modelo)
         {
-            //Busca no banco se existe algum ato para aquela Matricula
+            //Busca no banco se existe algum ato para aquela Ato
             int quantidadeAtos = 0;
             //Se ato > 1, então existe o ato inicial
             return quantidadeAtos > 0;

@@ -1039,9 +1039,9 @@
     <Content Include="Views\Arquivos\Cadastrar.cshtml" />
     <Content Include="Views\Arquivos\Index.cshtml" />
     <Content Include="Views\Arquivos\Editar.cshtml" />
-    <Content Include="Views\Matricula\BuscaMatricula.cshtml" />
-    <Content Include="Views\Matricula\BuscaModelo.cshtml" />
-    <Content Include="Views\Matricula\Index.cshtml" />
+    <Content Include="Views\Ato\BuscaMatricula.cshtml" />
+    <Content Include="Views\Ato\BuscaModelo.cshtml" />
+    <Content Include="Views\Ato\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
