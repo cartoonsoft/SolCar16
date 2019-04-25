@@ -148,6 +148,7 @@
     <Compile Include="Entities\Car16\ULTRP.cs" />
     <Compile Include="Entities\Car16\USUARIO.cs" />
     <Compile Include="Entities\Diversas\ArquivoModeloDocxList.cs" />
+    <Compile Include="Entities\Diversas\ArquivoModeloSimplificadoDocxList.cs" />
     <Compile Include="enums\BaseDados.cs" />
     <Compile Include="enums\TipoLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16.cs" />

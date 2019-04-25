@@ -12,6 +12,7 @@ namespace Domain.Car16.Interfaces.DomainServices
     public interface IArquivoModeloDocxDomainService : IDomainServiceCar16<ArquivoModeloDocx>
     {
         IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
+        IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
 
     }
 }

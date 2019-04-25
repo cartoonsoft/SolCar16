@@ -29,5 +29,9 @@ namespace Domain.Car16.DomainServices
             return _repositoryArquivoModeloDocx.ListarArquivoModeloDocx(IdTipoAto);
         }
 
+        public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
+        {
+            return _repositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
+        }
     }
 }

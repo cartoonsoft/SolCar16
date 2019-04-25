@@ -67,5 +67,12 @@ namespace AppServices.Car16.AppServices
             return listaDto;
         }
 
+        public IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null)
+        {
+            IEnumerable<ArquivoModeloSimplificadoDocxList> listaDomain = this.DomainServices.ArquivoModeloDocxDomainService.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
+            IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloSimplificadoDocxList>, IEnumerable<DtoArquivoModeloSimplificadoDocxList>>(listaDomain);
+
+            return listaDto;
+        }
     }
 }
