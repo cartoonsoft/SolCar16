@@ -60,6 +60,37 @@ namespace AppServices.Car16.AppServices
             }
         }
 
+        /// <summary>
+        /// Desativa o Modelo
+        /// </summary>
+        /// <param name="Id">ID do modelo</param>
+        /// <param name="IdSuario">ID do usuario</param>
+        public int DesativarModelo(int Id, long IdSuario)
+        {
+            try
+            {
+                // Criando objeto do arquivo 
+                ArquivoModeloDocx arquivoModelo = this.UnitOfWorkCar16.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
+                if (arquivoModelo != null)
+                {
+                    arquivoModelo.Ativo = false;
+                    arquivoModelo.IdUsuarioAlteracao = IdSuario;
+
+                    this.DomainServices.GenericDomainService<ArquivoModeloDocx>().Update(arquivoModelo);
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+        
         public IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
             IEnumerable<ArquivoModeloDocxList> listaDomain = this.DomainServices.ArquivoModeloDocxDomainService.ListarArquivoModeloDocx(IdTipoAto);

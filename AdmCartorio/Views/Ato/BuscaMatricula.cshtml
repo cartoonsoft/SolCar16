@@ -1,0 +1,94 @@
+﻿@model IEnumerable<AdmCartorio.ViewModels.MatriculaViewModel>
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Busca de Matriculas</h4>
+        </div>
+        <div class="modal-body">
+            <fieldset>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <label class="margin-top-10">Prenotação</label>
+                        <input placeholder="Digite a prenotação" class="form-control" />
+                    </div>
+                    <div class="col-sm-5">
+                        <label class="col-form-label margin-top-10">Digite a matrícula</label>
+                        <input placeholder="Digite o Nº da Matrícula" class="form-control" />
+                    </div>
+                    <div class="col-sm-1">
+                        <br />
+                        <button class="btn btn-default margin-top-10 margin-left-5">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+
+            <table id="tabelaNatureza" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                <thead>
+                    <tr role="row">
+                        <th rowspan="1" colspan="1">
+                            Nº Matrícula
+                        </th>
+                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                            Nome do imóvel
+                        </th>
+                        <th rowspan="1" colspan="1">
+                            Endereço
+                        </th>
+                        <th rowspan="1" colspan="1">
+                            Proprietário atual
+                        </th>
+                        <th rowspan="1" colspan="1">
+                            Ação
+                        </th>
+                </thead>
+                <tbody>
+
+                    @if (Model != null)
+                    {
+                        <!-- MOCADO-->
+                        foreach (var item in Model)
+                        {
+                            <tr role="row" id="@item.MatriculaId">
+                                <td class="matriculaId">@item.MatriculaId</td>
+                                <td class="nomeImovel">@item.NomeImovel</td>
+                                <td class="enderecoImovel">@item.EnderecoImovel</td>
+                                <td class="nomeProprietario">@item.NomeProprietarioAtual</td>
+                                <td>
+                                    <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
+                                        Confirmar
+                                    </button>
+                                </td>
+                            </tr>
+                        } 
+                        <!-- FIM MOCADO-->
+                    }
+
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function enviarDadosMatricula(objeto) {
+        var linha = objeto.closest("tr");
+        var matriculaId = linha.querySelector(".matriculaId");
+        var endereco = linha.querySelector(".enderecoImovel");
+        var proprietario = linha.querySelector(".nomeProprietario");
+
+        $('#MatriculaID').val(matriculaId.innerText);
+        $('#MatriculaEndereco').val(endereco.innerText)
+        $('#MatriculaProprietarioAtual').val(proprietario.innerText);
+
+        $('#modelo').removeAttr('disabled');
+        $('#BuscaMatricula').modal('hide');
+    }
+</script>
+

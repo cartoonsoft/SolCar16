@@ -1,0 +1,66 @@
+﻿@model List<AdmCartorio.ViewModels.ArquivoModeloSimplificadoViewModel>
+<div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Busca de Modelos</h4>
+        </div>
+        <div class="modal-body">
+            <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                <thead>
+                    <tr role="row">
+                        <th rowspan="1" colspan="1">
+                            Código
+                        </th>
+                        <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                            Nome
+                        </th>
+                        <th rowspan="1" colspan="1">
+                            Tipo
+                        </th>
+                        <th rowspan="1" colspan="1">
+                            
+                        </th>
+                </thead>
+                <tbody>
+                    @if (Model != null) { 
+                        <!-- mocado-->
+                        foreach (var item in Model)
+                        {
+                        <tr role="row" id="@item.Id">
+                            <td class="idModelo">@item.Id</td>
+                            <td class="nomeModelo">@item.NomeModelo</td>
+                            <td class="descricaoTipoAto">@item.DescricaoTipoAto</td>
+                            <td>
+                                <button class="btn btn-success enviar" onclick="enviarDados(this)" type="submit">
+                                    Usar
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                        <!-- fim mocado-->
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function enviarDados(objeto) {
+        var linha = objeto.closest("tr");
+        console.log(linha);
+        var modeloNome = linha.querySelector(".nomeModelo");
+        var tipoAto = linha.querySelector(".descricaoTipoAto");
+        $('#ModeloNome').val(modeloNome.innerText);
+        $('#ModeloTipoAto').val(tipoAto.innerText);
+        document.getElementById('ModeloTipoAto').value = tipoAto.innerText;
+        AtualizarModelo();
+        $('#BuscaModelo').modal('hide');
+    }
+</script>

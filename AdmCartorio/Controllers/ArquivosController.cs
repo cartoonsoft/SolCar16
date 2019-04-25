@@ -49,7 +49,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx();
+                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx().Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
             }
 
@@ -237,7 +237,22 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public void DesativarArquivoModeloDocx([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
-
+            int respDesativar;
+            using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
+            {
+                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                {
+                    respDesativar = appService.DesativarModelo(dadosPost.Id, Convert.ToInt64(UsuarioAtual.Id));
+                }
+                if (respDesativar == 1)
+                {
+                    unitOfWork.Commit();
+                }
+                else
+                {
+                    throw new Exception("Não foi possível desativar o modelo");
+                }
+            }
         }
 
         public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)

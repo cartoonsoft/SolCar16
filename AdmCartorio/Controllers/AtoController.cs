@@ -349,7 +349,7 @@ namespace AdmCartorio.Controllers
                                         }
                                         //Buscar dado da pessoa aqui
                                         resultadoQuery = "teste query";
-
+                                            
                                         //atualiza o texto formatado
                                         textoParagrafo.Append(resultadoQuery);
                                     }
