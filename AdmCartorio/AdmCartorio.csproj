@@ -113,6 +113,9 @@
     <Reference Include="SimpleInjector.Integration.Web, Version=4.5.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
       <HintPath>..\packages\SimpleInjector.Integration.Web.4.5.1\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http, Version=4.1.1.2, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Net.Http.4.3.3\lib\net46\System.Net.Http.dll</HintPath>
@@ -169,6 +172,7 @@
     </Reference>
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
@@ -176,6 +180,9 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Words.NET, Version=1.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocX.1.3.0\lib\net40\Xceed.Words.NET.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1051,6 +1058,7 @@
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AppViewsController.cs" />
+    <Compile Include="Controllers\ArquivosController.cs" />
     <Compile Include="Controllers\CommerceController.cs" />
     <Compile Include="Controllers\ElementController.cs" />
     <Compile Include="Controllers\EmailTemplatesController.cs" />
@@ -1061,6 +1069,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IconsController.cs" />
     <Compile Include="Controllers\IntelController.cs" />
+    <Compile Include="Controllers\MatriculaController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Global.asax.cs">
