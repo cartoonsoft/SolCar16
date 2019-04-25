@@ -109,9 +109,9 @@ namespace Infra.Data.Car16.Repositories
             return ListaAquivoModeloDocxList;
         }
         /// <summary>
-        /// Lista de modelos simplificados
+        /// Lista de modelos simplificados (DOC.ID_MODELO_DOC,DOC.DESCRICAO,ATO.DESCRICAO AS DESC_ATO)
         /// </summary>
-        /// <param name="IdTipoAto"></param>
+        /// <param name="IdTipoAto">Id do tipo ato para filtrar </param>
         /// <returns></returns>
         public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
         {

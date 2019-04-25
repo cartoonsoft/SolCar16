@@ -24,9 +24,10 @@
                         </th>
                 </thead>
                 <tbody>
-                    <!-- mocado-->
-                    @foreach (var item in Model)
-                    {
+                    @if (Model != null) { 
+                        <!-- mocado-->
+                        foreach (var item in Model)
+                        {
                         <tr role="row" id="@item.Id">
                             <td class="idModelo">@item.Id</td>
                             <td class="nomeModelo">@item.NomeModelo</td>
@@ -37,8 +38,10 @@
                                 </button>
                             </td>
                         </tr>
+                        }
+                        <!-- fim mocado-->
                     }
-                    <!-- fim mocado-->
+
 
                 </tbody>
             </table>

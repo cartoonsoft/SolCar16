@@ -47,23 +47,26 @@
                 </thead>
                 <tbody>
 
-                    <!-- MOCADO-->
-                    @foreach(var item in Model)
+                    @if (Model != null)
                     {
-                        <tr role="row" id="@item.MatriculaId">
-                            <td class="matriculaId">@item.MatriculaId</td>
-                            <td class="nomeImovel">@item.NomeImovel</td>
-                            <td class="enderecoImovel">@item.EnderecoImovel</td>
-                            <td class="nomeProprietario">@item.NomeProprietarioAtual</td>
-                            <td>
-                                <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
-                                    Confirmar
-                                </button>
-                            </td>
-                        </tr>
+                        <!-- MOCADO-->
+                        foreach (var item in Model)
+                        {
+                            <tr role="row" id="@item.MatriculaId">
+                                <td class="matriculaId">@item.MatriculaId</td>
+                                <td class="nomeImovel">@item.NomeImovel</td>
+                                <td class="enderecoImovel">@item.EnderecoImovel</td>
+                                <td class="nomeProprietario">@item.NomeProprietarioAtual</td>
+                                <td>
+                                    <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
+                                        Confirmar
+                                    </button>
+                                </td>
+                            </tr>
+                        } 
+                        <!-- FIM MOCADO-->
                     }
-                                       
-                    <!-- FIM MOCADO-->
+
                 </tbody>
             </table>
         </div>

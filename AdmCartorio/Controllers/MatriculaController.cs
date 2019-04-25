@@ -44,7 +44,6 @@ namespace AdmCartorio.Controllers
             base.Dispose(disposing);
         }
 
-
         #endregion
 
         // GET: Matricula
@@ -85,7 +84,7 @@ namespace AdmCartorio.Controllers
                     }
                 };
         }
-
+        
         private static List<MatriculaViewModel> getMatriculaViewModel()
         {
             return new List<MatriculaViewModel>()
