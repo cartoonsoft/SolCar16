@@ -133,10 +133,18 @@ namespace AdmCartorio.Controllers
                             {
                                 WordPageHelper.DeslocarAte(doc, numeroFicha, isVerso);
 
-                                ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
-                                ///Atualiza o numero da pagina e a posição do cursor
-                                WordHelper.DesviarCentimetros(doc, modelo, quantidadeCentrimetros, ref numeroPagina, ref posicaoCursor,true);
-                       
+                                if (quantidadeCentrimetros > 0)
+                                {
+                                    ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
+                                    ///Atualiza o numero da pagina e a posição do cursor
+                                    WordHelper.DesviarCentimetros(doc, modelo, quantidadeCentrimetros, ref numeroPagina, ref posicaoCursor, true);
+                                }
+                                else
+                                {
+                                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true, false);
+                                    numeroPagina = WordPageHelper.GetNumeroPagina(doc);
+                                }
+
                             }
                             else
                             {
