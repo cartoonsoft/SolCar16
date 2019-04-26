@@ -43,6 +43,10 @@
         }
     </style>
 }
+<div id="divMensagem" class="alert" hidden>
+    <label id="labelMensagem"></label>
+</div>
+
 
 <div id="content">
     <input hidden id="IP" />
@@ -223,18 +227,26 @@
                     linha.setAttribute("class", "desaparecer");
                     setTimeout(function () {
                         linha.remove();
+                        monstrarMensagem("Modelo removido com sucesso",true);
                     }, 600);
-                    //document.getElementById('myTable').deleteRow(i);
 
                 },
                 error: function (error) {
                     console.log(error);
                     console.log("Deu erro");
+                    monstrarMensagem("Erro ao remover",false);
                 }
             });
 
 
         }
+    }
+
+    function monstrarMensagem(mensagem, statusMensagem) {
+        if (statusMensagem == true) { $('#divMensagem').attr("class", "alert alert-success"); }
+        else { $('#divMensagem').attr("class", "alert alert-danger"); }
+        $('#labelMensagem').text(mensagem);
+        $('#divMensagem').removeAttr("hidden");
     }
 
     </script>
