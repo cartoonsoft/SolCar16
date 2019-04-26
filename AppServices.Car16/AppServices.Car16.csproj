@@ -34,6 +34,10 @@
     <Reference Include="AutoMapper, Version=8.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.8.0.0\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
@@ -70,12 +74,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppServices\AppServiceArquivoModeloDocx.cs" />
+    <Compile Include="AppServices\AppServiceMatriculaAto.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
     <Compile Include="AppServices\Base\AppServiceBase.cs" />
     <Compile Include="AppServices\Base\AppServiceCar16.cs" />
     <Compile Include="Interfaces\Base\IAppServiceBase.cs" />
     <Compile Include="Interfaces\Base\IAppServiceCar16.cs" />
     <Compile Include="Interfaces\IAppServiceArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\IAppServiceMatriculaAto.cs" />
     <Compile Include="Interfaces\IAppServicePais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -95,6 +101,10 @@
     <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
       <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
       <Name>Dto.Car16</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
+      <Project>{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}</Project>
+      <Name>LibFunctions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

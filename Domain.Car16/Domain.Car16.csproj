@@ -61,6 +61,7 @@
     <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\CamposArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\LogArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Car16New\MatriculaAto.cs" />
     <Compile Include="Entities\Car16New\Municipio.cs" />
     <Compile Include="Entities\Car16New\Pais.cs" />
     <Compile Include="Entities\Car16New\Pessoa.cs" />

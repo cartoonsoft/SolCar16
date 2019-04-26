@@ -51,25 +51,6 @@ namespace AdmCartorio.Controllers
             return View(dados);
         }
 
-        private static List<ArquivoModeloSimplificadoViewModel> getModeloSimplificadoViewModel()
-        {
-            return new List<ArquivoModeloSimplificadoViewModel>()
-                {
-                    new ArquivoModeloSimplificadoViewModel()
-                    {
-                        Id = 1,
-                        DescricaoTipoAto = "Ato Inicial",
-                        NomeModelo = "TesteModelo"
-                    },
-                    new ArquivoModeloSimplificadoViewModel()
-                    {
-                        Id = 2,
-                        DescricaoTipoAto = "Registro",
-                        NomeModelo = "testeWord"
-                    }
-                };
-        }
-        
         private static List<MatriculaViewModel> getMatriculaViewModel()
         {
             return new List<MatriculaViewModel>()
@@ -98,13 +79,14 @@ namespace AdmCartorio.Controllers
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}.docx");
+            bool respEscreverWord = false;
             try
             {
 
                 if (modelo.Ato == null)
                 {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
-                    modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                    modelo.ModelosSimplificadoViewModel = (IEnumerable<ArquivoModeloSimplificadoViewModel>)this.UnitOfWorkDataBseCar16New.Repositories.RepositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx();
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Index), modelo);
                 }
@@ -115,126 +97,30 @@ namespace AdmCartorio.Controllers
                 {
 
                     //Representa o documento e o numero de pagina
-                    Application app = new Application();
-                    Document doc = null;
-                    int numeroPagina;
-                    int posicaoCursor = 0;
-                    int numeroFicha = 5;
+                    DtoMatriculaAto modeloDto = Mapper.Map<MatriculaAtoViewModel, DtoMatriculaAto > (modelo);
+                    int irParaFicha = 5;
                     float quantidadeCentrimetros = 0;
-                    bool isVerso = true;
-                    try
+                    bool irParaVerso = true;
+                    using (var appService = new AppServiceMatriculaAto(this.UnitOfWorkDataBseCar16New))
                     {
-                        if (modelo.ModeloTipoAto == "Ato Inicial")
-                        {
-                            //Inicia a variavel que representa o documento
-                            app.Visible = true;
-                            doc = app.Documents.Add();
-
-                            //Configuração do documento
-                            WordParagraphHelper.ParapraphAlignment(doc, WdParagraphAlignment.wdAlignParagraphJustify);
-                            WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
-
-                            //Pegando o numero da pagina para configurar o layout
-                            numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-                            WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
-
-                            //Insere o cabeçalho
-                            //WordLayoutPageHelper.InserirCabecalho(modelo, doc,true);
-                        }
-                        else
-                        {
-                            //Abre o arquivo para escrever o ATO e faz as configurações iniciais
-                            app.Visible = true;
-                            doc = app.Documents.Open(filePath);
-                            WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
-
-                            //Numero de paginas do documento e a posição do cursor
-                            numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-                            posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-
-                            if (numeroFicha > 0)
-                            {
-                                WordPageHelper.DeslocarAte(doc, numeroFicha, isVerso);
-
-                                if (quantidadeCentrimetros > 0)
-                                {
-                                    ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
-                                    ///Atualiza o numero da pagina e a posição do cursor
-                                    WordHelper.DesviarCentimetros(doc, modelo, quantidadeCentrimetros, ref numeroPagina, ref posicaoCursor, true);
-                                }
-                                else
-                                {
-                                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true, false);
-                                    numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-                                }
-
-                            }
-                            else
-                            {
-                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                                if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
-                                {
-                                    doc.Paragraphs.Last.Range.Delete();
-                                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, false);
-                                    doc.Paragraphs.Last.Range.Delete();
-                                    WordLayoutPageHelper.InserirContinuacaoFicha(doc);
-
-                                    posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                                    WordTextStyleHelper.Bold(doc, posicaoCursor, false);
-
-                                    //TO DO : Pegar o numero do até em sequencia.
-                                    //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a Ato
-                                    WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.MatriculaID} - ");
-                                    numeroPagina = WordPageHelper.GetNumeroPagina(doc);
-
-                                }
-                                else
-                                {
-                                    doc.Paragraphs.Last.Range.Delete();
-                                    posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                                    WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.MatriculaID} - ");
-
-                                }
-                            }
-
-                        }
-                        #region | Metodo para escrever o ATO |
-                        //Pega a posição do cursor do final do documento
-                        posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                        //Não deixa o texto começar com negrito
-                        WordTextStyleHelper.Bold(doc, posicaoCursor, false);
-                        //Escreve o ato e ajusta o documento, caso necessário
-                        WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, numeroFicha>0 );
-                        WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
-
-                        #endregion
-
-                        //Salvando e finalizando documento
-                        doc.SaveAs2(filePath);
-                        doc.Close();
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, irParaFicha, quantidadeCentrimetros, irParaVerso, filePath);
                     }
-                    catch (Exception)
+                    if (respEscreverWord)
                     {
-                        doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-                        throw;
+                        // Gravar no banco o array de bytes
+                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+                        // Pegar a ultima "versão" do ato e somar
+
+                        // Gravar o ato e buscar o selo e gravar o selo
                     }
-                    finally
+                    else
                     {
-                        app.Quit();
-                        app = null;
-                        doc = null;
-                        GC.Collect();
+                        //Teve algum erro ao escrever o documento no WORD
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
-
-                    // Gravar no banco o array de bytes
-                    var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-                    // Pegar a ultima "versão" do ato e somar
-
-                    // Gravar o ato e buscar o selo e gravar o selo
-
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
-                modelo.ModelosSimplificadoViewModel = getModeloSimplificadoViewModel();
+                modelo.ModelosSimplificadoViewModel = (IEnumerable<ArquivoModeloSimplificadoViewModel>)this.UnitOfWorkDataBseCar16New.Repositories.RepositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx();
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
 
                 return View(nameof(Index), modelo);
@@ -257,7 +143,6 @@ namespace AdmCartorio.Controllers
         {
             return modelo.MatriculaID;
         }
-
 
 
         /// <summary>
