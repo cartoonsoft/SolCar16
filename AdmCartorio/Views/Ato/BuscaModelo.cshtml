@@ -52,6 +52,8 @@
     </div>
 </div>
 <script type="text/javascript">
+    //Pega o modelo selecionado, atualiza os campos da view Principal e esconde a partial. 
+    //Busca o modelo selecionado no banco e escreve os dados no EDITOR
     function enviarDados(objeto) {
         var linha = objeto.closest("tr");
         console.log(linha);
@@ -60,7 +62,12 @@
         $('#ModeloNome').val(modeloNome.innerText);
         $('#ModeloTipoAto').val(tipoAto.innerText);
         document.getElementById('ModeloTipoAto').value = tipoAto.innerText;
-        AtualizarModelo();
+        
+        AtualizarModelo(); //Função da rota Ato/Cadastrar
         $('#BuscaModelo').modal('hide');
     }
+
+    
+
+
 </script>

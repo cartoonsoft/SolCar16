@@ -186,7 +186,7 @@
                                 <button type="button" class="btn btn-default"
                                         data-toggle="modal" data-target="#BuscaModelo"
                                         data-id="1"
-                                        id="modelo" disabled>
+                                        id="btnModelo" disabled>
                                     <i class="glyphicon glyphicon-search"></i>
                                     Buscar Modelo
                                 </button>
@@ -322,6 +322,9 @@
         $('#Ato').val(editor.getData());
     });
 
+    //Ao clicar, abre a modal, faz a chamada ajax.GET e atualiza a tabela
+    $('#btnModelo').on('click',GetModelos);
+
     //Busca os dados do modelo cadastrado e popula o editor do word
     function AtualizarModelo(){
         var ModeloNome = $('#ModeloNome').val();
@@ -335,7 +338,6 @@
                 editor.setData(result);
                 $('#upload').removeAttr('disabled');
                 $('#ckEditorGrid').removeAttr('hidden');
-
             },
             error: function (error) {
                 console.log(error);
@@ -345,6 +347,19 @@
 
         }
 
+
+   
+
+    //Pega os Modelos e atualiza a tabela
+    function GetModelos() {
+        $.get('@Url.Action("GetModelos", "Ato")', function (data, status) {
+            resultado = $.parseJSON(data);
+            var tabela = $('#tabelaModelo');
+            console.log(resultado);
+            debugger;
+            
+        });
+    }
     </script>
 
 

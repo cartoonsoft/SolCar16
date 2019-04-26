@@ -11,6 +11,7 @@ using HtmlAgilityPack;
 using LibFunctions.Functions;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -167,6 +168,7 @@ namespace AdmCartorio.Controllers
         #region | EDITAR |
 
         #endregion
+       
         #region | VIEWS PARCIAIS |
         public PartialViewResult BuscaAto()
         {
@@ -179,6 +181,22 @@ namespace AdmCartorio.Controllers
         }
         #endregion
 
+        #region | JsonResults |
+        /// <summary>
+        /// Função que retorna os modelos em formato JSON   
+        /// </summary>
+        /// <returns>JSON</returns>
+        public JsonResult GetModelos()
+        {
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            {
+                var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+                var jsonResult = JsonConvert.SerializeObject(listaModelos);
+                return Json(jsonResult, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
         /// <summary>
         /// Retorna o numero de Ato do modelo
         /// </summary>
