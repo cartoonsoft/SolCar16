@@ -19,6 +19,9 @@ namespace AdmCartorio.ViewModels
         public string ModeloCPF { get; set; }
         public string Ato { get; set; }
         public int NumeroAtoSequencia { get; set; }
+        public int IrParaFicha { get; set; }
+        public float QuantidadeCentimetros { get; set; }
+        public bool IrParaVerso { get; set; }
 
         public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
         public virtual IEnumerable<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }

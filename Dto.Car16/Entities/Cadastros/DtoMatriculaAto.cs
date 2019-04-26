@@ -20,6 +20,9 @@ namespace Dto.Car16.Entities.Cadastros
         public string ModeloCPF { get; set; }
         public string Ato { get; set; }
         public int NumeroAtoSequencia { get; set; }
+        public int IrParaFicha { get; set; }
+        public float QuantidadeCentimetrosDaBorda { get; set; }
+        public bool IrParaVerso { get; set; }
 
         public virtual IEnumerable<DtoMatricula> MatriculasViewModel { get; set; }
         public virtual IEnumerable<DtoArquivoModeloSimplificadoDocxList> ModelosSimplificadoViewModel { get; set; }

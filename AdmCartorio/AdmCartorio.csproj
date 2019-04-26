@@ -1042,6 +1042,7 @@
     <Content Include="Views\Ato\BuscaMatricula.cshtml" />
     <Content Include="Views\Ato\BuscaModelo.cshtml" />
     <Content Include="Views\Ato\Index.cshtml" />
+    <Content Include="Views\Ato\Cadastrar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -11,6 +11,6 @@ namespace AppServices.Car16.Interfaces
 {
     public interface IAppServiceMatriculaAto : IAppServiceCar16<DtoMatriculaAto, MatriculaAto>
     {
-        bool EscreverAtoNoWord(DtoMatriculaAto modelo, int irParaFicha, float quantidadeCentrimetrosDaBorda, bool irParaVerso, string filePath);
+        bool EscreverAtoNoWord(DtoMatriculaAto modelo, string filePath);
     }
 }

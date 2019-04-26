@@ -24,8 +24,8 @@ using Xceed.Words.NET;
 namespace AdmCartorio.Controllers
 {
     public class AtoController : AdmCartorioBaseController
-    {
-        #region
+    { 
+        #region | Construtores |
         public AtoController() : base(null, null)
         {
             //
@@ -41,14 +41,14 @@ namespace AdmCartorio.Controllers
         // GET: Ato
         public ActionResult Index()
         {
-            var dados = new MatriculaAtoViewModel();
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
-            {
-                IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
-                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
-                dados.MatriculasViewModel = getMatriculaViewModel();
-            }
-            return View(dados);
+            //var dados = new MatriculaAtoViewModel();
+            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            //{
+            //    IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+            //    dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+            //    dados.MatriculasViewModel = getMatriculaViewModel();
+            //}
+            return View();
         }
 
         private static List<MatriculaViewModel> getMatriculaViewModel()
@@ -78,6 +78,29 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
+            //Ronaldo
+
+            return View();
+        }
+
+        #region | CADASTRO |
+        public ActionResult Cadastrar()
+        {
+            var dados = new MatriculaAtoViewModel();
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            {
+                IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+                dados.MatriculasViewModel = getMatriculaViewModel();
+            }
+            return View(dados);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public ActionResult Cadastrar(MatriculaAtoViewModel modelo)
+        {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}.docx");
             bool respEscreverWord = false;
             try
@@ -92,8 +115,9 @@ namespace AdmCartorio.Controllers
                         modelo.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                     }
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Index), modelo);
+                    return View(nameof(Cadastrar), modelo);
                 }
+                
                 //Ajusta a string de ato(HTML) -> ato(String)
                 modelo.Ato = ConvertHtmlToString(modelo.Ato);
 
@@ -102,12 +126,10 @@ namespace AdmCartorio.Controllers
 
                     //Representa o documento e o numero de pagina
                     DtoMatriculaAto modeloDto = Mapper.Map<MatriculaAtoViewModel, DtoMatriculaAto>(modelo);
-                    int irParaFicha = 0;
-                    float quantidadeCentrimetros = 0;
-                    bool irParaVerso = false;
+                    
                     using (var appService = new AppServiceMatriculaAto(this.UnitOfWorkDataBseCar16New))
                     {
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, irParaFicha, quantidadeCentrimetros, irParaVerso, filePath);
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath);
                     }
                     if (respEscreverWord)
                     {
@@ -131,7 +153,7 @@ namespace AdmCartorio.Controllers
                 }
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
 
-                return View(nameof(Index), modelo);
+                return View(nameof(Cadastrar), modelo);
             }
             catch (Exception ex)
             {
@@ -140,7 +162,22 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
+        #endregion
 
+        #region | EDITAR |
+
+        #endregion
+        #region | VIEWS PARCIAIS |
+        public PartialViewResult BuscaAto()
+        {
+            return PartialView();
+        }
+        public PartialViewResult BuscaModelo(int? idAto)
+        {
+            if (idAto.HasValue) { return PartialView(); }
+            return PartialView(nameof(BuscaAto));
+        }
+        #endregion
 
         /// <summary>
         /// Retorna o numero de Ato do modelo
@@ -268,15 +305,7 @@ namespace AdmCartorio.Controllers
             }
         }
 
-        public PartialViewResult BuscaAto()
-        {
-            return PartialView();
-        }
-        public PartialViewResult BuscaModelo(int? idAto)
-        {
-            if (idAto.HasValue) { return PartialView(); }
-            return PartialView(nameof(BuscaAto));
-        }
+    
 
     }
 }
