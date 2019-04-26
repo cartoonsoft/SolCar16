@@ -86,7 +86,11 @@ namespace AdmCartorio.Controllers
                 if (modelo.Ato == null)
                 {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
-                    modelo.ModelosSimplificadoViewModel = (IEnumerable<ArquivoModeloSimplificadoViewModel>)this.UnitOfWorkDataBseCar16New.Repositories.RepositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx();
+                    using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+                    {
+                        IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                        modelo.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+                    }
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Index), modelo);
                 }
@@ -97,10 +101,10 @@ namespace AdmCartorio.Controllers
                 {
 
                     //Representa o documento e o numero de pagina
-                    DtoMatriculaAto modeloDto = Mapper.Map<MatriculaAtoViewModel, DtoMatriculaAto > (modelo);
-                    int irParaFicha = 5;
+                    DtoMatriculaAto modeloDto = Mapper.Map<MatriculaAtoViewModel, DtoMatriculaAto>(modelo);
+                    int irParaFicha = 0;
                     float quantidadeCentrimetros = 0;
-                    bool irParaVerso = true;
+                    bool irParaVerso = false;
                     using (var appService = new AppServiceMatriculaAto(this.UnitOfWorkDataBseCar16New))
                     {
                         respEscreverWord = appService.EscreverAtoNoWord(modeloDto, irParaFicha, quantidadeCentrimetros, irParaVerso, filePath);
@@ -120,7 +124,11 @@ namespace AdmCartorio.Controllers
                     }
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
-                modelo.ModelosSimplificadoViewModel = (IEnumerable<ArquivoModeloSimplificadoViewModel>)this.UnitOfWorkDataBseCar16New.Repositories.RepositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx();
+                using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+                {
+                    IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                    modelo.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+                }
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
 
                 return View(nameof(Index), modelo);
@@ -234,7 +242,7 @@ namespace AdmCartorio.Controllers
                                         }
                                         //Buscar dado da pessoa aqui
                                         resultadoQuery = "teste query";
-                                            
+
                                         //atualiza o texto formatado
                                         textoParagrafo.Append(resultadoQuery);
                                     }
