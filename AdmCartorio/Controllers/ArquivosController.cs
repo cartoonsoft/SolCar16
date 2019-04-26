@@ -236,22 +236,22 @@ namespace AdmCartorio.Controllers
 
         public void Desativar([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
-            //int respDesativar;
-            //using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
-            //{
-            //    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-            //    {
-            //         respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
-            //    }
-            //    if (respDesativar == 1)
-            //    {
-            //        unitOfWork.Commit();
-            //    }
-            //    else
-            //    {
-            //        throw new Exception("Não foi possível desativar o modelo");
-            //    }
-            //}
+            int respDesativar;
+            using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
+            {
+                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                {
+                    respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
+                }
+                if (respDesativar == 1)
+                {
+                    unitOfWork.Commit();
+                }
+                else
+                {
+                    throw new Exception("Não foi possível desativar o modelo");
+                }
+            }
         }
 
         public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
