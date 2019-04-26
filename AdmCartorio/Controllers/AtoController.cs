@@ -89,7 +89,7 @@ namespace AdmCartorio.Controllers
             var dados = new MatriculaAtoViewModel();
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
+                var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
                 dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 dados.MatriculasViewModel = getMatriculaViewModel();
             }
