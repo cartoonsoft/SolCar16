@@ -114,8 +114,8 @@ namespace AdmCartorio.Controllers
                     return View(nameof(Cadastrar), modelo);
                 }
                 
-                //Ajusta a string de ato(HTML) -> ato(String)
-                //modelo.Ato = ConvertHtmlToString(modelo.Ato);
+                //Ajusta a string de ato
+                modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
 
                 if (ModelState.IsValid)
                 {
@@ -218,36 +218,14 @@ namespace AdmCartorio.Controllers
 
 
         /// <summary>
-        /// Função que retorna o ato de html para string
+        /// Remove a ultima marcação de espaço da string (\n)
         /// </summary>
-        /// <param name="ato">ATO como HTML</param>
-        /// <returns>ato como string</returns>
-        private static string ConvertHtmlToString(string ato)
+        /// <param name="ato">ATO como String</param>
+        /// <returns>Ato como string</returns>
+        private static string RemoveUltimaMarcacao(string ato)
         {
-            var documentoHtml = new HtmlDocument();
-            StringBuilder st = new StringBuilder();
-            documentoHtml.LoadHtml(ato);
-            int countNodes = documentoHtml.DocumentNode.ChildNodes.Count;
-
-            if (countNodes > 0)
-            {
-                for (int i = 0; i < documentoHtml.DocumentNode.ChildNodes.Count; i++)
-                {
-                    HtmlNode linhaHtml = documentoHtml.DocumentNode.ChildNodes[i];
-                    if (linhaHtml.InnerHtml == "&nbsp;")
-                    {
-                        st.Append('\n');
-                    }
-                    else
-                    {
-                        st.Append(linhaHtml.InnerHtml);
-                    }
-                    if (i < countNodes && linhaHtml.InnerHtml != "&nbsp;")
-                        st.Append('\n');
-
-                }
-            }
-            return st.ToString();
+            var atoString = ato.Substring(0,ato.Length-1);
+            return atoString;
         }
 
         /// <summary>
@@ -316,8 +294,5 @@ namespace AdmCartorio.Controllers
                 throw new Exception("Ocorreu algum erro ao utilizar o modelo");
             }
         }
-
-    
-
     }
 }

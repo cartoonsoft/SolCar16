@@ -19,7 +19,7 @@
                             Tipo
                         </th>
                         <th rowspan="1" colspan="1">
-                            
+
                         </th>
                 </thead>
                 <tbody>
@@ -28,12 +28,15 @@
             </table>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="dismissModal()">Cancelar</button>
         </div>
     </div>
 </div>
+
+
+
 <script type="text/javascript">
-    //Pega o modelo selecionado, atualiza os campos da view Principal e esconde a partial. 
+    //Pega o modelo selecionado, atualiza os campos da view Principal e esconde a partial.
     //Busca o modelo selecionado no banco e escreve os dados no EDITOR
     function enviarDados(objeto) {
         var linha = objeto.closest("tr");
@@ -45,12 +48,22 @@
         $('#IdTipoAto').val(idAto.innerText);
         $('#ModeloNome').val(modeloNome.innerText);
         $('#ModeloTipoAto').val(tipoAto.innerText);
-       
+
         AtualizarModelo(); //Função da rota Ato/Cadastrar
         $('#BuscaModelo').modal('hide');
     }
 
-    
+    function dismissModal() {
+        debugger;
+        $('#upload').attr('disabled','disabled');
+        $('#ckEditorGrid').attr('hidden','hidden');
+        limparCampos();
+    }
 
+    function limparCampos() {
+        $('#IdTipoAto').val("");
+        $('#ModeloNome').val("");
+        $('#ModeloTipoAto').val("");
+    }
 
 </script>

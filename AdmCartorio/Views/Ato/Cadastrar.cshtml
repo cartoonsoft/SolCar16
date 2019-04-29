@@ -296,7 +296,6 @@
     //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
     $('#upload').on('click', function () {
         var texto = editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n');
-        debugger;
         $('#Ato').val(texto);
     });
 
