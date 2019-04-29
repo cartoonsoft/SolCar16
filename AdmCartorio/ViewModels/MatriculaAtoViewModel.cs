@@ -24,6 +24,5 @@ namespace AdmCartorio.ViewModels
         public bool IrParaVerso { get; set; }
 
         public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
-        public virtual IEnumerable<ArquivoModeloSimplificadoViewModel> ModelosSimplificadoViewModel { get; set; }
     }
 }

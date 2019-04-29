@@ -91,8 +91,6 @@ namespace AdmCartorio.Controllers
             var dados = new MatriculaAtoViewModel();
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
-                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 dados.MatriculasViewModel = getMatriculaViewModel();
             }
             return View(dados);
@@ -111,11 +109,7 @@ namespace AdmCartorio.Controllers
                 if (modelo.Ato == null)
                 {
                     modelo.MatriculasViewModel = getMatriculaViewModel();
-                    using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
-                    {
-                        IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
-                        modelo.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
-                    }
+                   
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Cadastrar), modelo);
                 }
@@ -148,11 +142,7 @@ namespace AdmCartorio.Controllers
                     }
                 }
                 modelo.MatriculasViewModel = getMatriculaViewModel();
-                using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
-                {
-                    IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
-                    modelo.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
-                }
+                
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
 
                 return View(nameof(Cadastrar), modelo);
@@ -199,6 +189,8 @@ namespace AdmCartorio.Controllers
             }
         }
         #endregion
+
+
         /// <summary>
         /// Retorna o numero de Ato do modelo
         /// </summary>
