@@ -70,6 +70,7 @@
     <Compile Include="Repositories\RepositoriesFactoryCar16.cs" />
     <Compile Include="Repositories\RepositoryArquivoModeloDocx.cs" />
     <Compile Include="Repositories\RepositoryPessoa.cs" />
+    <Compile Include="Repositories\RepositoryPREIMO.cs" />
     <Compile Include="Repositories\RepositoryUf.cs" />
     <Compile Include="Repositories\RepositoryMunicipio.cs" />
     <Compile Include="Repositories\RepositoryPais.cs" />
