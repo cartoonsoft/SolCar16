@@ -209,6 +209,7 @@
                                 <div>
                                     @Html.TextBoxFor(model => model.ModeloTipoAto,
                                         new { @class = "form-control", @placeholder = "Tipo de ato", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.IdTipoAto)
                                 </div>
                             </section>
                         </div>
@@ -294,7 +295,9 @@
     <script>
     //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
     $('#upload').on('click', function () {
-        $('#Ato').val(editor.getData());
+        var texto = editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n');
+        debugger;
+        $('#Ato').val(texto);
     });
 
     //Ao clicar, abre a modal, faz a chamada ajax.GET e atualiza a tabela

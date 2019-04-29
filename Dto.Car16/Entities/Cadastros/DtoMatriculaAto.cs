@@ -14,6 +14,7 @@ namespace Dto.Car16.Entities.Cadastros
         public string MatriculaOutorgante { get; set; }
         public string ModeloNome { get; set; }
         public string ModeloTipoAto { get; set; }
+        public long IdTipoAto { get; set; }
         public int NumeroPrenotacao { get; set; }
         public string NomeImovel { get; set; }
         //Pode ter mais de um CPF para o mesmo ato
@@ -25,7 +26,6 @@ namespace Dto.Car16.Entities.Cadastros
         public bool IrParaVerso { get; set; }
 
         public virtual IEnumerable<DtoMatricula> MatriculasViewModel { get; set; }
-        public virtual IEnumerable<DtoArquivoModeloSimplificadoDocxList> ModelosSimplificadoViewModel { get; set; }
 
     }
 }

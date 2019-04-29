@@ -115,7 +115,7 @@ namespace AdmCartorio.Controllers
                 }
                 
                 //Ajusta a string de ato(HTML) -> ato(String)
-                modelo.Ato = ConvertHtmlToString(modelo.Ato);
+                //modelo.Ato = ConvertHtmlToString(modelo.Ato);
 
                 if (ModelState.IsValid)
                 {

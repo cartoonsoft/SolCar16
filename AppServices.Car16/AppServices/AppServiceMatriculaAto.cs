@@ -28,7 +28,8 @@ namespace AppServices.Car16.AppServices
             int posicaoCursor;
             try
             {
-                if (modelo.ModeloTipoAto == "Ato Inicial")
+                // 3 = ATO INICIAL
+                if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAto.AtoInicial)
                 {
                     //Inicia a variavel que representa o documento
                     app.Visible = true;

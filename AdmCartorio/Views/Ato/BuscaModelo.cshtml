@@ -40,10 +40,12 @@
         console.log(linha);
         var modeloNome = linha.querySelector(".nomeModelo");
         var tipoAto = linha.querySelector(".descricaoTipoAto");
+        var idAto = linha.querySelector(".idModelo");
+
+        $('#IdTipoAto').val(idAto.innerText);
         $('#ModeloNome').val(modeloNome.innerText);
         $('#ModeloTipoAto').val(tipoAto.innerText);
-        document.getElementById('ModeloTipoAto').value = tipoAto.innerText;
-        
+       
         AtualizarModelo(); //Função da rota Ato/Cadastrar
         $('#BuscaModelo').modal('hide');
     }
