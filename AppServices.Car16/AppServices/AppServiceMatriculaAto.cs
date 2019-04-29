@@ -29,7 +29,7 @@ namespace AppServices.Car16.AppServices
             try
             {
                 // 3 = ATO INICIAL
-                if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAto.AtoInicial)
+                if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
                 {
                     //Inicia a variavel que representa o documento
                     app.Visible = true;
@@ -42,6 +42,8 @@ namespace AppServices.Car16.AppServices
                     //Pegando o numero da pagina para configurar o layout
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
+                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+
                 }
                 else
                 {
@@ -98,21 +100,22 @@ namespace AppServices.Car16.AppServices
 
                         }
                     }
-                    #region | Metodo para escrever o ATO |
-                    //Pega a posição do cursor do final do documento
-                    posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                    //Não deixa o texto começar com negrito
-                    WordTextStyleHelper.Bold(doc, posicaoCursor, false);
-                    //Escreve o ato e ajusta o documento, caso necessário
-                    WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, modelo.IrParaFicha > 0);
-                    WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
-
-                    #endregion
-
-                    //Salvando e finalizando documento
-                    doc.SaveAs2(filePath);
-                    doc.Close();
                 }
+                #region | Metodo para escrever o ATO |
+                //Pega a posição do cursor do final do documento
+                posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+                //Não deixa o texto começar com negrito
+                WordTextStyleHelper.Bold(doc, posicaoCursor, false);
+                //Escreve o ato e ajusta o documento, caso necessário
+                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, modelo.IrParaFicha > 0);
+                WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
+
+                #endregion
+
+                //Salvando e finalizando documento
+                doc.SaveAs2(filePath);
+                doc.Close();
+                
             }
             catch (Exception)
             {
