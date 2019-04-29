@@ -190,9 +190,9 @@ namespace AdmCartorio.Controllers
         }
         public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
         {
-            using(var unitOfWork = this.UnitOfWorkDataBseCar16)
+            using (var appService = new AppServicePREIMO(this.UnitOfWorkDataBseCar16))
             {
-                var PREIMO = unitOfWork.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroMatricula, numeroPrenotacao);
+                var PREIMO = appService.BuscaDadosImovel(numeroPrenotacao,numeroMatricula);
                 var jsonResult = JsonConvert.SerializeObject(PREIMO);
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
             }

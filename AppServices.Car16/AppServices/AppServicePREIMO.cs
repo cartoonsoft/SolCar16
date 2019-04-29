@@ -32,13 +32,13 @@ namespace AppServices.Car16.AppServices
             if (numeroPrenotacao != null && numeroMatricula != null)
             {
                 listaImoveis = this.DomainServices.GenericDomainService<PREIMO>()
-                    .GetWhereOrderBy(mp => mp.SEQIMO == numeroMatricula && mp.SEQPRE == numeroPrenotacao, mp => mp.SEQPRE, false);
+                    .GetWhereOrderBy(mp => mp.MATRI == numeroMatricula && mp.SEQPRE == numeroPrenotacao, mp => mp.SEQPRE, false);
                     
             }
             else if (numeroMatricula != null)
             {
                 listaImoveis = this.DomainServices.GenericDomainService<PREIMO>()
-                    .GetWhereOrderBy(m => m.SEQIMO == numeroMatricula, mp => mp.SEQPRE);
+                    .GetWhereOrderBy(m => m.MATRI == numeroMatricula, mp => mp.SEQPRE);
             }
             else if (numeroPrenotacao != null)
             {

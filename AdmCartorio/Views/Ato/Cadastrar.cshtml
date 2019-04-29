@@ -260,7 +260,6 @@
     }
 </div>
 <!-- Fim Modal Modelo-->
-
 @Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
 
 @section pagespecific{
@@ -353,7 +352,7 @@
          ***************************************************************************************************/
         function AjustarTabelaModelo() {
 
-            
+
             $('#tabelaModelo').DataTable({
                 "destroy": true,
                 "searching": false,
@@ -376,6 +375,38 @@
             });
         };
     </script>
+    <script>
+        $('#btnPesquisar').on('click', function () {
+            var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
+            var numeroMatricula = parseInt($('#txtMatricula').val());
+            GetDadosImovel(numeroPrenotacao, numeroMatricula);
+        })
 
+    function GetDadosImovel(numPre, numMat) {
+
+
+
+        $.get('@Url.Action("GetDadosImovel", "Ato")',{ numeroPrenotacao: numPre, numeroMatricula: numMat} ,function (data, status) {
+            resultado = JSON.parse(data);
+            console.log(resultado);
+            var tabela = $('#tabelaImovel tbody');
+            tabela.html("");
+            
+            tabela.append(`
+                <tr role="row" id="${resultado.MATRI}">
+                    <td class="matriculaId">${resultado.MATRI}</td>
+                    <td class="nomeImovel">${resultado.EDIF}</td>
+                    <td class="enderecoImovel">${resultado.ENDER},${resultado.NUM},Lote ${resultado.LOTE} - Apto ${resultado.APTO}</td>
+                    <td class="contribuinteImovel">${resultado.CONTRIB}</td>
+                    <td>
+                        <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
+                            Confirmar
+                        </button>
+                    </td>
+                </tr>`);
+            
+        });
+    }
+    </script>
 }
 

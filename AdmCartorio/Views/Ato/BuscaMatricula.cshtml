@@ -73,33 +73,8 @@
         $('#btnModelo').removeAttr('disabled');
         $('#BuscaMatricula').modal('hide');
     }
-    $('#btnPesquisar').on('click', function () {
-        var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
-        var numeroMatricula = parseInt($('#txtMatricula').val());
-        GetDadosImovel(numeroPrenotacao, numeroMatricula);
-    })
 
-    function GetDadosImovel(numPre,numMat) {
-        $.get('@Url.Action("GetDadosImovel", "Ato")', data{ numeroPrenotacao: numPre, numeroMatricula: numMat} ,function (data, status) {
-                resultado = JSON.parse(data);
-                var tabela = $('#tabelaModelo tbody');
-                tabela.html("");
-                resultado.forEach(item => {
-                    tabela.append(`
-                        <tr role="row" id="${item.MATRI}">
-                            <td class="matriculaId">${item.MATRI}</td>
-                            <td class="nomeImovel">${item.EDIF}</td>
-                            <td class="enderecoImovel">${item.ENDER},${item.NUM},Lote ${item.LOTE} - Apto ${item.APTO}</td>
-                            <td class="contribuinteImovel">${item.CONTRIB}</td>
-                            <td>
-                                <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
-                                    Confirmar
-                                </button>
-                            </td>
-                        </tr>`);
-                });
-        });
-    }
+   
 
 </script>
 
