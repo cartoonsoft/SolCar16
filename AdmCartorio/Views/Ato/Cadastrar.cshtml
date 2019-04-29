@@ -255,7 +255,7 @@
 <!-- Modal Modelo-->
 <div class="modal fade" id="BuscaModelo" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
     @{
-        Html.RenderPartial("BuscaModelo", Model.ModelosSimplificadoViewModel);
+        Html.RenderPartial("BuscaModelo");
     }
 </div>
 <!-- Fim Modal Modelo-->
@@ -292,31 +292,6 @@
             });
     </script>
     <script>
-        /***************************************************************************************************
-         ****************************** AJUSTANDO A TABELA DA MODEL DE MODELOS *****************************
-         ***************************************************************************************************/
-        $(document).ready(function () {
-            $('#tabelaModelo').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrando _MENU_ registros por página",
-                    "search": "Filtre os modelos:",
-                    "zeroRecords": "Nenhum Registro Encontrado",
-                    "info": "Mostrando Página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro Disponível",
-                    "infoFiltered": "(filtrado dos registros)"
-                },
-                "pageLength": 5,
-                "bLengthChange": false,
-                "columnDefs": [
-                    {
-                        "targets": [3],
-                        orderable: false
-                    },
-                ]
-            });
-        });
-    </script>
-    <script>
     //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
     $('#upload').on('click', function () {
         $('#Ato').val(editor.getData());
@@ -347,21 +322,58 @@
 
         }
 
-
-   
-
     //Pega os Modelos e atualiza a tabela
     function GetModelos() {
         $.get('@Url.Action("GetModelos", "Ato")', function (data, status) {
-            resultado = $.parseJSON(data);
-            var tabela = $('#tabelaModelo');
-            console.log(resultado);
-            debugger;
-            
+            resultado = JSON.parse(data);
+            var tabela = $('#tabelaModelo tbody');
+            tabela.html("");
+            resultado.forEach(item => {
+                tabela.append(`
+                <tr role"row" id=${item.Id}>
+                    <td class="idModelo">${item.Id}</td>
+                    <td class="nomeModelo">${item.NomeModelo}</td>
+                    <td class="descricaoTipoAto">${item.DescricaoTipoAto}</td>
+                    <td>
+                        <button class="btn btn-success enviar" onclick="enviarDados(this)" type="submit">
+                            Usar
+                        </button>
+                    </td>
+                </tr>`);
+            });
+            AjustarTabelaModelo();
         });
     }
     </script>
+    <script>
+        /***************************************************************************************************
+         ****************************** AJUSTANDO A TABELA DA MODEL DE MODELOS *****************************
+         ***************************************************************************************************/
+        function AjustarTabelaModelo() {
 
+            
+            $('#tabelaModelo').DataTable({
+                "destroy": true,
+                "searching": false,
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "search": "Filtre os modelos:",
+                    "zeroRecords": "Nenhum Registro Encontrado",
+                    "info": "Mostrando Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro Disponível",
+                    "infoFiltered": "(filtrado dos registros)"
+                },
+                "pageLength": 5,
+                "bLengthChange": false,
+                "columnDefs": [
+                    {
+                        "targets": [3],
+                        orderable: false
+                    },
+                ]
+            });
+        };
+    </script>
 
 }
 

@@ -18,6 +18,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Web.Mvc;
 using Xceed.Words.NET;
@@ -183,9 +184,9 @@ namespace AdmCartorio.Controllers
 
         #region | JsonResults |
         /// <summary>
-        /// Função que retorna os modelos em formato JSON   
+        /// Função que retorna os arquivos de modelo (JSON)
         /// </summary>
-        /// <returns>JSON</returns>
+        /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
@@ -194,6 +195,7 @@ namespace AdmCartorio.Controllers
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 var jsonResult = JsonConvert.SerializeObject(listaModelos);
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
+
             }
         }
         #endregion

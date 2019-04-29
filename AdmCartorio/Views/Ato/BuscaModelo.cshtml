@@ -1,5 +1,4 @@
-﻿@model List<AdmCartorio.ViewModels.ArquivoModeloSimplificadoViewModel>
-<div class="modal-dialog">
+﻿<div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
@@ -24,25 +23,7 @@
                         </th>
                 </thead>
                 <tbody>
-                    @if (Model != null) { 
-                        <!-- mocado-->
-                        foreach (var item in Model)
-                        {
-                        <tr role="row" id="@item.Id">
-                            <td class="idModelo">@item.Id</td>
-                            <td class="nomeModelo">@item.NomeModelo</td>
-                            <td class="descricaoTipoAto">@item.DescricaoTipoAto</td>
-                            <td>
-                                <button class="btn btn-success enviar" onclick="enviarDados(this)" type="submit">
-                                    Usar
-                                </button>
-                            </td>
-                        </tr>
-                        }
-                        <!-- fim mocado-->
-                    }
-
-
+                    <!--APPEND DO JSON-->
                 </tbody>
             </table>
         </div>
