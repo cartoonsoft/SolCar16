@@ -52,30 +52,7 @@ namespace AdmCartorio.Controllers
             //}
             return View();
         }
-
-        private static List<MatriculaViewModel> getMatriculaViewModel()
-        {
-            return new List<MatriculaViewModel>()
-                {
-                    new MatriculaViewModel()
-                    {
-                        EnderecoImovel = "Endereço 1",
-                        MatriculaId = 1,
-                        NomeImovel = "Imovel 1",
-                        NomeProprietarioAtual = "Proprietario 1"
-
-                    },
-                    new MatriculaViewModel()
-                    {
-                        EnderecoImovel = "Endereço 2",
-                        MatriculaId = 2,
-                        NomeImovel = "Imovel 2",
-                        NomeProprietarioAtual = "Proprietario 2"
-
-                    }
-                };
-        }
-
+        
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
@@ -88,11 +65,8 @@ namespace AdmCartorio.Controllers
         #region | CADASTRO |
         public ActionResult Cadastrar()
         {
-            var dados = new MatriculaAtoViewModel();
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
-            {
-                dados.MatriculasViewModel = getMatriculaViewModel();
-            }
+            var dados = new CadastroDeAtoViewModel();
+            
             return View(dados);
         }
 
@@ -107,9 +81,7 @@ namespace AdmCartorio.Controllers
             {
 
                 if (modelo.Ato == null)
-                {
-                    modelo.MatriculasViewModel = getMatriculaViewModel();
-                   
+                {                  
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Cadastrar), modelo);
                 }
@@ -141,8 +113,7 @@ namespace AdmCartorio.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                 }
-                modelo.MatriculasViewModel = getMatriculaViewModel();
-                
+               
                 ViewBag.sucesso = "Ato cadastrado com sucesso!";
 
                 return View(nameof(Cadastrar), modelo);

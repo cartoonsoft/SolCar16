@@ -1,4 +1,4 @@
-﻿@model AdmCartorio.ViewModels.MatriculaAtoViewModel
+﻿@model AdmCartorio.ViewModels.CadastroDeAtoViewModel
 
 @{
     ViewBag.Title = "Atos";
@@ -154,7 +154,7 @@
                             </section>
                             <section class="col col-3">
                                 <div>
-                                    @Html.TextBoxFor(model => model.MatriculaID,
+                                    @Html.TextBoxFor(model => model.PREIMO.MATRI,
                                         new { @class = "form-control", @placeholder = "Nº da Matricula", @readonly = "readonly" })
                                 </div>
                             </section>
@@ -163,7 +163,7 @@
                             </section>
                             <section class="col col-3">
                                 <div>
-                                    @Html.TextBoxFor(model => model.MatriculaEndereco,
+                                    @Html.TextBoxFor(model => model.PREIMO.ENDER,
                                         new { @class = "form-control", @placeholder = "Endereço", @readonly = "readonly" })
                                 </div>
                             </section>
@@ -172,7 +172,7 @@
                             </section>
                             <section class="col col-3">
                                 <div>
-                                    @Html.TextBoxFor(model => model.MatriculaOutorgante,
+                                    @Html.TextBoxFor(model => model.Pessoa.NOM,
                                         new { @class = "form-control", @placeholder = "Outorgante", @readonly = "readonly" })
                                 </div>
                             </section>
@@ -198,7 +198,7 @@
                             </section>
                             <section class="col col-2">
                                 <div>
-                                    @Html.TextBoxFor(model => model.ModeloNome,
+                                    @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
                                         new { @class = "form-control", @placeholder = "Nome", @readonly = "readonly" })
                                 </div>
                             </section>
@@ -207,7 +207,7 @@
                             </section>
                             <section class="col col-2">
                                 <div>
-                                    @Html.TextBoxFor(model => model.ModeloTipoAto,
+                                    @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
                                         new { @class = "form-control", @placeholder = "Tipo de ato", @readonly = "readonly" })
                                     @Html.HiddenFor(model => model.IdTipoAto)
                                 </div>
@@ -249,7 +249,7 @@
 <!-- Modal Matricula-->
 <div class="modal fade" id="BuscaMatricula" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false" style="width:80% !important ;">
     @{
-        Html.RenderPartial("BuscaMatricula", Model.MatriculasViewModel);
+        Html.RenderPartial("BuscaMatricula");
     }
 </div>
 <!-- Fim Modal Matricula-->

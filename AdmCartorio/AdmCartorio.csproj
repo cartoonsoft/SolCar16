@@ -202,6 +202,7 @@
     <Compile Include="Models\Identity\Context\DataBaseIInitializerCar16.cs" />
     <Compile Include="Models\Identity\Entities\Claims.cs" />
     <Compile Include="Models\Identity\Entities\ApplicationUser.cs" />
+    <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ArquivoModeloDocxListViewModel.cs" />

@@ -1,5 +1,4 @@
-﻿@model IEnumerable<AdmCartorio.ViewModels.MatriculaViewModel>
-<div class="modal-dialog">
+﻿<div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
@@ -66,8 +65,8 @@
         var endereco = linha.querySelector(".enderecoImovel");
         var contribuiente = linha.querySelector(".contribuinteImovel");
 
-        $('#MatriculaID').val(matriculaId.innerText);
-        $('#MatriculaEndereco').val(endereco.innerText)
+        $('#PREIMO_MATRI').val(matriculaId.innerText);
+        $('#PREIMO_ENDER').val(endereco.innerText)
         $('#MatriculaProprietarioAtual').val(contribuiente.innerText);
 
         $('#btnModelo').removeAttr('disabled');

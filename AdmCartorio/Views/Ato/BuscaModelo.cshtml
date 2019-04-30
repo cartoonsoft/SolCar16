@@ -46,8 +46,8 @@
         var idAto = linha.querySelector(".idModelo");
 
         $('#IdTipoAto').val(idAto.innerText);
-        $('#ModeloNome').val(modeloNome.innerText);
-        $('#ModeloTipoAto').val(tipoAto.innerText);
+        $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
+        $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
 
         AtualizarModelo(); //Função da rota Ato/Cadastrar
         $('#BuscaModelo').modal('hide');
@@ -62,8 +62,8 @@
 
     function limparCampos() {
         $('#IdTipoAto').val("");
-        $('#ModeloNome').val("");
-        $('#ModeloTipoAto').val("");
+        $('#ArquivoModelo_NomeModelo').val("");
+        $('#ArquivoModelo_DescricaoTipoAto').val("");
     }
 
 </script>
