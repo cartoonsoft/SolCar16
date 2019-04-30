@@ -151,6 +151,7 @@
     <Compile Include="Entities\Car16\USUARIO.cs" />
     <Compile Include="Entities\Diversas\ArquivoModeloDocxList.cs" />
     <Compile Include="Entities\Diversas\ArquivoModeloSimplificadoDocxList.cs" />
+    <Compile Include="Entities\Diversas\CadastroDeAto.cs" />
     <Compile Include="enums\BaseDados.cs" />
     <Compile Include="enums\TipoAtoEnum.cs" />
     <Compile Include="enums\TipoLogArquivoModeloDocx.cs" />
