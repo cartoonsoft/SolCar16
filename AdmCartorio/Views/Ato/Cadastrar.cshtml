@@ -117,132 +117,298 @@
                 <i class="fa fa-pencil-square-o fa-fw "></i>
                 @ViewBag.Title
                 <span>
-                    >
                     @ViewBag.SubTitle
                 </span>
             </h1>
         </div>
     </div>
-    <article class="col-sm-12 col-md-12 col-lg-11 sortable-grid ui-sortable" id="content">
-        <div class="jarviswidget jarviswidget-sortable" id="wid-id-1" data-widget-custombutton="false" data-widget-editbutton="false" data-widget-colorbutton="false">
 
-            <div class="widget-body no-padding">
-                @using (Html.BeginForm("Cadastrar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "formEnvio", @class = "smart-form" }))
-                {
-                    @Html.AntiForgeryToken()
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-10">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="true"
+                    data-widget-sortable="false"
+
+                    -->
                     <header>
-                        <h2 class="">
-                            Cadastro de Atos
-                        </h2>
+                        @*<span class="widget-icon"> <i class="fa fa-check"></i> </span>*@
+                        <h2>Cadastro de Atos </h2>
+
                     </header>
-                    <!-- DADOS MATRICULA-->
-                    <fieldset>
-                        <div class="row">
-                            <section class="col col-6">
-                                <button type="button" class="btn btn-default"
-                                        data-toggle="modal" data-target="#BuscaMatricula"
-                                        data-id="1"
-                                        id="btnMatricula">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                    Buscar Matricula
-                                </button>
-                            </section>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
                         </div>
-                        <div class="row">
-                            <section class="col col-1 margin-top-10">
-                                <label class="col-form-label">Nº da Matricula</label>
-                            </section>
-                            <section class="col col-3">
-                                <div>
-                                    @Html.TextBoxFor(model => model.PREIMO.MATRI,
-                                        new { @class = "form-control", @placeholder = "Nº da Matricula", @readonly = "readonly" })
-                                </div>
-                            </section>
-                            <section class="col col-1 margin-top-10">
-                                <label class="col-form-label">Endereço</label>
-                            </section>
-                            <section class="col col-3">
-                                <div>
-                                    @Html.TextBoxFor(model => model.PREIMO.ENDER,
-                                        new { @class = "form-control", @placeholder = "Endereço", @readonly = "readonly" })
-                                </div>
-                            </section>
-                            <section class="col col-1 margin-top-10">
-                                <label class="col-form-label">Outorgante</label>
-                            </section>
-                            <section class="col col-3">
-                                <div>
-                                    @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                        new { @class = "form-control", @placeholder = "Outorgante", @readonly = "readonly" })
-                                </div>
-                            </section>
-                        </div>
-                    </fieldset>
-                    <!-- FIM DADOS MATRICULA-->
-                    <!-- DADOS MODELO-->
-                    <fieldset>
-                        <div class="row">
-                            <section class="col col-6">
-                                <button type="button" class="btn btn-default"
-                                        data-toggle="modal" data-target="#BuscaModelo"
-                                        data-id="1"
-                                        id="btnModelo" disabled>
-                                    <i class="glyphicon glyphicon-search"></i>
-                                    Buscar Modelo
-                                </button>
-                            </section>
-                        </div>
-                        <div class="row">
-                            <section class="col margin-top-10">
-                                <label class="col-form-label">Nome</label>
-                            </section>
-                            <section class="col col-2">
-                                <div>
-                                    @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
-                                        new { @class = "form-control", @placeholder = "Nome", @readonly = "readonly" })
-                                </div>
-                            </section>
-                            <section class="col margin-top-10">
-                                <label class="col-form-label">Tipo</label>
-                            </section>
-                            <section class="col col-2">
-                                <div>
-                                    @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
-                                        new { @class = "form-control", @placeholder = "Tipo de ato", @readonly = "readonly" })
-                                    @Html.HiddenFor(model => model.IdTipoAto)
-                                </div>
-                            </section>
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <!-- CK EDITOR-->
-                        <br />
-                        <div class="row" id="ckEditorGrid" hidden>
-                            <div class="document-editor">
-                                <div class="document-editor__toolbar"></div>
-                                <div class="document-editor__editable-container">
-                                    <div class="document-editor__editable block">
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+
+                            <div class="row">
+                                <form id="wizard-1" novalidate="novalidate">
+                                    <div id="bootstrap-wizard-1" class="col-sm-12">
+                                        <div class="form-bootstrapWizard">
+                                            <ul class="bootstrapWizard form-wizard">
+                                                <li class="active" data-target="#step1">
+                                                    <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Dados do Imóvel</span> </a>
+                                                </li>
+                                                <li data-target="#step2">
+                                                    <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Busca de Modelo</span> </a>
+                                                </li>
+                                                <li data-target="#step3">
+                                                    <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Escrita de Ato</span> </a>
+                                                </li>
+                                                <li data-target="#step4">
+                                                    <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Confirmação</span> </a>
+                                                </li>
+                                            </ul>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="tab-content">
+                                            <!-- DADOS IMÓVEL-->
+                                            <div class="tab-pane active" id="tab1">
+                                                <br>
+                                                <h3><strong>Passo 1 </strong> - Pesquisa de dados do imóvel</h3>
+
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
+                                                                <input id="txtPrenotacao" placeholder="Digite a prenotação" class="form-control input-lg" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
+                                                                <input id="txtMatricula" placeholder="Digite o Nº da Matrícula" class="form-control input-lg" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <button id="btnPesquisar"
+                                                                class="btn btn-default btn-lg  margin-left-5">
+                                                            <i class="glyphicon glyphicon-search"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <h1>Dados do imóvel</h1>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nº da Matricula</label>
+                                                    </div>
+                                                    <div class="col-sm-2 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI,
+                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Endereço</label>
+                                                    </div>
+                                                    <div class="col-sm-5">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.ENDER,
+                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.NUM,
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">N.° do Apartamento</label>
+                                                    </div>
+                                                    <div class="col-sm-1 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.APTO,
+                                                                new { @class = "form-control input-lg", @placeholder = "APTO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.BLOCO,
+                                                                new { @class = "form-control input-lg", @placeholder = "BLOCO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nome Edifício</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.EDIF,
+                                                                new { @class = "form-control input-lg", @placeholder = "EDIFÍCIO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h2>Informações Adicionais</h2>
+
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Número da quadra</label>
+                                                    </div>
+                                                    <div class="col-sm-2 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.QUADRA,
+                                                                new { @class = "form-control input-lg", @placeholder = "QUADRA", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Outros</label>
+                                                    </div>
+                                                    <div class="col-sm-6 ">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.OUTROS,
+                                                                new { @class = "form-control input-lg", @placeholder = "OUTRAS INFORMAÇÕES", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- FIM DADOS IMÓVEL-->
+                                            <!-- DADOS MODELO-->
+                                            <div class="tab-pane" id="tab2">
+                                                <br>
+                                                <h3><strong>Passo 2</strong> - Busca de Modelo</h3>
+
+                                                <div class="row">
+                                                    <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 88%; float:left; margin-left:10px;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Código do modelo</label>
+                                                                </th>
+                                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                                                                    <label class="h5">Nome do modelo</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Tipo de ato</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+
+                                                                </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--APPEND DO JSON-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <br />
+                                                <h1>Modelo Selecionado</h1>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nome do modelo</label>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
+                                                                new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="h5">Tipo de Ato</label>
+                                                    </div>
+                                                    <div class="col-sm-2 col-lg-pull-1">
+                                                        @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
+                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly" })
+                                                        @Html.HiddenFor(model => model.IdTipoAto)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- FIM DADOS MODELO-->
+                                            <!-- INICIO ESCRITA DE ATO-->
+                                            <div class="tab-pane" id="tab3">
+                                                <br>
+                                                <h3><strong>Passo 3</strong> - Escrita de Ato</h3>
+                                                <br />
+                                                <div class="row" id="ckEditorGrid">
+                                                    <div class="document-editor">
+                                                        <div class="document-editor__toolbar"></div>
+                                                        <div class="document-editor__editable-container">
+                                                            <div class="document-editor__editable block">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @Html.HiddenFor(model => model.Ato)
+
+                                            </div>
+                                            <!-- FIM ESCRITA DE ATO-->
+                                            <!-- CONFIRMAÇÃO DE ATO-->
+                                            <div class="tab-pane" id="tab4">
+                                                <br>
+                                                <h3><strong>Passo 4</strong> - Confirmação</h3>
+                                                <br />  
+                                                <h1>Deseja confirmar o ato escrito?</h1>
+                                                <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
+                                                <br />
+                                                <br />
+                                                <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px; ">
+                                                    <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
+                                                </button>
+                                            </div>
+                                            <!-- FIM CONFIRMAÇÃO ATO-->
+                                            <div class="form-actions">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <ul class="pager wizard no-margin">
+                                                            <!--<li class="previous first disabled">
+                    <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
+                    </li>-->
+                                                            <li class="previous disabled">
+                                                                <a href="javascript:void(0);" class="btn btn-lg btn-default"> Previous </a>
+                                                            </li>
+                                                            <!--<li class="next last">
+                    <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
+                    </li>-->
+                                                            <li class="next">
+                                                                <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"> Next </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
+
                         </div>
-                        <!-- FIM CK EDITOR-->
-                    </fieldset>
-                    <footer>
-                        @Html.HiddenFor(model => model.Ato)
-                        <button type="submit"
-                                id="upload"
-                                class="btn btn-success col-sm-12"
-                                disabled>
-                            <i class="glyphicon glyphicon-upload"></i>
-                            Salvar
-                        </button>
-                    </footer>
-                    <!-- FIM DADOS MODELO-->
-                }
-            </div>
+                        <!-- end widget content -->
+
+                    </div>
+                    <!-- end widget div -->
+
+                </div>
+                <!-- end widget -->
+
+            </article>
         </div>
-    </article>
+    </section>
 
 </div>
 
@@ -391,7 +557,7 @@
             console.log(resultado);
             var tabela = $('#tabelaImovel tbody');
             tabela.html("");
-            
+
             tabela.append(`
                 <tr role="row" id="${resultado.MATRI}">
                     <td class="matriculaId">${resultado.MATRI}</td>
@@ -404,9 +570,8 @@
                         </button>
                     </td>
                 </tr>`);
-            
+
         });
     }
     </script>
 }
-
