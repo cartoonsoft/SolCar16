@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Dto.Car16.Entities.Diversos;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AdmCartorio.ViewModels
+namespace Dto.Car16.Entities.Cadastros
 {
-    public class MatriculaAtoViewModel
+    public class DtoMatriculaAto
     {
         public long MatriculaID { get; set; }
         public string MatriculaEndereco { get; set; }
@@ -23,6 +24,8 @@ namespace AdmCartorio.ViewModels
         public int IrParaFicha { get; set; }
         public float QuantidadeCentimetrosDaBorda { get; set; }
         public bool IrParaVerso { get; set; }
+
+        public virtual IEnumerable<DtoMatricula> MatriculasViewModel { get; set; }
 
     }
 }

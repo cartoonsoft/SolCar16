@@ -1,5 +1,4 @@
-﻿@model IEnumerable<AdmCartorio.Models.MatriculaViewModel>
-<div class="modal-dialog">
+﻿<div class="modal-dialog">
     <!-- Modal content-->
     <div class="modal-content">
         <div class="modal-header">
@@ -11,22 +10,23 @@
                 <div class="row">
                     <div class="col-sm-5">
                         <label class="margin-top-10">Prenotação</label>
-                        <input placeholder="Digite a prenotação" class="form-control" />
+                        <input id="txtPrenotacao"  placeholder="Digite a prenotação" class="form-control" />
                     </div>
                     <div class="col-sm-5">
                         <label class="col-form-label margin-top-10">Digite a matrícula</label>
-                        <input placeholder="Digite o Nº da Matrícula" class="form-control" />
+                        <input id="txtMatricula"  placeholder="Digite o Nº da Matrícula" class="form-control" />
                     </div>
                     <div class="col-sm-1">
                         <br />
-                        <button class="btn btn-default margin-top-10 margin-left-5">
+                        <button id="btnPesquisar"
+                                class="btn btn-default margin-top-10 margin-left-5">
                             <i class="glyphicon glyphicon-search"></i>
                         </button>
                     </div>
                 </div>
             </fieldset>
 
-            <table id="tabelaNatureza" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+            <table id="tabelaImovel" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
                 <thead>
                     <tr role="row">
                         <th rowspan="1" colspan="1">
@@ -39,7 +39,7 @@
                             Endereço
                         </th>
                         <th rowspan="1" colspan="1">
-                            Proprietário atual
+                            Contribuiente
                         </th>
                         <th rowspan="1" colspan="1">
                             Ação
@@ -47,25 +47,7 @@
                 </thead>
                 <tbody>
 
-                    @if (Model != null)
-                    {
-                        <!-- MOCADO-->
-                        foreach (var item in Model)
-                        {
-                            <tr role="row" id="@item.MatriculaId">
-                                <td class="matriculaId">@item.MatriculaId</td>
-                                <td class="nomeImovel">@item.NomeImovel</td>
-                                <td class="enderecoImovel">@item.EnderecoImovel</td>
-                                <td class="nomeProprietario">@item.NomeProprietarioAtual</td>
-                                <td>
-                                    <button class="btn btn-success" onclick="enviarDadosMatricula(this)" type="submit">
-                                        Confirmar
-                                    </button>
-                                </td>
-                            </tr>
-                        } 
-                        <!-- FIM MOCADO-->
-                    }
+                   <!-- GET JSON-->
 
                 </tbody>
             </table>
@@ -81,14 +63,17 @@
         var linha = objeto.closest("tr");
         var matriculaId = linha.querySelector(".matriculaId");
         var endereco = linha.querySelector(".enderecoImovel");
-        var proprietario = linha.querySelector(".nomeProprietario");
+        var contribuiente = linha.querySelector(".contribuinteImovel");
 
-        $('#MatriculaID').val(matriculaId.innerText);
-        $('#MatriculaEndereco').val(endereco.innerText)
-        $('#MatriculaProprietarioAtual').val(proprietario.innerText);
+        $('#PREIMO_MATRI').val(matriculaId.innerText);
+        $('#PREIMO_ENDER').val(endereco.innerText)
+        $('#MatriculaProprietarioAtual').val(contribuiente.innerText);
 
-        $('#modelo').removeAttr('disabled');
+        $('#btnModelo').removeAttr('disabled');
         $('#BuscaMatricula').modal('hide');
     }
+
+   
+
 </script>
 

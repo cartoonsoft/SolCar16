@@ -34,10 +34,22 @@
                 align-content: flex-end;
                 margin-left: 1em;
             }
+
+
+        /**********************************************************************/
+        .desaparecer {
+            opacity: 0;
+            transition: 0.5s;
+        }
     </style>
 }
+<div id="divMensagem" class="alert" hidden>
+    <label id="labelMensagem"></label>
+</div>
+
 
 <div id="content">
+    <input hidden id="IP" />
     <div class="row">
         <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
             <h1 class="page-title txt-color-blueDark">
@@ -62,6 +74,7 @@
 
                 <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
                 data-widget-colorbutton="false"
                 data-widget-editbutton="false"
                 data-widget-togglebutton="false"
@@ -70,8 +83,8 @@
                 data-widget-custombutton="false"
                 data-widget-collapsed="true"
                 data-widget-sortable="false"
-                -->
 
+                -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>Arquivos</h2>
@@ -104,7 +117,7 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
+                                    <tr id="@item.Id">
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Id)
                                         </td>
@@ -115,11 +128,8 @@
                                             @Html.DisplayFor(modelItem => item.DescricaoAto)
                                         </td>
                                         <td>
-                                            <form>
-                                                @Html.AntiForgeryToken()
-                                                @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                                <button class="btn btn-danger" onclick="removeLinha(this)">Desativar</button>
-                                            </form>
+                                            @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                            <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
                                         </td>
                                     </tr>
                                 }
@@ -136,8 +146,6 @@
 
 @section pagespecific{
 
-    <script src="~/Scripts/cartoonsoft/libs.js"></script>
-
     <script type="text/javascript">
 
         var responsiveHelper_dt_basic = undefined;
@@ -146,7 +154,9 @@
         };
 
         $(document).ready(function () {
+
             //coloque aqui seu codigo jquery
+
             $('#tbl-arquivos').dataTable({
                 columnDefs: [{ orderable: false, targets: [3] }],
 
@@ -183,7 +193,61 @@
                     },
                 }
             });
+
         });
+
+    // funcao remove uma linha da tabela
+    function removeLinha(linha) {
+        var linha = linha.closest("tr");
+        var i = linha.rowIndex;
+        var ID = parseInt(linha.getAttribute("Id"));
+
+        var IP = document.getElementById('IP').value;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var dadosPost = {
+            Ip: IP,
+            Id: ID
+        };
+
+        var res = confirm("Deseja desativar o modelo de ID: " + ID);
+
+        if (res) {
+            $.ajax({
+                url: '@Url.Action("Desativar", "Arquivos")',
+                type: 'POST',
+                data: {
+                    dadosPost,
+                    __RequestVerificationToken: token,
+                },
+                success: function (result) {
+                    console.log(result);
+                    console.log("Deu certo");
+                    //deleta a linha e da efeito
+                    linha.setAttribute("class", "desaparecer");
+                    setTimeout(function () {
+                        linha.remove();
+                        monstrarMensagem("Modelo removido com sucesso",true);
+                    }, 600);
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    console.log("Deu erro");
+                    monstrarMensagem("Erro ao remover",false);
+                }
+            });
+
+
+        }
+    }
+
+    function monstrarMensagem(mensagem, statusMensagem) {
+        if (statusMensagem == true) { $('#divMensagem').attr("class", "alert alert-success"); }
+        else { $('#divMensagem').attr("class", "alert alert-danger"); }
+        $('#labelMensagem').text(mensagem);
+        $('#divMensagem').removeAttr("hidden");
+    }
 
     </script>
 }

@@ -34,7 +34,7 @@ namespace AppServices.Car16.AppServices
                     IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,
-                    ArquivoBytes = dtoArq.ArquivoByte,
+                    //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoArq.Arquivo,
                     NomeModelo = dtoArq.NomeModelo,
                 };
@@ -60,6 +60,34 @@ namespace AppServices.Car16.AppServices
             }
         }
 
+        /// <summary>
+        /// Desativa o Modelo
+        /// </summary>
+        /// <param name="Id">ID do modelo</param>
+        /// <param name="IdSuario">ID do usuario</param>
+        public int DesativarModelo(long Id/*, long IdSuari0*/)
+        {
+            try
+            {
+                // Criando objeto do arquivo 
+                ArquivoModeloDocx arquivoModelo = this.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(Id);
+                if (arquivoModelo != null)
+                {
+                    arquivoModelo.Ativo = false;
+                    return 1;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+        
         public IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
             IEnumerable<ArquivoModeloDocxList> listaDomain = this.DomainServices.ArquivoModeloDocxDomainService.ListarArquivoModeloDocx(IdTipoAto);

@@ -1,4 +1,5 @@
 ﻿using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Core.Entities.Base;
@@ -86,6 +87,10 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryArquivoModeloDocx(this._context);
                     }
+                    if (typeof(T).Equals(typeof(PREIMO)))
+                    {
+                        repository = new RepositoryPREIMO(this._context);
+                    }
                 }
 
                 if (repository != null)
@@ -136,6 +141,11 @@ namespace Infra.Data.Car16.Repositories
         public IRepositoryArquivoModeloDocx RepositoryArquivoModeloDocx
         {
             get { return GetRepositoryInstance<ArquivoModeloDocx>() as RepositoryArquivoModeloDocx; }
+        }
+
+        public IRepositoryPREIMO RepositoryPREIMO
+        {
+            get { return GetRepositoryInstance<PREIMO>() as RepositoryPREIMO; }
         }
     }
 }

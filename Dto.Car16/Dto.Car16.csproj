@@ -37,6 +37,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Entities\Base\DtoEntityBaseModel.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloSimplificadoDocxList.cs" />
+    <Compile Include="Entities\Cadastros\DtoPREIMO.cs" />
     <Compile Include="Entities\Diversos\DtoArquivoModeloDocxList.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloDocxModel.cs" />
     <Compile Include="Entities\Cadastros\DtoMunicipioModel.cs" />
@@ -55,6 +57,8 @@
     <Compile Include="Entities\Cadastros\DtoPessoaModel.cs" />
     <Compile Include="Entities\Cadastros\DtoUfModel.cs" />
     <Compile Include="Entities\Diversos\DtoFeriado.cs" />
+    <Compile Include="Entities\Diversos\DtoMatricula.cs" />
+    <Compile Include="Entities\Cadastros\DtoMatriculaAto.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
