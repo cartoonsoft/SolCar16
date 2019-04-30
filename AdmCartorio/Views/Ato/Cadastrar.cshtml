@@ -207,7 +207,7 @@
                                                     <div class="col-sm-2 margin-left-10">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.MATRI,
-                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly", @name="preimoMatri"})
+                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -369,6 +369,7 @@
                                                 <h1>Deseja confirmar o ato escrito?</h1>
                                                 <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
                                                 <br />
+                                                @Html.TextAreaFor(model => model.Ato, new {@class = "form-control input-lg", @readonly = "readonly",@id="textAreaAto" })
                                                 <br />
                                                 <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px; ">
                                                     <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
@@ -468,7 +469,7 @@
 
     //Busca os dados do modelo cadastrado e popula o editor do word
     function AtualizarModelo(){
-        var ModeloNome = $('#ModeloNome').val();
+        var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
         $.ajax({
             url: '@Url.Action("UsaModeloParaAto", "Ato")',
             type: 'POST',
@@ -501,7 +502,7 @@
                     <td class="nomeModelo">${item.NomeModelo}</td>
                     <td class="descricaoTipoAto">${item.DescricaoTipoAto}</td>
                     <td>
-                        <button class="btn btn-success enviar" onclick="enviarDados(this)" type="submit">
+                        <button class="btn btn-success enviar" onclick="enviarDados(this)" type="button">
                             Usar
                         </button>
                     </td>
@@ -516,11 +517,8 @@
          ****************************** AJUSTANDO A TABELA DA MODEL DE MODELOS *****************************
          ***************************************************************************************************/
         function AjustarTabelaModelo() {
-
-
             $('#tabelaModelo').DataTable({
-                "destroy": true,
-                "searching": false,
+                "searching": true,
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ registros por página",
                     "search": "Filtre os modelos:",
@@ -541,6 +539,8 @@
         };
     </script>
     <script>
+        /****************************************************************
+         ************** DADOS DO IMOVEL *********************************/
         $('#btnPesquisar').on('click', function () {
             var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
             var numeroMatricula = parseInt($('#txtMatricula').val());
@@ -567,17 +567,22 @@
             $('#PREIMO_QUADRA').val(resultado.QUADRA);
             $('#PREIMO_EDIF').val(resultado.EDIF);
             $('#PREIMO_OUTROS').val(resultado.OUTROS);
-
+            $('#PREIMO_LOTE').val(resultado.LOTE);
         }
 
-
+        /***************************************************************
+         *************** FIM DADOS DO IMOVEL **************************/
 
         $(document).ready(function () {
+            GetModelos();
+
             var $validator = $("#wizard-1").validate({
 
                 rules: {
-                    "PREIMA.MATRI": {
-                        required: true
+                    PREIMA: {
+                        MATRI: {
+                            required: true
+                        }
                     },
                     fname: {
                         required: true
@@ -639,7 +644,11 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
-                        if (index - 1 == 0) GetModelos();
+                        if (index - 1 == 1) AtualizarModelo();
+                        if (index - 1 == 2) {
+                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                            $('#textAreaAto').val($('#Ato').val());
+                        }
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
                             'complete');
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
