@@ -24,6 +24,5 @@ namespace AdmCartorio.ViewModels
         public float QuantidadeCentimetrosDaBorda { get; set; }
         public bool IrParaVerso { get; set; }
 
-        public virtual List<MatriculaViewModel> MatriculasViewModel { get; set; }
     }
 }
