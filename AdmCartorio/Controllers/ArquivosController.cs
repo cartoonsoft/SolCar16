@@ -9,13 +9,14 @@ using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
+using Domain.Car16.enums;
 using Infra.Data.Car16.UnitsOfWork;
 using AppServices.Car16.AppServices;
 using Dto.Car16.Entities.Cadastros;
 using Domain.Car16.Entities.Diversas;
 using AutoMapper;
 using Dto.Car16.Entities.Diversos;
-using Domain.Car16.enums;
+using System.Threading;
 
 namespace AdmCartorio.Controllers
 {
@@ -49,7 +50,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx().Where(a => a.Ativo == true);
+                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx();
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
             }
 
@@ -77,8 +78,11 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Cadastrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar([Bind(Include = "NomeModelo,IdTipoAto,Files,LogArquivoModeloDocxViewModel")]ArquivoModeloDocxViewModel arquivoModel)
+        public ActionResult Cadastrar([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ArquivoModeloDocxViewModel arquivoModel)
         {
+            bool success = true;
+            string msg = "";
+
             try
             {
                 List<TipoAto> listaTipoAto = this.UnitOfWorkDataBseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
@@ -86,44 +90,62 @@ namespace AdmCartorio.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    LogArquivoModeloDocxViewModel log = new LogArquivoModeloDocxViewModel();
+
                     for (int i = 0; i < arquivoModel.Files.Count; i++)
                     {
                         //Pega os dados do arquivo
                         HttpPostedFileBase arquivo = arquivoModel.Files[i];
-                        var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
+                        //arquivo.FileName = "Mod_"+arquivoModel.DescricaoTipoAto+DateTime.Now.ToString("yyyyMMddTHHmmss")
 
+                        var stream = arquivo.InputStream;
+                        var memoryStream = new MemoryStream();
+                        stream.CopyTo(memoryStream);
+                        arquivoModel.ArquivoByte = memoryStream.ToArray();
 
-                        #region | Gravacao do arquivo fisicamente |
-                        // Salva o arquivo fisicamente
-                        var filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/"),
-                            nomeArquivo + ".docx");
-                        arquivo.SaveAs(filePath);
-                        #endregion
-
-                        #region | Populando variavel do banco |
-
-                        arquivoModel.ArquivoByte = System.IO.File.ReadAllBytes(filePath);
-                        arquivoModel.Arquivo = filePath;
-                        arquivoModel.NomeModelo = arquivoModel.NomeModelo;
-
-                        #endregion
-
-                        #region |Cadastrando no banco|
-                        CadastraArquivoModeloDocx(arquivoModel);
-                        #endregion
+                        log.IdUsuario = UsuarioAtual.Id;
+                        log.UsuarioSistOp = HttpContext.User.Identity.Name;
+                        log.IP = arquivoModel.IpLocal;
+                        arquivoModel.LogArquivoModeloDocxViewModel = log;
                     }
-                    ViewBag.resultado = "Arquivo salvo com sucesso!";
-                }
 
-                return View(nameof(Cadastrar));
+                    using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
+                    {
+                        using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                        {
+                            appService.SalvarModelo(new DtoArquivoModeloDocxModel()
+                            {
+                                ArquivoByte = arquivoModel.ArquivoByte,
+                                IdContaAcessoSistema = 1,
+                                Ativo = true,
+                                IdTipoAto = arquivoModel.IdTipoAto,
+                                Arquivo = arquivoModel.Arquivo,
+                                Files = arquivoModel.Files,
+                                NomeModelo = arquivoModel.NomeModelo
+                            }, UsuarioAtual.Id);
+                        }
+                        unitOfWork.Commit();
+                    }
+
+                    msg = "Arquivo salvo com sucesso!";
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                success = false;
+                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + " -> " + ex.InnerException.Message + "]";
+                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.InnerException + " -> " + ex.InnerException.Message);
+                //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
-        }
 
+            var resultado = new
+            {
+                success = success,
+                mensagem = msg
+            };
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region | EDITAR |
@@ -209,49 +231,10 @@ namespace AdmCartorio.Controllers
             return;
         }
 
-        private int? CadastraArquivoModeloDocx(ArquivoModeloDocxViewModel arquivoModel)
+        [ValidateAntiForgeryToken]
+        public void DesativarArquivoModeloDocx([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
-            int? resultado;
 
-            using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
-            {
-                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-                {
-                    appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                    {
-                        ArquivoByte = arquivoModel.ArquivoByte,
-                        IdContaAcessoSistema = 1, 
-                        Ativo = true,
-                        IdTipoAto = arquivoModel.IdTipoAto,
-                        Arquivo = arquivoModel.Arquivo,
-                        Files = arquivoModel.Files,
-                        NomeModelo = arquivoModel.NomeModelo
-                    }, UsuarioAtual.Id);
-                }
-                resultado = unitOfWork.Commit();
-            }
-
-            return resultado;
-        }
-
-        public void Desativar([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
-        {
-            int respDesativar;
-            using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
-            {
-                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-                {
-                    respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
-                }
-                if (respDesativar == 1)
-                {
-                    unitOfWork.Commit();
-                }
-                else
-                {
-                    throw new Exception("Não foi possível desativar o modelo");
-                }
-            }
         }
 
         public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
@@ -273,7 +256,8 @@ namespace AdmCartorio.Controllers
                 return null;
             }
         }
-
         #endregion
+
     }
+
 }

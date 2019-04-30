@@ -17,19 +17,23 @@ namespace Domain.Car16.Entities.Car16New
         [Column("ID_LOG_ARQ_MOD_DOCX")]
         public override long? Id { get; set; }
 
-        [Column("TP_LOG_ARQ_MOD_DOCX")]
-        public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
-
         [Column("ID_MODELO_DOC")]
         public long IdArquivoModeloDocx { get; set; }
-
-        [Column("IP_USUARIO")]
-        public string IP { get; set; }
 
         [Column("ID_USUARIO")]
         public string IdUsuario { get; set; }
 
+        [Column("IP_USUARIO")]
+        public string IP { get; set; }
+
+        [Column("TP_LOG_ARQ_MOD_DOCX")]
+        public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
+
         [Column("DTH_LOG")]
         public DateTime DataHora { get; set; }
+
+        [Column("USUARUO_OS")]
+        public string UsuarioSistOp { get; set; }
+
     }
 }

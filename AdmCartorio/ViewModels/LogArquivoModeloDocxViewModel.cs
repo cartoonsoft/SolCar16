@@ -11,16 +11,16 @@ namespace AdmCartorio.ViewModels
     {
         public long Id { get; set; }
 
-        public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
+        public long IdArquivoModeloDocx { get; set; }
 
-        public long ArquivoID { get; set; }
+        public string IdUsuario { get; set; }
 
-        [Required]
         public string IP { get; set; }
 
-        //[Required]
-        public string NomeUsuario { get; set; }
+        public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
 
         public DateTime DataHora { get; set; }
+
+        public string UsuarioSistOp { get; set; }
     }
 }
