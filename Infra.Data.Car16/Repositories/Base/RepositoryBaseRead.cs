@@ -267,5 +267,32 @@ namespace Infra.Data.Car16.Repositories.Base
 
             return paged;
         }
+
+        /// <summary>
+        /// Busca o NextVal de uma sequence
+        /// </summary>
+        /// <param name="SeqeunceName"></param>
+        /// <returns></returns>
+        public long GetSequenceNextVal(string SequenceName, OracleConnection conn)
+        {
+            long SeqTmp= 0;
+
+            using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), (OracleConnection)this.Context.Database.Connection))
+            {
+                command.CommandType = System.Data.CommandType.Text;
+                command.BindByName = true;
+
+                using (OracleDataReader row = command.ExecuteReader())
+                {
+                    while (row.Read())
+                    {
+                        SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                    }
+                }
+            }
+
+            return SeqTmp;
+        }
+
     }
 }

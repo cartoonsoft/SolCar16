@@ -499,6 +499,7 @@
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\cartoonsoft\libs.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
@@ -1088,7 +1089,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\img\realestate\thumbs\" />
-    <Folder Include="Scripts\cartoonsoft\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">

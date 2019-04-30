@@ -17,24 +17,23 @@
             width: 100%;
         }
 
-        #tbl-arquivos tr td:nth-child(1) {
-            width: 5%;
-        }
+            #tbl-arquivos tr td:nth-child(1) {
+                width: 5%;
+            }
 
-        #tbl-arquivos tr td:nth-child(2) {
-            width: 50%;
-        }
+            #tbl-arquivos tr td:nth-child(2) {
+                width: 50%;
+            }
 
-        #tbl-arquivos tr td:nth-child(3) {
-            width: 20%;
-        }
+            #tbl-arquivos tr td:nth-child(3) {
+                width: 20%;
+            }
 
-        #tbl-arquivos tr td:nth-child(4) {
-            text-align:right;
-            align-content: flex-end;
-            margin-left: 1em;
-        }
-
+            #tbl-arquivos tr td:nth-child(4) {
+                text-align: right;
+                align-content: flex-end;
+                margin-left: 1em;
+            }
     </style>
 }
 
@@ -63,7 +62,6 @@
 
                 <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
                 data-widget-colorbutton="false"
                 data-widget-editbutton="false"
                 data-widget-togglebutton="false"
@@ -72,8 +70,8 @@
                 data-widget-custombutton="false"
                 data-widget-collapsed="true"
                 data-widget-sortable="false"
-
                 -->
+
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
                     <h2>Arquivos</h2>
@@ -120,7 +118,7 @@
                                             <form>
                                                 @Html.AntiForgeryToken()
                                                 @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                                <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
+                                                <button class="btn btn-danger" onclick="removeLinha(this)">Desativar</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -138,6 +136,8 @@
 
 @section pagespecific{
 
+    <script src="~/Scripts/cartoonsoft/libs.js"></script>
+
     <script type="text/javascript">
 
         var responsiveHelper_dt_basic = undefined;
@@ -146,9 +146,7 @@
         };
 
         $(document).ready(function () {
-
             //coloque aqui seu codigo jquery
-
             $('#tbl-arquivos').dataTable({
                 columnDefs: [{ orderable: false, targets: [3] }],
 
@@ -185,7 +183,6 @@
                     },
                 }
             });
-
         });
 
     </script>

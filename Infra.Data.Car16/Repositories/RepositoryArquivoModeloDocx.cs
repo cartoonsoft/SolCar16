@@ -36,7 +36,6 @@ namespace Infra.Data.Car16.Repositories
             List<ArquivoModeloDocxList> ListaAquivoModeloDocxList = new List<ArquivoModeloDocxList>();
             List<OracleParameter> oracleParameters = new List<OracleParameter>();
 
-
             strQuery +=
                 @"select
                     DOC.ID_MODELO_DOC,

@@ -23,14 +23,15 @@ using Shapes = Microsoft.Office.Interop.Word.Shapes;
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class MatriculaController : AdmCartorioBaseController
+    public class AtoController : AdmCartorioBaseController
     {
         #region |Construtores e dispose|
-        public MatriculaController() : base(null, null)
+        public AtoController() : base(null, null)
         {
             //
         }
-        public MatriculaController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+
+        public AtoController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
         {
             //Criar instancia dos seus App services aqui
         }
@@ -43,19 +44,18 @@ namespace AdmCartorio.Controllers
             }
             base.Dispose(disposing);
         }
-
         #endregion
 
-        // GET: Matricula
+        // GET: Ato
         public ActionResult Index()
         {
             var dados = new MatriculaAtoViewModel();
 
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
             {
-                IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListaModeloSimplificado = appService.ListarArquivoModeloSimplificado();
-                dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(ListaModeloSimplificado);
-                dados.MatriculasViewModel = getMatriculaViewModel();
+                //IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListaModeloSimplificado = appService.ListarArquivoModeloSimplificado();
+                //dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(ListaModeloSimplificado);
+                //dados.MatriculasViewModel = getMatriculaViewModel();
             }
 
             //var dados = new MatriculaAtoViewModel()

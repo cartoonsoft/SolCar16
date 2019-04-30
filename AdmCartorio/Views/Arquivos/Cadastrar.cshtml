@@ -68,7 +68,8 @@
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
                                 @Html.HiddenFor(model => model.Id)
-
+                                
+                                <input type="hidden" id="IpLocal" name="IpLocal" value="">
                                 <fieldset>
                                     <div class="row">
                                         <section class="col col-6">
@@ -115,66 +116,21 @@
 </div>
 
 @section pagespecific{
+
+<script src="~/Scripts/cartoonsoft/libs.js"></script>
+
 <script type="text/javascript">
 
     @* Coloque aqui seu codigo javascript *@
 
-
-    function getIp(callback) {
-        function response(s) {
-            callback(window.userip);
-
-            s.onload = s.onerror = null;
-            document.body.removeChild(s);
-        }
-
-        function trigger() {
-            window.userip = false;
-
-            var s = document.createElement("script");
-            s.async = true;
-            s.onload = function () {
-                response(s);
-
-            };
-            s.onerror = function () {
-                response(s);
-            };
-
-            s.src = "https://l2.io/ip.js?var=userip";
-            document.body.appendChild(s);
-        }
-
-        if (/^(interactive|complete)$/i.test(document.readyState)) {
-            trigger();
-        } else {
-            document.addEventListener('DOMContentLoaded', trigger);
-        }
-    }
-
-    getIp(function (ip) {
-        console.log(ip);
-        // Adiciona Campo Hidden para pegar o IP
-        //document.getElementById("ip").value = ip;
-        document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
-    });
-
     $(document).ready(function () {
 
-        //coloque aqui seu codigo jquery
-
-
-        $("#frmCadastrarArquivo input[type=submit]").click(function (event) {
-            event.preventDefault();
-            var form = document.getElementById("frmCadastrarArquivo");
-            var data = $(form).serialize();
-            $.post(form.action, data, function (response) {
-                if (response && response.data) {
-                    alert(response.data);
-                }
-            });
+        var ipLocal = getUserIP(function (ip) {
+            var t = navigator.product;
+            $("#IpLocal").val(ip);
         });
 
+        //coloque aqui seu codigo jquery
 
         @*            
         $('#upload').on('click', function () {

@@ -33,7 +33,7 @@ namespace Infra.Data.Car16.Context
         /// Base de dados: dezesseis
         /// </summary>
         /// <param name="connName"></param>
-        DbSet<Matricula> DbMatricula { get; set; }
+        public DbSet<Matricula> DbMatricula { get; set; }
 
         public ContextMainCar16(string connName) : base(connName)
         {
