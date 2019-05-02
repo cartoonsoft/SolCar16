@@ -1,16 +1,15 @@
-﻿using Domain.Car16.Entities.Car16;
-using Dto.Car16.Entities.Cadastros;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace AdmCartorio.ViewModels
+namespace Dto.Car16.Entities.Cadastros
 {
-    public class CadastroDeAtoViewModel
+    public class DtoCadastroDeAto
     {
         public DtoPREIMO PREIMO { get; set; }
-        public DtoPESSOA Pessoa { get; set; }
+        public DtoPESSOA PESSOA { get; set; }
         public DtoArquivoModeloSimplificadoDocxList ArquivoModelo { get; set; }
         public long IdTipoAto { get; set; }
         public string Ato { get; set; }

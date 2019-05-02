@@ -36,7 +36,7 @@ namespace LibFunctions.Functions
         /// <param name="numeroPagina">Numero da página</param>
         /// <param name="modelo">View Model</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public static void AjustarFinalDocumento(Document doc, int numeroPagina, int posicaoCursor, DtoMatriculaAto modelo)
+        public static void AjustarFinalDocumento(Document doc, int numeroPagina, int posicaoCursor, DtoCadastroDeAto modelo)
         {
             if (doc == null)
             {
@@ -89,7 +89,7 @@ namespace LibFunctions.Functions
         /// </summary>
         /// <param name="modelo"></param>
         /// <param name="doc"></param>
-        public static void InserirCabecalho(DtoMatriculaAto modelo, Document doc, bool houveDesvio = false, bool isParagrafo = true)
+        public static void InserirCabecalho(DtoCadastroDeAto modelo, Document doc, bool houveDesvio = false, bool isParagrafo = true)
         {
             if (doc == null)
             {
@@ -98,7 +98,7 @@ namespace LibFunctions.Functions
             if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
             {
                 //Insere o paragrafo correspondente a Ato e ficha 
-                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 30 + (15 - modelo.MatriculaID.ToString().Length)) +
+                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 30 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, isParagrafo) + new string(' ', 5 - WordPageHelper.GetNumeroFicha(doc, isParagrafo).ToString().Length)
                     , !houveDesvio);
 
@@ -109,7 +109,7 @@ namespace LibFunctions.Functions
             else
             {
                 //Insere o paragrafo correspondente a Ato, ficha e data por extenso
-                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.MatriculaID + new string(' ', 17 + (15 - modelo.MatriculaID.ToString().Length)) +
+                WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 17 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
                     WordPageHelper.GetNumeroFicha(doc, isParagrafo) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, isParagrafo).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
                     , !houveDesvio);
                 //Posiciona o cursor na ultima pagina e configura a pagina

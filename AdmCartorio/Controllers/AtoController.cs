@@ -73,9 +73,9 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Cadastrar(MatriculaAtoViewModel modelo)
+        public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.MatriculaID}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.PREIMO.MATRI}.docx");
             bool respEscreverWord = false;
             try
             {
@@ -93,9 +93,9 @@ namespace AdmCartorio.Controllers
                 {
 
                     //Representa o documento e o numero de pagina
-                    DtoMatriculaAto modeloDto = Mapper.Map<MatriculaAtoViewModel, DtoMatriculaAto>(modelo);
+                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     
-                    using (var appService = new AppServiceMatriculaAto(this.UnitOfWorkDataBseCar16New))
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBseCar16New))
                     {
                         respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath);
                     }
@@ -112,9 +112,11 @@ namespace AdmCartorio.Controllers
                         //Teve algum erro ao escrever o documento no WORD
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
+                    ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return View(nameof(Cadastrar), modelo);
                 }
-               
-                ViewBag.sucesso = "Ato cadastrado com sucesso!";
+
+                ViewBag.erro = "Erro ao cadastrar o ato!";
 
                 return View(nameof(Cadastrar), modelo);
             }
