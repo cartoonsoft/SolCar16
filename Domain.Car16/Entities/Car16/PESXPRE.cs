@@ -7,7 +7,7 @@ namespace Domain.Car16.Entities.Car16
     using System.Data.Entity.Spatial;
 
     [Table("DEZESSEIS.PESXPRE")]
-    public partial class PESXPRE
+    public class PESXPRE
     {
         [Key]
         [Column(Order = 0)]

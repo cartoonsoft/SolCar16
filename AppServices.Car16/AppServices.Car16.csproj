@@ -74,18 +74,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppServices\AppServiceArquivoModeloDocx.cs" />
+    <Compile Include="AppServices\AppServiceAto.cs" />
     <Compile Include="AppServices\AppServiceCadastroDeAto.cs" />
     <Compile Include="AppServices\AppServiceMatriculaAto.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
+    <Compile Include="AppServices\AppServicePESSOA.cs" />
+    <Compile Include="AppServices\AppServicePESXPRE.cs" />
     <Compile Include="AppServices\AppServicePREIMO.cs" />
     <Compile Include="AppServices\Base\AppServiceBase.cs" />
     <Compile Include="AppServices\Base\AppServiceCar16.cs" />
     <Compile Include="Interfaces\Base\IAppServiceBase.cs" />
     <Compile Include="Interfaces\Base\IAppServiceCar16.cs" />
     <Compile Include="Interfaces\IAppServiceArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\IAppServiceAto.cs" />
     <Compile Include="Interfaces\IAppServiceCadastroAto.cs" />
     <Compile Include="Interfaces\IAppServiceMatriculaAto.cs" />
     <Compile Include="Interfaces\IAppServicePais.cs" />
+    <Compile Include="Interfaces\IAppServicePESSOA.cs" />
+    <Compile Include="Interfaces\IAppServicePESXPRE.cs" />
     <Compile Include="Interfaces\IAppServicePREIMO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

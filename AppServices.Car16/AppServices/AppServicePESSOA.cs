@@ -2,6 +2,7 @@
 using AppServices.Car16.Interfaces;
 using AutoMapper;
 using Domain.Car16.Entities.Car16;
+using Domain.Car16.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using System;
@@ -12,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServicePESSOA : AppServiceBase<DtoPESSOA, PESSOA>, IAppServicePESSOA
+    public class AppServicePESSOA : AppServiceCar16<DtoPESSOA, PESSOA>, IAppServicePESSOA
     {
-        public AppServicePESSOA(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public AppServicePESSOA(IUnitOfWorkCar16 unitOfWork) : base(unitOfWork)
         {
         }
         public DtoPESSOA GetPESSOA(long ID)

@@ -559,7 +559,8 @@
     </script>
     <script>
         /****************************************************************
-         ************** DADOS DO IMOVEL *********************************/
+         ************** DADOS DO IMOVEL *********************************
+         ****************************************************************/
         $('#btnPesquisar').on('click', function () {
             var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
             var numeroMatricula = parseInt($('#txtMatricula').val());
@@ -572,11 +573,12 @@
                 { numeroPrenotacao: numPre, numeroMatricula: numMat },
                 function (data, status) {
                     resultado = JSON.parse(data);
-                    console.log(resultado);
                     enviarDadosMatricula(resultado);
-                    
+                    debugger;
+                    GetDadosPessoa(numPre);
                 });
         }
+
         function enviarDadosMatricula(resultado) {
             console.log(resultado);
             $('#PREIMO_MATRI').val(resultado.MATRI);
@@ -591,7 +593,32 @@
         }
 
         /***************************************************************
-         *************** FIM DADOS DO IMOVEL **************************/
+         *************** FIM DADOS DO IMOVEL ***************************
+         ***************************************************************/
+
+        /***************************************************************
+         *************** DADOS DA PESSOA     ***************************
+         ***************************************************************/
+        function GetDadosPessoa(numPre) {
+             $.get('@Url.Action("GetTipoPessoa", "Ato")',
+                { numeroPrenotacao: numPre },
+                function (data, status) {
+                    resultado = JSON.parse(data);
+                    console.log(resultado);
+                    debugger;
+                    enviarDadosPessoa(resultado);
+                    
+                });
+        }
+
+        function enviarDadosPessoa(resultado) {
+            $('#TipoPessoa').val(resultado.TipoPessoa);
+            $('#Pessoa_NOM').val(resultado.NOM);
+        }
+
+        /***************************************************************
+         *************** FIM DADOS DA PESSOA     ***********************
+         ***************************************************************/
 
         $(document).ready(function () {
             GetModelos();

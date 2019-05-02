@@ -48,7 +48,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<ArquivoModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ArquivoModeloDocxListViewModel>();
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             {
                 IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx();
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
@@ -63,7 +63,7 @@ namespace AdmCartorio.Controllers
         {
             try
             { 
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 return View();
@@ -85,7 +85,7 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 if (ModelState.IsValid)

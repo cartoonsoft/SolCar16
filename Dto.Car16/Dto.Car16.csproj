@@ -49,8 +49,10 @@
   <ItemGroup>
     <Compile Include="Entities\Base\DtoEntityBaseModel.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloSimplificadoDocxList.cs" />
+    <Compile Include="Entities\Cadastros\DtoAto.cs" />
     <Compile Include="Entities\Cadastros\DtoCadastroDeAto.cs" />
     <Compile Include="Entities\Cadastros\DtoPESSOA.cs" />
+    <Compile Include="Entities\Cadastros\DtoPESXPRE.cs" />
     <Compile Include="Entities\Cadastros\DtoPREIMO.cs" />
     <Compile Include="Entities\Diversos\DtoArquivoModeloDocxList.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloDocxModel.cs" />

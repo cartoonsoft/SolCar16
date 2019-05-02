@@ -32,6 +32,8 @@ namespace Infra.Data.Car16.Context
 
         public DbSet<Matricula> DbMatricula { get; set; }
         public DbSet<PREIMO> DbPREIMO { get; set; }
+        public DbSet<PESXPRE> DbPESXPRE { get; set; }
+        public DbSet<PESSOA> DbPESSOA { get; set; }
 
         public ContextMainCar16(string connName) : base(connName)
         {

@@ -49,12 +49,12 @@ namespace AdmCartorio.Controllers.Base
             get { return _currentUser; }
         } 
 
-        protected IUnitOfWorkDataBaseCar16 UnitOfWorkDataBseCar16
+        protected IUnitOfWorkDataBaseCar16 UnitOfWorkDataBaseCar16
         {
             get { return _unitOfWorkDataBaseCar16; }
         }
 
-        protected IUnitOfWorkDataBaseCar16New UnitOfWorkDataBseCar16New
+        protected IUnitOfWorkDataBaseCar16New UnitOfWorkDataBaseCar16New
         {
             get { return _unitOfWorkDataBseCar16New; }
 

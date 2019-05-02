@@ -4,11 +4,13 @@ using AdmCartorio.ViewModels;
 using AppServices.Car16.AppServices;
 using AutoMapper;
 using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using HtmlAgilityPack;
+using Infra.Data.Car16.UnitsOfWork;
 using LibFunctions.Functions;
 using Microsoft.Office.Core;
 using Microsoft.Office.Interop.Word;
@@ -27,7 +29,7 @@ using Xceed.Words.NET;
 namespace AdmCartorio.Controllers
 {
     public class AtoController : AdmCartorioBaseController
-    { 
+    {
         #region | Construtores |
         public AtoController() : base(null, null)
         {
@@ -53,7 +55,7 @@ namespace AdmCartorio.Controllers
             //}
             return View();
         }
-        
+
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
@@ -67,7 +69,7 @@ namespace AdmCartorio.Controllers
         public ActionResult Cadastrar()
         {
             var dados = new CadastroDeAtoViewModel();
-            
+
             return View(dados);
         }
 
@@ -82,11 +84,11 @@ namespace AdmCartorio.Controllers
             {
 
                 if (modelo.Ato == null)
-                {                  
+                {
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Cadastrar), modelo);
                 }
-                
+
                 //Ajusta a string de ato
                 modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
 
@@ -95,8 +97,8 @@ namespace AdmCartorio.Controllers
 
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-                    
-                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBseCar16New))
+
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                     {
                         respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath);
                     }
@@ -107,6 +109,31 @@ namespace AdmCartorio.Controllers
                         // Pegar a ultima "versão" do ato e somar
 
                         // Gravar o ato e buscar o selo e gravar o selo
+                        Ato ato = new Ato()
+                        {
+                            ArquivoBytes = arrayBytesNovo,
+                            Ativo = true,
+                            Bloqueado = false,
+                            IdPrenotacao = modelo.PREIMO.SEQPRE,
+                            IdTipoAto = modelo.IdTipoAto,
+                            NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
+                            Observacao = "Cadastro de teste",
+                            NumMatricula = modelo.PREIMO.MATRI.ToString(),
+                            IdUsuarioAlteracao = 1,
+                            IdContaAcessoSistema = 1
+                        };
+
+
+                        this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.Add(ato);
+                        this.UnitOfWorkDataBaseCar16New.Commit();
+
+                        //DtoAto dtoATO = Mapper.Map<Ato, DtoAto>(ato);
+                        //using (var appService = new AppServiceAto(this.UnitOfWorkDataBseCar16New))
+                        //{
+                        //    appService.Add(dtoATO);
+                        //    this.UnitOfWorkDataBseCar16New.Commit();
+                        //}
+                        
                     }
                     else
                     {
@@ -133,7 +160,7 @@ namespace AdmCartorio.Controllers
         #region | EDITAR |
 
         #endregion
-       
+
         #region | VIEWS PARCIAIS |
         public PartialViewResult BuscaAto()
         {
@@ -153,7 +180,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             {
                 var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
@@ -164,9 +191,9 @@ namespace AdmCartorio.Controllers
         }
         public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
         {
-            using (var appService = new AppServicePREIMO(this.UnitOfWorkDataBseCar16))
+            using (var appService = new AppServicePREIMO(this.UnitOfWorkDataBaseCar16))
             {
-                var PREIMO = appService.BuscaDadosImovel(numeroPrenotacao,numeroMatricula);
+                var PREIMO = appService.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
                 var jsonResult = JsonConvert.SerializeObject(PREIMO);
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
             }
@@ -178,9 +205,38 @@ namespace AdmCartorio.Controllers
         /// <returns>JSON</returns>
         public JsonResult GetTipoPessoa(long numeroPrenotacao)
         {
-            
+            PESXPRE pessoaPre;
+            PESSOA pessoa;
 
-            return Json("123");
+            using (var appService = new AppServicePESXPRE(this.UnitOfWorkDataBaseCar16))
+            {
+                var dtoPessoaPre = appService.GetPESXPRE(numeroPrenotacao);
+                pessoaPre = Mapper.Map<DtoPESXPRE, PESXPRE>(dtoPessoaPre);
+            }
+            using (var appService = new AppServicePESSOA(this.UnitOfWorkDataBaseCar16))
+            {
+                var dtoPessoa = appService.GetPESSOA(pessoaPre.SEQPES);
+                pessoa = Mapper.Map<DtoPESSOA, PESSOA>(dtoPessoa);
+            }
+            DadosPessoaViewModel dados = new DadosPessoaViewModel
+            {
+                TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
+                BAI = pessoa.BAI,
+                SEQPES = pessoa.SEQPES,
+                CEP = pessoa.CEP,
+                CID = pessoa.CID,
+                ENDER = pessoa.ENDER,
+                NOM = pessoa.NOM,
+                NRO1 = pessoa.NRO1,
+                NRO2 = pessoa.NRO2,
+                TEL = pessoa.TEL,
+                TIPODOC1 = pessoa.TIPODOC1,
+                TIPODOC2 = pessoa.TIPODOC2,
+                UF = pessoa.UF
+            };
+            var jsonResult = JsonConvert.SerializeObject(dados);
+
+            return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -219,7 +275,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Ato como string</returns>
         private static string RemoveUltimaMarcacao(string ato)
         {
-            var atoString = ato.Substring(0,ato.Length-1);
+            var atoString = ato.Substring(0, ato.Length - 1);
             return atoString;
         }
 

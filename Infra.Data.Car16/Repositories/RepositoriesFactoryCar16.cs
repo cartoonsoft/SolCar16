@@ -91,6 +91,14 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryPREIMO(this._context);
                     }
+                    if (typeof(T).Equals(typeof(PESXPRE)))
+                    {
+                        repository = new RepositoryPESXPRE(this._context);
+                    }
+                    if (typeof(T).Equals(typeof(Ato)))
+                    {
+                        repository = new RepositoryAto(this._context);
+                    }
                 }
 
                 if (repository != null)
@@ -146,6 +154,16 @@ namespace Infra.Data.Car16.Repositories
         public IRepositoryPREIMO RepositoryPREIMO
         {
             get { return GetRepositoryInstance<PREIMO>() as RepositoryPREIMO; }
+        }
+
+        public IRepositoryPESXPRE RepositoryPESXPRE
+        {
+            get { return GetRepositoryInstance<PESXPRE>() as RepositoryPESXPRE; }
+        }
+
+        public IRepositoryAto RepositoryAto
+        {
+            get { return GetRepositoryInstance<Ato>() as RepositoryAto; }
         }
     }
 }
