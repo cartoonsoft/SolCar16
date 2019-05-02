@@ -8,11 +8,13 @@ namespace Dto.Car16.Entities.Cadastros
 {
     public class DtoCadastroDeAto
     {
-        public DtoPREIMO DtoPREIMO { get; set; }
-        public DtoPESSOA DtoPESSOA { get; set; }
-        public DtoArquivoModeloSimplificadoDocxList DtoArquivoModeloSimplificadoDocxList { get; set; }
+        public DtoPREIMO PREIMO { get; set; }
+        public DtoPESSOA PESSOA { get; set; }
+        public DtoArquivoModeloSimplificadoDocxList ArquivoModelo { get; set; }
         public long IdTipoAto { get; set; }
         public string Ato { get; set; }
-        public long? IrParaFicha { get; set; }
+        public int IrParaFicha { get; set; }
+        public bool IrParaVerso { get; set; }
+        public float QuantidadeCentimetrosDaBorda { get; set; }
     }
 }

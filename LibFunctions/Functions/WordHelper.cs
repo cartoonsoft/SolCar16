@@ -44,7 +44,7 @@ namespace LibFunctions.Functions
         /// <param name="numeroPagina">Numero da pagina (Atualizada por ref) </param>
         /// <param name="textoParaSalvar">Texto para escrever</param>
         /// <returns>A posição do cursor para continuar a escrita do documento</returns>
-        public static int EscreverNoDocumento(DtoMatriculaAto modelo, Document doc, ref int numeroPagina, string textoParaSalvar)
+        public static int EscreverNoDocumento(DtoCadastroDeAto modelo, Document doc, ref int numeroPagina, string textoParaSalvar)
         {
             if (doc == null)
             {
@@ -75,7 +75,7 @@ namespace LibFunctions.Functions
         /// <param name="doc">Documento ativo</param>
         /// <param name="numeroPagina">Numero da pagina</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public static void EscreverCabecalhoETexto(DtoMatriculaAto modelo, Document doc, out int numeroPagina, out int posicaoCursor)
+        public static void EscreverCabecalhoETexto(DtoCadastroDeAto modelo, Document doc, out int numeroPagina, out int posicaoCursor)
         {
             if (doc == null) throw new ArgumentNullException("doc", "Documento não pode ser nulo");
 
@@ -103,7 +103,7 @@ namespace LibFunctions.Functions
         /// <param name="doc">Documento ativo</param>
         /// <param name="numeroPagina">Numero da pagina inicial</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public static void EscreverAto(DtoMatriculaAto modelo, Document doc, ref int numeroPagina, ref int posicaoCursor, bool houveDesvio = false)
+        public static void EscreverAto(DtoCadastroDeAto modelo, Document doc, ref int numeroPagina, ref int posicaoCursor, bool houveDesvio = false)
         {
             if (doc == null) throw new ArgumentNullException("doc", "Documento não pode ser nulo");
             if (string.IsNullOrEmpty(modelo.Ato)) throw new ArgumentNullException("modelo", "O ato do modelo não pode ser nulo");
@@ -148,7 +148,7 @@ namespace LibFunctions.Functions
         /// <param name="doc">Documento Ativo</param>
         /// <param name="modelo">View Model</param>
         /// <param name="quantidadeCentrimetros">Quantidade de centimetros</param>
-        public static void DesviarCentimetros(Document doc, DtoMatriculaAto modelo, float quantidadeCentrimetros, ref int numeroPagina, ref int posicaoCursor, bool houveDesvioDeFicha = false)
+        public static void DesviarCentimetros(Document doc, DtoCadastroDeAto modelo, float quantidadeCentrimetros, ref int numeroPagina, ref int posicaoCursor, bool houveDesvioDeFicha = false)
         {
             if (quantidadeCentrimetros == 0)
             {
@@ -168,7 +168,7 @@ namespace LibFunctions.Functions
 
                 //centimetros apos a borda da margem
                 WordPageHelper.DeslocarCentimetros(doc, quantidadeCentrimetros);
-                WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.MatriculaID} - ", true);
+                WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.PREIMO.MATRI} - ", true);
             }
             //atualiza as variaveis por ponteiro (REF)
             numeroPagina = WordPageHelper.GetNumeroPagina(doc);

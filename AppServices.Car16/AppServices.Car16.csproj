@@ -74,6 +74,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppServices\AppServiceArquivoModeloDocx.cs" />
+    <Compile Include="AppServices\AppServiceCadastroDeAto.cs" />
     <Compile Include="AppServices\AppServiceMatriculaAto.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
     <Compile Include="AppServices\AppServicePREIMO.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Interfaces\Base\IAppServiceBase.cs" />
     <Compile Include="Interfaces\Base\IAppServiceCar16.cs" />
     <Compile Include="Interfaces\IAppServiceArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\IAppServiceCadastroAto.cs" />
     <Compile Include="Interfaces\IAppServiceMatriculaAto.cs" />
     <Compile Include="Interfaces\IAppServicePais.cs" />
     <Compile Include="Interfaces\IAppServicePREIMO.cs" />

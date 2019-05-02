@@ -1,4 +1,5 @@
 ﻿using Domain.Car16.Entities.Car16;
+using Dto.Car16.Entities.Cadastros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,13 @@ namespace AdmCartorio.ViewModels
 {
     public class CadastroDeAtoViewModel
     {
-        public PREIMO PREIMO { get; set; }
-        public PESSOA Pessoa { get; set; }
-        public ArquivoModeloSimplificadoViewModel ArquivoModelo { get; set; }
+        public DtoPREIMO PREIMO { get; set; }
+        public DtoPESSOA Pessoa { get; set; }
+        public DtoArquivoModeloSimplificadoDocxList ArquivoModelo { get; set; }
         public long IdTipoAto { get; set; }
         public string Ato { get; set; }
+        public int IrParaFicha { get; set; }
+        public bool IrParaVerso { get; set; }
+        public float QuantidadeCentimetrosDaBorda { get; set; }
     }
 }
