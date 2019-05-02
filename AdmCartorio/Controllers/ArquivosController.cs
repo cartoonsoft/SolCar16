@@ -26,10 +26,9 @@ namespace AdmCartorio.Controllers
         public ArquivosController() : base(null, null)
         {
             //
-
         }
 
-        public ArquivosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+        public ArquivosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
         {
             //Criar instancia dos seus App services aqui
         }
@@ -48,7 +47,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<ArquivoModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ArquivoModeloDocxListViewModel>();
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             {
                 IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx();
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
@@ -63,7 +62,7 @@ namespace AdmCartorio.Controllers
         {
             try
             { 
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 return View();
@@ -85,7 +84,7 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 if (ModelState.IsValid)

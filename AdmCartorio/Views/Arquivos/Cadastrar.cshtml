@@ -93,7 +93,6 @@
                                             <label class="input">
                                                 @Html.TextBoxFor(model => model.Files, null, new { @type = "file", @accept = "docx", @name = "file", @class = "form-control" })
                                                 @Html.ValidationMessageFor(model => model.Files, null, new { @class = "text-danger" })
-                                                @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
                                             </label>
                                         </section>
                                     </div>
@@ -112,25 +111,11 @@
                 </div>
             </article>
         </div>
-
-        <!-- row -->
+        <!-- div para mostrar menssagens de resultado de CRUD  -->
         <div class="row">
-            <!-- NEW WIDGET START -->
-            <article class="col-sm-12 col-md-12 col-lg-8">
-                <div class="alert alert-success fade in hidden" id="alertArquivoSalvouSuccess">
-                    <a class="close" data-dismiss="alert" href="#">×</a>
-                    <h4 class="alert-heading">Informações salvas com sucesso!</h4>
-                    <label id="lblAlertArquivoSalvouSuccess"></label>
-                </div>
-                <div class="alert alert-danger fade in hidden" id="alertArquivoSalvouError">
-                    <a class="close" data-dismiss="alert" href="#">×</a>
-                    <h4 class="alert-heading">Não foi possível salvar os dados!</h4>
-                    <label id="lblAlertArquivoSalvouError">Modelo de documento foi salvo na base de dados.</label>
-                </div>
+            <article class="col-sm-12 col-md-12 col-lg-8" id="articleMesssagensCrud">
             </article>
-            <!-- WIDGET END -->
         </div>
-
     </section>
 </div>
 
@@ -151,8 +136,9 @@
         });
 
         $("#btnSalvar").click(function (e) {
-            e.preventDefault();
 
+            e.preventDefault();
+            var objCrudmessage = $("#articleMesssagensCrud");
 
             if ($("#frmCadastrarArquivo").valid()) {
 
@@ -168,23 +154,38 @@
                 }).done(function (data) {
                     //
                     if (data.success) {
-                        $("#alertArquivoSalvouSuccess").toggleClass("hidden");
-                        $("#lblAlertArquivoSalvouSuccess").html(data.mensagem);
+                        ShowMessageCrud(
+                            objCrudmessage,
+                            "Modelo de documento salvo com sucesso!",
+                            data.menssagem,
+                            '@Url.Action("Index", "Arquivos")',
+                            true
+                        );
                     } else {
-                        $("#alertArquivoSalvouError").toggleClass("hidden");
-                        $("#lblAlertArquivoSalvouError").html(data.mensagem);
+                        ShowMessageCrud(
+                            objCrudmessage,
+                            "Não foi possivel salvar!",
+                            data.menssagem,
+                            "#",
+                            false
+                        );
                     }
                 }).fail(function (jq, textStatus, error) {
                     //coloque pasta da view e o nome da view: ex: ArquivosCadastrar
-                    var errorMsg = 'Falha na requisição! ' +
-                        '[ArquivosCadastrar] ' +
-                        textStatus + '[' + error + ']';
-                    $("#alertArquivoSalvouError").toggleClass("hidden");
-                    $("#lblAlertArquivoSalvouError").html(errorMsg);
+                    HideProgressBar();
+                    var errorMsg = 'Falha na requisição! ' + '[ArquivosCadastrar] ' + textStatus + '[' + error + ']';
+                    ShowMessageCrud(
+                        objCrudmessage,
+                        "Não foi possivel salvar!",
+                        errorMsg,
+                        "#",
+                        false
+                    );
                 }).always(function () {
                     HideProgressBar();
                 });
             }
+            
         });
 
     });

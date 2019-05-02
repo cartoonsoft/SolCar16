@@ -49,4 +49,28 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     };
 }
 
+/**
+ * Adiciona uma div para um obj html ex: articleMesssagensCrud
+ * @param {any} objHtml
+ * @param {any} titleMsg
+ * @param {any} message
+ * @param {any} link
+ * @param {any} success
+ */
+function ShowMessageCrud(objHtml,titleMsg, message, link="#", success = false)
+{
+    var div = objHtml;
+    var div_ok    = '<div class="alert alert-success fade in"><a class="close" data-dismiss="alert" href="' + link + '">×</a><h4 class="alert-heading">' + titleMsg + '</h4><label">' + message + '</label></div>';
+    var div_error = '<div class="alert alert-danger  fade in"><a class="close" data-dismiss="alert" href="' + link + '">×</a><h4 class="alert-heading">' + titleMsg + '</h4><label">' + message + '</label></div>';
+
+    if (success)
+    {
+        $(div).append(div_ok);
+
+    } else {
+        $(div).append(div_error);
+
+    }
+}
+
 /*-----------------------------------------------------------------------------*/
