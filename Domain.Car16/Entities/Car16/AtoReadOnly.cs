@@ -7,7 +7,7 @@ namespace Domain.Car16.Entities.Car16
     using System.Data.Entity.Spatial;
 
     [Table("DEZESSEIS.ATO")]
-    public partial class ATO
+    public partial class AtoReadOnly
     {
         [Key]
         [Column(Order = 0)]

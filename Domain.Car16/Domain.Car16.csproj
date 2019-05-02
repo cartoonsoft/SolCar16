@@ -72,7 +72,7 @@
     <Compile Include="Entities\Car16New\TipoAto.cs" />
     <Compile Include="Entities\Car16New\Uf.cs" />
     <Compile Include="Entities\Car16\ACESSO.cs" />
-    <Compile Include="Entities\Car16\ATO.cs" />
+    <Compile Include="Entities\Car16\AtoReadOnly.cs" />
     <Compile Include="Entities\Car16\AUTENTICACAO.cs" />
     <Compile Include="Entities\Car16\AUTXPRE.cs" />
     <Compile Include="Entities\Car16\BLOQUEIOCX.cs" />

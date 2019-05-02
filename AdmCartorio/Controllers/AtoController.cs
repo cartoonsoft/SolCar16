@@ -122,17 +122,9 @@ namespace AdmCartorio.Controllers
                             IdContaAcessoSistema = 1
                         };
 
+                        this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
+                        //this.UnitOfWorkDataBaseCar16New.Commit();
 
-                        this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.Add(ato);
-                        this.UnitOfWorkDataBaseCar16New.Commit();
-
-                        //DtoAto dtoATO = Mapper.Map<Ato, DtoAto>(ato);
-                        //using (var appService = new AppServiceAto(this.UnitOfWorkDataBseCar16New))
-                        //{
-                        //    appService.Add(dtoATO);
-                        //    this.UnitOfWorkDataBseCar16New.Commit();
-                        //}
-                        
                     }
                     else
                     {
