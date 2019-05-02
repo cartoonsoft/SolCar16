@@ -28,14 +28,10 @@ namespace Infra.Data.Car16.Context
         public DbSet<CamposArquivoModeloDocx> DbCamposArquivoModeloDocx { get; set; }
         public DbSet<LogArquivoModeloDocx> DbLogArquivoModeloDocx { get; set;}
         public DbSet<TipoAto> DbTipoAto { get; set; }
+        public DbSet<Ato> DbAto { get; set; }
 
-        /// <summary>
-        /// Base de dados: dezesseis
-        /// </summary>
-        /// <param name="connName"></param>
-        DbSet<Matricula> DbMatricula { get; set; }
+        public DbSet<Matricula> DbMatricula { get; set; }
         public DbSet<PREIMO> DbPREIMO { get; set; }
-
 
         public ContextMainCar16(string connName) : base(connName)
         {

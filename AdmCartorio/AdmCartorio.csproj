@@ -502,6 +502,7 @@
     <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\cartoonsoft\libs.js" />
+    <Content Include="Scripts\cartoonsoft\_layout.js" />
     <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />

@@ -60,6 +60,7 @@
     <Compile Include="DomainServices\PREIMODomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
     <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Car16New\Ato.cs" />
     <Compile Include="Entities\Car16New\CamposArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\LogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\MatriculaAto.cs" />

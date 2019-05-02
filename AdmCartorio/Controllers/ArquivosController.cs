@@ -127,14 +127,14 @@ namespace AdmCartorio.Controllers
                         unitOfWork.Commit();
                     }
 
-                    msg = "Arquivo salvo com sucesso!";
+                    msg = "Modelo de documento salvo com sucesso!";
                 }
             }
             catch (Exception ex)
             {
                 success = false;
                 msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + " -> " + ex.InnerException.Message + "]";
-                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.InnerException + " -> " + ex.InnerException.Message);
+                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message + " -> " + ex.InnerException.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
 
