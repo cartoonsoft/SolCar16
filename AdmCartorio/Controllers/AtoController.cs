@@ -3,6 +3,7 @@ using AdmCartorio.Models;
 using AdmCartorio.ViewModels;
 using AppServices.Car16.AppServices;
 using AutoMapper;
+using Domain.Car16.Entities.Car16;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
@@ -170,6 +171,18 @@ namespace AdmCartorio.Controllers
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
             }
         }
+        /// <summary>
+        /// Essa função retorna se a pessoa é um Ortogante ou Ortogado
+        /// </summary>
+        /// <param name="numeroPrenotacao">Numero da prenotação</param>
+        /// <returns>JSON</returns>
+        public JsonResult GetTipoPessoa(long numeroPrenotacao)
+        {
+            
+
+            return Json("123");
+        }
+
         #endregion
 
 
