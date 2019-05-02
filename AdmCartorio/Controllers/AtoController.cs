@@ -37,7 +37,7 @@ namespace AdmCartorio.Controllers
 
         }
 
-        public AtoController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+        public AtoController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
         {
             //Criar instancia dos seus App services aqui
         }
@@ -47,7 +47,7 @@ namespace AdmCartorio.Controllers
         public ActionResult Index()
         {
             //var dados = new MatriculaAtoViewModel();
-            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBseCar16New))
+            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             //{
             //    IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
             //    dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
@@ -97,7 +97,6 @@ namespace AdmCartorio.Controllers
 
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                     {
                         respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath);

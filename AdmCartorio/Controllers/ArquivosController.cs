@@ -26,10 +26,9 @@ namespace AdmCartorio.Controllers
         public ArquivosController() : base(null, null)
         {
             //
-
         }
 
-        public ArquivosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBseCar16New)
+        public ArquivosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
         {
             //Criar instancia dos seus App services aqui
         }

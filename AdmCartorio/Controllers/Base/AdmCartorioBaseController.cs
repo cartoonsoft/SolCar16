@@ -17,13 +17,13 @@ namespace AdmCartorio.Controllers.Base
     public class AdmCartorioBaseController : Controller
     {
         private readonly UnitOfWorkDataBaseCar16 _unitOfWorkDataBaseCar16;
-        private readonly UnitOfWorkDataBaseCar16New _unitOfWorkDataBseCar16New;
+        private readonly UnitOfWorkDataBaseCar16New _unitOfWorkDataBaseCar16New;
         private readonly ApplicationUser _currentUser;
 
-        public AdmCartorioBaseController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBseCar16New)
+        public AdmCartorioBaseController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New)
         {
             _unitOfWorkDataBaseCar16 = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseis);
-            _unitOfWorkDataBseCar16New = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew);
+            _unitOfWorkDataBaseCar16New = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew);
             this._currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             //WindowsIdentity a = WindowsIdentity.GetCurrent();
         }
@@ -36,9 +36,9 @@ namespace AdmCartorio.Controllers.Base
                     _unitOfWorkDataBaseCar16.Dispose();
                 }
 
-                if (_unitOfWorkDataBseCar16New != null)
+                if (_unitOfWorkDataBaseCar16New != null)
                 {
-                    _unitOfWorkDataBseCar16New.Dispose();
+                    _unitOfWorkDataBaseCar16New.Dispose();
                 }
             }
             base.Dispose(disposing);
@@ -56,7 +56,7 @@ namespace AdmCartorio.Controllers.Base
 
         protected IUnitOfWorkDataBaseCar16New UnitOfWorkDataBaseCar16New
         {
-            get { return _unitOfWorkDataBseCar16New; }
+            get { return _unitOfWorkDataBaseCar16New; }
 
         }
 
