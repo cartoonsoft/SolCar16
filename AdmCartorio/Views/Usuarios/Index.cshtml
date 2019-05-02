@@ -108,7 +108,7 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        @Html.DisplayNameFor(model => model.Nome)
+                                        Nome
                                     </th>
                                     <th>
                                         E-mail
@@ -206,8 +206,7 @@
                 dataType: 'json',
                 data: objData,
                 beforeSend: function () {
-                    $('#frmProgreessBarModal').modal("show");
-                    $('.modal-header h3').html('Processando requisição...')
+                    ShowProgreessBar("Processando requisição...");
                 }
             }).done(function (data) {
                 //
@@ -230,13 +229,12 @@
 
                         obj.innerText = "Ativar"
                     }
-
                 }
             }).fail(function (jq, textStatus, error) {
                 //
 
             }).always(function () {
-                $('#frmProgreessBarModal').modal("hide");
+                HideProgressBar();
             });
 
         }

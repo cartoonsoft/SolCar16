@@ -33,17 +33,17 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
                     <!-- widget options:
-                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                    data-widget-colorbutton="false"
-                    data-widget-editbutton="false"
-                    data-widget-togglebutton="false"
-                    data-widget-deletebutton="false"
-                    data-widget-fullscreenbutton="false"
-                    data-widget-custombutton="false"
-                    data-widget-collapsed="false"
-                    data-widget-sortable="false"
-                    -->
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="false"
+                data-widget-sortable="false"
+                -->
 
                     <header>
                         <span class="widget-icon"> <i class="fa fa-user"></i> </span>
@@ -63,12 +63,12 @@
                         <!-- widget content -->
 
                         <div class="widget-body no-padding">
-                            @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { id = "frmCadastrarArquivo", enctype = "multipart/form-data", @class = "smart-form" }))
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmCadastrarArquivo", enctype = "multipart/form-data", @class = "smart-form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
                                 @Html.HiddenFor(model => model.Id)
-                                
+
                                 <input type="hidden" id="IpLocal" name="IpLocal" value="">
                                 <fieldset>
                                     <div class="row">
@@ -99,7 +99,7 @@
                                     </div>
                                 </fieldset>
                                 <footer>
-                                    <button type="submit" id="upload" class="btn btn-primary btn-lg">
+                                    <button type="button" id="btnSalvar" class="btn btn-primary btn-lg">
                                         <i class="glyphicon glyphicon-upload"></i>
                                         Salvar
                                     </button>
@@ -112,6 +112,25 @@
                 </div>
             </article>
         </div>
+
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-sm-12 col-md-12 col-lg-8">
+                <div class="alert alert-success fade in hidden" id="alertArquivoSalvouSuccess">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">Informações salvas com sucesso!</h4>
+                    <label id="lblAlertArquivoSalvouSuccess"></label>
+                </div>
+                <div class="alert alert-danger fade in hidden" id="alertArquivoSalvouError">
+                    <a class="close" data-dismiss="alert" href="#">×</a>
+                    <h4 class="alert-heading">Não foi possível salvar os dados!</h4>
+                    <label id="lblAlertArquivoSalvouError">Modelo de documento foi salvo na base de dados.</label>
+                </div>
+            </article>
+            <!-- WIDGET END -->
+        </div>
+
     </section>
 </div>
 
@@ -125,55 +144,48 @@
 
     $(document).ready(function () {
 
+        //coloque aqui seu codigo jquery
         var ipLocal = getUserIP(function (ip) {
             var t = navigator.product;
             $("#IpLocal").val(ip);
         });
 
-        //coloque aqui seu codigo jquery
+        $("#btnSalvar").click(function (e) {
+            e.preventDefault();
 
-        @*            
-        $('#upload').on('click', function () {
-            var MeuIp = document.getElementById('ipDaMaquina').value;
-            var form = $('#formEnvio');
-            var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-            var objData = {
-                ip: MeuIp,
-                __RequestVerificationToken: token
-            };
+            if ($("#frmCadastrarArquivo").valid()) {
 
-            $.ajax('@Url.Action("UploadArquivos", "Arquivos")', {
-                method: 'POST',
-                dataType: 'json',
-                data: objData,
-                beforeSend: function () {
-                    $('#frmProgreessBarModal').modal("show");
-                    $('.modal-header h3').html('Processando requisição...')
-                }
-            }).done(function (data) {
-                //
-                if (data.success) {
-                    $.smallBox({
-                        title: "Requisição realizada com sucesso!",
-                        content: "<i class='fa fa-clock-o'></i> <i></i>",
-                        color: "#296191",
-                        iconSmall: "fa fa-thumbs-up bounce animated",
-                        timeout: 4000
-                    });
-                    console.log(result);
-                    console.log("Deu certo");
-                }
-            }).fail(function (jq, textStatus, error) {
-                //
-                console.log(error);
-                console.log("Deu erro");
+                var serializeDados = $("#frmCadastrarArquivo").serialize();
 
-            }).always(function () {
-                $('#frmProgreessBarModal').modal("hide");
-            });
+                $.ajax('@Url.Action("Create", "EntidadeTestes")', {
+                    method: 'POST',
+                    dataType: 'json',
+                    data: serializeDados,
+                    beforeSend: function () {
+                        ShowProgreessBar("Processando...");
+                    }
+                }).done(function (data) {
+                    //
+                    if (data.success) {
+                        $("#alertArquivoSalvouSuccess").toggleClass("hidden");
+                        $("#lblAlertArquivoSalvouSuccess").html(data.mensagem);
+                    } else {
+                        $("#alertArquivoSalvouError").toggleClass("hidden");
+                        $("#lblAlertArquivoSalvouError").html(data.mensagem);
+                    }
+                }).fail(function (jq, textStatus, error) {
+                    //coloque pasta da view e o nome da view: ex: ArquivosCadastrar
+                    var errorMsg = 'Falha na requisição! ' +
+                        '[ArquivosCadastrar] ' +
+                        textStatus + '[' + error + ']';
+                    $("#alertArquivoSalvouError").toggleClass("hidden");
+                    $("#lblAlertArquivoSalvouError").html(errorMsg);
+                }).always(function () {
+                    HideProgressBar();
+                });
+            }
         });
-        *@
 
     });
 
