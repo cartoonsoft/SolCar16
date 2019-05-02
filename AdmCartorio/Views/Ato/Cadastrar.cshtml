@@ -290,6 +290,25 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Tipo de Pessoa</label>
+                                                    </div>
+                                                    <div class="col-sm-2 margin-left-10">
+                                                        @Html.TextBoxFor(model => model.TipoPessoa,
+                                                            new {@class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly" })
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nome</label>
+                                                    </div>
+                                                    <div class="col-sm-3 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.Pessoa.NOM,
+                                                                new {@class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <!-- FIM DADOS IMÓVEL-->
                                             <!-- DADOS MODELO-->
@@ -555,6 +574,7 @@
                     resultado = JSON.parse(data);
                     console.log(resultado);
                     enviarDadosMatricula(resultado);
+                    
                 });
         }
         function enviarDadosMatricula(resultado) {
@@ -579,7 +599,7 @@
             var $validator = $("#wizard-1").validate({
 
                 rules: {
-                    PREIMA: {
+                    PREIMO: {
                         MATRI: {
                             required: true
                         }
@@ -611,7 +631,11 @@
                 },
 
                 messages: {
-                    MATRI: "Please specify your First name",
+                    PREIMO: {
+                        MATRI: {
+                            required: "Please specify your First name"
+                        }
+                    },
                     lname: "Please specify your Last name",
                     email: {
                         required: "We need your email address to contact you",
