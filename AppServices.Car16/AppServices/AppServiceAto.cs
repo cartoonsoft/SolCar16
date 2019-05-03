@@ -14,7 +14,7 @@ namespace AppServices.Car16.AppServices
 {
     public class AppServiceAto : AppServiceCar16<DtoAto, Ato>, IAppServiceAto
     {
-        public AppServiceAto(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AppServiceAto(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
         }
         /// <summary>
@@ -39,9 +39,10 @@ namespace AppServices.Car16.AppServices
         /// <returns>Ultimo numero da sequencia ou NULL</returns>
         public long? GetNumSequenciaAto(long numeroMatricula)
         {
-            return this.DomainServices.GenericDomainService<Ato>()
-                .GetWhere(m => Convert.ToInt64(m.NumMatricula) == numeroMatricula)
+            long? numSequencia =  (long?)this.DomainServices.GenericDomainService<Ato>()
+                .GetWhere(m => m.NumMatricula == numeroMatricula.ToString())
                 .Max(s => s.NumSequencia);
+            return numSequencia;
         }
     }
 }

@@ -100,7 +100,7 @@ namespace AdmCartorio.Controllers
                     long? numSequenciaAto = null;
                     using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
                     {
-                        numSequenciaAto = appService.GetNumSequenciaAto(modelo.PREIMO.MATRI);
+                        numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
                         numSequenciaAto = numSequenciaAto + 1 ?? 1;
                     }
 

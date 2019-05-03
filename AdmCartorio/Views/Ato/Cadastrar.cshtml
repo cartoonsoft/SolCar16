@@ -521,29 +521,28 @@
             $('#BuscaModelo').modal('hide'); 
         }
 
-    //Busca os dados do modelo cadastrado e popula o editor do word
-    function AtualizarModelo(){
-        var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
-        var Id = $('#ArquivoModelo_Id').val();
-        $.ajax({
-            url: '@Url.Action("UsaModeloParaAto", "Ato")',
-            type: 'POST',
-            data: {
-                ModeloNome,
-                Id
-            },
-            success: function (result) {
-                editor.setData(result);
-                $('#upload').removeAttr('disabled');
-                $('#ckEditorGrid').removeAttr('hidden');
+        //Busca os dados do modelo cadastrado e popula o editor do word
+        function AtualizarModelo(){
+            var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
+            var Id = $('#ArquivoModelo_Id').val();
+            $.ajax({
+                url: '@Url.Action("UsaModeloParaAto", "Ato")',
+                type: 'POST',
+                data: {
+                    ModeloNome,
+                    Id
+                },
+                success: function (result) {
+                    editor.setData(result);
+                    $('#upload').removeAttr('disabled');
+                    $('#ckEditorGrid').removeAttr('hidden');
 
-            },
-            error: function (error) {
-                console.log(error);
-                alert("Erro, tente novamente!");
-            }
-        });
-
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert("Erro, tente novamente!");
+                }
+            });
         }
 
         function AtualizarIdTipoAto(idModelo) {
