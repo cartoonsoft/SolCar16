@@ -18,7 +18,7 @@ using System.Reflection;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryArquivoModeloDocx : RepositoryBaseRead<ArquivoModeloDocx>, IRepositoryArquivoModeloDocx
+    public class RepositoryArquivoModeloDocx : RepositoryBaseReadWrite<ArquivoModeloDocx>, IRepositoryArquivoModeloDocx
     {
         private readonly ContextMainCar16 _contexRep;
 

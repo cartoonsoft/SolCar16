@@ -34,7 +34,7 @@ namespace Dto.Car16.Entities.Cadastros
         #region | Dados nao obrigatorios |
 
         [Display(Name = "Log Arquivo")]
-        public LogArquivoModeloDocx LogArquivoModeloDocxDto { get; set; }
+        public LogArquivoModeloDocx LogArquivo { get; set; }
 
         [Display(Name = "Caminho e Arquivo")]
         public string Arquivo { get; set; }

@@ -13,13 +13,21 @@ namespace Domain.Car16.Attributes
     {
         public override bool IsValid(object value)
         {
-            List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
-            foreach (var item in arq)
+            bool resposta = value != null;
+
+            if (resposta)
             {
-                if (item?.ContentLength <= 0 || item == null) return false;
-                return true;
+                List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
+                foreach (var item in arq)
+                {
+                    if (item?.ContentLength <= 0 || item == null)
+                    {
+                        resposta = false;
+                    }
+                }
             }
-            return base.IsValid(value);
+
+            return resposta;
         }
     }
 }

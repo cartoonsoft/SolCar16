@@ -95,7 +95,8 @@ namespace AppServices.Car16.AppServices.Base
 
         public virtual void Update(TDtoEntityModel dtoItem)
         {
-            throw new NotImplementedException();
+            TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
+            this.DomainServices.GenericDomainService<TEntity>().Update(entityTmp);
         }
 
         public virtual void Remove(long id)

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Web;
 
 namespace Domain.Car16.Attributes
@@ -11,12 +10,18 @@ namespace Domain.Car16.Attributes
     {
         public override bool IsValid(object value)
         {
-            List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
-            foreach (var item in arq)
+            bool resposta = value != null;
+
+            if (resposta)
             {
-                return Path.GetExtension(item?.FileName) == ".docx";
+                List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
+                foreach (var item in arq)
+                {
+                    resposta = Path.GetExtension(item?.FileName) == ".docx";
+                }
             }
-            return base.IsValid(value);
+
+            return resposta; 
         }
     }
 }
