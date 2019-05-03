@@ -232,6 +232,13 @@ namespace AdmCartorio.Controllers
 
         #endregion
 
+        public long GetIdAtoPeloModelo(long idModelo)
+        {
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
+            {
+                return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
+            }
+        }
 
         /// <summary>
         /// Retorna o numero de Ato do modelo
@@ -275,9 +282,14 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "ModeloNome")]string ModeloNome)
+        public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id)
         {
             StringBuilder textoFormatado = new StringBuilder();
+
+            //var arquivo = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocx>().GetById(Id);
+            //System.IO.File.WriteAllBytes(ModeloNome + ".docx", arquivo.BytesArray);
+
+
 
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{ModeloNome}.docx");
             try

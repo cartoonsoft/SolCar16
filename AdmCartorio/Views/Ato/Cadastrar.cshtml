@@ -347,6 +347,7 @@
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div>
+                                                            @Html.HiddenFor(model => model.ArquivoModelo.Id)
                                                             @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
                                                                 new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly" })
                                                         </div>
@@ -486,19 +487,36 @@
     //Ao clicar, abre a modal, faz a chamada ajax.GET e atualiza a tabela
     $('#btnModelo').on('click',GetModelos);
 
+        function enviarDados(objeto) {
+            var linha = objeto.closest("tr");
+            console.log(linha);
+            var modeloNome = linha.querySelector(".nomeModelo");
+            var tipoAto = linha.querySelector(".descricaoTipoAto");
+            var idModelo = linha.querySelector(".idModelo");
+
+            $('#ArquivoModelo_Id').val(idModelo.innerText);
+            $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
+            AtualizarModelo(); //Função da rota Ato/Cadastrar
+            $('#BuscaModelo').modal('hide'); 
+        }
+
     //Busca os dados do modelo cadastrado e popula o editor do word
     function AtualizarModelo(){
         var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
+        var Id = $('#ArquivoModelo_Id').val();
         $.ajax({
             url: '@Url.Action("UsaModeloParaAto", "Ato")',
             type: 'POST',
             data: {
-                ModeloNome
+                ModeloNome,
+                Id
             },
             success: function (result) {
                 editor.setData(result);
                 $('#upload').removeAttr('disabled');
                 $('#ckEditorGrid').removeAttr('hidden');
+
             },
             error: function (error) {
                 console.log(error);
@@ -506,6 +524,14 @@
             }
         });
 
+        }
+
+        function AtualizarIdTipoAto(idModelo) {
+            $.get('@Url.Action("GetIdAtoPeloModelo", "Ato")',
+                { idModelo },
+                function (data, status) {
+                    $('#IdTipoAto').val(data);
+                });
         }
 
     //Pega os Modelos e atualiza a tabela
@@ -699,6 +725,7 @@
                         if (index - 1 == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());  
                         }
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
                             'complete');
