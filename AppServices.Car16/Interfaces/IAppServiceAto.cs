@@ -1,5 +1,5 @@
 ﻿using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.Entities.Diversas;
+using Domain.Car16.Entities.Car16New;
 using Dto.Car16.Entities.Cadastros;
 using System;
 using System.Collections.Generic;
@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace AppServices.Car16.Interfaces
 {
-    public interface IAppServiceCadastroAto : IAppServiceCar16<DtoCadastroDeAto,CadastroDeAto>
+    public interface IAppServiceAto : IAppServiceCar16<DtoAto,Ato>
     {
-        bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto);
+        bool ExisteAtoCadastrado(Ato modelo);
+        long? GetNumSequenciaAto(long numMatricula);
     }
 }

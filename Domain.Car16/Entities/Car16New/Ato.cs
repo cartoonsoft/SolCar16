@@ -14,7 +14,7 @@ namespace Domain.Car16.Entities.Car16New
     {
         [Key]
         [Column("ID_ATO")]
-        public long? IdAto { get; set; }
+        public override long? Id { get; set; }
 
         [Column("ID_TP_ATO")]
         public long IdTipoAto { get; set; }
@@ -51,6 +51,7 @@ namespace Domain.Car16.Entities.Car16New
         public bool Bloqueado { get; set; }
         [Column("OBSERCACAO")] // VARCHAR2(255),
         public string Observacao { get; set; }
-
+        [Column("NUM_SEQ")] //INTEGER
+        public long NumSequencia { get; set; }
     }
 }

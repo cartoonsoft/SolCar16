@@ -11,6 +11,6 @@ namespace AppServices.Car16.Interfaces
 {
     public interface IAppServicePESXPRE : IAppServiceCar16<DtoPESXPRE,PESXPRE>
     {
-        DtoPESXPRE GetPESXPRE(long ID);
+        DtoPESXPRE GetPESXPRE(long numeroPrenotacao);
     }
 }

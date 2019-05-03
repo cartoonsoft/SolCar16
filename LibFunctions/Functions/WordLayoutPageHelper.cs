@@ -127,6 +127,7 @@ namespace LibFunctions.Functions
         {
             if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)) && WordPageHelper.GetNumeroFicha(doc) > 1)
             {
+                doc.Paragraphs.Last.Range.Delete();
                 WordParagraphHelper.InserirParagrafo(doc, $"( CONTINUAÇÃO DA FICHA N°. { WordPageHelper.GetNumeroFicha(doc) - 1} )", true);
 
                 doc.Paragraphs.Last.Range.Bold = 1;

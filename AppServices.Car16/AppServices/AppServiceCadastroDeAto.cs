@@ -19,7 +19,7 @@ namespace AppServices.Car16.AppServices
         {
         }
 
-        public bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath)
+        public bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
         {
             //Representa o documento e o numero de pagina
             Application app = new Application();
@@ -88,7 +88,7 @@ namespace AppServices.Car16.AppServices
 
                             //TO DO : Pegar o numero do até em sequencia.
                             //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a Ato
-                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.PREIMO.MATRI} - ");
+                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
 
                         }
@@ -96,7 +96,7 @@ namespace AppServices.Car16.AppServices
                         {
                             doc.Paragraphs.Last.Range.Delete();
                             posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-12/{modelo.PREIMO.MATRI} - ");
+                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
 
                         }
                     }

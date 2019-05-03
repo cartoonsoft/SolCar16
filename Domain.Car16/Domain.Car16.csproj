@@ -51,12 +51,14 @@
   <ItemGroup>
     <Compile Include="Attributes\IsWordFile.cs" />
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
+    <Compile Include="DomainServices\AtoDomainService.cs" />
     <Compile Include="DomainServices\Base\DomainServicesFactoryCar16.cs" />
     <Compile Include="DomainServices\Base\DomainServiceCar16.cs" />
     <Compile Include="DomainServices\ArquivoModeloDocxDomainService.cs" />
     <Compile Include="DomainServices\PessoaDomainService.cs" />
     <Compile Include="DomainServices\PaisDomainService.cs" />
     <Compile Include="DomainServices\MunicipioDomainService.cs" />
+    <Compile Include="DomainServices\PESXPREDomainService.cs" />
     <Compile Include="DomainServices\PREIMODomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
     <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Entities\Car16New\TipoAto.cs" />
     <Compile Include="Entities\Car16New\Uf.cs" />
     <Compile Include="Entities\Car16\ACESSO.cs" />
-    <Compile Include="Entities\Car16\ATO.cs" />
+    <Compile Include="Entities\Car16\AtoReadOnly.cs" />
     <Compile Include="Entities\Car16\AUTENTICACAO.cs" />
     <Compile Include="Entities\Car16\AUTXPRE.cs" />
     <Compile Include="Entities\Car16\BLOQUEIOCX.cs" />
@@ -158,6 +160,8 @@
     <Compile Include="enums\TipoLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16.cs" />
     <Compile Include="Interfaces\DomainServices\Base\IDomainServicesFactoryCar16.cs" />
+    <Compile Include="Interfaces\DomainServices\IAtoDomainService.cs" />
+    <Compile Include="Interfaces\DomainServices\IPESXPREDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IPREIMODomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IMunicipioDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IArquivoModeloDocxDomainService.cs" />
@@ -166,8 +170,10 @@
     <Compile Include="Interfaces\DomainServices\IPaisDomainService.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCar16.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryAto.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPESXPRE.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPREIMO.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />

@@ -129,18 +129,7 @@ namespace LibFunctions.Functions
             }
         }
 
-        /// <summary>
-        /// Verifica se já existe ato inicial
-        /// </summary>
-        /// <param name="filePath"></param>
-        /// <returns></returns>
-        public static bool ExisteAtoInicial(DtoMatriculaAto modelo)
-        {
-            //Busca no banco se existe algum ato para aquela Ato
-            int quantidadeAtos = 0;
-            //Se ato > 1, então existe o ato inicial
-            return quantidadeAtos > 0;
-        }
+        
 
         /// <summary>
         /// A função desvia uma certa quantidade de centimetros após a margem, além de atualizar as variáveis (numero da pagina e posição do cursor)

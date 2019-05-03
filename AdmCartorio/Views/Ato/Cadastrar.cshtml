@@ -48,20 +48,20 @@
             overflow-y: scroll;
         }
 
-            .document-editor__editable-container .ck-editor__editable {
-                /* Set the dimensions of the "page". */
-                width: 14.3cm;
-                min-height: 21cm;
-                /* Keep the "page" off the boundaries of the container. */
-                padding: 1cm 1cm 1cm;
-                border: 1px hsl( 0,0%,82.7% ) solid;
-                border-radius: var(--ck-border-radius);
-                background: white;
-                /* The "page" should cast a slight shadow (3D illusion). */
-                box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
-                /* Center the "page". */
-                margin: 0 auto;
-            }
+        .document-editor__editable-container .ck-editor__editable {
+            /* Set the dimensions of the "page". */
+            width: 14.3cm;
+            min-height: 21cm;
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 1cm 1cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
+            border-radius: var(--ck-border-radius);
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
+        }
 
         .document-editor .ck-content, .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
             font: 18px/1.8 "Times New Roman", Helvetica, Arial, sans-serif;
@@ -91,6 +91,25 @@
             font-family: Georgia, serif;
             margin-left: calc( 2 * var(--ck-spacing-large) );
             margin-right: calc( 2 * var(--ck-spacing-large) );
+        }
+
+        .text-area{
+            height:300px !important;
+            width: 14.3cm;            
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 1cm 1cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
+            border-radius: var(--ck-border-radius);
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 0.6cm;
+            /*padding-top: .5em;*/
+            /*margin-bottom: 0.4cm;*/
+            font-family: "Times New Roman";
         }
     </style>
 }
@@ -347,6 +366,7 @@
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <div>
+                                                            @Html.HiddenFor(model => model.ArquivoModelo.Id)
                                                             @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
                                                                 new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly" })
                                                         </div>
@@ -386,9 +406,10 @@
                                                 <h3><strong>Passo 4</strong> - Confirmação</h3>
                                                 <br />
                                                 <h1>Deseja confirmar o ato escrito?</h1>
-                                                <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
+                                                <span class="text-danger h3 text-align-center">Após confirmar, não sera possível mais modificar o ato</span>
                                                 <br />
-                                                @Html.TextAreaFor(model => model.Ato, new {@class = "form-control input-lg", @readonly = "readonly",@id="textAreaAto" })
+                                                <br />
+                                                @Html.TextAreaFor(model => model.Ato, new {@class = "form-control input-lg text-area", @readonly = "readonly",@id="textAreaAto" })
                                                 <br />
                                                 <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px; ">
                                                     <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
@@ -486,26 +507,50 @@
     //Ao clicar, abre a modal, faz a chamada ajax.GET e atualiza a tabela
     $('#btnModelo').on('click',GetModelos);
 
-    //Busca os dados do modelo cadastrado e popula o editor do word
-    function AtualizarModelo(){
-        var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
-        $.ajax({
-            url: '@Url.Action("UsaModeloParaAto", "Ato")',
-            type: 'POST',
-            data: {
-                ModeloNome
-            },
-            success: function (result) {
-                editor.setData(result);
-                $('#upload').removeAttr('disabled');
-                $('#ckEditorGrid').removeAttr('hidden');
-            },
-            error: function (error) {
-                console.log(error);
-                alert("Erro, tente novamente!");
-            }
-        });
+        function enviarDados(objeto) {
+            var linha = objeto.closest("tr");
+            console.log(linha);
+            var modeloNome = linha.querySelector(".nomeModelo");
+            var tipoAto = linha.querySelector(".descricaoTipoAto");
+            var idModelo = linha.querySelector(".idModelo");
 
+            $('#ArquivoModelo_Id').val(idModelo.innerText);
+            $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
+            AtualizarModelo(); //Função da rota Ato/Cadastrar
+            $('#BuscaModelo').modal('hide'); 
+        }
+
+        //Busca os dados do modelo cadastrado e popula o editor do word
+        function AtualizarModelo(){
+            var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
+            var Id = $('#ArquivoModelo_Id').val();
+            $.ajax({
+                url: '@Url.Action("UsaModeloParaAto", "Ato")',
+                type: 'POST',
+                data: {
+                    ModeloNome,
+                    Id
+                },
+                success: function (result) {
+                    editor.setData(result);
+                    $('#upload').removeAttr('disabled');
+                    $('#ckEditorGrid').removeAttr('hidden');
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert("Erro, tente novamente!");
+                }
+            });
+        }
+
+        function AtualizarIdTipoAto(idModelo) {
+            $.get('@Url.Action("GetIdAtoPeloModelo", "Ato")',
+                { idModelo },
+                function (data, status) {
+                    $('#IdTipoAto').val(data);
+                });
         }
 
     //Pega os Modelos e atualiza a tabela
@@ -559,7 +604,8 @@
     </script>
     <script>
         /****************************************************************
-         ************** DADOS DO IMOVEL *********************************/
+         ************** DADOS DO IMOVEL *********************************
+         ****************************************************************/
         $('#btnPesquisar').on('click', function () {
             var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
             var numeroMatricula = parseInt($('#txtMatricula').val());
@@ -572,11 +618,12 @@
                 { numeroPrenotacao: numPre, numeroMatricula: numMat },
                 function (data, status) {
                     resultado = JSON.parse(data);
-                    console.log(resultado);
                     enviarDadosMatricula(resultado);
-                    
+                    debugger;
+                    GetDadosPessoa(numPre);
                 });
         }
+
         function enviarDadosMatricula(resultado) {
             console.log(resultado);
             $('#PREIMO_MATRI').val(resultado.MATRI);
@@ -591,7 +638,32 @@
         }
 
         /***************************************************************
-         *************** FIM DADOS DO IMOVEL **************************/
+         *************** FIM DADOS DO IMOVEL ***************************
+         ***************************************************************/
+
+        /***************************************************************
+         *************** DADOS DA PESSOA     ***************************
+         ***************************************************************/
+        function GetDadosPessoa(numPre) {
+             $.get('@Url.Action("GetTipoPessoa", "Ato")',
+                { numeroPrenotacao: numPre },
+                function (data, status) {
+                    resultado = JSON.parse(data);
+                    console.log(resultado);
+                    debugger;
+                    enviarDadosPessoa(resultado);
+                    
+                });
+        }
+
+        function enviarDadosPessoa(resultado) {
+            $('#TipoPessoa').val(resultado.TipoPessoa);
+            $('#Pessoa_NOM').val(resultado.NOM);
+        }
+
+        /***************************************************************
+         *************** FIM DADOS DA PESSOA     ***********************
+         ***************************************************************/
 
         $(document).ready(function () {
             GetModelos();
@@ -672,6 +744,7 @@
                         if (index - 1 == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());  
                         }
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
                             'complete');

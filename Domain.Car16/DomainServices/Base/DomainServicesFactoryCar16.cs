@@ -100,6 +100,10 @@ namespace Domain.Car16.DomainServices.Base
                     {
                         domainService = new ArquivoModeloDocxDomainService(this._unitOfWorkCar16);
                     }
+                    if (typeof(T).Equals(typeof(Ato)))
+                    {
+                        domainService = new AtoDomainService(this._unitOfWorkCar16);
+                    }
                 }
 
                 if (domainService != null)
@@ -145,5 +149,9 @@ namespace Domain.Car16.DomainServices.Base
         {
             get { return GetDomainServiceInstance<ArquivoModeloDocx>() as IArquivoModeloDocxDomainService; }
         }
+
+        public IAtoDomainService AtoDomainService {
+            get { return GetDomainServiceInstance<Ato>() as IAtoDomainService; }
+        } 
     }
 }

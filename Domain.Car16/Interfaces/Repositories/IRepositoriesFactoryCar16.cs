@@ -33,6 +33,14 @@ namespace Domain.Car16.Interfaces.Repositories
         {
             get;
         }
+        IRepositoryPESXPRE RepositoryPESXPRE
+        {
+            get;
+        }
+        IRepositoryAto RepositoryAto
+        {
+            get;
+        }
 
     }
 
