@@ -168,7 +168,7 @@ namespace AdmCartorio.Controllers
         
         #endregion
 
-        #region | JsonResults |
+        #region | JsonResults e .GET |
         /// <summary>
         /// Função que retorna os arquivos de modelo (JSON)
         /// </summary>
@@ -233,9 +233,6 @@ namespace AdmCartorio.Controllers
 
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
-
-        #endregion
-
         public long GetIdAtoPeloModelo(long idModelo)
         {
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
@@ -243,6 +240,17 @@ namespace AdmCartorio.Controllers
                 return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
             }
         }
+        public bool ExisteAtoNoBanco(long numeroMatricula)
+        {
+            return false;
+            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+            {
+                return appService.ExisteAtoCadastrado(numeroMatricula);
+            }
+        }
+        #endregion
+
+
 
         /// <summary>
         /// Retorna o numero de Ato do modelo

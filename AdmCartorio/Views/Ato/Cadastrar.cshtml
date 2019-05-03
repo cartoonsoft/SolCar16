@@ -48,20 +48,20 @@
             overflow-y: scroll;
         }
 
-        .document-editor__editable-container .ck-editor__editable {
-            /* Set the dimensions of the "page". */
-            width: 14.3cm;
-            min-height: 21cm;
-            /* Keep the "page" off the boundaries of the container. */
-            padding: 1cm 1cm 1cm;
-            border: 1px hsl( 0,0%,82.7% ) solid;
-            border-radius: var(--ck-border-radius);
-            background: white;
-            /* The "page" should cast a slight shadow (3D illusion). */
-            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
-            /* Center the "page". */
-            margin: 0 auto;
-        }
+            .document-editor__editable-container .ck-editor__editable {
+                /* Set the dimensions of the "page". */
+                width: 14.3cm;
+                min-height: 21cm;
+                /* Keep the "page" off the boundaries of the container. */
+                padding: 1cm 1cm 1cm;
+                border: 1px hsl( 0,0%,82.7% ) solid;
+                border-radius: var(--ck-border-radius);
+                background: white;
+                /* The "page" should cast a slight shadow (3D illusion). */
+                box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+                /* Center the "page". */
+                margin: 0 auto;
+            }
 
         .document-editor .ck-content, .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
             font: 18px/1.8 "Times New Roman", Helvetica, Arial, sans-serif;
@@ -93,9 +93,9 @@
             margin-right: calc( 2 * var(--ck-spacing-large) );
         }
 
-        .text-area{
-            height:300px !important;
-            width: 14.3cm;            
+        .text-area {
+            height: 300px !important;
+            width: 14.3cm;
             /* Keep the "page" off the boundaries of the container. */
             padding: 1cm 1cm 1cm;
             border: 1px hsl( 0,0%,82.7% ) solid;
@@ -226,7 +226,7 @@
                                                     <div class="col-sm-2 margin-left-10">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.MATRI,
-                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly"})
+                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -255,7 +255,7 @@
                                                             @Html.TextBoxFor(model => model.PREIMO.APTO,
                                                                 new { @class = "form-control input-lg", @placeholder = "APTO", @readonly = "readonly" })
                                                         </div>
-                                                    </div>                                                    
+                                                    </div>
                                                     <div class="col-sm-1 col-lg-offset-1">
                                                         <label class="h5">Nome Edifício</label>
                                                     </div>
@@ -316,7 +316,7 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10">
                                                         @Html.TextBoxFor(model => model.TipoPessoa,
-                                                            new {@class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly" })
+                                                            new { @class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly" })
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome</label>
@@ -324,7 +324,7 @@
                                                     <div class="col-sm-3 margin-left-10">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                                                new {@class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -357,7 +357,7 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <hr style="border-bottom:1px solid lightgray; width:100%;"/>
+                                                <hr style="border-bottom:1px solid lightgray; width:100%;" />
                                                 <h1>Modelo Selecionado</h1>
                                                 <br />
                                                 <div class="row">
@@ -409,9 +409,17 @@
                                                 <span class="text-danger h3 text-align-center">Após confirmar, não sera possível mais modificar o ato</span>
                                                 <br />
                                                 <br />
-                                                @Html.TextAreaFor(model => model.Ato, new {@class = "form-control input-lg text-area", @readonly = "readonly",@id="textAreaAto" })
+                                                @Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
                                                 <br />
-                                                <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px; ">
+                                                <div class="row hidden" id="infoAdicional">
+                                                    <div class="col-sm-12">
+                                                        <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais</span>
+                                                        <br />
+                                                        <button class="btn btn-default btn-lg">Clique aqui</button>
+                                                    </div>
+
+                                                </div>
+                                                <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px;" disabled>
                                                     <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
                                                 </button>
                                             </div>
@@ -450,7 +458,7 @@
 
 </div>
 <!-- Modal Modelo-->
-<div class="modal fade" id="BuscaModelo" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="BuscarDadosAdicionais" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
     @{
         Html.RenderPartial("PartialDadosAdicionais");
     }
@@ -490,18 +498,35 @@
             });
     </script>
     <script>
-    //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
-    $('#upload').on('click', function () {
-        var texto = editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n');
-        $('#Ato').val(texto);
-    });
+        /*********************************************************************
+         *********************     MODELO        *****************************
+         ********************************************************************/
+        $('#btnModelo').on('click',GetModelos);
 
-    //Ao clicar, abre a modal, faz a chamada ajax.GET e atualiza a tabela
-    $('#btnModelo').on('click',GetModelos);
-
+        function GetModelos() {
+            $.get('@Url.Action("GetModelos", "Ato")', function (data, status) {
+                resultado = JSON.parse(data);
+                var tabela = $('#tabelaModelo tbody');
+                tabela.html("");
+                resultado.forEach(item => {
+                    tabela.append(`
+                    <tr role"row" id=${item.Id}>
+                        <td class="idModelo">${item.Id}</td>
+                        <td class="nomeModelo">${item.NomeModelo}</td>
+                        <td class="descricaoTipoAto">${item.DescricaoTipoAto}</td>
+                        <td>
+                            <button class="btn btn-success enviar" onclick="enviarDados(this)" type="button">
+                                Usar
+                            </button>
+                        </td>
+                    </tr>`);
+                });
+                AjustarTabelaModelo();
+            });
+        }
+        //---------------------------------------------------------------------
         function enviarDados(objeto) {
             var linha = objeto.closest("tr");
-            console.log(linha);
             var modeloNome = linha.querySelector(".nomeModelo");
             var tipoAto = linha.querySelector(".descricaoTipoAto");
             var idModelo = linha.querySelector(".idModelo");
@@ -509,11 +534,9 @@
             $('#ArquivoModelo_Id').val(idModelo.innerText);
             $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
-            AtualizarModelo(); //Função da rota Ato/Cadastrar
-            $('#BuscaModelo').modal('hide'); 
-        }
-
-        //Busca os dados do modelo cadastrado e popula o editor do word
+            AtualizarModelo(); 
+               
+        }  
         function AtualizarModelo(){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
             var Id = $('#ArquivoModelo_Id').val();
@@ -537,41 +560,7 @@
             });
         }
 
-        function AtualizarIdTipoAto(idModelo) {
-            $.get('@Url.Action("GetIdAtoPeloModelo", "Ato")',
-                { idModelo },
-                function (data, status) {
-                    $('#IdTipoAto').val(data);
-                });
-        }
-
-    //Pega os Modelos e atualiza a tabela
-    function GetModelos() {
-        $.get('@Url.Action("GetModelos", "Ato")', function (data, status) {
-            resultado = JSON.parse(data);
-            var tabela = $('#tabelaModelo tbody');
-            tabela.html("");
-            resultado.forEach(item => {
-                tabela.append(`
-                <tr role"row" id=${item.Id}>
-                    <td class="idModelo">${item.Id}</td>
-                    <td class="nomeModelo">${item.NomeModelo}</td>
-                    <td class="descricaoTipoAto">${item.DescricaoTipoAto}</td>
-                    <td>
-                        <button class="btn btn-success enviar" onclick="enviarDados(this)" type="button">
-                            Usar
-                        </button>
-                    </td>
-                </tr>`);
-            });
-            AjustarTabelaModelo();
-        });
-    }
-    </script>
-    <script>
-        /***************************************************************************************************
-         ****************************** AJUSTANDO A TABELA DA MODEL DE MODELOS *****************************
-         ***************************************************************************************************/
+        //---------------------------------------------------------------------
         function AjustarTabelaModelo() {
             $('#tabelaModelo').DataTable({
                 "searching": true,
@@ -593,6 +582,41 @@
                 ]
             });
         };
+        
+    </script>
+    <script>
+    //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
+    $('#upload').on('click', function () {
+        var texto = editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n');
+        $('#Ato').val(texto);
+    });
+
+    //Atualiza o ID do ato quando chega na parte final
+        function AtualizarIdTipoAto(idModelo) {
+            $.get('@Url.Action("GetIdAtoPeloModelo", "Ato")',
+                { idModelo },
+                function (data, status) {
+                    $('#IdTipoAto').val(data);
+                });
+        }    
+
+        function GetDadosAdicionais() {
+            var numeroMatricula = $('#PREIMO_MATRI').val();
+            $.get('@Url.Action("ExisteAtoNoBanco", "Ato")',
+                { numeroMatricula },
+                function (data, status) {
+                    var existeAto = data;
+                    console.log(existeAto);
+                    debugger;
+                    if (!existeAto) {
+                        $('#infoAdicional').removeClass('hidden');
+                    } else {
+                        $('#infoAdicional').addClass('hidden');
+                    }
+                    debugger;
+                });
+        }
+
     </script>
     <script>
         /****************************************************************
@@ -628,11 +652,9 @@
             $('#PREIMO_OUTROS').val(resultado.OUTROS);
             $('#PREIMO_LOTE').val(resultado.LOTE);
         }
-
-        /***************************************************************
-         *************** FIM DADOS DO IMOVEL ***************************
-         ***************************************************************/
-
+    </script>
+    <script>
+        
         /***************************************************************
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
@@ -644,19 +666,15 @@
                     console.log(resultado);
                     debugger;
                     enviarDadosPessoa(resultado);
-                    
+
                 });
         }
-
         function enviarDadosPessoa(resultado) {
             $('#TipoPessoa').val(resultado.TipoPessoa);
             $('#Pessoa_NOM').val(resultado.NOM);
         }
-
-        /***************************************************************
-         *************** FIM DADOS DA PESSOA     ***********************
-         ***************************************************************/
-
+    </script>
+    <script>
         $(document).ready(function () {
             GetModelos();
 
@@ -736,13 +754,15 @@
                         if (index - 1 == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());  
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            GetDadosAdicionais();
+
                         }
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
                             'complete');
                         $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
                             .html('<i class="fa fa-check"></i>');
-                        
+
                     }
                 }
             });
