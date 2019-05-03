@@ -9,15 +9,15 @@ namespace AdmCartorio.ViewModels
 {
     public class ArquivoModeloDocxViewModel
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
         [Display(Name = "Nome do Modelo")]
         public string NomeModelo { get; set; }
 
-        [Required(ErrorMessage = "Selecione algum tipo")]
+        [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
         [Display(Name = "Tipo de ato")]
-        public int IdTipoAto { get; set; }
+        public long IdTipoAto { get; set; }
 
         [Display(Name = "Descrição")]
         public string DescricaoTipoAto { get; set; }

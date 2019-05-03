@@ -9,7 +9,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryArquivoModeloDocx : IRepositoryBaseRead<ArquivoModeloDocx>
+    public interface IRepositoryArquivoModeloDocx : IRepositoryBaseReadWrite<ArquivoModeloDocx>
     {
         //
         IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);

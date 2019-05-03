@@ -52,8 +52,6 @@
         Html.RenderPartialIf("_Tiles", Settings.EnableTiles);
     }
 
-    <script src="~/Scripts/cartoonsoft/_layout.js"></script>
-
     @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
 
     <div id="frmProgreessBarModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">

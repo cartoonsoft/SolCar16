@@ -89,7 +89,7 @@ namespace AdmCartorio.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    LogArquivoModeloDocxViewModel log = new LogArquivoModeloDocxViewModel();
+                    LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
 
                     for (int i = 0; i < arquivoModel.Files.Count; i++)
                     {
@@ -102,13 +102,12 @@ namespace AdmCartorio.Controllers
                         stream.CopyTo(memoryStream);
                         arquivoModel.ArquivoByte = memoryStream.ToArray();
 
-                        log.IdUsuario = UsuarioAtual.Id;
-                        log.UsuarioSistOp = HttpContext.User.Identity.Name;
-                        log.IP = arquivoModel.IpLocal;
-                        arquivoModel.LogArquivoModeloDocxViewModel = log;
+                        logArquivo.IdUsuario = UsuarioAtual.Id;
+                        logArquivo.UsuarioSistOp = HttpContext.User.Identity.Name;
+                        logArquivo.IP = arquivoModel.IpLocal;
                     }
 
-                    using (UnitOfWorkDataBaseCar16 unitOfWork = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseisNew))
+                    using (UnitOfWorkDataBaseCar16New  unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
                     {
                         using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                         {
@@ -120,7 +119,8 @@ namespace AdmCartorio.Controllers
                                 IdTipoAto = arquivoModel.IdTipoAto,
                                 Arquivo = arquivoModel.Arquivo,
                                 Files = arquivoModel.Files,
-                                NomeModelo = arquivoModel.NomeModelo
+                                NomeModelo = arquivoModel.NomeModelo,
+                                LogArquivo = logArquivo
                             }, UsuarioAtual.Id);
                         }
                         unitOfWork.Commit();
@@ -132,18 +132,24 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 success = false;
-                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + " -> " + ex.InnerException.Message + "]";
-                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message + " -> " + ex.InnerException.Message);
+                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + "]" ;
+                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
 
-            var resultado = new
-            {
-                success = success,
-                mensagem = msg
-            };
+            //var resultado = new
+            //{
+            //    success = success,
+            //    mensagem = msg
+            //};
 
-            return Json(resultado, JsonRequestBehavior.AllowGet);
+            //return Json(resultado, JsonRequestBehavior.AllowGet);
+
+            ViewBag.success = success;
+            ViewBag.msg = msg;
+
+            return View(nameof(Cadastrar));
+
         }
         #endregion
 

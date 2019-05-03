@@ -41,12 +41,13 @@ namespace AppServices.Car16.AppServices
 
                 this.DomainServices.GenericDomainService<ArquivoModeloDocx>().Add(arquivoModelo);
 
+
                 // Registro de Log                
                 LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx();
                 logArquivoModeloDocx.IdArquivoModeloDocx = arquivoModelo.Id ?? 0;
                 logArquivoModeloDocx.IdUsuario = IdSuario;
                 logArquivoModeloDocx.DataHora = DateTime.Now;
-                logArquivoModeloDocx.IP = dtoArq.LogArquivoModeloDocxDto.IP;
+                logArquivoModeloDocx.IP = dtoArq.LogArquivo.IP;
                 logArquivoModeloDocx.TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload;
 
                 var teste = this.DomainServices.GenericDomainService<LogArquivoModeloDocx>();
