@@ -161,15 +161,11 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | VIEWS PARCIAIS |
-        public PartialViewResult BuscaAto()
+        public PartialViewResult PartialDadosAdicionais()
         {
             return PartialView();
         }
-        public PartialViewResult BuscaModelo(int? idAto)
-        {
-            if (idAto.HasValue) { return PartialView(); }
-            return PartialView(nameof(BuscaAto));
-        }
+        
         #endregion
 
         #region | JsonResults |
