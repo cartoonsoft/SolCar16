@@ -51,6 +51,7 @@ namespace Domain.Car16.Entities.Car16New
         public bool Bloqueado { get; set; }
         [Column("OBSERCACAO")] // VARCHAR2(255),
         public string Observacao { get; set; }
-
+        [Column("NUM_SEQ")] //INTEGER
+        public long NumSequencia { get; set; }
     }
 }

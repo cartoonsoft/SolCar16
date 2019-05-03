@@ -97,9 +97,17 @@ namespace AdmCartorio.Controllers
 
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    long? numSequenciaAto = null;
+                    using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                    {
+                        numSequenciaAto = appService.GetNumSequenciaAto(modelo.PREIMO.MATRI);
+                        numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                    }
+
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                     {
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath);
+                        
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
                     }
                     if (respEscreverWord)
                     {
