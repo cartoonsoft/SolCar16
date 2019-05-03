@@ -17,6 +17,20 @@ namespace AppServices.Car16.AppServices
         public AppServiceAto(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
         }
+        /// <summary>
+        /// Verifica se já existe ato cadastrado
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
+        public bool ExisteAtoCadastrado(Ato modelo)
+        {
+            //Busca no banco se existe algum ato para aquela Ato
+            int quantidadeAtos = this.DomainServices.GenericDomainService<Ato>()
+                .GetWhere(m => m.NumMatricula == modelo.NumMatricula)
+                .Count();
+            //Se ato > 1, então existe o ato inicial
+            return quantidadeAtos > 0;
+        }
 
     }
 }
