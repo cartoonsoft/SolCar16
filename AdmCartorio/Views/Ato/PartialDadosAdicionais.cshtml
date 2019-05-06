@@ -37,7 +37,8 @@
                     </div>
                     <div class="col-sm-4">
                         <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
-                               pattern="^[1-9]{1}[0-9]{0,}(\.\d{1,2})?$" required data-pattern-mismatch="Translate('Preencha a quantidade corretamente')"/>
+                               pattern="^[1-9]{1}[0-9]{0,}(\.\d{1,2})?$" required />
+                        <label id="centimetrosValidation" hidden>Preencha a quantidade corretamente</label>
                     </div>
                 </div>
                 <br />
@@ -46,7 +47,7 @@
                         <label>N.° Sequencia Ato (Ex.: AV-{n}/...)</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia" 
+                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia"
                                required min="1" />
                     </div>
                 </div>
@@ -62,11 +63,25 @@
     </div>
 </div>
 <script>
+    var centimetrosValidos = true;
+
+    $('#qtdeCentimetros').keyup(function () {
+        var regex = new RegExp("^[0-9]{0,}(\,\d{1,2})?$", "g");
+        var texto = $('#qtdeCentimetros').val();
+        debugger;
+        if ($('#qtdeCentimetros').val().match(regex) != texto) {
+            $('#centimetrosValidation').removeAttr('hidden')
+            centimetrosValidos = false;
+        } else {
+            $('#centimetrosValidation').attr('hidden', 'hidden');
+            centimetrosValidos = true;
+        }
+    });
+
     $('#btnSalvarInformacoes').on('click', function () {
         var enviar = true;
-
-        if (!$("#numeSequencia").valid() || !$("#qtdeCentimetros").valid() || !$("#numFicha").valid()) {
-                enviar = false;
+        if (!$("#numeSequencia").valid() || !$("#qtdeCentimetros").valid() || !centimetrosValidos || !$("#numFicha").valid()) {
+            enviar = false;
         }
         //Envia os dados
         if (enviar == true) {
@@ -92,6 +107,6 @@
         $('#IrParaVerso').val("");
         $('#QuantidadeCentimetrosDaBorda').val("");
         $('#NumSequencia').val("");
-        $('#btnConfirmar').attr('disabled');
+        $('#btnConfirmar').attr('disabled', 'disabled');
     }
 </script>
