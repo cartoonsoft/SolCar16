@@ -11,7 +11,7 @@ namespace AppServices.Car16.Interfaces
 {
     public interface IAppServiceAto : IAppServiceCar16<DtoAto,Ato>
     {
-        bool ExisteAtoCadastrado(Ato modelo);
+        bool ExisteAtoCadastrado(long numMatricula);
         long? GetNumSequenciaAto(long numMatricula);
     }
 }

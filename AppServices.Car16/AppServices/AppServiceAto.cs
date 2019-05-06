@@ -22,11 +22,11 @@ namespace AppServices.Car16.AppServices
         /// </summary>
         /// <param name="filePath"></param>
         /// <returns></returns>
-        public bool ExisteAtoCadastrado(Ato modelo)
+        public bool ExisteAtoCadastrado(long numeroMatricula)
         {
             //Busca no banco se existe algum ato para aquela Ato
             int quantidadeAtos = this.DomainServices.GenericDomainService<Ato>()
-                .GetWhere(m => m.NumMatricula == modelo.NumMatricula)
+                .GetWhere(m => m.NumMatricula == numeroMatricula.ToString())
                 .Count();
             //Se ato > 1, então existe o ato inicial
             return quantidadeAtos > 0;

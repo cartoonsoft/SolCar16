@@ -9,14 +9,15 @@ namespace AdmCartorio.ViewModels
 {
     public class CadastroDeAtoViewModel
     {
-        public DtoPREIMO PREIMO { get; set; }
-        public DtoPESSOA Pessoa { get; set; }
-        public DtoArquivoModeloSimplificadoDocxList ArquivoModelo { get; set; }
+        public PREIMOViewModel PREIMO { get; set; }
+        public PESSOAViewModel Pessoa { get; set; }
+        public ArquivoModeloSimplificadoViewModel ArquivoModelo { get; set; }
         public string TipoPessoa { get; set; }
         public long IdTipoAto { get; set; }
         public string Ato { get; set; }
         public int IrParaFicha { get; set; }
         public bool IrParaVerso { get; set; }
         public float QuantidadeCentimetrosDaBorda { get; set; }
+        public int NumSequencia { get; set; }
     }
 }

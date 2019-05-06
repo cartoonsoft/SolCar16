@@ -204,6 +204,8 @@
     <Compile Include="Models\Identity\Entities\ApplicationUser.cs" />
     <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
+    <Compile Include="ViewModels\PESSOAViewModel.cs" />
+    <Compile Include="ViewModels\PREIMOViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ArquivoModeloDocxListViewModel.cs" />
@@ -1044,10 +1046,9 @@
     <Content Include="Views\Arquivos\Cadastrar.cshtml" />
     <Content Include="Views\Arquivos\Index.cshtml" />
     <Content Include="Views\Arquivos\Editar.cshtml" />
-    <Content Include="Views\Ato\BuscaMatricula.cshtml" />
-    <Content Include="Views\Ato\BuscaModelo.cshtml" />
     <Content Include="Views\Ato\Index.cshtml" />
     <Content Include="Views\Ato\Cadastrar.cshtml" />
+    <Content Include="Views\Ato\PartialDadosAdicionais.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

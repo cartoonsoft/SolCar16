@@ -98,10 +98,18 @@ namespace AdmCartorio.Controllers
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
-                    using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+
+                    if (modelo.NumSequencia == 0)
                     {
-                        numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                        numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                        {
+                            numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                            numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                        }
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
                     }
 
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
@@ -161,18 +169,14 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | VIEWS PARCIAIS |
-        public PartialViewResult BuscaAto()
+        public PartialViewResult PartialDadosAdicionais()
         {
             return PartialView();
         }
-        public PartialViewResult BuscaModelo(int? idAto)
-        {
-            if (idAto.HasValue) { return PartialView(); }
-            return PartialView(nameof(BuscaAto));
-        }
+        
         #endregion
 
-        #region | JsonResults |
+        #region | JsonResults e .GET |
         /// <summary>
         /// Função que retorna os arquivos de modelo (JSON)
         /// </summary>
@@ -238,9 +242,6 @@ namespace AdmCartorio.Controllers
 
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
-
-        #endregion
-
         public long GetIdAtoPeloModelo(long idModelo)
         {
             using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
@@ -248,6 +249,17 @@ namespace AdmCartorio.Controllers
                 return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
             }
         }
+        public bool ExisteAtoNoBanco(long numeroMatricula)
+        {
+            return false;
+            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+            {
+                return appService.ExisteAtoCadastrado(numeroMatricula);
+            }
+        }
+        #endregion
+
+
 
         /// <summary>
         /// Retorna o numero de Ato do modelo
