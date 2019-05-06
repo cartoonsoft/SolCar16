@@ -111,6 +111,7 @@
             /*margin-bottom: 0.4cm;*/
             font-family: "Times New Roman";
         }
+        .linkModal:hover{cursor:pointer}
     </style>
 }
 
@@ -413,13 +414,17 @@
                                                 <br />
                                                 <div class="row hidden" id="infoAdicional">
                                                     <div class="col-sm-12">
-                                                        <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais</span>
+                                                        <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
-                                                        <button class="btn btn-default btn-lg">Clique aqui</button>
+                                                        <br />  
+                                                        @Html.HiddenFor(model => model.IrParaFicha)
+                                                        @Html.HiddenFor(model => model.IrParaVerso)
+                                                        @Html.HiddenFor(model => model.QuantidadeCentimetrosDaBorda)
+                                                        @Html.HiddenFor(model => model.NumSequencia)
                                                     </div>
 
                                                 </div>
-                                                <button class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px;" disabled>
+                                                <button id="btnConfirmar" class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px;" disabled>
                                                     <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
                                                 </button>
                                             </div>
@@ -457,15 +462,15 @@
     </section>
 
 </div>
+@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
+
 <!-- Modal Modelo-->
-<div class="modal fade" id="BuscarDadosAdicionais" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+<div class="modal fade" id="PartialDadosAdicionais" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
     @{
         Html.RenderPartial("PartialDadosAdicionais");
     }
 </div>
 <!-- Fim Modal Modelo-->
-@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
-
 @section pagespecific{
 
     <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
@@ -534,9 +539,9 @@
             $('#ArquivoModelo_Id').val(idModelo.innerText);
             $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
-            AtualizarModelo(); 
-               
-        }  
+            AtualizarModelo();
+
+        }
         function AtualizarModelo(){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
             var Id = $('#ArquivoModelo_Id').val();
@@ -582,7 +587,7 @@
                 ]
             });
         };
-        
+
     </script>
     <script>
     //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
@@ -598,7 +603,7 @@
                 function (data, status) {
                     $('#IdTipoAto').val(data);
                 });
-        }    
+        }
 
         function GetDadosAdicionais() {
             var numeroMatricula = $('#PREIMO_MATRI').val();
@@ -608,10 +613,12 @@
                     var existeAto = data;
                     console.log(existeAto);
                     debugger;
-                    if (!existeAto) {
+                    if (existeAto) {
                         $('#infoAdicional').removeClass('hidden');
+                        $('#btnConfirmar').attr('disabled');
                     } else {
                         $('#infoAdicional').addClass('hidden');
+                        $('#btnConfirmar').removeAttr('disabled');
                     }
                     debugger;
                 });
@@ -654,7 +661,7 @@
         }
     </script>
     <script>
-        
+
         /***************************************************************
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/

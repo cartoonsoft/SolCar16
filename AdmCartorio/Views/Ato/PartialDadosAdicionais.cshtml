@@ -1,28 +1,98 @@
-﻿<div class="row">
-    <div class="col-sm-1">
-        <label>N.° da Ficha</label>
-    </div>
-    <div class="col-sm-3">
-        <input id="numFicha" name="numFicha" type="text" />
-    </div>
-    <div class="col-sm-1">
-        <label>No verso?</label>
-    </div>
-    <div class="col-sm-1">
-        <input type="checkbox" id="ckVerso" name="ckVerso" />
+﻿<!--O RENDER DE STYLE ESPECIFICOS JA EXISTE-->
+<style>
+    .input-modal:invalid {
+        border-color: red;
+    }
+
+    .input-modal:valid {
+        border-color: green;
+    }
+</style>
+
+<div class="modal-dialog" role="dialog">
+    <div class="modal-content">
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-6 text-align-right padding-top-10">
+                        <label class="">N.° da Ficha</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control input-modal" id="numFicha" name="numFicha" type="number" placeholder="N.° da Ficha" required title="Preencha o N.° da Ficha" />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 text-align-right padding-top-10">
+                        <label>No verso?</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <input class="form-control input-modal" type="checkbox" id="ckVerso" name="ckVerso" checked />
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 text-align-right padding-top-10">
+                        <label>Quantidade centimetros da borda</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
+                               pattern="^[0-9]+(\.\d{1,2})?$" required min="0" max="30"/>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-sm-6 text-align-right padding-top-10">
+                        <label>N.° Sequencia Ato (Ex.: AV-{n}/...)</label>
+                    </div>
+                    <div class="col-sm-4">
+                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia" required 
+                               />
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="limparInfoAdicionais()">Fechar</button>
+            <button id="btnSalvarInformacoes"
+                    type="button" class="btn btn-primary">
+                Salvar informações
+            </button>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-2">
-        <label>Quantidade centimetros da borda</label>
-    </div>
-    <div class="col-sm-3">
-        <input id="qtdeCentimetros" name="qtdeCentimetros" type="text" />
-    </div>
-    <div class="col-sm-2">
-        <label>N.° Sequencia Ato (Ex.: AV-{n}/...)</label>
-    </div>
-    <div class="col-sm-1">
-        <input id="numSequencia" name="numSequencia" type="text" />
-    </div>
-</div>
+<script>
+    $('#btnSalvarInformacoes').on('click', function () {
+        var enviar = true;
+
+        if (!$("#numeSequencia").valid() || !$("#qtdeCentimetros").valid() || !$("#numFicha").valid()) {
+                enviar = false;
+           
+        }
+        //Envia os dados
+        if (enviar == true) {
+            $('#divMensagem').attr('hidden');
+            enviarInfoAdicionais();
+            $('#PartialDadosAdicionais').modal('hide');
+        }
+        else {
+            $('#divMensagem').removeAttr('hidden');
+            limparInfoAdicionais();
+        }
+    });
+
+    function enviarInfoAdicionais() {
+        $('#IrParaFicha').val($("#numFicha").valid());
+        $('#IrParaVerso').val($("#ckVerso").valid());
+        $('#QuantidadeCentimetrosDaBorda').val($("#qtdeCentimetros").valid());
+        $('#NumSequencia').val($("#numeSequencia").valid());
+        $('#btnConfirmar').removeAttr('disabled');
+    }
+    function limparInfoAdicionais() {
+        $('#IrParaFicha').val("");
+        $('#IrParaVerso').val("");
+        $('#QuantidadeCentimetrosDaBorda').val("");
+        $('#NumSequencia').val("");
+        $('#btnConfirmar').attr('disabled');
+    }
+</script>

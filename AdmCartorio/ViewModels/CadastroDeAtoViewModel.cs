@@ -18,5 +18,6 @@ namespace AdmCartorio.ViewModels
         public int IrParaFicha { get; set; }
         public bool IrParaVerso { get; set; }
         public float QuantidadeCentimetrosDaBorda { get; set; }
+        public int NumSequencia { get; set; }
     }
 }
