@@ -12,15 +12,14 @@ namespace Domain.Car16.Interfaces.Repositories
         IRepositoryPais RepositoryPais {
             get;
         }
+        IRepositoryUf RepositoryUf
+        {
+            get;
+        }
         IRepositoryMunicipio RepositoryMunicipio
         {
             get;
         }
-        IRepositoryUf RepositoryUf {
-            get;
-        }
-
-
         IRepositoryPessoa RepositoryPessoa
         {
             get;
@@ -29,19 +28,14 @@ namespace Domain.Car16.Interfaces.Repositories
         {
             get;
         }
-        IRepositoryPREIMO RepositoryPREIMO
-        {
-            get;
-        }
-        IRepositoryPESXPRE RepositoryPESXPRE
-        {
-            get;
-        }
         IRepositoryAto RepositoryAto
         {
             get;
         }
 
+        IRepositoryLogArquivoModeloDocx RepositoryLogArquivoModeloDocx
+        {
+            get;
+        }
     }
-
 }

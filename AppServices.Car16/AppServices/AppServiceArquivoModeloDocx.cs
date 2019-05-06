@@ -4,24 +4,28 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.enums;
 using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Core.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using Domain.Car16.Entities.Diversas;
-using AutoMapper;
+using Domain.Car16.Interfaces.DomainServices;
+using Domain.Car16.DomainServices;
 
 namespace AppServices.Car16.AppServices
 {
     public class AppServiceArquivoModeloDocx : AppServiceCar16<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
     {
+        IArquivoModeloDocxDomainService _arquivoModeloDocxDomainService;
+
         public AppServiceArquivoModeloDocx(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
             //
+            _arquivoModeloDocxDomainService = new ArquivoModeloDocxDomainService(unitOfWorkCar16);
         }
 
         public void SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdSuario)
@@ -39,9 +43,6 @@ namespace AppServices.Car16.AppServices
                     NomeModelo = dtoArq.NomeModelo,
                 };
 
-                this.DomainServices.GenericDomainService<ArquivoModeloDocx>().Add(arquivoModelo);
-
-
                 // Registro de Log                
                 LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx();
                 logArquivoModeloDocx.IdArquivoModeloDocx = arquivoModelo.Id ?? 0;
@@ -50,13 +51,11 @@ namespace AppServices.Car16.AppServices
                 logArquivoModeloDocx.IP = dtoArq.LogArquivo.IP;
                 logArquivoModeloDocx.TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload;
 
-                var teste = this.DomainServices.GenericDomainService<LogArquivoModeloDocx>();
-
-                teste.Add(logArquivoModeloDocx);
+                _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdSuario);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
         }

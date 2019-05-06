@@ -126,7 +126,7 @@ namespace AdmCartorio.Controllers
                             NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
-                            IdUsuarioAlteracao = 1,
+                            IdUsuarioAlteracao = this.UsuarioAtual.Id,
                             IdContaAcessoSistema = 1
                         };
 
@@ -190,9 +190,10 @@ namespace AdmCartorio.Controllers
         }
         public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
         {
+            //var PREIMO =  this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<> appService.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
+
             using (var appService = new AppServicePREIMO(this.UnitOfWorkDataBaseCar16))
             {
-                var PREIMO = appService.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
                 var jsonResult = JsonConvert.SerializeObject(PREIMO);
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
             }
@@ -258,7 +259,6 @@ namespace AdmCartorio.Controllers
             return modelo.MatriculaID;
         }
 
-
         /// <summary>
         /// Deixa o texto transparente do arquivo
         /// </summary>
@@ -297,8 +297,6 @@ namespace AdmCartorio.Controllers
 
             //var arquivo = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocx>().GetById(Id);
             //System.IO.File.WriteAllBytes(ModeloNome + ".docx", arquivo.BytesArray);
-
-
 
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{ModeloNome}.docx");
             try

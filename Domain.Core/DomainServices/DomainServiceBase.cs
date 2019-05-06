@@ -146,5 +146,9 @@ namespace Domain.Core.DomainServices
             return pagedTmp;
         }
 
+        public long GetNextValFromOracleSequence(string SequenceName)
+        {
+            return _unitOfWork.Repositories.GenericRepository<TEntity>().GetNextValFromOracleSequence(SequenceName);
+        }
     }
 }

@@ -68,8 +68,6 @@ namespace Infra.Data.Car16.Repositories.Base
         }
         #endregion
 
-        
-
         protected string AddWhereClause(string sqlWhere, bool firstWhere)
         {
             string whereTmp = ""; 
@@ -145,7 +143,7 @@ namespace Infra.Data.Car16.Repositories.Base
                 .AsEnumerable();
         }
 
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
+        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             if (ascending)
             {
@@ -159,11 +157,11 @@ namespace Infra.Data.Car16.Repositories.Base
                 return _dbContextSet
                     .Where(expression)
                     .OrderByDescending(orderByExpression)
-                   .AsEnumerable();
+                    .AsEnumerable();
             }
         }
 
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
+        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             if (ascending)
             {
@@ -179,7 +177,7 @@ namespace Infra.Data.Car16.Repositories.Base
             }
         }
 
-        public Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending)
+        public Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true)
         {
             //todo: ronaldo fazer
             Paged<TEntity> paged = new Paged<TEntity>();
@@ -235,7 +233,7 @@ namespace Infra.Data.Car16.Repositories.Base
             return paged;
         }
 
-        public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending)
+        public Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             Paged<TEntity> paged = new Paged<TEntity>();
             if ((pageIndex > 0 ) && (pageCount > 0))
@@ -271,28 +269,31 @@ namespace Infra.Data.Car16.Repositories.Base
         /// <summary>
         /// Busca o NextVal de uma sequence
         /// </summary>
-        /// <param name="SeqeunceName"></param>
+        /// <param name="SequenceName"></param>
         /// <returns></returns>
-        public long GetSequenceNextVal(string SequenceName, OracleConnection conn)
+        public long GetNextValFromOracleSequence(string SequenceName)
         {
-            long SeqTmp= 0;
+            long SeqTmp = 0;
 
-            using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), (OracleConnection)this.Context.Database.Connection))
+            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
             {
-                command.CommandType = System.Data.CommandType.Text;
-                command.BindByName = true;
-
-                using (OracleDataReader row = command.ExecuteReader())
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
                 {
-                    while (row.Read())
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.BindByName = true;
+                    using (OracleDataReader row = command.ExecuteReader())
                     {
-                        SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                        while (row.Read())
+                        {
+                            SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                        }
                     }
                 }
+                conn.Close();
             }
 
             return SeqTmp;
         }
-
     }
 }

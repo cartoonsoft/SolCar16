@@ -144,22 +144,32 @@ namespace AppServices.Car16.AppServices.Base
             return listDto;
         }
 
-        public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
-        {
-            //Paged<TDtoEntityModel> paged = new Paged<TDtoEntityModel>();
-            //this.DomainService<TEntity>().GetWhereOrderByPaged<TEntity>
-            //IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
-            //IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
-            //return listDto;
-            throw new NotImplementedException();
-        }
-
         public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true)
         {
-            //IEnumerable<TEntity> listEntities = this.DomainService<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
-            //IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
-            //return listDto;
-            throw new NotImplementedException();
+            Paged<TDtoEntityModel> dtoPaged = new Paged<TDtoEntityModel>();
+            Paged<TEntity> entityPaged = new Paged<TEntity>();
+            entityPaged = this.DomainServices.GenericDomainService<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, expression, fieldSort, ascending);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(entityPaged.listEntities);
+
+            dtoPaged.CurrentPage = entityPaged.CurrentPage;
+            dtoPaged.listEntities = listDto;
+            dtoPaged.TotalPages = entityPaged.TotalPages;
+
+            return dtoPaged;
+        }
+
+        public virtual Paged<TDtoEntityModel> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        {
+            Paged<TDtoEntityModel> dtoPaged = new Paged<TDtoEntityModel>();
+            Paged<TEntity> entityPaged = new Paged<TEntity>();
+            entityPaged = this.DomainServices.GenericDomainService<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending);
+            IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(entityPaged.listEntities);
+
+            dtoPaged.CurrentPage = entityPaged.CurrentPage;
+            dtoPaged.listEntities = listDto;
+            dtoPaged.TotalPages = entityPaged.TotalPages;
+
+            return dtoPaged;
         }
 
     }

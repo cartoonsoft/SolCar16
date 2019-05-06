@@ -58,14 +58,11 @@
     <Compile Include="DomainServices\PessoaDomainService.cs" />
     <Compile Include="DomainServices\PaisDomainService.cs" />
     <Compile Include="DomainServices\MunicipioDomainService.cs" />
-    <Compile Include="DomainServices\PESXPREDomainService.cs" />
-    <Compile Include="DomainServices\PREIMODomainService.cs" />
     <Compile Include="DomainServices\UfDomainService.cs" />
     <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\Ato.cs" />
     <Compile Include="Entities\Car16New\CamposArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\LogArquivoModeloDocx.cs" />
-    <Compile Include="Entities\Car16New\MatriculaAto.cs" />
     <Compile Include="Entities\Car16New\Municipio.cs" />
     <Compile Include="Entities\Car16New\Pais.cs" />
     <Compile Include="Entities\Car16New\Pessoa.cs" />
@@ -171,10 +168,9 @@
     <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCar16.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryAto.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryPESXPRE.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryPREIMO.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCar16.cs" />

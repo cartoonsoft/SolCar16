@@ -7,7 +7,7 @@ namespace Domain.Car16.Entities.Car16
     using System.Data.Entity.Spatial;
 
     [Table("DEZESSEIS.PREIMO")]
-    public partial class PREIMO
+    public class PREIMO
     {
         [Key]
         [Column(Order = 0)]

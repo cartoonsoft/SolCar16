@@ -88,8 +88,8 @@ namespace Infra.Data.Car16.Repositories
                                 Id = row.GetOracleDecimal(row.GetOrdinal("ID_MODELO_DOC")).ToInt64(), // DOC.ID_MODELO_DOC
                                 IdTipoAto = row.IsDBNull(row.GetOrdinal("ID_TP_ATO")) ? default(long?) : row.GetOracleDecimal(row.GetOrdinal("ID_TP_ATO")).ToInt64(), //DOC.ID_TP_ATO,
                                 IdContaAcessoSistema = row.GetOracleDecimal(row.GetOrdinal("ID_CTA_ACESSO_SIST")).ToInt64(), // DOC.ID_CTA_ACESSO_SIST,
-                                IdUsuarioCadastro = row.GetOracleDecimal(row.GetOrdinal("ID_USR_CAD")).ToInt64(), //DOC.ID_USR_CAD,
-                                IdUsuarioAlteracao = row.IsDBNull(row.GetOrdinal("ID_USR_ALTER")) ? default(long?) : row.GetOracleDecimal(row.GetOrdinal("ID_USR_ALTER")).ToInt64(),  //DOC.ID_USR_ALTER
+                                IdUsuarioCadastro = row.GetOracleString(row.GetOrdinal("ID_USR_CAD")).ToString(), //DOC.ID_USR_CAD,
+                                IdUsuarioAlteracao = row.GetOracleString(row.GetOrdinal("ID_USR_ALTER")).ToString(),  //DOC.ID_USR_ALTER
                                 DataCadastro = row.GetOracleDate(row.GetOrdinal("DT_CAD")).Value, //DOC.DT_CAD,
                                 DataAlteracao = (DateTime?)(row.IsDBNull(row.GetOrdinal("DT_ALTER")) ? null : row.GetValue(row.GetOrdinal("DT_ALTER"))), //DT_ALTER
                                 NomeModelo = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,

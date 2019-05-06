@@ -7,18 +7,18 @@ namespace AppBootStrapMin.ViewModels
     using System.Data.Entity.Spatial;
 
     [Table("DEZESSEIS_NEW.TB_MODELO_DOC")]
-    public partial class TB_MODELO_DOC
+    public class TB_MODELO_DOC
     {
         [Key]
-        public decimal ID_MODELO_DOC { get; set; }
+        public long ID_MODELO_DOC { get; set; }
 
-        public decimal? ID_TP_ATO { get; set; }
+        public long? ID_TP_ATO { get; set; }
 
-        public decimal ID_CTA_ACESSO_SIST { get; set; }
+        public long ID_CTA_ACESSO_SIST { get; set; }
 
-        public decimal ID_USR_CAD { get; set; }
+        public string ID_USR_CAD { get; set; }
 
-        public decimal? ID_USR_ALTER { get; set; }
+        public string ID_USR_ALTER { get; set; }
 
         public DateTime DT_CAD { get; set; }
 

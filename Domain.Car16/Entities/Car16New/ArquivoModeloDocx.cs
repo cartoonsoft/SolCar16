@@ -23,10 +23,10 @@ namespace Domain.Car16.Entities.Car16New
         public long IdContaAcessoSistema { get; set; }
 
         [Column("ID_USR_CAD")]
-        public long IdUsuarioCadastro { get; set; }
+        public string IdUsuarioCadastro { get; set; }
 
         [Column("ID_USR_ALTER")]
-        public long? IdUsuarioAlteracao { get; set; }
+        public string IdUsuarioAlteracao { get; set; }
 
         [Column("DT_CAD")]
         public DateTime DataCadastro { get; set; }

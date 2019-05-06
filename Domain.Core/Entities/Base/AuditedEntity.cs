@@ -22,10 +22,10 @@ namespace Domain.Core.Entities.Base
     public abstract class AuditedEntity : SynchronizableEntity
     {
         [Column("ID_USR_CAD")]
-        public long IdUsuarioCadastrou { get; set; }
+        public string IdUsuarioCadastrou { get; set; }
 
         [Column("ID_USR_ALTER")]
-        public long? IdUsuarioAlterou { get; set; }
+        public string IdUsuarioAlterou { get; set; }
 
         [Column("DT_CAD")]
         public DateTime DataCadastro { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Domain.Car16.Entities;
+using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.Repositories;
 using Domain.Core.Interfaces.Data;
 using Infra.Data.Car16.Context;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryLogArquivoModeloDocx : RepositoryBase<LogArquivoModeloDocx>, IRepositoryLogArquivoModeloDocx
+    public class RepositoryLogArquivoModeloDocx : RepositoryBaseReadWrite<LogArquivoModeloDocx>, IRepositoryLogArquivoModeloDocx
     {
         private readonly ContextMainCar16 _contexRep;
 

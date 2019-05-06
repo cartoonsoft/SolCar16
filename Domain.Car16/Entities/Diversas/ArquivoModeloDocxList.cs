@@ -12,19 +12,19 @@ namespace Domain.Car16.Entities.Diversas
     {
         [Key]
         [Column("ID_MODELO_DOC")]
-        public decimal? Id { get; set; }
+        public long? Id { get; set; }
 
         [Column("ID_TP_ATO")]
-        public decimal? IdTipoAto { get; set; }
+        public long? IdTipoAto { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")]
-        public decimal IdContaAcessoSistema { get; set; }
+        public long IdContaAcessoSistema { get; set; }
 
         [Column("ID_USR_CAD")]
-        public decimal IdUsuarioCadastro { get; set; }
+        public string IdUsuarioCadastro { get; set; }
 
         [Column("ID_USR_ALTER")]
-        public decimal? IdUsuarioAlteracao { get; set; }
+        public string IdUsuarioAlteracao { get; set; }
 
         [Column("DT_CAD")]
         public DateTime DataCadastro { get; set; }

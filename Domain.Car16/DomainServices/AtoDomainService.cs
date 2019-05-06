@@ -13,18 +13,18 @@ namespace Domain.Car16.DomainServices
 {
     public class AtoDomainService : DomainServiceCar16<Ato>, IAtoDomainService
     {
-        private readonly IRepositoryAto _repo;
+        private readonly IRepositoryAto _repositoryAto;
 
         public AtoDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            _repo = unitOfWorkCar16.Repositories.RepositoryAto;
+            _repositoryAto = unitOfWorkCar16.Repositories.RepositoryAto;
         }
 
         public bool CadastrarAto(Ato ato)
         {
             try
             {
-                _repo.Add(ato);
+                _repositoryAto.Add(ato);
                 return true;
             }
             catch (Exception)

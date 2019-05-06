@@ -70,7 +70,6 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryPais(this._context);
                     }
-
                     if (typeof(T).Equals(typeof(Uf)))
                     {
                         repository = new RepositoryUf(this._context);
@@ -87,18 +86,16 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryArquivoModeloDocx(this._context);
                     }
-                    if (typeof(T).Equals(typeof(PREIMO)))
-                    {
-                        repository = new RepositoryPREIMO(this._context);
-                    }
-                    if (typeof(T).Equals(typeof(PESXPRE)))
-                    {
-                        repository = new RepositoryPESXPRE(this._context);
-                    }
                     if (typeof(T).Equals(typeof(Ato)))
                     {
                         repository = new RepositoryAto(this._context);
                     }
+                    if (typeof(T).Equals(typeof(LogArquivoModeloDocx)))
+                    {
+                        repository = new RepositoryLogArquivoModeloDocx(this._context);
+                    }
+
+
                 }
 
                 if (repository != null)
@@ -151,19 +148,14 @@ namespace Infra.Data.Car16.Repositories
             get { return GetRepositoryInstance<ArquivoModeloDocx>() as RepositoryArquivoModeloDocx; }
         }
 
-        public IRepositoryPREIMO RepositoryPREIMO
-        {
-            get { return GetRepositoryInstance<PREIMO>() as RepositoryPREIMO; }
-        }
-
-        public IRepositoryPESXPRE RepositoryPESXPRE
-        {
-            get { return GetRepositoryInstance<PESXPRE>() as RepositoryPESXPRE; }
-        }
-
         public IRepositoryAto RepositoryAto
         {
             get { return GetRepositoryInstance<Ato>() as RepositoryAto; }
         }
+        public IRepositoryLogArquivoModeloDocx RepositoryLogArquivoModeloDocx
+        {
+            get { return GetRepositoryInstance<LogArquivoModeloDocx>() as RepositoryLogArquivoModeloDocx; }
+        }
+
     }
 }

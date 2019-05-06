@@ -112,7 +112,7 @@ namespace Domain.Car16.DomainServices.Base
                 }
                 else
                 {
-                    throw new NullReferenceException("Domainservice é nulo!");
+                    throw new NullReferenceException("Domain service é nulo!");
                 }
 
             }
