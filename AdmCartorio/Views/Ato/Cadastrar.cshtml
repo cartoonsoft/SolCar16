@@ -193,21 +193,25 @@
                                             <div class="tab-pane active" id="tab1">
                                                 <br>
                                                 <h3><strong>Passo 1 </strong> - Pesquisa de dados do imóvel</h3>
-
+                                                <div class="row" hidden id="divResp">
+                                                    <div class="col-sm-12 alert alert-danger">
+                                                        <label class="">Não existe imóvel para os dados digitados!</label>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class="col-sm-5">
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao" placeholder="Digite a prenotação" class="form-control input-lg" />
+                                                                <input id="txtPrenotacao" type="number" min="1"  title="Digite a prenotação corretamente"  placeholder="Digite a prenotação " class="form-control input-lg" required />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <div class="form-group">
-                                                            <div class="input-group ">
+                                                            <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" placeholder="Digite o Nº da Matrícula" class="form-control input-lg " />
+                                                                <input id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" required />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -224,26 +228,26 @@
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nº da Matricula</label>
                                                     </div>
-                                                    <div class="col-sm-2 margin-left-10">
+                                                    <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.MATRI,
                                                                 new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly",
-                                                                @required="required"})                                                          
+                                                                @required="required",@title = "Número de matrícula é obrigatório"}) 
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Endereço</label>
                                                     </div>
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-5 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.ENDER,
-                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly",@required="required",@title = "Endereço é obrigatório" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.NUM,
-                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -316,17 +320,19 @@
                                                     <div class="col-sm-1">
                                                         <label class="h5">Tipo de Pessoa</label>
                                                     </div>
-                                                    <div class="col-sm-2 margin-left-10">
+                                                    <div class="col-sm-2 margin-left-10 form-group">
                                                         @Html.TextBoxFor(model => model.TipoPessoa,
-                                                            new { @class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly" })
+                                                            new { @class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly",
+                                                            @required="required",@title="O tipo de pessoa é obrigatório"})
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome</label>
                                                     </div>
-                                                    <div class="col-sm-3 margin-left-10">
+                                                    <div class="col-sm-3 margin-left-10 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                                                new { @class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly",
+                                                                @required="required",@title="Nome é obrigatório"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -641,10 +647,17 @@
             $.get('@Url.Action("GetDadosImovel", "Ato")',
                 { numeroPrenotacao: numPre, numeroMatricula: numMat },
                 function (data, status) {
-                    resultado = JSON.parse(data);
-                    enviarDadosMatricula(resultado);
                     debugger;
-                    GetDadosPessoa(numPre);
+                    if (data != "null") {
+                        $('#divResp').attr('hidden','hidden');
+                        resultado = JSON.parse(data);
+                        enviarDadosMatricula(resultado);
+                        debugger;
+                        GetDadosPessoa(resultado.SEQPRE);
+                    }
+                    else {
+                        $('#divResp').removeAttr('hidden');
+                    }
                 });
         }
 
@@ -758,6 +771,7 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
+
                         if (index - 1 == 1) AtualizarModelo();
                         if (index - 1 == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));

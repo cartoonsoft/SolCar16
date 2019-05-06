@@ -98,10 +98,18 @@ namespace AdmCartorio.Controllers
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
-                    using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+
+                    if (modelo.NumSequencia == 0)
                     {
-                        numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                        numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                        {
+                            numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                            numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                        }
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
                     }
 
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
