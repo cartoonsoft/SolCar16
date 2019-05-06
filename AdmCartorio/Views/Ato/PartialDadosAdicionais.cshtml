@@ -18,7 +18,7 @@
                         <label class="">N.° da Ficha</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control input-modal" id="numFicha" name="numFicha" type="number" placeholder="N.° da Ficha" required title="Preencha o N.° da Ficha" />
+                        <input class="form-control input-modal" id="numFicha" name="numFicha" type="number" placeholder="N.° da Ficha" required title="Preencha o N.° da Ficha" min="1" />
                     </div>
                 </div>
                 <br />
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-sm-4">
                         <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
-                               pattern="^[0-9]+(\.\d{1,2})?$" required min="0" max="30"/>
+                               pattern="^[1-9]{1}[0-9]{0,}(\.\d{1,2})?$" required data-pattern-mismatch="Translate('Preencha a quantidade corretamente')"/>
                     </div>
                 </div>
                 <br />
@@ -46,8 +46,8 @@
                         <label>N.° Sequencia Ato (Ex.: AV-{n}/...)</label>
                     </div>
                     <div class="col-sm-4">
-                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia" required 
-                               />
+                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia" 
+                               required min="1" />
                     </div>
                 </div>
             </form>
@@ -67,7 +67,6 @@
 
         if (!$("#numeSequencia").valid() || !$("#qtdeCentimetros").valid() || !$("#numFicha").valid()) {
                 enviar = false;
-           
         }
         //Envia os dados
         if (enviar == true) {
