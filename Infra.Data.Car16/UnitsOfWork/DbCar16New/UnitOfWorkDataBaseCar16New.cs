@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Interfaces.DomainServices.Base;
+using Domain.Car16.enums;
+using Domain.Car16.Interfaces.Repositories;
 using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Core.DomainServices;
-using Domain.Core.Entities.Base;
+using Infra.Data.Car16.Context;
+using Infra.Data.Car16.Repositories.Base;
+using Infra.Data.Car16.Repositories.DbCar16New;
+using Infra.Data.Car16.UnitsOfWork.Base;
 
-namespace Domain.Car16.DomainServices.Base
+namespace Infra.Data.Car16.UnitsOfWork.DbCar16New
 {
-    public class DomainServiceCar16<TEntity> : DomainServiceBase<TEntity>, IDomainServiceCar16<TEntity> where TEntity: class
+    public class UnitOfWorkDataBaseCar16New: UnitOfWorkCar16, IUnitOfWorkDataBaseCar16New
     {
-        private readonly IUnitOfWorkCar16 _unitOfWorkCar16;
+        private readonly IRepositoriesFactoryCar16New _repositoriesCar16New;
 
-        public DomainServiceCar16(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public UnitOfWorkDataBaseCar16New(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
-            _unitOfWorkCar16 = unitOfWorkCar16;
+            //
+            _repositoriesCar16New = new RepositoriesFactoryCar16New(ContextMainCar16);
+            base.Repositories = _repositoriesCar16New;
+
         }
 
         #region IDisposable Support
@@ -29,17 +35,19 @@ namespace Domain.Car16.DomainServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
+                    if (this._repositoriesCar16New != null)
+                    {
+                        _repositoriesCar16New.Dispose();
+                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
-
                 disposedValue = true;
             }
 
             base.Dispose(disposing);
         }
-
         public new void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
@@ -49,10 +57,12 @@ namespace Domain.Car16.DomainServices.Base
         }
         #endregion
 
-        public IUnitOfWorkCar16 UnitOfWorkCar16
+        public new IRepositoriesFactoryCar16New Repositories
         {
-            get { return _unitOfWorkCar16; }
+            get { return _repositoriesCar16New; }
+
         }
+
 
     }
 }

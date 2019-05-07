@@ -7,6 +7,7 @@ using AppServices.Car16.AppServices;
 using Domain.Car16.enums;
 using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.UnitsOfWork;
+using Infra.Data.Car16.UnitsOfWork.DbCar16New;
 
 namespace ConsoleAppTeste2
 {
@@ -14,8 +15,7 @@ namespace ConsoleAppTeste2
     {
         static void Main(string[] args)
         {
-
-            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
             {
                 using (AppServicePais appService = new AppServicePais(unitOfWork))
                 {

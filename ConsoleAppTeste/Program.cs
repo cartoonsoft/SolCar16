@@ -1,23 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AppServices.Car16.AppServices;
 using Domain.Car16.Entities.Car16;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.enums;
-using Dto.Car16.Entities.Cadastros;
 using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories;
-using Infra.Data.Car16.UnitsOfWork;
+using Infra.Data.Car16.Repositories.DbCar16New;
+using Infra.Data.Car16.UnitsOfWork.DbCar16New;
 
 namespace ConsoleAppTeste
 {
     class Program
     {
-        static void Main(string[] args)
+static void Main(string[] args)
         {
 
             int opcao;
@@ -70,7 +66,7 @@ namespace ConsoleAppTeste
             //Console.WriteLine("***************|       RELATORIO     |**************************");
             //Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
             {
                 using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                 {
@@ -91,7 +87,7 @@ namespace ConsoleAppTeste
             Console.WriteLine("***************|       RELATORIO     |**************************");
             Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseis))
+            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseis))
             {
                 List<Matricula> listMatriculas = unitOfWork.Repositories.GenericRepository<Matricula>().GetAll().ToList();
 
@@ -107,7 +103,7 @@ namespace ConsoleAppTeste
 
         public static void NovoPais()
         {
-            using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
             {
                 //Pais pais = new Pais();
                 //pais.NomePais = "Teste id pelo banco realizado em :" + DateTime.Now.ToString();

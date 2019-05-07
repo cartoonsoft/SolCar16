@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.DomainServices
 {
-    public interface IPessoaDomainService : IDomainServiceCar16<Pessoa>
+    public interface IPessoaDomainService : IDomainServiceCar16New<Pessoa>
     {
 
     }

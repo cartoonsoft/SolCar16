@@ -16,7 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Reflection;
 
-namespace Infra.Data.Car16.Repositories
+namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryArquivoModeloDocx : RepositoryBaseReadWrite<ArquivoModeloDocx>, IRepositoryArquivoModeloDocx
     {

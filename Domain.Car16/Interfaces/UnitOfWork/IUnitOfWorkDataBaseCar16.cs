@@ -11,6 +11,9 @@ namespace Domain.Car16.Interfaces.UnitOfWork
     public interface IUnitOfWorkDataBaseCar16: IUnitOfWorkCar16
     {
         //
-
+        new IRepositoriesFactoryCar16 Repositories
+        {
+            get;
+        }
     }
 }

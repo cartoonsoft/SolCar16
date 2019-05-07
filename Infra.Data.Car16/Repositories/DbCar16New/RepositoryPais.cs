@@ -9,15 +9,21 @@ using Domain.Car16.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories
+namespace Infra.Data.Car16.Repositories.DbCar16New
 {
-    public class RepositoryMunicipio : RepositoryBaseRead<Municipio>, IRepositoryMunicipio
+    public class RepositoryPais : RepositoryBaseRead<Pais>, IRepositoryPais
     {
         private readonly ContextMainCar16 _contexRep;
 
-        public RepositoryMunicipio(ContextMainCar16 contexRep): base (contexRep)
+        public RepositoryPais(ContextMainCar16 contexRep): base (contexRep)
         {
             _contexRep = contexRep; 
+        }
+
+        public IEnumerable<Pais> BuscarPorNome(string nome)
+        {
+            //todo: ronaldo, não fiz ainda
+            throw new NotImplementedException();
         }
     }
 }

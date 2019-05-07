@@ -1,21 +1,21 @@
-﻿using AppServices.Car16.AppServices.Base;
-using AppServices.Car16.Interfaces;
-using Domain.Car16.Entities.Diversas;
-using Domain.Core.Interfaces.UnitOfWork;
-using Dto.Car16.Entities.Cadastros;
-using LibFunctions.Functions;
-using Microsoft.Office.Interop.Word;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibFunctions.Functions;
+using Microsoft.Office.Interop.Word;
+using AppServices.Car16.AppServices.Base;
+using AppServices.Car16.Interfaces;
+using Domain.Car16.Entities.Diversas;
+using Domain.Car16.Interfaces.UnitOfWork;
+using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.AppServices
 {
     public class AppServiceCadastroDeAto : AppServiceBase<DtoCadastroDeAto,CadastroDeAto>, IAppServiceCadastroAto
     {
-        public AppServiceCadastroDeAto(IUnitOfWork unitOfWork) : base(unitOfWork)
+        public AppServiceCadastroDeAto(IUnitOfWorkDataBaseCar16New unitOfWork) : base(unitOfWork)
         {
         }
 

@@ -9,10 +9,10 @@ using Domain.Core.Interfaces.DomainServices;
 
 namespace Domain.Car16.Interfaces.DomainServices.Base
 {
-    public interface IDomainServiceCar16<TEntity>: IDomainServiceBase<TEntity> where TEntity: class
+    public interface IDomainServiceCar16New<TEntity>: IDomainServiceBase<TEntity> where TEntity: class
     {
 
-        IUnitOfWorkCar16 UnitOfWorkCar16
+        IUnitOfWorkDataBaseCar16New UnitOfWorkCar16New
         {
             get;
         }

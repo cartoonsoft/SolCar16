@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.DomainServices
 {
-    public class AtoDomainService : DomainServiceCar16<Ato>, IAtoDomainService
+    public class AtoDomainService : DomainServiceCar16New<Ato>, IAtoDomainService
     {
         private readonly IRepositoryAto _repositoryAto;
 
-        public AtoDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AtoDomainService(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
             _repositoryAto = unitOfWorkCar16.Repositories.RepositoryAto;
         }
@@ -32,7 +32,6 @@ namespace Domain.Car16.DomainServices
                 return false;
                 throw;
             }
-            
         }
     }
 }

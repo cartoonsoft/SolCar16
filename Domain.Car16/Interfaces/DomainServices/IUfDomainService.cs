@@ -8,7 +8,7 @@ using Domain.Car16.Interfaces.DomainServices.Base;
 
 namespace Domain.Car16.Interfaces.DomainServices
 {
-    public interface IUfDomainService : IDomainServiceCar16<Uf>
+    public interface IUfDomainService : IDomainServiceCar16New<Uf>
     {
 
     }

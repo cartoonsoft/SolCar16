@@ -17,6 +17,7 @@ using Domain.Car16.Entities.Diversas;
 using AutoMapper;
 using Dto.Car16.Entities.Diversos;
 using System.Threading;
+using Infra.Data.Car16.UnitsOfWork.DbCar16New;
 
 namespace AdmCartorio.Controllers
 {
@@ -107,7 +108,7 @@ namespace AdmCartorio.Controllers
                         logArquivo.IP = arquivoModel.IpLocal;
                     }
 
-                    using (UnitOfWorkDataBaseCar16New  unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+                    using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
                     {
                         using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                         {

@@ -10,10 +10,6 @@ namespace Domain.Car16.Interfaces.UnitOfWork
 {
     public interface IUnitOfWorkCar16: IUnitOfWork
     {
-        new IRepositoriesFactoryCar16 Repositories
-        {
-            get;
-        }
 
     }
 }

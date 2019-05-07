@@ -1,24 +1,29 @@
-﻿using System;
+﻿/*----------------------------------------------------------------------------
+  _____            _                    _____        __ _   
+/  __ \          | |                  /  ___|      / _| |  
+| /  \/ __ _ _ __| |_ ___   ___  _ __ \ `--.  ___ | |_| |_ 
+| |    / _` | '__| __/ _ \ / _ \| '_ \ `--. \/ _ \|  _| __|
+| \__/\ (_| | |  | || (_) | (_) | | | /\__/ / (_) | | | |_ 
+ \____/\__,_|_|   \__\___/ \___/|_| |_\____/ \___/|_|  \__|
+Todos os direitos reservados ®                       
+-----------------------------------------------------------------------------*/
+using System;
 using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
 using Domain.Car16.enums;
-using Domain.Car16.Interfaces.Repositories;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories;
 using Infra.Data.Car16.Repositories.Base;
-using Infra.Data.Car16.UnitsOfWork.Base;
 
-namespace Infra.Data.Car16.UnitsOfWork
+namespace Infra.Data.Car16.UnitsOfWork.Base
 {
     public class UnitOfWorkCar16 : UnitOfWork, IUnitOfWorkCar16
     {
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
         private readonly InfraDataEventLogging _log;
-        private readonly IRepositoriesFactoryCar16 _repositoriesCar16;
 
         /// <summary>
         /// Construtor
@@ -61,8 +66,6 @@ namespace Infra.Data.Car16.UnitsOfWork
                 base.ContextCore = this.ContextMainCar16;
             }
 
-            _repositoriesCar16  = new RepositoriesFactoryCar16(ContextMainCar16);
-            base.Repositories = _repositoriesCar16;
             _log = log;
         }
 
@@ -81,11 +84,6 @@ namespace Infra.Data.Car16.UnitsOfWork
                         //_log.Dispose();
                     }
 
-                    if (this._repositoriesCar16 != null)
-                    {
-                        this._repositoriesCar16.Dispose();
-                    }
-
                     if(this.ContextMainCar16 != null)
                     {
                         ContextMainCar16.Dispose();
@@ -102,20 +100,11 @@ namespace Infra.Data.Car16.UnitsOfWork
 
         public new void Dispose()
         {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
         }
         #endregion
         
         protected ContextMainCar16 ContextMainCar16 { get; private set; }
-
-        public new IRepositoriesFactoryCar16 Repositories
-        {
-            get { return _repositoriesCar16; }
-
-        }
 
         public override int? Commit()
         {

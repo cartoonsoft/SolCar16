@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities.Car16;
+using Domain.Car16.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryPREIMO : RepositoryBaseRead<PREIMO>
+    public class RepositoryPREIMO : RepositoryBaseRead<PREIMO>, IRepositoryPREIMO
     {
         private readonly ContextMainCar16 _contexRep;
 
@@ -29,15 +30,15 @@ namespace Infra.Data.Car16.Repositories
             }
             else if (numeroMatricula != null)
             {
-                listaImoveis = this.GetWhereOrderBy(m => m.MATRI == numeroMatricula, mp => mp.SEQPRE);
+                listaImoveis = this.GetWhereOrderBy(m => m.MATRI == numeroMatricula, mp => mp.SEQPRE, false);
             }
             else if (numeroPrenotacao != null)
             {
-                listaImoveis = this.GetWhereOrderBy(p => p.SEQPRE == numeroPrenotacao, mp => mp.SEQPRE);
+                listaImoveis = this.GetWhereOrderBy(p => p.SEQPRE == numeroPrenotacao, mp => mp.SEQPRE, false);
             }
             else
             {
-                listaImoveis = this.GetAll().OrderBy(mp => mp.SEQPRE);
+                listaImoveis = this.GetAll().OrderByDescending(mp => mp.SEQPRE);
             }
 
 

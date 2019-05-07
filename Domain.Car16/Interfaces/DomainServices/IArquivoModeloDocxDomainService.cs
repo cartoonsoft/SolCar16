@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Interfaces.DomainServices
 {
-    public interface IArquivoModeloDocxDomainService : IDomainServiceCar16<ArquivoModeloDocx>
+    public interface IArquivoModeloDocxDomainService : IDomainServiceCar16New<ArquivoModeloDocx>
     {
         IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
         IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
         void SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario);
-
     }
 }

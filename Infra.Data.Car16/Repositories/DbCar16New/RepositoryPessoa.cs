@@ -9,7 +9,7 @@ using Domain.Car16.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories
+namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryPessoa : RepositoryBaseReadWrite<Pessoa>, IRepositoryPessoa
     {

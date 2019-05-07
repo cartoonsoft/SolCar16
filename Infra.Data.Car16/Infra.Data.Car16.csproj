@@ -65,21 +65,22 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Base\RepositoriesFactoryBase.cs" />
     <Compile Include="Repositories\Base\InfraDataEventLogging.cs" />
-    <Compile Include="Repositories\RepositoryPREIMO.cs" />
-    <Compile Include="Repositories\RepositoryAto.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoriesFactoryCar16New.cs" />
+    <Compile Include="Repositories\DbCar16\RepositoryPREIMO.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryAto.cs" />
     <Compile Include="Repositories\Base\RepositoryBaseReadWrite.cs" />
     <Compile Include="Repositories\Base\RepositoryBaseRead.cs" />
-    <Compile Include="Repositories\RepositoriesFactoryCar16.cs" />
-    <Compile Include="Repositories\RepositoryArquivoModeloDocx.cs" />
-    <Compile Include="Repositories\RepositoryLogArquivoModeloDocx.cs" />
-    <Compile Include="Repositories\RepositoryPessoa.cs" />
-    <Compile Include="Repositories\RepositoryUf.cs" />
-    <Compile Include="Repositories\RepositoryMunicipio.cs" />
-    <Compile Include="Repositories\RepositoryPais.cs" />
+    <Compile Include="Repositories\DbCar16\RepositoriesFactoryCar16.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryLogArquivoModeloDocx.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryPessoa.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryUf.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryMunicipio.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryPais.cs" />
     <Compile Include="UnitsOfWork\Base\UnitOfWork.cs" />
-    <Compile Include="UnitsOfWork\UnitOfWorkCar16.cs" />
-    <Compile Include="UnitsOfWork\UnitOfWorkDataBaseCar16.cs" />
-    <Compile Include="UnitsOfWork\UnitOfWorkDataBaseCar16New.cs" />
+    <Compile Include="UnitsOfWork\Base\UnitOfWorkCar16.cs" />
+    <Compile Include="UnitsOfWork\DbCar16\UnitOfWorkDataBaseCar16.cs" />
+    <Compile Include="UnitsOfWork\DbCar16New\UnitOfWorkDataBaseCar16New.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

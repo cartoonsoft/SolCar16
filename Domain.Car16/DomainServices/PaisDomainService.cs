@@ -11,13 +11,13 @@ using Domain.Car16.Interfaces.UnitOfWork;
 
 namespace Domain.Car16.DomainServices
 {
-    public class PaisDomainService : DomainServiceCar16<Pais>, IPaisDomainService
+    public class PaisDomainService : DomainServiceCar16New<Pais>, IPaisDomainService
     {
         private readonly IRepositoryPais _repositoryPais = null;
 
-        public PaisDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public PaisDomainService(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            _repositoryPais = this.UnitOfWorkCar16.Repositories.RepositoryPais;
+            _repositoryPais = this.UnitOfWorkCar16New.Repositories.RepositoryPais;
             
         }
 

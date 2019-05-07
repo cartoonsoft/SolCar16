@@ -11,14 +11,14 @@ using Domain.Car16.Interfaces.UnitOfWork;
 
 namespace Domain.Car16.DomainServices
 {
-    public class MunicipioDomainService : DomainServiceCar16<Municipio> , IMunicipioDomainService
+    public class MunicipioDomainService : DomainServiceCar16New<Municipio> , IMunicipioDomainService
     {
 
         private readonly IRepositoryUf _repositoryUf;
 
-        public MunicipioDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public MunicipioDomainService(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            _repositoryUf = this.UnitOfWorkCar16.Repositories.RepositoryUf;
+            _repositoryUf = this.UnitOfWorkCar16New.Repositories.RepositoryUf;
         }
 
     }

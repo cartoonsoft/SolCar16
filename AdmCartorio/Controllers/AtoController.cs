@@ -189,19 +189,16 @@ namespace AdmCartorio.Controllers
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 var jsonResult = JsonConvert.SerializeObject(listaModelos);
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
-
             }
         }
+
         public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
         {
-            //var PREIMO =  this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<> appService.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
-
-            using (var appService = new AppServicePREIMO(this.UnitOfWorkDataBaseCar16))
-            {
-                var jsonResult = JsonConvert.SerializeObject(PREIMO);
-                return Json(jsonResult, JsonRequestBehavior.AllowGet);
-            }
+            var PREIMO =  this.UnitOfWorkDataBaseCar16.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
+            var jsonResult = JsonConvert.SerializeObject(PREIMO);
+            return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
+
         /// <summary>
         /// Essa função retorna se a pessoa é um Ortogante ou Ortogado
         /// </summary>
@@ -212,42 +209,47 @@ namespace AdmCartorio.Controllers
             PESXPRE pessoaPre;
             PESSOA pessoa;
 
-            using (var appService = new AppServicePESXPRE(this.UnitOfWorkDataBaseCar16))
-            {
-                var dtoPessoaPre = appService.GetPESXPRE(numeroPrenotacao);
-                pessoaPre = Mapper.Map<DtoPESXPRE, PESXPRE>(dtoPessoaPre);
-            }
-            using (var appService = new AppServicePESSOA(this.UnitOfWorkDataBaseCar16))
-            {
-                var dtoPessoa = appService.GetPESSOA(pessoaPre.SEQPES);
-                pessoa = Mapper.Map<DtoPESSOA, PESSOA>(dtoPessoa);
-            }
-            DadosPessoaViewModel dados = new DadosPessoaViewModel
-            {
-                TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
-                BAI = pessoa.BAI,
-                SEQPES = pessoa.SEQPES,
-                CEP = pessoa.CEP,
-                CID = pessoa.CID,
-                ENDER = pessoa.ENDER,
-                NOM = pessoa.NOM,
-                NRO1 = pessoa.NRO1,
-                NRO2 = pessoa.NRO2,
-                TEL = pessoa.TEL,
-                TIPODOC1 = pessoa.TIPODOC1,
-                TIPODOC2 = pessoa.TIPODOC2,
-                UF = pessoa.UF
-            };
-            var jsonResult = JsonConvert.SerializeObject(dados);
 
-            return Json(jsonResult, JsonRequestBehavior.AllowGet);
+
+            //using (var appService = new AppServicePESXPRE(this.UnitOfWorkDataBaseCar16))
+            //{
+            //    var dtoPessoaPre = appService.GetPESXPRE(numeroPrenotacao);
+            //    pessoaPre = Mapper.Map<DtoPESXPRE, PESXPRE>(dtoPessoaPre);
+            //}
+            //using (var appService = new AppServicePESSOA(this.UnitOfWorkDataBaseCar16))
+            //{
+            //    var dtoPessoa = appService.GetPESSOA(pessoaPre.SEQPES);
+            //    pessoa = Mapper.Map<DtoPESSOA, PESSOA>(dtoPessoa);
+            //}
+            //DadosPessoaViewModel dados = new DadosPessoaViewModel
+            //{
+            //    TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
+            //    BAI = pessoa.BAI,
+            //    SEQPES = pessoa.SEQPES,
+            //    CEP = pessoa.CEP,
+            //    CID = pessoa.CID,
+            //    ENDER = pessoa.ENDER,
+            //    NOM = pessoa.NOM,
+            //    NRO1 = pessoa.NRO1,
+            //    NRO2 = pessoa.NRO2,
+            //    TEL = pessoa.TEL,
+            //    TIPODOC1 = pessoa.TIPODOC1,
+            //    TIPODOC2 = pessoa.TIPODOC2,
+            //    UF = pessoa.UF
+            //};
+            //var jsonResult = JsonConvert.SerializeObject(dados);
+
+            //return Json(jsonResult, JsonRequestBehavior.AllowGet);
+
+            return null;
         }
         public long GetIdAtoPeloModelo(long idModelo)
         {
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
-            {
-                return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
-            }
+            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
+            //{
+            //    return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
+            //}
+            return 0;
         }
         public bool ExisteAtoNoBanco(long numeroMatricula)
         {
@@ -259,8 +261,6 @@ namespace AdmCartorio.Controllers
         }
         #endregion
 
-
-
         /// <summary>
         /// Retorna o numero de Ato do modelo
         /// </summary>
@@ -268,7 +268,7 @@ namespace AdmCartorio.Controllers
         /// <returns>N° da Ato</returns>
         public static long GetNumeroAto(MatriculaAtoViewModel modelo)
         {
-            return modelo.MatriculaID;
+            return modelo.IdMatricula;
         }
 
         /// <summary>
@@ -284,7 +284,6 @@ namespace AdmCartorio.Controllers
                 item.UnderlineStyle(UnderlineStyle.none);
             }
         }
-
 
         /// <summary>
         /// Remove a ultima marcação de espaço da string (\n)

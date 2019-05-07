@@ -18,11 +18,11 @@ using Domain.Car16.DomainServices;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServiceArquivoModeloDocx : AppServiceCar16<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
+    public class AppServiceArquivoModeloDocx : AppServiceCar16New<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
     {
         IArquivoModeloDocxDomainService _arquivoModeloDocxDomainService;
 
-        public AppServiceArquivoModeloDocx(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AppServiceArquivoModeloDocx(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
             //
             _arquivoModeloDocxDomainService = new ArquivoModeloDocxDomainService(unitOfWorkCar16);

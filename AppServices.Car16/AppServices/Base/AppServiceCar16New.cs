@@ -12,20 +12,20 @@ using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {
-    public class AppServiceCar16<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCar16<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
+    public class AppServiceCar16New<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCar16<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
-        private readonly IUnitOfWorkCar16 _unitOfWorkCar16;
-        private readonly IDomainServicesFactoryCar16 _domainServicesFactoryCar16;
+        private readonly IUnitOfWorkDataBaseCar16New _unitOfWorkCar16New;
+        private readonly IDomainServicesFactoryCar16New _domainServicesFactoryCar16New;
 
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCar16(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AppServiceCar16New(IUnitOfWorkDataBaseCar16New unitOfWorkCar16New) : base(unitOfWorkCar16New)
         {
-            this._unitOfWorkCar16 = unitOfWorkCar16;
-            _domainServicesFactoryCar16 = new DomainServicesFactoryCar16(_unitOfWorkCar16);
-            base.DomainServices = _domainServicesFactoryCar16;
+            this._unitOfWorkCar16New = unitOfWorkCar16New;
+            _domainServicesFactoryCar16New = new DomainServicesFactoryCar16New(this._unitOfWorkCar16New);
+            base.DomainServices = _domainServicesFactoryCar16New;
         }
 
         #region IDisposable Support
@@ -38,9 +38,9 @@ namespace AppServices.Car16.AppServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_domainServicesFactoryCar16 != null)
+                    if (_domainServicesFactoryCar16New != null)
                     {
-                        _domainServicesFactoryCar16.Dispose();
+                        _domainServicesFactoryCar16New.Dispose();
                     }
                 }
 
@@ -67,14 +67,14 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-        public IUnitOfWorkCar16 UnitOfWorkCar16
+        public IUnitOfWorkDataBaseCar16New UnitOfWorkCar16New
         {
-            get { return this._unitOfWorkCar16; }
+            get { return this._unitOfWorkCar16New; }
         }
 
-        public new IDomainServicesFactoryCar16 DomainServices
+        public new IDomainServicesFactoryCar16New DomainServices
         {
-            get { return _domainServicesFactoryCar16; }
+            get { return _domainServicesFactoryCar16New; }
         }
 
     }

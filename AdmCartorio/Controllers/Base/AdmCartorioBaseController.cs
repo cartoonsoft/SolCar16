@@ -11,6 +11,8 @@ using AdmCartorio.Models.Identity.Entities;
 using Domain.Car16.enums;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Infra.Data.Car16.UnitsOfWork;
+using Infra.Data.Car16.UnitsOfWork.DbCar16;
+using Infra.Data.Car16.UnitsOfWork.DbCar16New;
 
 namespace AdmCartorio.Controllers.Base
 {

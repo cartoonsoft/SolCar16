@@ -11,15 +11,13 @@ using Domain.Car16.Interfaces.UnitOfWork;
 
 namespace Domain.Car16.DomainServices
 {
-    public class UfDomainService : DomainServiceCar16<Uf> , IUfDomainService
+    public class UfDomainService : DomainServiceCar16New<Uf> , IUfDomainService
     {
-
         private readonly IRepositoryUf _repositoryUf;
 
-        public UfDomainService(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public UfDomainService(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
-            _repositoryUf = this.UnitOfWorkCar16.Repositories.RepositoryUf;
-
+            _repositoryUf = this.UnitOfWorkCar16New.Repositories.RepositoryUf;
         }
 
     }

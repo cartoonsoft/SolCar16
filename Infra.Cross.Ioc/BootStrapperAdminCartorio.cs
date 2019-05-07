@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SimpleInjector;
+﻿using SimpleInjector;
 using Domain.Car16.Interfaces.UnitOfWork;
-using AppServices.Car16.Interfaces;
-using AppServices.Car16.AppServices;
 using Domain.Car16.enums;
-using Infra.Data.Car16.UnitsOfWork;
+using Infra.Data.Car16.UnitsOfWork.DbCar16New;
+using Infra.Data.Car16.UnitsOfWork.DbCar16;
 
 namespace Infra.Cross.Ioc
 {

@@ -9,7 +9,7 @@ using Domain.Core.Interfaces.DomainServices;
 
 namespace Domain.Car16.Interfaces.DomainServices
 {
-    public interface IMunicipioDomainService : IDomainServiceCar16<Municipio>
+    public interface IMunicipioDomainService : IDomainServiceCar16New<Municipio>
     {
 
     }

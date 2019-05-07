@@ -11,19 +11,19 @@ using Domain.Core.DomainServices;
 
 namespace Domain.Car16.DomainServices.Base
 {
-    public class DomainServicesFactoryCar16 : DomainServicesFactoryBase, IDomainServicesFactoryCar16
+    public class DomainServicesFactoryCar16New : DomainServicesFactoryBase, IDomainServicesFactoryCar16New
     {
-        private readonly IUnitOfWorkCar16 _unitOfWorkCar16;
+        private readonly IUnitOfWorkDataBaseCar16New _unitOfWorkCar16New;
         private Dictionary<Type, object> DomainServices = new Dictionary<Type, object>();
 
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public DomainServicesFactoryCar16(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public DomainServicesFactoryCar16New(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
             //
-            this._unitOfWorkCar16 = unitOfWorkCar16;
+            this._unitOfWorkCar16New = unitOfWorkCar16;
         }
 
         #region IDisposable Support
@@ -75,34 +75,34 @@ namespace Domain.Car16.DomainServices.Base
             {
                 if (DomainServices.Keys.Contains(typeof(T)))
                 {
-                    domainService = DomainServices[typeof(T)] as IDomainServiceCar16<T>;
+                    domainService = DomainServices[typeof(T)] as IDomainServiceCar16New<T>;
                 }
                 else
                 {
                     if (typeof(T).Equals(typeof(Pais)))
                     {
-                        domainService = new PaisDomainService(this._unitOfWorkCar16);
+                        domainService = new PaisDomainService(this._unitOfWorkCar16New);
                     }
 
                     if (typeof(T).Equals(typeof(Uf)))
                     {
-                        domainService = new UfDomainService(this._unitOfWorkCar16);
+                        domainService = new UfDomainService(this._unitOfWorkCar16New);
                     }
                     if (typeof(T).Equals(typeof(Municipio)))
                     {
-                        domainService = new MunicipioDomainService(this._unitOfWorkCar16);
+                        domainService = new MunicipioDomainService(this._unitOfWorkCar16New);
                     }
                     if (typeof(T).Equals(typeof(Pessoa)))
                     {
-                        domainService = new PessoaDomainService(this._unitOfWorkCar16);
+                        domainService = new PessoaDomainService(this._unitOfWorkCar16New);
                     }
                     if (typeof(T).Equals(typeof(ArquivoModeloDocx)))
                     {
-                        domainService = new ArquivoModeloDocxDomainService(this._unitOfWorkCar16);
+                        domainService = new ArquivoModeloDocxDomainService(this._unitOfWorkCar16New);
                     }
                     if (typeof(T).Equals(typeof(Ato)))
                     {
-                        domainService = new AtoDomainService(this._unitOfWorkCar16);
+                        domainService = new AtoDomainService(this._unitOfWorkCar16New);
                     }
                 }
 

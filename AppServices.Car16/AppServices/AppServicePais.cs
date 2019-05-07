@@ -6,17 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
-using Domain.Car16.DomainServices;
 using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.DomainServices;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServicePais : AppServiceCar16<DtoPaisModel, Pais>, IAppServicePais
+    public class AppServicePais : AppServiceCar16New<DtoPaisModel, Pais>, IAppServicePais
     {
-        public AppServicePais(IUnitOfWorkCar16 unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AppServicePais(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
         {
             //
         }

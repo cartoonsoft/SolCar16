@@ -14,9 +14,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infra.Data.Car16.Repositories
+namespace Infra.Data.Car16.Repositories.DbCar16New
 {
-    public class RepositoriesFactoryCar16 : RepositoriesFactoryBase, IRepositoriesFactoryCar16
+    public class RepositoriesFactoryCar16New : RepositoriesFactoryBase, IRepositoriesFactoryCar16New
     {
         private readonly ContextMainCar16 _context;
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
@@ -25,12 +25,13 @@ namespace Infra.Data.Car16.Repositories
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public RepositoriesFactoryCar16(ContextMainCar16 context): base(context)
+        public RepositoriesFactoryCar16New(ContextMainCar16 context): base(context)
         {
             //
             this._context = context;
         }
 
+        #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
         protected override void Dispose(bool disposing)
@@ -52,6 +53,15 @@ namespace Infra.Data.Car16.Repositories
 
             base.Dispose(disposing);
         }
+
+        public new void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
 
         private Object GetRepositoryInstance<T>() where T: class
         {
