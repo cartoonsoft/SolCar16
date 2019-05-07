@@ -173,7 +173,7 @@
                                     <div id="bootstrap-wizard-1" class="col-sm-12">
                                         <div class="wizard">
                                             <ul class="steps">
-                                                <li class="active" data-target="#step1" onchange="teste()">
+                                                <li class="active" data-target="#step1">
                                                     <span class="badge badge-info">1</span>Dados do Imóvel<span class="chevron"></span>
                                                     @*<a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Dados do Imóvel</span> </a>*@
                                                 </li>
@@ -197,7 +197,7 @@
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev">
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finish">
+                                                <button type="button" class="btn btn-sm btn-success btn-next" onclick="teste()" data-last="Finish">
                                                     Próximo<i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
@@ -818,13 +818,13 @@
             AtualizarModelo();
         }
         else if (numeroPasso == 2) {
-            
-        }
-        else if(numeroPasso == 3){
             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
             $('#textAreaAto').val($('#Ato').val());
             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
             GetDadosAdicionais();
+        }
+        else if(numeroPasso == 3){
+         
         }
     }
     </script>

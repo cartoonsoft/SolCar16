@@ -234,8 +234,8 @@ namespace AdmCartorio.Controllers
         }
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
-            return this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocx>()
-                .GetById(idModelo).IdTipoAto;
+            return this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx
+                .GetWhere(i => i.Id == idModelo).FirstOrDefault().IdTipoAto;
             
         }
         public bool ExisteAtoNoBanco(long numeroMatricula)
