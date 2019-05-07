@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.DomainServices;
-using Domain.Car16.Interfaces.DomainServices.Base;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Domain.Core.DomainServices;
 
@@ -104,17 +103,17 @@ namespace Domain.Car16.DomainServices.Base
                     {
                         domainService = new AtoDomainService(this._unitOfWorkCar16New);
                     }
+
+                    if (domainService != null)
+                    {
+                        DomainServices.Add(typeof(T), domainService);
+                    }
                 }
 
-                if (domainService != null)
-                {
-                    DomainServices.Add(typeof(T), domainService);
-                }
-                else
+                if (domainService == null)
                 {
                     throw new NullReferenceException("Domain service é nulo!");
                 }
-
             }
             catch (Exception ex)
             {

@@ -109,15 +109,15 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
                         repository = new RepositoryPREIMO(this._context);
                     }
 
+                    if (repository != null)
+                    {
+                        Repositories.Add(typeof(T), repository);
+                    }
                 }
 
-                if (repository != null)
+                if(repository == null)
                 {
-                    Repositories.Add(typeof(T), repository);
-                }
-                else
-                {
-                    throw new NullReferenceException("repositório é nulo!");
+                    throw new NullReferenceException("repositório New é nulo!");
                 }
             }
             catch (Exception ex)

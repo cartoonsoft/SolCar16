@@ -155,8 +155,8 @@
     <Compile Include="enums\BaseDados.cs" />
     <Compile Include="enums\TipoAtoEnum.cs" />
     <Compile Include="enums\TipoLogArquivoModeloDocx.cs" />
-    <Compile Include="Interfaces\DomainServices\Base\IDomainServiceCar16New.cs" />
-    <Compile Include="Interfaces\DomainServices\Base\IDomainServicesFactoryCar16New.cs" />
+    <Compile Include="Interfaces\DomainServices\IDomainServiceCar16New.cs" />
+    <Compile Include="Interfaces\DomainServices\IDomainServicesFactoryCar16New.cs" />
     <Compile Include="Interfaces\DomainServices\IAtoDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IMunicipioDomainService.cs" />
     <Compile Include="Interfaces\DomainServices\IArquivoModeloDocxDomainService.cs" />

@@ -253,7 +253,6 @@ namespace AdmCartorio.Controllers
         }
         public bool ExisteAtoNoBanco(long numeroMatricula)
         {
-            return false;
             using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
                 return appService.ExisteAtoCadastrado(numeroMatricula);

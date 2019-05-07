@@ -72,7 +72,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16
             {
                 if (Repositories.Keys.Contains(typeof(T)))
                 {
-                    repository = Repositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
+                    repository = Repositories[typeof(T)] as IRepositoryBaseRead<T>;
                 }
                 else
                 {
@@ -81,13 +81,13 @@ namespace Infra.Data.Car16.Repositories.DbCar16
                         repository = new RepositoryPREIMO(this._context);
                     }
 
+                    if (repository != null)
+                    {
+                        Repositories.Add(typeof(T), repository);
+                    }
                 }
 
-                if (repository != null)
-                {
-                    Repositories.Add(typeof(T), repository);
-                }
-                else
+                if (repository == null)
                 {
                     throw new NullReferenceException("repositório base old é nulo!");
                 }
@@ -97,7 +97,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16
                 throw new Exception("Erro na criação de repositorio, tipo: " + typeof(T).Name +" "+ ex.Message);
             }
 
-            return repository; // new TRepository();
+            return repository; 
         }
 
         public IRepositoryPREIMO RepositoryPREIMO

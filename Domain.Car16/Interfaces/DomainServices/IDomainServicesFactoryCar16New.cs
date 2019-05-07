@@ -1,13 +1,12 @@
-﻿using Domain.Core.Interfaces.DomainServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core.Interfaces.DomainServices;
 
-namespace Domain.Car16.Interfaces.DomainServices.Base
+namespace Domain.Car16.Interfaces.DomainServices
 {
-
     public interface IDomainServicesFactoryCar16New : IDomainServicesFactoryBase
     {
         IPaisDomainService PaisDomainService
@@ -36,7 +35,6 @@ namespace Domain.Car16.Interfaces.DomainServices.Base
         {
             get;
         }
-
 
     }
 }
