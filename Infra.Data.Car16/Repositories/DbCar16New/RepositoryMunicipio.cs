@@ -11,7 +11,7 @@ using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories.DbCar16New
 {
-    public class RepositoryMunicipio : RepositoryBaseRead<Municipio>, IRepositoryMunicipio
+    public class RepositoryMunicipio : RepositoryBaseReadWrite<Municipio>, IRepositoryMunicipio
     {
         private readonly ContextMainCar16 _contexRep;
 

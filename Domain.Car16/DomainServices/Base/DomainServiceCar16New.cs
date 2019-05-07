@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Interfaces.DomainServices.Base;
+using Domain.Car16.Interfaces.DomainServices;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Domain.Core.DomainServices;
 using Domain.Core.Entities.Base;

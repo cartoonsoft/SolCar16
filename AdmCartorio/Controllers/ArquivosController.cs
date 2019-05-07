@@ -221,7 +221,7 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | METODOS COMPARTILHADOS |
-        private void CadastrarLogDownload(string IP, int Id)
+        private void CadastrarLogDownload(string IP, long Id)
         {
             var arquivolog = new LogArquivoModeloDocx()
             {

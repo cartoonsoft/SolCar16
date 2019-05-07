@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Car16.Interfaces.Base;
 using Domain.Car16.DomainServices.Base;
-using Domain.Car16.Interfaces.DomainServices.Base;
+using Domain.Car16.Interfaces.DomainServices;
 using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Core.Entities.Base;
-using Dto.Car16.Entities.Base;
 
 namespace AppServices.Car16.AppServices.Base
 {

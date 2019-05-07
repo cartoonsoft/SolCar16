@@ -9,7 +9,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.Car16.Interfaces.Repositories
 {
-    public interface IRepositoryUf: IRepositoryBaseRead<Uf>
+    public interface IRepositoryUf: IRepositoryBaseReadWrite<Uf>
     {
 
     }
