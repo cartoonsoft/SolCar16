@@ -171,6 +171,7 @@
     <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoa.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPREIMO.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCar16.cs" />

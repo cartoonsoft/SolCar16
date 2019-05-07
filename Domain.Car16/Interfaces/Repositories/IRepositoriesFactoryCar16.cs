@@ -37,5 +37,9 @@ namespace Domain.Car16.Interfaces.Repositories
         {
             get;
         }
+        IRepositoryPREIMO RepositoryPREIMO
+        {
+            get;
+        }
     }
 }

@@ -372,11 +372,12 @@
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome do modelo</label>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-3 form-group">
                                                         <div>
                                                             @Html.HiddenFor(model => model.ArquivoModelo.Id)
                                                             @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
-                                                                new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly",@required="required",
+                                                                    @title = "Preencha o nome do modelo"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -384,7 +385,7 @@
                                                     </div>
                                                     <div class="col-sm-2 col-lg-pull-1">
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
-                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly" })
+                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required",@title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
                                                     </div>
                                                 </div>
@@ -494,12 +495,11 @@
                 cloudServices: {
                     //
                 },
-                toolbar: ['alignment:justify'],
+                toolbar: ['alignment:justify','|' ,'Bold', 'Italic','Underline' ],
 
             })
             .then(editor => {
                 const toolbarContainer = document.querySelector('.document-editor__toolbar ');
-
 
                 toolbarContainer.appendChild(editor.ui.view.toolbar.element);
 

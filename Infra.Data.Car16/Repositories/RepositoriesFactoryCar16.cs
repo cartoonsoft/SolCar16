@@ -94,7 +94,10 @@ namespace Infra.Data.Car16.Repositories
                     {
                         repository = new RepositoryLogArquivoModeloDocx(this._context);
                     }
-
+                    if (typeof(T).Equals(typeof(PREIMO)))
+                    {
+                        repository = new RepositoryPREIMO(this._context);
+                    }
 
                 }
 
@@ -157,5 +160,9 @@ namespace Infra.Data.Car16.Repositories
             get { return GetRepositoryInstance<LogArquivoModeloDocx>() as RepositoryLogArquivoModeloDocx; }
         }
 
+        public IRepositoryPREIMO RepositoryPREIMO
+        {
+            get { return GetRepositoryInstance<PREIMO>() as RepositoryPREIMO; }
+        }
     }
 }
