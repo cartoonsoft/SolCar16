@@ -76,7 +76,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16
                 }
                 else
                 {
-                    if (typeof(T).Equals(typeof(Pais)))
+                    if (typeof(T).Equals(typeof(PREIMO)))
                     {
                         repository = new RepositoryPREIMO(this._context);
                     }
@@ -85,7 +85,8 @@ namespace Infra.Data.Car16.Repositories.DbCar16
 
                 if (repository != null)
                 {
-                    Repositories.Add(typeof(T), repository);
+                    if (!Repositories.ContainsKey(typeof(T)))
+                        Repositories.Add(typeof(T), repository);
                 }
                 else
                 {

@@ -165,32 +165,47 @@
                         <h2>Cadastro de Atos </h2>
                     </header>
                     <div>
-                        <div class="widget-body">
+                        <div class="widget-body fuelux">
                             <div class="row">
                                 @using (Html.BeginForm("Cadastrar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <div id="bootstrap-wizard-1" class="col-sm-12">
-                                        <div class="form-bootstrapWizard">
-                                            <ul class="bootstrapWizard form-wizard">
-                                                <li class="active" data-target="#step1">
-                                                    <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Dados do Imóvel</span> </a>
+                                        <div class="wizard">
+                                            <ul class="steps">
+                                                <li class="active" data-target="#step1" onchange="teste()">
+                                                    <span class="badge badge-info">1</span>Dados do Imóvel<span class="chevron"></span>
+                                                    @*<a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Dados do Imóvel</span> </a>*@
                                                 </li>
                                                 <li data-target="#step2">
-                                                    <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Busca de Modelo</span> </a>
+                                                    <span class="badge">2</span>Busca de Modelo<span class="chevron"></span>
+                                                    @*<a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Busca de Modelo</span> </a>*@
                                                 </li>
                                                 <li data-target="#step3">
-                                                    <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Escrita de Ato</span> </a>
+                                                    <span class="badge">3</span>Escrita de Ato<span class="chevron"></span>
+
+                                                    @*<a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Escrita de Ato</span> </a>*@
                                                 </li>
                                                 <li data-target="#step4">
-                                                    <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Confirmação</span> </a>
+                                                    <span class="badge">4</span>Confirmação<span class="chevron"></span>
+
+                                                    @*<a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Confirmação</span> </a>*@
                                                 </li>
                                             </ul>
+
+                                            <div class="actions">
+                                                <button type="button" class="btn btn-sm btn-primary btn-prev">
+                                                    <i class="fa fa-arrow-left"></i>Anterior
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finish">
+                                                    Próximo<i class="fa fa-arrow-right"></i>
+                                                </button>
+                                            </div>
                                             <div class="clearfix"></div>
                                         </div>
-                                        <div class="tab-content">
+                                        <div class="step-content">
                                             <!-- DADOS IMÓVEL-->
-                                            <div class="tab-pane active" id="tab1">
+                                            <div class="step-pane active" id="step1">
                                                 <br>
                                                 <h3><strong>Passo 1 </strong> - Pesquisa de dados do imóvel</h3>
                                                 <div class="row" hidden id="divResp">
@@ -339,7 +354,7 @@
                                             </div>
                                             <!-- FIM DADOS IMÓVEL-->
                                             <!-- DADOS MODELO-->
-                                            <div class="tab-pane" id="tab2">
+                                            <div class="step-pane" id="step2">
                                                 <br>
                                                 <h3><strong>Passo 2</strong> - Busca de Modelo</h3>
 
@@ -392,7 +407,7 @@
                                             </div>
                                             <!-- FIM DADOS MODELO-->
                                             <!-- INICIO ESCRITA DE ATO-->
-                                            <div class="tab-pane" id="tab3">
+                                            <div class="step-pane" id="step3">
                                                 <br>
                                                 <h3><strong>Passo 3</strong> - Escrita de Ato</h3>
                                                 <br />
@@ -410,7 +425,7 @@
                                             </div>
                                             <!-- FIM ESCRITA DE ATO-->
                                             <!-- CONFIRMAÇÃO DE ATO-->
-                                            <div class="tab-pane" id="tab4">
+                                            <div class="step-pane" id="step4">
                                                 <br>
                                                 <h3><strong>Passo 4</strong> - Confirmação</h3>
                                                 <br />
@@ -605,7 +620,7 @@
 
     //Atualiza o ID do ato quando chega na parte final
         function AtualizarIdTipoAto(idModelo) {
-            $.get('@Url.Action("GetIdAtoPeloModelo", "Ato")',
+            $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
                 { idModelo },
                 function (data, status) {
                     $('#IdTipoAto').val(data);
@@ -682,12 +697,15 @@
         function GetDadosPessoa(numPre) {
              $.get('@Url.Action("GetTipoPessoa", "Ato")',
                 { numeroPrenotacao: numPre },
-                function (data, status) {
-                    resultado = JSON.parse(data);
-                    console.log(resultado);
-                    debugger;
-                    enviarDadosPessoa(resultado);
-
+                 function (data, status) {
+                     if (data != null) {
+                         resultado = JSON.parse(data);
+                         console.log(resultado);
+                         debugger;
+                         enviarDadosPessoa(resultado);
+                     } else {
+                        $('#divResp').removeAttr('hidden');
+                     }
                 });
         }
         function enviarDadosPessoa(resultado) {
@@ -779,14 +797,35 @@
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                             GetDadosAdicionais();
                         }
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).addClass(
+                        $('#bootstrap-wizard-1').find('.form-wizard .form-actions').children('li').eq(index - 1).addClass(
                             'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(index - 1).find('.step')
+                        $('#bootstrap-wizard-1').find('.form-wizard .form-actions').children('li').eq(index - 1).find('.step')
                             .html('<i class="fa fa-check"></i>');
 
                     }
                 }
             });
         });
+
+
+    function teste() {
+        var elementos = document.getElementsByClassName('complete');
+        console.log(elementos);
+        var numeroPasso = elementos.length;
+        console.log(numeroPasso);
+        debugger;
+        if (numeroPasso == 1) {
+            AtualizarModelo();
+        }
+        else if (numeroPasso == 2) {
+            
+        }
+        else if(numeroPasso == 3){
+            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+            $('#textAreaAto').val($('#Ato').val());
+            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+            GetDadosAdicionais();
+        }
+    }
     </script>
 }

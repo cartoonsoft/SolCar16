@@ -10,7 +10,7 @@ using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories
 {
-    public class RepositoryPREIMO : RepositoryBaseRead<PREIMO>, IRepositoryPREIMO
+    public class RepositoryPREIMO : RepositoryBaseReadWrite<PREIMO>, IRepositoryPREIMO
     {
         private readonly ContextMainCar16 _contexRep;
 

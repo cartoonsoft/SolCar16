@@ -108,7 +108,8 @@ namespace Domain.Car16.DomainServices.Base
 
                 if (domainService != null)
                 {
-                    DomainServices.Add(typeof(T), domainService);
+                    if(!DomainServices.Keys.Contains(typeof(T)))
+                        DomainServices.Add(typeof(T), domainService);
                 }
                 else
                 {

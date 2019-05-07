@@ -12,10 +12,10 @@ namespace AdmCartorio.ViewModels
         [Key]
         [Display(Name = "Código")]
         public long? Id { get; set; }
-        public int IdTipoAto { get; set; }
-        public int IdContaAcessoSistema { get; set; }
-        public int IdUsuarioCadastro { get; set; }
-        public int? IdUsuarioAlteracao { get; set; }
+        public long IdTipoAto { get; set; }
+        public long IdContaAcessoSistema { get; set; }
+        public string IdUsuarioCadastro { get; set; }
+        public string IdUsuarioAlteracao { get; set; }
         public DateTime DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }
         [Display(Name = "Descrição")]
