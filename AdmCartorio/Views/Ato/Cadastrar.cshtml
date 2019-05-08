@@ -653,13 +653,18 @@
             $.get('@Url.Action("ExisteAtoNoBanco", "Ato")',
                 { numeroMatricula },
                 function (data, status) {
-                    var existeAto = data;
-                    if (existeAto) {
-                        $('#infoAdicional').removeClass('hidden');
-                        $('#btnConfirmar').attr('disabled');
-                    } else {
-                        $('#infoAdicional').addClass('hidden');
-                        $('#btnConfirmar').removeAttr('disabled');
+                    if (status == "success") {
+                        var existeAto = data;
+                        if (existeAto) {
+                            $('#infoAdicional').removeClass('hidden');
+                            $('#btnConfirmar').attr('disabled');
+                        } else {
+                            $('#infoAdicional').addClass('hidden');
+                            $('#btnConfirmar').removeAttr('disabled');
+                        }
+                    }
+                    else {
+
                     }
                 });
         }
@@ -842,7 +847,7 @@
                         $(`#step${quantidade+1}`).addClass('active');
 
                         debugger;
-                        $('#list').children('li .active').addClass(
+                        $('#list').children('li .active').addClass( 
                             'complete');
 
                     }
