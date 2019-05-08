@@ -25,7 +25,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
 
-        private readonly ContextOraBase _context;
+        private ContextOraBase _context;
         private readonly InfraDataEventLogging _log;
 
         /// <summary>
@@ -34,12 +34,48 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
         /// <param name="context"></param>
         public UnitOfWorkCar16(BaseDados baseDados, ContextOraBase context = null, InfraDataEventLogging log = null ) : base(context)
         {
-            if (context != null)
+            this._context = context;
+            if (_context != null)
             {
-                this._context = context;
                 base.ContextCore = this._context;
             }
+
             _log = log;
+        }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // dispose managed state (managed objects).
+                }
+
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
+                disposedValue = true;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        public new void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
+        protected ContextOraBase Context
+        {
+            get { return _context; }
+            set {
+                _context = value;
+                base.ContextCore = _context;
+            }
         }
 
         protected string GetContextName(BaseDados baseDados)
@@ -72,32 +108,6 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
             return contextName;
         }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // dispose managed state (managed objects).
-                }
-
-                // free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // set large fields to null.
-                disposedValue = true;
-            }
-
-            base.Dispose(disposing);
-        }
-
-        public new void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
 
         public override int? Commit()
         {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_ATO")]
+    [Table("TB_ATO", Schema = "DEZESSEIS_NEW")]
     public class Ato: EntityBase
     {
         [Key]

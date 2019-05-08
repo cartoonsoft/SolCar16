@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_TP_ATO")]
+    [Table("TB_TP_ATO", Schema = "DEZESSEIS_NEW")]
     public class TipoAto : EntityBase
     {
         [Column("ID_TP_ATO")]

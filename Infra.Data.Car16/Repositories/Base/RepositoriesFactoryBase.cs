@@ -67,11 +67,16 @@ namespace Infra.Data.Car16.Repositories.Base
             else
             {
                 repository = new RepositoryBaseReadWrite<T>(_contextCore);
+
+                if (repository != null)
+                {
+                    GenericRepositories.Add(typeof(T), repository);
+                }
             }
 
-            if (repository != null)
+            if( repository == null)
             {
-                GenericRepositories.Add(typeof(T), repository);
+                throw new NullReferenceException("repositório Generic é nulo!");
             }
 
             return repository;

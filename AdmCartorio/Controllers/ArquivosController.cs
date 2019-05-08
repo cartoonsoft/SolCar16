@@ -70,7 +70,6 @@ namespace AdmCartorio.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }

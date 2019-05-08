@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_CAMPOS_TB_MOD")]
+    [Table("TB_CAMPOS_TB_MOD", Schema = "DEZESSEIS_NEW")]
     public class CamposArquivoModeloDocx : EntityBase
     {
         [Column("ID_CAMPOS_TB_MOD")]

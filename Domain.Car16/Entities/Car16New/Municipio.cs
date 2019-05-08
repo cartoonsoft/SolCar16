@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_MUNICIPIO")]
+    [Table("TB_MUNICIPIO", Schema = "DEZESSEIS_NEW")]
     public class Municipio : EntityBase
     {
         [Key]

@@ -9,7 +9,7 @@ using Domain.Core.Entities.Base;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_MODELO_DOC")]
+    [Table("TB_MODELO_DOC", Schema = "DEZESSEIS_NEW")]
     public class ArquivoModeloDocx : EntityBase
     {
         [Key]
