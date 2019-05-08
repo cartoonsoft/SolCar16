@@ -111,7 +111,10 @@
             /*margin-bottom: 0.4cm;*/
             font-family: "Times New Roman";
         }
-        .linkModal:hover{cursor:pointer}
+
+        .linkModal:hover {
+            cursor: pointer
+        }
     </style>
 }
 
@@ -172,32 +175,26 @@
                                     @Html.AntiForgeryToken()
                                     <div id="bootstrap-wizard-1" class="col-sm-12">
                                         <div class="wizard">
-                                            <ul class="steps">
+                                            <ul class="steps" id="list">
                                                 <li class="active" data-target="#step1">
                                                     <span class="badge badge-info">1</span>Dados do Imóvel<span class="chevron"></span>
-                                                    @*<a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Dados do Imóvel</span> </a>*@
                                                 </li>
                                                 <li data-target="#step2">
                                                     <span class="badge">2</span>Busca de Modelo<span class="chevron"></span>
-                                                    @*<a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Busca de Modelo</span> </a>*@
                                                 </li>
                                                 <li data-target="#step3">
                                                     <span class="badge">3</span>Escrita de Ato<span class="chevron"></span>
-
-                                                    @*<a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Escrita de Ato</span> </a>*@
                                                 </li>
                                                 <li data-target="#step4">
                                                     <span class="badge">4</span>Confirmação<span class="chevron"></span>
-
-                                                    @*<a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Confirmação</span> </a>*@
                                                 </li>
                                             </ul>
 
                                             <div class="actions">
-                                                <button type="button" class="btn btn-sm btn-primary btn-prev">
+                                                <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar">
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-success btn-next" onclick="teste()" data-last="Finish">
+                                                <button type="button" class="btn btn-sm btn-success btn-next" id="btnProximo" onclick="teste()" data-last="Finish">
                                                     Próximo<i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
@@ -210,7 +207,7 @@
                                                 <h3><strong>Passo 1 </strong> - Pesquisa de dados do imóvel</h3>
                                                 <div class="row" hidden id="divResp">
                                                     <div class="col-sm-12 alert alert-danger">
-                                                        <label class="">Não existe imóvel para os dados digitados!</label>
+                                                        <label id="labelResp" class="">Não existe imóvel para os dados digitados!</label>
                                                     </div>
                                                 </div>
                                                 <div class="row">
@@ -218,7 +215,7 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao" type="number" min="1"  title="Digite a prenotação corretamente"  placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -246,8 +243,14 @@
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.MATRI,
-                                                                new { @class = "form-control input-lg", @placeholder = "Nº da Matricula", @readonly = "readonly",
-                                                                @required="required",@title = "Número de matrícula é obrigatório"}) 
+                                                                new
+                                                                     {
+                                                                         @class = "form-control input-lg",
+                                                                         @placeholder = "Nº da Matricula",
+                                                                         @readonly = "readonly",
+                                                                @required = "required",
+                                                                         @title = "Número de matrícula é obrigatório"
+                                                                     })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -256,13 +259,13 @@
                                                     <div class="col-sm-5 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.ENDER,
-                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly",@required="required",@title = "Endereço é obrigatório" })
+                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly", @required = "required", @title = "Endereço é obrigatório" })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.NUM,
-                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly"})
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -337,8 +340,14 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         @Html.TextBoxFor(model => model.TipoPessoa,
-                                                            new { @class = "form-control input-lg padding-left-5", @placeholder = "TIPO DE PESSOA", @readonly = "readonly",
-                                                            @required="required",@title="O tipo de pessoa é obrigatório"})
+                                                            new
+                                                                 {
+                                                                     @class = "form-control input-lg padding-left-5",
+                                                                     @placeholder = "TIPO DE PESSOA",
+                                                                     @readonly = "readonly",
+                                                            @required = "required",
+                                                                     @title = "O tipo de pessoa é obrigatório"
+                                                                 })
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome</label>
@@ -346,8 +355,14 @@
                                                     <div class="col-sm-3 margin-left-10 form-group">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                                                new { @class = "form-control input-lg padding-left-5", @placeholder = "NOME DA PESSOA", @readonly = "readonly",
-                                                                @required="required",@title="Nome é obrigatório"})
+                                                                new
+                                                                     {
+                                                                         @class = "form-control input-lg padding-left-5",
+                                                                         @placeholder = "NOME DA PESSOA",
+                                                                         @readonly = "readonly",
+                                                                @required = "required",
+                                                                         @title = "Nome é obrigatório"
+                                                                     })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -391,8 +406,14 @@
                                                         <div>
                                                             @Html.HiddenFor(model => model.ArquivoModelo.Id)
                                                             @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
-                                                                new { @class = "form-control input-lg", @placeholder = "NOME DO MODELO", @readonly = "readonly",@required="required",
-                                                                    @title = "Preencha o nome do modelo"})
+                                                                new
+                                                                     {
+                                                                         @class = "form-control input-lg",
+                                                                         @placeholder = "NOME DO MODELO",
+                                                                         @readonly = "readonly",
+                                                                         @required = "required",
+                                                                    @title = "Preencha o nome do modelo"
+                                                                     })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -400,7 +421,7 @@
                                                     </div>
                                                     <div class="col-sm-2 col-lg-pull-1">
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
-                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required",@title = "Preencha o tipo de ato" })
+                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
                                                     </div>
                                                 </div>
@@ -439,7 +460,7 @@
                                                     <div class="col-sm-12">
                                                         <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
-                                                        <br />  
+                                                        <br />
                                                         @Html.HiddenFor(model => model.IrParaFicha)
                                                         @Html.HiddenFor(model => model.IrParaVerso)
                                                         @Html.HiddenFor(model => model.QuantidadeCentimetrosDaBorda)
@@ -466,7 +487,7 @@
                                                             <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
                                                             </li>-->
                                                             <li class="next">
-                                                                <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"> Next </a>
+                                                                <a href="javascript:void(0);"  id="goToNext"   class="btn btn-lg txt-color-darken"> Next </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -510,7 +531,7 @@
                 cloudServices: {
                     //
                 },
-                toolbar: ['alignment:justify','|' ,'Bold', 'Italic','Underline' ],
+                toolbar: ['alignment:justify', '|', 'Bold', 'Italic', 'Underline'],
 
             })
             .then(editor => {
@@ -618,7 +639,7 @@
         $('#Ato').val(texto);
     });
 
-    //Atualiza o ID do ato quando chega na parte final
+        //Atualiza o ID do ato quando chega na parte final
         function AtualizarIdTipoAto(idModelo) {
             $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
                 { idModelo },
@@ -627,22 +648,24 @@
                 });
         }
 
-        function GetDadosAdicionais() {
+        function ExisteAtoBanco() {
             var numeroMatricula = $('#PREIMO_MATRI').val();
             $.get('@Url.Action("ExisteAtoNoBanco", "Ato")',
                 { numeroMatricula },
                 function (data, status) {
-                    var existeAto = data;
-                    console.log(existeAto);
-                    debugger;
-                    if (existeAto) {
-                        $('#infoAdicional').removeClass('hidden');
-                        $('#btnConfirmar').attr('disabled');
-                    } else {
-                        $('#infoAdicional').addClass('hidden');
-                        $('#btnConfirmar').removeAttr('disabled');
+                    if (status == "success") {
+                        var existeAto = data;
+                        if (existeAto) {
+                            $('#infoAdicional').removeClass('hidden');
+                            $('#btnConfirmar').attr('disabled');
+                        } else {
+                            $('#infoAdicional').addClass('hidden');
+                            $('#btnConfirmar').removeAttr('disabled');
+                        }
                     }
-                    debugger;
+                    else {
+
+                    }
                 });
         }
 
@@ -663,14 +686,22 @@
                 { numeroPrenotacao: numPre, numeroMatricula: numMat },
                 function (data, status) {
                     debugger;
-                    if (data != "null") {
-                        $('#divResp').attr('hidden','hidden');
-                        resultado = JSON.parse(data);
-                        enviarDadosMatricula(resultado);
-                        debugger;
-                        GetDadosPessoa(resultado.SEQPRE);
+                    if (status == "success") {
+                        if (data != "") {
+                            $('#divResp').attr('hidden', 'hidden');
+                            resultado = JSON.parse(data);
+                            enviarDadosMatricula(resultado);
+                            GetDadosPessoa(resultado.SEQPRE);
+                        }
+                        else
+                        {
+                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
+                            $('#divResp').removeAttr('hidden');
+                        }
                     }
-                    else {
+                    else
+                    {
+                        $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
                         $('#divResp').removeAttr('hidden');
                     }
                 });
@@ -698,13 +729,19 @@
              $.get('@Url.Action("GetTipoPessoa", "Ato")',
                 { numeroPrenotacao: numPre },
                  function (data, status) {
-                     if (data != null) {
-                         resultado = JSON.parse(data);
-                         console.log(resultado);
-                         debugger;
-                         enviarDadosPessoa(resultado);
-                     } else {
-                        $('#divResp').removeAttr('hidden');
+                     if (status == "success") {
+                         if (data != "") {
+                             resultado = JSON.parse(data);
+                             enviarDadosPessoa(resultado);
+                             $('#divResp').attr('hidden');
+                         }else {
+                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                            $('#divResp').removeAttr('hidden');
+                         }
+                     }
+                     else {
+                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                         $('#divResp').removeAttr('hidden');
                      }
                 });
         }
@@ -789,43 +826,61 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
-
                         if (index - 1 == 1) AtualizarModelo();
                         if (index - 1 == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                            GetDadosAdicionais();
+                            ExisteAtoBanco();
                         }
-                        $('#bootstrap-wizard-1').find('.form-wizard .form-actions').children('li').eq(index - 1).addClass(
+                        var lista = $('#list');
+                        console.log(lista);
+                        var objeto = lista.find('.active');
+                        var item = objeto[0];
+                        console.log(item);
+                        item.classList.remove('active');
+                        item.classList.add('complete');
+                        var quantidade = lista.find('.complete').length;
+                        item = lista.children('li')[quantidade];
+                        item.classList.add('active');
+                        $(`#step${quantidade}`).removeClass('active');
+                        $(`#step${quantidade+1}`).addClass('active');
+
+                        debugger;
+                        $('#list').children('li .active').addClass( 
                             'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard .form-actions').children('li').eq(index - 1).find('.step')
-                            .html('<i class="fa fa-check"></i>');
 
                     }
                 }
             });
+            
         });
 
-
     function teste() {
-        var elementos = document.getElementsByClassName('complete');
-        console.log(elementos);
-        var numeroPasso = elementos.length;
-        console.log(numeroPasso);
-        debugger;
-        if (numeroPasso == 1) {
-            AtualizarModelo();
+        $('#goToNext').click();
+
+
+            //var valid = validarForm();
+            //if (valid) {
+            //    $('#inputValidation').val('OK');
+            //    var elementos = document.getElementsByClassName('complete');
+            //    console.log(elementos);
+            //    var numeroPasso = elementos.length;
+            //    console.log(numeroPasso);
+            //    debugger;
+            //    if (numeroPasso == 1) {
+            //        AtualizarModelo();
+            //    }
+            //    else if (numeroPasso == 2) {
+            //        $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+            //        $('#textAreaAto').val($('#Ato').val());
+            //        AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+            //        ExisteAtoBanco();
+            //    }
+            //    else if (numeroPasso == 3) {
+
+            //    }
+            //}
         }
-        else if (numeroPasso == 2) {
-            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-            $('#textAreaAto').val($('#Ato').val());
-            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-            GetDadosAdicionais();
-        }
-        else if(numeroPasso == 3){
-         
-        }
-    }
     </script>
 }
