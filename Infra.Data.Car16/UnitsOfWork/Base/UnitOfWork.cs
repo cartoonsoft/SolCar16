@@ -126,10 +126,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
                 this.SaveLog(exUpdate);
 
                 throw exUpdate;
-
-
             }
-
             catch (Exception exGeneirc)
             {
                 this.RollbackTransaction();
@@ -182,8 +179,6 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
                 errorLog.Close();
             }
 
-            //todo: implementar savelog
-            //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
 
     }

@@ -15,6 +15,7 @@ using System.Web.Configuration;
 using Domain.Car16.enums;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Infra.Data.Car16.Context;
+using Infra.Data.Car16.Context.Base;
 using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.UnitsOfWork.Base
@@ -23,50 +24,53 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
     {
         const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Car16";
+
+        private readonly ContextOraBase _context;
         private readonly InfraDataEventLogging _log;
 
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="context"></param>
-        public UnitOfWorkCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null ) : base(context)
+        public UnitOfWorkCar16(BaseDados baseDados, ContextOraBase context = null, InfraDataEventLogging log = null ) : base(context)
         {
-            //
+            if (context != null)
+            {
+                this._context = context;
+                base.ContextCore = this._context;
+            }
+            _log = log;
+        }
+
+        protected string GetContextName(BaseDados baseDados)
+        {
             string contextName = string.Empty;
 
-            this.ContextMainCar16 = context;
-
-            if (ContextMainCar16 == null)
+            switch (baseDados)
             {
-                switch (baseDados)
-                {
-                    case BaseDados.DesenvDezesseisNew:
-                        contextName = "contextOraDevCartorioNew";
-                        break;
-                    case BaseDados.DesenvDezesseis:
-                        contextName = "contextOraDevCartorio";
-                        break;
-                    case BaseDados.HomoloDezesseisNew:
-                        contextName = "contextOraHomoloCartorioNew";
-                        break;
-                    case BaseDados.HomoloDezesseis:
-                        contextName = "contextOraHomoloCartorio";
-                        break;
-                    case BaseDados.ProdDezesseisNew:
-                        contextName = "contextOraProdCartorioNew";
-                        break;
-                    case BaseDados.ProdDezesseis:
-                        contextName = "contextOraProdCartorio";
-                        break;
-                    default:
-                        break;
-                }
-
-                this.ContextMainCar16 = new ContextMainCar16(contextName);
-                base.ContextCore = this.ContextMainCar16;
+                case BaseDados.DesenvDezesseisNew:
+                    contextName = "contextOraDevCartorioNew";
+                    break;
+                case BaseDados.DesenvDezesseis:
+                    contextName = "contextOraDevCartorio";
+                    break;
+                case BaseDados.HomoloDezesseisNew:
+                    contextName = "contextOraHomoloCartorioNew";
+                    break;
+                case BaseDados.HomoloDezesseis:
+                    contextName = "contextOraHomoloCartorio";
+                    break;
+                case BaseDados.ProdDezesseisNew:
+                    contextName = "contextOraProdCartorioNew";
+                    break;
+                case BaseDados.ProdDezesseis:
+                    contextName = "contextOraProdCartorio";
+                    break;
+                default:
+                    break;
             }
 
-            _log = log;
+            return contextName;
         }
 
         #region IDisposable Support
@@ -79,15 +83,6 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_log != null)
-                    {
-                        //_log.Dispose();
-                    }
-
-                    if(this.ContextMainCar16 != null)
-                    {
-                        ContextMainCar16.Dispose();
-                    }
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -103,8 +98,6 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
             Dispose(true);
         }
         #endregion
-        
-        protected ContextMainCar16 ContextMainCar16 { get; private set; }
 
         public override int? Commit()
         {

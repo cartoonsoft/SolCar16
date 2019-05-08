@@ -13,7 +13,7 @@ namespace ConsoleAppTeste
 {
     class Program
     {
-static void Main(string[] args)
+        static void Main(string[] args)
         {
 
             int opcao;
@@ -57,10 +57,8 @@ static void Main(string[] args)
             while (opcao != 0);
         }
 
-
         public static void ListaPaizes()
         {
-
             Console.Clear();
             //Console.WriteLine("----------------------------------------------------------------");
             //Console.WriteLine("***************|       RELATORIO     |**************************");
@@ -76,9 +74,7 @@ static void Main(string[] args)
             }
 
             Console.ReadKey();
-
         }
-
 
         public static void ListaMatriculas()
         {
@@ -126,17 +122,16 @@ static void Main(string[] args)
 
             Console.ReadKey();
         }
-        
 
         public static void Teste()
         {
 
-            ContextMainCar16 context = new ContextMainCar16("contextOraDevCartorioNew");
+            ContextMainCar16New context = new ContextMainCar16New("contextOraDevCartorioNew");
 
             RepositoryPais RepPais = new RepositoryPais(context);
             List<Pais> listPaizes = RepPais.GetAll().ToList();
 
-            
+
             ContextMainCar16 context2 = new ContextMainCar16("contextOraDevCartorio");
 
             //Repository Pais RepPais = new RepositoryPais(context);
@@ -155,5 +150,4 @@ static void Main(string[] args)
         }
 
     }
-
 }

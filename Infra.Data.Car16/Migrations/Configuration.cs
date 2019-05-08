@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Migrations
 {
-    internal sealed class Configuration : DbMigrationsConfiguration<ContextMainCar16>
+    internal sealed class Configuration : DbMigrationsConfiguration<ContextMainCar16New>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(ContextMainCar16 context)
+        protected override void Seed(ContextMainCar16New context)
         {
 
         }

@@ -68,7 +68,14 @@ namespace Infra.Data.Car16.Repositories.Base
         }
         #endregion
 
-        protected string AddWhereClause(string sqlWhere, bool firstWhere)
+        /// <summary>
+        /// Adiciona uma cláusula were na query
+        /// </summary>
+        /// <param name="sqlWhere"></param>
+        /// <param name="logicOperator">pode ser: and ou or</param>
+        /// <param name="firstWhere"></param>
+        /// <returns></returns>
+        protected string AddWhereClause(string sqlWhere, string logicOperator, bool firstWhere)
         {
             string whereTmp = ""; 
 
@@ -76,7 +83,7 @@ namespace Infra.Data.Car16.Repositories.Base
             {
                 whereTmp = "where" + System.Environment.NewLine + sqlWhere;
             } else {
-                whereTmp = "and " + sqlWhere + System.Environment.NewLine;
+                whereTmp = System.Environment.NewLine + logicOperator + " " + sqlWhere;
             }
 
             return whereTmp;

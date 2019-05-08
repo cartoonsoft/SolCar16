@@ -6,25 +6,25 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection;
+using Oracle.ManagedDataAccess.Client;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories.Base;
-using Oracle.ManagedDataAccess.Client;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 
 namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryArquivoModeloDocx : RepositoryBaseReadWrite<ArquivoModeloDocx>, IRepositoryArquivoModeloDocx
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryArquivoModeloDocx(ContextMainCar16 contexRep) : base(contexRep)
+        public RepositoryArquivoModeloDocx(ContextMainCar16New contexRepository) : base(contexRepository)
         {
-            _contexRep = contexRep;
+            _contextRepository = contexRepository;
         }
 
         public IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
@@ -56,7 +56,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             if (IdTipoAto != null)
             {
                 oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
-                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", (sqlWhere == ""));
+                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == ""));
             }
 
             sqlOrder = "order by DOC.DESCRICAO asc";
@@ -121,7 +121,6 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             List<ArquivoModeloSimplificadoDocxList> ListaArquivos = new List<ArquivoModeloSimplificadoDocxList>();
             List<OracleParameter> oracleParameters = new List<OracleParameter>();
 
-
             strQuery +=
                 @"SELECT 
                     DOC.ID_MODELO_DOC,
@@ -133,7 +132,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             if (IdTipoAto != null)
             {
                 oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
-                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", (sqlWhere == ""));
+                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == ""));
             }
 
             sqlOrder = "order by DOC.DESCRICAO asc";

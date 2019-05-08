@@ -15,12 +15,19 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16New
 {
     public class UnitOfWorkDataBaseCar16New: UnitOfWorkCar16, IUnitOfWorkDataBaseCar16New
     {
+        private readonly ContextMainCar16New _context;
         private readonly IRepositoriesFactoryCar16New _repositoriesCar16New;
 
-        public UnitOfWorkDataBaseCar16New(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
+        public UnitOfWorkDataBaseCar16New(BaseDados baseDados, ContextMainCar16New context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
             //
-            _repositoriesCar16New = new RepositoriesFactoryCar16New(ContextMainCar16);
+            if (context == null)
+            {
+                _context = new ContextMainCar16New(GetContextName(baseDados));
+                base.ContextCore = _context;
+            }
+
+            _repositoriesCar16New = new RepositoriesFactoryCar16New(context);
             base.Repositories = _repositoriesCar16New;
 
         }
@@ -63,6 +70,10 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16New
 
         }
 
+        ContextMainCar16New Context
+        {
+            get { return _context; }
+        }
 
     }
 }

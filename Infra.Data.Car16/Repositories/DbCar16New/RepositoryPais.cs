@@ -13,11 +13,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryPais : RepositoryBaseReadWrite<Pais>, IRepositoryPais
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryPais(ContextMainCar16 contexRep): base (contexRep)
+        public RepositoryPais(ContextMainCar16New contextRepository) : base(contextRepository)
         {
-            _contexRep = contexRep; 
+            _contextRepository = contextRepository;
         }
 
         public IEnumerable<Pais> BuscarPorNome(string nome)

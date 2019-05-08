@@ -15,25 +15,30 @@ namespace Infra.Data.Car16.Context
     /// context para Car16 New
     /// </summary>
     [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
-    public class ContextMainCar16 : ContextOraBase
+    public class ContextMainCar16New : ContextOraBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="connName"></param>
-        public ContextMainCar16(string connName) : base(connName)
+        public ContextMainCar16New(string connName) : base(connName)
         {
-            Database.SetInitializer<ContextMainCar16>(null);
+            Database.SetInitializer<ContextMainCar16New>(null);
         }
 
         /// <summary>
         /// Base de dados: dezesseis_new 
         /// </summary>
-        public DbSet<Matricula> DbMatricula { get; set; }
-        public DbSet<PREIMO> DbPREIMO { get; set; }
-        public DbSet<PESXPRE> DbPESXPRE { get; set; }
-        public DbSet<PESSOA> DbPESSOA { get; set; }
-        
+        public DbSet<Pais> DbPais { get; set; }
+        public DbSet<Uf> DbUf { get; set; }
+        public DbSet<Municipio> DbMunicipio { get; set; }
+
+        public DbSet<ArquivoModeloDocx> DbArquivoModeloDocx { get; set; }
+        public DbSet<CamposArquivoModeloDocx> DbCamposArquivoModeloDocx { get; set; }
+        public DbSet<LogArquivoModeloDocx> DbLogArquivoModeloDocx { get; set;}
+        public DbSet<TipoAto> DbTipoAto { get; set; }
+        public DbSet<Ato> DbAto { get; set; }
+                
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new ClienteConfig());

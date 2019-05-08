@@ -13,11 +13,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryMunicipio : RepositoryBaseReadWrite<Municipio>, IRepositoryMunicipio
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryMunicipio(ContextMainCar16 contexRep): base (contexRep)
+        public RepositoryMunicipio(ContextMainCar16New contextRepository) : base(contextRepository)
         {
-            _contexRep = contexRep; 
+            _contextRepository = contextRepository;
         }
     }
 }

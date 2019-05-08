@@ -12,11 +12,11 @@ namespace Infra.Data.Car16.Repositories
 {
     public class RepositoryPREIMO : RepositoryBaseReadWrite<PREIMO>, IRepositoryPREIMO
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16 _contexRepository;
 
-        public RepositoryPREIMO(ContextMainCar16 contexRep) : base(contexRep)
+        public RepositoryPREIMO(ContextMainCar16 contexRepository) : base(contexRepository)
         {
-            _contexRep = contexRep;
+            _contexRepository = contexRepository;
         }
 
         public PREIMO BuscaDadosImovel(long? numeroPrenotacao = null, long? numeroMatricula = null)
