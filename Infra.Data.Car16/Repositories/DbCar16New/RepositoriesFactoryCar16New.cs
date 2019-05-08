@@ -1,31 +1,27 @@
-﻿using Domain.Car16.Entities;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.Repositories;
-using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.Data;
-using Domain.Core.Interfaces.Entities;
-using Domain.Core.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
+using Domain.Car16.Interfaces.Repositories;
+using Domain.Core.Interfaces.Repositories;
+using Infra.Data.Car16.Context;
+using Infra.Data.Car16.Repositories.Base;
 
 namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoriesFactoryCar16New : RepositoriesFactoryBase, IRepositoriesFactoryCar16New
     {
-        private readonly ContextMainCar16 _context;
+        private readonly ContextMainCar16New _context;
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public RepositoriesFactoryCar16New(ContextMainCar16 context): base(context)
+        public RepositoriesFactoryCar16New(ContextMainCar16New context): base(context)
         {
             //
             this._context = context;
@@ -103,10 +99,6 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
                     if (typeof(T).Equals(typeof(LogArquivoModeloDocx)))
                     {
                         repository = new RepositoryLogArquivoModeloDocx(this._context);
-                    }
-                    if (typeof(T).Equals(typeof(PREIMO)))
-                    {
-                        repository = new RepositoryPREIMO(this._context);
                     }
 
                     if (repository != null)

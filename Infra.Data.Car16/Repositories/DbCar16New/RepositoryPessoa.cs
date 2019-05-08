@@ -13,11 +13,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryPessoa : RepositoryBaseReadWrite<Pessoa>, IRepositoryPessoa
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryPessoa(ContextMainCar16 contexRep): base (contexRep)
+        public RepositoryPessoa(ContextMainCar16New contextRepository) : base(contextRepository)
         {
-            _contexRep = contexRep; 
+            _contextRepository = contextRepository;
         }
 
         public Pessoa BuscarPorCPFCNPJ(string CpfCnpj)

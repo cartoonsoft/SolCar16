@@ -1,24 +1,18 @@
-﻿using Domain.Car16.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.Repositories;
-using Domain.Core.Entities.Base;
-using Domain.Core.Interfaces.Data;
-using Domain.Core.Interfaces.Entities;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Car16.Context;
 using Infra.Data.Car16.Repositories.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infra.Data.Car16.Repositories.DbCar16
 {
     public class RepositoriesFactoryCar16 : RepositoriesFactoryBase, IRepositoriesFactoryCar16
     {
         private readonly ContextMainCar16 _context;
+
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
@@ -27,7 +21,6 @@ namespace Infra.Data.Car16.Repositories.DbCar16
         /// <param name="context"></param>
         public RepositoriesFactoryCar16(ContextMainCar16 context): base(context)
         {
-            //
             this._context = context;
         }
 
@@ -76,7 +69,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16
                 }
                 else
                 {
-                    if (typeof(T).Equals(typeof(Pais)))
+                    if (typeof(T).Equals(typeof(PREIMO)))
                     {
                         repository = new RepositoryPREIMO(this._context);
                     }

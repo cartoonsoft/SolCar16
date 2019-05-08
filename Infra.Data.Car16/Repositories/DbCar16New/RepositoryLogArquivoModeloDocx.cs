@@ -14,11 +14,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryLogArquivoModeloDocx : RepositoryBaseReadWrite<LogArquivoModeloDocx>, IRepositoryLogArquivoModeloDocx
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryLogArquivoModeloDocx(ContextMainCar16 context) : base(context)
+        public RepositoryLogArquivoModeloDocx(ContextMainCar16New contextRepository) : base(contextRepository)
         {
-            _contexRep = context;
+            _contextRepository = contextRepository;
         }
     }
 }

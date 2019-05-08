@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\Base\ContextOraBase.cs" />
+    <Compile Include="Context\ContextMainCar16New.cs" />
     <Compile Include="Context\ContextMainCar16.cs" />
     <Compile Include="Context\EntityFrameworkOracleConfiguration.cs" />
     <Compile Include="EntityConfig\PedidoConfig.cs" />

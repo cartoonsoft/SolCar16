@@ -69,14 +69,14 @@ namespace Infra.Data.Car16.Context.Base
 
             if (this.Database.Connection is OracleConnection)
             {
-                if (_contexName == "contextOraDevCartorioNew")
-                {
-                    modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
-                }
-                else if (_contexName == "contextOraDevCartorio")
-                {
-                    modelBuilder.HasDefaultSchema("DEZESSEIS");
-                }
+                //if (_contexName == "contextOraDevCartorioNew")
+                //{
+                //    modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
+                //}
+                //else if (_contexName == "contextOraDevCartorio")
+                //{
+                //    modelBuilder.HasDefaultSchema("DEZESSEIS");
+                //}
             }
 
             //    modelBuilder.Properties<string>()

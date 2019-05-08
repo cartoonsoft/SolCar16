@@ -15,14 +15,25 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16
 {
     public class UnitOfWorkDataBaseCar16: UnitOfWorkCar16, IUnitOfWorkDataBaseCar16
     {
+        private readonly ContextMainCar16 _context;
         private readonly IRepositoriesFactoryCar16 _repositoriesCar16;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="baseDados"></param>
+        /// <param name="context"></param>
+        /// <param name="log"></param>
         public UnitOfWorkDataBaseCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
-            //
-            _repositoriesCar16 = new RepositoriesFactoryCar16(ContextMainCar16);
-            base.Repositories = _repositoriesCar16;
+            if (context == null)
+            {
+                _context = new ContextMainCar16(GetContextName(baseDados));
+                base.ContextCore = _context;
+            }
 
+            _repositoriesCar16 = new RepositoriesFactoryCar16(context);
+            base.Repositories = _repositoriesCar16;
         }
 
         #region IDisposable Support
@@ -57,13 +68,16 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16
         }
         #endregion
 
-
         public new IRepositoriesFactoryCar16 Repositories
         {
             get { return _repositoriesCar16; }
 
         }
 
+        ContextMainCar16 Context
+        {
+            get { return _context; }
+        }
 
     }
 }

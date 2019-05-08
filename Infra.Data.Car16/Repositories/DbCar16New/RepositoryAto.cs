@@ -12,11 +12,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 {
     public class RepositoryAto : RepositoryBaseReadWrite<Ato>, IRepositoryAto
     {
-        private readonly ContextMainCar16 _contexRep;
+        private readonly ContextMainCar16New _contextRepository;
 
-        public RepositoryAto(ContextMainCar16 contexRep) : base(contexRep)
+        public RepositoryAto(ContextMainCar16New contextRepository) : base(contextRepository)
         {
-            _contexRep = contexRep;
+            _contextRepository = contextRepository;
         }
     }
 }
