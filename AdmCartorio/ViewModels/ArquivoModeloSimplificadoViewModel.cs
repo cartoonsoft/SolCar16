@@ -19,5 +19,6 @@ namespace AdmCartorio.ViewModels
         [DataMember]
         [Required(ErrorMessage = "Campo obrigatório")]
         public string DescricaoTipoAto { get; set; }
+
     }
 }

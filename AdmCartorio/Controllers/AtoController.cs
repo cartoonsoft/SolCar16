@@ -206,50 +206,37 @@ namespace AdmCartorio.Controllers
         /// <returns>JSON</returns>
         public JsonResult GetTipoPessoa(long numeroPrenotacao)
         {
-            PESXPRE pessoaPre;
-            PESSOA pessoa;
+            PESXPRE pessoaPre = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESXPRE>()
+                .GetWhere(n => n.SEQPRE == numeroPrenotacao).OrderByDescending(n => n.SEQPRE).FirstOrDefault();
+            PESSOA pessoa = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESSOA>()
+                .GetWhere(p => p.SEQPES == pessoaPre.SEQPES).OrderByDescending(p => p.SEQPES).FirstOrDefault();
 
+            DadosPessoaViewModel dados = new DadosPessoaViewModel
+            {
+                TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
+                BAI = pessoa.BAI,
+                SEQPES = pessoa.SEQPES,
+                CEP = pessoa.CEP,
+                CID = pessoa.CID,
+                ENDER = pessoa.ENDER,
+                NOM = pessoa.NOM,
+                NRO1 = pessoa.NRO1,
+                NRO2 = pessoa.NRO2,
+                TEL = pessoa.TEL,
+                TIPODOC1 = pessoa.TIPODOC1,
+                TIPODOC2 = pessoa.TIPODOC2,
+                UF = pessoa.UF
+            };
+            var jsonResult = JsonConvert.SerializeObject(dados);
 
+            return Json(jsonResult, JsonRequestBehavior.AllowGet);
 
-            //using (var appService = new AppServicePESXPRE(this.UnitOfWorkDataBaseCar16))
-            //{
-            //    var dtoPessoaPre = appService.GetPESXPRE(numeroPrenotacao);
-            //    pessoaPre = Mapper.Map<DtoPESXPRE, PESXPRE>(dtoPessoaPre);
-            //}
-            //using (var appService = new AppServicePESSOA(this.UnitOfWorkDataBaseCar16))
-            //{
-            //    var dtoPessoa = appService.GetPESSOA(pessoaPre.SEQPES);
-            //    pessoa = Mapper.Map<DtoPESSOA, PESSOA>(dtoPessoa);
-            //}
-            //DadosPessoaViewModel dados = new DadosPessoaViewModel
-            //{
-            //    TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
-            //    BAI = pessoa.BAI,
-            //    SEQPES = pessoa.SEQPES,
-            //    CEP = pessoa.CEP,
-            //    CID = pessoa.CID,
-            //    ENDER = pessoa.ENDER,
-            //    NOM = pessoa.NOM,
-            //    NRO1 = pessoa.NRO1,
-            //    NRO2 = pessoa.NRO2,
-            //    TEL = pessoa.TEL,
-            //    TIPODOC1 = pessoa.TIPODOC1,
-            //    TIPODOC2 = pessoa.TIPODOC2,
-            //    UF = pessoa.UF
-            //};
-            //var jsonResult = JsonConvert.SerializeObject(dados);
-
-            //return Json(jsonResult, JsonRequestBehavior.AllowGet);
-
-            return null;
         }
-        public long GetIdAtoPeloModelo(long idModelo)
+        public long GetIdTipoAtoPeloModelo(long idModelo)
         {
-            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16))
-            //{
-            //    return appService.DomainServices.GenericDomainService<ArquivoModeloDocx>().GetById(idModelo).IdTipoAto;
-            //}
-            return 0;
+            return this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx
+                .GetWhere(i => i.Id == idModelo).FirstOrDefault().IdTipoAto;
+            
         }
         public bool ExisteAtoNoBanco(long numeroMatricula)
         {
