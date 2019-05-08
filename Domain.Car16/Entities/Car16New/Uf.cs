@@ -9,7 +9,7 @@ using Domain.Core.Entities.Base;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_UF")]
+    [Table("TB_UF", Schema = "DEZESSEIS_NEW")]
     public class Uf : EntityBase
     {
         [Key]

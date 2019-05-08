@@ -20,16 +20,16 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16New
 
         public UnitOfWorkDataBaseCar16New(BaseDados baseDados, ContextMainCar16New context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
-            //
-            if (context == null)
+            _context = context;
+
+            if (_context == null)
             {
                 _context = new ContextMainCar16New(GetContextName(baseDados));
-                base.ContextCore = _context;
+                base.Context = _context;
             }
 
-            _repositoriesCar16New = new RepositoriesFactoryCar16New(context);
+            _repositoriesCar16New = new RepositoriesFactoryCar16New(_context);
             base.Repositories = _repositoriesCar16New;
-
         }
 
         #region IDisposable Support
@@ -70,7 +70,7 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16New
 
         }
 
-        ContextMainCar16New Context
+        ContextMainCar16New ContextCar16New
         {
             get { return _context; }
         }

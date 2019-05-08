@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_PAIS")]
+    [Table("TB_PAIS", Schema = "DEZESSEIS_NEW")]
     public class Pais : EntityBase
     {
         //[Key]
