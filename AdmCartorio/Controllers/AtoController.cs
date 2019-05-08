@@ -194,9 +194,21 @@ namespace AdmCartorio.Controllers
 
         public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
         {
-            var PREIMO =  this.UnitOfWorkDataBaseCar16.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
-            var jsonResult = JsonConvert.SerializeObject(PREIMO);
+            string jsonResult;
+            try
+            {
+                var PREIMO = this.UnitOfWorkDataBaseCar16.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
+                jsonResult = JsonConvert.SerializeObject(PREIMO);
+            }
+            catch (Exception)
+            {
+                jsonResult = "";
+               
+                //Cadastrar log de erro
+
+            }
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
+            
         }
 
         /// <summary>
@@ -206,29 +218,36 @@ namespace AdmCartorio.Controllers
         /// <returns>JSON</returns>
         public JsonResult GetTipoPessoa(long numeroPrenotacao)
         {
-            PESXPRE pessoaPre = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESXPRE>()
-                .GetWhere(n => n.SEQPRE == numeroPrenotacao).OrderByDescending(n => n.SEQPRE).FirstOrDefault();
-            PESSOA pessoa = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESSOA>()
-                .GetWhere(p => p.SEQPES == pessoaPre.SEQPES).OrderByDescending(p => p.SEQPES).FirstOrDefault();
-
-            DadosPessoaViewModel dados = new DadosPessoaViewModel
+            string jsonResult;
+            try
             {
-                TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
-                BAI = pessoa.BAI,
-                SEQPES = pessoa.SEQPES,
-                CEP = pessoa.CEP,
-                CID = pessoa.CID,
-                ENDER = pessoa.ENDER,
-                NOM = pessoa.NOM,
-                NRO1 = pessoa.NRO1,
-                NRO2 = pessoa.NRO2,
-                TEL = pessoa.TEL,
-                TIPODOC1 = pessoa.TIPODOC1,
-                TIPODOC2 = pessoa.TIPODOC2,
-                UF = pessoa.UF
-            };
-            var jsonResult = JsonConvert.SerializeObject(dados);
+                PESXPRE pessoaPre = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESXPRE>()
+                .GetWhere(n => n.SEQPRE == numeroPrenotacao).OrderByDescending(n => n.SEQPRE).FirstOrDefault();
+                PESSOA pessoa = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESSOA>()
+                    .GetWhere(p => p.SEQPES == pessoaPre.SEQPES).OrderByDescending(p => p.SEQPES).FirstOrDefault();
 
+                DadosPessoaViewModel dados = new DadosPessoaViewModel
+                {
+                    TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
+                    BAI = pessoa.BAI,
+                    SEQPES = pessoa.SEQPES,
+                    CEP = pessoa.CEP,
+                    CID = pessoa.CID,
+                    ENDER = pessoa.ENDER,
+                    NOM = pessoa.NOM,
+                    NRO1 = pessoa.NRO1,
+                    NRO2 = pessoa.NRO2,
+                    TEL = pessoa.TEL,
+                    TIPODOC1 = pessoa.TIPODOC1,
+                    TIPODOC2 = pessoa.TIPODOC2,
+                    UF = pessoa.UF
+                };
+                jsonResult = JsonConvert.SerializeObject(dados);
+            }
+            catch (Exception)
+            {
+                jsonResult = "";
+            }
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
 
         }
