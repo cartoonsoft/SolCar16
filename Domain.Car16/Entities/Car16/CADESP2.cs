@@ -6,7 +6,7 @@ namespace Domain.Car16.Entities.Car16
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DEZESSEIS.CADESP2")]
+    [Table("CADESP2", Schema = "DEZESSEIS")]
     public partial class CADESP2
     {
         [Key]

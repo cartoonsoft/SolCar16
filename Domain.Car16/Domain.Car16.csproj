@@ -143,8 +143,8 @@
     <Compile Include="Entities\Car16\TABTP.cs" />
     <Compile Include="Entities\Car16\TABTPV.cs" />
     <Compile Include="Entities\Car16\TABTPVX.cs" />
-    <Compile Include="Entities\Car16\TB_FUNCAO.cs" />
-    <Compile Include="Entities\Car16\TB_USUARIO.cs" />
+    <Compile Include="Entities\Car16New\TB_FUNCAO.cs" />
+    <Compile Include="Entities\Car16New\TB_USUARIO.cs" />
     <Compile Include="Entities\Car16\TERMO.cs" />
     <Compile Include="Entities\Car16\TITPOS.cs" />
     <Compile Include="Entities\Car16\ULTRP.cs" />

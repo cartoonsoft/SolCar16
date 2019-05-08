@@ -6,7 +6,7 @@ namespace Domain.Car16.Entities.Car16
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DEZESSEIS.NFE_RPS_OBS")]
+    [Table("NFE_RPS_OBS", Schema = "DEZESSEIS")]
     public partial class NFE_RPS_OBS
     {
         [Key]

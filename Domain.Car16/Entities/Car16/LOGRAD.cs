@@ -6,7 +6,7 @@ namespace Domain.Car16.Entities.Car16
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DEZESSEIS.LOGRAD")]
+    [Table("LOGRAD", Schema = "DEZESSEIS")]
     public partial class LOGRAD
     {
         [Key]

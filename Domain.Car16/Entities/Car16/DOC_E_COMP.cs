@@ -6,7 +6,7 @@ namespace Domain.Car16.Entities.Car16
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("DEZESSEIS.DOC_E_COMP")]
+    [Table("DOC_E_COMP", Schema = "DEZESSEIS")]
     public partial class DOC_E_COMP
     {
         [Key]
