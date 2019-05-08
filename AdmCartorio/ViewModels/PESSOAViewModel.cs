@@ -8,9 +8,7 @@ namespace AdmCartorio.ViewModels
 {
     public class PESSOAViewModel
     {
-        [Required(ErrorMessage ="Campo obrigatório")]
         public long SEQPES { get; set; }
-        [Required(ErrorMessage ="Campo obrigatório")]
         public string NOM { get; set; }
         public string ENDER { get; set; }
         public string BAI { get; set; }

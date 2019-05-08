@@ -37,12 +37,15 @@ namespace Domain.Car16.Entities.Car16New
         [Column("DT_ALTER")]
         public DateTime? DataAlteracao { get; set; }
 
-        [Column("NRO_MATRICULA")] //NUMERIC(38, 0),
+        [Column("NRO_MATRICULA")] //NVARCHAR2
+        [DataType("NVARCHAR2")]
         public string NumMatricula { get; set; }
 
         [Column("NOME_ARQUIVO")] //VARCHAR2(200),
         public string NomeArquivo { get; set; }
+
         [Column("ARQ_BYTES")] //BLOB,
+        [DataType("BLOB")]
         public byte[] ArquivoBytes { get; set; }
 
         [Column("ATIVO")] //NUMERIC(1,0)         default 0,

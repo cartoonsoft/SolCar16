@@ -25,10 +25,11 @@ namespace AppServices.Car16.AppServices
         {
             //Busca no banco se existe algum ato para aquela Ato
 
-            int quantidadeAtos = this.DomainServices.GenericDomainService<Ato>()
-                .GetWhere(m => m.NumMatricula == numeroMatricula.ToString())
-                .Select(p => p.Id)
+            int quantidadeAtos = this.UnitOfWorkCar16New.Repositories.GenericRepository<Ato>()
+                .GetWhere(n => n.NumMatricula == numeroMatricula.ToString())
+                .Select(i => i.Id)
                 .Count();
+
             //Se ato > 1, então existe o ato inicial
             return quantidadeAtos > 0;
         }

@@ -28,6 +28,7 @@ using Xceed.Words.NET;
 
 namespace AdmCartorio.Controllers
 {
+    [Authorize]
     public class AtoController : AdmCartorioBaseController
     {
         #region | Construtores |
@@ -92,8 +93,8 @@ namespace AdmCartorio.Controllers
                 //Ajusta a string de ato
                 modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
 
-                if (ModelState.IsValid)
-                {
+                //if (ModelState.IsValid)
+                //{
 
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
@@ -129,17 +130,17 @@ namespace AdmCartorio.Controllers
                             ArquivoBytes = arrayBytesNovo,
                             Ativo = true,
                             Bloqueado = false,
-                            IdPrenotacao = modelo.PREIMO.SEQPRE,
+                            IdPrenotacao = 511898,//modelo.PREIMO.SEQPRE,
                             IdTipoAto = modelo.IdTipoAto,
                             NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
-                            IdUsuarioAlteracao = this.UsuarioAtual.Id,
+                            IdUsuarioCadastro = this.UsuarioAtual.Id,
                             IdContaAcessoSistema = 1
                         };
 
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
-                        //this.UnitOfWorkDataBaseCar16New.Commit();
+                        this.UnitOfWorkDataBaseCar16New.Commit();
 
                     }
                     else
@@ -149,7 +150,7 @@ namespace AdmCartorio.Controllers
                     }
                     ViewBag.sucesso = "Ato cadastrado com sucesso!";
                     return View(nameof(Cadastrar), modelo);
-                }
+                //}
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
@@ -253,14 +254,16 @@ namespace AdmCartorio.Controllers
         }
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
+            
             return this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx
-                .GetWhere(i => i.Id == idModelo).FirstOrDefault().IdTipoAto;
+                .GetById(idModelo).IdTipoAto;
             
         }
         public bool ExisteAtoNoBanco(long numeroMatricula)
         {
             try
             {
+                //return true;
                 using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
                 {
                     return appService.ExisteAtoCadastrado(numeroMatricula);

@@ -191,7 +191,7 @@
                                             </ul>
 
                                             <div class="actions">
-                                                <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar">
+                                                <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-success" id="btnProximo" onclick="teste()" data-last="Finish">
@@ -826,61 +826,67 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
-                        if (index - 1 == 1) AtualizarModelo();
-                        if (index - 1 == 2) {
-                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-                            $('#textAreaAto').val($('#Ato').val());
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                            ExisteAtoBanco();
-                        }
+                        //if (index - 1 == 1) AtualizarModelo();
+                        //if (index - 1 == 2) {
+                            
+                        //}
+
                         var lista = $('#list');
-                        console.log(lista);
                         var objeto = lista.find('.active');
                         var item = objeto[0];
-                        console.log(item);
                         item.classList.remove('active');
                         item.classList.add('complete');
+
                         var quantidade = lista.find('.complete').length;
                         item = lista.children('li')[quantidade];
                         item.classList.add('active');
                         $(`#step${quantidade}`).removeClass('active');
                         $(`#step${quantidade+1}`).addClass('active');
+                        $('#btnVoltar').removeAttr('disabled', 'disabled');
+
+                        if (quantidade == 2) {
+                            AtualizarModelo();
+                        } else if (quantidade == 3) {
+                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                            $('#textAreaAto').val($('#Ato').val());
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            ExisteAtoBanco();
+                        }
 
                         debugger;
-                        $('#list').children('li .active').addClass( 
-                            'complete');
-
+                        
                     }
                 }
             });
             
         });
 
+    function voltarPasso() {
+        var lista = $('#list');
+        var quantidade = lista.find('.complete').length;
+        var objeto = lista.find('.active');
+
+        var item = objeto[0];
+        item.classList.remove('active');
+
+        objeto = lista.find('.complete');
+        item = objeto[quantidade - 1];
+
+        item.classList.remove('complete');
+        item.classList.add('active');
+
+
+        $(`#step${quantidade + 1}`).removeClass('active');
+        $(`#step${quantidade}`).addClass('active');
+        if (quantidade == 1) {
+            $('#btnVoltar').attr('disabled', 'disabled');
+        }
+    }
+
+
     function teste() {
         $('#goToNext').click();
 
-
-            //var valid = validarForm();
-            //if (valid) {
-            //    $('#inputValidation').val('OK');
-            //    var elementos = document.getElementsByClassName('complete');
-            //    console.log(elementos);
-            //    var numeroPasso = elementos.length;
-            //    console.log(numeroPasso);
-            //    debugger;
-            //    if (numeroPasso == 1) {
-            //        AtualizarModelo();
-            //    }
-            //    else if (numeroPasso == 2) {
-            //        $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-            //        $('#textAreaAto').val($('#Ato').val());
-            //        AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-            //        ExisteAtoBanco();
-            //    }
-            //    else if (numeroPasso == 3) {
-
-            //    }
-            //}
         }
     </script>
 }
