@@ -30,7 +30,6 @@ namespace AdmCartorio.ViewModels
         [Display(Name = "Modelo")]
         public List<HttpPostedFileBase> Files { get; set; }
 
-        #region | Dados nao obrigatorios |
         public LogArquivoModeloDocxViewModel LogArquivoModeloDocxViewModel { get; set; }
 
         public string Arquivo { get; set; }
@@ -38,6 +37,5 @@ namespace AdmCartorio.ViewModels
         public byte[] ArquivoByte { get; set; }
 
         public string IpLocal { get; set; }
-        #endregion
     }
 }

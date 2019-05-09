@@ -18,5 +18,11 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
         {
             _contextRepository = contextRepository;
         }
+
+        public void Teste()
+        {
+
+            //return null;
+        }
     }
 }

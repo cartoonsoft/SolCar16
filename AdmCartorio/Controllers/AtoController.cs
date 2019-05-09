@@ -28,6 +28,7 @@ using Xceed.Words.NET;
 
 namespace AdmCartorio.Controllers
 {
+    [Authorize]
     public class AtoController : AdmCartorioBaseController
     {
         #region | Construtores |
@@ -60,9 +61,15 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
-            //Ronaldo
+            IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
-            return View();
+            using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+            {
+                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, this.UsuarioAtual.Id);
+                listaAtoListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
+            }
+
+            return View(listaAtoListViewModel);
         }
 
         #region | CADASTRO |

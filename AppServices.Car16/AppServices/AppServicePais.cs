@@ -14,7 +14,7 @@ namespace AppServices.Car16.AppServices
 {
     public class AppServicePais : AppServiceCar16New<DtoPaisModel, Pais>, IAppServicePais
     {
-        public AppServicePais(IUnitOfWorkDataBaseCar16New unitOfWorkCar16) : base(unitOfWorkCar16)
+        public AppServicePais(IUnitOfWorkDataBaseCar16New unitOfWork) : base(unitOfWork)
         {
             //
         }
