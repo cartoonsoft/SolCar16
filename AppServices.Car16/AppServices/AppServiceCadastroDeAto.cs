@@ -75,6 +75,20 @@ namespace AppServices.Car16.AppServices
                     }
                     else
                     {
+                        string sigla = string.Empty;
+                        switch (modelo.IdTipoAto)
+                        {
+                            case 1:
+                                sigla = "AV";
+                                break;
+                            case 2:
+                                sigla = "R";
+                                break;
+                            default:
+                                sigla = "";
+                                break;
+                        }
+
                         WordParagraphHelper.InserirParagrafoEmBranco(doc);
                         if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                         {
@@ -88,7 +102,7 @@ namespace AppServices.Car16.AppServices
 
                             //TO DO : Pegar o numero do até em sequencia.
                             //Escreve o tipo de ato (R ou AV), além disso, escreve o numero da sequencia e a Ato
-                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
+                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
 
                         }
@@ -96,7 +110,7 @@ namespace AppServices.Car16.AppServices
                         {
                             doc.Paragraphs.Last.Range.Delete();
                             posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
-                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"R-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
+                            WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
 
                         }
                     }

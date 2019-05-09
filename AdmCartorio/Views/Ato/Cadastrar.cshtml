@@ -655,10 +655,17 @@
                 function (data, status) {
                     if (status == "success") {
                         var existeAto = data;
-                        if (existeAto) {
+                        debugger;
+                        if (existeAto=="False") {
+
                             $('#infoAdicional').removeClass('hidden');
                             $('#btnConfirmar').attr('disabled');
                         } else {
+                            if ($('#IdTipoAto').val() == 3) {
+                                voltarPasso();
+                                alert('Já existe ato inicial para esses dados!');
+                                return;
+                            }
                             $('#infoAdicional').addClass('hidden');
                             $('#btnConfirmar').removeAttr('disabled');
                         }

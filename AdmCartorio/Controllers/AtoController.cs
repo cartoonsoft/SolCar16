@@ -100,12 +100,12 @@ namespace AdmCartorio.Controllers
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0)
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto!= (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
                     {
                         using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
                         {
                             numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                            numSequenciaAto = numSequenciaAto + 1 ?? 1;
+                            numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
                         }
                     }
                     else
@@ -136,7 +136,8 @@ namespace AdmCartorio.Controllers
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
                             IdUsuarioCadastro = this.UsuarioAtual.Id,
-                            IdContaAcessoSistema = 1
+                            IdContaAcessoSistema = 1,
+                            NumSequencia = Convert.ToInt64(numSequenciaAto)
                         };
 
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);

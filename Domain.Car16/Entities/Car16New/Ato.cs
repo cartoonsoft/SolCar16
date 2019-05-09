@@ -45,7 +45,6 @@ namespace Domain.Car16.Entities.Car16New
         public string NomeArquivo { get; set; }
 
         [Column("ARQ_BYTES")] //BLOB,
-        [DataType("BLOB")]
         public byte[] ArquivoBytes { get; set; }
 
         [Column("ATIVO")] //NUMERIC(1,0)         default 0,
