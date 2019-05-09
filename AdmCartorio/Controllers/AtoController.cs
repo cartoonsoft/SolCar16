@@ -264,7 +264,7 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{numeroMatricula}.docx");
+                string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{numeroMatricula}.docx");
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
 
