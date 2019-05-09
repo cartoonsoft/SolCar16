@@ -96,6 +96,16 @@ namespace AdmCartorio.Controllers
                         //Pega os dados do arquivo
                         HttpPostedFileBase arquivo = arquivoModel.Files[i];
                         //arquivo.FileName = "Mod_"+arquivoModel.DescricaoTipoAto+DateTime.Now.ToString("yyyyMMddTHHmmss")
+                        var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
+
+                        #region | Gravacao do arquivo fisicamente |
+                        // Salva o arquivo fisicamente
+                        var filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"),
+                            nomeArquivo + ".docx");
+                        arquivo.SaveAs(filePath);
+                        #endregion
+
+
 
                         var stream = arquivo.InputStream;
                         var memoryStream = new MemoryStream();
@@ -162,16 +172,8 @@ namespace AdmCartorio.Controllers
                 try
                 {
                     #region | Busca dos dados do Arquivo |
-                    ArquivoModeloDocxViewModel arquivoViewModel;
-
-                    arquivoViewModel = new ArquivoModeloDocxViewModel()
-                    {
-                        Id = 1,
-                        NomeModelo = "Modelo 1",
-                        Arquivo = "/App_Data/Arquivos/testeWord.docx",
-                        IdTipoAto = 1,
-
-                    };
+                    var arquivoViewModel = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocxViewModel>()
+                        .GetById(ID);
 
                     if (arquivoViewModel == null)
                     {
@@ -245,7 +247,7 @@ namespace AdmCartorio.Controllers
         public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
         {
             string fileName = Path.GetFileNameWithoutExtension(dadosPost.Arquivo);
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/{fileName}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{fileName}.docx");
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
