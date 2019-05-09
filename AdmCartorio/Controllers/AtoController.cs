@@ -79,7 +79,7 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/{modelo.PREIMO.MATRI}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{modelo.PREIMO.MATRI}.docx");
             bool respEscreverWord = false;
             try
             {
@@ -264,7 +264,7 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/{numeroMatricula}.docx");
+                string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{numeroMatricula}.docx");
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
 
@@ -323,7 +323,7 @@ namespace AdmCartorio.Controllers
         {
             StringBuilder textoFormatado = new StringBuilder();
             
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/{ModeloNome}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{ModeloNome}.docx");
             try
             {
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))

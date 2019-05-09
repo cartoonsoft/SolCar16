@@ -28,7 +28,7 @@ namespace AppServices.Car16.AppServices
             _arquivoModeloDocxDomainService = new ArquivoModeloDocxDomainService(unitOfWorkCar16);
         }
 
-        public void SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdSuario)
+        public void SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
         {
             try
             {
@@ -38,6 +38,7 @@ namespace AppServices.Car16.AppServices
                     IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,
+                    IdUsuarioCadastro = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoArq.Arquivo,
                     NomeModelo = dtoArq.NomeModelo,
@@ -46,12 +47,12 @@ namespace AppServices.Car16.AppServices
                 // Registro de Log                
                 LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx();
                 logArquivoModeloDocx.IdArquivoModeloDocx = arquivoModelo.Id ?? 0;
-                logArquivoModeloDocx.IdUsuario = IdSuario;
+                logArquivoModeloDocx.IdUsuario = IdUsuario;
                 logArquivoModeloDocx.DataHora = DateTime.Now;
                 logArquivoModeloDocx.IP = dtoArq.LogArquivo.IP;
                 logArquivoModeloDocx.TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload;
 
-                _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdSuario);
+                _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }
             catch (Exception ex)
             {

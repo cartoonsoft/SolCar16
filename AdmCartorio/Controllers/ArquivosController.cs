@@ -172,8 +172,16 @@ namespace AdmCartorio.Controllers
                 try
                 {
                     #region | Busca dos dados do Arquivo |
-                    var arquivoViewModel = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocxViewModel>()
-                        .GetById(ID);
+                    ArquivoModeloDocxViewModel arquivoViewModel;
+
+                    arquivoViewModel = new ArquivoModeloDocxViewModel()
+                    {
+                        Id = 1,
+                        NomeModelo = "Modelo 1",
+                        Arquivo = "/App_Data/Arquivos/testeWord.docx",
+                        IdTipoAto = 1,
+
+                    };
 
                     if (arquivoViewModel == null)
                     {
