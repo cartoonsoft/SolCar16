@@ -49,9 +49,9 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 
         public IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
-            string strQuery = "";
-            string sqlWhere = "";
-            string sqlOrder = "";
+            string strQuery = string.Empty;
+            string sqlWhere = string.Empty;
+            string sqlOrder = string.Empty;
 
             List<ArquivoModeloDocxList> ListaAquivoModeloDocxList = new List<ArquivoModeloDocxList>();
             List<OracleParameter> oracleParameters = new List<OracleParameter>();
@@ -76,7 +76,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             if (IdTipoAto != null)
             {
                 oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
-                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == ""));
+                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == string.Empty));
             }
 
             sqlOrder = "order by DOC.DESCRICAO asc";
@@ -134,9 +134,9 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
         /// <returns></returns>
         public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
         {
-            string strQuery = "";
-            string sqlWhere = "";
-            string sqlOrder = "";
+            string strQuery = string.Empty;
+            string sqlWhere = string.Empty;
+            string sqlOrder = string.Empty;
 
             List<ArquivoModeloSimplificadoDocxList> ListaArquivos = new List<ArquivoModeloSimplificadoDocxList>();
             List<OracleParameter> oracleParameters = new List<OracleParameter>();
@@ -152,7 +152,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             if (IdTipoAto != null)
             {
                 oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
-                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == ""));
+                sqlWhere += this.AddWhereClause("(DOC.ID_TP_ATO = :ID_TP_ATO)", "AND", (sqlWhere == string.Empty));
             }
 
             sqlOrder = "order by DOC.DESCRICAO asc";

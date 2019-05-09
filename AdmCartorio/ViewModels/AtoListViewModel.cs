@@ -7,52 +7,44 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities.Car16New
+namespace AdmCartorio.ViewModels
 {
-    [Table("TB_ATO", Schema = "DEZESSEIS_NEW")]
-    public class Ato: EntityBase
+    public class AtoListViewModel
     {
         [Key]
-        [Column("ID_ATO")]
-        public override long? Id { get; set; }
+        public long? Id { get; set; }
 
-        [Column("ID_TP_ATO")]
         public long IdTipoAto { get; set; }
 
-        [Column("ID_PREMA")] //NUMERIC(38, 0),
         public long IdPrenotacao { get; set; }
 
-        [Column("ID_CTA_ACESSO_SIST")]
         public long IdContaAcessoSistema { get; set; }
 
-        [Column("ID_USR_CAD")]
+        public string DescricaoTipoAto { get; set; }
+        public string Codigo { get; set; }
+
         public string IdUsuarioCadastro { get; set; }
 
-        [Column("ID_USR_ALTER")]
         public string IdUsuarioAlteracao { get; set; }
 
-        [Column("DT_CAD")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataCadastro { get; set; }
 
-        [Column("DT_ALTER")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataAlteracao { get; set; }
 
-        [Column("NRO_MATRICULA")] //NUMERIC(38, 0),
         public string NumMatricula { get; set; }
 
-        [Column("NOME_ARQUIVO")] //VARCHAR2(200),
         public string NomeArquivo { get; set; }
 
-        [Column("ATIVO")] //NUMERIC(1,0)         default 0,
         public bool Ativo { get; set; }
 
-        [Column("BLOQUEADO")] //NUMERIC(1,0),
         public bool Bloqueado { get; set; }
 
-        [Column("OBSERCACAO")] // VARCHAR2(255),
         public string Observacao { get; set; }
 
-        [Column("NUM_SEQ")] //INTEGER
         public long NumSequencia { get; set; }
     }
 }

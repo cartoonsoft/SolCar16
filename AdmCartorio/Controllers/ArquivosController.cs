@@ -68,7 +68,7 @@ namespace AdmCartorio.Controllers
 
                 return View();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }

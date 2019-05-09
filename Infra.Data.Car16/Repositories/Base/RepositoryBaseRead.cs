@@ -77,7 +77,7 @@ namespace Infra.Data.Car16.Repositories.Base
         /// <returns></returns>
         protected string AddWhereClause(string sqlWhere, string logicOperator, bool firstWhere)
         {
-            string whereTmp = ""; 
+            string whereTmp = string.Empty; 
 
             if (firstWhere)
             {
@@ -107,9 +107,8 @@ namespace Infra.Data.Car16.Repositories.Base
             {
                 listEntity = _dbContextSet.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                var e = ex;
                 throw;
             }
             return listEntity;
