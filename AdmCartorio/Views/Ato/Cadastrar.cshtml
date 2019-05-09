@@ -593,7 +593,6 @@
                     editor.setData(result);
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
-
                 },
                 error: function (error) {
                     console.log(error);
@@ -639,6 +638,7 @@
                 { idModelo },
                 function (data, status) {
                     $('#IdTipoAto').val(data);
+                    ExisteAtoBanco();
                 });
         }
 
@@ -658,6 +658,7 @@
                             $('#ExisteNoSistema').val("True");
                             if ($('#IdTipoAto').val() == 3) {
                                 voltarPasso();
+                                //voltarPasso();
                                 alert('Já existe ato inicial para esses dados!');
                                 return;
                             }
@@ -848,11 +849,11 @@
 
                         if (quantidade == 2) {
                             AtualizarModelo();
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                         } else if (quantidade == 3) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                            ExisteAtoBanco();
+                            //AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                         }
 
                         debugger;
