@@ -17,8 +17,8 @@ namespace AdmCartorio.App_Start.Identity
                 // Utilizando TWILIO como SMS Provider.
                 // https://www.twilio.com/docs/quickstart/csharp/sms/sending-via-rest
 
-                const string accountSid = "SEU ID";
-                const string authToken = "SEU TOKEN";
+                //const string accountSid = "SEU ID";
+                //const string authToken = "SEU TOKEN";
 
                 //to-do: ronaldo fazer
                 //var client = new TwilioRestClient(accountSid, authToken);

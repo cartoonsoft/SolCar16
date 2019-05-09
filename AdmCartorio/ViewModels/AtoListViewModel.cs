@@ -27,16 +27,17 @@ namespace AdmCartorio.ViewModels
 
         public string IdUsuarioAlteracao { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime DataCadastro { get; set; }
 
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataAlteracao { get; set; }
 
         public string NumMatricula { get; set; }
 
         public string NomeArquivo { get; set; }
-
-        //[Column("ARQ_BYTES")] //BLOB,
-        //public byte[] ArquivoBytes { get; set; }
 
         public bool Ativo { get; set; }
 

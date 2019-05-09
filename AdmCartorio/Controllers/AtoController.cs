@@ -1,19 +1,4 @@
-﻿using AdmCartorio.Controllers.Base;
-using AdmCartorio.Models;
-using AdmCartorio.ViewModels;
-using AppServices.Car16.AppServices;
-using AutoMapper;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Entities.Diversas;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Dto.Car16.Entities.Cadastros;
-using Dto.Car16.Entities.Diversos;
-using HtmlAgilityPack;
-using Infra.Data.Car16.UnitsOfWork;
-using LibFunctions.Functions;
-using Microsoft.Office.Core;
-using Microsoft.Office.Interop.Word;
+﻿using AutoMapper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,10 +6,17 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Web.Mvc;
 using Xceed.Words.NET;
+using AdmCartorio.Controllers.Base;
+using AdmCartorio.ViewModels;
+using AppServices.Car16.AppServices;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
+using Domain.Car16.Interfaces.UnitOfWork;
+using Dto.Car16.Entities.Cadastros;
+using Dto.Car16.Entities.Diversos;
 
 namespace AdmCartorio.Controllers
 {
@@ -45,30 +37,16 @@ namespace AdmCartorio.Controllers
         #endregion
 
         // GET: Ato
-        public ActionResult Index()
-        {
-            //var dados = new MatriculaAtoViewModel();
-            //using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
-            //{
-            //    IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
-            //    dados.ModelosSimplificadoViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
-            //    dados.MatriculasViewModel = getMatriculaViewModel();
-            //}
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateInput(false)]
         public ActionResult Index(MatriculaAtoViewModel modelo)
         {
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
             using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, this.UsuarioAtual.Id);
-                listaAtoListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
+                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null);
+                listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
             }
-
+            
             return View(listaAtoListViewModel);
         }
 
@@ -133,7 +111,6 @@ namespace AdmCartorio.Controllers
                         // Gravar o ato e buscar o selo e gravar o selo
                         Ato ato = new Ato()
                         {
-                            ArquivoBytes = arrayBytesNovo,
                             Ativo = true,
                             Bloqueado = false,
                             IdPrenotacao = modelo.PREIMO.SEQPRE,

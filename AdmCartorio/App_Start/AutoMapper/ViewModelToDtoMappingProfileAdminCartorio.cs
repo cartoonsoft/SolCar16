@@ -13,6 +13,7 @@ namespace AdmCartorio.App_Start.AutoMapper
         public ViewModelToDtoMappingProfileAdminCartorio()
         {
             CreateMap<ArquivoModeloDocxListViewModel, DtoArquivoModeloDocxList>();
+            CreateMap<AtoListViewModel, DtoAtoList>();
         }
     }
 }

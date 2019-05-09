@@ -55,9 +55,9 @@ namespace AppServices.Car16.AppServices
 
             var listaAtos =
                 from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
-                where ((a.IdTipoAto == IdTipoAto) || (IdTipoAto == null)) && ((a.IdUsuarioCadastro == IdUsuario) || (IdUsuario == null))
+                where ((IdTipoAto == null) || (a.IdTipoAto == IdTipoAto)) && ((IdUsuario == null) || (a.IdUsuarioCadastro == IdUsuario))
                 join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().GetAll() on a.IdTipoAto equals t.Id
-                orderby a.DataCadastro descending, a.NumMatricula, a.NumSequencia 
+                orderby a.NumMatricula ascending, a.NumSequencia ascending 
                 select new {
                     a,
                     t.Descricao
@@ -108,7 +108,7 @@ namespace AppServices.Car16.AppServices
                     break;
             }
 
-            CodTmp += CodTmp + "-" + NumSequencia + "/" + NumMatricula;
+            CodTmp += "-" + NumSequencia + "/" + NumMatricula;
             return CodTmp;
         }
 

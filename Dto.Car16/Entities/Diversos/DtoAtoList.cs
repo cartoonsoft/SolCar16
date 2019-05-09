@@ -33,9 +33,6 @@ namespace Dto.Car16.Entities.Diversos
 
         public string NomeArquivo { get; set; }
 
-        //[Column("ARQ_BYTES")] //BLOB,
-        //public byte[] ArquivoBytes { get; set; }
-
         public bool Ativo { get; set; }
 
         public bool Bloqueado { get; set; }

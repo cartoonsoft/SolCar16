@@ -107,7 +107,7 @@ namespace Infra.Data.Car16.Repositories.Base
             {
                 listEntity = _dbContextSet.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

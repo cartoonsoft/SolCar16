@@ -17,23 +17,34 @@
             width: 100%;
         }
 
-            #tbl-arquivos tr td:nth-child(1) {
-                width: 5%;
-            }
+        #tbl-list-atos tr td:nth-child(1) {
+            width: 10%;
+        }
 
-            #tbl-arquivos tr td:nth-child(2) {
-                width: 50%;
-            }
+        #tbl-list-atos tr td:nth-child(2) {
+            width: 10%;
+        }
 
-            #tbl-arquivos tr td:nth-child(3) {
-                width: 20%;
-            }
+        #tbl-list-atos tr td:nth-child(3) {
+            width: 10%;
+        }
 
-            #tbl-arquivos tr td:nth-child(4) {
-                text-align: right;
-                align-content: flex-end;
-                margin-left: 1em;
-            }
+        #tbl-list-atos tr td:nth-child(4) {
+            width: 5%;
+        }
+
+        #tbl-list-atos tr td:nth-child(5) {
+            width: 5%;
+        }
+
+        #tbl-list-atos tr td:nth-child(6) {
+            width: 40%;
+        }
+        #tbl-list-atos tr td:nth-child(7) {
+            text-align: right;
+            align-content: flex-end;
+            margin-left: 1em;
+        }
 
 
         /**********************************************************************/
@@ -67,7 +78,7 @@
     <section id="widget-grid" class="">
         <div class="row">
             <p>
-                <a href="@Url.Action("Cadastrar", "Arquivos")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo registro</a>
+                <a href="@Url.Action("Cadastrar", "Ato")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo registro</a>
             </p>
 
             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
@@ -103,13 +114,22 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Reg./Matricula
-                                    </th>
-                                    <th>
-                                        Nome
+                                        Reg./Mat.
                                     </th>
                                     <th>
                                         Tipo
+                                    </th>
+                                    <th>
+                                        Data
+                                    </th>
+                                    <th>
+                                        Ativo
+                                    </th>
+                                    <th>
+                                        Bloq
+                                    </th>
+                                    <th>
+                                        Observação
                                     </th>
                                     <th></th>
                                 </tr>
@@ -117,20 +137,35 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    
                                     <tr id="@item.Id">
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.NumMatricula)
+                                            @Html.DisplayFor(modelItem => item.Codigo)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.IdTipoAto)
+                                            @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.IdTipoAto)
+                                            @Html.DisplayFor(modelItem => item.DataCadastro) 
                                         </td>
                                         <td>
-                                            @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                            <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
+                                            @Html.DisplayFor(modelItem => item.Ativo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Bloqueado)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Observacao)
+                                        </td>
+                                        <td>
+                                            @{ if (!item.Bloqueado)
+                                                {
+                                                    <button class="btn btn-danger desativar">Bloquear</button>
+                                                }
+                                                else
+                                                {
+                                                    @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                                }
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -158,8 +193,8 @@
 
             //coloque aqui seu codigo jquery
 
-            $('#tbl-arquivos').dataTable({
-                columnDefs: [{ orderable: false, targets: [3] }],
+            $("#tbl-list-atos").dataTable({
+                columnDefs: [{ orderable: false, targets: [3,4,6] }],
 
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +
@@ -168,7 +203,7 @@
                 "preDrawCallback": function () {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_dt_basic) {
-                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tbl-arquivos'));
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tbl-list-atos'));
                     }
                 },
                 "rowCallback": function (nRow) {
@@ -196,59 +231,6 @@
             });
 
         });
-
-    // funcao remove uma linha da tabela
-    function removeLinha(linha) {
-        var linha = linha.closest("tr");
-        var i = linha.rowIndex;
-        var ID = parseInt(linha.getAttribute("Id"));
-
-        var IP = document.getElementById('IP').value;
-        var token = $('input[name="__RequestVerificationToken"]').val();
-
-        var dadosPost = {
-            Ip: IP,
-            Id: ID
-        };
-
-        var res = confirm("Deseja desativar o modelo de ID: " + ID);
-
-        if (res) {
-            $.ajax({
-                url: '@Url.Action("Desativar", "Arquivos")',
-                type: 'POST',
-                data: {
-                    dadosPost,
-                    __RequestVerificationToken: token,
-                },
-                success: function (result) {
-                    console.log(result);
-                    console.log("Deu certo");
-                    //deleta a linha e da efeito
-                    linha.setAttribute("class", "desaparecer");
-                    setTimeout(function () {
-                        linha.remove();
-                        monstrarMensagem("Modelo removido com sucesso",true);
-                    }, 600);
-
-                },
-                error: function (error) {
-                    console.log(error);
-                    console.log("Deu erro");
-                    monstrarMensagem("Erro ao remover",false);
-                }
-            });
-
-
-        }
-    }
-
-    function monstrarMensagem(mensagem, statusMensagem) {
-        if (statusMensagem == true) { $('#divMensagem').attr("class", "alert alert-success"); }
-        else { $('#divMensagem').attr("class", "alert alert-danger"); }
-        $('#labelMensagem').text(mensagem);
-        $('#divMensagem').removeAttr("hidden");
-    }
 
     </script>
 }
