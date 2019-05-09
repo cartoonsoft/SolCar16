@@ -10,6 +10,7 @@ namespace Domain.Car16.Interfaces.Repositories
 {
     public interface IRepositoryAto : IRepositoryBaseReadWrite<Ato>
     {
-        //
+        bool ExisteAtoCadastrado(long numMatricula);
+        long? GetNumSequenciaAto(long numeroMatricula);
     }
 }

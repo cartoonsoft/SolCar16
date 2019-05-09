@@ -11,13 +11,10 @@ namespace AdmCartorio.ViewModels
     public class ArquivoModeloSimplificadoViewModel
     {
         [DataMember]
-        [Required(ErrorMessage ="Campo obrigatório")]
         public long? Id { get; set; }
         [DataMember]
-        [Required(ErrorMessage = "Campo obrigatório")]
         public string NomeModelo { get; set; }
         [DataMember]
-        [Required(ErrorMessage = "Campo obrigatório")]
         public string DescricaoTipoAto { get; set; }
 
     }

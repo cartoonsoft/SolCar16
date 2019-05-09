@@ -17,6 +17,7 @@ namespace AdmCartorio.ViewModels
         public string Ato { get; set; }
         public int IrParaFicha { get; set; }
         public bool IrParaVerso { get; set; }
+        public bool ExisteNoSistema { get; set; }
         public float QuantidadeCentimetrosDaBorda { get; set; }
         public int NumSequencia { get; set; }
     }

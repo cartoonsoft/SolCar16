@@ -40,7 +40,7 @@ namespace Domain.Car16.DomainServices
             logArquivoModeloDocx.IdArquivoModeloDocx = IdTmp;
 
             _repositoryArquivoModeloDocx.Add(arquivoModeloDocx);
-            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            //_repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
 
         }
     }
