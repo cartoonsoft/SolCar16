@@ -242,15 +242,8 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI,
-                                                                new
-                                                                     {
-                                                                         @class = "form-control input-lg",
-                                                                         @placeholder = "Nº da Matricula",
-                                                                         @readonly = "readonly",
-                                                                @required = "required",
-                                                                         @title = "Número de matrícula é obrigatório"
-                                                                     })
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI,new { @class = "form-control input-lg",@placeholder = "Nº da Matricula",
+                                                            @readonly = "readonly", @required = "required", @title = "Número de matrícula é obrigatório"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
