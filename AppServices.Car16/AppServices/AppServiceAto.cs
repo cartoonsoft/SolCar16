@@ -25,30 +25,10 @@ namespace AppServices.Car16.AppServices
         /// <param name="filePath"></param>
         /// <returns></returns>
         public bool ExisteAtoCadastrado(long numeroMatricula)
-        {
-            //Busca no banco se existe algum ato para aquela Ato
-
-            int quantidadeAtos = this.DomainServices.GenericDomainService<Ato>()
-                .GetWhere(m => m.NumMatricula == numeroMatricula.ToString())
-                .Select(p => p.Id)
-                .Count();
+        {                   
             //Se ato > 1, então existe o ato inicial
-            return quantidadeAtos > 0;
+            return this.UnitOfWorkCar16New.Repositories.RepositoryAto.ExisteAtoCadastrado(numeroMatricula);
         }
-
-        /// <summary>
-        /// Pega o numero da sequencia do ultimo ato, se NULL então é o primeiro ATO (N.° 1)
-        /// </summary>
-        /// <param name="modelo">Ato</param>
-        /// <returns>Ultimo numero da sequencia ou NULL</returns>
-        public long? GetNumSequenciaAto(long numeroMatricula)
-        {
-            long? numSequencia =  (long?)this.DomainServices.GenericDomainService<Ato>()
-                .GetWhere(m => m.NumMatricula == numeroMatricula.ToString())
-                .Max(s => s.NumSequencia);
-            return numSequencia;
-        }
-
         public IEnumerable<DtoAtoList> ListarAtos(long? IdTipoAto = null, string IdUsuario = null)
         {
             var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
@@ -99,6 +79,5 @@ namespace AppServices.Car16.AppServices
             CodTmp += "-" + NumSequencia + "/" + NumMatricula;
             return CodTmp;
         }
-
     }
 }

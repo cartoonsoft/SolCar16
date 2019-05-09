@@ -80,33 +80,23 @@ namespace AdmCartorio.Controllers
                 //if (ModelState.IsValid)
                 //{
 
-                    //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-                    long? numSequenciaAto = null;
+                //Representa o documento e o numero de pagina
+                DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto!= (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
-                    {
-                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
-                        {
-                            numSequenciaAto = appService.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                            numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
-                        }
-                    }
-                    else
-                    {
-                        numSequenciaAto = modelo.NumSequencia;
-                    }
+                if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                {
+                    numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                    numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
+                }
+                else
+                {
+                    numSequenciaAto = modelo.NumSequencia;
+                }
 
-                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
-                    {
-                        
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                    }
-                    if (respEscreverWord)
-                    {
-                        // Gravar no banco o array de bytes
-                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-                        // Pegar a ultima "versão" do ato e somar
+
+                using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
+                {
 
                         // Gravar o ato e buscar o selo e gravar o selo
                         Ato ato = new Ato()
@@ -126,14 +116,40 @@ namespace AdmCartorio.Controllers
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
                         this.UnitOfWorkDataBaseCar16New.Commit();
 
-                    }
-                    else
+
+                    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                }
+                if (respEscreverWord)
+                {
+                    // Gravar no banco o array de bytes
+                    var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+                    
+                    // Gravar o ato e buscar o selo e gravar o selo
+                    Ato ato = new Ato()
                     {
-                        //Teve algum erro ao escrever o documento no WORD
-                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                    }
-                    ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return View(nameof(Cadastrar), modelo);
+                        Ativo = true,
+                        Bloqueado = false,
+                        IdPrenotacao = 511898,//modelo.PREIMO.SEQPRE,
+                        IdTipoAto = modelo.IdTipoAto,
+                        NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
+                        Observacao = "Cadastro de teste",
+                        NumMatricula = modelo.PREIMO.MATRI.ToString(),
+                        IdUsuarioCadastro = this.UsuarioAtual.Id,
+                        IdContaAcessoSistema = 1,
+                        NumSequencia = Convert.ToInt64(numSequenciaAto)
+                    };
+
+                    this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
+                    this.UnitOfWorkDataBaseCar16New.Commit();
+
+                }
+                else
+                {
+                    //Teve algum erro ao escrever o documento no WORD
+                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                }
+                ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                return View(nameof(Cadastrar), modelo);
                 //}
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -158,7 +174,7 @@ namespace AdmCartorio.Controllers
         {
             return PartialView();
         }
-        
+
         #endregion
 
         #region | JsonResults e .GET |
@@ -188,12 +204,12 @@ namespace AdmCartorio.Controllers
             catch (Exception)
             {
                 jsonResult = "";
-               
+
                 //Cadastrar log de erro
 
             }
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
-            
+
         }
 
         /// <summary>
@@ -238,10 +254,10 @@ namespace AdmCartorio.Controllers
         }
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
-            
+
             return this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx
                 .GetById(idModelo).IdTipoAto;
-            
+
         }
         public bool ExisteAto(long numeroMatricula)
         {
@@ -305,7 +321,7 @@ namespace AdmCartorio.Controllers
         public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id)
         {
             StringBuilder textoFormatado = new StringBuilder();
-            
+
             string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{ModeloNome}.docx");
             try
             {
