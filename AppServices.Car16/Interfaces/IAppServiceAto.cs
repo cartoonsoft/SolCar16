@@ -13,6 +13,5 @@ namespace AppServices.Car16.Interfaces
     {
         bool ExisteAtoCadastrado(long numMatricula);
 
-        long? GetNumSequenciaAto(long numMatricula);
     }
 }

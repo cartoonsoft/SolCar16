@@ -201,6 +201,7 @@
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="step-content">
+                                          
                                             <!-- DADOS IMÓVEL-->
                                             <div class="step-pane active" id="step1">
                                                 <br>
@@ -242,8 +243,14 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI,new { @class = "form-control input-lg",@placeholder = "Nº da Matricula",
-                                                            @readonly = "readonly", @required = "required", @title = "Número de matrícula é obrigatório"})
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "Nº da Matricula",
+                                                            @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Número de matrícula é obrigatório"
+                                                            })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -365,7 +372,11 @@
                                             <div class="step-pane" id="step2">
                                                 <br>
                                                 <h3><strong>Passo 2</strong> - Busca de Modelo</h3>
-
+                                                <div class="row" hidden id="divRespImo">
+                                                    <div class="col-sm-12 alert alert-danger">
+                                                        <label id="labelRespImo" class="">Não existe imóvel para os dados digitados!</label>
+                                                    </div>
+                                                </div>
                                                 <div class="row col-sm-12" style="margin-bottom:15px;">
                                                     <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
                                                         <thead>
@@ -472,16 +483,16 @@
                                                     <div class="col-sm-12">
                                                         <ul class="pager wizard no-margin">
                                                             <!--<li class="previous first disabled">
-                                                            <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
-                                                            </li>-->
+                    <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
+                    </li>-->
                                                             <li class="previous disabled">
                                                                 <a href="javascript:void(0);" class="btn btn-lg btn-default"> Previous </a>
                                                             </li>
                                                             <!--<li class="next last">
-                                                            <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
-                                                            </li>-->
+                    <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
+                    </li>-->
                                                             <li class="next">
-                                                                <a href="javascript:void(0);"  id="goToNext"   class="btn btn-lg txt-color-darken"> Next </a>
+                                                                <a href="javascript:void(0);" id="goToNext" class="btn btn-lg txt-color-darken"> Next </a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -638,36 +649,37 @@
                 { idModelo },
                 function (data, status) {
                     $('#IdTipoAto').val(data);
-                    ExisteAtoBanco();
+                    ExisteAtoBanco(data);
                 });
         }
 
-        function ExisteAtoBanco() {
+        function ExisteAtoBanco(idTipoAto) {
             var numeroMatricula = $('#PREIMO_MATRI').val();
             $.get('@Url.Action("ExisteAto", "Ato")',
                 { numeroMatricula },
                 function (data, status) {
                     if (status == "success") {
+                        $('#divRespImo').attr('hidden','hidden');
                         var existeAto = data;
                         debugger;
                         if (existeAto == "False") {
                             $('#ExisteNoSistema').val("False");
-                            $('#infoAdicional').removeClass('hidden');
-                            $('#btnConfirmar').attr('disabled');
+                            $('#divRespImo').attr('hidden','hidden');
                         } else {
                             $('#ExisteNoSistema').val("True");
-                            if ($('#IdTipoAto').val() == 3) {
+                            if (idTipoAto == 3) {
                                 voltarPasso();
-                                //voltarPasso();
-                                alert('Já existe ato inicial para esses dados!');
+                                $('#labelRespImo').text('Já existe ato inicial para os dados!');
+                                $('#divRespImo').removeAttr('hidden');
                                 return;
+                            } else {
+                                $('#divRespImo').attr('hidden','hidden');
                             }
-                            $('#infoAdicional').addClass('hidden');
-                            $('#btnConfirmar').removeAttr('disabled');
                         }
                     }
                     else {
-
+                        $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
+                        $('#divRespImo').removeAttr('hidden');
                     }
                 });
         }
@@ -690,7 +702,8 @@
                 function (data, status) {
                     debugger;
                     if (status == "success") {
-                        if (data != "") {
+                        debugger;
+                        if (data != "" && data!="null") {
                             $('#divResp').attr('hidden', 'hidden');
                             resultado = JSON.parse(data);
                             enviarDadosMatricula(resultado);

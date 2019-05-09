@@ -27,14 +27,6 @@ namespace AppServices.Car16.AppServices
             return this.UnitOfWorkCar16New.Repositories.RepositoryAto.ExisteAtoCadastrado(numeroMatricula);
         }
 
-        /// <summary>
-        /// Pega o numero da sequencia do ultimo ato, se NULL então é o primeiro ATO (N.° 1)
-        /// </summary>
-        /// <param name="modelo">Ato</param>
-        /// <returns>Ultimo numero da sequencia ou NULL</returns>
-        public long? GetNumSequenciaAto(long numeroMatricula)
-        {
-            return this.UnitOfWorkCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(numeroMatricula);
-        }
+        
     }
 }
