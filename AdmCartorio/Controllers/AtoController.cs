@@ -260,19 +260,20 @@ namespace AdmCartorio.Controllers
                 .GetById(idModelo).IdTipoAto;
             
         }
-        public bool ExisteAtoNoBanco(long numeroMatricula)
+        public bool ExisteAto(long numeroMatricula)
         {
             try
             {
-                //return true;
-                using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                string filePath = Server.MapPath($"~/App_Data/Arquivos/{numeroMatricula}.docx");
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
                 {
-                    return appService.ExisteAtoCadastrado(numeroMatricula);
+
                 }
+                return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return false;
             }
         }
         #endregion
@@ -321,10 +322,7 @@ namespace AdmCartorio.Controllers
         public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id)
         {
             StringBuilder textoFormatado = new StringBuilder();
-
-            //var arquivo = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<ArquivoModeloDocx>().GetById(Id);
-            //System.IO.File.WriteAllBytes(ModeloNome + ".docx", arquivo.BytesArray);
-
+            
             string filePath = Server.MapPath($"~/App_Data/Arquivos/{ModeloNome}.docx");
             try
             {

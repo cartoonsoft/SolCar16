@@ -1,14 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Common;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Reflection;
 using Oracle.ManagedDataAccess.Client;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Entities.Diversas;
@@ -25,6 +16,35 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
         public RepositoryArquivoModeloDocx(ContextMainCar16New contexRepository) : base(contexRepository)
         {
             _contextRepository = contexRepository;
+        }
+
+        public byte[] GetBytesArquivo(long idArquivo)
+        {
+            byte[] arrayBytes = null;
+            string strQuery = @"
+                SELECT DOC.ARQ_BYTES
+                FROM TB_MODELO_DOC DOC
+                    WHERE DOC.ID_MODELO_DOC = :ID_MODELO_DOC
+                    AND DOC.ATIVO = 1";
+            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            {
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(strQuery, conn))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.Add(new OracleParameter("ID_MODELO_DOC", OracleDbType.Long, idArquivo, System.Data.ParameterDirection.Input));
+
+                    using (OracleDataReader row = command.ExecuteReader(System.Data.CommandBehavior.Default))
+                    {
+                        while (row.Read())
+                        {
+                            arrayBytes = (byte[])row["ARQ_BYTES"];
+                        }
+                    }
+                }
+                conn.Close();
+            }
+            return arrayBytes;
         }
 
         public IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)

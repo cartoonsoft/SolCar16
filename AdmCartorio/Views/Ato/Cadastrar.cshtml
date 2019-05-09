@@ -650,7 +650,7 @@
 
         function ExisteAtoBanco() {
             var numeroMatricula = $('#PREIMO_MATRI').val();
-            $.get('@Url.Action("ExisteAtoNoBanco", "Ato")',
+            $.get('@Url.Action("ExisteAto", "Ato")',
                 { numeroMatricula },
                 function (data, status) {
                     if (status == "success") {
