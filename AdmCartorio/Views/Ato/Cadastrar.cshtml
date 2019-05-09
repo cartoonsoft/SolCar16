@@ -465,6 +465,7 @@
                                                         @Html.HiddenFor(model => model.IrParaVerso)
                                                         @Html.HiddenFor(model => model.QuantidadeCentimetrosDaBorda)
                                                         @Html.HiddenFor(model => model.NumSequencia)
+                                                        @Html.HiddenFor(model => model.ExisteNoSistema)
                                                     </div>
 
                                                 </div>
@@ -656,11 +657,12 @@
                     if (status == "success") {
                         var existeAto = data;
                         debugger;
-                        if (existeAto=="False") {
-
+                        if (existeAto == "False") {
+                            $('#ExisteNoSistema').val("False");
                             $('#infoAdicional').removeClass('hidden');
                             $('#btnConfirmar').attr('disabled');
                         } else {
+                            $('#ExisteNoSistema').val("True");
                             if ($('#IdTipoAto').val() == 3) {
                                 voltarPasso();
                                 alert('Já existe ato inicial para esses dados!');

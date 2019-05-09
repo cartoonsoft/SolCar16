@@ -49,7 +49,29 @@ namespace AppServices.Car16.AppServices
                 {
                     //Abre o arquivo para escrever o ATO e faz as configurações iniciais
                     app.Visible = true;
-                    doc = app.Documents.Open(filePath);
+                    if (!modelo.ExisteNoSistema)
+                    {
+                        doc = app.Documents.Add();
+                    }
+                    else
+                    { 
+                        doc = app.Documents.Open(filePath);
+                    }
+
+                    string sigla = string.Empty;
+                    switch (modelo.IdTipoAto)
+                    {
+                        case 1:
+                            sigla = "AV";
+                            break;
+                        case 2:
+                            sigla = "R";
+                            break;
+                        default:
+                            sigla = "";
+                            break;
+                    }
+
                     WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
 
                     //Numero de paginas do documento e a posição do cursor
@@ -75,20 +97,6 @@ namespace AppServices.Car16.AppServices
                     }
                     else
                     {
-                        string sigla = string.Empty;
-                        switch (modelo.IdTipoAto)
-                        {
-                            case 1:
-                                sigla = "AV";
-                                break;
-                            case 2:
-                                sigla = "R";
-                                break;
-                            default:
-                                sigla = "";
-                                break;
-                        }
-
                         WordParagraphHelper.InserirParagrafoEmBranco(doc);
                         if (WordPageHelper.GetNumeroPagina(doc) > numeroPagina)
                         {
@@ -113,6 +121,12 @@ namespace AppServices.Car16.AppServices
                             WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
 
                         }
+                    }
+                    if (!modelo.ExisteNoSistema)
+                    {
+                        posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+                        WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
+                        numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     }
                 }
                 #region | Metodo para escrever o ATO |

@@ -96,10 +96,10 @@
     });
 
     function enviarInfoAdicionais() {
-        $('#IrParaFicha').val($("#numFicha").valid());
-        $('#IrParaVerso').val($("#ckVerso").valid());
-        $('#QuantidadeCentimetrosDaBorda').val($("#qtdeCentimetros").valid());
-        $('#NumSequencia').val($("#numeSequencia").valid());
+        $('#IrParaFicha').val($("#numFicha").val());
+        $('#IrParaVerso').val($('#ckVerso[type=checkbox]').prop('checked'));
+        $('#QuantidadeCentimetrosDaBorda').val($("#qtdeCentimetros").val());
+        $('#NumSequencia').val($("#numeSequencia").val());
         $('#btnConfirmar').removeAttr('disabled');
     }
     function limparInfoAdicionais() {
