@@ -189,7 +189,7 @@
                                                     <span class="badge">4</span>Confirmação<span class="chevron"></span>
                                                 </li>
                                             </ul>
-
+                                            
                                             <div class="actions">
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
@@ -216,7 +216,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()"    id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -224,16 +224,16 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()" id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-2">
+                                                    @*<div class="col-sm-2">
                                                         <button id="btnPesquisar" type="button"
                                                                 class="btn btn-default btn-lg  margin-left-5">
                                                             <i class="glyphicon glyphicon-search"></i>
                                                         </button>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                                 <h1>Dados do imóvel</h1>
                                                 <br />
@@ -427,15 +427,20 @@
                                             <div class="step-pane" id="step4">
                                                 <br>
                                                 <h3><strong>Passo 4</strong> - Confirmação</h3>
+                                                <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1> 
+                                                @Html.HiddenFor(model => model.PREIMO.SEQPRE)
                                                 <br />
-                                                <h1>Deseja confirmar o ato escrito?</h1>
-                                                <span class="text-danger h3 text-align-center">Após confirmar, não sera possível mais modificar o ato</span>
+                                                <br />
+                                                <h1 class="text-align-center">Deseja confirmar o ato escrito?</h1>
+                                                <div class="text-align-center">
+                                                    <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
+                                                </div>
                                                 <br />
                                                 <br />
                                                 @Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
                                                 <br />
                                                 <div class="row hidden" id="infoAdicional">
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-12 text-align-center">
                                                         <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
                                                         <br />
@@ -622,6 +627,12 @@
             });
     }
 
+    function ExibirModal() {
+        if ($('#ExisteNoSistema').val() == "False") {
+            $('.linkModal').click();
+        }
+    }
+
     function ExisteAtoBanco(idTipoAto) {
         var numeroMatricula = $('#PREIMO_MATRI').val();
         $.get('@Url.Action("ExisteAto", "Ato")',
@@ -630,13 +641,13 @@
                 if (status == "success") {
                     $('#divRespImo').attr('hidden','hidden');
                     var existeAto = data;
-                    alert(existeAto);
                     debugger;
                     if (existeAto == "False") {
                         $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
                         $('#infoAdicional').removeClass('hidden');       
                         $('#btnConfirmar').attr('disabled');
+                        
                     } else {
                         $('#ExisteNoSistema').val("True");
                         $('#infoAdicional').addClass('hidden');
@@ -674,28 +685,31 @@
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
          ****************************************************************/
-        $('#btnPesquisar').on('click', function () {
-            var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
-            var numeroMatricula = parseInt($('#txtMatricula').val());
-            debugger;
-            if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
-                $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
-                $('#divResp').removeAttr('hidden');
+           
+        function PesquisarImovel() {
+            setTimeout(function () {
+                var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
+                var numeroMatricula = parseInt($('#txtMatricula').val());
+                debugger;
+                if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
+                    $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
+                    $('#divResp').removeAttr('hidden');
 
-                //LIMPANDO CAMPOS
-                var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
-                var resultado = JSON.parse(limpaDados);
-                enviarDadosMatricula(resultado);
-                enviarDadosPessoa(resultado);
-                $('#btnProximo').attr('disabled', 'disabled');
-                $('#btnProximo').removeClass('active');
-            } else {
-                $('#divResp').attr('hidden');
-                GetDadosImovel(numeroPrenotacao, numeroMatricula);
-                $('#btnProximo').removeAttr('disabled');
-                $('#btnProximo').addClass('active');
-            }
-        })
+                    //LIMPANDO CAMPOS
+                    var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+                    var resultado = JSON.parse(limpaDados);
+                    enviarDadosMatricula(resultado);
+                    enviarDadosPessoa(resultado);
+                    $('#btnProximo').attr('disabled', 'disabled');
+                    $('#btnProximo').removeClass('active');
+                } else {
+                    $('#divResp').attr('hidden');
+                    GetDadosImovel(numeroPrenotacao, numeroMatricula);
+                    $('#btnProximo').removeAttr('disabled');
+                    $('#btnProximo').addClass('active');
+                }
+            }, 200); 
+        }
 
         function GetDadosImovel(numPre, numMat) {
 
@@ -728,6 +742,7 @@
         function enviarDadosMatricula(resultado) {
             
             //COLOCA O RESULTADO NOS CAMPOS
+            $('#numeroPre').text(resultado.SEQPRE); 
             $('#PREIMO_MATRI').val(resultado.MATRI); 
             $('#PREIMO_ENDER').val(resultado.ENDER);
             $('#PREIMO_NUM').val(resultado.NUM);
@@ -788,52 +803,6 @@
             GetModelos();
 
             var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    PREIMO: {
-                        MATRI: {
-                            required: true
-                        }
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    PREIMO: {
-                        MATRI: {
-                            required: "Please specify your First name"
-                        }
-                    },
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
                 highlight: function (element) {
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                 },
@@ -867,10 +836,13 @@
                             quantidade = 0;
                         }
                         debugger;
-                        if (quantidade == 0) {
+                        if (quantidade == 0) {  
                             if ($('#modeloInvalido').val() == "True") {
                                 $('#btnProximo').attr('disabled', 'disabled');
                                 $('#btnProximo').removeClass('active');
+                                if ($('#IdTipoAto').val()) {
+                                    ExisteAtoBanco($('#IdTipoAto').val());
+                                }
                             }
                             else {
                                 $('#btnProximo').removeAttr('disabled');
@@ -885,7 +857,7 @@
                         } else if (quantidade == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            ExibirModal();
                         }
 
                         var objeto = lista.find('.active');
@@ -899,18 +871,7 @@
                         $(`#step${quantidade}`).removeClass('active');
                         $(`#step${quantidade+1}`).addClass('active');
                         $('#btnVoltar').removeAttr('disabled', 'disabled');
-
-                        //if (quantidade == 2) {
-                        //    AtualizarModelo();
-                        //    AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        //} else if (quantidade == 3) {
-                        //    $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-                        //    $('#textAreaAto').val($('#Ato').val());
-                        //    AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        //}
-
-                        debugger;
-                        
+                                                                       
                     }
                 }
             });
