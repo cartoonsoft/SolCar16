@@ -194,7 +194,7 @@
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-success" id="btnProximo" onclick="teste()" data-last="Finish">
+                                                <button type="button" class="btn btn-sm btn-success" id="btnProximo" onclick="IrParaProximo()" data-last="Finish">
                                                     Próximo<i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
@@ -243,14 +243,8 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
-                                                            {
-                                                                @class = "form-control input-lg",
-                                                                @placeholder = "Nº da Matricula",
-                                                            @readonly = "readonly",
-                                                                @required = "required",
-                                                                @title = "Número de matrícula é obrigatório"
-                                                            })
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new {@class = "form-control input-lg",@placeholder = "Nº da Matricula",@readonly = "readonly",
+                                                                @required = "required",@title = "Número de matrícula é obrigatório"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -339,30 +333,16 @@
                                                         <label class="h5">Tipo de Pessoa</label>
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
-                                                        @Html.TextBoxFor(model => model.TipoPessoa,
-                                                            new
-                                                                 {
-                                                                     @class = "form-control input-lg padding-left-5",
-                                                                     @placeholder = "TIPO DE PESSOA",
-                                                                     @readonly = "readonly",
-                                                            @required = "required",
-                                                                     @title = "O tipo de pessoa é obrigatório"
-                                                                 })
+                                                        @Html.TextBoxFor(model => model.TipoPessoa,new {@class = "form-control input-lg padding-left-5",@placeholder = "TIPO DE PESSOA",
+                                                            @readonly = "readonly",@required = "required",@title = "O tipo de pessoa é obrigatório"})
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome</label>
                                                     </div>
                                                     <div class="col-sm-3 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                                                new
-                                                                     {
-                                                                         @class = "form-control input-lg padding-left-5",
-                                                                         @placeholder = "NOME DA PESSOA",
-                                                                         @readonly = "readonly",
-                                                                @required = "required",
-                                                                         @title = "Nome é obrigatório"
-                                                                     })
+                                                            @Html.TextBoxFor(model => model.Pessoa.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
+                                                                @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -409,15 +389,8 @@
                                                     <div class="col-sm-3 form-group">
                                                         <div>
                                                             @Html.HiddenFor(model => model.ArquivoModelo.Id)
-                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
-                                                                new
-                                                                     {
-                                                                         @class = "form-control input-lg",
-                                                                         @placeholder = "NOME DO MODELO",
-                                                                         @readonly = "readonly",
-                                                                         @required = "required",
-                                                                    @title = "Preencha o nome do modelo"
-                                                                     })
+                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new {@class = "form-control input-lg",@placeholder = "NOME DO MODELO",
+                                                                @readonly = "readonly",@required = "required",@title = "Preencha o nome do modelo"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -427,6 +400,7 @@
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
                                                             new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
+                                                        <input hidden id="modeloInvalido"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -478,21 +452,13 @@
                                                 </button>
                                             </div>
                                             <!-- FIM CONFIRMAÇÃO ATO-->
-                                            <div class="form-actions">
+                                            <div class="form-actions hidden">
                                                 <div class="row">
                                                     <div class="col-sm-12">
+                                                        <!-- LISTA INVISIVEL PARA TROCAR DE TELA-->
                                                         <ul class="pager wizard no-margin">
-                                                            <!--<li class="previous first disabled">
-                    <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
-                    </li>-->
-                                                            <li class="previous disabled">
-                                                                <a href="javascript:void(0);" class="btn btn-lg btn-default"> Previous </a>
-                                                            </li>
-                                                            <!--<li class="next last">
-                    <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
-                    </li>-->
                                                             <li class="next">
-                                                                <a href="javascript:void(0);" id="goToNext" class="btn btn-lg txt-color-darken"> Next </a>
+                                                                <a href="javascript:void(0);" id="goToNext"></a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -604,6 +570,7 @@
                     editor.setData(result);
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
+                    AtualizarIdTipoAto(Id);
                 },
                 error: function (error) {
                     console.log(error);
@@ -643,49 +610,53 @@
         $('#Ato').val(texto);
     });
 
-        //Atualiza o ID do ato quando chega na parte final
-        function AtualizarIdTipoAto(idModelo) {
-            $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
-                { idModelo },
-                function (data, status) {
-                    $('#IdTipoAto').val(data);
-                    ExisteAtoBanco(data);
-                });
-        }
+    //Atualiza o ID do ato quando chega na parte final
+    function AtualizarIdTipoAto(idModelo) {
+        $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
+            { idModelo },
+            function (data, status) {
+                $('#IdTipoAto').val(data);
+                ExisteAtoBanco(data);
+            });
+    }
 
-        function ExisteAtoBanco(idTipoAto) {
-            var numeroMatricula = $('#PREIMO_MATRI').val();
-            $.get('@Url.Action("ExisteAto", "Ato")',
-                { numeroMatricula },
-                function (data, status) {
-                    if (status == "success") {
-                        $('#divRespImo').attr('hidden','hidden');
-                        var existeAto = data;
-                        debugger;
-                        if (existeAto == "False") {
-                            $('#ExisteNoSistema').val("False");
-                            $('#divRespImo').attr('hidden', 'hidden');
-                            $('#infoAdicional').removeAttr('hidden');
+    function ExisteAtoBanco(idTipoAto) {
+        var numeroMatricula = $('#PREIMO_MATRI').val();
+        $.get('@Url.Action("ExisteAto", "Ato")',
+            { numeroMatricula },
+            function (data, status) {
+                if (status == "success") {
+                    $('#divRespImo').attr('hidden','hidden');
+                    var existeAto = data;
+                    debugger;
+                    if (existeAto == "False") {
+                        $('#ExisteNoSistema').val("False");
+                        $('#divRespImo').attr('hidden', 'hidden');
+                        $('#infoAdicional').removeAttr('hidden');                        
+                    } else {
+                        $('#ExisteNoSistema').val("True");
+                        $('#infoAdicional').attr('hidden', 'hidden');
+                        $('#btnConfirmar').removeAttr('disabled');
+                        if (idTipoAto == 3) {
+                            //voltarPasso();
+                            $('#labelRespImo').text('Já existe ato inicial para os dados!');
+                            $('#divRespImo').removeAttr('hidden');
+                            $('#modeloInvalido').val("True");
+                            return;
                         } else {
-                            $('#ExisteNoSistema').val("True");
-                            $('#infoAdicional').attr('hidden', 'hidden');
-                            $('#btnConfirmar').removeAttr('disabled');
-                            if (idTipoAto == 3) {
-                                voltarPasso();
-                                $('#labelRespImo').text('Já existe ato inicial para os dados!');
-                                $('#divRespImo').removeAttr('hidden');
-                                return;
-                            } else {
-                                $('#divRespImo').attr('hidden','hidden');
-                            }
+                            $('#divRespImo').attr('hidden', 'hidden');
+                            
                         }
                     }
-                    else {
-                        $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
-                        $('#divRespImo').removeAttr('hidden');
-                    }
-                });
-        }
+                    $('#modeloInvalido').val("False");
+                }
+                else {
+                    $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#modeloInvalido').val("True");
+                }
+            });
+    }
 
     </script>
     <script>
@@ -749,7 +720,7 @@
                 { numeroPrenotacao: numPre },
                  function (data, status) {
                      if (status == "success") {
-                         if (data != "") {
+                         if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
                              enviarDadosPessoa(resultado);
                              $('#divResp').attr('hidden');
@@ -845,12 +816,27 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
-                        //if (index - 1 == 1) AtualizarModelo();
-                        //if (index - 1 == 2) {
-                            
-                        //}
-
                         var lista = $('#list');
+                        var quantidade2 = 0;
+                        try {
+                            quantidade2 = lista.find('.complete').length;
+                        } catch (e) {
+                            quantidade2 = 0;
+                        }
+                        debugger;
+                        if (quantidade2 == 1) {
+                            AtualizarModelo();
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            var resultado = $('#modeloInvalido').val();
+                            if (resultado == "True") return;
+                        } else if (quantidade2 == 2) {
+                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                            $('#textAreaAto').val($('#Ato').val());
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                        }
+
+
+                        debugger;
                         var objeto = lista.find('.active');
                         var item = objeto[0];
                         item.classList.remove('active');
@@ -880,14 +866,22 @@
             
         });
 
+    
+    </script>
+    <script>
+
+    /***************************************************************************************
+    *****************************  FUNCOES DE IR E VOLTAR A TELA  *************************
+    **************************************************************************************/
     function voltarPasso() {
+        //DADOS INICIAIS   
         var lista = $('#list');
         var quantidade = lista.find('.complete').length;
         var objeto = lista.find('.active');
 
+        //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
         var item = objeto[0];
         item.classList.remove('active');
-
         objeto = lista.find('.complete');
         item = objeto[quantidade - 1];
 
@@ -899,13 +893,12 @@
         $(`#step${quantidade}`).addClass('active');
         if (quantidade == 1) {
             $('#btnVoltar').attr('disabled', 'disabled');
-        }
+        }       
     }
 
-
-    function teste() {
-        javascript:void(0);
-
-        }
+    //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
+    function IrParaProximo() {
+        $('#goToNext').click();
+    }
     </script>
 }
