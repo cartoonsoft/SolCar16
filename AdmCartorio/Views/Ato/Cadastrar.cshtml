@@ -213,7 +213,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-5">
-                                                        <div class="form-group">
+                                                        <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
                                                                 <input id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
@@ -221,7 +221,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <div class="form-group">
+                                                        <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
                                                                 <input id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
@@ -396,7 +396,7 @@
                                                     <div class="col-sm-2">
                                                         <label class="h5">Tipo de Ato</label>
                                                     </div>
-                                                    <div class="col-sm-2 col-lg-pull-1">
+                                                    <div class="col-sm-2 col-lg-pull-1 form-group">
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
                                                             new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
@@ -553,6 +553,8 @@
             $('#ArquivoModelo_Id').val(idModelo.innerText);
             $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').valid();
+            $('#ArquivoModelo_NomeModelo').valid();
             AtualizarModelo();
 
         }
@@ -666,7 +668,14 @@
         $('#btnPesquisar').on('click', function () {
             var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
             var numeroMatricula = parseInt($('#txtMatricula').val());
-            GetDadosImovel(numeroPrenotacao, numeroMatricula);
+            debugger;
+            if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
+                $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
+                $('#divResp').removeAttr('hidden');
+            } else {
+                $('#divResp').attr('hidden');
+                GetDadosImovel(numeroPrenotacao, numeroMatricula);
+            }
         })
 
         function GetDadosImovel(numPre, numMat) {
@@ -685,7 +694,7 @@
                         }
                         else
                         {
-                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
+                            $('#labelResp').text('Não existem dados com as informações fornecidas.');
                             $('#divResp').removeAttr('hidden');
                         }
                     }
@@ -698,8 +707,9 @@
         }
 
         function enviarDadosMatricula(resultado) {
-            console.log(resultado);
-            $('#PREIMO_MATRI').val(resultado.MATRI);
+            
+            //COLOCA O RESULTADO NOS CAMPOS
+            $('#PREIMO_MATRI').val(resultado.MATRI); 
             $('#PREIMO_ENDER').val(resultado.ENDER);
             $('#PREIMO_NUM').val(resultado.NUM);
             $('#PREIMO_APTO').val(resultado.APTO);
@@ -707,7 +717,18 @@
             $('#PREIMO_QUADRA').val(resultado.QUADRA);
             $('#PREIMO_EDIF').val(resultado.EDIF);
             $('#PREIMO_OUTROS').val(resultado.OUTROS);
-            $('#PREIMO_LOTE').val(resultado.LOTE);
+            $('#PREIMO_LOTE').val(resultado.LOTE); 
+
+            //VALIDA SE OS CAMPOS FORAM PREENCHIDOS
+            $('#PREIMO_MATRI').valid();
+            $('#PREIMO_ENDER').valid();
+            $('#PREIMO_NUM').valid();
+            $('#PREIMO_APTO').valid();
+            $('#PREIMO_BLOCO').valid();
+            $('#PREIMO_QUADRA').valid();
+            $('#PREIMO_EDIF').valid();
+            $('#PREIMO_OUTROS').valid();
+            $('#PREIMO_LOTE').valid();
         }
     </script>
     <script>
@@ -737,7 +758,10 @@
         }
         function enviarDadosPessoa(resultado) {
             $('#TipoPessoa').val(resultado.TipoPessoa);
+            $('#TipoPessoa').valid();
+
             $('#Pessoa_NOM').val(resultado.NOM);
+            $('#Pessoa_NOM').valid();
         }
     </script>
     <script>
@@ -817,46 +841,44 @@
                         return false;
                     } else {
                         var lista = $('#list');
-                        var quantidade2 = 0;
+                        var quantidade = 0;
                         try {
-                            quantidade2 = lista.find('.complete').length;
+                            quantidade = lista.find('.complete').length;
                         } catch (e) {
-                            quantidade2 = 0;
+                            quantidade = 0;
                         }
                         debugger;
-                        if (quantidade2 == 1) {
+                        if (quantidade == 1) {
                             AtualizarModelo();
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                             var resultado = $('#modeloInvalido').val();
                             if (resultado == "True") return;
-                        } else if (quantidade2 == 2) {
+                        } else if (quantidade == 2) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                         }
 
-
-                        debugger;
                         var objeto = lista.find('.active');
                         var item = objeto[0];
                         item.classList.remove('active');
                         item.classList.add('complete');
 
-                        var quantidade = lista.find('.complete').length;
+                        quantidade = lista.find('.complete').length;
                         item = lista.children('li')[quantidade];
                         item.classList.add('active');
                         $(`#step${quantidade}`).removeClass('active');
                         $(`#step${quantidade+1}`).addClass('active');
                         $('#btnVoltar').removeAttr('disabled', 'disabled');
 
-                        if (quantidade == 2) {
-                            AtualizarModelo();
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        } else if (quantidade == 3) {
-                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-                            $('#textAreaAto').val($('#Ato').val());
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        }
+                        //if (quantidade == 2) {
+                        //    AtualizarModelo();
+                        //    AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                        //} else if (quantidade == 3) {
+                        //    $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                        //    $('#textAreaAto').val($('#Ato').val());
+                        //    AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                        //}
 
                         debugger;
                         
