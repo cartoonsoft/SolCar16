@@ -31,40 +31,28 @@ namespace AppServices.Car16.AppServices
         }
         public IEnumerable<DtoAtoList> ListarAtos(long? IdTipoAto = null, string IdUsuario = null)
         {
-            List<DtoAtoList> lista = new List<DtoAtoList>();
-
-            var listaAtos =
-                from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
+            var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
                 where ((IdTipoAto == null) || (a.IdTipoAto == IdTipoAto)) && ((IdUsuario == null) || (a.IdUsuarioCadastro == IdUsuario))
                 join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().GetAll() on a.IdTipoAto equals t.Id
-                orderby a.NumMatricula ascending, a.NumSequencia ascending 
-                select new {
-                    a,
-                    t.Descricao
+                orderby a.NumMatricula ascending, a.NumSequencia ascending
+                select new DtoAtoList {
+                    Id = a.Id,
+                    Ativo = a.Ativo,
+                    Bloqueado = a.Bloqueado,
+                    Codigo = GetCodigoAto(a.IdTipoAto, a.NumMatricula, a.NumSequencia.ToString()),
+                    DataAlteracao = a.DataAlteracao,
+                    DataCadastro = a.DataCadastro,
+                    DescricaoTipoAto = t.Descricao,
+                    IdContaAcessoSistema = a.IdContaAcessoSistema,
+                    IdPrenotacao = a.IdPrenotacao,
+                    IdTipoAto = a.IdTipoAto,
+                    IdUsuarioAlteracao = a.IdUsuarioAlteracao,
+                    IdUsuarioCadastro = a.IdUsuarioCadastro,
+                    NomeArquivo = a.NomeArquivo,
+                    NumMatricula = a.NumMatricula,
+                    NumSequencia = a.NumSequencia,
+                    Observacao = a.Observacao
                 };
-
-            foreach (var item in listaAtos.ToList())
-            {
-                lista.Add(new DtoAtoList
-                {
-                    Id = item.a.Id,
-                    Ativo = item.a.Ativo,
-                    Bloqueado = item.a.Bloqueado,
-                    Codigo = GetCodigoAto(item.a.IdTipoAto, item.a.NumMatricula, item.a.NumSequencia.ToString()),
-                    DataAlteracao = item.a.DataAlteracao,
-                    DataCadastro = item.a.DataCadastro,
-                    DescricaoTipoAto = item.Descricao,
-                    IdContaAcessoSistema = item.a.IdContaAcessoSistema,
-                    IdPrenotacao = item.a.IdPrenotacao,
-                    IdTipoAto = item.a.IdTipoAto,
-                    IdUsuarioAlteracao = item.a.IdUsuarioAlteracao,
-                    IdUsuarioCadastro = item.a.IdUsuarioCadastro,
-                    NomeArquivo = item.a.NomeArquivo,
-                    NumMatricula = item.a.NumMatricula,
-                    NumSequencia = item.a.NumSequencia,
-                    Observacao = item.a.Observacao
-                });
-            }
 
             return lista;
         }
