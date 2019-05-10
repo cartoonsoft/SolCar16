@@ -194,7 +194,7 @@
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-success" id="btnProximo" onclick="IrParaProximo()" data-last="Finish">
+                                                <button type="button" class="btn btn-sm btn-success active" id="btnProximo" onclick="IrParaProximo()" data-last="Finish">
                                                     Próximo<i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
@@ -630,20 +630,24 @@
                 if (status == "success") {
                     $('#divRespImo').attr('hidden','hidden');
                     var existeAto = data;
+                    alert(existeAto);
                     debugger;
                     if (existeAto == "False") {
                         $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
-                        $('#infoAdicional').removeAttr('hidden');                        
+                        $('#infoAdicional').removeClass('hidden');       
+                        $('#btnConfirmar').attr('disabled');
                     } else {
                         $('#ExisteNoSistema').val("True");
-                        $('#infoAdicional').attr('hidden', 'hidden');
+                        $('#infoAdicional').addClass('hidden');
                         $('#btnConfirmar').removeAttr('disabled');
                         if (idTipoAto == 3) {
                             //voltarPasso();
                             $('#labelRespImo').text('Já existe ato inicial para os dados!');
                             $('#divRespImo').removeAttr('hidden');
                             $('#modeloInvalido').val("True");
+                            $('#btnProximo').attr('disabled', 'disabled');
+                            $('#btnProximo').removeClass('active');
                             return;
                         } else {
                             $('#divRespImo').attr('hidden', 'hidden');
@@ -651,11 +655,16 @@
                         }
                     }
                     $('#modeloInvalido').val("False");
+                    $('#btnProximo').removeAttr('disabled');
+                    $('#btnProximo').addClass('active');
+
                 }
                 else {
                     $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
                     $('#divRespImo').removeAttr('hidden');
                     $('#modeloInvalido').val("True");
+                    $('#btnProximo').attr('disabled', 'disabled');
+                    $('#btnProximo').removeClass('active');
                 }
             });
     }
@@ -672,9 +681,19 @@
             if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
                 $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
                 $('#divResp').removeAttr('hidden');
+
+                //LIMPANDO CAMPOS
+                var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+                var resultado = JSON.parse(limpaDados);
+                enviarDadosMatricula(resultado);
+                enviarDadosPessoa(resultado);
+                $('#btnProximo').attr('disabled', 'disabled');
+                $('#btnProximo').removeClass('active');
             } else {
                 $('#divResp').attr('hidden');
                 GetDadosImovel(numeroPrenotacao, numeroMatricula);
+                $('#btnProximo').removeAttr('disabled');
+                $('#btnProximo').addClass('active');
             }
         })
 
@@ -848,7 +867,17 @@
                             quantidade = 0;
                         }
                         debugger;
-                        if (quantidade == 1) {
+                        if (quantidade == 0) {
+                            if ($('#modeloInvalido').val() == "True") {
+                                $('#btnProximo').attr('disabled', 'disabled');
+                                $('#btnProximo').removeClass('active');
+                            }
+                            else {
+                                $('#btnProximo').removeAttr('disabled');
+                                $('#btnProximo').addClass('active');
+                            }
+                        }
+                        else if (quantidade == 1) {
                             AtualizarModelo();
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                             var resultado = $('#modeloInvalido').val();
@@ -900,6 +929,12 @@
         var lista = $('#list');
         var quantidade = lista.find('.complete').length;
         var objeto = lista.find('.active');
+
+        if (quantidade == 1) {
+            $('#btnProximo').removeAttr('disabled');
+            $('#btnProximo').addClass('active');
+        }
+
 
         //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
         var item = objeto[0];
