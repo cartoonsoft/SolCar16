@@ -664,9 +664,12 @@
                         debugger;
                         if (existeAto == "False") {
                             $('#ExisteNoSistema').val("False");
-                            $('#divRespImo').attr('hidden','hidden');
+                            $('#divRespImo').attr('hidden', 'hidden');
+                            $('#infoAdicional').removeAttr('hidden');
                         } else {
                             $('#ExisteNoSistema').val("True");
+                            $('#infoAdicional').attr('hidden', 'hidden');
+                            $('#btnConfirmar').removeAttr('disabled');
                             if (idTipoAto == 3) {
                                 voltarPasso();
                                 $('#labelRespImo').text('Já existe ato inicial para os dados!');
@@ -866,7 +869,7 @@
                         } else if (quantidade == 3) {
                             $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
                             $('#textAreaAto').val($('#Ato').val());
-                            //AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
                         }
 
                         debugger;
