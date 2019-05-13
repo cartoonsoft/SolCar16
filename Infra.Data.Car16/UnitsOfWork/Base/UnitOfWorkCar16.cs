@@ -109,12 +109,12 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
             return contextName;
         }
 
-        public override int? Commit()
+        public override int? SaveChanges()
         {
-            //fazer algo antes de salvar tudo
+            //fazer algo antes de salvar 
 
-            return base.Commit();
-            //fazer algo depoi de salvar tudo
+            return base.SaveChanges();
+            //fazer algo depoi de salvar 
         }
 
         /* ronaldo arrumar

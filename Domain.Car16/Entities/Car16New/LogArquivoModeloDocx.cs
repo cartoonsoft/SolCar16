@@ -14,6 +14,7 @@ namespace Domain.Car16.Entities.Car16New
     public class LogArquivoModeloDocx : EntityBase
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("ID_LOG_ARQ_MOD_DOCX")]
         public override long? Id { get; set; }
 
@@ -32,8 +33,8 @@ namespace Domain.Car16.Entities.Car16New
         [Column("DTH_LOG")]
         public DateTime DataHora { get; set; }
 
-        [Column("USUARUO_OS")]
-        public string UsuarioSistOp { get; set; }
+        [Column("USUARIO_OS")]
+        public string UsuarioSistOperacional { get; set; }
 
     }
 }

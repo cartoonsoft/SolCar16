@@ -30,12 +30,10 @@ namespace AdmCartorio.ViewModels
         [Display(Name = "Modelo")]
         public List<HttpPostedFileBase> Files { get; set; }
 
-        public LogArquivoModeloDocxViewModel LogArquivoModeloDocxViewModel { get; set; }
+        public LogArquivoModeloDocxViewModel logArquivoModeloDocxViewModel { get; set; }
 
-        public string Arquivo { get; set; }
-
-        public byte[] ArquivoByte { get; set; }
-
+        public string CaminhoEArquivo { get; set; }
+  
         public string IpLocal { get; set; }
     }
 }

@@ -33,15 +33,28 @@ namespace Domain.Car16.DomainServices
             return _repositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
         }
 
-        public void SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
-            long IdTmp = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
-            arquivoModeloDocx.Id = IdTmp;
-            logArquivoModeloDocx.IdArquivoModeloDocx = IdTmp;
+            long? NovoId = null;
+
+            UnitOfWorkCar16New.BeginTransaction();
+
+            NovoId = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
+            arquivoModeloDocx.Id = NovoId;
+            arquivoModeloDocx.CaminhoEArquivo = arquivoModeloDocx.CaminhoEArquivo + NovoId.ToString() + ".docx";
 
             _repositoryArquivoModeloDocx.Add(arquivoModeloDocx);
-            //_repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            UnitOfWorkCar16New.SaveChanges();
 
+            logArquivoModeloDocx.Id = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            logArquivoModeloDocx.IdArquivoModeloDocx = NovoId??0;
+
+            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            UnitOfWorkCar16New.SaveChanges();
+
+            UnitOfWorkCar16New.CommitTransaction();
+
+            return NovoId;
         }
     }
 }

@@ -13,7 +13,7 @@ namespace AppServices.Car16.Interfaces
     public interface IAppServiceArquivoModeloDocx: IAppServiceCar16<DtoArquivoModeloDocxModel, ArquivoModeloDocx>
     {
         //
-        void SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
+        long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
 
         IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
 

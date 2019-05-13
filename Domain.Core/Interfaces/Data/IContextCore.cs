@@ -26,5 +26,7 @@ namespace Domain.Core.Interfaces.Data
         Task<int> SaveChangesAsync();
         DbSet Set(Type entityType);
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
+        string ContextName { get; }
+
     }
 }

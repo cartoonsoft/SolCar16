@@ -77,3 +77,15 @@ PL/SQL: SQL Statement ignored
    em System.Data.Common.DbCommand.ExecuteReader(CommandBehavior behavior)
    em System.Data.Entity.Core.Mapping.Update.Internal.DynamicUpdateCommand.Execute(Dictionary`2 identifierValues, List`1 generatedValues)
    em System.Data.Entity.Core.Mapping.Update.Internal.UpdateTranslator.Update()"
+>>>Log em, 13/05/2019 14:38:22 Message ==> "The changes to the database were committed successfully, but an error occurred while updating the object context. The ObjectContext might be in an inconsistent state. Inner exception message: The object state cannot be changed. This exception may result from one or more of the primary key properties being set to null. Non-Added objects cannot have null primary key values.  See inner exception for details." 
+    >> InnerException: "System.ArgumentException: The key-value pairs that define an EntityKey cannot be null or empty.
+Parameter name: record
+   at System.Data.Entity.Core.EntityKey.InitializeKeyValues(EntitySet entitySet, IExtendedDataRecord record)
+   at System.Data.Entity.Core.EntityKey..ctor(EntitySet entitySet, IExtendedDataRecord record)
+   at System.Data.Entity.Core.Objects.ObjectStateManager.FixupKey(EntityEntry entry)"
+>>>Log em, 13/05/2019 14:39:26 Message ==> "The changes to the database were committed successfully, but an error occurred while updating the object context. The ObjectContext might be in an inconsistent state. Inner exception message: The object state cannot be changed. This exception may result from one or more of the primary key properties being set to null. Non-Added objects cannot have null primary key values.  See inner exception for details." 
+    >> InnerException: "System.ArgumentException: The key-value pairs that define an EntityKey cannot be null or empty.
+Parameter name: record
+   at System.Data.Entity.Core.EntityKey.InitializeKeyValues(EntitySet entitySet, IExtendedDataRecord record)
+   at System.Data.Entity.Core.EntityKey..ctor(EntitySet entitySet, IExtendedDataRecord record)
+   at System.Data.Entity.Core.Objects.ObjectStateManager.FixupKey(EntityEntry entry)"

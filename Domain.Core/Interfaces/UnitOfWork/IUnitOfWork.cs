@@ -26,8 +26,10 @@ namespace Domain.Core.Interfaces.UnitOfWork
             get;
             set;
         }
-        int? Commit();
-        void BeginTransaction(IsolationLevel pIsolationLevel);
-        void RollBack();
+        int? SaveChanges();
+        void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted);
+        void CommitTransaction();
+        void RollBackTransaction();
+
     }
 }

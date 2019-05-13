@@ -9,12 +9,14 @@ Todos os direitos reservados ®
 -----------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
@@ -280,8 +282,10 @@ namespace Infra.Data.Car16.Repositories.Base
         public long GetNextValFromOracleSequence(string SequenceName)
         {
             long SeqTmp = 0;
+            ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
+            var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
 
-            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            using (OracleConnection conn = new OracleConnection(connStr))
             {
                 conn.Open();
                 using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
