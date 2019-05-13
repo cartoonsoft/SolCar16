@@ -11,44 +11,49 @@
 
 <div class="modal-dialog" role="dialog">
     <div class="modal-content">
+        <div class="modal-header">
+            <h1>Informações Adicionais</h1>
+        </div>
         <div class="modal-body">
             <form>
-                <div class="row">
-                    <div class="col-sm-6 text-align-right padding-top-10">
-                        <label class="">N.° da Ficha</label>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 text-align-right padding-top-10">
+                            <label class="">N.° da Ficha</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control input-modal" id="numFicha" name="numFicha" type="number" placeholder="N.° da Ficha" required title="Preencha o N.° da Ficha" min="1" />
+                        </div>
                     </div>
-                    <div class="col-sm-4">
-                        <input class="form-control input-modal" id="numFicha" name="numFicha" type="number" placeholder="N.° da Ficha" required title="Preencha o N.° da Ficha" min="1" />
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6 text-align-right padding-top-10">
+                            <label>No verso?</label>
+                        </div>
+                        <div class="col-sm-1">
+                            <input class="form-control input-modal" type="checkbox" id="ckVerso" name="ckVerso" checked />
+                        </div>
                     </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-6 text-align-right padding-top-10">
-                        <label>No verso?</label>
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6 text-align-right padding-top-10">
+                            <label>Quantidade centimetros da borda</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
+                                   pattern="^[0-9]{1}[0-9]{0,}(\.\d{1,2})?$" required />
+                            <label id="centimetrosValidation" hidden>Preencha a quantidade corretamente</label>
+                        </div>
                     </div>
-                    <div class="col-sm-1">
-                        <input class="form-control input-modal" type="checkbox" id="ckVerso" name="ckVerso" checked />
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-6 text-align-right padding-top-10">
-                        <label>Quantidade centimetros da borda</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
-                               pattern="^[0-9]{1}[0-9]{0,}(\.\d{1,2})?$" required />
-                        <label id="centimetrosValidation" hidden>Preencha a quantidade corretamente</label>
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-sm-6 text-align-right padding-top-10">
-                        <label>N.° Sequencia Ato (Ex.: AV-{n}/...)</label>
-                    </div>
-                    <div class="col-sm-4">
-                        <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia"
-                               required min="1" />
+                    <br />
+                    <div class="row">
+                        <div class="col-sm-6 text-align-right padding-top-10">
+                            <label>N.° Sequencia Ato (Ex.: AV-{<b>n</b>}/...)</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <input class="form-control input-modal" id="numeSequencia" name="numeSequencia" type="number" placeholder="N.°" title="Preencha o N.° da sequencia"
+                                   required min="1" />
+                        </div>
                     </div>
                 </div>
             </form>
@@ -71,10 +76,15 @@
         debugger;
         if ($('#qtdeCentimetros').val().match(regex) != texto) {
             $('#centimetrosValidation').removeAttr('hidden')
-            centimetrosValidos = false;
+
         } else {
-            $('#centimetrosValidation').attr('hidden', 'hidden');
-            centimetrosValidos = true;
+            var quantidade = parseInt(texto);
+            if (isNan(quantidade)) {
+                centimetrosValidos = false;
+            } else if (quantidade > 0 && quantidade < 20) {
+                $('#centimetrosValidation').attr('hidden', 'hidden');
+                centimetrosValidos = true;
+            }
         }
     });
 

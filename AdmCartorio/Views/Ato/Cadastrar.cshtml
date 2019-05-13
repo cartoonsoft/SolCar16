@@ -189,12 +189,12 @@
                                                     <span class="badge">4</span>Confirmação<span class="chevron"></span>
                                                 </li>
                                             </ul>
-
+                                            
                                             <div class="actions">
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
                                                 </button>
-                                                <button type="button" class="btn btn-sm btn-success" id="btnProximo" onclick="teste()" data-last="Finish">
+                                                <button type="button" class="btn btn-sm btn-success active" id="btnProximo" onclick="IrParaProximo()" data-last="Finish">
                                                     Próximo<i class="fa fa-arrow-right"></i>
                                                 </button>
                                             </div>
@@ -213,27 +213,27 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-5">
-                                                        <div class="form-group">
+                                                        <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()"    id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <div class="form-group">
+                                                        <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()" id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-2">
+                                                    @*<div class="col-sm-2">
                                                         <button id="btnPesquisar" type="button"
                                                                 class="btn btn-default btn-lg  margin-left-5">
                                                             <i class="glyphicon glyphicon-search"></i>
                                                         </button>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                                 <h1>Dados do imóvel</h1>
                                                 <br />
@@ -243,14 +243,8 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
-                                                            {
-                                                                @class = "form-control input-lg",
-                                                                @placeholder = "Nº da Matricula",
-                                                            @readonly = "readonly",
-                                                                @required = "required",
-                                                                @title = "Número de matrícula é obrigatório"
-                                                            })
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new {@class = "form-control input-lg",@placeholder = "Nº da Matricula",@readonly = "readonly",
+                                                                @required = "required",@title = "Número de matrícula é obrigatório"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -339,30 +333,16 @@
                                                         <label class="h5">Tipo de Pessoa</label>
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
-                                                        @Html.TextBoxFor(model => model.TipoPessoa,
-                                                            new
-                                                                 {
-                                                                     @class = "form-control input-lg padding-left-5",
-                                                                     @placeholder = "TIPO DE PESSOA",
-                                                                     @readonly = "readonly",
-                                                            @required = "required",
-                                                                     @title = "O tipo de pessoa é obrigatório"
-                                                                 })
+                                                        @Html.TextBoxFor(model => model.TipoPessoa,new {@class = "form-control input-lg padding-left-5",@placeholder = "TIPO DE PESSOA",
+                                                            @readonly = "readonly",@required = "required",@title = "O tipo de pessoa é obrigatório"})
                                                     </div>
                                                     <div class="col-sm-1">
                                                         <label class="h5">Nome</label>
                                                     </div>
                                                     <div class="col-sm-3 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.Pessoa.NOM,
-                                                                new
-                                                                     {
-                                                                         @class = "form-control input-lg padding-left-5",
-                                                                         @placeholder = "NOME DA PESSOA",
-                                                                         @readonly = "readonly",
-                                                                @required = "required",
-                                                                         @title = "Nome é obrigatório"
-                                                                     })
+                                                            @Html.TextBoxFor(model => model.Pessoa.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
+                                                                @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
                                                         </div>
                                                     </div>
                                                 </div>
@@ -409,24 +389,18 @@
                                                     <div class="col-sm-3 form-group">
                                                         <div>
                                                             @Html.HiddenFor(model => model.ArquivoModelo.Id)
-                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo,
-                                                                new
-                                                                     {
-                                                                         @class = "form-control input-lg",
-                                                                         @placeholder = "NOME DO MODELO",
-                                                                         @readonly = "readonly",
-                                                                         @required = "required",
-                                                                    @title = "Preencha o nome do modelo"
-                                                                     })
+                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new {@class = "form-control input-lg",@placeholder = "NOME DO MODELO",
+                                                                @readonly = "readonly",@required = "required",@title = "Preencha o nome do modelo"})
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <label class="h5">Tipo de Ato</label>
                                                     </div>
-                                                    <div class="col-sm-2 col-lg-pull-1">
+                                                    <div class="col-sm-2 col-lg-pull-1 form-group">
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
                                                             new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
+                                                        <input hidden id="modeloInvalido"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -453,15 +427,20 @@
                                             <div class="step-pane" id="step4">
                                                 <br>
                                                 <h3><strong>Passo 4</strong> - Confirmação</h3>
+                                                <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1> 
+                                                @Html.HiddenFor(model => model.PREIMO.SEQPRE)
                                                 <br />
-                                                <h1>Deseja confirmar o ato escrito?</h1>
-                                                <span class="text-danger h3 text-align-center">Após confirmar, não sera possível mais modificar o ato</span>
+                                                <br />
+                                                <h1 class="text-align-center">Deseja confirmar o ato escrito?</h1>
+                                                <div class="text-align-center">
+                                                    <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
+                                                </div>
                                                 <br />
                                                 <br />
                                                 @Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
                                                 <br />
                                                 <div class="row hidden" id="infoAdicional">
-                                                    <div class="col-sm-12">
+                                                    <div class="col-sm-12 text-align-center">
                                                         <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
                                                         <br />
@@ -478,21 +457,13 @@
                                                 </button>
                                             </div>
                                             <!-- FIM CONFIRMAÇÃO ATO-->
-                                            <div class="form-actions">
+                                            <div class="form-actions hidden">
                                                 <div class="row">
                                                     <div class="col-sm-12">
+                                                        <!-- LISTA INVISIVEL PARA TROCAR DE TELA-->
                                                         <ul class="pager wizard no-margin">
-                                                            <!--<li class="previous first disabled">
-                    <a href="javascript:void(0);" class="btn btn-lg btn-default"> First </a>
-                    </li>-->
-                                                            <li class="previous disabled">
-                                                                <a href="javascript:void(0);" class="btn btn-lg btn-default"> Previous </a>
-                                                            </li>
-                                                            <!--<li class="next last">
-                    <a href="javascript:void(0);" class="btn btn-lg btn-primary"> Last </a>
-                    </li>-->
                                                             <li class="next">
-                                                                <a href="javascript:void(0);" id="goToNext" class="btn btn-lg txt-color-darken"> Next </a>
+                                                                <a href="javascript:void(0);" id="goToNext"></a>
                                                             </li>
                                                         </ul>
                                                     </div>
@@ -587,6 +558,8 @@
             $('#ArquivoModelo_Id').val(idModelo.innerText);
             $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').valid();
+            $('#ArquivoModelo_NomeModelo').valid();
             AtualizarModelo();
 
         }
@@ -604,6 +577,7 @@
                     editor.setData(result);
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
+                    AtualizarIdTipoAto(Id);
                 },
                 error: function (error) {
                     console.log(error);
@@ -643,57 +617,103 @@
         $('#Ato').val(texto);
     });
 
-        //Atualiza o ID do ato quando chega na parte final
-        function AtualizarIdTipoAto(idModelo) {
-            $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
-                { idModelo },
-                function (data, status) {
-                    $('#IdTipoAto').val(data);
-                    ExisteAtoBanco(data);
-                });
-        }
+    //Atualiza o ID do ato quando chega na parte final
+    function AtualizarIdTipoAto(idModelo) {
+        $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
+            { idModelo },
+            function (data, status) {
+                $('#IdTipoAto').val(data);
+                ExisteAtoBanco(data);
+            });
+    }
 
-        function ExisteAtoBanco(idTipoAto) {
-            var numeroMatricula = $('#PREIMO_MATRI').val();
-            $.get('@Url.Action("ExisteAto", "Ato")',
-                { numeroMatricula },
-                function (data, status) {
-                    if (status == "success") {
-                        $('#divRespImo').attr('hidden','hidden');
-                        var existeAto = data;
-                        debugger;
-                        if (existeAto == "False") {
-                            $('#ExisteNoSistema').val("False");
-                            $('#divRespImo').attr('hidden','hidden');
+    function ExibirModal() {
+        if ($('#ExisteNoSistema').val() == "False") {
+            $('.linkModal').click();
+        }
+    }
+
+    function ExisteAtoBanco(idTipoAto) {
+        var numeroMatricula = $('#PREIMO_MATRI').val();
+        $.get('@Url.Action("ExisteAto", "Ato")',
+            { numeroMatricula },
+            function (data, status) {
+                if (status == "success") {
+                    $('#divRespImo').attr('hidden','hidden');
+                    var existeAto = data;
+                    debugger;
+                    if (existeAto == "False") {
+                        $('#ExisteNoSistema').val("False");
+                        $('#divRespImo').attr('hidden', 'hidden');
+                        $('#infoAdicional').removeClass('hidden');       
+                        $('#btnConfirmar').attr('disabled');
+                        
+                    } else {
+                        $('#ExisteNoSistema').val("True");
+                        $('#infoAdicional').addClass('hidden');
+                        $('#btnConfirmar').removeAttr('disabled');
+                        if (idTipoAto == 3) {
+                            //voltarPasso();
+                            $('#labelRespImo').text('Já existe ato inicial para os dados!');
+                            $('#divRespImo').removeAttr('hidden');
+                            $('#modeloInvalido').val("True");
+                            $('#btnProximo').attr('disabled', 'disabled');
+                            $('#btnProximo').removeClass('active');
+                            return;
                         } else {
-                            $('#ExisteNoSistema').val("True");
-                            if (idTipoAto == 3) {
-                                voltarPasso();
-                                $('#labelRespImo').text('Já existe ato inicial para os dados!');
-                                $('#divRespImo').removeAttr('hidden');
-                                return;
-                            } else {
-                                $('#divRespImo').attr('hidden','hidden');
-                            }
+                            $('#divRespImo').attr('hidden', 'hidden');
+                            
                         }
                     }
-                    else {
-                        $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
-                        $('#divRespImo').removeAttr('hidden');
-                    }
-                });
-        }
+                    $('#modeloInvalido').val("False");
+                    $('#btnProximo').removeAttr('disabled');
+                    $('#btnProximo').addClass('active');
+
+                }
+                else {
+                    $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#modeloInvalido').val("True");
+                    $('#btnProximo').attr('disabled', 'disabled');
+                    $('#btnProximo').removeClass('active');
+                }
+            });
+    }
 
     </script>
     <script>
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
          ****************************************************************/
-        $('#btnPesquisar').on('click', function () {
-            var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
-            var numeroMatricula = parseInt($('#txtMatricula').val());
-            GetDadosImovel(numeroPrenotacao, numeroMatricula);
-        })
+
+        function LimparDados() {
+            var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+            var resultado = JSON.parse(limpaDados);
+            enviarDadosMatricula(resultado);
+            enviarDadosPessoa(resultado);
+            $('#btnProximo').attr('disabled', 'disabled');
+            $('#btnProximo').removeClass('active');
+        }
+
+        function PesquisarImovel() {
+            setTimeout(function () {
+                var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
+                var numeroMatricula = parseInt($('#txtMatricula').val());
+                debugger;
+                if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
+                    $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
+                    $('#divResp').removeAttr('hidden');
+
+                    //LIMPANDO CAMPOS
+                    LimparDados();
+                } else {
+                    $('#divResp').attr('hidden');
+                    GetDadosImovel(numeroPrenotacao, numeroMatricula);
+                    $('#btnProximo').removeAttr('disabled');
+                    $('#btnProximo').addClass('active');
+                }
+            }, 200); 
+        }
 
         function GetDadosImovel(numPre, numMat) {
 
@@ -711,21 +731,25 @@
                         }
                         else
                         {
-                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
+                            $('#labelResp').text('Não existem dados com as informações fornecidas.');
                             $('#divResp').removeAttr('hidden');
+                            LimparDados();
                         }
                     }
                     else
                     {
                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
                         $('#divResp').removeAttr('hidden');
+                        LimparDados();
                     }
                 });
         }
 
         function enviarDadosMatricula(resultado) {
-            console.log(resultado);
-            $('#PREIMO_MATRI').val(resultado.MATRI);
+            
+            //COLOCA O RESULTADO NOS CAMPOS
+            $('#numeroPre').text(resultado.SEQPRE); 
+            $('#PREIMO_MATRI').val(resultado.MATRI); 
             $('#PREIMO_ENDER').val(resultado.ENDER);
             $('#PREIMO_NUM').val(resultado.NUM);
             $('#PREIMO_APTO').val(resultado.APTO);
@@ -733,7 +757,18 @@
             $('#PREIMO_QUADRA').val(resultado.QUADRA);
             $('#PREIMO_EDIF').val(resultado.EDIF);
             $('#PREIMO_OUTROS').val(resultado.OUTROS);
-            $('#PREIMO_LOTE').val(resultado.LOTE);
+            $('#PREIMO_LOTE').val(resultado.LOTE); 
+
+            //VALIDA SE OS CAMPOS FORAM PREENCHIDOS
+            $('#PREIMO_MATRI').valid();
+            $('#PREIMO_ENDER').valid();
+            $('#PREIMO_NUM').valid();
+            $('#PREIMO_APTO').valid();
+            $('#PREIMO_BLOCO').valid();
+            $('#PREIMO_QUADRA').valid();
+            $('#PREIMO_EDIF').valid();
+            $('#PREIMO_OUTROS').valid();
+            $('#PREIMO_LOTE').valid();
         }
     </script>
     <script>
@@ -746,24 +781,29 @@
                 { numeroPrenotacao: numPre },
                  function (data, status) {
                      if (status == "success") {
-                         if (data != "") {
+                         if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
                              enviarDadosPessoa(resultado);
                              $('#divResp').attr('hidden');
                          }else {
-                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
-                            $('#divResp').removeAttr('hidden');
+                             $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                             $('#divResp').removeAttr('hidden');
+                             LimparDados();
                          }
                      }
                      else {
                          $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
                          $('#divResp').removeAttr('hidden');
+                         LimparDados();
                      }
                 });
         }
         function enviarDadosPessoa(resultado) {
             $('#TipoPessoa').val(resultado.TipoPessoa);
+            $('#TipoPessoa').valid();
+
             $('#Pessoa_NOM').val(resultado.NOM);
+            $('#Pessoa_NOM').valid();
         }
     </script>
     <script>
@@ -771,52 +811,6 @@
             GetModelos();
 
             var $validator = $("#wizard-1").validate({
-
-                rules: {
-                    PREIMO: {
-                        MATRI: {
-                            required: true
-                        }
-                    },
-                    fname: {
-                        required: true
-                    },
-                    lname: {
-                        required: true
-                    },
-                    country: {
-                        required: true
-                    },
-                    city: {
-                        required: true
-                    },
-                    postal: {
-                        required: true,
-                        minlength: 4
-                    },
-                    wphone: {
-                        required: true,
-                        minlength: 10
-                    },
-                    hphone: {
-                        required: true,
-                        minlength: 10
-                    }
-                },
-
-                messages: {
-                    PREIMO: {
-                        MATRI: {
-                            required: "Please specify your First name"
-                        }
-                    },
-                    lname: "Please specify your Last name",
-                    email: {
-                        required: "We need your email address to contact you",
-                        email: "Your email address must be in the format of name@domain.com"
-                    }
-                },
-
                 highlight: function (element) {
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                 },
@@ -842,49 +836,79 @@
                         $validator.focusInvalid();
                         return false;
                     } else {
-                        //if (index - 1 == 1) AtualizarModelo();
-                        //if (index - 1 == 2) {
-                            
-                        //}
-
                         var lista = $('#list');
+                        var quantidade = 0;
+                        try {
+                            quantidade = lista.find('.complete').length;
+                        } catch (e) {
+                            quantidade = 0;
+                        }
+                        debugger;
+                        if (quantidade == 0) {  
+                            if ($('#modeloInvalido').val() == "True") {
+                                $('#btnProximo').attr('disabled', 'disabled');
+                                $('#btnProximo').removeClass('active');
+                                if ($('#IdTipoAto').val()) {
+                                    ExisteAtoBanco($('#IdTipoAto').val());
+                                }
+                            }
+                            else {
+                                $('#btnProximo').removeAttr('disabled');
+                                $('#btnProximo').addClass('active');
+                            }
+                        }
+                        else if (quantidade == 1) {
+                            AtualizarModelo();
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            var resultado = $('#modeloInvalido').val();
+                            if (resultado == "True") return;
+                        } else if (quantidade == 2) {
+                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                            $('#textAreaAto').val($('#Ato').val());
+                            ExibirModal();
+                        }
+
                         var objeto = lista.find('.active');
                         var item = objeto[0];
                         item.classList.remove('active');
                         item.classList.add('complete');
 
-                        var quantidade = lista.find('.complete').length;
+                        quantidade = lista.find('.complete').length;
                         item = lista.children('li')[quantidade];
                         item.classList.add('active');
                         $(`#step${quantidade}`).removeClass('active');
                         $(`#step${quantidade+1}`).addClass('active');
                         $('#btnVoltar').removeAttr('disabled', 'disabled');
-
-                        if (quantidade == 2) {
-                            AtualizarModelo();
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        } else if (quantidade == 3) {
-                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
-                            $('#textAreaAto').val($('#Ato').val());
-                            //AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                        }
-
-                        debugger;
-                        
+                                                                       
                     }
                 }
             });
             
         });
 
+    
+    
+    </script>
+    <script>
+
+    /***************************************************************************************
+    *****************************  FUNCOES DE IR E VOLTAR A TELA  *************************
+    **************************************************************************************/
     function voltarPasso() {
+        //DADOS INICIAIS   
         var lista = $('#list');
         var quantidade = lista.find('.complete').length;
         var objeto = lista.find('.active');
 
+        if (quantidade == 1) {
+            $('#btnProximo').removeAttr('disabled');
+            $('#btnProximo').addClass('active');
+        }
+
+
+        //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
         var item = objeto[0];
         item.classList.remove('active');
-
         objeto = lista.find('.complete');
         item = objeto[quantidade - 1];
 
@@ -896,13 +920,12 @@
         $(`#step${quantidade}`).addClass('active');
         if (quantidade == 1) {
             $('#btnVoltar').attr('disabled', 'disabled');
-        }
+        }       
     }
 
-
-    function teste() {
+    //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
+    function IrParaProximo() {
         $('#goToNext').click();
-
-        }
+    }
     </script>
 }
