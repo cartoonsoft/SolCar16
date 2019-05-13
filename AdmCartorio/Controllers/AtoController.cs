@@ -228,7 +228,7 @@ namespace AdmCartorio.Controllers
             {
                 using(AppServicePessoa appServicePessoa = new AppServicePessoa(UnitOfWorkDataBaseCar16))
                 {
-                    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPremo(numeroPrenotacao));
+                    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPrenotacao(numeroPrenotacao));
                 }
             }
             catch (Exception)
