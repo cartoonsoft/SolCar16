@@ -64,29 +64,36 @@ namespace AppServices.Car16.AppServices
             IEnumerable<DtoPessoaPesxPre> Pessoas = new List<DtoPessoaPesxPre>();
 
             var listaPessoas =
-                from pes in _unitOfWork.Repositories.GenericRepository<PESSOA>().GetAll()
-                join pre in _unitOfWork.Repositories.GenericRepository<PESXPRE>().GetAll() on pes.SEQPES equals pre.SEQPES
-                where  ( pre.SEQPRE == numeroPrenotacao)
+                from pre in _unitOfWork.Repositories.GenericRepository<PESXPRE>().GetWhere(p => p.SEQPRE == numeroPrenotacao) 
+                join pes in _unitOfWork.Repositories.GenericRepository<PESSOA>().GetAll() on pre.SEQPES equals pes.SEQPES
                 orderby pes.NOM
                 select new DtoPessoaPesxPre {
-                    IdPessoa = pes.SEQPES,
+                    SEQPES = pes.SEQPES,
                     TipoPessoa = pre.REL == "O" ? "Outorgante" : "Outorgado",
-                    Bairro = pes.BAI,
-                    Cidade = pes.CID,
-                    CEP  = pes.CEP.ToString(),
-                    Endereco = pes.ENDER,
-                    Nome = pes.NOM,
-                    TipoDoc1 = pes.TIPODOC1.ToString(),
-                    NunDoc1 = pes.NRO1,
-                    TipoDoc2 = pes.TIPODOC2.ToString(),
-                    NunDoc2 = pes.NRO1,
-                    Telefone = pes.TEL,
-                    Uf = pes.UF
+                    BAI = pes.BAI,
+                    CID = pes.CID,
+                    CEP  = pes.CEP,
+                    ENDER = pes.ENDER,
+                    NOM = pes.NOM,
+                    TIPODOC1 = pes.TIPODOC1,
+                    NRO1 = pes.NRO1,
+                    TIPODOC2 = pes.TIPODOC2.ToString(),
+                    NRO2 = pes.NRO1,
+                    TEL = pes.TEL,
+                    UF = pes.UF
                 };
 
             return Pessoas = listaPessoas;
         }
 
+        public Dictionary<string, string> GetCamposModeloMatricula(long? IdMode)
+        {
+
+            return  null;
+        }
 
     }
+
+
+
 }

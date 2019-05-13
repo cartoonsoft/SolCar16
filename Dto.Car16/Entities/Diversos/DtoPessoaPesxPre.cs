@@ -10,30 +10,18 @@ namespace Dto.Car16.Entities.Diversos
     public class DtoPessoaPesxPre
     {
         [Key]
-        public long IdPessoa { get; set; } // "SEQPES" NUMBER(15,0), 
-
+        public long SEQPES { get; set; }
+        public string NOM { get; set; }
+        public string ENDER { get; set; }
+        public string BAI { get; set; }
+        public string CID { get; set; }
+        public string UF { get; set; }
+        public int? CEP { get; set; }
+        public string TEL { get; set; }
+        public byte? TIPODOC1 { get; set; }
+        public string NRO1 { get; set; }
+        public string TIPODOC2 { get; set; }
+        public string NRO2 { get; set; }
         public string TipoPessoa { get; set; }
-
-        public string Nome { get; set; }  //       	"NOM" CHAR(120 BYTE), 
-
-        public string Endereco { get; set; } // 	"ENDER" CHAR(100 BYTE), 
-
-        public string Bairro { get; set; } //	"BAI" CHAR(50 BYTE), 
-
-        public string Cidade { get; set; } //"CID" CHAR(50 BYTE), 
-
-        public string Uf { get; set; } //"UF" CHAR(2 BYTE), 
-
-        public string CEP { get; set; } //"CEP" NUMBER(9,0), 
-
-        public string Telefone { get; set; } //"TEL" CHAR(100 BYTE), 
-
-        public string TipoDoc1 { get; set; } //"TIPODOC1" NUMBER(3,0), 
-
-        public string NunDoc1 { get; set; } // "NRO1"CHAR(20 BYTE), 
-
-        public string TipoDoc2 { get; set; } // "TIPODOC2" CHAR(20 BYTE), 
-
-        public string NunDoc2 { get; set; } // "NRO2" CHAR(20 BYTE)
     }
 }

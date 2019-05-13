@@ -1095,7 +1095,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="Content\img\realestate\thumbs\" />
   </ItemGroup>
   <ItemGroup>
