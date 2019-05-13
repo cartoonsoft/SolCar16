@@ -13,6 +13,7 @@ namespace Domain.Car16.Entities.Car16New
     public class ArquivoModeloDocx : EntityBase
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("ID_MODELO_DOC")]
         public override long? Id { get; set; }
 

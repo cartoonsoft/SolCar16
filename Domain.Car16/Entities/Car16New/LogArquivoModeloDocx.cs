@@ -14,6 +14,7 @@ namespace Domain.Car16.Entities.Car16New
     public class LogArquivoModeloDocx : EntityBase
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("ID_LOG_ARQ_MOD_DOCX")]
         public override long? Id { get; set; }
 

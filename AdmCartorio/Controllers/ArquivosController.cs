@@ -82,6 +82,7 @@ namespace AdmCartorio.Controllers
             bool success = false;
             bool ControllerModelValid = ModelState.IsValid;
             string msg = "";
+            long? NovoId = null;
 
             try
             {
@@ -92,30 +93,32 @@ namespace AdmCartorio.Controllers
                 {
                     LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
-                    logArquivo.UsuarioSistOperacional = Request.LogonUserIdentity.Name; //  HttpContext.User.Identity.Name;
+                    logArquivo.UsuarioSistOperacional = ""; // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                     logArquivo.IP = arquivoModel.IpLocal;
 
 
                     string filePath = string.Empty;
+                    arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
                     using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
                     {
                         using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                         {
-                            appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                            {
-                                IdContaAcessoSistema = 1,
-                                Ativo = true,
-                                IdTipoAto = arquivoModel.IdTipoAto,
-                                //Arquivo = filePath,
-                                Files = arquivoModel.Files,
-                                NomeModelo = arquivoModel.NomeModelo,
-                                LogArquivo = logArquivo
-                            }, UsuarioAtual.Id);
+                            NovoId = appService.SalvarModelo(
+                                new DtoArquivoModeloDocxModel()
+                                {
+                                    IdContaAcessoSistema = 1,
+                                    Ativo = true,
+                                    IdTipoAto = arquivoModel.IdTipoAto,
+                                    CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
+                                    Files = arquivoModel.Files,
+                                    NomeModelo = arquivoModel.NomeModelo,
+                                    LogArquivo = logArquivo
+                                }, 
+                                UsuarioAtual.Id
+                            );
                         }
                     }
-
-                    filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NoviId.ToString() + ".docx");
 
                     for (int i = 0; i < arquivoModel.Files.Count; i++)
                     {
@@ -126,12 +129,10 @@ namespace AdmCartorio.Controllers
 
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
-                        filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"),
-                            NoviId.ToString() + ".docx");
+                        filePath = Path.Combine(arquivoModel.CaminhoEArquivo, NovoId.ToString() + ".docx");
                         arquivo.SaveAs(filePath);
                         #endregion
                     }
-
 
                     success = true;
                     msg = "Modelo de documento salvo com sucesso!";
@@ -171,14 +172,13 @@ namespace AdmCartorio.Controllers
                     ArquivoModeloDocx arquivoModelo = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
                     ArquivoModeloDocxViewModel arquivoViewModel = new ArquivoModeloDocxViewModel
                     {
-                        Arquivo = arquivoModelo.NomeModelo,
-
-
+                        Id = arquivoModelo.Id,
+                        DescricaoTipoAto = "",
+                        IdTipoAto = arquivoModelo.IdTipoAto,
+                        //logArquivoModeloDocxViewModel = 
+                        NomeModelo = arquivoModelo.NomeModelo,
+                        CaminhoEArquivo = arquivoModelo.CaminhoEArquivo
                     };
-
-
-
-
 
                     if (arquivoViewModel == null)
                     {

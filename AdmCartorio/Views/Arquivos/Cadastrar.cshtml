@@ -63,7 +63,7 @@
                         <!-- widget content -->
 
                         <div class="widget-body no-padding">
-                            @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { id = "frmCadastrarArquivo", enctype="multipart/form-data", @class = "smart-form", onsubmit = "return SubmitForm(this)" }))
+                            @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { id = "frmCadastrarArquivo", enctype="multipart/form-data", @class = "smart-form"}))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
@@ -161,26 +161,22 @@
             }
         });
 
-    });
-
-    function SubmitForm(obj) {
-
-        var obj = obj;
-        var success = ("@ViewBag.success" =="true");
+        var success = ("@ViewBag.success" == "true");
         var ControllerModelValid = ("@ViewBag.ControllerModelValid" == "true");
         var msg = "@ViewBag.msg";
         var divMsg = $("#articleMesssagensCrud");
         //var teste = $("#frmCadastrarArquivo").validate();
 
         if (ControllerModelValid) {
-            if (success == "true") {
+            if (success) {
                 ShowMessageCrud(divMsg, "Modelo salvo com sucesso", msg, "#", true);
             } else {
                 ShowMessageCrud(divMsg, "Não foi possível salvar", msg, "#", false);
             }
         }
-        return !ControllerModelValid;
-    }
+
+    });
+
 
 </script>
 }

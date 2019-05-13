@@ -12,7 +12,6 @@ using Xceed.Words.NET;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using AppServices.Car16.AppServices;
-using Domain.Car16.Entities.Car16;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
@@ -67,7 +66,6 @@ namespace AdmCartorio.Controllers
             bool respEscreverWord = false;
             try
             {
-
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
@@ -94,7 +92,6 @@ namespace AdmCartorio.Controllers
                     numSequenciaAto = modelo.NumSequencia;
                 }
 
-
                 using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                 {
 
@@ -114,7 +111,7 @@ namespace AdmCartorio.Controllers
                         };
 
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
-                        this.UnitOfWorkDataBaseCar16New.Commit();
+                        this.UnitOfWorkDataBaseCar16New.SaveChanges();
 
 
                     respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
@@ -140,7 +137,7 @@ namespace AdmCartorio.Controllers
                     };
 
                     this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
-                    this.UnitOfWorkDataBaseCar16New.Commit();
+                    this.UnitOfWorkDataBaseCar16New.SaveChanges();
 
                 }
                 else
@@ -189,6 +186,7 @@ namespace AdmCartorio.Controllers
                 var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
                 var jsonResult = JsonConvert.SerializeObject(listaModelos);
+
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
             }
         }
@@ -208,46 +206,28 @@ namespace AdmCartorio.Controllers
                 //Cadastrar log de erro
 
             }
-            return Json(jsonResult, JsonRequestBehavior.AllowGet);
 
+            return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
 
         /// <summary>
-        /// Essa função retorna se a pessoa é um Ortogante ou Ortogado
+        /// Essa função retorna uma lista de pessoa por um id de prenotação
         /// </summary>
         /// <param name="numeroPrenotacao">Numero da prenotação</param>
         /// <returns>JSON</returns>
-        public JsonResult GetTipoPessoa(long numeroPrenotacao)
+        public JsonResult GetPessoasPremo(long numeroPrenotacao)
         {
-            string jsonResult;
+            var jsonResult = "";
             try
             {
-                PESXPRE pessoaPre = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESXPRE>()
-                .GetWhere(n => n.SEQPRE == numeroPrenotacao).OrderByDescending(n => n.SEQPRE).FirstOrDefault();
-                PESSOA pessoa = this.UnitOfWorkDataBaseCar16.Repositories.GenericRepository<PESSOA>()
-                    .GetWhere(p => p.SEQPES == pessoaPre.SEQPES).OrderByDescending(p => p.SEQPES).FirstOrDefault();
-
-                DadosPessoaViewModel dados = new DadosPessoaViewModel
+                using(AppServicePessoa appServicePessoa = new AppServicePessoa(UnitOfWorkDataBaseCar16))
                 {
-                    TipoPessoa = pessoaPre.REL == "O" ? "Outorgante" : "Outorgado",
-                    BAI = pessoa.BAI,
-                    SEQPES = pessoa.SEQPES,
-                    CEP = pessoa.CEP,
-                    CID = pessoa.CID,
-                    ENDER = pessoa.ENDER,
-                    NOM = pessoa.NOM,
-                    NRO1 = pessoa.NRO1,
-                    NRO2 = pessoa.NRO2,
-                    TEL = pessoa.TEL,
-                    TIPODOC1 = pessoa.TIPODOC1,
-                    TIPODOC2 = pessoa.TIPODOC2,
-                    UF = pessoa.UF
-                };
-                jsonResult = JsonConvert.SerializeObject(dados);
+                    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPremo(numeroPrenotacao));
+                }
             }
             catch (Exception)
             {
-                jsonResult = "";
+                //
             }
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
 

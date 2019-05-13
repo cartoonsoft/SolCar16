@@ -77,6 +77,7 @@
     <Compile Include="AppServices\AppServiceAto.cs" />
     <Compile Include="AppServices\AppServiceCadastroDeAto.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
+    <Compile Include="AppServices\AppServicePessoa.cs" />
     <Compile Include="AppServices\Base\AppServiceBase.cs" />
     <Compile Include="AppServices\Base\AppServiceCar16New.cs" />
     <Compile Include="Interfaces\Base\IAppServiceBase.cs" />

@@ -65,6 +65,7 @@
     <Compile Include="Entities\Diversos\DtoFeriado.cs" />
     <Compile Include="Entities\Diversos\DtoMatricula.cs" />
     <Compile Include="Entities\Cadastros\DtoMatriculaAto.cs" />
+    <Compile Include="Entities\Diversos\DtoPessoaPesxPre.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

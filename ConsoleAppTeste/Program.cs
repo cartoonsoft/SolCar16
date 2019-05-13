@@ -70,7 +70,7 @@ namespace ConsoleAppTeste
                 {
                     //
                 }
-                unitOfWork.Commit();
+                //unitOfWork.SaveChanges();
             }
 
             Console.ReadKey();
@@ -115,7 +115,7 @@ namespace ConsoleAppTeste
                 unitOfWork.Repositories.GenericRepository<Pais>().Add(pais2);
                 Console.WriteLine(pais2.Id);
                 //unitOfWork.Repositories.GenericRepository<Pais>().Add(pais2);
-                var resultado = unitOfWork.Commit();
+                var resultado = unitOfWork.SaveChanges();
 
                 Console.WriteLine(resultado);
             }

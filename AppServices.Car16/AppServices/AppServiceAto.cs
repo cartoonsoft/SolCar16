@@ -29,6 +29,13 @@ namespace AppServices.Car16.AppServices
             //Se ato > 1, então existe o ato inicial
             return this.UnitOfWorkCar16New.Repositories.RepositoryAto.ExisteAtoCadastrado(numeroMatricula);
         }
+
+        /// <summary>
+        /// Listar aot para o grid index
+        /// </summary>
+        /// <param name="IdTipoAto"></param>
+        /// <param name="IdUsuario"></param>
+        /// <returns></returns>
         public IEnumerable<DtoAtoList> ListarAtos(long? IdTipoAto = null, string IdUsuario = null)
         {
             var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()

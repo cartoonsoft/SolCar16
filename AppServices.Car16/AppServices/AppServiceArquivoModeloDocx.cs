@@ -28,8 +28,10 @@ namespace AppServices.Car16.AppServices
             _arquivoModeloDocxDomainService = new ArquivoModeloDocxDomainService(unitOfWorkCar16);
         }
 
-        public void SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
+        public long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
         {
+            long? NovoId = null;
+
             try
             {
                 // Criando objeto do arquivo 
@@ -41,7 +43,7 @@ namespace AppServices.Car16.AppServices
                     IdTipoAto = dtoArq.IdTipoAto,
                     IdUsuarioCadastro = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
-                    CaminhoEArquivo = dtoArq.Arquivo,
+                    CaminhoEArquivo = dtoArq.CaminhoEArquivo,
                     NomeModelo = dtoArq.NomeModelo,
                 };
 
@@ -53,13 +55,15 @@ namespace AppServices.Car16.AppServices
                 logArquivoModeloDocx.IP = dtoArq.LogArquivo.IP;
                 logArquivoModeloDocx.TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload;
 
-                _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
+                NovoId = _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }
             catch (Exception ex)
             {
                 //Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
+
+            return NovoId;
         }
 
         /// <summary>
