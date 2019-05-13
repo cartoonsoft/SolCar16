@@ -115,6 +115,35 @@
         .linkModal:hover {
             cursor: pointer
         }
+
+         /*------------------------------------------------------------------------------
+        tblPessoas
+        ------------------------------------------------------------------------------*/
+        #tblPessoas{
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
+
+            #tblPessoas tr td:nth-child(1) {
+                width: 5%;
+            }
+
+            #tblPessoas tr td:nth-child(2) {
+                width: 50%;
+            }
+
+            #tblPessoas tr td:nth-child(3) {
+                width: 20%;
+            }
+
+            #tblPessoas tr td:nth-child(4) {
+                text-align: right;
+                align-content: flex-end;
+                margin-left: 1em;
+            }
+
+
     </style>
 }
 
@@ -220,7 +249,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-sm-5">
+                                                    <div class="col-sm-5 padding-right-5">
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
@@ -328,8 +357,35 @@
                                                     </div>
                                                 </div>
                                                 <br />
+                                                <h2>Dados dos Participantes</h2>
                                                 <div class="row">
-                                                    <div class="col-sm-1">
+                                                    <div class="col-sm-10">
+                                                        <table id="" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>TP Pessoa</th>
+                                                                    <th>Nome</th>
+                                                                    <th>Bairro</th>
+                                                                    <th>Cidade</th>
+                                                                    <th>UF</th>
+                                                                    <th>CEP</th>
+                                                                    <th>Telefone</th>
+                                                                    <th>TP DOC1</th>
+                                                                    <th>NRO1</th>
+                                                                    <th>TP DOC2</th>
+                                                                    <th>NRO2</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- APPEND JSON-->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    
+
+
+
+                                                    @*<div class="col-sm-1">
                                                         <label class="h5">Tipo de Pessoa</label>
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
@@ -341,10 +397,10 @@
                                                     </div>
                                                     <div class="col-sm-3 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.Pessoa.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
-                                                                @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
+                                                            @Html.TextBoxFor(model => model.Pessoas.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
+                                                           @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
                                                         </div>
-                                                    </div>
+                                                    </div>*@
                                                 </div>
                                             </div>
                                             <!-- FIM DADOS IMÓVEL-->
@@ -491,6 +547,8 @@
     }
 </div>
 <!-- Fim Modal Modelo-->
+<div class="modal fade" id="PartialDadosPessoas" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">    
+</div>
 @section pagespecific{
 
     <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
@@ -783,7 +841,13 @@
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
-                             enviarDadosPessoa(resultado);
+                             //enviarDadosPessoa(resultado);
+                             $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
+                                 $('#PartialDadosPessoas').html(data);
+                                 $('#PartialDadosPessoas').modal('show');
+                             });
+
+
                              $('#divResp').attr('hidden');
                          }else {
                              $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
@@ -799,16 +863,48 @@
                 });
         }
         function enviarDadosPessoa(resultado) {
+
+            return;
             $('#TipoPessoa').val(resultado.TipoPessoa);
             $('#TipoPessoa').valid();
 
             $('#Pessoa_NOM').val(resultado.NOM);
             $('#Pessoa_NOM').valid();
+
         }
     </script>
     <script>
         $(document).ready(function () {
             GetModelos();
+
+            /************************************************************************************
+             * TABELA DE PESSOAS                                                                *
+             ************************************************************************************/
+            $('#tblPessoas').dataTable({
+                columnDefs: [{ orderable: false, targets: [3] }],
+
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ reg. por página",
+                    "zeroRecords": "Nenhum Registro Encontrado",
+                    "info": "Mostrando Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro Disponível",
+                    "infoFiltered": "(filtrado)",
+                    "loadingRecords": "Lendo...",
+                    "processing": "Processando...",
+                    "search": "Procurar: ",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próx.",
+                        "previous": "Anterior"
+                    },
+                }
+            });
+             /************************************************************************************
+             * FIM TABELA DE PESSOAS                                                                *
+             ************************************************************************************/
+
+
 
             var $validator = $("#wizard-1").validate({
                 highlight: function (element) {
@@ -928,4 +1024,5 @@
         $('#goToNext').click();
     }
     </script>
+    
 }

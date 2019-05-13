@@ -1,0 +1,82 @@
+﻿@model IEnumerable<AdmCartorio.ViewModels.DadosPessoaViewModel>
+
+<div class="modal-dialog" role="dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h1>Dados das Pessoas</h1>
+        </div>
+        <div class="modal-body">
+            <table id="tblPartialPessoa" class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NOM)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ENDER)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TIPODOC1)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NRO1)
+                        </th>
+                        <th>
+                            Utilizar?
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <tr id="@item.SEQPES" data-bai="@item.BAI" data-CEP="@item.CEP" data-CID="@item.CID" data-UF="@item.UF"
+                                    data-TEL="@item.TEL" data-TIPODOC2="@item.TIPODOC2" data-NRO2="@item.NRO2">
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NOM)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ENDER)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TIPODOC1)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NRO1)
+                                    </td>
+                                    <td>
+                                        <input class="" type="checkbox" name="ckUsar" value="" checked />
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <button class="form-control btn btn-success" id="enviaInfoPessoa" type="button">Salvar</button>
+            </div>
+        </div>
+        @*<div class="modal-footer">
+            <button id="btnSalvarInformacoes"
+                    type="button" class="btn btn-primary">
+                Salvar informações
+            </button>
+        </div>*@
+    </div>
+</div>
+<script>
+
+    $('#enviaInfoPessoa').on('click', function () {
+        var elementos = $('#tblPartialPessoa > tbody > tr > td');
+        console.log(elementos);
+        var elemento = $(elemento).children();
+        console.log(elemento);
+        debugger;
+    });
+</script>

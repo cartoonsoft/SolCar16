@@ -175,6 +175,11 @@ namespace AdmCartorio.Controllers
             return PartialView();
         }
 
+        public PartialViewResult PartialDadosPessoas(string listaPessoas) {
+
+            var dados = JsonConvert.DeserializeObject<List<DadosPessoaViewModel>>(listaPessoas);
+            return PartialView(dados);
+        }
         #endregion
 
         #region | JsonResults e .GET |
@@ -243,7 +248,10 @@ namespace AdmCartorio.Controllers
                     TIPODOC2 = pessoa.TIPODOC2,
                     UF = pessoa.UF
                 };
-                jsonResult = JsonConvert.SerializeObject(dados);
+                List<DadosPessoaViewModel> lista = new List<DadosPessoaViewModel>();
+                lista.Add(dados);
+
+                jsonResult = JsonConvert.SerializeObject(lista);
             }
             catch (Exception)
             {
