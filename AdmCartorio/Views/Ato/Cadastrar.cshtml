@@ -745,7 +745,6 @@
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
-            enviarDadosPessoa(resultado);
             DesabilitarProximo();
         }
 
@@ -832,7 +831,9 @@
         }
     </script>
     <script>
-
+    
+        //Variavel Global
+        var participantes = [];
         /***************************************************************
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
@@ -843,7 +844,6 @@
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
-                             //enviarDadosPessoa(resultado);
                              $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
                                  $('#PartialDadosPessoas').html(data);
                                  $('#PartialDadosPessoas').modal('show');
@@ -864,20 +864,8 @@
                      }
                 });
         }
-        function enviarDadosPessoa(resultado) {
-
-            return;
-            $('#TipoPessoa').val(resultado.TipoPessoa);
-            $('#TipoPessoa').valid();
-
-            $('#Pessoa_NOM').val(resultado.NOM);
-            $('#Pessoa_NOM').valid();
-
-        }
     </script>
     <script>
-        //Variavel Global
-        var participantes = [];
 
         $(document).ready(function () {
             GetModelos();
