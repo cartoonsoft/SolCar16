@@ -10,7 +10,7 @@ namespace AdmCartorio.ViewModels
     public class CadastroDeAtoViewModel
     {
         public PREIMOViewModel PREIMO { get; set; }
-        public PESSOAViewModel Pessoa { get; set; }
+        public List<PESSOAViewModel> Pessoas { get; set; }
         public ArquivoModeloSimplificadoViewModel ArquivoModelo { get; set; }
         public string TipoPessoa { get; set; }
         public long IdTipoAto { get; set; }

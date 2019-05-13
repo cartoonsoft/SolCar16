@@ -1050,6 +1050,7 @@
     <Content Include="Views\Ato\Index.cshtml" />
     <Content Include="Views\Ato\Cadastrar.cshtml" />
     <Content Include="Views\Ato\PartialDadosAdicionais.cshtml" />
+    <Content Include="Views\Ato\PartialDadosPessoas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
