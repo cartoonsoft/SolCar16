@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AdmCartorio.ViewModels.DadosPessoaViewModel>
 
-<div class="modal-dialog" role="dialog">
+<div class="container" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h1>Dados das Pessoas</h1>
@@ -84,30 +84,34 @@
 
 
     $('#enviaInfoPessoa').on('click', function () {
-        var elementos = $('#tblPartialPessoa > tbody > tr');
+        var elementos = $('#tblPartialPessoa > tbody > tr > td > input');
         var itens = [];
+        
+        debugger;
         for (var i = 0; i < elementos.length; i++) {
-            if ($(elementos[i]).find('[checked]').parents('tr') != null) {
-                var linha = $(elementos[i]).find('[checked]').parents('tr');
+            if ($(elementos[i]).prop('checked')) {
+                var linha = $(elementos[i]).closest('tr');
                 itens.push(linha);
             }
         }
-      
+        debugger;
         if ($.isEmptyObject(itens)) {
             MostrarMensagemErro();
             LimparTabelaPessoas();
             participantes = [];
         } else {
             EsconderMensagemErro();
+            LimparTabelaPessoas();
             while (!$.isEmptyObject(itens)) {
                 var item = itens.pop();
+                debugger;
                 participantes.push(item);
                 PreencherTabelaPessoas(item);
                 $('#PartialDadosPessoas').modal('hide');
-                HabilitarProximo();
                 console.log(participantes);  
-                $('#divResp').attr('hidden');
             }
+            HabilitarProximo();
+            $('#divResp').attr('hidden');
         }
     });
 
@@ -118,7 +122,6 @@
         $('#divMsgPessoas').addClass('hidden');
     }
     function PreencherTabelaPessoas(item) {
-        LimparTabelaPessoas();
         var tabela = $('#tblPessoas > tbody');
         var linha = '<tr>'+
                         '<td>' + $(item).data("tppessoa") + '</td>' +
