@@ -171,6 +171,8 @@ namespace AdmCartorio.Controllers
         {
             return PartialView();
         }
+
+        [HttpPost]
         public PartialViewResult PartialDadosPessoas(string listaPessoas)
         {
 

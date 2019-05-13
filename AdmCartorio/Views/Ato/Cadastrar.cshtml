@@ -844,11 +844,20 @@
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
-                             debugger;
-                             $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
+                             $.ajax({
+                                  method:'POST',
+                                  url: '@Url.Action("PartialDadosPessoas", "Ato")',
+                                  data: {listaPessoas:JSON.stringify(resultado)},
+                                  success: function (data) {
+                                         $('#PartialDadosPessoas').html(data);
+                                         $('#PartialDadosPessoas').modal('show');
+                                  }
+                                });
+
+                             @*$.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
                                  $('#PartialDadosPessoas').html(data);
                                  $('#PartialDadosPessoas').modal('show');
-                             });
+                             });*@
 
 
                              $('#divResp').attr('hidden');
