@@ -32,8 +32,8 @@ namespace Domain.Car16.Entities.Car16New
         [Column("DTH_LOG")]
         public DateTime DataHora { get; set; }
 
-        [Column("USUARUO_OS")]
-        public string UsuarioSistOp { get; set; }
+        [Column("USUARIO_OS")]
+        public string UsuarioSistOperacional { get; set; }
 
     }
 }

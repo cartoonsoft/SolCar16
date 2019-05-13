@@ -35,6 +35,7 @@ namespace AppServices.Car16.AppServices
                 // Criando objeto do arquivo 
                 ArquivoModeloDocx arquivoModelo = new ArquivoModeloDocx
                 {
+                    Id = dtoArq.Id,
                     IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,

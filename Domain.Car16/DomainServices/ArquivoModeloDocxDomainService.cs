@@ -35,12 +35,21 @@ namespace Domain.Car16.DomainServices
 
         public void SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
+
+            UnitOfWorkCar16New.BeginTransaction();
+
             long IdTmp = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
             arquivoModeloDocx.Id = IdTmp;
             logArquivoModeloDocx.IdArquivoModeloDocx = IdTmp;
 
             _repositoryArquivoModeloDocx.Add(arquivoModeloDocx);
-            //_repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            UnitOfWorkCar16New.SaveChanges();
+
+            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            UnitOfWorkCar16New.SaveChanges();
+
+            UnitOfWorkCar16New.CommitTransaction();
+
 
         }
     }

@@ -103,33 +103,60 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
         /// Fax o SaveChanges do contexto e commit da transacao(se estivaer ativa
         /// </summary>
         /// <returns></returns>
-        public virtual int? Commit()
+        public virtual int? SaveChanges()
         {
             int? resposta = null;
 
             try
             {
                 resposta = this.contextCore.SaveChanges();
-                this.CommitTransaction();
                 return resposta;
             }
             catch (OracleException exOracle)
             {
-                this.RollbackTransaction();
+                this.SaveLog(exOracle);
+                throw exOracle;
+            }
+            catch (DbUpdateException exUpdate)
+            {
+                this.SaveLog(exUpdate);
+                throw exUpdate;
+            }
+            catch (Exception exGeneirc)
+            {
+                this.SaveLog(exGeneirc);
+                throw exGeneirc;
+            }
+
+        }
+
+        /// <summary>
+        /// Fax o SaveChanges do contexto e commit da transacao(se estivaer ativa
+        /// </summary>
+        /// <returns></returns>
+        public virtual void CommitTransaction()
+        {
+            try
+            {
+                this.Commit();
+            }
+            catch (OracleException exOracle)
+            {
+                this.Rollback();
                 this.SaveLog(exOracle);
 
                 throw exOracle;
             }
             catch (DbUpdateException exUpdate)
             {
-                this.RollbackTransaction();
+                this.Rollback();
                 this.SaveLog(exUpdate);
 
                 throw exUpdate;
             }
             catch (Exception exGeneirc)
             {
-                this.RollbackTransaction();
+                this.Rollback();
                 this.SaveLog(exGeneirc);
 
                 throw exGeneirc;
@@ -137,12 +164,12 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
         }
 
-        public virtual void RollBack()
+        public virtual void RollBackTransaction()
         {
-            this.RollbackTransaction();
+            this.Rollback();
         }
 
-        private void CommitTransaction()
+        private void Commit()
         {
             if (this.transaction != null)
             {
@@ -152,7 +179,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
             }
         }
 
-        private void RollbackTransaction()
+        private void Rollback()
         {
             if (this.transaction != null)
             {
@@ -175,10 +202,12 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
             using (var errorLog = new StreamWriter(path, true))
             {
                 errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " Message ==> \"{0}\" ", ex.Message);
-                errorLog.WriteLine("    >> InnerException: \"{0}\"", ex.InnerException.InnerException);
+                if (ex.InnerException.InnerException != null)
+                {
+                    errorLog.WriteLine("    >> InnerException: \"{0}\"", ex.InnerException.InnerException);
+                }
                 errorLog.Close();
             }
-
         }
 
     }

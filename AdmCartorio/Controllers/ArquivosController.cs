@@ -62,7 +62,7 @@ namespace AdmCartorio.Controllers
         public ActionResult Cadastrar()
         {
             try
-            { 
+            {
                 List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
@@ -79,7 +79,8 @@ namespace AdmCartorio.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Cadastrar([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ArquivoModeloDocxViewModel arquivoModel)
         {
-            bool success = true;
+            bool success = false;
+            bool ControllerModelValid = ModelState.IsValid;
             string msg = "";
 
             try
@@ -87,10 +88,35 @@ namespace AdmCartorio.Controllers
                 List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
-                if (ModelState.IsValid)
+                if (ControllerModelValid)
                 {
                     LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
+                    logArquivo.IdUsuario = UsuarioAtual.Id;
+                    logArquivo.UsuarioSistOperacional = Request.LogonUserIdentity.Name; //  HttpContext.User.Identity.Name;
+                    logArquivo.IP = arquivoModel.IpLocal;
+
+
                     string filePath = string.Empty;
+
+                    using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+                    {
+                        using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                        {
+                            appService.SalvarModelo(new DtoArquivoModeloDocxModel()
+                            {
+                                IdContaAcessoSistema = 1,
+                                Ativo = true,
+                                IdTipoAto = arquivoModel.IdTipoAto,
+                                //Arquivo = filePath,
+                                Files = arquivoModel.Files,
+                                NomeModelo = arquivoModel.NomeModelo,
+                                LogArquivo = logArquivo
+                            }, UsuarioAtual.Id);
+                        }
+                    }
+
+                    filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NoviId.ToString() + ".docx");
+
                     for (int i = 0; i < arquivoModel.Files.Count; i++)
                     {
                         //Pega os dados do arquivo
@@ -101,46 +127,19 @@ namespace AdmCartorio.Controllers
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
                         filePath = Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"),
-                            arquivoModel.NomeModelo + ".docx");
+                            NoviId.ToString() + ".docx");
                         arquivo.SaveAs(filePath);
                         #endregion
-
-                        var stream = arquivo.InputStream;
-                        var memoryStream = new MemoryStream();
-                        stream.CopyTo(memoryStream);
-                        arquivoModel.ArquivoByte = memoryStream.ToArray();
-
-                        logArquivo.IdUsuario = UsuarioAtual.Id;
-                        logArquivo.UsuarioSistOp = HttpContext.User.Identity.Name;
-                        logArquivo.IP = arquivoModel.IpLocal;
                     }
 
-                    using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
-                    {
-                        using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
-                        {
-                            appService.SalvarModelo(new DtoArquivoModeloDocxModel()
-                            {
-                                ArquivoByte = arquivoModel.ArquivoByte,
-                                IdContaAcessoSistema = 1,
-                                Ativo = true,
-                                IdTipoAto = arquivoModel.IdTipoAto,
-                                Arquivo = filePath,
-                                Files = arquivoModel.Files,
-                                NomeModelo = arquivoModel.NomeModelo,
-                                LogArquivo = logArquivo
-                            }, UsuarioAtual.Id);
-                        }
-                        unitOfWork.Commit();
-                    }
 
+                    success = true;
                     msg = "Modelo de documento salvo com sucesso!";
                 }
             }
             catch (Exception ex)
             {
-                success = false;
-                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + "]" ;
+                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + "]";
                 System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
@@ -152,8 +151,8 @@ namespace AdmCartorio.Controllers
             //};
 
             //return Json(resultado, JsonRequestBehavior.AllowGet);
-
-            ViewBag.success = success;
+            ViewBag.success = success ? "true" : "false";
+            ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
             ViewBag.msg = msg;
 
             return View(nameof(Cadastrar));
@@ -163,23 +162,23 @@ namespace AdmCartorio.Controllers
 
         #region | EDITAR |
         // GET: Arquivos/Editar/{ID}
-        public ActionResult Editar(int? ID)
+        public ActionResult Editar(long? Id)
         {
-            if (ID.HasValue && ID > 0)
+            if (Id.HasValue && Id > 0)
             {
                 try
                 {
-                    #region | Busca dos dados do Arquivo |
-                    ArquivoModeloDocxViewModel arquivoViewModel;
-
-                    arquivoViewModel = new ArquivoModeloDocxViewModel()
+                    ArquivoModeloDocx arquivoModelo = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
+                    ArquivoModeloDocxViewModel arquivoViewModel = new ArquivoModeloDocxViewModel
                     {
-                        Id = 1,
-                        NomeModelo = "Modelo 1",
-                        Arquivo = "/App_Data/Arquivos/testeWord.docx",
-                        IdTipoAto = 1,
+                        Arquivo = arquivoModelo.NomeModelo,
+
 
                     };
+
+
+
+
 
                     if (arquivoViewModel == null)
                     {
@@ -187,12 +186,11 @@ namespace AdmCartorio.Controllers
                     }
 
 
-                    #endregion
                     return View(arquivoViewModel);
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    System.Diagnostics.Debug.WriteLine(ex.Message);
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 }
             }

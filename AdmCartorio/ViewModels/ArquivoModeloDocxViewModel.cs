@@ -33,9 +33,7 @@ namespace AdmCartorio.ViewModels
         public LogArquivoModeloDocxViewModel LogArquivoModeloDocxViewModel { get; set; }
 
         public string Arquivo { get; set; }
-
-        public byte[] ArquivoByte { get; set; }
-
+  
         public string IpLocal { get; set; }
     }
 }
