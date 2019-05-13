@@ -79,6 +79,7 @@
         DesabilitarProximo();
         $('#labelResp').text('Por favor, selecione algum participante!');
         $('#divResp').removeAttr('hidden');
+        participantes = [];
     });
 
 
@@ -95,13 +96,16 @@
         if ($.isEmptyObject(itens)) {
             MostrarMensagemErro();
             LimparTabelaPessoas();
+            participantes = [];
         } else {
             EsconderMensagemErro();
             while (!$.isEmptyObject(itens)) {
                 var item = itens.pop();
+                participantes.push(item);
                 PreencherTabelaPessoas(item);
                 $('#PartialDadosPessoas').modal('hide');
                 HabilitarProximo();
+                console.log(participantes);  
                 $('#divResp').attr('hidden');
 
             }
