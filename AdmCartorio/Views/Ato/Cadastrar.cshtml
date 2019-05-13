@@ -853,13 +853,7 @@
                                          $('#PartialDadosPessoas').modal('show');
                                   }
                                 });
-
-                             @*$.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
-                                 $('#PartialDadosPessoas').html(data);
-                                 $('#PartialDadosPessoas').modal('show');
-                             });*@
-
-
+                             
                              $('#divResp').attr('hidden');
                          }else {
                              $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');

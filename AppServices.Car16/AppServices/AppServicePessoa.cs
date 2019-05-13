@@ -68,18 +68,18 @@ namespace AppServices.Car16.AppServices
                 join pes in _unitOfWork.Repositories.GenericRepository<PESSOA>().GetAll() on pre.SEQPES equals pes.SEQPES
                 orderby pes.NOM
                 select new DtoPessoaPesxPre {
-                    SEQPES = pes.SEQPES,
+                    IdPessoa = pes.SEQPES,
                     TipoPessoa = pre.REL == "O" ? "Outorgante" : "Outorgado",
-                    BAI = pes.BAI,
-                    CID = pes.CID,
+                    Bairro = pes.BAI,
+                    Cidade = pes.CID,
                     CEP  = pes.CEP,
-                    ENDER = pes.ENDER,
-                    NOM = pes.NOM,
-                    TIPODOC1 = pes.TIPODOC1,
-                    NRO1 = pes.NRO1,
-                    TIPODOC2 = pes.TIPODOC2.ToString(),
-                    NRO2 = pes.NRO1,
-                    TEL = pes.TEL,
+                    Endereco = pes.ENDER,
+                    Nome = pes.NOM,
+                    TipoDoc1 = pes.TIPODOC1,
+                    Numero1 = pes.NRO1,
+                    TipoDoc2 = pes.TIPODOC2.ToString(),
+                    Numero2 = pes.NRO1,
+                    Telefone = pes.TEL,
                     UF = pes.UF
                 };
 
