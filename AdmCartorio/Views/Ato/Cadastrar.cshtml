@@ -685,7 +685,16 @@
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
          ****************************************************************/
-           
+
+        function LimparDados() {
+            var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+            var resultado = JSON.parse(limpaDados);
+            enviarDadosMatricula(resultado);
+            enviarDadosPessoa(resultado);
+            $('#btnProximo').attr('disabled', 'disabled');
+            $('#btnProximo').removeClass('active');
+        }
+
         function PesquisarImovel() {
             setTimeout(function () {
                 var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
@@ -696,12 +705,7 @@
                     $('#divResp').removeAttr('hidden');
 
                     //LIMPANDO CAMPOS
-                    var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
-                    var resultado = JSON.parse(limpaDados);
-                    enviarDadosMatricula(resultado);
-                    enviarDadosPessoa(resultado);
-                    $('#btnProximo').attr('disabled', 'disabled');
-                    $('#btnProximo').removeClass('active');
+                    LimparDados();
                 } else {
                     $('#divResp').attr('hidden');
                     GetDadosImovel(numeroPrenotacao, numeroMatricula);
@@ -729,12 +733,14 @@
                         {
                             $('#labelResp').text('Não existem dados com as informações fornecidas.');
                             $('#divResp').removeAttr('hidden');
+                            LimparDados();
                         }
                     }
                     else
                     {
                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
                         $('#divResp').removeAttr('hidden');
+                        LimparDados();
                     }
                 });
         }
@@ -780,13 +786,15 @@
                              enviarDadosPessoa(resultado);
                              $('#divResp').attr('hidden');
                          }else {
-                            $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
-                            $('#divResp').removeAttr('hidden');
+                             $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                             $('#divResp').removeAttr('hidden');
+                             LimparDados();
                          }
                      }
                      else {
                          $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
                          $('#divResp').removeAttr('hidden');
+                         LimparDados();
                      }
                 });
         }
@@ -878,6 +886,7 @@
             
         });
 
+    
     
     </script>
     <script>
