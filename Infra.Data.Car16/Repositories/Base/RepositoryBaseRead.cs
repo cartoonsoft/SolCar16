@@ -102,6 +102,11 @@ namespace Infra.Data.Car16.Repositories.Base
             get { return _dbContextSet; }
         }
 
+        public IDbSet<TEntity> Get
+        {
+            get { return _dbContextSet; } 
+        }
+
         public IEnumerable<TEntity> GetAll()
         {
             List<TEntity> listEntity = null;

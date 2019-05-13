@@ -10,6 +10,7 @@ Todos os direitos reservados ®
 using Domain.Core.Entities.Base;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Text;
 
@@ -18,6 +19,9 @@ namespace Domain.Core.Interfaces.Repositories
     public interface IRepositoryBaseRead<TEntity> : IDisposable where TEntity : class
     {
         //void Merge(TEntity persisted, TEntity current);
+        IDbSet<TEntity> Get {
+            get;
+        }
 
         TEntity GetById(long id);
         TEntity GetById(params object[] keyValues);
