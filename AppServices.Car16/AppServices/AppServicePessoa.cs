@@ -64,9 +64,8 @@ namespace AppServices.Car16.AppServices
             IEnumerable<DtoPessoaPesxPre> Pessoas = new List<DtoPessoaPesxPre>();
 
             var listaPessoas =
-                from pes in _unitOfWork.Repositories.GenericRepository<PESSOA>().GetAll()
-                join pre in _unitOfWork.Repositories.GenericRepository<PESXPRE>().GetAll() on pes.SEQPES equals pre.SEQPES
-                where  ( pre.SEQPRE == numeroPrenotacao)
+                from pre in _unitOfWork.Repositories.GenericRepository<PESXPRE>().GetWhere(pre => pre.SEQPRE == numeroPrenotacao)
+                join pes in _unitOfWork.Repositories.GenericRepository<PESSOA>().GetAll() on pre.SEQPES equals pes.SEQPES              
                 orderby pes.NOM
                 select new DtoPessoaPesxPre {
                     IdPessoa = pes.SEQPES,

@@ -838,12 +838,13 @@
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
         function GetDadosPessoa(numPre) {
-             $.get('@Url.Action("GetTipoPessoa", "Ato")',
+             $.get('@Url.Action("GetPessoasPremo", "Ato")',
                 { numeroPrenotacao: numPre },
                  function (data, status) {
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
+                             debugger;
                              $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
                                  $('#PartialDadosPessoas').html(data);
                                  $('#PartialDadosPessoas').modal('show');

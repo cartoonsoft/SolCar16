@@ -171,6 +171,12 @@ namespace AdmCartorio.Controllers
         {
             return PartialView();
         }
+        public PartialViewResult PartialDadosPessoas(string listaPessoas)
+        {
+
+            var dados = JsonConvert.DeserializeObject<List<DadosPessoaViewModel>>(listaPessoas);
+            return PartialView(dados);
+        }
 
         #endregion
 
