@@ -11,8 +11,7 @@ namespace Dto.Car16.Entities.Diversos
         IEnumerable<string> Campos { get; set; }
         long IdMatricula  { get; set; }
 
-
-
+        long IdPrenotacao { get; set; }
 
     }
 }

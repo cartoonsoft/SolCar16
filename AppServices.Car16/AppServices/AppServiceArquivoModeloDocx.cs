@@ -48,12 +48,15 @@ namespace AppServices.Car16.AppServices
                 };
 
                 // Registro de Log                
-                LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx();
-                logArquivoModeloDocx.IdArquivoModeloDocx = arquivoModelo.Id ?? 0;
-                logArquivoModeloDocx.IdUsuario = IdUsuario;
-                logArquivoModeloDocx.DataHora = DateTime.Now;
-                logArquivoModeloDocx.IP = dtoArq.LogArquivo.IP;
-                logArquivoModeloDocx.TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload;
+                LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx()
+                {
+                    IdArquivoModeloDocx = arquivoModelo.Id ?? 0,
+                    IdUsuario = IdUsuario,
+                    DataHora = DateTime.Now,
+                    UsuarioSistOperacional = dtoArq.LogArquivo.UsuarioSistOperacional,
+                    IP = dtoArq.LogArquivo.IP,
+                    TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
+                };
 
                 NovoId = _arquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }

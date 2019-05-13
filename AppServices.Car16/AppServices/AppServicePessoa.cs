@@ -59,7 +59,7 @@ namespace AppServices.Car16.AppServices
         /// </summary>
         /// <param name="numeroPrenotacao"></param>
         /// <returns></returns>
-        public IEnumerable<DtoPessoaPesxPre> GetPessoasPremo(long numeroPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao)
         {
             IEnumerable<DtoPessoaPesxPre> Pessoas = new List<DtoPessoaPesxPre>();
 
@@ -86,5 +86,7 @@ namespace AppServices.Car16.AppServices
 
             return Pessoas = listaPessoas;
         }
+
+
     }
 }

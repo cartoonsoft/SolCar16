@@ -93,7 +93,7 @@ namespace AdmCartorio.Controllers
                 {
                     LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
-                    logArquivo.UsuarioSistOperacional = ""; // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
+                    logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                     logArquivo.IP = arquivoModel.IpLocal;
 
 
