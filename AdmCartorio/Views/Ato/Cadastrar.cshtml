@@ -245,7 +245,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input onkeyup="PesquisarImovel()"    id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()"  id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -257,12 +257,12 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @*<div class="col-sm-2">
+                                                    <div class="col-sm-2">
                                                         <button id="btnPesquisar" type="button"
                                                                 class="btn btn-default btn-lg  margin-left-5">
                                                             <i class="glyphicon glyphicon-search"></i>
                                                         </button>
-                                                    </div>*@
+                                                    </div>
                                                 </div>
                                                 <h1>Dados do imóvel</h1>
                                                 <br />
@@ -360,7 +360,7 @@
                                                 <h2>Dados dos Participantes</h2>
                                                 <div class="row">
                                                     <div class="col-sm-10">
-                                                        <table id="" class="table">
+                                                        <table id="tblPessoas" class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>TP Pessoa</th>
@@ -715,8 +715,7 @@
                             $('#labelRespImo').text('Já existe ato inicial para os dados!');
                             $('#divRespImo').removeAttr('hidden');
                             $('#modeloInvalido').val("True");
-                            $('#btnProximo').attr('disabled', 'disabled');
-                            $('#btnProximo').removeClass('active');
+                            DesabilitarProximo();
                             return;
                         } else {
                             $('#divRespImo').attr('hidden', 'hidden');
@@ -724,16 +723,14 @@
                         }
                     }
                     $('#modeloInvalido').val("False");
-                    $('#btnProximo').removeAttr('disabled');
-                    $('#btnProximo').addClass('active');
+                    HabilitarProximo();
 
                 }
                 else {
                     $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
                     $('#divRespImo').removeAttr('hidden');
                     $('#modeloInvalido').val("True");
-                    $('#btnProximo').attr('disabled', 'disabled');
-                    $('#btnProximo').removeClass('active');
+                    DesabilitarProximo();
                 }
             });
     }
@@ -748,10 +745,14 @@
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
-            enviarDadosPessoa(resultado);
-            $('#btnProximo').attr('disabled', 'disabled');
-            $('#btnProximo').removeClass('active');
+            DesabilitarProximo();
         }
+
+    $('#btnPesquisar').on('click', function () {
+        PesquisarImovel();
+    });
+        //$('#txtPrenotacao').on('keyup', PesquisarImovel());
+        //$('#txtMatricula').on('keyup', PesquisarImovel());
 
         function PesquisarImovel() {
             setTimeout(function () {
@@ -830,18 +831,20 @@
         }
     </script>
     <script>
-
+    
+        //Variavel Global
+        var participantes = [];
         /***************************************************************
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
         function GetDadosPessoa(numPre) {
-             $.get('@Url.Action("GetTipoPessoa", "Ato")',
+             $.get('@Url.Action("GetPessoasPremo", "Ato")',
                 { numeroPrenotacao: numPre },
                  function (data, status) {
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
-                             //enviarDadosPessoa(resultado);
+                             debugger;
                              $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
                                  $('#PartialDadosPessoas').html(data);
                                  $('#PartialDadosPessoas').modal('show');
@@ -862,50 +865,16 @@
                      }
                 });
         }
-        function enviarDadosPessoa(resultado) {
-
-            return;
-            $('#TipoPessoa').val(resultado.TipoPessoa);
-            $('#TipoPessoa').valid();
-
-            $('#Pessoa_NOM').val(resultado.NOM);
-            $('#Pessoa_NOM').valid();
-
-        }
     </script>
     <script>
+
         $(document).ready(function () {
             GetModelos();
 
             /************************************************************************************
              * TABELA DE PESSOAS                                                                *
              ************************************************************************************/
-            $('#tblPessoas').dataTable({
-                columnDefs: [{ orderable: false, targets: [3] }],
-
-                "language": {
-                    "lengthMenu": "Mostrar _MENU_ reg. por página",
-                    "zeroRecords": "Nenhum Registro Encontrado",
-                    "info": "Mostrando Página _PAGE_ de _PAGES_",
-                    "infoEmpty": "Nenhum registro Disponível",
-                    "infoFiltered": "(filtrado)",
-                    "loadingRecords": "Lendo...",
-                    "processing": "Processando...",
-                    "search": "Procurar: ",
-                    "paginate": {
-                        "first": "Primeiro",
-                        "last": "Último",
-                        "next": "Próx.",
-                        "previous": "Anterior"
-                    },
-                }
-            });
-             /************************************************************************************
-             * FIM TABELA DE PESSOAS                                                                *
-             ************************************************************************************/
-
-
-
+            
             var $validator = $("#wizard-1").validate({
                 highlight: function (element) {
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -942,15 +911,13 @@
                         debugger;
                         if (quantidade == 0) {  
                             if ($('#modeloInvalido').val() == "True") {
-                                $('#btnProximo').attr('disabled', 'disabled');
-                                $('#btnProximo').removeClass('active');
+                                DesabilitarProximo();
                                 if ($('#IdTipoAto').val()) {
                                     ExisteAtoBanco($('#IdTipoAto').val());
                                 }
                             }
                             else {
-                                $('#btnProximo').removeAttr('disabled');
-                                $('#btnProximo').addClass('active');
+                                HabilitarProximo();
                             }
                         }
                         else if (quantidade == 1) {
@@ -1022,6 +989,15 @@
     //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
     function IrParaProximo() {
         $('#goToNext').click();
+            }
+
+    function DesabilitarProximo() {
+        $('#btnProximo').attr('disabled', 'disabled');
+        $('#btnProximo').removeClass('active');
+            }
+    function HabilitarProximo() {
+        $('#btnProximo').removeAttr('disabled');
+        $('#btnProximo').addClass('active');
     }
     </script>
     

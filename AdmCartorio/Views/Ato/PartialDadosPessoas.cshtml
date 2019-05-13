@@ -6,6 +6,11 @@
             <h1>Dados das Pessoas</h1>
         </div>
         <div class="modal-body">
+            <div class="hidden" id="divMsgPessoas">
+                <div class="alert alert-danger">
+                    <label class="" id="lblMsgPessoas">Por favor, selecione ao menos uma pessoa!</label>
+                </div>
+            </div>
             <table id="tblPartialPessoa" class="table">
                 <thead>
                     <tr>
@@ -33,7 +38,7 @@
                             foreach (var item in Model)
                             {
                                 <tr id="@item.SEQPES" data-bai="@item.BAI" data-CEP="@item.CEP" data-CID="@item.CID" data-UF="@item.UF"
-                                    data-TEL="@item.TEL" data-TIPODOC2="@item.TIPODOC2" data-NRO2="@item.NRO2">
+                                    data-TEL="@item.TEL" data-TIPODOC2="@item.TIPODOC2" data-NRO2="@item.NRO2" data-tpPessoa="@item.TipoPessoa">
 
                                     <td>
                                         @Html.DisplayFor(modelItem => item.NOM)
@@ -57,26 +62,84 @@
                 </tbody>
             </table>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <button class="form-control btn btn-success" id="enviaInfoPessoa" type="button">Salvar</button>
-            </div>
-        </div>
-        @*<div class="modal-footer">
-            <button id="btnSalvarInformacoes"
+        <div class="modal-footer">
+            <button id="btnFecharPessoas"  type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+
+            <button id="enviaInfoPessoa"
                     type="button" class="btn btn-primary">
                 Salvar informações
             </button>
-        </div>*@
+        </div>
     </div>
 </div>
 <script>
 
-    $('#enviaInfoPessoa').on('click', function () {
-        var elementos = $('#tblPartialPessoa > tbody > tr > td');
-        console.log(elementos);
-        var elemento = $(elemento).children();
-        console.log(elemento);
-        debugger;
+    $('#btnFecharPessoas').on('click', function () {
+        LimparTabelaPessoas();
+        DesabilitarProximo();
+        $('#labelResp').text('Por favor, selecione algum participante!');
+        $('#divResp').removeAttr('hidden');
+        participantes = [];
     });
+
+
+    $('#enviaInfoPessoa').on('click', function () {
+        var elementos = $('#tblPartialPessoa > tbody > tr');
+        var itens = [];
+        for (var i = 0; i < elementos.length; i++) {
+            if ($(elementos[i]).find('[checked]').parents('tr') != null) {
+                var linha = $(elementos[i]).find('[checked]').parents('tr');
+                itens.push(linha);
+            }
+        }
+      
+        if ($.isEmptyObject(itens)) {
+            MostrarMensagemErro();
+            LimparTabelaPessoas();
+            participantes = [];
+        } else {
+            EsconderMensagemErro();
+            while (!$.isEmptyObject(itens)) {
+                var item = itens.pop();
+                participantes.push(item);
+                PreencherTabelaPessoas(item);
+                $('#PartialDadosPessoas').modal('hide');
+                HabilitarProximo();
+                console.log(participantes);  
+                $('#divResp').attr('hidden');
+            }
+        }
+    });
+
+    function MostrarMensagemErro() {
+        $('#divMsgPessoas').removeClass('hidden');
+    }
+    function EsconderMensagemErro() {
+        $('#divMsgPessoas').addClass('hidden');
+    }
+    function PreencherTabelaPessoas(item) {
+        LimparTabelaPessoas();
+        var tabela = $('#tblPessoas > tbody');
+        var linha = '<tr>'+
+                        '<td>' + $(item).data("tppessoa") + '</td>' +
+                        '<td>' + $(item).children('td').get(0).innerText + '</td>' +
+                        '<td>' + ($(item).data("bai") ==  undefined ? "" : $(item).data("bai")) + '</td>' +
+                        '<td>' + ($(item).data("CID") == undefined ? "" : $(item).data("CID")) + '</td>' +
+                        '<td>' + ($(item).data("UF") == undefined ? "" : $(item).data("UF")) + '</td>' +
+                        '<td>' + ($(item).data("CEP") == undefined ? "" : $(item).data("CEP")) + '</td>' +
+                        '<td>' + ($(item).data("TEL") == undefined ? "" : $(item).data("TEL"))+ '</td>' +
+                        '<td>' + $(item).children('td').get(2).innerText + '</td>' +
+                        '<td>' + $(item).children('td').get(3).innerText + '</td>' +
+                        '<td>' + ($(item).data("TIPODOC2") == undefined ? "" : $(item).data("TIPODOC2")) + '</td>' +
+                        '<td>' + ($(item).data("NRO2") == undefined ? "" : $(item).data("NRO2"))+ '</td>' +
+                    '</tr>';
+        $(tabela).append(linha);
+    }
+
+    function LimparTabelaPessoas() {
+        var tabela = $('#tblPessoas > tbody > tr');
+        for (var i = 0; i < tabela.length; i++) {
+            tabela[i].remove();
+        }
+    }
 </script>
