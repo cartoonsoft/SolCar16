@@ -80,6 +80,7 @@
         $('#labelResp').text('Por favor, selecione algum participante!');
         $('#divResp').removeAttr('hidden');
         participantes = [];
+        $('#linkParticipantes').removeClass('hidden');
     });
 
 
@@ -95,10 +96,12 @@
             }
         }
         debugger;
+        participantes = [];
         if ($.isEmptyObject(itens)) {
             MostrarMensagemErro();
             LimparTabelaPessoas();
-            participantes = [];
+            
+
         } else {
             EsconderMensagemErro();
             LimparTabelaPessoas();
@@ -112,6 +115,7 @@
             }
             HabilitarProximo();
             $('#divResp').attr('hidden');
+            $('#linkParticipantes').removeClass('hidden');
         }
     });
 
