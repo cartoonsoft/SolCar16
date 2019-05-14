@@ -80,7 +80,7 @@ namespace AppServices.Car16.AppServices
                     Nome = pes.NOM,
                     TipoDoc1 = pes.TIPODOC1,
                     Numero1 = pes.NRO1,
-                    TipoDoc2 = pes.TIPODOC2,
+                    TipoDoc2 = pes.TIPODOC2.ToString(),
                     Numero2 = pes.NRO1,
                     Telefone = pes.TEL,
                     UF = pes.UF
@@ -147,8 +147,8 @@ namespace AppServices.Car16.AppServices
                     Nome = pes.NOM,
                     TipoDoc1 = pes.TIPODOC1,
                     Numero1 = pes.NRO1,
-                    TipoDoc2 = pes.TIPODOC2.ToString(),
-                    Numero2 = pes.NRO1,
+                    TipoDoc2 = pes.TIPODOC2,
+                    Numero2 = pes.NRO2,
                     Telefone = pes.TEL,
                     UF = pes.UF
                 };
