@@ -9,6 +9,10 @@ namespace Dto.Car16.Entities.Diversos
 {
     public class DtoPessoaPesxPre
     {
+        public DtoPessoaPesxPre()
+        {
+            listaCamposValor = new List<DtoCamposValor>();
+        }
         [Key]
         public long SEQPES { get; set; }
         public string NOM { get; set; }
@@ -23,5 +27,6 @@ namespace Dto.Car16.Entities.Diversos
         public string TIPODOC2 { get; set; }
         public string NRO2 { get; set; }
         public string TipoPessoa { get; set; }
+        public List<DtoCamposValor> listaCamposValor { get; set; }
     }
 }

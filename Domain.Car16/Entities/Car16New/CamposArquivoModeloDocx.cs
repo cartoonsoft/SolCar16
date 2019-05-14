@@ -26,5 +26,8 @@ namespace Domain.Car16.Entities.Car16New
         [Column("PLACE_HOLDER")]
         public string PlaceHolder { get; set; }
 
+        [Column("ENTIDADE")]
+        public string Entidade { get; set; }
+
     }
 }
