@@ -13,6 +13,7 @@ namespace Dto.Car16.Entities.Diversos
         {
             listaCamposValor = new List<DtoCamposValor>();
         }
+
         [Key]
         public long IdPessoa { get; set; }
         public string Nome { get; set; }
