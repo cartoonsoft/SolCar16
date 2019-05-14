@@ -243,7 +243,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao"  onkeyup="LimparDados()"  type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input id="txtPrenotacao"  onkeyup="ResetarCampos()"  type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,7 +251,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" onkeyup="LimparDados()"   min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
+                                                                <input id="txtMatricula" onkeyup="ResetarCampos()"   min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -748,17 +748,36 @@
     <script>
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
-         ****************************************************************/
-    
+         ****************************************************************/    
+    function ResetarCampos() {
+        var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+        var resultado = JSON.parse(limpaDados);
+        LimparTabelaPessoas();
 
+        //COLOCA O RESULTADO NOS CAMPOS
+        $('#numeroPre').text(resultado.SEQPRE);
+        $('#PREIMO_MATRI').val(resultado.MATRI);
+        $('#PREIMO_SEQPRE').val(resultado.SEQPRE);
+        $('#PREIMO_ENDER').val(resultado.ENDER);
+        $('#PREIMO_NUM').val(resultado.NUM);
+        $('#PREIMO_APTO').val(resultado.APTO);
+        $('#PREIMO_BLOCO').val(resultado.BLOCO);
+        $('#PREIMO_QUADRA').val(resultado.QUADRA);
+        $('#PREIMO_EDIF').val(resultado.EDIF);
+        $('#PREIMO_OUTROS').val(resultado.OUTROS);
+        $('#PREIMO_LOTE').val(resultado.LOTE);
 
+        DesabilitarProximo();
+    }
+        
+        
         function LimparDados() {
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
             LimparTabelaPessoas();
             DesabilitarProximo();
-    }
+        }
 
         function LimparTabelaPessoas() {
             var tabela = $('#tblPessoas > tbody > tr');
@@ -919,6 +938,12 @@
             /************************************************************************************
              * TABELA DE PESSOAS                                                                *
              ************************************************************************************/
+            
+            $('#wizard-1').on('submit', function () {
+                $('#ModalLoading').modal('show');
+                $('#mensagemLoading').text('Escrevendo ato...');
+            });
+
 
             var $validator = $("#wizard-1").validate({
                 highlight: function (element) {
