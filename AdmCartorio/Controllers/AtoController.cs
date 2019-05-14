@@ -231,8 +231,9 @@ namespace AdmCartorio.Controllers
                     jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPrenotacao(numeroPrenotacao));
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 //
             }
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
@@ -304,14 +305,16 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id, long IdMatricula, long IdPrenotacao, long[] listIdsPessoas, long IdTipoAto)
+        public string UsaModeloParaAto([Bind(Include = "ModeloNome,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-
-            //DtoDadosImovel dadosImovel = GetCamposModeloMatricula(listIdsPessoas, IdTipoAto, IdPrenotacao, IdMatricula);
+            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            {
+                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+            }
 
             StringBuilder textoFormatado = new StringBuilder();
 
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{ModeloNome}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.ModeloNome}.docx");
             try
             {
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))

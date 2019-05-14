@@ -622,10 +622,9 @@
         }
         function AtualizarModelo(idTipoAto){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
-            var Id = $('#ArquivoModelo_Id').val();
-            var IdMatricula = $('#PREIMO_MATRI').val();
-            var IdPrenotacao = $('#PREIMO_SEQPRE').val();
-            var IdTipoAto = idTipoAto;
+            var IdMatricula = parseInt($('#PREIMO_MATRI').val());
+            var IdPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
+            var IdTipoAto = parseInt(idTipoAto);
             var listIdsPessoas = [];
 
             console.log(participantes);
@@ -633,12 +632,11 @@
 
             debugger;
             participantes.forEach(item => {
-                listIdsPessoas.push($(item).attr('id'));
+                listIdsPessoas.push(parseInt($(item).attr('id')));
             });
 
             var DadosPostModelo = {
                 ModeloNome,
-                Id,
                 IdMatricula,
                 IdPrenotacao,
                 IdTipoAto,
@@ -654,8 +652,7 @@
                 url: '@Url.Action("UsaModeloParaAto", "Ato")',
                 type: 'POST',
                 data: {
-                    ModeloNome,
-                    Id
+                    DadosPostModelo
                 },
                 success: function (result) {
                     editor.setData(result);

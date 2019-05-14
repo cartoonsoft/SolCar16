@@ -205,6 +205,7 @@
     <Compile Include="ViewModels\AtoListViewModel.cs" />
     <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
+    <Compile Include="ViewModels\DadosPostModelo.cs" />
     <Compile Include="ViewModels\PESSOAViewModel.cs" />
     <Compile Include="ViewModels\PREIMOViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
