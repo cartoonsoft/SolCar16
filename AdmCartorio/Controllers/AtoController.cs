@@ -306,8 +306,11 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id)
+        public string UsaModeloParaAto([Bind(Include = "ModeloNome,Id")]string ModeloNome, long Id, long IdMatricula, long IdPrenotacao, long[] listIdsPessoas, long IdTipoAto)
         {
+
+            //DtoDadosImovel dadosImovel = GetCamposModeloMatricula(listIdsPessoas, IdTipoAto, IdPrenotacao, IdMatricula);
+
             StringBuilder textoFormatado = new StringBuilder();
 
             string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{ModeloNome}.docx");

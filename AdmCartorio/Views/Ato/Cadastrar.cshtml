@@ -294,7 +294,7 @@
                                                     <div class="col-sm-1">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.NUM,
-                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly" })
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly",@value = "" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -620,10 +620,34 @@
             $('#ArquivoModelo_NomeModelo').valid();
 
         }
-        function AtualizarModelo(){
+        function AtualizarModelo(idTipoAto){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
             var Id = $('#ArquivoModelo_Id').val();
-            $('#ModalLoading').modal('show');
+            var IdMatricula = $('#PREIMO_MATRI').val();
+            var IdPrenotacao = $('#PREIMO_SEQPRE').val();
+            var IdTipoAto = idTipoAto;
+            var listIdsPessoas = [];
+
+            console.log(participantes);
+
+
+            debugger;
+            participantes.forEach(item => {
+                listIdsPessoas.push($(item).attr('id'));
+            });
+
+            var DadosPostModelo = {
+                ModeloNome,
+                Id,
+                IdMatricula,
+                IdPrenotacao,
+                IdTipoAto,
+                listIdsPessoas
+            }
+
+            debugger;
+
+
             $('#mensagemLoading').text('Buscando modelo...');
             $('#divRespImo').attr('hidden');
             $.ajax({
@@ -637,7 +661,6 @@
                     editor.setData(result);
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
-                    AtualizarIdTipoAto(Id);
                     $('#ModalLoading').modal('hide');
 
                 },
@@ -646,6 +669,8 @@
                     voltarPasso();
                     $('#divRespImo').removeAttr('hidden');
                     $('#labelRespImo').text('Erro ao escrever o modelo, revise-o');
+                    $('#ModalLoading').modal('hide');
+
                 },
                 beforeSend: function (xhr,settings) {
                     $('#mensagemLoading').text('Escrevendo modelo...');
@@ -710,11 +735,12 @@
                     var existeAto = data;
                     debugger;
                     if (existeAto == "False") {
+                        $('#ModalLoading').modal('show');
                         $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
                         $('#infoAdicional').removeClass('hidden');
                         $('#btnConfirmar').attr('disabled');
-
+                        AtualizarModelo(idTipoAto);
                     } else {
                         $('#ExisteNoSistema').val("True");
                         $('#infoAdicional').addClass('hidden');
@@ -727,8 +753,9 @@
                             DesabilitarProximo();
                             return;
                         } else {
+                            $('#ModalLoading').modal('show');
                             $('#divRespImo').attr('hidden', 'hidden');
-
+                            AtualizarModelo(idTipoAto);
                         }
                     }
                     $('#modeloInvalido').val("False");
@@ -750,7 +777,7 @@
          ************** DADOS DO IMOVEL *********************************
          ****************************************************************/    
     function ResetarCampos() {
-        var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+        var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
         var resultado = JSON.parse(limpaDados);
         LimparTabelaPessoas();
 
@@ -772,7 +799,7 @@
         
         
         function LimparDados() {
-            var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+            var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
             LimparTabelaPessoas();
@@ -991,8 +1018,8 @@
                             }
                         }
                         else if (quantidade == 1) {
-                            AtualizarModelo();
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                           // AtualizarModelo();
                             var resultado = $('#modeloInvalido').val();
                             if (resultado == "True") return;
                         } else if (quantidade == 2) {
