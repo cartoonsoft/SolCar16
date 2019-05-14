@@ -116,10 +116,10 @@
             cursor: pointer
         }
 
-         /*------------------------------------------------------------------------------
+        /*------------------------------------------------------------------------------
         tblPessoas
         ------------------------------------------------------------------------------*/
-        #tblPessoas{
+        #tblPessoas {
             /*border: 1px solid #808080; */
             table-layout: auto;
             width: 100%;
@@ -142,8 +142,6 @@
                 align-content: flex-end;
                 margin-left: 1em;
             }
-
-
     </style>
 }
 
@@ -218,7 +216,7 @@
                                                     <span class="badge">4</span>Confirmação<span class="chevron"></span>
                                                 </li>
                                             </ul>
-                                            
+
                                             <div class="actions">
                                                 <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
                                                     <i class="fa fa-arrow-left"></i>Anterior
@@ -230,7 +228,7 @@
                                             <div class="clearfix"></div>
                                         </div>
                                         <div class="step-content">
-                                          
+
                                             <!-- DADOS IMÓVEL-->
                                             <div class="step-pane active" id="step1">
                                                 <br>
@@ -245,7 +243,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input onkeyup="PesquisarImovel()"  id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input id="txtPrenotacao"  onkeyup="ResetarCampos()"  type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -253,7 +251,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input onkeyup="PesquisarImovel()" id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
+                                                                <input id="txtMatricula" onkeyup="ResetarCampos()"   min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -265,6 +263,7 @@
                                                     </div>
                                                 </div>
                                                 <h1>Dados do imóvel</h1>
+
                                                 <br />
                                                 <div class="row">
                                                     <div class="col-sm-1">
@@ -272,8 +271,15 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new {@class = "form-control input-lg",@placeholder = "Nº da Matricula",@readonly = "readonly",
-                                                                @required = "required",@title = "Número de matrícula é obrigatório"})
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "Nº da Matricula",
+                                                                @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Número de matrícula é obrigatório"
+                                                            })
+
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -358,22 +364,21 @@
                                                 </div>
                                                 <br />
                                                 <h2>Dados dos Participantes</h2>
+                                                <a class="hidden h2" style="color:blue;" id="linkParticipantes" href="#" onclick="AlterarParticipantes()">Clique aqui para editar</a>
                                                 <div class="row">
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-12">
                                                         <table id="tblPessoas" class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>TP Pessoa</th>
-                                                                    <th>Nome</th>
+                                                                    <th class="col-md-2">Nome</th>
+                                                                    <th>NRO1</th>
+                                                                    <th>TP DOC1</th>
                                                                     <th>Bairro</th>
                                                                     <th>Cidade</th>
                                                                     <th>UF</th>
                                                                     <th>CEP</th>
                                                                     <th>Telefone</th>
-                                                                    <th>TP DOC1</th>
-                                                                    <th>NRO1</th>
-                                                                    <th>TP DOC2</th>
-                                                                    <th>NRO2</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -381,26 +386,6 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    
-
-
-
-                                                    @*<div class="col-sm-1">
-                                                        <label class="h5">Tipo de Pessoa</label>
-                                                    </div>
-                                                    <div class="col-sm-2 margin-left-10 form-group">
-                                                        @Html.TextBoxFor(model => model.TipoPessoa,new {@class = "form-control input-lg padding-left-5",@placeholder = "TIPO DE PESSOA",
-                                                            @readonly = "readonly",@required = "required",@title = "O tipo de pessoa é obrigatório"})
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <label class="h5">Nome</label>
-                                                    </div>
-                                                    <div class="col-sm-3 margin-left-10 form-group">
-                                                        <div>
-                                                            @Html.TextBoxFor(model => model.Pessoas.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
-                                                           @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
-                                                        </div>
-                                                    </div>*@
                                                 </div>
                                             </div>
                                             <!-- FIM DADOS IMÓVEL-->
@@ -445,8 +430,14 @@
                                                     <div class="col-sm-3 form-group">
                                                         <div>
                                                             @Html.HiddenFor(model => model.ArquivoModelo.Id)
-                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new {@class = "form-control input-lg",@placeholder = "NOME DO MODELO",
-                                                                @readonly = "readonly",@required = "required",@title = "Preencha o nome do modelo"})
+                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "NOME DO MODELO",
+                                                                @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Preencha o nome do modelo"
+                                                            })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -456,7 +447,7 @@
                                                         @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
                                                             new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
                                                         @Html.HiddenFor(model => model.IdTipoAto)
-                                                        <input hidden id="modeloInvalido"/>
+                                                        <input hidden id="modeloInvalido" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -483,7 +474,7 @@
                                             <div class="step-pane" id="step4">
                                                 <br>
                                                 <h3><strong>Passo 4</strong> - Confirmação</h3>
-                                                <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1> 
+                                                <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1>
                                                 @Html.HiddenFor(model => model.PREIMO.SEQPRE)
                                                 <br />
                                                 <br />
@@ -547,7 +538,16 @@
     }
 </div>
 <!-- Fim Modal Modelo-->
-<div class="modal fade" id="PartialDadosPessoas" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">    
+<div class="modal fade" id="PartialDadosPessoas" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+</div>
+
+<div class="modal fade" id="ModalLoading" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+    @{ 
+        Html.RenderPartial("ViewLoading");
+    }
+    
 </div>
 @section pagespecific{
 
@@ -618,12 +618,14 @@
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').valid();
             $('#ArquivoModelo_NomeModelo').valid();
-            AtualizarModelo();
 
         }
         function AtualizarModelo(){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
             var Id = $('#ArquivoModelo_Id').val();
+            $('#ModalLoading').modal('show');
+            $('#mensagemLoading').text('Buscando modelo...');
+            $('#divRespImo').attr('hidden');
             $.ajax({
                 url: '@Url.Action("UsaModeloParaAto", "Ato")',
                 type: 'POST',
@@ -636,10 +638,17 @@
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
                     AtualizarIdTipoAto(Id);
+                    $('#ModalLoading').modal('hide');
+
                 },
                 error: function (error) {
                     console.log(error);
-                    alert("Erro, tente novamente!");
+                    voltarPasso();
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#labelRespImo').text('Erro ao escrever o modelo, revise-o');
+                },
+                beforeSend: function (xhr,settings) {
+                    $('#mensagemLoading').text('Escrevendo modelo...');
                 }
             });
         }
@@ -703,9 +712,9 @@
                     if (existeAto == "False") {
                         $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
-                        $('#infoAdicional').removeClass('hidden');       
+                        $('#infoAdicional').removeClass('hidden');
                         $('#btnConfirmar').attr('disabled');
-                        
+
                     } else {
                         $('#ExisteNoSistema').val("True");
                         $('#infoAdicional').addClass('hidden');
@@ -719,7 +728,7 @@
                             return;
                         } else {
                             $('#divRespImo').attr('hidden', 'hidden');
-                            
+
                         }
                     }
                     $('#modeloInvalido').val("False");
@@ -739,13 +748,42 @@
     <script>
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
-         ****************************************************************/
+         ****************************************************************/    
+    function ResetarCampos() {
+        var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+        var resultado = JSON.parse(limpaDados);
+        LimparTabelaPessoas();
 
+        //COLOCA O RESULTADO NOS CAMPOS
+        $('#numeroPre').text(resultado.SEQPRE);
+        $('#PREIMO_MATRI').val(resultado.MATRI);
+        $('#PREIMO_SEQPRE').val(resultado.SEQPRE);
+        $('#PREIMO_ENDER').val(resultado.ENDER);
+        $('#PREIMO_NUM').val(resultado.NUM);
+        $('#PREIMO_APTO').val(resultado.APTO);
+        $('#PREIMO_BLOCO').val(resultado.BLOCO);
+        $('#PREIMO_QUADRA').val(resultado.QUADRA);
+        $('#PREIMO_EDIF').val(resultado.EDIF);
+        $('#PREIMO_OUTROS').val(resultado.OUTROS);
+        $('#PREIMO_LOTE').val(resultado.LOTE);
+
+        DesabilitarProximo();
+    }
+        
+        
         function LimparDados() {
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
+            LimparTabelaPessoas();
             DesabilitarProximo();
+        }
+
+        function LimparTabelaPessoas() {
+            var tabela = $('#tblPessoas > tbody > tr');
+            for (var i = 0; i < tabela.length; i++) {
+                tabela[i].remove();
+            }
         }
 
     $('#btnPesquisar').on('click', function () {
@@ -754,7 +792,8 @@
         //$('#txtPrenotacao').on('keyup', PesquisarImovel());
         //$('#txtMatricula').on('keyup', PesquisarImovel());
 
-        function PesquisarImovel() {
+    function PesquisarImovel() {
+        setInterval(
             setTimeout(function () {
                 var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
                 var numeroMatricula = parseInt($('#txtMatricula').val());
@@ -765,17 +804,20 @@
 
                     //LIMPANDO CAMPOS
                     LimparDados();
+                    LimparTabelaPessoas();
                 } else {
                     $('#divResp').attr('hidden');
                     GetDadosImovel(numeroPrenotacao, numeroMatricula);
                     $('#btnProximo').removeAttr('disabled');
                     $('#btnProximo').addClass('active');
                 }
-            }, 200); 
+            }, 200),
+            400);
         }
 
         function GetDadosImovel(numPre, numMat) {
-
+            $('#ModalLoading').modal('show');
+            $('#mensagemLoading').text('Buscando dados do imóvel...');
             $.get('@Url.Action("GetDadosImovel", "Ato")',
                 { numeroPrenotacao: numPre, numeroMatricula: numMat },
                 function (data, status) {
@@ -793,6 +835,8 @@
                             $('#labelResp').text('Não existem dados com as informações fornecidas.');
                             $('#divResp').removeAttr('hidden');
                             LimparDados();
+                            LimparTabelaPessoas();
+                            $('#ModalLoading').modal('hide');
                         }
                     }
                     else
@@ -800,15 +844,18 @@
                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
                         $('#divResp').removeAttr('hidden');
                         LimparDados();
+                        LimparTabelaPessoas();
+                        $('#ModalLoading').modal('hide');
                     }
                 });
         }
 
         function enviarDadosMatricula(resultado) {
-            
+
             //COLOCA O RESULTADO NOS CAMPOS
-            $('#numeroPre').text(resultado.SEQPRE); 
-            $('#PREIMO_MATRI').val(resultado.MATRI); 
+            $('#numeroPre').text(resultado.SEQPRE);
+            $('#PREIMO_MATRI').val(resultado.MATRI);
+            $('#PREIMO_SEQPRE').val(resultado.SEQPRE);
             $('#PREIMO_ENDER').val(resultado.ENDER);
             $('#PREIMO_NUM').val(resultado.NUM);
             $('#PREIMO_APTO').val(resultado.APTO);
@@ -816,7 +863,7 @@
             $('#PREIMO_QUADRA').val(resultado.QUADRA);
             $('#PREIMO_EDIF').val(resultado.EDIF);
             $('#PREIMO_OUTROS').val(resultado.OUTROS);
-            $('#PREIMO_LOTE').val(resultado.LOTE); 
+            $('#PREIMO_LOTE').val(resultado.LOTE);
 
             //VALIDA SE OS CAMPOS FORAM PREENCHIDOS
             $('#PREIMO_MATRI').valid();
@@ -831,39 +878,56 @@
         }
     </script>
     <script>
-    
+
         //Variavel Global
         var participantes = [];
         /***************************************************************
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
-        function GetDadosPessoa(numPre) {
+    function AlterarParticipantes() {
+        var seqPre = $('#numeroPre').val();
+        if (seqPre != null && seqPre != undefined && seqPre != "") {
+            $('#ModalLoading').modal('show');
+            GetDadosPessoa();
+        }
+    }
+
+    function GetDadosPessoa(numPre) {
+            $('#mensagemLoading').text('Buscando dados dos participantes...');
              $.get('@Url.Action("GetPessoasPremo", "Ato")',
                 { numeroPrenotacao: numPre },
                  function (data, status) {
                      if (status == "success") {
                          if (data != "" && data!="null") {
                              resultado = JSON.parse(data);
-                             debugger;
-                             $.get('@Url.Action("PartialDadosPessoas", "Ato")', {listaPessoas:JSON.stringify(resultado)}, function (data) {
-                                 $('#PartialDadosPessoas').html(data);
-                                 $('#PartialDadosPessoas').modal('show');
-                             });
-
+                             $.ajax({
+                                  method:'POST',
+                                  url: '@Url.Action("PartialDadosPessoas", "Ato")',
+                                  data: {listaPessoas:JSON.stringify(resultado)},
+                                 success: function (data) {
+                                    $('#ModalLoading').modal('hide');
+                                    $('#PartialDadosPessoas').html(data);
+                                    $('#PartialDadosPessoas').modal('show');
+                                  }
+                                });
 
                              $('#divResp').attr('hidden');
                          }else {
                              $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
                              $('#divResp').removeAttr('hidden');
                              LimparDados();
+                             $('#ModalLoading').modal('hide');
                          }
                      }
                      else {
                          $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
                          $('#divResp').removeAttr('hidden');
                          LimparDados();
+                         $('#ModalLoading').modal('hide');
                      }
-                });
+                 });
+            
+
         }
     </script>
     <script>
@@ -875,6 +939,12 @@
              * TABELA DE PESSOAS                                                                *
              ************************************************************************************/
             
+            $('#wizard-1').on('submit', function () {
+                $('#ModalLoading').modal('show');
+                $('#mensagemLoading').text('Escrevendo ato...');
+            });
+
+
             var $validator = $("#wizard-1").validate({
                 highlight: function (element) {
                     $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
@@ -909,7 +979,7 @@
                             quantidade = 0;
                         }
                         debugger;
-                        if (quantidade == 0) {  
+                        if (quantidade == 0) {
                             if ($('#modeloInvalido').val() == "True") {
                                 DesabilitarProximo();
                                 if ($('#IdTipoAto').val()) {
@@ -940,65 +1010,63 @@
                         item = lista.children('li')[quantidade];
                         item.classList.add('active');
                         $(`#step${quantidade}`).removeClass('active');
-                        $(`#step${quantidade+1}`).addClass('active');
+                        $(`#step${quantidade + 1}`).addClass('active');
                         $('#btnVoltar').removeAttr('disabled', 'disabled');
-                                                                       
+
                     }
                 }
             });
-            
+
         });
 
-    
-    
     </script>
     <script>
 
-    /***************************************************************************************
-    *****************************  FUNCOES DE IR E VOLTAR A TELA  *************************
-    **************************************************************************************/
-    function voltarPasso() {
-        //DADOS INICIAIS   
-        var lista = $('#list');
-        var quantidade = lista.find('.complete').length;
-        var objeto = lista.find('.active');
+        /***************************************************************************************
+        *****************************  FUNCOES DE IR E VOLTAR A TELA  *************************
+        **************************************************************************************/
+        function voltarPasso() {
+            //DADOS INICIAIS
+            var lista = $('#list');
+            var quantidade = lista.find('.complete').length;
+            var objeto = lista.find('.active');
 
-        if (quantidade == 1) {
+            if (quantidade == 1) {
+                $('#btnProximo').removeAttr('disabled');
+                $('#btnProximo').addClass('active');
+            }
+
+
+            //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
+            var item = objeto[0];
+            item.classList.remove('active');
+            objeto = lista.find('.complete');
+            item = objeto[quantidade - 1];
+
+            item.classList.remove('complete');
+            item.classList.add('active');
+
+
+            $(`#step${quantidade + 1}`).removeClass('active');
+            $(`#step${quantidade}`).addClass('active');
+            if (quantidade == 1) {
+                $('#btnVoltar').attr('disabled', 'disabled');
+            }
+        }
+
+        //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
+        function IrParaProximo() {
+            $('#goToNext').click();
+        }
+
+        function DesabilitarProximo() {
+            $('#btnProximo').attr('disabled', 'disabled');
+            $('#btnProximo').removeClass('active');
+        }
+        function HabilitarProximo() {
             $('#btnProximo').removeAttr('disabled');
             $('#btnProximo').addClass('active');
         }
-
-
-        //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
-        var item = objeto[0];
-        item.classList.remove('active');
-        objeto = lista.find('.complete');
-        item = objeto[quantidade - 1];
-
-        item.classList.remove('complete');
-        item.classList.add('active');
-
-
-        $(`#step${quantidade + 1}`).removeClass('active');
-        $(`#step${quantidade}`).addClass('active');
-        if (quantidade == 1) {
-            $('#btnVoltar').attr('disabled', 'disabled');
-        }       
-    }
-
-    //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
-    function IrParaProximo() {
-        $('#goToNext').click();
-            }
-
-    function DesabilitarProximo() {
-        $('#btnProximo').attr('disabled', 'disabled');
-        $('#btnProximo').removeClass('active');
-            }
-    function HabilitarProximo() {
-        $('#btnProximo').removeAttr('disabled');
-        $('#btnProximo').addClass('active');
-    }
     </script>
-    
+
 }

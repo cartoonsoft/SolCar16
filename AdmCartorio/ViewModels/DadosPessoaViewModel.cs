@@ -10,29 +10,29 @@ namespace AdmCartorio.ViewModels
     public class DadosPessoaViewModel
     {
         [DataMember]
-        public long SEQPES { get; set; }
+        public long IdPessoa { get; set; }
         [DataMember]
-        public string NOM { get; set; }
+        public string Nome { get; set; }
         [DataMember]
-        public string ENDER { get; set; }
+        public string Endereco { get; set; }
         [DataMember]
-        public string BAI { get; set; }
+        public string Bairro { get; set; }
         [DataMember]
-        public string CID { get; set; }
+        public string Cidade { get; set; }
         [DataMember]
         public string UF { get; set; }
         [DataMember]
         public int? CEP { get; set; }
         [DataMember]
-        public string TEL { get; set; }
+        public string Telefone { get; set; }
         [DataMember]
-        public byte? TIPODOC1 { get; set; }
+        public byte? TipoDoc1 { get; set; }
         [DataMember]
-        public string NRO1 { get; set; }
+        public string Numero1 { get; set; }
         [DataMember]
-        public string TIPODOC2 { get; set; }
+        public string TipoDoc2 { get; set; }
         [DataMember]
-        public string NRO2 { get; set; }
+        public string Numero2 { get; set; }
         [DataMember]
         public string TipoPessoa { get; set; }
     }

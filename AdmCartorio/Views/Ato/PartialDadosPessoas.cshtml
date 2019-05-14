@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<AdmCartorio.ViewModels.DadosPessoaViewModel>
 
-<div class="modal-dialog" role="dialog">
+<div class="container" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h1>Dados das Pessoas</h1>
@@ -15,16 +15,16 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.NOM)
+                            @Html.DisplayNameFor(model => model.Nome)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ENDER)
+                            @Html.DisplayNameFor(model => model.Endereco)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.TIPODOC1)
+                            @Html.DisplayNameFor(model => model.TipoDoc1)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.NRO1)
+                            @Html.DisplayNameFor(model => model.Numero1)
                         </th>
                         <th>
                             Utilizar?
@@ -37,20 +37,20 @@
                         {
                             foreach (var item in Model)
                             {
-                                <tr id="@item.SEQPES" data-bai="@item.BAI" data-CEP="@item.CEP" data-CID="@item.CID" data-UF="@item.UF"
-                                    data-TEL="@item.TEL" data-TIPODOC2="@item.TIPODOC2" data-NRO2="@item.NRO2" data-tpPessoa="@item.TipoPessoa">
+                                <tr id="@item.IdPessoa" data-bairro="@item.Bairro" data-CEP="@item.CEP" data-cidade="@item.Cidade" data-UF="@item.UF"
+                                    data-telefone="@item.Telefone" data-tipodoc2="@item.TipoDoc2" data-numero2="@item.Numero2" data-tpPessoa="@item.TipoPessoa">
 
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.NOM)
+                                        @Html.DisplayFor(modelItem => item.Nome)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.ENDER)
+                                        @Html.DisplayFor(modelItem => item.Endereco)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.TIPODOC1)
+                                        @Html.DisplayFor(modelItem => item.TipoDoc1)
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.NRO1)
+                                        @Html.DisplayFor(modelItem => item.Numero1)
                                     </td>
                                     <td>
                                         <input class="" type="checkbox" name="ckUsar" value="" checked />
@@ -80,34 +80,42 @@
         $('#labelResp').text('Por favor, selecione algum participante!');
         $('#divResp').removeAttr('hidden');
         participantes = [];
+        $('#linkParticipantes').removeClass('hidden');
     });
 
 
     $('#enviaInfoPessoa').on('click', function () {
-        var elementos = $('#tblPartialPessoa > tbody > tr');
+        var elementos = $('#tblPartialPessoa > tbody > tr > td > input');
         var itens = [];
+        
+        debugger;
         for (var i = 0; i < elementos.length; i++) {
-            if ($(elementos[i]).find('[checked]').parents('tr') != null) {
-                var linha = $(elementos[i]).find('[checked]').parents('tr');
+            if ($(elementos[i]).prop('checked')) {
+                var linha = $(elementos[i]).closest('tr');
                 itens.push(linha);
             }
         }
-      
+        debugger;
+        participantes = [];
         if ($.isEmptyObject(itens)) {
             MostrarMensagemErro();
             LimparTabelaPessoas();
-            participantes = [];
+            
+
         } else {
             EsconderMensagemErro();
+            LimparTabelaPessoas();
             while (!$.isEmptyObject(itens)) {
                 var item = itens.pop();
+                debugger;
                 participantes.push(item);
                 PreencherTabelaPessoas(item);
                 $('#PartialDadosPessoas').modal('hide');
-                HabilitarProximo();
                 console.log(participantes);  
-                $('#divResp').attr('hidden');
             }
+            HabilitarProximo();
+            $('#divResp').attr('hidden');
+            $('#linkParticipantes').removeClass('hidden');
         }
     });
 
@@ -118,28 +126,20 @@
         $('#divMsgPessoas').addClass('hidden');
     }
     function PreencherTabelaPessoas(item) {
-        LimparTabelaPessoas();
         var tabela = $('#tblPessoas > tbody');
         var linha = '<tr>'+
-                        '<td>' + $(item).data("tppessoa") + '</td>' +
-                        '<td>' + $(item).children('td').get(0).innerText + '</td>' +
-                        '<td>' + ($(item).data("bai") ==  undefined ? "" : $(item).data("bai")) + '</td>' +
-                        '<td>' + ($(item).data("CID") == undefined ? "" : $(item).data("CID")) + '</td>' +
-                        '<td>' + ($(item).data("UF") == undefined ? "" : $(item).data("UF")) + '</td>' +
-                        '<td>' + ($(item).data("CEP") == undefined ? "" : $(item).data("CEP")) + '</td>' +
-                        '<td>' + ($(item).data("TEL") == undefined ? "" : $(item).data("TEL"))+ '</td>' +
-                        '<td>' + $(item).children('td').get(2).innerText + '</td>' +
-                        '<td>' + $(item).children('td').get(3).innerText + '</td>' +
-                        '<td>' + ($(item).data("TIPODOC2") == undefined ? "" : $(item).data("TIPODOC2")) + '</td>' +
-                        '<td>' + ($(item).data("NRO2") == undefined ? "" : $(item).data("NRO2"))+ '</td>' +
+                        '<td>' + $(item).data("tppessoa").trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(0).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(2).innerText.trim() + '</td>' +
+                        '<td>' + ($(item).data("bairro").trim() ==  undefined || $(item).data("bairro").trim() == ""  ? "-" : $(item).data("bairro").trim()) + '</td>' +
+                        '<td>' + ($(item).data("cidade").trim() == undefined || $(item).data("cidade").trim() == "" ? "-" : $(item).data("cidade").trim()) + '</td>' +
+                        '<td>' + ($(item).data("UF") == undefined ? "-" : $(item).data("UF").trim()) + '</td>' +
+                        '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
+                        '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim())+ '</td>' +                        
                     '</tr>';
         $(tabela).append(linha);
     }
 
-    function LimparTabelaPessoas() {
-        var tabela = $('#tblPessoas > tbody > tr');
-        for (var i = 0; i < tabela.length; i++) {
-            tabela[i].remove();
-        }
-    }
+    
 </script>

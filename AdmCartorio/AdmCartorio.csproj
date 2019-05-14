@@ -254,6 +254,7 @@
     <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\fontawesome4.2\readme.txt" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\gifLoading.gif" />
     <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="Content\img\alpha.png" />
     <Content Include="Content\img\avatars\1.png" />
@@ -1051,6 +1052,7 @@
     <Content Include="Views\Ato\Cadastrar.cshtml" />
     <Content Include="Views\Ato\PartialDadosAdicionais.cshtml" />
     <Content Include="Views\Ato\PartialDadosPessoas.cshtml" />
+    <Content Include="Views\Shared\ViewLoading.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

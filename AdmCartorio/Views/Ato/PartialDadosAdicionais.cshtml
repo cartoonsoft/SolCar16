@@ -42,7 +42,7 @@
                         <div class="col-sm-4">
                             <input class="form-control input-modal" id="qtdeCentimetros" name="qtdeCentimetros" type="text" placeholder="Centimetros" title="Preencha a Quantidade de centimetros"
                                    pattern="^[0-9]{1}[0-9]{0,}(\.\d{1,2})?$" required />
-                            <label id="centimetrosValidation" hidden>Preencha a quantidade corretamente</label>
+                            <label class="hidden" id="centimetrosValidation">Preencha a quantidade corretamente</label>
                         </div>
                     </div>
                     <br />
@@ -75,16 +75,22 @@
         var texto = $('#qtdeCentimetros').val();
         debugger;
         if ($('#qtdeCentimetros').val().match(regex) != texto) {
-            $('#centimetrosValidation').removeAttr('hidden')
-
+            $('#centimetrosValidation').removeClass('hidden')
+            $('#centimetrosValidation').text('Preencha a quantidade corretamente');
+            $('#qtdeCentimetros').attr('style', 'border-color:red;');
         } else {
             var quantidade = parseInt(texto);
-            if (isNan(quantidade)) {
+            if (quantidade >= 0 && quantidade <= 20) {
+                $('#centimetrosValidation').addClass('hidden');
+                $('#qtdeCentimetros').attr('style', 'border-color:green;');
+                centimetrosValidos = true
+            } else {
                 centimetrosValidos = false;
-            } else if (quantidade > 0 && quantidade < 20) {
-                $('#centimetrosValidation').attr('hidden', 'hidden');
-                centimetrosValidos = true;
+                $('#centimetrosValidation').removeClass('hidden');
+                $('#centimetrosValidation').text('A quantidade de centimetros deve ser entre 0 e 20');
+                $('#qtdeCentimetros').attr('style', 'border-color:red;');
             }
+             
         }
     });
 
