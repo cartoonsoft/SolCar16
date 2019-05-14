@@ -307,10 +307,98 @@ namespace AdmCartorio.Controllers
         /// <returns>string HTML</returns>
         public string UsaModeloParaAto([Bind(Include = "ModeloNome,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            //using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            //{
+            //    DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+            //}
+
+            #region | MOCAR DADOS |
+            DtoDadosImovel dadosImovel = new DtoDadosImovel()
             {
-                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
-            }
+                CamposValorDadosImovel = new List<DtoCamposValor>()
+                {
+                    new DtoCamposValor()
+                    {
+                       Campo = "Nome",
+                       Valor = "Edificio Pedro HP"
+                    },
+                    new DtoCamposValor()
+                    {
+                        Campo = "Endereco",
+                        Valor = "Rua primeiro"
+                    },new DtoCamposValor()
+                    {
+                        Campo = "Apto",
+                        Valor = "Apartamento 1"
+                    }
+
+                },
+                IdMatricula = Convert.ToInt64(DadosPostModelo.IdMatricula),
+                IdPrenotacao = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+                Imovel = new Domain.Car16.Entities.Car16.PREIMO()
+                {
+                    APTO = "APARTAMENTO 1",
+                    BLOCO = "BLOCO A",
+                    CONTRIB = "98782398755",
+                    EDIF = "EDIFICIO PEDRO HP",
+                    ENDER = "RUA DOS PASSAROS",
+                    HIPO = 0,
+                    INSCR = 123321,
+                    LOTE = "LOTE 1",
+                    MATRI = Convert.ToInt32(DadosPostModelo.IdMatricula),
+                    NUM = "96",
+                    OUTROS = "PRIMEIRO EDIFICIO DE TESTE",
+                    QUADRA = "",
+                    RD = 1,
+                    SEQIMO = 1,
+                    SEQPRE = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+                    SUBD = 1,
+                    TIPO = "T",
+                    TITULO = "TITULO",
+                    TRANS = 0,
+                    VAGA = ""
+                },
+                Pessoas = new List<DtoPessoaPesxPre>()
+                {
+                    new DtoPessoaPesxPre()
+                    {
+                        Bairro = "Caucaia do alto",
+                        CEP = 12345623,
+                        Cidade = "Cotia",
+                        Endereco = "Rua primeiro",
+                        IdPessoa = 1,
+                        Nome = "Pedro Pires",
+                        Numero1 = "555345235",
+                        TipoDoc1 = 1,
+                        Numero2 = "12312312345",
+                        TipoDoc2 = "CPF",
+                        Telefone = "99887766",
+                        TipoPessoa = "Outorgante",
+                        UF = "SP",
+                        listaCamposValor = new List<DtoCamposValor>()
+                        {
+                            new DtoCamposValor()
+                            {
+                                Campo = "Bairro",
+                                Valor = "Caucaia do alto"
+                            },
+                            new DtoCamposValor()
+                            {
+                                Campo = "Cidade",
+                                Valor = "Cotia"
+                            },
+                            new DtoCamposValor()
+                            {
+                                Campo = "Nome",
+                                Valor = "Pedro Pires"
+                            }
+                        }
+                    }
+                }
+            };
+
+            #endregion
+
 
             StringBuilder textoFormatado = new StringBuilder();
 
