@@ -79,12 +79,14 @@
 
         } else {
             var quantidade = parseInt(texto);
-            if (isNan(quantidade)) {
-                centimetrosValidos = false;
-            } else if (quantidade > 0 && quantidade < 20) {
-                $('#centimetrosValidation').attr('hidden', 'hidden');
-                centimetrosValidos = true;
-            }
+            if (isNaN(quantidade)) {
+                if (quantidade > 0 && quantidade < 20) {
+                    $('#centimetrosValidation').attr('hidden', 'hidden');
+                    centimetrosValidos = true
+                } else {
+                    centimetrosValidos = false;
+                }
+            } 
         }
     });
 

@@ -243,7 +243,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input id="txtPrenotacao"  onkeyup="LimparDados()"  type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -251,7 +251,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
+                                                                <input id="txtMatricula" onkeyup="LimparDados()"   min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -618,12 +618,14 @@
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').valid();
             $('#ArquivoModelo_NomeModelo').valid();
-            AtualizarModelo();
 
         }
         function AtualizarModelo(){
             var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
             var Id = $('#ArquivoModelo_Id').val();
+            $('#ModalLoading').modal('show');
+            $('#mensagemLoading').text('Buscando modelo...');
+            $('#divRespImo').attr('hidden');
             $.ajax({
                 url: '@Url.Action("UsaModeloParaAto", "Ato")',
                 type: 'POST',
@@ -636,10 +638,17 @@
                     $('#upload').removeAttr('disabled');
                     $('#ckEditorGrid').removeAttr('hidden');
                     AtualizarIdTipoAto(Id);
+                    $('#ModalLoading').modal('hide');
+
                 },
                 error: function (error) {
                     console.log(error);
-                    alert("Erro, tente novamente!");
+                    voltarPasso();
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#labelRespImo').text('Erro ao escrever o modelo, revise-o');
+                },
+                beforeSend: function (xhr,settings) {
+                    $('#mensagemLoading').text('Escrevendo modelo...');
                 }
             });
         }
@@ -740,11 +749,14 @@
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
          ****************************************************************/
+    
+
 
         function LimparDados() {
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"415\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
+            LimparTabelaPessoas();
             DesabilitarProximo();
     }
 
