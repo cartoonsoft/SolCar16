@@ -19,10 +19,7 @@ namespace Domain.Core.Interfaces.Repositories
     public interface IRepositoryBaseRead<TEntity> : IDisposable where TEntity : class
     {
         //void Merge(TEntity persisted, TEntity current);
-        IDbSet<TEntity> Get {
-            get;
-        }
-
+        IDbSet<TEntity> Get();
         TEntity GetById(long id);
         TEntity GetById(params object[] keyValues);
         IEnumerable<TEntity> GetAll();

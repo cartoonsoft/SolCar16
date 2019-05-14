@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace Dto.Car16.Entities.Diversos
 {
-    public class DtoDadosAto
+    class DtoImovel
     {
-        IEnumerable<string> Campos { get; set; }
-        long IdMatricula  { get; set; }
+        long IdMatricula { get; set; }
 
-        long IdPrenotacao { get; set; }
 
     }
 }
