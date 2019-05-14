@@ -124,25 +124,18 @@
     function PreencherTabelaPessoas(item) {
         var tabela = $('#tblPessoas > tbody');
         var linha = '<tr>'+
-                        '<td>' + $(item).data("tppessoa") + '</td>' +
-                        '<td>' + $(item).children('td').get(0).innerText + '</td>' +
-                        '<td>' + ($(item).data("bairro") ==  undefined ? "" : $(item).data("bairro")) + '</td>' +
-                        '<td>' + ($(item).data("cidade") == undefined ? "" : $(item).data("cidade")) + '</td>' +
-                        '<td>' + ($(item).data("UF") == undefined ? "" : $(item).data("UF")) + '</td>' +
-                        '<td>' + ($(item).data("CEP") == undefined ? "" : $(item).data("CEP")) + '</td>' +
-                        '<td>' + ($(item).data("telefone") == undefined ? "" : $(item).data("telefone"))+ '</td>' +
-                        '<td>' + $(item).children('td').get(2).innerText + '</td>' +
-                        '<td>' + $(item).children('td').get(3).innerText + '</td>' +
-                        '<td>' + ($(item).data("tipodoc2") == undefined ? "" : $(item).data("tipodoc2")) + '</td>' +
-                        '<td>' + ($(item).data("numero2") == undefined ? "" : $(item).data("numero2"))+ '</td>' +
+                        '<td>' + $(item).data("tppessoa").trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(0).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(2).innerText.trim() + '</td>' +
+                        '<td>' + ($(item).data("bairro").trim() ==  undefined || $(item).data("bairro").trim() == ""  ? "-" : $(item).data("bairro").trim()) + '</td>' +
+                        '<td>' + ($(item).data("cidade").trim() == undefined || $(item).data("cidade").trim() == "" ? "-" : $(item).data("cidade").trim()) + '</td>' +
+                        '<td>' + ($(item).data("UF") == undefined ? "-" : $(item).data("UF").trim()) + '</td>' +
+                        '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
+                        '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim())+ '</td>' +                        
                     '</tr>';
         $(tabela).append(linha);
     }
 
-    function LimparTabelaPessoas() {
-        var tabela = $('#tblPessoas > tbody > tr');
-        for (var i = 0; i < tabela.length; i++) {
-            tabela[i].remove();
-        }
-    }
+    
 </script>

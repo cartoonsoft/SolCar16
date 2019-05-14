@@ -245,7 +245,7 @@
                                                         <div class="">
                                                             <div class="input-group">
                                                                 <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input onkeyup="PesquisarImovel()"  id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
+                                                                <input onkeyup="PesquisarImovel()" id="txtPrenotacao" type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -272,8 +272,14 @@
                                                     </div>
                                                     <div class="col-sm-2 margin-left-10 form-group">
                                                         <div>
-                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new {@class = "form-control input-lg",@placeholder = "Nº da Matricula",@readonly = "readonly",
-                                                                @required = "required",@title = "Número de matrícula é obrigatório"})
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "Nº da Matricula",
+                                                                @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Número de matrícula é obrigatório"
+                                                            })
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-1">
@@ -359,21 +365,19 @@
                                                 <br />
                                                 <h2>Dados dos Participantes</h2>
                                                 <div class="row">
-                                                    <div class="col-sm-10">
+                                                    <div class="col-sm-12">
                                                         <table id="tblPessoas" class="table">
                                                             <thead>
                                                                 <tr>
                                                                     <th>TP Pessoa</th>
-                                                                    <th>Nome</th>
+                                                                    <th class="col-md-2">Nome</th>
+                                                                    <th>NRO1</th>
+                                                                    <th>TP DOC1</th>
                                                                     <th>Bairro</th>
                                                                     <th>Cidade</th>
                                                                     <th>UF</th>
                                                                     <th>CEP</th>
                                                                     <th>Telefone</th>
-                                                                    <th>TP DOC1</th>
-                                                                    <th>NRO1</th>
-                                                                    <th>TP DOC2</th>
-                                                                    <th>NRO2</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -381,26 +385,26 @@
                                                             </tbody>
                                                         </table>
                                                     </div>
-                                                    
+
 
 
 
                                                     @*<div class="col-sm-1">
-                                                        <label class="h5">Tipo de Pessoa</label>
-                                                    </div>
-                                                    <div class="col-sm-2 margin-left-10 form-group">
-                                                        @Html.TextBoxFor(model => model.TipoPessoa,new {@class = "form-control input-lg padding-left-5",@placeholder = "TIPO DE PESSOA",
-                                                            @readonly = "readonly",@required = "required",@title = "O tipo de pessoa é obrigatório"})
-                                                    </div>
-                                                    <div class="col-sm-1">
-                                                        <label class="h5">Nome</label>
-                                                    </div>
-                                                    <div class="col-sm-3 margin-left-10 form-group">
-                                                        <div>
-                                                            @Html.TextBoxFor(model => model.Pessoas.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
-                                                           @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
-                                                        </div>
-                                                    </div>*@
+                <label class="h5">Tipo de Pessoa</label>
+            </div>
+            <div class="col-sm-2 margin-left-10 form-group">
+                @Html.TextBoxFor(model => model.TipoPessoa,new {@class = "form-control input-lg padding-left-5",@placeholder = "TIPO DE PESSOA",
+                    @readonly = "readonly",@required = "required",@title = "O tipo de pessoa é obrigatório"})
+            </div>
+            <div class="col-sm-1">
+                <label class="h5">Nome</label>
+            </div>
+            <div class="col-sm-3 margin-left-10 form-group">
+                <div>
+                    @Html.TextBoxFor(model => model.Pessoas.NOM, new {@class = "form-control input-lg padding-left-5",@placeholder = "NOME DA PESSOA",
+                   @readonly = "readonly", @required = "required", @title = "Nome é obrigatório"})
+                </div>
+            </div>*@
                                                 </div>
                                             </div>
                                             <!-- FIM DADOS IMÓVEL-->
@@ -746,6 +750,13 @@
             var resultado = JSON.parse(limpaDados);
             enviarDadosMatricula(resultado);
             DesabilitarProximo();
+    }
+
+        function LimparTabelaPessoas() {
+            var tabela = $('#tblPessoas > tbody > tr');
+            for (var i = 0; i < tabela.length; i++) {
+                tabela[i].remove();
+            }
         }
 
     $('#btnPesquisar').on('click', function () {
@@ -754,7 +765,8 @@
         //$('#txtPrenotacao').on('keyup', PesquisarImovel());
         //$('#txtMatricula').on('keyup', PesquisarImovel());
 
-        function PesquisarImovel() {
+    function PesquisarImovel() {
+        setInterval(
             setTimeout(function () {
                 var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
                 var numeroMatricula = parseInt($('#txtMatricula').val());
@@ -765,13 +777,15 @@
 
                     //LIMPANDO CAMPOS
                     LimparDados();
+                    LimparTabelaPessoas();
                 } else {
                     $('#divResp').attr('hidden');
                     GetDadosImovel(numeroPrenotacao, numeroMatricula);
                     $('#btnProximo').removeAttr('disabled');
                     $('#btnProximo').addClass('active');
                 }
-            }, 200); 
+            }, 200),
+            400); 
         }
 
         function GetDadosImovel(numPre, numMat) {
@@ -793,6 +807,7 @@
                             $('#labelResp').text('Não existem dados com as informações fornecidas.');
                             $('#divResp').removeAttr('hidden');
                             LimparDados();
+                            LimparTabelaPessoas();
                         }
                     }
                     else
@@ -800,6 +815,7 @@
                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
                         $('#divResp').removeAttr('hidden');
                         LimparDados();
+                        LimparTabelaPessoas();
                     }
                 });
         }
