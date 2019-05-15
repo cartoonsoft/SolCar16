@@ -495,7 +495,7 @@ namespace AdmCartorio.Controllers
                         }
                     }
                     //Retorna o dados das pessoas
-                    return strBuilder.ToString();
+                    return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
                 }
             }
             catch (Exception)
