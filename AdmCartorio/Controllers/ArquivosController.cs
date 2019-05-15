@@ -50,7 +50,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             {
-                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx();
+                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx().Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
             }
 
@@ -190,7 +190,7 @@ namespace AdmCartorio.Controllers
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine(ex.Message);
+                    //System.Diagnostics.Debug.WriteLine(ex.Message);
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 }
             }
@@ -242,16 +242,30 @@ namespace AdmCartorio.Controllers
             return;
         }
 
-        [ValidateAntiForgeryToken]
-        public void DesativarArquivoModeloDocx([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
+        //[ValidateAntiForgeryToken]
+        public void Desativar([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
-
+            int respDesativar;
+            
+            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
+            {
+                respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
+            }
+            if (respDesativar == 1)
+            {
+                this.UnitOfWorkDataBaseCar16New.SaveChanges();
+            }
+            else
+            {
+                throw new Exception("Não foi possível desativar o modelo");
+            }
+            
         }
 
         public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
         {
             string fileName = Path.GetFileNameWithoutExtension(dadosPost.Arquivo);
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{fileName}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{dadosPost.Id}.docx");
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);

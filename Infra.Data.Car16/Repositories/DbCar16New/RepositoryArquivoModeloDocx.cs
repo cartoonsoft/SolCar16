@@ -149,6 +149,8 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
                 FROM TB_MODELO_DOC DOC
                     INNER JOIN TB_TP_ATO ATO ON DOC.ID_TP_ATO = ATO.ID_TP_ATO";
 
+            sqlWhere += this.AddWhereClause("(DOC.ATIVO = 1)", "AND", (sqlWhere == string.Empty));
+
             if (IdTipoAto != null)
             {
                 oracleParameters.Add(new OracleParameter("ID_TP_ATO", OracleDbType.Long, IdTipoAto, System.Data.ParameterDirection.Input));
