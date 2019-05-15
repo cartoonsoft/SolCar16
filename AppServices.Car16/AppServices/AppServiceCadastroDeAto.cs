@@ -49,14 +49,14 @@ namespace AppServices.Car16.AppServices
                 {
                     //Abre o arquivo para escrever o ATO e faz as configurações iniciais
                     app.Visible = true;
-                    if (!modelo.ExisteNoSistema)
-                    {
+                    //if (!modelo.ExisteNoSistema)
+                    //{
                         doc = app.Documents.Add();
-                    }
-                    else
-                    { 
-                        doc = app.Documents.Open(filePath);
-                    }
+                    //}
+                    //else
+                    //{ 
+                    //    doc = app.Documents.Open(filePath);
+                    //}
 
                     string sigla = string.Empty;
                     switch (modelo.IdTipoAto)

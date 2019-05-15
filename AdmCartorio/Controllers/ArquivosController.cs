@@ -292,6 +292,7 @@ namespace AdmCartorio.Controllers
 
         }
 
+
         public FileResult DownloadFile([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
             string fileName = dadosPost.Id.ToString();

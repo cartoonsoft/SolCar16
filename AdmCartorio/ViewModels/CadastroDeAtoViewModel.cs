@@ -20,5 +20,6 @@ namespace AdmCartorio.ViewModels
         public bool ExisteNoSistema { get; set; }
         public float QuantidadeCentimetrosDaBorda { get; set; }
         public int NumSequencia { get; set; }
+        public long? IdAto { get; set; }
     }
 }

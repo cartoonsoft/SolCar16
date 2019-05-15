@@ -63,8 +63,9 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{modelo.PREIMO.MATRI}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
+            Ato ato;
             try
             {
 
@@ -105,7 +106,7 @@ namespace AdmCartorio.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        Ato ato = new Ato()
+                        ato = new Ato()
                         {
                             Ativo = true,
                             Bloqueado = false,
@@ -128,8 +129,8 @@ namespace AdmCartorio.Controllers
                         //Teve algum erro ao escrever o documento no WORD
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
-                    ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return View(nameof(Cadastrar), modelo);
+                    //ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id, modelo });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -143,9 +144,61 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
+        
+        public ActionResult Finalizar(long? Id)
+        {
+            try
+            {
+                if (Id.HasValue)
+                {
+                    Ato Ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(Id);
+                    if (Ato == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+                    AtoListViewModel atoViewModel = new AtoListViewModel {
+                        Id = Ato.Id,
+                        Ativo = Ato.Ativo,
+                        Bloqueado = Ato.Bloqueado,
+                        NumSequencia = Ato.NumSequencia,
+                        Codigo = "",
+                        DataAlteracao = Ato.DataAlteracao,
+                        DataCadastro = Ato.DataCadastro,
+                        NomeArquivo = Ato.NomeArquivo,
+                        NumMatricula = Ato.NumMatricula,
+                        IdPrenotacao = Ato.IdPrenotacao
+                    };
+
+                    return View(atoViewModel);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                throw;
+            }
+            
+        }
+
+        [HttpPost]
+        public ActionResult Finalizar(AtoListViewModel AtoListViewModel)
+        {
+
+            return View();
+
+        }
+
+
+
         #endregion
 
         #region | EDITAR |
+
+
 
         #endregion
 
@@ -245,8 +298,34 @@ namespace AdmCartorio.Controllers
                 return false;
             }
         }
+
+
+        /// <summary>
+        /// Pega o arquivo DOCX do ATO
+        /// </summary>
+        /// <param name="dadosPost">Dados do post</param>
+        /// <returns>Download do arquivo DOCX</returns>
+        public FileResult DownloadFile([Bind(Include = "Id")]long? Id)
+        {
+            string fileName = Id.ToString();
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{Id}_pendente.docx");
+            try
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+                throw;
+            }
+        }
+
         #endregion
 
+        #region | Funcoes auxiliares |
         /// <summary>
         /// Retorna o numero de Ato do modelo
         /// </summary>
@@ -481,6 +560,8 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
+
+        #endregion
 
     }
 }
