@@ -306,7 +306,7 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "ModeloNome,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
+        public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
             //using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
             //{
@@ -403,7 +403,7 @@ namespace AdmCartorio.Controllers
 
             StringBuilder textoFormatado = new StringBuilder();
 
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.ModeloNome}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
             try
             {
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
