@@ -241,8 +241,8 @@ namespace AdmCartorio.Controllers
 
                     //UploadArquivo(arquivoModeloDocxViewModel);
 
-                    ViewBag.resultado = "Arquivo salvo com sucesso!";
-                    return View(nameof(Editar), arquivoModeloDocxViewModel);
+                    //ViewBag.resultado = "Arquivo salvo com sucesso!";
+                    return View(nameof(Index));
 
                 }
                 return View(nameof(Editar), arquivoModeloDocxViewModel);

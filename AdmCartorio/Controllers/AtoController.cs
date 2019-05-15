@@ -46,7 +46,7 @@ namespace AdmCartorio.Controllers
                 IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null);
                 listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
             }
-            
+
             return View(listaAtoListViewModel);
         }
 
@@ -67,6 +67,7 @@ namespace AdmCartorio.Controllers
             bool respEscreverWord = false;
             try
             {
+
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
@@ -76,25 +77,32 @@ namespace AdmCartorio.Controllers
                 //Ajusta a string de ato
                 modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
 
-                //if (ModelState.IsValid)
-                //{
-
-                //Representa o documento e o numero de pagina
-                DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-                long? numSequenciaAto = null;
-
-                if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                if (ModelState.IsValid)
                 {
-                    numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                    numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
-                }
-                else
-                {
-                    numSequenciaAto = modelo.NumSequencia;
-                }
 
-                using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
-                {
+                    //Representa o documento e o numero de pagina
+                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    long? numSequenciaAto = null;
+
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                    {
+                        numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
+                    }
+
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
+                    {
+
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    }
+                    if (respEscreverWord)
+                    {
+                        // Gravar no banco o array de bytes
+                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
                         Ato ato = new Ato()
@@ -114,41 +122,15 @@ namespace AdmCartorio.Controllers
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
                         this.UnitOfWorkDataBaseCar16New.SaveChanges();
 
-
-                    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                }
-                if (respEscreverWord)
-                {
-                    // Gravar no banco o array de bytes
-                    var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-                    
-                    // Gravar o ato e buscar o selo e gravar o selo
-                    Ato ato = new Ato()
+                    }
+                    else
                     {
-                        Ativo = true,
-                        Bloqueado = false,
-                        IdPrenotacao = 511898,//modelo.PREIMO.SEQPRE,
-                        IdTipoAto = modelo.IdTipoAto,
-                        NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
-                        Observacao = "Cadastro de teste",
-                        NumMatricula = modelo.PREIMO.MATRI.ToString(),
-                        IdUsuarioCadastro = this.UsuarioAtual.Id,
-                        IdContaAcessoSistema = 1,
-                        NumSequencia = Convert.ToInt64(numSequenciaAto)
-                    };
-
-                    this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
-                    this.UnitOfWorkDataBaseCar16New.SaveChanges();
-
+                        //Teve algum erro ao escrever o documento no WORD
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    }
+                    ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return View(nameof(Cadastrar), modelo);
                 }
-                else
-                {
-                    //Teve algum erro ao escrever o documento no WORD
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                }
-                ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                return View(nameof(Cadastrar), modelo);
-                //}
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
@@ -227,7 +209,7 @@ namespace AdmCartorio.Controllers
             var jsonResult = "";
             try
             {
-                using(AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCar16, this.UnitOfWorkDataBaseCar16New))
+                using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCar16, this.UnitOfWorkDataBaseCar16New))
                 {
                     jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPrenotacao(numeroPrenotacao));
                 }
@@ -464,19 +446,19 @@ namespace AdmCartorio.Controllers
 
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
-            
+
 
             try
             {
                 //PESQUISA DADOS IMÓVEL
                 foreach (var item in dtoDados.CamposValorDadosImovel)
                 {
-                    if(item.Campo.Equals(campoQuery))
+                    if (item.Campo.Equals(campoQuery))
                     {
                         //Retorna o campo
                         return item.Valor;
                     }
-                }       
+                }
                 //PESQUISA DADOS PESSOA
                 StringBuilder strBuilder = new StringBuilder();
                 foreach (var pessoas in dtoDados.Pessoas)
@@ -491,7 +473,7 @@ namespace AdmCartorio.Controllers
                 }
                 //Retorna o dados das pessoas
                 return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
-                
+
             }
             catch (Exception)
             {

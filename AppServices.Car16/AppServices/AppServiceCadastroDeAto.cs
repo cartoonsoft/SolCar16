@@ -86,7 +86,7 @@ namespace AppServices.Car16.AppServices
                         {
                             ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
                             ///Atualiza o numero da pagina e a posição do cursor
-                            WordHelper.DesviarCentimetros(doc, modelo, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor, true);
+                            WordHelper.DesviarCentimetros(doc, modelo, sigla, numSequenciaAto, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor, true);
                         }
                         else
                         {
@@ -122,7 +122,7 @@ namespace AppServices.Car16.AppServices
 
                         }
                     }
-                    if (!modelo.ExisteNoSistema)
+                    if (!modelo.ExisteNoSistema && modelo.QuantidadeCentimetrosDaBorda == 0)
                     {
                         posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
                         WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");

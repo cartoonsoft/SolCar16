@@ -137,7 +137,7 @@ namespace LibFunctions.Functions
         /// <param name="doc">Documento Ativo</param>
         /// <param name="modelo">View Model</param>
         /// <param name="quantidadeCentrimetros">Quantidade de centimetros</param>
-        public static void DesviarCentimetros(Document doc, DtoCadastroDeAto modelo, float quantidadeCentrimetros, ref int numeroPagina, ref int posicaoCursor, bool houveDesvioDeFicha = false)
+        public static void DesviarCentimetros(Document doc, DtoCadastroDeAto modelo, string sigla,long numSequenciaAto, float quantidadeCentrimetros, ref int numeroPagina, ref int posicaoCursor, bool houveDesvioDeFicha = false)
         {
             if (quantidadeCentrimetros == 0)
             {
@@ -157,7 +157,7 @@ namespace LibFunctions.Functions
 
                 //centimetros apos a borda da margem
                 WordPageHelper.DeslocarCentimetros(doc, quantidadeCentrimetros);
-                WordParagraphHelper.InserirParagrafo(doc, $"R-12/{modelo.PREIMO.MATRI} - ", true);
+                WordParagraphHelper.InserirParagrafo(doc, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ", true);
             }
             //atualiza as variaveis por ponteiro (REF)
             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
