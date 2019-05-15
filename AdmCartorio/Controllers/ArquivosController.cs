@@ -114,7 +114,7 @@ namespace AdmCartorio.Controllers
                                     Files = arquivoModel.Files,
                                     NomeModelo = arquivoModel.NomeModelo,
                                     LogArquivo = logArquivo
-                                }, 
+                                },
                                 UsuarioAtual.Id
                             );
                         }
@@ -141,7 +141,7 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + "]";
-                System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
+                //System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
 
@@ -209,6 +209,36 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
+                    using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
+                    {
+                        //Cadastro de log
+                        LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
+                        logArquivo.IdUsuario = UsuarioAtual.Id;
+                        logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
+                        logArquivo.IP = arquivoModeloDocxViewModel.IpLocal;
+
+                        var resultado = appService.EditarModelo(new DtoArquivoModeloDocxModel()
+                        {
+                            IdContaAcessoSistema = 1,
+                            Ativo = true,
+                            IdTipoAto = arquivoModeloDocxViewModel.IdTipoAto,
+                            CaminhoEArquivo = arquivoModeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
+                            Files = arquivoModeloDocxViewModel.Files,
+                            NomeModelo = arquivoModeloDocxViewModel.NomeModelo,
+                            LogArquivo = logArquivo
+                        }, UsuarioAtual.Id);
+
+                        if (resultado == 1)
+                        {
+                            this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                        }
+                        else
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                        }
+
+                    }
+
                     //UploadArquivo(arquivoModeloDocxViewModel);
 
                     ViewBag.resultado = "Arquivo salvo com sucesso!";
@@ -246,7 +276,7 @@ namespace AdmCartorio.Controllers
         public void Desativar([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
             int respDesativar;
-            
+
             using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
             {
                 respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
@@ -259,12 +289,12 @@ namespace AdmCartorio.Controllers
             {
                 throw new Exception("Não foi possível desativar o modelo");
             }
-            
+
         }
 
-        public FileResult DownloadFile([Bind(Include = "Id,Ip,Arquivo")]DadosPostArquivoUsuario dadosPost)
+        public FileResult DownloadFile([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
         {
-            string fileName = Path.GetFileNameWithoutExtension(dadosPost.Arquivo);
+            string fileName = dadosPost.Id.ToString();
             string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{dadosPost.Id}.docx");
             try
             {

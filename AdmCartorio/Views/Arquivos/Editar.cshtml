@@ -69,17 +69,17 @@
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
-                                @Html.HiddenFor(model => model.Arquivo)
+                                @Html.HiddenFor(model => model.CaminhoEArquivo)
                                 @Html.HiddenFor(model => model.NomeModelo)
                                 @Html.HiddenFor(model => model.IdTipoAto)
-                                @Html.HiddenFor(model => model.LogArquivoModeloDocxViewModel.IP)
+                                @Html.HiddenFor(model => model.logArquivoModeloDocxViewModel.IP)
                                 @Html.HiddenFor(model => model.Id)
 
                                 <header>
                                     <h1>
                                         Edição de Modelos |
                                         <a id="btnDownload"
-                                           href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "atualizadoAoIniciar", Arquivo = Model.Arquivo })" class="">
+                                           href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "atualizadoAoIniciar"})" class="">
                                             <i class="glyphicon glyphicon-download"></i>
                                             <span>
                                                 <strong>Download  </strong>
