@@ -16,6 +16,7 @@ using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
+using System.Text.RegularExpressions;
 
 namespace AdmCartorio.Controllers
 {
@@ -319,16 +320,16 @@ namespace AdmCartorio.Controllers
                 {
                     new DtoCamposValor()
                     {
-                       Campo = "Nome",
+                       Campo = "Nome_IMO",
                        Valor = "Edificio Pedro HP"
                     },
                     new DtoCamposValor()
                     {
-                        Campo = "Endereco",
+                        Campo = "Endereco_IMO",
                         Valor = "Rua primeiro"
                     },new DtoCamposValor()
                     {
-                        Campo = "Apto",
+                        Campo = "Apto_IMO",
                         Valor = "Apartamento 1"
                     }
 
@@ -433,7 +434,8 @@ namespace AdmCartorio.Controllers
                                             }
                                         }
                                         //Buscar dado da pessoa aqui
-                                        resultadoQuery = "teste query";
+                                        //resultadoQuery = "teste query";
+                                        resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
 
                                         //atualiza o texto formatado
                                         textoParagrafo.Append(resultadoQuery);
@@ -459,5 +461,49 @@ namespace AdmCartorio.Controllers
                 throw new Exception("Ocorreu algum erro ao utilizar o modelo");
             }
         }
+
+        private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
+        {
+            Regex regex = new Regex(@"^\w*_imovel$");
+
+            try
+            {
+                if (campoQuery.Contains("_imovel") && regex.IsMatch(campoQuery))
+                {
+                    foreach (var item in dtoDados.CamposValorDadosImovel)
+                    {
+                        if(item.Campo.Equals(campoQuery))
+                        {
+                            //Retorna o campo
+                            return item.Valor;
+                        }
+                    }
+                    //Não achou o campo
+                    return "[NÃO ENCONTRADO]";
+                }
+                else
+                {
+                    StringBuilder strBuilder = new StringBuilder();
+                    foreach (var pessoas in dtoDados.Pessoas)
+                    {
+                        foreach (var pessoa in pessoas.listaCamposValor)
+                        {
+                            if (pessoa.Campo.Equals(campoQuery))
+                            {
+                                strBuilder.Append(pessoa.Valor + " ");
+                            }
+                        }
+                    }
+                    //Retorna o dados das pessoas
+                    return strBuilder.ToString();
+                }
+            }
+            catch (Exception)
+            {
+                return "[NÃO ENCONTRADO]";
+                throw;
+            }
+        }
+
     }
 }
