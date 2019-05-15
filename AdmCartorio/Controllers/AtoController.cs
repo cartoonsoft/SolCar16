@@ -464,39 +464,34 @@ namespace AdmCartorio.Controllers
 
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
-            Regex regex = new Regex(@"^\w*_imovel$");
+            
 
             try
             {
-                if (campoQuery.Contains("_imovel") && regex.IsMatch(campoQuery))
+                //PESQUISA DADOS IMÓVEL
+                foreach (var item in dtoDados.CamposValorDadosImovel)
                 {
-                    foreach (var item in dtoDados.CamposValorDadosImovel)
+                    if(item.Campo.Equals(campoQuery))
                     {
-                        if(item.Campo.Equals(campoQuery))
+                        //Retorna o campo
+                        return item.Valor;
+                    }
+                }       
+                //PESQUISA DADOS PESSOA
+                StringBuilder strBuilder = new StringBuilder();
+                foreach (var pessoas in dtoDados.Pessoas)
+                {
+                    foreach (var pessoa in pessoas.listaCamposValor)
+                    {
+                        if (pessoa.Campo.Equals(campoQuery))
                         {
-                            //Retorna o campo
-                            return item.Valor;
+                            strBuilder.Append(pessoa.Valor + " ");
                         }
                     }
-                    //Não achou o campo
-                    return "[NÃO ENCONTRADO]";
                 }
-                else
-                {
-                    StringBuilder strBuilder = new StringBuilder();
-                    foreach (var pessoas in dtoDados.Pessoas)
-                    {
-                        foreach (var pessoa in pessoas.listaCamposValor)
-                        {
-                            if (pessoa.Campo.Equals(campoQuery))
-                            {
-                                strBuilder.Append(pessoa.Valor + " ");
-                            }
-                        }
-                    }
-                    //Retorna o dados das pessoas
-                    return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
-                }
+                //Retorna o dados das pessoas
+                return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
+                
             }
             catch (Exception)
             {
