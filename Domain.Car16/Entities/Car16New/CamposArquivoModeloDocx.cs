@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_CAMPOS_TB_MOD", Schema = "DEZESSEIS_NEW")]
+    [Table("TB_CAMPOS_TP_ATO", Schema = "DEZESSEIS_NEW")]
     public class CamposArquivoModeloDocx : EntityBase
     {
-        [Column("ID_CAMPOS_TB_MOD")]
+        [Column("ID_CAMPOS_TP_ATO")]
         public override long? Id { get; set; }
 
         [Column("ID_TP_ATO")]
@@ -28,6 +28,8 @@ namespace Domain.Car16.Entities.Car16New
 
         [Column("ENTIDADE")]
         public string Entidade { get; set; }
+        [Column("CAMPO")]
+        public string Campo { get; set; }
 
     }
 }

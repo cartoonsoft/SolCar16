@@ -13,18 +13,22 @@ namespace Dto.Car16.Entities.Diversos
         {
             //Campos = new List<string>();
             Pessoas = new List<DtoPessoaPesxPre>();
-            CamposValorDadosImovel = new List<DtoCamposValor>();
+            listaCamposValor = new List<DtoCamposValor>();
         }
+        public string NumMatricula { get; set; }
+
+        public string DataAtualExtenso { get; set; }
 
         public List<DtoPessoaPesxPre> Pessoas { get; set; }
 
         public long IdMatricula  { get; set; }
 
         public long IdPrenotacao { get; set; }
+        
 
         public PREIMO Imovel { get; set; }
 
-        public List<DtoCamposValor> CamposValorDadosImovel { get; set; }
+        public List<DtoCamposValor> listaCamposValor { get; set; }
 
     }
 }

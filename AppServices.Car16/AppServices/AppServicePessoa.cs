@@ -1,21 +1,23 @@
 ﻿using Domain.Car16.Entities.Car16;
 using Domain.Car16.Entities.Car16New;
+using Domain.Car16.enums;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Diversos;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServicePessoa: IDisposable
+    public class AppServicePessoa : IDisposable
     {
         private readonly IUnitOfWorkDataBaseCar16 _unitOfWorkCar16;
         private readonly IUnitOfWorkDataBaseCar16New _unitOfWorkCar16New;
 
-        public AppServicePessoa(IUnitOfWorkDataBaseCar16 unitOfWorkCar16, IUnitOfWorkDataBaseCar16New unitOfWorkcar16New) 
+        public AppServicePessoa(IUnitOfWorkDataBaseCar16 unitOfWorkCar16, IUnitOfWorkDataBaseCar16New unitOfWorkcar16New)
         {
             //
             _unitOfWorkCar16 = unitOfWorkCar16;
@@ -67,20 +69,21 @@ namespace AppServices.Car16.AppServices
             IEnumerable<DtoPessoaPesxPre> Pessoas = new List<DtoPessoaPesxPre>();
 
             var listaPessoas =
-                from pre in _unitOfWorkCar16.Repositories.GenericRepository<PESXPRE>().Get().Where(p => p.SEQPRE == numeroPrenotacao) 
+                from pre in _unitOfWorkCar16.Repositories.GenericRepository<PESXPRE>().Get().Where(p => p.SEQPRE == numeroPrenotacao)
                 join pes in _unitOfWorkCar16.Repositories.GenericRepository<PESSOA>().Get() on pre.SEQPES equals pes.SEQPES
                 orderby pes.NOM
-                select new DtoPessoaPesxPre {
+                select new DtoPessoaPesxPre
+                {
                     IdPessoa = pes.SEQPES,
                     TipoPessoa = pre.REL == "O" ? "Outorgante" : "Outorgado",
                     Bairro = pes.BAI,
                     Cidade = pes.CID,
-                    CEP  = pes.CEP,
+                    CEP = pes.CEP,
                     Endereco = pes.ENDER,
                     Nome = pes.NOM,
                     TipoDoc1 = pes.TIPODOC1,
                     Numero1 = pes.NRO1,
-                    TipoDoc2 = pes.TIPODOC2.ToString(),
+                    TipoDoc2 = pes.TIPODOC2,
                     Numero2 = pes.NRO1,
                     Telefone = pes.TEL,
                     UF = pes.UF
@@ -96,14 +99,94 @@ namespace AppServices.Car16.AppServices
         /// <param name="IdPrenotacao"></param>
         /// <param name="IdMatricula"></param>
         /// <returns></returns>
-        public DtoDadosImovel GetCamposModeloMatricula( long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao, long? IdMatricula)
+        public DtoDadosImovel GetCamposModeloMatricula(long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao, long? IdMatricula)
         {
             DtoDadosImovel dtoTmp = new DtoDadosImovel();
+            List<CamposArquivoModeloDocx> listaCampos = GetListaCamposIdTipoAto(IdTipoAto);
+            List<DtoPessoaPesxPre> listaPessoas = GetListaPessoas(listIdsPessoas, IdPrenotacao:);
+            List<DtoPessoaPesxPre> listaPessoasTmp = new List<DtoPessoaPesxPre>();
+            DtoPessoaPesxPre pessoaTmp = null;
 
-            //cQ
-            var listaCamposImovel = 
+            //Geral 
+            CultureInfo culture = new CultureInfo("pt-BR");
+            DateTimeFormatInfo dtfi = culture.DateTimeFormat;
+            int dia = DateTime.Now.Day;
+            int ano = DateTime.Now.Year;
+            string mes = culture.TextInfo.ToTitleCase(dtfi.GetMonthName(DateTime.Now.Month));
+
+            dtoTmp.listaCamposValor.Add(new DtoCamposValor
+            {
+                Campo = "DataAtualExtenso",
+                Valor = "São Paulo, " + dia + " de " + mes + " de " + ano
+            });
+
+            //Registro
+            if ((TipoAtoEnum)IdTipoAto == TipoAtoEnum.Registro)
+            {
+
+                ///dados imovel
+                PREIMO Imovel = _unitOfWorkCar16.Repositories.GenericRepository<PREIMO>().
+                    GetWhere(i => i.SEQPRE == IdPrenotacao && i.MATRI == IdMatricula).FirstOrDefault();
+
+                foreach (var campo in listaCampos.Where(a => a.Entidade == "IMOVEL").ToList())
+                {
+                    var prop = Imovel.GetType().GetProperty(campo.Campo);
+
+                    if (prop != null)
+                    {
+                        dtoTmp.listaCamposValor.Add(new DtoCamposValor
+                        {
+                            Campo = campo.NomeCampo,
+                            Valor = prop.GetValue(Imovel).ToString()
+                        });
+                    }
+                }
+
+                //pessoa Outorgante e Outorgado
+                listaPessoasTmp.Clear();
+                pessoaTmp = GetPessoaTipoPessoa(listaPessoas, "Outorgante");
+                if (pessoaTmp != null)
+                {
+                    listaPessoasTmp.Add(pessoaTmp);
+                }
+                pessoaTmp = GetPessoaTipoPessoa(listaPessoas, "Outorgado");
+                if (pessoaTmp != null)
+                {
+                    listaPessoasTmp.Add(pessoaTmp);
+                }
+
+                foreach (var pessoa in listaPessoasTmp)
+                {
+                    if (pessoa != null)
+                    {
+                        foreach (var CampoPessoa in listaCampos.Where(a => a.Entidade == "PESSOA").ToList())
+                        {
+                            var prop = pessoa.GetType().GetProperty(CampoPessoa.Campo);
+
+                            if (prop != null)
+                            {
+                                pessoa.listaCamposValor.Add(new DtoCamposValor
+                                {
+                                    Campo = CampoPessoa.NomeCampo,
+                                    Valor = prop.GetValue(pessoaTmp).ToString()
+                                });
+                            }
+                        }
+                        dtoTmp.Pessoas.Add(pessoa);
+                    }
+                }
+            }
+
+            return dtoTmp;
+        }
+
+        private List<CamposArquivoModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto)
+        {
+            List<CamposArquivoModeloDocx> listaTmp = new List<CamposArquivoModeloDocx>();
+
+            var listaCampos =
                 from campos in _unitOfWorkCar16New.Repositories.GenericRepository<CamposArquivoModeloDocx>().Get()
-                .Where(c => c.IdTipoAto == IdTipoAto && c.Entidade == "IMOVEL")
+                .Where(c => c.IdTipoAto == IdTipoAto)
                 orderby campos.NomeCampo
                 select new CamposArquivoModeloDocx
                 {
@@ -112,25 +195,19 @@ namespace AppServices.Car16.AppServices
                     IdTipoAto = campos.IdTipoAto,
                     NomeCampo = campos.NomeCampo,
                     PlaceHolder = campos.PlaceHolder,
-                    Entidade = campos.Entidade
-                };
+                    Entidade = campos.Entidade,
+                    Campo = campos.Campo
+                }; ;
 
-            PREIMO Imovel = _unitOfWorkCar16.Repositories.GenericRepository<PREIMO>().
-                GetWhere( i => i.SEQPRE == IdPrenotacao && i.MATRI == IdMatricula).FirstOrDefault();
+            listaTmp = listaCampos.ToList();
 
-            foreach (var item in listaCamposImovel)
-            {
-                var prop = Imovel.GetType().GetProperty(item.NomeCampo);
+            return listaTmp;
+        }
 
-                if (prop != null)
-                {
-                    dtoTmp.CamposValorDadosImovel.Add(new DtoCamposValor
-                    {
-                        Campo = item.NomeCampo,
-                        Valor = prop.GetValue(Imovel).ToString()
-                    });
-                }
-            }
+
+        private List<DtoPessoaPesxPre> GetListaPessoas(long[] listIdsPessoas, long? IdPrenotacao)
+        {
+            List<DtoPessoaPesxPre> listaTmp = new List<DtoPessoaPesxPre>();
 
             var listaPessoas =
                 from pes in _unitOfWorkCar16.Repositories.GenericRepository<PESSOA>().Get().Where(p => listIdsPessoas.Contains(p.SEQPES))
@@ -153,38 +230,14 @@ namespace AppServices.Car16.AppServices
                     UF = pes.UF
                 };
 
-            var listaCamposPessoa =
-                from campos in _unitOfWorkCar16New.Repositories.GenericRepository<CamposArquivoModeloDocx>().Get()
-                .Where(c => c.IdTipoAto == IdTipoAto && c.Entidade == "PESSOA")
-                orderby campos.NomeCampo
-                select new CamposArquivoModeloDocx
-                {
-                    Id = campos.Id,
-                    IdAcessoSistema = campos.IdAcessoSistema,
-                    IdTipoAto = campos.IdTipoAto,
-                    NomeCampo = campos.NomeCampo,
-                    PlaceHolder = campos.PlaceHolder,
-                    Entidade = campos.Entidade
-                };
+            listaTmp = listaPessoas.ToList();
+            return listaTmp;
+        }
 
-            foreach (var pessoa in listaPessoas)
-            {
-                foreach (var CampoPessoa in listaCamposPessoa)
-                {
-                    var prop = pessoa.GetType().GetProperty(CampoPessoa.NomeCampo);
-                    
-                    if (prop != null)
-                    {
-                        pessoa.listaCamposValor.Add(new DtoCamposValor
-                        {
-                            Campo = CampoPessoa.NomeCampo,
-                            Valor = prop.GetValue(pessoa).ToString()
-                        });
-                    }
-                }
-            }
-
-            return dtoTmp;
+        private DtoPessoaPesxPre GetPessoaTipoPessoa(List<DtoPessoaPesxPre> listaPessoas, string tipoPessoa)
+        {
+            DtoPessoaPesxPre pessoa = listaPessoas.Where(p => p.TipoPessoa == tipoPessoa).FirstOrDefault();
+            return pessoa;
         }
     }
 }
