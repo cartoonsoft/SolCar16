@@ -207,9 +207,127 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | EDITAR |
+        public ActionResult Editar(long? Id)
+        {
+            try
+            {
+                if (Id.HasValue)
+                {
+                    Ato Ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(Id);
+                    if (Ato == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+
+                    CadastroDeAtoViewModel atoViewModel = new CadastroDeAtoViewModel
+                    {
+                        IdAto = Ato.Id,
+                        PREIMO = new PREIMOViewModel(){
+                            MATRI = Convert.ToInt32(Ato.NumMatricula),
+                            SEQIMO = Convert.ToInt64(Ato.NumMatricula)
+                        }
+                    };
+
+                    return View(atoViewModel);
+
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
 
 
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar(CadastroDeAtoViewModel modelo)
+        {
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
+            bool respEscreverWord = false;
+            Ato ato;
+            try
+            {
+
+                if (modelo.Ato == null)
+                {
+                    ViewBag.erro = "O Ato é obrigatório";
+                    return View(nameof(Cadastrar), modelo);
+                }
+
+                //Ajusta a string de ato
+                modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
+
+                if (ModelState.IsValid)
+                {
+
+                    //Representa o documento e o numero de pagina
+                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    long? numSequenciaAto = null;
+
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                    {
+                        numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
+                    }
+
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
+                    {
+
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    }
+                    if (respEscreverWord)
+                    {
+                        // Gravar no banco o array de bytes
+                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+
+                        // Gravar o ato e buscar o selo e gravar o selo
+                        ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(modelo.IdAto);
+                        ato.Ativo = true;
+                        ato.Bloqueado = false;
+                        ato.IdPrenotacao = modelo.PREIMO.SEQPRE;
+                        ato.IdTipoAto = modelo.IdTipoAto;
+                        ato.NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx";
+                        ato.Observacao = "Cadastro de teste";
+                        ato.NumMatricula = modelo.PREIMO.MATRI.ToString();
+                        ato.IdUsuarioAlteracao = this.UsuarioAtual.Id;
+                        ato.IdContaAcessoSistema = 1;
+                        ato.NumSequencia = Convert.ToInt64(numSequenciaAto);
+                                                
+                        this.UnitOfWorkDataBaseCar16New.SaveChanges();
+
+                    }
+                    else
+                    {
+                        //Teve algum erro ao escrever o documento no WORD
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    }
+                    //ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return RedirectToActionPermanent(nameof(Bloquear), new { ato.Id });
+                }
+
+                ViewBag.erro = "Erro ao cadastrar o ato!";
+
+                return View(nameof(Cadastrar), modelo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                throw;
+            }
+        }
         #endregion
 
         #region | VIEWS PARCIAIS |

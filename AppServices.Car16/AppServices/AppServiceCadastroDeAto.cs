@@ -61,6 +61,7 @@ namespace AppServices.Car16.AppServices
                                 item.Color(Color.Transparent);
                                 
                             }
+                            docx.Paragraphs.Last().Color(Color.Black);
                             docx.SaveAs(filePath);
                         }
                         doc = app.Documents.Open(filePath);

@@ -1,0 +1,1075 @@
+﻿@model AdmCartorio.ViewModels.CadastroDeAtoViewModel
+
+@{
+    ViewBag.Title = "Atos";
+    ViewBag.SubTitle = "Editar Ato";
+}
+
+
+
+@section styles_especific{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+    <style type="text/css">
+
+        /************************************************************************************
+        ************************* CSS DO EDITOR DE TEXTO DO WORD ****************************
+        *************************************************************************************/
+
+        .document-editor {
+            border: 1px solid var(--ck-color-base-border);
+            border-radius: var(--ck-border-radius);
+            /* Set vertical boundaries for the document editor. */
+            max-height: 700px;
+            /* This element is a flex container for easier rendering. */
+            display: flex;
+            flex-flow: column nowrap;
+        }
+
+        .document-editor__toolbar {
+            /* Make sure the toolbar container is always above the editable. */
+            z-index: 1;
+            /* Create the illusion of the toolbar floating over the editable. */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.2 );
+            /* Use the CKEditor CSS variables to keep the UI consistent. */
+            border-bottom: 1px solid var(--ck-color-toolbar-border);
+        }
+
+            /* Adjust the look of the toolbar inside the container. */
+            .document-editor__toolbar .ck-toolbar {
+                border: 0;
+                border-radius: 0;
+            }
+
+        /* Make the editable container look like the inside of a native word processor application. */
+        .document-editor__editable-container {
+            padding: calc( 2 * var(--ck-spacing-large) );
+            background: var(--ck-color-base-foreground);
+            /* Make it possible to scroll the "page" of the edited content. */
+            overflow-y: scroll;
+        }
+
+            .document-editor__editable-container .ck-editor__editable {
+                /* Set the dimensions of the "page". */
+                width: 14.3cm;
+                min-height: 21cm;
+                /* Keep the "page" off the boundaries of the container. */
+                padding: 1cm 1cm 1cm;
+                border: 1px hsl( 0,0%,82.7% ) solid;
+                border-radius: var(--ck-border-radius);
+                background: white;
+                /* The "page" should cast a slight shadow (3D illusion). */
+                box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+                /* Center the "page". */
+                margin: 0 auto;
+            }
+
+        .document-editor .ck-content, .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+            font: 18px/1.8 "Times New Roman", Helvetica, Arial, sans-serif;
+        }
+
+        .document-editor .ck-heading-dropdown .ck-list .ck-button__label {
+            line-height: calc( 1.7 * var(--ck-line-height-base) * var(--ck-font-size-base) );
+            min-width: 6em;
+        }
+
+        /* Scale down all heading previews because they are way too big to be presented in the UI.
+        Preserve the relative scale, though. */
+        .document-editor .ck-heading-dropdown .ck-list .ck-button:not(.ck-heading_paragraph) .ck-button__label {
+            transform: scale(0.8);
+            transform-origin: left;
+        }
+        /* Set the styles for "Paragraph". */
+        .document-editor .ck-content p {
+            font-size: 18px;
+            line-height: 0.6cm;
+            /*padding-top: .5em;*/
+            /*margin-bottom: 0.4cm;*/
+            font-family: "Times New Roman";
+        }
+
+        .document-editor .ck-content blockquote {
+            font-family: Georgia, serif;
+            margin-left: calc( 2 * var(--ck-spacing-large) );
+            margin-right: calc( 2 * var(--ck-spacing-large) );
+        }
+
+        .text-area {
+            height: 300px !important;
+            width: 14.3cm;
+            /* Keep the "page" off the boundaries of the container. */
+            padding: 1cm 1cm 1cm;
+            border: 1px hsl( 0,0%,82.7% ) solid;
+            border-radius: var(--ck-border-radius);
+            background: white;
+            /* The "page" should cast a slight shadow (3D illusion). */
+            box-shadow: 0 0 5px hsla( 0,0%,0%,.1 );
+            /* Center the "page". */
+            margin: 0 auto;
+            font-size: 18px;
+            line-height: 0.6cm;
+            /*padding-top: .5em;*/
+            /*margin-bottom: 0.4cm;*/
+            font-family: "Times New Roman";
+        }
+
+        .linkModal:hover {
+            cursor: pointer
+        }
+
+        /*------------------------------------------------------------------------------
+        tblPessoas
+        ------------------------------------------------------------------------------*/
+        #tblPessoas {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
+
+            #tblPessoas tr td:nth-child(1) {
+                width: 5%;
+            }
+
+            #tblPessoas tr td:nth-child(2) {
+                width: 50%;
+            }
+
+            #tblPessoas tr td:nth-child(3) {
+                width: 20%;
+            }
+
+            #tblPessoas tr td:nth-child(4) {
+                text-align: right;
+                align-content: flex-end;
+                margin-left: 1em;
+            }
+    </style>
+}
+
+
+
+@if (ViewBag.sucesso != null)
+{
+    <div class="alert alert-success">
+        <label class="">@ViewBag.sucesso</label>
+    </div>
+}
+@if (ViewBag.erro != null)
+{
+    <div class="alert alert-danger">
+        <label class="">@ViewBag.erro</label>
+    </div>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-pencil-square-o fa-fw "></i>
+                @ViewBag.Title
+                <span>
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-10">
+                <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+
+                    <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false" data-widget-collapsed="true" data-widget-fullscreenbutton="true">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+
+                        -->
+                    <header>
+                        <h2>Edição de Atos </h2>
+                    </header>
+                    <div>
+                        <div class="widget-body fuelux">
+                            <div class="row">
+                                @using (Html.BeginForm("Cadastrar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <div id="bootstrap-wizard-1" class="col-sm-12">
+                                        <div class="wizard">
+                                            <ul class="steps" id="list">
+                                                <li class="active" data-target="#step1">
+                                                    <span class="badge badge-info">1</span>Dados do Imóvel<span class="chevron"></span>
+                                                </li>
+                                                <li data-target="#step2">
+                                                    <span class="badge">2</span>Busca de Modelo<span class="chevron"></span>
+                                                </li>
+                                                <li data-target="#step3">
+                                                    <span class="badge">3</span>Escrita de Ato<span class="chevron"></span>
+                                                </li>
+                                                <li data-target="#step4">
+                                                    <span class="badge">4</span>Confirmação<span class="chevron"></span>
+                                                </li>
+                                            </ul>
+
+                                            <div class="actions">
+                                                <button type="button" class="btn btn-sm btn-primary btn-prev" id="btnVoltar" onclick="voltarPasso()" disabled>
+                                                    <i class="fa fa-arrow-left"></i>Anterior
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-success active" id="btnProximo" onclick="IrParaProximo()" data-last="Finish">
+                                                    Próximo<i class="fa fa-arrow-right"></i>
+                                                </button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="step-content">
+
+                                            <!-- DADOS IMÓVEL-->
+                                            <div class="step-pane active" id="step1">
+                                                <br>
+                                                <h3><strong>Passo 1 </strong> - Pesquisa de dados do imóvel</h3>
+                                                <div class="row" hidden id="divResp">
+                                                    <div class="col-sm-12 alert alert-danger">
+                                                        <label id="labelResp" class="">Não existe imóvel para os dados digitados!</label>
+                                                    </div>
+                                                </div>
+                                                <h1>Dados do imóvel</h1>
+
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nº da Matricula</label>
+                                                    </div>
+                                                    <div class="col-sm-2 margin-left-10 form-group">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "Nº da Matricula",
+                                                                @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Número de matrícula é obrigatório"
+                                                            })
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Endereço</label>
+                                                    </div>
+                                                    <div class="col-sm-5 form-group">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.ENDER,
+                                                                new { @class = "form-control input-lg", @placeholder = "Endereço", @readonly = "readonly", @required = "required", @title = "Endereço é obrigatório" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.NUM,
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly", @value = "" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">N.° do Apartamento</label>
+                                                    </div>
+                                                    <div class="col-sm-1 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.APTO,
+                                                                new { @class = "form-control input-lg", @placeholder = "APTO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1 col-lg-offset-1">
+                                                        <label class="h5">Nome Edifício</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.EDIF,
+                                                                new { @class = "form-control input-lg", @placeholder = "EDIFÍCIO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">N.° Lote</label>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.LOTE,
+                                                                new { @class = "form-control input-lg", @placeholder = "N.° LOTE", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <h2>Informações Adicionais</h2>
+
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Número da quadra</label>
+                                                    </div>
+                                                    <div class="col-sm-2 margin-left-10">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.QUADRA,
+                                                                new { @class = "form-control input-lg", @placeholder = "QUADRA", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Número do Bloco</label>
+                                                    </div>
+                                                    <div class="col-sm-1">
+                                                        <div>
+                                                            @Html.TextBoxFor(model => model.PREIMO.BLOCO,
+                                                                new { @class = "form-control input-lg padding-left-5", @placeholder = "BLOCO", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Outros</label>
+                                                    </div>
+                                                    <div class="col-sm-8 margin-left-10 ">
+                                                        <div>
+                                                            @Html.TextAreaFor(model => model.PREIMO.OUTROS,
+                                                                new { @class = "form-control input-lg", @placeholder = "OUTRAS INFORMAÇÕES", @readonly = "readonly" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <h2>Dados dos Participantes</h2>
+                                                <a class="hidden h2" style="color:blue;" id="linkParticipantes" href="#" onclick="AlterarParticipantes()">Clique aqui para editar</a>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <table id="tblPessoas" class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>TP Pessoa</th>
+                                                                    <th class="col-md-2">Nome</th>
+                                                                    <th>NRO1</th>
+                                                                    <th>TP DOC1</th>
+                                                                    <th>Bairro</th>
+                                                                    <th>Cidade</th>
+                                                                    <th>UF</th>
+                                                                    <th>CEP</th>
+                                                                    <th>Telefone</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <!-- APPEND JSON-->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- FIM DADOS IMÓVEL-->
+                                            <!-- DADOS MODELO-->
+                                            <div class="step-pane" id="step2">
+                                                <br>
+                                                <h3><strong>Passo 2</strong> - Busca de Modelo</h3>
+                                                <div class="row" hidden id="divRespImo">
+                                                    <div class="col-sm-12 alert alert-danger">
+                                                        <label id="labelRespImo" class="">Não existe imóvel para os dados digitados!</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-sm-12" style="margin-bottom:15px;">
+                                                    <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Código do modelo</label>
+                                                                </th>
+                                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                                                                    <label class="h5">Nome do modelo</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Tipo de ato</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+
+                                                                </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--APPEND DO JSON-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <hr style="border-bottom:1px solid lightgray; width:100%;" />
+                                                <h1>Modelo Selecionado</h1>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-sm-1">
+                                                        <label class="h5">Nome do modelo</label>
+                                                    </div>
+                                                    <div class="col-sm-3 form-group">
+                                                        <div>
+                                                            @Html.HiddenFor(model => model.ArquivoModelo.Id)
+                                                            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new
+                                                            {
+                                                                @class = "form-control input-lg",
+                                                                @placeholder = "NOME DO MODELO",
+                                                                @readonly = "readonly",
+                                                                @required = "required",
+                                                                @title = "Preencha o nome do modelo"
+                                                            })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <label class="h5">Tipo de Ato</label>
+                                                    </div>
+                                                    <div class="col-sm-2 col-lg-pull-1 form-group">
+                                                        @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
+                                                            new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
+                                                        @Html.HiddenFor(model => model.IdTipoAto)
+                                                        <input hidden id="modeloInvalido" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- FIM DADOS MODELO-->
+                                            <!-- INICIO ESCRITA DE ATO-->
+                                            <div class="step-pane" id="step3">
+                                                <br>
+                                                <h3><strong>Passo 3</strong> - Escrita de Ato</h3>
+                                                <br />
+                                                <div class="row" id="ckEditorGrid">
+                                                    <div class="document-editor">
+                                                        <div class="document-editor__toolbar"></div>
+                                                        <div class="document-editor__editable-container">
+                                                            <div class="document-editor__editable block">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @Html.HiddenFor(model => model.Ato)
+
+                                            </div>
+                                            <!-- FIM ESCRITA DE ATO-->
+                                            <!-- CONFIRMAÇÃO DE ATO-->
+                                            <div class="step-pane" id="step4">
+                                                <br>
+                                                <h3><strong>Passo 4</strong> - Confirmação</h3>
+                                                <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1>
+                                                @Html.HiddenFor(model => model.PREIMO.SEQPRE)
+                                                <br />
+                                                <br />
+                                                <h1 class="text-align-center">Deseja confirmar o ato escrito?</h1>
+                                                <div class="text-align-center">
+                                                    <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
+                                                </div>
+                                                <br />
+                                                <br />
+                                                @Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
+                                                <br />
+                                                <div class="row hidden" id="infoAdicional">
+                                                    <div class="col-sm-12 text-align-center">
+                                                        <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
+                                                        <br />
+                                                        <br />
+                                                        @Html.HiddenFor(model => model.IrParaFicha)
+                                                        @Html.HiddenFor(model => model.IrParaVerso)
+                                                        @Html.HiddenFor(model => model.QuantidadeCentimetrosDaBorda)
+                                                        @Html.HiddenFor(model => model.NumSequencia)
+                                                        @Html.HiddenFor(model => model.ExisteNoSistema)
+                                                    </div>
+
+                                                </div>
+                                                <button id="btnConfirmar" class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px;" disabled>
+                                                    <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
+                                                </button>
+                                            </div>
+                                            <!-- FIM CONFIRMAÇÃO ATO-->
+                                            <div class="form-actions hidden">
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <!-- LISTA INVISIVEL PARA TROCAR DE TELA-->
+                                                        <ul class="pager wizard no-margin">
+                                                            <li class="next">
+                                                                <a href="javascript:void(0);" id="goToNext"></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+
+</div>
+@Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
+
+<!-- Modal Modelo-->
+<div class="modal fade" id="PartialDadosAdicionais" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    @{
+        Html.RenderPartial("PartialDadosAdicionais");
+    }
+</div>
+<!-- Fim Modal Modelo-->
+<div class="modal fade" id="PartialDadosPessoas" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+</div>
+
+<div class="modal fade" id="ModalLoading" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+    @{
+        Html.RenderPartial("ViewLoading");
+    }
+
+</div>
+@section pagespecific{
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/decoupled-document/ckeditor.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+    <script src="/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+
+    <script>
+        /*************************************************************************************************
+         ******************************* CRIANDO O EDITOR DE TEXTO WORD **********************************
+         *************************************************************************************************/
+        DecoupledEditor
+            .create(document.querySelector('.document-editor__editable'), {
+                cloudServices: {
+                    //
+                },
+                toolbar: ['alignment:justify', '|', 'Bold', 'Italic', 'Underline'],
+
+            })
+            .then(editor => {
+                const toolbarContainer = document.querySelector('.document-editor__toolbar ');
+
+                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    </script>
+    <script>
+        /*********************************************************************
+         *********************     MODELO        *****************************
+         ********************************************************************/
+        $('#btnModelo').on('click',GetModelos);
+
+        function GetModelos() {
+            $.get('@Url.Action("GetModelos", "Ato")', function (data, status) {
+                resultado = JSON.parse(data);
+                var tabela = $('#tabelaModelo tbody');
+                tabela.html("");
+                resultado.forEach(item => {
+                    tabela.append(`
+                    <tr role"row" id=${item.Id}>
+                        <td class="idModelo">${item.Id}</td>
+                        <td class="nomeModelo">${item.NomeModelo}</td>
+                        <td class="descricaoTipoAto">${item.DescricaoTipoAto}</td>
+                        <td>
+                            <button class="btn btn-success enviar" onclick="enviarDados(this)" type="button">
+                                Usar
+                            </button>
+                        </td>
+                    </tr>`);
+                });
+                AjustarTabelaModelo();
+            });
+        }
+        //---------------------------------------------------------------------
+        function enviarDados(objeto) {
+            var linha = objeto.closest("tr");
+            var modeloNome = linha.querySelector(".nomeModelo");
+            var tipoAto = linha.querySelector(".descricaoTipoAto");
+            var idModelo = linha.querySelector(".idModelo");
+
+            $('#ArquivoModelo_Id').val(idModelo.innerText);
+            $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
+            $('#ArquivoModelo_DescricaoTipoAto').valid();
+            $('#ArquivoModelo_NomeModelo').valid();
+
+        }
+        function AtualizarModelo(idTipoAto){
+            var Id = parseInt($('#ArquivoModelo_Id').val());
+            var IdMatricula = parseInt($('#PREIMO_MATRI').val());
+            var IdPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
+            var IdTipoAto = parseInt(idTipoAto);
+            var listIdsPessoas = [];
+
+            console.log(participantes);
+
+
+            debugger;
+            participantes.forEach(item => {
+                listIdsPessoas.push(parseInt($(item).attr('id')));
+            });
+
+            var DadosPostModelo = {
+                Id,
+                IdMatricula,
+                IdPrenotacao,
+                IdTipoAto,
+                listIdsPessoas
+            }
+
+            debugger;
+
+
+            $('#mensagemLoading').text('Buscando modelo...');
+            $('#divRespImo').attr('hidden');
+            $.ajax({
+                url: '@Url.Action("UsaModeloParaAto", "Ato")',
+                type: 'POST',
+                data: {
+                    DadosPostModelo
+                },
+                success: function (result) {
+                    editor.setData(result);
+                    $('#upload').removeAttr('disabled');
+                    $('#ckEditorGrid').removeAttr('hidden');
+                    $('#ModalLoading').modal('hide');
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    voltarPasso();
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#labelRespImo').text('Erro ao escrever o modelo, revise-o');
+                    $('#ModalLoading').modal('hide');
+
+                },
+                beforeSend: function (xhr,settings) {
+                    $('#mensagemLoading').text('Escrevendo modelo...');
+                }
+            });
+        }
+
+        //---------------------------------------------------------------------
+        function AjustarTabelaModelo() {
+            $('#tabelaModelo').DataTable({
+                "searching": true,
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ registros por página",
+                    "search": "Filtre os modelos:",
+                    "zeroRecords": "Nenhum Registro Encontrado",
+                    "info": "Mostrando Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro Disponível",
+                    "infoFiltered": "(filtrado dos registros)"
+                },
+                "pageLength": 5,
+                "bLengthChange": false,
+                "columnDefs": [
+                    {
+                        "targets": [3],
+                        orderable: false
+                    },
+                ]
+            });
+        };
+
+    </script>
+    <script>
+    //Ao clicar em Upload, atualiza o valor do campo Hidden com o valor do editor do word
+    $('#upload').on('click', function () {
+        var texto = editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n');
+        $('#Ato').val(texto);
+    });
+
+    //Atualiza o ID do ato quando chega na parte final
+    function AtualizarIdTipoAto(idModelo) {
+        $.get('@Url.Action("GetIdTipoAtoPeloModelo", "Ato")',
+            { idModelo },
+            function (data, status) {
+                $('#IdTipoAto').val(data);
+                ExisteAtoBanco(data);
+            });
+    }
+
+    function ExibirModal() {
+        if ($('#ExisteNoSistema').val() == "False") {
+            $('.linkModal').click();
+        }
+    }
+
+    function ExisteAtoBanco(idTipoAto) {
+        var numeroMatricula = $('#PREIMO_MATRI').val();
+        $.get('@Url.Action("ExisteAto", "Ato")',
+            { numeroMatricula },
+            function (data, status) {
+                if (status == "success") {
+                    $('#divRespImo').attr('hidden','hidden');
+                    var existeAto = data;
+                    debugger;
+                    if (existeAto == "False") {
+                        $('#ModalLoading').modal('show');
+                        $('#ExisteNoSistema').val("False");
+                        $('#divRespImo').attr('hidden', 'hidden');
+                        $('#infoAdicional').removeClass('hidden');
+                        $('#btnConfirmar').attr('disabled');
+                        AtualizarModelo(idTipoAto);
+                    } else {
+                        $('#ExisteNoSistema').val("True");
+                        $('#infoAdicional').addClass('hidden');
+                        $('#btnConfirmar').removeAttr('disabled');
+                        if (idTipoAto == 3) {
+                            //voltarPasso();
+                            $('#labelRespImo').text('Já existe ato inicial para os dados!');
+                            $('#divRespImo').removeAttr('hidden');
+                            $('#modeloInvalido').val("True");
+                            DesabilitarProximo();
+                            return;
+                        } else {
+                            $('#ModalLoading').modal('show');
+                            $('#divRespImo').attr('hidden', 'hidden');
+                            AtualizarModelo(idTipoAto);
+                        }
+                    }
+                    $('#modeloInvalido').val("False");
+                    HabilitarProximo();
+
+                }
+                else {
+                    $('#labelRespImo').text('Aconteceu algum erro ao buscar os dados.');
+                    $('#divRespImo').removeAttr('hidden');
+                    $('#modeloInvalido').val("True");
+                    DesabilitarProximo();
+                }
+            });
+    }
+
+    </script>
+    <script>
+        /****************************************************************
+         ************** DADOS DO IMOVEL *********************************
+         ****************************************************************/
+    function ResetarCampos() {
+        var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+        var resultado = JSON.parse(limpaDados);
+        LimparTabelaPessoas();
+
+        //COLOCA O RESULTADO NOS CAMPOS
+        $('#numeroPre').text(resultado.SEQPRE);
+        $('#PREIMO_MATRI').val(resultado.MATRI);
+        $('#PREIMO_SEQPRE').val(resultado.SEQPRE);
+        $('#PREIMO_ENDER').val(resultado.ENDER);
+        $('#PREIMO_NUM').val(resultado.NUM);
+        $('#PREIMO_APTO').val(resultado.APTO);
+        $('#PREIMO_BLOCO').val(resultado.BLOCO);
+        $('#PREIMO_QUADRA').val(resultado.QUADRA);
+        $('#PREIMO_EDIF').val(resultado.EDIF);
+        $('#PREIMO_OUTROS').val(resultado.OUTROS);
+        $('#PREIMO_LOTE').val(resultado.LOTE);
+
+        DesabilitarProximo();
+    }
+
+
+        function LimparDados() {
+            var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
+            var resultado = JSON.parse(limpaDados);
+            enviarDadosMatricula(resultado);
+            LimparTabelaPessoas();
+            DesabilitarProximo();
+        }
+
+        function LimparTabelaPessoas() {
+            var tabela = $('#tblPessoas > tbody > tr');
+            for (var i = 0; i < tabela.length; i++) {
+                tabela[i].remove();
+            }
+        }
+
+    $('#btnPesquisar').on('click', function () {
+        PesquisarImovel();
+    });
+        //$('#txtPrenotacao').on('keyup', PesquisarImovel());
+        //$('#txtMatricula').on('keyup', PesquisarImovel());
+
+    function PesquisarImovel() {
+        setInterval(
+            setTimeout(function () {
+                var numeroPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
+                var numeroMatricula = parseInt($('#PREIMO_MATRI').val());
+                debugger;
+                if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
+                    $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
+                    $('#divResp').removeAttr('hidden');
+
+                    //LIMPANDO CAMPOS
+                    LimparDados();
+                    LimparTabelaPessoas();
+                } else {
+                    if (numeroPrenotacao == 0) numeroPrenotacao = null;
+                    if (numeroMatricula == 0) numeroMatricula = null;
+                    $('#divResp').attr('hidden');
+                    GetDadosImovel(numeroPrenotacao, numeroMatricula);
+                    $('#btnProximo').removeAttr('disabled');
+                    $('#btnProximo').addClass('active');
+                }
+            }, 200),
+            400);
+        }
+
+        function GetDadosImovel(numPre, numMat) {
+            $('#ModalLoading').modal('show');
+            $('#mensagemLoading').text('Buscando dados do imóvel...');
+            $.get('@Url.Action("GetDadosImovel", "Ato")',
+                { numeroPrenotacao: numPre, numeroMatricula: numMat },
+                function (data, status) {
+                    debugger;
+                    if (status == "success") {
+                        debugger;
+                        if (data != "" && data!="null") {
+                            $('#divResp').attr('hidden', 'hidden');
+                            resultado = JSON.parse(data);
+                            enviarDadosMatricula(resultado);
+                            GetDadosPessoa(resultado.SEQPRE);
+                        }
+                        else
+                        {
+                            $('#labelResp').text('Não existem dados com as informações fornecidas.');
+                            $('#divResp').removeAttr('hidden');
+                            LimparDados();
+                            LimparTabelaPessoas();
+                            $('#ModalLoading').modal('hide');
+                        }
+                    }
+                    else
+                    {
+                        $('#labelResp').text('Aconteceu algum erro ao buscar os dados do imóvel.');
+                        $('#divResp').removeAttr('hidden');
+                        LimparDados();
+                        LimparTabelaPessoas();
+                        $('#ModalLoading').modal('hide');
+                    }
+                });
+        }
+
+        function enviarDadosMatricula(resultado) {
+
+            //COLOCA O RESULTADO NOS CAMPOS
+            $('#numeroPre').text(resultado.SEQPRE);
+            $('#PREIMO_MATRI').val(resultado.MATRI);
+            $('#PREIMO_SEQPRE').val(resultado.SEQPRE);
+            $('#PREIMO_ENDER').val(resultado.ENDER);
+            $('#PREIMO_NUM').val(resultado.NUM);
+            $('#PREIMO_APTO').val(resultado.APTO);
+            $('#PREIMO_BLOCO').val(resultado.BLOCO);
+            $('#PREIMO_QUADRA').val(resultado.QUADRA);
+            $('#PREIMO_EDIF').val(resultado.EDIF);
+            $('#PREIMO_OUTROS').val(resultado.OUTROS);
+            $('#PREIMO_LOTE').val(resultado.LOTE);
+
+            //VALIDA SE OS CAMPOS FORAM PREENCHIDOS
+            $('#PREIMO_MATRI').valid();
+            $('#PREIMO_ENDER').valid();
+            $('#PREIMO_NUM').valid();
+            $('#PREIMO_APTO').valid();
+            $('#PREIMO_BLOCO').valid();
+            $('#PREIMO_QUADRA').valid();
+            $('#PREIMO_EDIF').valid();
+            $('#PREIMO_OUTROS').valid();
+            $('#PREIMO_LOTE').valid();
+        }
+    </script>
+    <script>
+
+        //Variavel Global
+        var participantes = [];
+        /***************************************************************
+         *************** DADOS DA PESSOA     ***************************
+         ***************************************************************/
+    function AlterarParticipantes() {
+        var seqPre = $('#PREIMO_SEQPRE').val();
+        debugger;
+        if (seqPre != null && seqPre != undefined && seqPre != "") {
+            $('#ModalLoading').modal('show');
+            GetDadosPessoa(seqPre);
+        }
+    }
+
+    function GetDadosPessoa(numPre) {
+            $('#mensagemLoading').text('Buscando dados dos participantes...');
+             $.get('@Url.Action("GetPessoasPremo", "Ato")',
+                { numeroPrenotacao: numPre },
+                 function (data, status) {
+                     if (status == "success") {
+                         if (data != "" && data!="null") {
+                             resultado = JSON.parse(data);
+                             $.ajax({
+                                  method:'POST',
+                                  url: '@Url.Action("PartialDadosPessoas", "Ato")',
+                                  data: {listaPessoas:JSON.stringify(resultado)},
+                                 success: function (data) {
+                                    $('#ModalLoading').modal('hide');
+                                    $('#PartialDadosPessoas').html(data);
+                                    $('#PartialDadosPessoas').modal('show');
+                                  }
+                                });
+
+                             $('#divResp').attr('hidden');
+                         }else {
+                             $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                             $('#divResp').removeAttr('hidden');
+                             LimparDados();
+                             $('#ModalLoading').modal('hide');
+                         }
+                     }
+                     else {
+                         $('#labelResp').text('Aconteceu algum erro ao buscar os dados da pessoa.');
+                         $('#divResp').removeAttr('hidden');
+                         LimparDados();
+                         $('#ModalLoading').modal('hide');
+                     }
+                 });
+
+
+        }
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            GetModelos();
+            PesquisarImovel();
+            /************************************************************************************
+             * TABELA DE PESSOAS                                                                *
+             ************************************************************************************/
+
+            $('#wizard-1').on('submit', function () {
+                $('#ModalLoading').modal('show');
+                $('#mensagemLoading').text('Escrevendo ato...');
+            });
+
+
+            var $validator = $("#wizard-1").validate({
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+                },
+                errorElement: 'span',
+                errorClass: 'help-block',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertAfter(element.parent());
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+
+            $('#bootstrap-wizard-1').bootstrapWizard({
+                'tabClass': 'form-wizard',
+                'onNext': function (tab, navigation, index) {
+                    var $valid = $("#wizard-1").valid();
+                    if (!$valid) {
+                        $validator.focusInvalid();
+                        return false;
+                    } else {
+                        var lista = $('#list');
+                        var quantidade = 0;
+                        try {
+                            quantidade = lista.find('.complete').length;
+                        } catch (e) {
+                            quantidade = 0;
+                        }
+                        debugger;
+                        if (quantidade == 0) {
+                            if ($('#modeloInvalido').val() == "True") {
+                                DesabilitarProximo();
+                                if ($('#IdTipoAto').val()) {
+                                    ExisteAtoBanco($('#IdTipoAto').val());
+                                }
+                            }
+                            else {
+                                HabilitarProximo();
+                            }
+                        }
+                        else if (quantidade == 1) {
+                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                           // AtualizarModelo();
+                            var resultado = $('#modeloInvalido').val();
+                            if (resultado == "True") return;
+                        } else if (quantidade == 2) {
+                            $('#Ato').val(editor.getData().replace(new RegExp('\<p\>', 'g'), "").replace(new RegExp('\<\/p\>', 'g'), '\n'));
+                            $('#textAreaAto').val($('#Ato').val());
+                            ExibirModal();
+                        }
+
+                        var objeto = lista.find('.active');
+                        var item = objeto[0];
+                        item.classList.remove('active');
+                        item.classList.add('complete');
+
+                        quantidade = lista.find('.complete').length;
+                        item = lista.children('li')[quantidade];
+                        item.classList.add('active');
+                        $(`#step${quantidade}`).removeClass('active');
+                        $(`#step${quantidade + 1}`).addClass('active');
+                        $('#btnVoltar').removeAttr('disabled', 'disabled');
+
+                    }
+                }
+            });
+
+        });
+
+    </script>
+    <script>
+
+        /***************************************************************************************
+        *****************************  FUNCOES DE IR E VOLTAR A TELA  *************************
+        **************************************************************************************/
+        function voltarPasso() {
+            //DADOS INICIAIS
+            var lista = $('#list');
+            var quantidade = lista.find('.complete').length;
+            var objeto = lista.find('.active');
+
+            if (quantidade == 1) {
+                $('#btnProximo').removeAttr('disabled');
+                $('#btnProximo').addClass('active');
+            }
+
+
+            //TIRA O ATIVO DA TELA ATUAL E PASSA PARA A ANTERIOR
+            var item = objeto[0];
+            item.classList.remove('active');
+            objeto = lista.find('.complete');
+            item = objeto[quantidade - 1];
+
+            item.classList.remove('complete');
+            item.classList.add('active');
+
+
+            $(`#step${quantidade + 1}`).removeClass('active');
+            $(`#step${quantidade}`).addClass('active');
+            if (quantidade == 1) {
+                $('#btnVoltar').attr('disabled', 'disabled');
+            }
+        }
+
+        //CLICA NO LINK INVISIVEL PARA IR AO PRÓXIMO
+        function IrParaProximo() {
+            $('#goToNext').click();
+        }
+
+        function DesabilitarProximo() {
+            $('#btnProximo').attr('disabled', 'disabled');
+            $('#btnProximo').removeClass('active');
+        }
+        function HabilitarProximo() {
+            $('#btnProximo').removeAttr('disabled');
+            $('#btnProximo').addClass('active');
+        }
+    </script>
+
+}

@@ -1055,6 +1055,7 @@
     <Content Include="Views\Ato\PartialDadosPessoas.cshtml" />
     <Content Include="Views\Shared\ViewLoading.cshtml" />
     <Content Include="Views\Ato\Bloquear.cshtml" />
+    <Content Include="Views\Ato\Editar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
