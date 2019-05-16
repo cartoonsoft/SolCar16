@@ -9,6 +9,6 @@ namespace AdmCartorio.ViewModels
     {
         public long Id { get; set; }
         public string Ip { get; set; }
-        public string Arquivo { get; set; }
+        //public string Arquivo { get; set; }
     }
 }

@@ -16,6 +16,7 @@ using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
+using System.Text.RegularExpressions;
 
 namespace AdmCartorio.Controllers
 {
@@ -45,7 +46,7 @@ namespace AdmCartorio.Controllers
                 IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null);
                 listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
             }
-            
+
             return View(listaAtoListViewModel);
         }
 
@@ -62,10 +63,12 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{modelo.PREIMO.MATRI}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
+            Ato ato;
             try
             {
+
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
@@ -75,28 +78,35 @@ namespace AdmCartorio.Controllers
                 //Ajusta a string de ato
                 modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
 
-                //if (ModelState.IsValid)
-                //{
-
-                //Representa o documento e o numero de pagina
-                DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-                long? numSequenciaAto = null;
-
-                if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                if (ModelState.IsValid)
                 {
-                    numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                    numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
-                }
-                else
-                {
-                    numSequenciaAto = modelo.NumSequencia;
-                }
 
-                using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
-                {
+                    //Representa o documento e o numero de pagina
+                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    long? numSequenciaAto = null;
+
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                    {
+                        numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
+                    }
+
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
+                    {
+
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    }
+                    if (respEscreverWord)
+                    {
+                        // Gravar no banco o array de bytes
+                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        Ato ato = new Ato()
+                        ato = new Ato()
                         {
                             Ativo = true,
                             Bloqueado = false,
@@ -113,41 +123,15 @@ namespace AdmCartorio.Controllers
                         this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
                         this.UnitOfWorkDataBaseCar16New.SaveChanges();
 
-
-                    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                }
-                if (respEscreverWord)
-                {
-                    // Gravar no banco o array de bytes
-                    var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-                    
-                    // Gravar o ato e buscar o selo e gravar o selo
-                    Ato ato = new Ato()
+                    }
+                    else
                     {
-                        Ativo = true,
-                        Bloqueado = false,
-                        IdPrenotacao = 511898,//modelo.PREIMO.SEQPRE,
-                        IdTipoAto = modelo.IdTipoAto,
-                        NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
-                        Observacao = "Cadastro de teste",
-                        NumMatricula = modelo.PREIMO.MATRI.ToString(),
-                        IdUsuarioCadastro = this.UsuarioAtual.Id,
-                        IdContaAcessoSistema = 1,
-                        NumSequencia = Convert.ToInt64(numSequenciaAto)
-                    };
-
-                    this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().Add(ato);
-                    this.UnitOfWorkDataBaseCar16New.SaveChanges();
-
+                        //Teve algum erro ao escrever o documento no WORD
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    }
+                    //ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id, modelo });
                 }
-                else
-                {
-                    //Teve algum erro ao escrever o documento no WORD
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                }
-                ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                return View(nameof(Cadastrar), modelo);
-                //}
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
@@ -160,9 +144,65 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
+        
+        public ActionResult Finalizar(long? Id)
+        {
+            try
+            {
+                if (Id.HasValue)
+                {
+                    Ato Ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(Id);
+                    if (Ato == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+                    AtoListViewModel atoViewModel = new AtoListViewModel {
+                        Id = Ato.Id,
+                        Ativo = Ato.Ativo,
+                        Bloqueado = Ato.Bloqueado,
+                        NumSequencia = Ato.NumSequencia,
+                        Codigo = "",
+                        DataAlteracao = Ato.DataAlteracao,
+                        DataCadastro = Ato.DataCadastro,
+                        NomeArquivo = Ato.NomeArquivo,
+                        NumMatricula = Ato.NumMatricula,
+                        IdPrenotacao = Ato.IdPrenotacao
+                    };
+
+                    return View(atoViewModel);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+            catch (Exception)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                throw;
+            }
+            
+        }
+
+        [HttpPost]
+        public void FinalizarAto(long NumMatricula)
+        {
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx");
+            string novoFilePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
+
+            using (var docx = DocX.Load(filePath))
+            {
+                docx.SaveAs(novoFilePath);
+            }
+        }
+
+
+
         #endregion
 
         #region | EDITAR |
+
+
 
         #endregion
 
@@ -226,7 +266,7 @@ namespace AdmCartorio.Controllers
             var jsonResult = "";
             try
             {
-                using(AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCar16, this.UnitOfWorkDataBaseCar16New))
+                using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCar16, this.UnitOfWorkDataBaseCar16New))
                 {
                     jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPrenotacao(numeroPrenotacao));
                 }
@@ -262,8 +302,34 @@ namespace AdmCartorio.Controllers
                 return false;
             }
         }
+
+
+        /// <summary>
+        /// Pega o arquivo DOCX do ATO
+        /// </summary>
+        /// <param name="dadosPost">Dados do post</param>
+        /// <returns>Download do arquivo DOCX</returns>
+        public FileResult DownloadFile([Bind(Include = "Id")]long? Id)
+        {
+            string fileName = Id.ToString();
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{Id}_pendente.docx");
+            try
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+                
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+                throw;
+            }
+        }
+
         #endregion
 
+        #region | Funcoes auxiliares |
         /// <summary>
         /// Retorna o numero de Ato do modelo
         /// </summary>
@@ -305,16 +371,104 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "ModeloNome,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
+        public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            //using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            //{
+            //    DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+            //}
+
+            #region | MOCAR DADOS |
+            DtoDadosImovel dadosImovel = new DtoDadosImovel()
             {
-                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
-            }
+                CamposValorDadosImovel = new List<DtoCamposValor>()
+                {
+                    new DtoCamposValor()
+                    {
+                       Campo = "Nome_IMO",
+                       Valor = "Edificio Pedro HP"
+                    },
+                    new DtoCamposValor()
+                    {
+                        Campo = "Endereco_IMO",
+                        Valor = "Rua primeiro"
+                    },new DtoCamposValor()
+                    {
+                        Campo = "Apto_IMO",
+                        Valor = "Apartamento 1"
+                    }
+
+                },
+                IdMatricula = Convert.ToInt64(DadosPostModelo.IdMatricula),
+                IdPrenotacao = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+                Imovel = new Domain.Car16.Entities.Car16.PREIMO()
+                {
+                    APTO = "APARTAMENTO 1",
+                    BLOCO = "BLOCO A",
+                    CONTRIB = "98782398755",
+                    EDIF = "EDIFICIO PEDRO HP",
+                    ENDER = "RUA DOS PASSAROS",
+                    HIPO = 0,
+                    INSCR = 123321,
+                    LOTE = "LOTE 1",
+                    MATRI = Convert.ToInt32(DadosPostModelo.IdMatricula),
+                    NUM = "96",
+                    OUTROS = "PRIMEIRO EDIFICIO DE TESTE",
+                    QUADRA = "",
+                    RD = 1,
+                    SEQIMO = 1,
+                    SEQPRE = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+                    SUBD = 1,
+                    TIPO = "T",
+                    TITULO = "TITULO",
+                    TRANS = 0,
+                    VAGA = ""
+                },
+                Pessoas = new List<DtoPessoaPesxPre>()
+                {
+                    new DtoPessoaPesxPre()
+                    {
+                        Bairro = "Caucaia do alto",
+                        CEP = 12345623,
+                        Cidade = "Cotia",
+                        Endereco = "Rua primeiro",
+                        IdPessoa = 1,
+                        Nome = "Pedro Pires",
+                        Numero1 = "555345235",
+                        TipoDoc1 = 1,
+                        Numero2 = "12312312345",
+                        TipoDoc2 = "CPF",
+                        Telefone = "99887766",
+                        TipoPessoa = "Outorgante",
+                        UF = "SP",
+                        listaCamposValor = new List<DtoCamposValor>()
+                        {
+                            new DtoCamposValor()
+                            {
+                                Campo = "Bairro",
+                                Valor = "Caucaia do alto"
+                            },
+                            new DtoCamposValor()
+                            {
+                                Campo = "Cidade",
+                                Valor = "Cotia"
+                            },
+                            new DtoCamposValor()
+                            {
+                                Campo = "Nome",
+                                Valor = "Pedro Pires"
+                            }
+                        }
+                    }
+                }
+            };
+
+            #endregion
+
 
             StringBuilder textoFormatado = new StringBuilder();
 
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.ModeloNome}.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
             try
             {
                 using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
@@ -345,7 +499,8 @@ namespace AdmCartorio.Controllers
                                             }
                                         }
                                         //Buscar dado da pessoa aqui
-                                        resultadoQuery = "teste query";
+                                        //resultadoQuery = "teste query";
+                                        resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
 
                                         //atualiza o texto formatado
                                         textoParagrafo.Append(resultadoQuery);
@@ -371,5 +526,46 @@ namespace AdmCartorio.Controllers
                 throw new Exception("Ocorreu algum erro ao utilizar o modelo");
             }
         }
+
+        private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
+        {
+
+
+            try
+            {
+                //PESQUISA DADOS IMÓVEL
+                foreach (var item in dtoDados.CamposValorDadosImovel)
+                {
+                    if (item.Campo.Equals(campoQuery))
+                    {
+                        //Retorna o campo
+                        return item.Valor;
+                    }
+                }
+                //PESQUISA DADOS PESSOA
+                StringBuilder strBuilder = new StringBuilder();
+                foreach (var pessoas in dtoDados.Pessoas)
+                {
+                    foreach (var pessoa in pessoas.listaCamposValor)
+                    {
+                        if (pessoa.Campo.Equals(campoQuery))
+                        {
+                            strBuilder.Append(pessoa.Valor + " ");
+                        }
+                    }
+                }
+                //Retorna o dados das pessoas
+                return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
+
+            }
+            catch (Exception)
+            {
+                return "[NÃO ENCONTRADO]";
+                throw;
+            }
+        }
+
+        #endregion
+
     }
 }

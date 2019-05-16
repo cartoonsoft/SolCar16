@@ -15,6 +15,7 @@ using Dto.Car16.Entities.Diversos;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.DomainServices;
 using Domain.Car16.DomainServices;
+using System.Web;
 
 namespace AppServices.Car16.AppServices
 {
@@ -110,6 +111,39 @@ namespace AppServices.Car16.AppServices
             IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloSimplificadoDocxList>, IEnumerable<DtoArquivoModeloSimplificadoDocxList>>(listaDomain);
 
             return listaDto;
+        }
+
+        public long? EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
+        {
+            try
+            {
+                HttpPostedFileBase arquivo = dtoArq.Files[0];
+                #region | Gravacao do arquivo fisicamente |
+                // Salva o arquivo fisicamente
+                arquivo.SaveAs(dtoArq.CaminhoEArquivo);
+                #endregion
+
+                // Registro de Log                
+                LogArquivoModeloDocx logArquivoModeloDocx = new LogArquivoModeloDocx()
+                {
+                    IdArquivoModeloDocx = Convert.ToInt64(dtoArq.Id),
+                    IdUsuario = IdUsuario,
+                    DataHora = DateTime.Now,
+                    UsuarioSistOperacional = dtoArq.LogArquivo.UsuarioSistOperacional,
+                    IP = dtoArq.LogArquivo.IP,
+                    TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
+                };
+
+                this.DomainServices.GenericDomainService<LogArquivoModeloDocx>().Add(logArquivoModeloDocx);
+
+                return 1;
+            }
+            catch (Exception)
+            {
+                return 0;
+                throw;
+            }
+            
         }
     }
 }

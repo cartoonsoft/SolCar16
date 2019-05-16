@@ -16,6 +16,7 @@ namespace AdmCartorio.ViewModels
 
         public long IdTipoAto { get; set; }
 
+        [Display(Name = "Numero da prenotação:")]
         public long IdPrenotacao { get; set; }
 
         public long IdContaAcessoSistema { get; set; }
@@ -34,7 +35,7 @@ namespace AdmCartorio.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DataAlteracao { get; set; }
-
+        [Display(Name = "Numero da matrícula:")]
         public string NumMatricula { get; set; }
 
         public string NomeArquivo { get; set; }

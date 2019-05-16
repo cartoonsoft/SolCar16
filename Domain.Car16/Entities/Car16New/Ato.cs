@@ -13,6 +13,7 @@ namespace Domain.Car16.Entities.Car16New
     public class Ato: EntityBase
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("ID_ATO")]
         public override long? Id { get; set; }
 

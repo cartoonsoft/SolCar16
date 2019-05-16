@@ -621,7 +621,7 @@
 
         }
         function AtualizarModelo(idTipoAto){
-            var ModeloNome = $('#ArquivoModelo_NomeModelo').val();
+            var Id = parseInt($('#ArquivoModelo_Id').val());
             var IdMatricula = parseInt($('#PREIMO_MATRI').val());
             var IdPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
             var IdTipoAto = parseInt(idTipoAto);
@@ -636,7 +636,7 @@
             });
 
             var DadosPostModelo = {
-                ModeloNome,
+                Id,
                 IdMatricula,
                 IdPrenotacao,
                 IdTipoAto,
