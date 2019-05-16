@@ -221,11 +221,12 @@ namespace AdmCartorio.Controllers
 
                     CadastroDeAtoViewModel atoViewModel = new CadastroDeAtoViewModel
                     {
-                        IdAto = Ato.Id,
+                        IdAto = Id,
                         PREIMO = new PREIMOViewModel(){
                             MATRI = Convert.ToInt32(Ato.NumMatricula),
                             SEQIMO = Convert.ToInt64(Ato.NumMatricula)
-                        }
+                        },
+                        NumSequencia = Convert.ToInt32(Ato.NumSequencia)
                     };
 
                     return View(atoViewModel);
@@ -275,7 +276,7 @@ namespace AdmCartorio.Controllers
                     if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
                     {
                         numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
-                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
+                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
                     }
                     else
                     {
@@ -319,7 +320,7 @@ namespace AdmCartorio.Controllers
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
-                return View(nameof(Cadastrar), modelo);
+                return View(nameof(Editar), modelo);
             }
             catch (Exception ex)
             {

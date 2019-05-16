@@ -197,8 +197,9 @@
                     <div>
                         <div class="widget-body fuelux">
                             <div class="row">
-                                @using (Html.BeginForm("Cadastrar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
+                                @using (Html.BeginForm("Editar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
                                 {
+                                    @Html.HiddenFor(model => model.IdAto)
                                     @Html.AntiForgeryToken()
                                     <div id="bootstrap-wizard-1" class="col-sm-12">
                                         <div class="wizard">
