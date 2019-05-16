@@ -185,11 +185,15 @@ namespace AdmCartorio.Controllers
         }
 
         [HttpPost]
-        public ActionResult Finalizar(AtoListViewModel AtoListViewModel)
+        public void FinalizarAto(long NumMatricula)
         {
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx");
+            string novoFilePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
 
-            return View();
-
+            using (var docx = DocX.Load(filePath))
+            {
+                docx.SaveAs(novoFilePath);
+            }
         }
 
 

@@ -116,24 +116,39 @@
         </div>
     </section>
 </div>
+<div class="modal fade" id="ModalLoading" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+
+    @{
+        Html.RenderPartial("ViewLoading");
+    }
+
+</div>
 @Scripts.Render("~/Scripts/libs/jquery-2.1.1.min.js")
 
 @section pagespecific{
     <script>
-        $('#btnFinalizar').on('click', function () {
-            $.post({
-                url: '@Url.Action("Finalizar","Ato")',
-                method: 'POST',
-                success: function () {
 
+        $('#btnFinalizar').on('click', function () {
+            $('#ModalLoading').modal('show');
+            $('#imgLoading').attr('src', '/Content/img/gifLoading.gif');
+            $('#mensagemLoading').text('Finalizando Ato...');
+            $.ajax({
+                url: '@Url.Action("FinalizarAto","Ato")',
+                method: 'POST',
+                data: { NumMatricula: @(Model.NumMatricula) },
+                success: function () {
+                    $('#imgLoading').attr('src', '/Content/img/gifSuccess.gif');
+                    $('#mensagemLoading').text('Finalizado com sucesso!');
+                    //Redireciona para o index caso tenha dado certo
+                    setTimeout(() => {
+                        $('#ModalLoading').modal('hide');
+                        window.location = '/ato';
+                    }, 2000);                    
                 },
                 error: function () {
-
-                },
-                beforeSend: function () {
-
+                    $('#ModalLoading').modal('hide');
                 }
             });
-        };
+        });
     </script>
 }
