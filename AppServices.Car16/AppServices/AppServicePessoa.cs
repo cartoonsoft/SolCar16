@@ -103,7 +103,7 @@ namespace AppServices.Car16.AppServices
         {
             DtoDadosImovel dtoTmp = new DtoDadosImovel();
             List<CamposArquivoModeloDocx> listaCampos = GetListaCamposIdTipoAto(IdTipoAto);
-            List<DtoPessoaPesxPre> listaPessoas = GetListaPessoas(listIdsPessoas, IdPrenotacao:);
+            List<DtoPessoaPesxPre> listaPessoas = GetListaPessoas(listIdsPessoas, IdPrenotacao);
             List<DtoPessoaPesxPre> listaPessoasTmp = new List<DtoPessoaPesxPre>();
             DtoPessoaPesxPre pessoaTmp = null;
 
