@@ -63,7 +63,7 @@ namespace AdmCartorio.Controllers
         [ValidateInput(false)]
         public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
         {
-            string filePath = $"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx";
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
             Ato ato;
             try
@@ -130,7 +130,7 @@ namespace AdmCartorio.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id, modelo });
+                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -188,7 +188,7 @@ namespace AdmCartorio.Controllers
         public void FinalizarAto(long NumMatricula)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx");
-            string novoFilePath = $"~/App_Data/Arquivos/Atos/{NumMatricula}.docx";
+            string novoFilePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
 
             using (var docx = DocX.Load(filePath))
             {
@@ -534,14 +534,14 @@ namespace AdmCartorio.Controllers
             try
             {
                 //PESQUISA DADOS IMÓVEL
-                foreach (var item in dtoDados.CamposValorDadosImovel)
-                {
-                    if (item.Campo.Equals(campoQuery))
-                    {
-                        //Retorna o campo
-                        return item.Valor;
-                    }
-                }
+                //foreach (var item in dtoDados.CamposValorDadosImovel)
+                //{
+                //    if (item.Campo.Equals(campoQuery))
+                //    {
+                //        //Retorna o campo
+                //        return item.Valor;
+                //    }
+                //}
                 //PESQUISA DADOS PESSOA
                 StringBuilder strBuilder = new StringBuilder();
                 foreach (var pessoas in dtoDados.Pessoas)

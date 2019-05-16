@@ -40,11 +40,6 @@
         #tbl-list-atos tr td:nth-child(6) {
             width: 40%;
         }
-        #tbl-list-atos tr td:nth-child(7) {
-            text-align: right;
-            align-content: flex-end;
-            margin-left: 1em;
-        }
 
 
         /**********************************************************************/
@@ -131,7 +126,6 @@
                                     <th>
                                         Observação
                                     </th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -155,17 +149,6 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Observacao)
-                                        </td>
-                                        <td>
-                                            @{ if (!item.Bloqueado)
-                                                {
-                                                    <button class="btn btn-danger desativar">Bloquear</button>
-                                                }
-                                                else
-                                                {
-                                                    @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
-                                                }
-                                            }
                                         </td>
                                     </tr>
                                 }
@@ -194,7 +177,7 @@
             //coloque aqui seu codigo jquery
 
             $("#tbl-list-atos").dataTable({
-                columnDefs: [{ orderable: false, targets: [3,4,6] }],
+                columnDefs: [{ orderable: false, targets: [3,4] }],
 
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +
