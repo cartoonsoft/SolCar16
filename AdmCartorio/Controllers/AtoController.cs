@@ -253,7 +253,6 @@ namespace AdmCartorio.Controllers
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
-            Ato ato;
             try
             {
 
@@ -294,20 +293,19 @@ namespace AdmCartorio.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(modelo.IdAto);
-                        ato.Ativo = true;
-                        ato.Bloqueado = false;
-                        ato.IdPrenotacao = modelo.PREIMO.SEQPRE;
-                        ato.IdTipoAto = modelo.IdTipoAto;
-                        ato.NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx";
-                        ato.Observacao = "Cadastro de teste";
-                        ato.NumMatricula = modelo.PREIMO.MATRI.ToString();
-                        ato.IdUsuarioAlteracao = this.UsuarioAtual.Id;
-                        ato.IdContaAcessoSistema = 1;
-                        ato.NumSequencia = Convert.ToInt64(numSequenciaAto);
-                                                
-                        this.UnitOfWorkDataBaseCar16New.SaveChanges();
-
+                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                        {
+                            var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                            var resultado = appService.Editar(dtoEditar, this.UsuarioAtual.Id);
+                            if (resultado)
+                            {
+                                this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                            }
+                            else
+                            {
+                                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                            }
+                        }
                     }
                     else
                     {
@@ -315,7 +313,7 @@ namespace AdmCartorio.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Bloquear), new { ato.Id });
+                    return RedirectToActionPermanent(nameof(Bloquear), new { Id = modelo.IdAto });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";

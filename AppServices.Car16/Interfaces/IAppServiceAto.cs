@@ -13,5 +13,6 @@ namespace AppServices.Car16.Interfaces
     {
         bool ExisteAtoCadastrado(long numMatricula);
         bool FinalizarAto(long Id);
+        bool Editar(DtoCadastroDeAto modelo, string UsuarioAlteracao);
     }
 }

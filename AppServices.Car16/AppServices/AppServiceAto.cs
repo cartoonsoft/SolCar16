@@ -19,6 +19,30 @@ namespace AppServices.Car16.AppServices
             //
         }
 
+        public bool Editar(DtoCadastroDeAto modelo, string UsuarioAlteracao)
+        {
+            try
+            {
+                Ato ato = this.UnitOfWorkCar16New.Repositories.GenericRepository<Ato>().GetById(modelo.IdAto);
+                ato.Ativo = true;
+                ato.Bloqueado = false;
+                ato.IdPrenotacao = modelo.PREIMO.SEQPRE;
+                ato.IdTipoAto = modelo.IdTipoAto;
+                ato.NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx";
+                ato.Observacao = "Cadastro de teste";
+                ato.NumMatricula = modelo.PREIMO.MATRI.ToString();
+                ato.IdUsuarioAlteracao = UsuarioAlteracao;
+                ato.IdContaAcessoSistema = 1;
+                ato.NumSequencia = Convert.ToInt64(modelo.NumSequencia);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
+
         /// <summary>
         /// Verifica se já existe ato cadastrado
         /// </summary>
