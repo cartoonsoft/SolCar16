@@ -30,6 +30,25 @@ namespace AppServices.Car16.AppServices
             return this.UnitOfWorkCar16New.Repositories.RepositoryAto.ExisteAtoCadastrado(numeroMatricula);
         }
 
+        public bool FinalizarAto(long Id)
+        {
+            try
+            {
+                var ato = this.UnitOfWorkCar16New.Repositories.RepositoryAto.GetById(Id);
+                if( ato == null )
+                {
+                    return false;
+                }
+                ato.Bloqueado = true;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+                throw;
+            }
+        }
+
         /// <summary>
         /// Listar aot para o grid index
         /// </summary>

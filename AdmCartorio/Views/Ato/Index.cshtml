@@ -126,6 +126,7 @@
                                     <th>
                                         Observação
                                     </th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -149,6 +150,21 @@
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Observacao)
+                                        </td>
+                                        <td class="row">
+                                            @{
+                                                if (!item.Bloqueado)
+                                                {
+                                                    @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-3" })
+                                                    @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-3 col-sm-offset-1" })
+
+                                                    //<button data-id="@item.Id" class="btn btn-danger desativar">Bloquear</button>
+                                                }
+                                                else
+                                                {
+                                                    <h4>Ato Bloqueado</h4>
+                                                }
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -177,7 +193,7 @@
             //coloque aqui seu codigo jquery
 
             $("#tbl-list-atos").dataTable({
-                columnDefs: [{ orderable: false, targets: [3,4] }],
+                columnDefs: [{ orderable: false, targets: [3,4,6] }],
 
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +

@@ -17,6 +17,8 @@ using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using LibFunctions.Functions;
 
 namespace AdmCartorio.Controllers
 {
@@ -130,7 +132,7 @@ namespace AdmCartorio.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id });
+                    return RedirectToActionPermanent(nameof(Bloquear), new { ato.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -145,7 +147,7 @@ namespace AdmCartorio.Controllers
             }
         }
         
-        public ActionResult Finalizar(long? Id)
+        public ActionResult Bloquear(long? Id)
         {
             try
             {
@@ -185,19 +187,23 @@ namespace AdmCartorio.Controllers
         }
 
         [HttpPost]
-        public void FinalizarAto(long NumMatricula)
+        public void BloquearAto(long NumMatricula, long IdAto)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx");
-            string novoFilePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
-
-            using (var docx = DocX.Load(filePath))
+            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
-                docx.SaveAs(novoFilePath);
-            }
+                
+                var resultado = appService.FinalizarAto(IdAto);
+                if (resultado)
+                {
+                    this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                    WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
+                }
+                else
+                {
+                    throw new Exception("Erro ao atualizar o ato!");
+                }
+            }            
         }
-
-
-
         #endregion
 
         #region | EDITAR |
@@ -297,8 +303,9 @@ namespace AdmCartorio.Controllers
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.Write(ex);
                 return false;
             }
         }
@@ -316,7 +323,7 @@ namespace AdmCartorio.Controllers
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                
+               
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
@@ -344,7 +351,7 @@ namespace AdmCartorio.Controllers
         /// Deixa o texto transparente do arquivo
         /// </summary>
         /// <param name="docX">Representa o documento</param>
-        private static void SetTextColorTransparent(DocX docX)
+        private static void SetColorTransparent(DocX docX)
         {
             var texto = docX.Paragraphs;
             foreach (var item in texto)

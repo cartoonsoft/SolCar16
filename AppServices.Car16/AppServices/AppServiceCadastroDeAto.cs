@@ -11,6 +11,7 @@ using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Xceed.Words.NET;
+using System.Drawing;
 
 namespace AppServices.Car16.AppServices
 {
@@ -55,6 +56,11 @@ namespace AppServices.Car16.AppServices
                         var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes","Atos");
                         using (var docx = DocX.Load(caminho))
                         {
+                            foreach (var item in docx.Paragraphs)
+                            {
+                                item.Color(Color.Transparent);
+                                
+                            }
                             docx.SaveAs(filePath);
                         }
                         doc = app.Documents.Open(filePath);

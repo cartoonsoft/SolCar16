@@ -12,6 +12,6 @@ namespace AppServices.Car16.Interfaces
     public interface IAppServiceAto : IAppServiceCar16<DtoAto,Ato>
     {
         bool ExisteAtoCadastrado(long numMatricula);
-
+        bool FinalizarAto(long Id);
     }
 }

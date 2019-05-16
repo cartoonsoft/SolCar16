@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Atos";
-    ViewBag.SubTitle = "Finalizar";
+    ViewBag.SubTitle = "Bloquear";
 }
 @section styles_especific {
     <style>
@@ -31,7 +31,7 @@
             <article class="col-sm-12 col-md-12 col-lg-8">
                 <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
                     <header>
-                        <h2>Finalizar o ato</h2>
+                        <h2>Bloquear o ato</h2>
                     </header>
                     <div>
                         <div class="jarviswidget-editbox">
@@ -41,10 +41,11 @@
                         <div class="widget-body">
                             <div class="row text-align-center">
                                 <label style="color:black; font-size:24px;">
-                                    Deseja Finalizar o Ato:
+                                    Deseja Bloquear o Ato:
                                     <b>@Html.DisplayFor(model => model.Id)</b> ?
                                 </label>
                             </div>
+                            <br />  
                             <fieldset>
                                 <div class="row">
                                     <div class="col-sm-5">
@@ -96,15 +97,15 @@
                             <div class="">
                                 @if (!Model.Bloqueado)
                                 {
-                                    <button type="button" id="btnFinalizar" class="btn btn-success font-md margin-bottom-10" style="float:right;">
-                                        Finalizar
-                                    </button>
+                                <button type="button" id="btnBloquear" class="btn btn-success font-md margin-bottom-10" style="float:right;">
+                                    Bloquear
+                                </button>
                                 }
                                 else
                                 {
-                                    <label type="" id="btnFinalizar" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
-                                        Finalizar
-                                    </label>
+                            <label type="" id="" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
+                                Bloquear
+                            </label>
                                 }
 
                             </div>
@@ -128,14 +129,14 @@
 @section pagespecific{
     <script>
 
-        $('#btnFinalizar').on('click', function () {
+        $('#btnBloquear').on('click', function () {
             $('#ModalLoading').modal('show');
             $('#imgLoading').attr('src', '/Content/img/gifLoading.gif');
             $('#mensagemLoading').text('Finalizando Ato...');
             $.ajax({
-                url: '@Url.Action("FinalizarAto","Ato")',
+                url: '@Url.Action("BloquearAto","Ato")',
                 method: 'POST',
-                data: { NumMatricula: @(Model.NumMatricula) },
+                data: { NumMatricula: @(Model.NumMatricula),IdAto:@(Model.Id) },
                 success: function () {
                     $('#imgLoading').attr('src', '/Content/img/gifSuccess.gif');
                     $('#mensagemLoading').text('Finalizado com sucesso!');
@@ -143,10 +144,14 @@
                     setTimeout(() => {
                         $('#ModalLoading').modal('hide');
                         window.location = '/ato';
-                    }, 1500);                    
+                    }, 1700);                    
                 },
                 error: function () {
-                    $('#ModalLoading').modal('hide');
+                    $('#imgLoading').attr('src', '/Content/img/errorImg.png');
+                    $('#mensagemLoading').text('ERRO, ao Bloquear!');
+                    setTimeout(() => {
+                        $('#ModalLoading').modal('hide');
+                    }, 1500);
                 }
             });
         });

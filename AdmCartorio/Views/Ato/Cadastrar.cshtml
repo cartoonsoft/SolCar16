@@ -909,10 +909,11 @@
          *************** DADOS DA PESSOA     ***************************
          ***************************************************************/
     function AlterarParticipantes() {
-        var seqPre = $('#numeroPre').val();
+        var seqPre = $('#PREIMO_SEQPRE').val();
+        debugger;
         if (seqPre != null && seqPre != undefined && seqPre != "") {
             $('#ModalLoading').modal('show');
-            GetDadosPessoa();
+            GetDadosPessoa(seqPre);
         }
     }
 
