@@ -45,7 +45,7 @@
                                     <b>@Html.DisplayFor(model => model.Id)</b> ?
                                 </label>
                             </div>
-                            <br />  
+                            <br />
                             <fieldset>
                                 <div class="row">
                                     <div class="col-sm-5">
@@ -80,7 +80,7 @@
                                             @if (!Model.Bloqueado)
                                             {
                                                 <h2>
-                                                    <a id="btnDownload" target="_blank"  class="linkArquivo" href="@Url.Action("DownloadFile","Ato",new { ID = Model.NumMatricula})">
+                                                    <a id="btnDownload" target="_blank" class="linkArquivo" href="@Url.Action("DownloadFile","Ato",new { ID = Model.NumMatricula})">
                                                         Cliqui aqui para baixar o ato <i class="glyphicon glyphicon-download"></i>
                                                     </a>
                                                 </h2>
@@ -94,21 +94,23 @@
                                     </div>
                                 </div>
                             </fieldset>
+
                             <div class="">
                                 @if (!Model.Bloqueado)
                                 {
-                                <button type="button" id="btnBloquear" class="btn btn-success font-md margin-bottom-10" style="float:right;">
-                                    Bloquear
-                                </button>
+                                    <button type="button" typeof="button" id="btnBloquear" class="btn btn-success font-md margin-bottom-10" style="float:right;">
+                                        Bloquear
+                                    </button>
                                 }
                                 else
                                 {
-                            <label type="" id="" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
-                                Bloquear
-                            </label>
+                                    <label type="" id="" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
+                                        Bloquear
+                                    </label>
                                 }
 
                             </div>
+
                         </div>
                     </div>
 
@@ -133,10 +135,12 @@
             $('#ModalLoading').modal('show');
             $('#imgLoading').attr('src', '/Content/img/gifLoading.gif');
             $('#mensagemLoading').text('Finalizando Ato...');
+            var form = $('#__AjaxAntiForgeryForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
             $.ajax({
                 url: '@Url.Action("BloquearAto","Ato")',
                 method: 'POST',
-                data: { NumMatricula: @(Model.NumMatricula),IdAto:@(Model.Id) },
+                data: { NumMatricula: @(Model.NumMatricula),IdAto:@(Model.Id) , __RequestVerificationToken: token},
                 success: function () {
                     $('#imgLoading').attr('src', '/Content/img/gifSuccess.gif');
                     $('#mensagemLoading').text('Finalizado com sucesso!');
@@ -144,7 +148,7 @@
                     setTimeout(() => {
                         $('#ModalLoading').modal('hide');
                         window.location = '/ato';
-                    }, 1700);                    
+                    }, 1700);
                 },
                 error: function () {
                     $('#imgLoading').attr('src', '/Content/img/errorImg.png');
