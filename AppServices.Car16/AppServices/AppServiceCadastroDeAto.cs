@@ -10,6 +10,7 @@ using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
+using Xceed.Words.NET;
 
 namespace AppServices.Car16.AppServices
 {
@@ -49,9 +50,23 @@ namespace AppServices.Car16.AppServices
                 {
                     //Abre o arquivo para escrever o ATO e faz as configurações iniciais
                     app.Visible = true;
+                    try
+                    {
+                        var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes","Atos");
+                        using (var docx = DocX.Load(caminho))
+                        {
+                            docx.SaveAs(filePath);
+                        }
+                        doc = app.Documents.Open(filePath);
+                    }
+                    catch (Exception)
+                    {
+                        doc = app.Documents.Add();
+                    }
+                    
                     //if (!modelo.ExisteNoSistema)
                     //{
-                        doc = app.Documents.Add();
+                        
                     //}
                     //else
                     //{ 
@@ -125,6 +140,7 @@ namespace AppServices.Car16.AppServices
                     if (!modelo.ExisteNoSistema && modelo.QuantidadeCentimetrosDaBorda == 0)
                     {
                         posicaoCursor = WordPageHelper.GetContentEnd(doc, 1);
+                        WordTextStyleHelper.Bold(doc, posicaoCursor, false);
                         WordParagraphHelper.InserirTextoEmRange(doc, posicaoCursor, $"{sigla}-{numSequenciaAto}/{modelo.PREIMO.MATRI} - ");
                         numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     }
