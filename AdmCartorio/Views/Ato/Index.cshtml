@@ -157,12 +157,10 @@
                                                 {
                                                     @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-3" })
                                                     @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-3 col-sm-offset-1" })
-
-                                                    //<button data-id="@item.Id" class="btn btn-danger desativar">Bloquear</button>
                                                 }
                                                 else
                                                 {
-                                                    <h4>Ato Bloqueado</h4>
+                                                    @Html.ActionLink("Download", "DownloadFile", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-7" })                                                    
                                                 }
                                             }
                                         </td>
