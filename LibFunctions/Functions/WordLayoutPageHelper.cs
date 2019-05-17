@@ -95,7 +95,7 @@ namespace LibFunctions.Functions
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            if (WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
+            if (!WordPageHelper.IsVerso(WordPageHelper.GetNumeroPagina(doc)))
             {
                 //Insere o paragrafo correspondente a Ato e ficha 
                 WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 30 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +

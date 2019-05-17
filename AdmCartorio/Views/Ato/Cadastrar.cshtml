@@ -717,7 +717,7 @@
     }
 
     function ExibirModal() {
-        if ($('#ExisteNoSistema').val() == "False") {
+        if ($('#ExisteNoSistema').val() == "False" && $('#IdTipoAto').val()!=3 ) {
             $('.linkModal').click();
         }
     }
@@ -730,13 +730,18 @@
                 if (status == "success") {
                     $('#divRespImo').attr('hidden','hidden');
                     var existeAto = data;
+                    alert(existeAto);
                     debugger;
                     if (existeAto == "False") {
                         $('#ModalLoading').modal('show');
-                        $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
-                        $('#infoAdicional').removeClass('hidden');
-                        $('#btnConfirmar').attr('disabled');
+                        if (idTipoAto != 3) {
+                            $('#ExisteNoSistema').val("False");
+                            $('#infoAdicional').removeClass('hidden');
+                            $('#btnConfirmar').attr('disabled');
+                        } else {
+                            $('#btnConfirmar').removeAttr('disabled');
+                        }
                         AtualizarModelo(idTipoAto);
                     } else {
                         $('#ExisteNoSistema').val("True");

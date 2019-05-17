@@ -17,29 +17,29 @@
             width: 100%;
         }
 
-        #tbl-list-atos tr td:nth-child(1) {
-            width: 10%;
-        }
+            #tbl-list-atos tr td:nth-child(1) {
+                width: 10%;
+            }
 
-        #tbl-list-atos tr td:nth-child(2) {
-            width: 10%;
-        }
+            #tbl-list-atos tr td:nth-child(2) {
+                width: 10%;
+            }
 
-        #tbl-list-atos tr td:nth-child(3) {
-            width: 10%;
-        }
+            #tbl-list-atos tr td:nth-child(3) {
+                width: 10%;
+            }
 
-        #tbl-list-atos tr td:nth-child(4) {
-            width: 5%;
-        }
+            #tbl-list-atos tr td:nth-child(4) {
+                width: 5%;
+            }
 
-        #tbl-list-atos tr td:nth-child(5) {
-            width: 5%;
-        }
+            #tbl-list-atos tr td:nth-child(5) {
+                width: 5%;
+            }
 
-        #tbl-list-atos tr td:nth-child(6) {
-            width: 40%;
-        }
+            #tbl-list-atos tr td:nth-child(6) {
+                width: 40%;
+            }
 
 
         /**********************************************************************/
@@ -105,53 +105,56 @@
                     <!-- end widget edit box -->
                     <!-- widget content -->
                     <div class="widget-body no-padding">
-                        <table id="tbl-list-atos" class="table table-striped table-bordered table-hover">
+                        <table id="tbl-list-atos" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th colspan="2">
                                         Reg./Mat.
                                     </th>
-                                    <th>
+                                    <th colspan="2">
                                         Tipo
                                     </th>
-                                    <th>
+                                    <th colspan="2">
                                         Data
                                     </th>
-                                    <th>
-                                        Ativo
-                                    </th>
-                                    <th>
-                                        Bloq
-                                    </th>
-                                    <th>
+                                    <th colspan="2">
                                         Observação
                                     </th>
-                                    <th></th>
+                                    <th colspan="5">
+                                        Status
+                                    </th>
+                                    <th colspan="2" style="display:none;"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
                                     <tr id="@item.Id">
-                                        <td>
+                                        <td colspan="2">
                                             @Html.DisplayFor(modelItem => item.Codigo)
                                         </td>
-                                        <td>
+                                        <td colspan="2">
                                             @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.DataCadastro) 
+                                        <td colspan="2">
+                                            @Html.DisplayFor(modelItem => item.DataCadastro)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Ativo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Bloqueado)
-                                        </td>
-                                        <td>
+                                        <td colspan="2">
                                             @Html.DisplayFor(modelItem => item.Observacao)
                                         </td>
-                                        <td class="row">
+                                        <td class="text-capitalize" colspan="5">
+                                            @{
+                                                if (item.Bloqueado == true)
+                                                {
+                                                    <label>Bloqueado</label>
+                                                }
+                                                else
+                                                {
+                                                    <label>Disponível para alteração</label>
+                                                }
+                                            }
+                                        </td>
+                                        <td class="row" colspan="2">
                                             @{
                                                 if (!item.Bloqueado)
                                                 {
@@ -160,7 +163,7 @@
                                                 }
                                                 else
                                                 {
-                                                    @Html.ActionLink("Download", "DownloadFile", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-7" })                                                    
+                                                    @Html.ActionLink("Download Historico", "DownloadFileCompleto", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-7" })
                                                 }
                                             }
                                         </td>
@@ -191,12 +194,11 @@
             //coloque aqui seu codigo jquery
 
             $("#tbl-list-atos").dataTable({
-                columnDefs: [{ orderable: false, targets: [3,4,6] }],
+                columnDefs: [{ orderable: false, targets: [3, 4, 5] }],
 
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
                 "preDrawCallback": function () {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_dt_basic) {

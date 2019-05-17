@@ -2,9 +2,11 @@
 using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Words.NET;
 
 namespace LibFunctions.Functions
 {
@@ -18,17 +20,27 @@ namespace LibFunctions.Functions
         {
             try
             {
-                Application app = new Application();
-                Document doc = app.Documents.Open(filePath);
-                foreach (Paragraph item in doc.Paragraphs)
+                using (var doc = DocX.Load(filePath))
                 {
-                    item.Range.Font.Color = WdColor.wdColorBlack;
+                    foreach (var paragrafo in doc.Paragraphs)
+                    {
+                        paragrafo.Color(Color.Black);
+                    }
+                    doc.SaveAs(novoFilePath);
                 }
-                doc.SaveAs(novoFilePath);
-                doc.Close();
-                doc = null;
-                app = null;
-                GC.Collect();
+
+
+                //Application app = new Application();
+                //Document doc = app.Documents.Open(filePath);
+                //foreach (Paragraph item in doc.Paragraphs)
+                //{
+                //    item.Range.Font.Color = WdColor.wdColorBlack;
+                //}
+                //doc.SaveAs(novoFilePath);
+                //doc.Close();
+                //doc = null;
+                //app = null;
+                //GC.Collect();
             }
             catch (Exception)
             {

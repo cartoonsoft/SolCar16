@@ -44,8 +44,13 @@ namespace AppServices.Car16.AppServices
                     //Pegando o numero da pagina para configurar o layout
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
-                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
-
+                    //WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 17 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
+                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
+                    , false);
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                    WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
                 }
                 else
                 {
@@ -118,7 +123,7 @@ namespace AppServices.Car16.AppServices
                         {
                             ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
                             ///Atualiza o numero da pagina e a posição do cursor
-                            WordHelper.DesviarCentimetros(doc, modelo, sigla, numSequenciaAto, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor, true);
+                            WordHelper.DesviarCentimetros(doc, modelo, sigla, numSequenciaAto, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor);
                         }
                         else
                         {
@@ -168,7 +173,7 @@ namespace AppServices.Car16.AppServices
                 //Não deixa o texto começar com negrito
                 WordTextStyleHelper.Bold(doc, posicaoCursor, false);
                 //Escreve o ato e ajusta o documento, caso necessário
-                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, modelo.IrParaFicha > 0);
+                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
                 WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
 
                 #endregion
