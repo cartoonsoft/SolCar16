@@ -40,11 +40,6 @@
         #tbl-list-atos tr td:nth-child(6) {
             width: 40%;
         }
-        #tbl-list-atos tr td:nth-child(7) {
-            text-align: right;
-            align-content: flex-end;
-            margin-left: 1em;
-        }
 
 
         /**********************************************************************/
@@ -156,14 +151,18 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Observacao)
                                         </td>
-                                        <td>
-                                            @{ if (!item.Bloqueado)
+                                        <td class="row">
+                                            @{
+                                                if (!item.Bloqueado)
                                                 {
-                                                    <button class="btn btn-danger desativar">Bloquear</button>
+                                                    @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-3" })
+                                                    @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-3 col-sm-offset-1" })
+
+                                                    //<button data-id="@item.Id" class="btn btn-danger desativar">Bloquear</button>
                                                 }
                                                 else
                                                 {
-                                                    @Html.ActionLink("Editar", "Editar", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                                    <h4>Ato Bloqueado</h4>
                                                 }
                                             }
                                         </td>

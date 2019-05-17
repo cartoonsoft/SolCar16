@@ -11,6 +11,27 @@ namespace LibFunctions.Functions
     public static class WordHelper
     {
         /// <summary>
+        /// O método reescreve o ato que está pendente e manda para o original
+        /// </summary>
+        /// <param name="NumMatricula"></param>
+        public static void EscreverAtoPrincipal(string filePath, string novoFilePath)
+        {
+            try
+            {
+                Application app = new Application();
+                Document doc = app.Documents.Open(filePath);
+                doc.SaveAs(novoFilePath);
+                doc.Close();
+                doc = null;
+                app = null;
+                GC.Collect();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        /// <summary>
         /// Seleciona texto para salvar e deleta para inserir o rodapé
         /// </summary>
         /// <param name="doc">Documento ativo</param>

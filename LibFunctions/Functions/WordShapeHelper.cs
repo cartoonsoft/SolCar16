@@ -184,6 +184,7 @@ namespace LibFunctions.Functions
         /// <param name="doc">Documento Ativo</param>
         public static void InserirLinhaHorizontal(Document doc)
         {
+            
             if (doc != null)
                 doc.Application.ActiveDocument.Paragraphs.Add().Range.InlineShapes.AddHorizontalLineStandard();
             else

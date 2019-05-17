@@ -17,6 +17,8 @@ using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using LibFunctions.Functions;
 
 namespace AdmCartorio.Controllers
 {
@@ -130,7 +132,7 @@ namespace AdmCartorio.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Finalizar), new { ato.Id, modelo });
+                    return RedirectToActionPermanent(nameof(Bloquear), new { ato.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -145,7 +147,7 @@ namespace AdmCartorio.Controllers
             }
         }
         
-        public ActionResult Finalizar(long? Id)
+        public ActionResult Bloquear(long? Id)
         {
             try
             {
@@ -155,6 +157,10 @@ namespace AdmCartorio.Controllers
                     if (Ato == null)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+                    else if(Ato.Bloqueado == true)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest,"Não é possível bloquear um ato já bloqueado");
                     }
                     AtoListViewModel atoViewModel = new AtoListViewModel {
                         Id = Ato.Id,
@@ -183,27 +189,150 @@ namespace AdmCartorio.Controllers
             }
             
         }
-
         [HttpPost]
-        public void FinalizarAto(long NumMatricula)
+        public void BloquearAto(long NumMatricula, long IdAto)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx");
-            string novoFilePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
-
-            using (var docx = DocX.Load(filePath))
+            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
-                docx.SaveAs(novoFilePath);
-            }
+                
+                var resultado = appService.FinalizarAto(IdAto);
+                if (resultado)
+                {
+                    this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                    WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
+                }
+                else
+                {
+                    throw new Exception("Erro ao atualizar o ato!");
+                }
+            }            
         }
-
-
-
         #endregion
 
         #region | EDITAR |
+        public ActionResult Editar(long? Id)
+        {
+            try
+            {
+                if (Id.HasValue)
+                {
+                    Ato Ato = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<Ato>().GetById(Id);
+                    if (Ato == null)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    }
+                    else if(Ato.Bloqueado == true)
+                    {
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest,"Não é possível editar um ato já bloqueado.");
+                    }
+                    CadastroDeAtoViewModel atoViewModel = new CadastroDeAtoViewModel
+                    {
+                        IdAto = Id,
+                        PREIMO = new PREIMOViewModel(){
+                            MATRI = Convert.ToInt32(Ato.NumMatricula),
+                            SEQIMO = Convert.ToInt64(Ato.NumMatricula)
+                        },
+                        NumSequencia = Convert.ToInt32(Ato.NumSequencia)
+                    };
+
+                    return View(atoViewModel);
+
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                }
 
 
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Editar(CadastroDeAtoViewModel modelo)
+        {
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
+            bool respEscreverWord = false;
+            try
+            {
+
+                if (modelo.Ato == null)
+                {
+                    ViewBag.erro = "O Ato é obrigatório";
+                    return View(nameof(Cadastrar), modelo);
+                }
+
+                //Ajusta a string de ato
+                modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
+
+                if (ModelState.IsValid)
+                {
+
+                    //Representa o documento e o numero de pagina
+                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    long? numSequenciaAto = null;
+
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                    {
+                        numSequenciaAto = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
+                    }
+                    else
+                    {
+                        numSequenciaAto = modelo.NumSequencia;
+                    }
+
+                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
+                    {
+
+                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    }
+                    if (respEscreverWord)
+                    {
+                        // Gravar no banco o array de bytes
+                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
+
+                        // Gravar o ato e buscar o selo e gravar o selo
+                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
+                        {
+                            var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                            var resultado = appService.Editar(dtoEditar, this.UsuarioAtual.Id);
+                            if (resultado)
+                            {
+                                this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                            }
+                            else
+                            {
+                                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Teve algum erro ao escrever o documento no WORD
+                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    }
+                    //ViewBag.sucesso = "Ato cadastrado com sucesso!";
+                    return RedirectToActionPermanent(nameof(Bloquear), new { Id = modelo.IdAto });
+                }
+
+                ViewBag.erro = "Erro ao cadastrar o ato!";
+
+                return View(nameof(Editar), modelo);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                throw;
+            }
+        }
         #endregion
 
         #region | VIEWS PARCIAIS |
@@ -297,8 +426,9 @@ namespace AdmCartorio.Controllers
                 }
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.Write(ex);
                 return false;
             }
         }
@@ -316,7 +446,7 @@ namespace AdmCartorio.Controllers
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-                
+               
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
@@ -344,7 +474,7 @@ namespace AdmCartorio.Controllers
         /// Deixa o texto transparente do arquivo
         /// </summary>
         /// <param name="docX">Representa o documento</param>
-        private static void SetTextColorTransparent(DocX docX)
+        private static void SetColorTransparent(DocX docX)
         {
             var texto = docX.Paragraphs;
             foreach (var item in texto)
@@ -373,176 +503,175 @@ namespace AdmCartorio.Controllers
         /// <returns>string HTML</returns>
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
-            {
-                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
-                StringBuilder textoFormatado = new StringBuilder();
-
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
-                try
-                {
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                    {
-                        //Carrega o Modelo
-                        using (DocX docX = DocX.Load(fileStream))
-                        {
-                            //Varre todos os paragrafos do Modelo
-                            foreach (var paragrafo in docX.Paragraphs)
-                            {
-                                if (paragrafo.Text != "")
-                                {
-                                    StringBuilder textoParagrafo = new StringBuilder();
-                                    for (int i = 0; i < paragrafo.Text.Length; i++)
-                                    {
-                                        if (paragrafo.Text[i] == '[')
-                                        {
-                                            i++;
-                                            string nomeCampo = string.Empty;
-                                            string resultadoQuery = string.Empty;
-                                            while (paragrafo.Text[i] != ']')
-                                            {
-                                                nomeCampo += paragrafo.Text[i].ToString().Trim();
-                                                i++;
-                                                if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
-                                                {
-                                                    return "Arquivo com campos corrompidos, verifique o modelo";
-                                                }
-                                            }
-                                            //Buscar dado da pessoa aqui
-                                            //resultadoQuery = "teste query";
-                                            resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
-
-                                            //atualiza o texto formatado
-                                            textoParagrafo.Append(resultadoQuery);
-                                        }
-                                        else
-                                        {
-                                            //caso não seja um campo somente adiciona o caractere
-                                            textoParagrafo.Append(paragrafo.Text[i].ToString());
-                                        }
-
-                                    }
-                                    // Populando campo de retorno
-                                    textoFormatado.Append($"<p>{textoParagrafo}</p>");
-                                }
-                            }
-                        }
-                    }
-                    return textoFormatado.ToString();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    throw new Exception("Ocorreu algum erro ao utilizar o modelo");
-                }
-
-            }
+            //using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            //{
+            //    DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+            //}
 
             #region | MOCAR DADOS |
-            /*
-            DtoDadosImovel dadosImovel = new DtoDadosImovel()
-            {
-                listaCamposValor = new List<DtoCamposValor>()
-                {
-                    new DtoCamposValor()
-                    {
-                       Campo = "Nome_IMO",
-                       Valor = "Edificio Pedro HP"
-                    },
-                    new DtoCamposValor()
-                    {
-                        Campo = "Endereco_IMO",
-                        Valor = "Rua primeiro"
-                    },new DtoCamposValor()
-                    {
-                        Campo = "Apto_IMO",
-                        Valor = "Apartamento 1"
-                    }
+            //DtoDadosImovel dadosImovel = new DtoDadosImovel()
+            //{
+            //    CamposValorDadosImovel = new List<DtoCamposValor>()
+            //    {
+            //        new DtoCamposValor()
+            //        {
+            //           Campo = "Nome_IMO",
+            //           Valor = "Edificio Pedro HP"
+            //        },
+            //        new DtoCamposValor()
+            //        {
+            //            Campo = "Endereco_IMO",
+            //            Valor = "Rua primeiro"
+            //        },new DtoCamposValor()
+            //        {
+            //            Campo = "Apto_IMO",
+            //            Valor = "Apartamento 1"
+            //        }
 
-                },
-                IdMatricula = Convert.ToInt64(DadosPostModelo.IdMatricula),
-                IdPrenotacao = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
-                Imovel = new Domain.Car16.Entities.Car16.PREIMO()
-                {
-                    APTO = "APARTAMENTO 1",
-                    BLOCO = "BLOCO A",
-                    CONTRIB = "98782398755",
-                    EDIF = "EDIFICIO PEDRO HP",
-                    ENDER = "RUA DOS PASSAROS",
-                    HIPO = 0,
-                    INSCR = 123321,
-                    LOTE = "LOTE 1",
-                    MATRI = Convert.ToInt32(DadosPostModelo.IdMatricula),
-                    NUM = "96",
-                    OUTROS = "PRIMEIRO EDIFICIO DE TESTE",
-                    QUADRA = "",
-                    RD = 1,
-                    SEQIMO = 1,
-                    SEQPRE = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
-                    SUBD = 1,
-                    TIPO = "T",
-                    TITULO = "TITULO",
-                    TRANS = 0,
-                    VAGA = ""
-                },
-                Pessoas = new List<DtoPessoaPesxPre>()
-                {
-                    new DtoPessoaPesxPre()
-                    {
-                        Bairro = "Caucaia do alto",
-                        CEP = 12345623,
-                        Cidade = "Cotia",
-                        Endereco = "Rua primeiro",
-                        IdPessoa = 1,
-                        Nome = "Pedro Pires",
-                        Numero1 = "555345235",
-                        TipoDoc1 = 1,
-                        Numero2 = "12312312345",
-                        TipoDoc2 = "CPF",
-                        Telefone = "99887766",
-                        TipoPessoa = "Outorgante",
-                        UF = "SP",
-                        listaCamposValor = new List<DtoCamposValor>()
-                        {
-                            new DtoCamposValor()
-                            {
-                                Campo = "Bairro",
-                                Valor = "Caucaia do alto"
-                            },
-                            new DtoCamposValor()
-                            {
-                                Campo = "Cidade",
-                                Valor = "Cotia"
-                            },
-                            new DtoCamposValor()
-                            {
-                                Campo = "Nome",
-                                Valor = "Pedro Pires"
-                            }
-                        }
-                    }
-                }
-            };
-            */
+            //    },
+            //    IdMatricula = Convert.ToInt64(DadosPostModelo.IdMatricula),
+            //    IdPrenotacao = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+            //    Imovel = new Domain.Car16.Entities.Car16.PREIMO()
+            //    {
+            //        APTO = "APARTAMENTO 1",
+            //        BLOCO = "BLOCO A",
+            //        CONTRIB = "98782398755",
+            //        EDIF = "EDIFICIO PEDRO HP",
+            //        ENDER = "RUA DOS PASSAROS",
+            //        HIPO = 0,
+            //        INSCR = 123321,
+            //        LOTE = "LOTE 1",
+            //        MATRI = Convert.ToInt32(DadosPostModelo.IdMatricula),
+            //        NUM = "96",
+            //        OUTROS = "PRIMEIRO EDIFICIO DE TESTE",
+            //        QUADRA = "",
+            //        RD = 1,
+            //        SEQIMO = 1,
+            //        SEQPRE = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
+            //        SUBD = 1,
+            //        TIPO = "T",
+            //        TITULO = "TITULO",
+            //        TRANS = 0,
+            //        VAGA = ""
+            //    },
+            //    Pessoas = new List<DtoPessoaPesxPre>()
+            //    {
+            //        new DtoPessoaPesxPre()
+            //        {
+            //            Bairro = "Caucaia do alto",
+            //            CEP = 12345623,
+            //            Cidade = "Cotia",
+            //            Endereco = "Rua primeiro",
+            //            IdPessoa = 1,
+            //            Nome = "Pedro Pires",
+            //            Numero1 = "555345235",
+            //            TipoDoc1 = 1,
+            //            Numero2 = "12312312345",
+            //            TipoDoc2 = "CPF",
+            //            Telefone = "99887766",
+            //            TipoPessoa = "Outorgante",
+            //            UF = "SP",
+            //            listaCamposValor = new List<DtoCamposValor>()
+            //            {
+            //                new DtoCamposValor()
+            //                {
+            //                    Campo = "Bairro",
+            //                    Valor = "Caucaia do alto"
+            //                },
+            //                new DtoCamposValor()
+            //                {
+            //                    Campo = "Cidade",
+            //                    Valor = "Cotia"
+            //                },
+            //                new DtoCamposValor()
+            //                {
+            //                    Campo = "Nome",
+            //                    Valor = "Pedro Pires"
+            //                }
+            //            }
+            //        }
+            //    }
+            //};
+
             #endregion
 
 
+            StringBuilder textoFormatado = new StringBuilder();
+
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
+            try
+            {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                {
+                    //Carrega o Modelo
+                    using (DocX docX = DocX.Load(fileStream))
+                    {
+                        //Varre todos os paragrafos do Modelo
+                        foreach (var paragrafo in docX.Paragraphs)
+                        {
+                            if (paragrafo.Text != "")
+                            {
+                                StringBuilder textoParagrafo = new StringBuilder();
+                                for (int i = 0; i < paragrafo.Text.Length; i++)
+                                {
+                                    if (paragrafo.Text[i] == '[')
+                                    {
+                                        i++;
+                                        string nomeCampo = string.Empty;
+                                        string resultadoQuery = string.Empty;
+                                        while (paragrafo.Text[i] != ']')
+                                        {
+                                            nomeCampo += paragrafo.Text[i].ToString().Trim();
+                                            i++;
+                                            if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
+                                            {
+                                                return "Arquivo com campos corrompidos, verifique o modelo";
+                                            }
+                                        }
+                                        //Buscar dado da pessoa aqui
+                                        resultadoQuery = "teste query";
+                                        //resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
+
+                                        //atualiza o texto formatado
+                                        textoParagrafo.Append(resultadoQuery);
+                                    }
+                                    else
+                                    {
+                                        //caso não seja um campo somente adiciona o caractere
+                                        textoParagrafo.Append(paragrafo.Text[i].ToString());
+                                    }
+
+                                }
+                                // Populando campo de retorno
+                                textoFormatado.Append($"<p>{textoParagrafo}</p>");
+                            }
+                        }
+                    }
+                }
+                return textoFormatado.ToString();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                throw new Exception("Ocorreu algum erro ao utilizar o modelo");
+            }
         }
 
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
 
+
             try
             {
                 //PESQUISA DADOS IMÓVEL
-                foreach (var item in dtoDados.listaCamposValor)
-                {
-                    if (item.Campo.Equals(campoQuery))
-                    {
-                        //Retorna o campo
-                        return item.Valor;
-                    }
-                }
+                //foreach (var item in dtoDados.CamposValorDadosImovel)
+                //{
+                //    if (item.Campo.Equals(campoQuery))
+                //    {
+                //        //Retorna o campo
+                //        return item.Valor;
+                //    }
+                //}
                 //PESQUISA DADOS PESSOA
                 StringBuilder strBuilder = new StringBuilder();
                 foreach (var pessoas in dtoDados.Pessoas)

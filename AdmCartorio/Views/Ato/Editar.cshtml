@@ -2,7 +2,7 @@
 
 @{
     ViewBag.Title = "Atos";
-    ViewBag.SubTitle = "Novo Ato";
+    ViewBag.SubTitle = "Editar Ato";
 }
 
 
@@ -192,13 +192,14 @@
 
                         -->
                     <header>
-                        <h2>Cadastro de Atos </h2>
+                        <h2>Edição de Atos </h2>
                     </header>
                     <div>
                         <div class="widget-body fuelux">
                             <div class="row">
-                                @using (Html.BeginForm("Cadastrar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
+                                @using (Html.BeginForm("Editar", "Ato", FormMethod.Post, new { enctype = "multipart/form-data", id = "wizard-1" }))
                                 {
+                                    @Html.HiddenFor(model => model.IdAto)
                                     @Html.AntiForgeryToken()
                                     <div id="bootstrap-wizard-1" class="col-sm-12">
                                         <div class="wizard">
@@ -238,30 +239,6 @@
                                                         <label id="labelResp" class="">Não existe imóvel para os dados digitados!</label>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-sm-5">
-                                                        <div class="">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"><i class="fa fa-list fa-lg fa-fw"></i></span>
-                                                                <input id="txtPrenotacao"  onkeyup="ResetarCampos()"  type="number" min="1" title="Digite a prenotação corretamente" placeholder="Digite a prenotação " class="form-control input-lg" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-5 padding-right-5">
-                                                        <div class="">
-                                                            <div class="input-group">
-                                                                <span class="input-group-addon"><i class="fa fa-building fa-lg fa-fw"></i></span>
-                                                                <input id="txtMatricula" onkeyup="ResetarCampos()"   min="1" placeholder="Digite o Nº da Matrícula " type="number" title="Digite a matricula corretamente" class="form-control input-lg" />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-2">
-                                                        <button id="btnPesquisar" type="button"
-                                                                class="btn btn-default btn-lg  margin-left-5">
-                                                            <i class="glyphicon glyphicon-search"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
                                                 <h1>Dados do imóvel</h1>
 
                                                 <br />
@@ -294,7 +271,7 @@
                                                     <div class="col-sm-1">
                                                         <div>
                                                             @Html.TextBoxFor(model => model.PREIMO.NUM,
-                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly",@value = "" })
+                                                                new { @class = "form-control input-lg", @placeholder = "N.°", @readonly = "readonly", @value = "" })
                                                         </div>
                                                     </div>
                                                 </div>
@@ -544,10 +521,10 @@
 
 <div class="modal fade" id="ModalLoading" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
 
-    @{ 
+    @{
         Html.RenderPartial("ViewLoading");
     }
-    
+
 </div>
 @section pagespecific{
 
@@ -772,7 +749,7 @@
     <script>
         /****************************************************************
          ************** DADOS DO IMOVEL *********************************
-         ****************************************************************/    
+         ****************************************************************/
     function ResetarCampos() {
         var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
         var resultado = JSON.parse(limpaDados);
@@ -793,8 +770,8 @@
 
         DesabilitarProximo();
     }
-        
-        
+
+
         function LimparDados() {
             var limpaDados = "{\"SEQIMO\":0,\"SEQPRE\":0,\"SUBD\":0,\"TIPO\":\"\",\"TITULO\":\"\",\"ENDER\":\"\",\"NUM\":\"\",\"LOTE\":\"\",\"QUADRA\":\"\",\"APTO\":\"\",\"BLOCO\":\"\",\"EDIF\":\"\",\"VAGA\":\"\",\"OUTROS\":\"\",\"MATRI\":\"\",\"TRANS\":0,\"INSCR\":0,\"HIPO\":0,\"RD\":0,\"CONTRIB\":\"\"}";
             var resultado = JSON.parse(limpaDados);
@@ -819,8 +796,8 @@
     function PesquisarImovel() {
         setInterval(
             setTimeout(function () {
-                var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
-                var numeroMatricula = parseInt($('#txtMatricula').val());
+                var numeroPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
+                var numeroMatricula = parseInt($('#PREIMO_MATRI').val());
                 debugger;
                 if (isNaN(numeroPrenotacao) && isNaN(numeroMatricula)) {
                     $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
@@ -830,6 +807,8 @@
                     LimparDados();
                     LimparTabelaPessoas();
                 } else {
+                    if (numeroPrenotacao == 0) numeroPrenotacao = null;
+                    if (numeroMatricula == 0) numeroMatricula = null;
                     $('#divResp').attr('hidden');
                     GetDadosImovel(numeroPrenotacao, numeroMatricula);
                     $('#btnProximo').removeAttr('disabled');
@@ -951,7 +930,7 @@
                          $('#ModalLoading').modal('hide');
                      }
                  });
-            
+
 
         }
     </script>
@@ -959,11 +938,11 @@
 
         $(document).ready(function () {
             GetModelos();
-
+            PesquisarImovel();
             /************************************************************************************
              * TABELA DE PESSOAS                                                                *
              ************************************************************************************/
-            
+
             $('#wizard-1').on('submit', function () {
                 $('#ModalLoading').modal('show');
                 $('#mensagemLoading').text('Escrevendo ato...');
