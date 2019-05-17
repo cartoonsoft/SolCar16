@@ -57,15 +57,10 @@ namespace AppServices.Car16.AppServices
                         doc = app.Documents.Open(caminho);
                         foreach (Microsoft.Office.Interop.Word.Paragraph paragrafo in doc.Paragraphs)
                         {
-                            if (paragrafo.Range.Text.Contains('\f') || paragrafo.Range.Text == "\r")   continue;
                             if (paragrafo.Range.Text.Contains('\u0001'))
                             {
                                 paragrafo.Range.Text = " ";
                                 WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                            }
-                            else
-                            {
-                                paragrafo.Range.Font.Color = WdColor.wdColorWhite;
                             }
                         }
                         doc.SaveAs(caminho);
@@ -75,8 +70,6 @@ namespace AppServices.Car16.AppServices
                             foreach (var item in docx.Paragraphs)
                             {
                                 item.Color(Color.Transparent);
-
-
                             }
                             docx.Paragraphs.Last().Color(Color.Black);
                             docx.SaveAs(filePath);
