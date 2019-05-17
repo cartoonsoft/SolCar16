@@ -20,6 +20,10 @@ namespace LibFunctions.Functions
             {
                 Application app = new Application();
                 Document doc = app.Documents.Open(filePath);
+                foreach (Paragraph item in doc.Paragraphs)
+                {
+                    item.Range.Font.Color = WdColor.wdColorBlack;
+                }
                 doc.SaveAs(novoFilePath);
                 doc.Close();
                 doc = null;
