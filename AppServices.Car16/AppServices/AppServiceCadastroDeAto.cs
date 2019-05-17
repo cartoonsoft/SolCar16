@@ -54,19 +54,43 @@ namespace AppServices.Car16.AppServices
                     try
                     {
                         var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes","Atos");
-                        using (var docx = DocX.Load(caminho))
+                        doc = app.Documents.Open(caminho);
+                        foreach (Microsoft.Office.Interop.Word.Paragraph paragrafo in doc.Paragraphs)
                         {
-                            foreach (var item in docx.Paragraphs)
+                            if (paragrafo.Range.Text.Contains('\f'))
                             {
-                                item.Color(Color.Transparent);
-                                
+                                continue;
                             }
-                            docx.Paragraphs.Last().Color(Color.Black);
-                            docx.SaveAs(filePath);
+                            else
+                            {
+                                paragrafo.Range.Text = '\r'.ToString();
+                            }
                         }
+                        doc.SaveAs(filePath);
+                        doc.Close();
+
+
+                        //using (var docx = DocX.Load(caminho))
+                        //{
+                        //    foreach (var item in docx.Paragraphs)
+                        //    {
+                        //        if (string.IsNullOrEmpty(item.Text) && item != docx.Paragraphs.Last())
+                        //        {
+                        //            item.Remove(false);
+                        //            docx.InsertParagraph();
+                        //        }
+                        //        else
+                        //        {
+                        //            item.Color(Color.Transparent);
+                        //        }
+                                
+                        //    }
+                        //    docx.Paragraphs.Last().Color(Color.Black);
+                        //    docx.SaveAs(filePath);
+                        //}
                         doc = app.Documents.Open(filePath);
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
                         doc = app.Documents.Add();
                     }
