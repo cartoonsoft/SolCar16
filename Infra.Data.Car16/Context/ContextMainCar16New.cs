@@ -38,7 +38,7 @@ namespace Infra.Data.Car16.Context
         public DbSet<LogArquivoModeloDocx> DbLogArquivoModeloDocx { get; set;}
         public DbSet<TipoAto> DbTipoAto { get; set; }
         public DbSet<Ato> DbAto { get; set; }
-                
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new ClienteConfig());
