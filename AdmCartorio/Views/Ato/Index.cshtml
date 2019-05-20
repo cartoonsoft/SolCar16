@@ -108,41 +108,41 @@
                         <table id="tbl-list-atos" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th colspan="2">
+                                    <th colspan="1">
                                         Reg./Mat.
                                     </th>
-                                    <th colspan="2">
+                                    <th colspan="1">
                                         Tipo
                                     </th>
-                                    <th colspan="2">
+                                    <th colspan="1">
                                         Data
                                     </th>
                                     <th colspan="2">
                                         Observação
                                     </th>
-                                    <th colspan="5">
+                                    <th colspan="2"> 
                                         Status
                                     </th>
-                                    <th colspan="2" style="display:none;"></th>
+                                    <th colspan="2"  style="display:none;"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model)
                                 {
                                     <tr id="@item.Id">
-                                        <td colspan="2">
+                                        <td colspan="1">
                                             @Html.DisplayFor(modelItem => item.Codigo)
                                         </td>
-                                        <td colspan="2">
+                                        <td colspan="1">
                                             @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
                                         </td>
-                                        <td colspan="2">
+                                        <td colspan="1">
                                             @Html.DisplayFor(modelItem => item.DataCadastro)
                                         </td>
                                         <td colspan="2">
                                             @Html.DisplayFor(modelItem => item.Observacao)
                                         </td>
-                                        <td class="text-capitalize" colspan="5">
+                                        <td class="text-capitalize" colspan="2">
                                             @{
                                                 if (item.Bloqueado == true)
                                                 {
