@@ -618,6 +618,7 @@
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').valid();
             $('#ArquivoModelo_NomeModelo').valid();
+            HabilitarProximo();
 
         }
         function AtualizarModelo(idTipoAto){
@@ -717,7 +718,7 @@
     }
 
     function ExibirModal() {
-        if ($('#ExisteNoSistema').val() == "False" && $('#IdTipoAto').val()!=3 ) {
+        if ($('#ExisteNoSistema').val() == "False" && $('#IdTipoAto').val() != 3 ) {
             $('.linkModal').click();
         }
     }
@@ -730,7 +731,6 @@
                 if (status == "success") {
                     $('#divRespImo').attr('hidden','hidden');
                     var existeAto = data;
-                    alert(existeAto);
                     debugger;
                     if (existeAto == "False") {
                         $('#ModalLoading').modal('show');
@@ -748,7 +748,7 @@
                         $('#infoAdicional').addClass('hidden');
                         $('#btnConfirmar').removeAttr('disabled');
                         if (idTipoAto == 3) {
-                            //voltarPasso();
+                            voltarPasso();
                             $('#labelRespImo').text('Já existe ato inicial para os dados!');
                             $('#divRespImo').removeAttr('hidden');
                             $('#modeloInvalido').val("True");
@@ -1022,7 +1022,6 @@
                         }
                         else if (quantidade == 1) {
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                           // AtualizarModelo();
                             var resultado = $('#modeloInvalido').val();
                             if (resultado == "True") return;
                         } else if (quantidade == 2) {
@@ -1030,7 +1029,7 @@
                             $('#textAreaAto').val($('#Ato').val());
                             ExibirModal();
                         }
-
+                        
                         var objeto = lista.find('.active');
                         var item = objeto[0];
                         item.classList.remove('active');

@@ -139,7 +139,14 @@ namespace LibFunctions.Functions
             {
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
-            InserirParagrafo(doc, textoParaSalvar, false);
+
+            ////Texto quebrou a linha
+            //if (textoParaSalvar.Contains("\r\r"))
+            //{
+            //    textoParaSalvar += "\r";
+            //}
+
+            InserirParagrafo(doc, textoParaSalvar, false);            
 
             /*Reposiciona o cursor no final do arquivo, pois foram reescrita as ultimas linhas
             devido a inserção de rodapé dinâmica.*/
