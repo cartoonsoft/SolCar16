@@ -30,7 +30,6 @@ namespace AppServices.Car16.AppServices
 
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
-        private object readony;
 
         protected virtual void Dispose(bool disposing)
         {

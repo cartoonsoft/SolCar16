@@ -330,11 +330,7 @@
     <Content Include="Content\img\favicon\1favicon.ico" />
     <Content Include="Content\img\favicon\favicon.ico" />
     <Content Include="Content\img\favicon\favicon.png" />
-    <Content Include="Content\img\flags\de.png" />
-    <Content Include="Content\img\flags\es.png" />
     <Content Include="Content\img\flags\flags.png" />
-    <Content Include="Content\img\flags\us.png" />
-    <Content Include="Content\img\glass-image-copyright.txt" />
     <Content Include="Content\img\glass.jpg" />
     <Content Include="Content\img\gradient\login.png" />
     <Content Include="Content\img\hue.png" />
@@ -391,11 +387,6 @@
     <Content Include="Content\img\pattern\tileable_wood_texture-xs.png" />
     <Content Include="Content\img\pattern\tileable_wood_texture.png" />
     <Content Include="Content\img\plus.png" />
-    <Content Include="Content\img\realestate\1.png" />
-    <Content Include="Content\img\realestate\2.png" />
-    <Content Include="Content\img\realestate\3.png" />
-    <Content Include="Content\img\realestate\4.png" />
-    <Content Include="Content\img\realestate\5.png" />
     <Content Include="Content\img\realestate\6.png" />
     <Content Include="Content\img\ribbon.png" />
     <Content Include="Content\img\sa-dark.png" />
@@ -414,7 +405,6 @@
     <Content Include="Content\img\splash\touch-icon-ipad-retina.png" />
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
-    <Content Include="Content\img\superbox\glass.jpg" />
     <Content Include="Content\img\superbox\superbox-full-1.jpg" />
     <Content Include="Content\img\superbox\superbox-full-10.jpg" />
     <Content Include="Content\img\superbox\superbox-full-11.jpg" />
@@ -470,7 +460,6 @@
     <Content Include="Content\img\versions\htmlversion.png" />
     <Content Include="Content\img\versions\phpversion.png" />
     <Content Include="Content\img\versions\reactversion.png" />
-    <Content Include="Content\img\violate.jpg" />
     <Content Include="Content\img\voicecommand\active-btn.gif" />
     <Content Include="Content\img\vt-menu.png" />
     <Content Include="Content\sound\bigbox.mp3" />
