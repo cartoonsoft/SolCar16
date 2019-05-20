@@ -12,6 +12,7 @@ using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using LibFunctions.Functions.Word;
+using LibFunctions.Functions.DatesFunc;
 
 namespace AppServices.Car16.AppServices
 {
@@ -44,7 +45,13 @@ namespace AppServices.Car16.AppServices
                     //Pegando o numero da pagina para configurar o layout
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
-                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+                    //WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 17 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
+                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
+                    , false);
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                    WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
                 }
                 else
                 {
@@ -56,14 +63,22 @@ namespace AppServices.Car16.AppServices
                         doc = app.Documents.Open(caminho);
                         foreach (Microsoft.Office.Interop.Word.Paragraph paragrafo in doc.Paragraphs)
                         {
-                            if (paragrafo.Range.Text.Contains('\f'))
+                            if (paragrafo.Range.Text.Contains('\u0001'))
                             {
-                                continue;
+                                paragrafo.Range.Text = " ";
+                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
                             }
-                            else
+                        }
+                        doc.SaveAs(caminho);
+                        doc.Close();
+                        using (var docx = DocX.Load(caminho))
+                        {
+                            foreach (var item in docx.Paragraphs)
                             {
-                                paragrafo.Range.Text = '\r'.ToString();
+                                item.Color(Color.Transparent);
                             }
+                            docx.Paragraphs.Last().Color(Color.Black);
+                            docx.SaveAs(filePath);
                         }
                         doc.SaveAs(filePath);
                         doc.Close();
@@ -117,7 +132,7 @@ namespace AppServices.Car16.AppServices
                             break;
                     }
 
-                    WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
+                    WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman",true);
 
                     //Numero de paginas do documento e a posição do cursor
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
@@ -180,7 +195,7 @@ namespace AppServices.Car16.AppServices
                 //Não deixa o texto começar com negrito
                 WordTextStyleHelper.Bold(doc, posicaoCursor, false);
                 //Escreve o ato e ajusta o documento, caso necessário
-                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, modelo.IrParaFicha > 0);
+                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
                 WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
 
                 #endregion

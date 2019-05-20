@@ -729,11 +729,19 @@
                     var existeAto = data;
                     debugger;
                     if (existeAto == "False") {
+                        if (idTipoAto == 3) {
+                            $('#ExisteNoSistema').val("True");
+                            $('#infoAdicional').addClass('hidden');
+                            $('#btnConfirmar').removeAttr('disabled');
+                        }
+                        else {
+                            $('#ExisteNoSistema').val("False");
+                            $('#infoAdicional').removeClass('hidden');
+                            $('#btnConfirmar').attr('disabled');
+                        }
                         $('#ModalLoading').modal('show');
-                        $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
-                        $('#infoAdicional').removeClass('hidden');
-                        $('#btnConfirmar').attr('disabled');
+
                         AtualizarModelo(idTipoAto);
                     } else {
                         $('#ExisteNoSistema').val("True");
