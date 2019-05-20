@@ -112,8 +112,8 @@
             font-family: "Times New Roman";
         }
 
-        .linkModal:hover {
-            cursor: pointer
+        #linkParticipantes{
+            cursor: pointer;
         }
 
         /*------------------------------------------------------------------------------
@@ -347,14 +347,19 @@
                                             <!-- FIM DADOS IMÓVEL-->
                                             <!-- INICIO DADOS PARTICIPANTES-->
                                             <div class="step-pane" id="step2">
-                                                <h2>Dados dos Participantes</h2>
+                                                <br>
+                                                <h3><strong>Passo 2 </strong> - Dados dos Participantes</h3>
                                                 <div class="row" hidden id="divRespPes">
                                                     <div class="col-sm-12 alert alert-danger">
                                                         <label id="divRespPes" class="">Não existem participantes para os dados digitados!</label>
                                                     </div>
                                                 </div>
-                                                <a class="hidden h2" style="color:blue;" id="linkParticipantes" href="#" onclick="AlterarParticipantes()">Clique aqui para editar</a>
-                                                <br />
+                                                <h2>Participantes</h2>
+                                                <button type="button" class="hidden btn btn-primary margin-bottom-10" 
+                                                        style="float:right; font-weight:bold; padding-right:10px; font-size:15px;" 
+                                                        id="linkParticipantes" href="#" onclick="AlterarParticipantes()">
+                                                    Editar
+                                                </button>                                                
                                                 <div class="row">
                                                     <div class="col-sm-12">
                                                         <table id="tblPessoas" class="table">
@@ -382,35 +387,7 @@
                                             <!-- DADOS MODELO-->
                                             <div class="step-pane" id="step3">
                                                 <br>
-                                                <h3><strong>Passo 2</strong> - Busca de Modelo</h3>
-                                                <div class="row" hidden id="divRespImo">
-                                                    <div class="col-sm-12 alert alert-danger">
-                                                        <label id="labelRespImo" class="">Não existe imóvel para os dados digitados!</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row col-sm-12" style="margin-bottom:15px;">
-                                                    <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
-                                                        <thead>
-                                                            <tr role="row">
-                                                                <th rowspan="1" colspan="1">
-                                                                    <label class="h5">Código do modelo</label>
-                                                                </th>
-                                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
-                                                                    <label class="h5">Nome do modelo</label>
-                                                                </th>
-                                                                <th rowspan="1" colspan="1">
-                                                                    <label class="h5">Tipo de ato</label>
-                                                                </th>
-                                                                <th rowspan="1" colspan="1">
-
-                                                                </th>
-                                                        </thead>
-                                                        <tbody>
-                                                            <!--APPEND DO JSON-->
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <hr style="border-bottom:1px solid lightgray; width:100%;" />
+                                                <h3><strong>Passo 3</strong> - Busca de Modelo</h3>
                                                 <h1>Modelo Selecionado</h1>
                                                 <br />
                                                 <div class="row">
@@ -440,12 +417,39 @@
                                                         <input hidden id="modeloInvalido" />
                                                     </div>
                                                 </div>
+                                                <div class="row" hidden id="divRespImo">
+                                                    <div class="col-sm-12 alert alert-danger">
+                                                        <label id="labelRespImo" class="">Não existe imóvel para os dados digitados!</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row col-sm-12" style="margin-bottom:15px;">
+                                                    <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
+                                                        <thead>
+                                                            <tr role="row">
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Código do modelo</label>
+                                                                </th>
+                                                                <th data-class="expand" class="expand sorting" tabindex="0" aria-controls="dt_basic" rowspan="1" colspan="1" aria-label="Nome: activate to sort column ascending">
+                                                                    <label class="h5">Nome do modelo</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+                                                                    <label class="h5">Tipo de ato</label>
+                                                                </th>
+                                                                <th rowspan="1" colspan="1">
+
+                                                                </th>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!--APPEND DO JSON-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                             <!-- FIM DADOS MODELO-->
                                             <!-- INICIO ESCRITA DE ATO-->
                                             <div class="step-pane" id="step4">
                                                 <br>
-                                                <h3><strong>Passo 3</strong> - Escrita de Ato</h3>
+                                                <h3><strong>Passo 4</strong> - Escrita de Ato</h3>
                                                 <br />
                                                 <div class="row" id="ckEditorGrid">
                                                     <div class="document-editor">
@@ -463,7 +467,7 @@
                                             <!-- CONFIRMAÇÃO DE ATO-->
                                             <div class="step-pane" id="step5">
                                                 <br>
-                                                <h3><strong>Passo 4</strong> - Confirmação</h3>
+                                                <h3><strong>Passo Final</strong> - Confirmação</h3>
                                                 <h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1>
                                                 @Html.HiddenFor(model => model.PREIMO.SEQPRE)
                                                 <br />
