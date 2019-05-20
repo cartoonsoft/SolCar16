@@ -112,6 +112,9 @@
                                         Reg./Mat.
                                     </th>
                                     <th colspan="1">
+                                        Prenotação
+                                    </th>
+                                    <th colspan="1">
                                         Tipo
                                     </th>
                                     <th colspan="1">
@@ -123,7 +126,7 @@
                                     <th colspan="2"> 
                                         Status
                                     </th>
-                                    <th colspan="2"  style="display:none;"></th>
+                                    <th colspan="2" style="display:none;" ></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -132,6 +135,9 @@
                                     <tr id="@item.Id">
                                         <td colspan="1">
                                             @Html.DisplayFor(modelItem => item.Codigo)
+                                        </td>
+                                        <td colspan="1">
+                                            @Html.DisplayFor(modelItem => item.IdPrenotacao)
                                         </td>
                                         <td colspan="1">
                                             @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
@@ -158,12 +164,12 @@
                                             @{
                                                 if (!item.Bloqueado)
                                                 {
-                                                    @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-3" })
-                                                    @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-3 col-sm-offset-1" })
+                                                    @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-4" })
+                                                    @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-4 col-sm-offset-1" })
                                                 }
                                                 else
                                                 {
-                                                    @Html.ActionLink("Download Historico", "DownloadFileCompleto", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-7" })
+                                                    @Html.ActionLink("Download Historico", "DownloadFileCompleto", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-9" })
                                                 }
                                             }
                                         </td>
@@ -194,12 +200,11 @@
             //coloque aqui seu codigo jquery
 
             $("#tbl-list-atos").dataTable({
-                columnDefs: [{ orderable: false, targets: [3, 4, 5] }],
+                columnDefs: [{ orderable: false, targets: [4, 5,6] }],
 
                 "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
                     "t" +
                     "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-                "autoWidth": true,
                 "preDrawCallback": function () {
                     // Initialize the responsive datatables helper once.
                     if (!responsiveHelper_dt_basic) {

@@ -103,11 +103,13 @@
                                     <button type="button" typeof="button" id="btnBloquear" class="btn btn-success font-md margin-bottom-10" style="float:right;">
                                         Bloquear
                                     </button>
+                                    @Html.ActionLink("Editar", "Editar", new { Id = Model.Id }, new { @class = "btn btn-primary font-md margin-bottom-10 margin-right-15", @style = "float:right;" })
+
                                 }
                                 else
                                 {
                                     <label type="" id="" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
-                                        Bloquear
+                                        Já Bloqueado
                                     </label>
                                 }
 
