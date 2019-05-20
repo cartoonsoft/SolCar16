@@ -123,29 +123,32 @@ namespace AppServices.Car16.AppServices
             PREMAD premad = _unitOfWorkCar16.Repositories.GenericRepository<PREMAD>().
                 GetWhere(p => (p.SEQPRED == IdPrenotacao) && (p.TIPODATA.Trim() == "R")).OrderByDescending(o => o.DATA).FirstOrDefault();
 
-            foreach (var item in listaCampos)
+            if (premad != null)
             {
-                var prop = premad.GetType().GetProperty(item.Campo);
-
-                if (prop != null)
+                foreach (var item in listaCampos)
                 {
-                    valorTmp = prop.GetValue(premad).ToString();
+                    var prop = premad.GetType().GetProperty(item.Campo);
 
-                    if (item.Campo == "IdPrenotacao")
+                    if (prop != null)
                     {
-                        valorTmp = IdPrenotacao.ToString();
+                        valorTmp = prop.GetValue(premad).ToString();
+
+                        if (item.Campo == "IdPrenotacao")
+                        {
+                            valorTmp = IdPrenotacao.ToString();
+                        }
+
+                        if (item.Campo == "DATA")
+                        {
+                            valorTmp = dataTmp.AddDays(premad.DATA).ToString("dd/MM/yyyy");
+                        }
+
+                        listaTmp.Add(new DtoCamposValor
+                        {
+                            Campo = item.NomeCampo,
+                            Valor = valorTmp
+                        });
                     }
-
-                    if (item.Campo == "DATA")
-                    {
-                        valorTmp = dataTmp.AddDays(premad.DATA).ToString("dd/MM/yyyy");
-                    }
-
-                    listaTmp.Add(new DtoCamposValor
-                    {
-                        Campo = item.NomeCampo,
-                        Valor = valorTmp
-                    });
                 }
             }
 
@@ -160,17 +163,20 @@ namespace AppServices.Car16.AppServices
             PREIMO Imovel = _unitOfWorkCar16.Repositories.GenericRepository<PREIMO>().
                 GetWhere(i => i.SEQPRE == IdPrenotacao && i.MATRI == IdMatricula).FirstOrDefault();
 
-            foreach (var item in listaCampos)
+            if (Imovel != null)
             {
-                var prop = Imovel.GetType().GetProperty(item.Campo);
-
-                if (prop != null)
+                foreach (var item in listaCampos)
                 {
-                    listaTmp.Add(new DtoCamposValor
+                    var prop = Imovel.GetType().GetProperty(item.Campo);
+
+                    if (prop != null)
                     {
-                        Campo = item.NomeCampo,
-                        Valor = prop.GetValue(Imovel).ToString()
-                    });
+                        listaTmp.Add(new DtoCamposValor
+                        {
+                            Campo = item.NomeCampo,
+                            Valor = prop.GetValue(Imovel).ToString()
+                        });
+                    }
                 }
             }
 
@@ -210,24 +216,39 @@ namespace AppServices.Car16.AppServices
 
         private List<CamposArquivoModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto)
         {
+            List<CamposArquivoModeloDocx> listaTmp = new List<CamposArquivoModeloDocx>();
+
             if (listaCamposArquivoModeloDocx == null) {
 
                 var listaCampos =
                     from campos in _unitOfWorkCar16New.Repositories.GenericRepository<CamposArquivoModeloDocx>().Get()
                     .Where(c => c.IdTipoAto == IdTipoAto)
                     orderby campos.NomeCampo
-                    select new CamposArquivoModeloDocx
+                    select new 
                     {
-                        Id = campos.Id,
-                        IdAcessoSistema = campos.IdAcessoSistema,
-                        IdTipoAto = campos.IdTipoAto,
-                        NomeCampo = campos.NomeCampo,
-                        PlaceHolder = campos.PlaceHolder,
-                        Entidade = campos.Entidade,
-                        Campo = campos.Campo
-                    }; 
+                        campos.Id,
+                        campos.IdAcessoSistema,
+                         campos.IdTipoAto,
+                        campos.NomeCampo,
+                        campos.PlaceHolder,
+                        campos.Entidade,
+                        campos.Campo
+                    };
 
-                listaCamposArquivoModeloDocx = listaCampos.ToList();
+                foreach (var item in listaCampos)
+                {
+                    listaTmp.Add(new CamposArquivoModeloDocx {
+                        Id = item.Id,
+                        IdAcessoSistema = item.IdAcessoSistema,
+                        IdTipoAto = item.IdTipoAto,
+                        NomeCampo = item.NomeCampo,
+                        Campo = item.Campo,
+                        Entidade = item.Entidade,
+                        PlaceHolder = item.PlaceHolder
+                    });
+                }
+
+                listaCamposArquivoModeloDocx = listaTmp;
             }
 
             return listaCamposArquivoModeloDocx;

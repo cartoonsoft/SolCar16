@@ -33,7 +33,8 @@ namespace Infra.Data.Car16.Context
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
         public DbSet<PESSOA> DbPESSOA { get; set; }
-        
+        public DbSet<PREMAD> DbPREMAD { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //modelBuilder.Configurations.Add(new ClienteConfig());

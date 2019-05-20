@@ -524,10 +524,70 @@ namespace AdmCartorio.Controllers
         /// <returns>string HTML</returns>
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-            //using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
-            //{
-            //    DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
-            //}
+            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            {
+                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+                StringBuilder textoFormatado = new StringBuilder();
+
+                string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
+                try
+                {
+                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        //Carrega o Modelo
+                        using (DocX docX = DocX.Load(fileStream))
+                        {
+                            //Varre todos os paragrafos do Modelo
+                            foreach (var paragrafo in docX.Paragraphs)
+                            {
+                                if (paragrafo.Text != "")
+                                {
+                                    StringBuilder textoParagrafo = new StringBuilder();
+                                    for (int i = 0; i < paragrafo.Text.Length; i++)
+                                    {
+                                        if (paragrafo.Text[i] == '[')
+                                        {
+                                            i++;
+                                            string nomeCampo = string.Empty;
+                                            string resultadoQuery = string.Empty;
+                                            while (paragrafo.Text[i] != ']')
+                                            {
+                                                nomeCampo += paragrafo.Text[i].ToString().Trim();
+                                                i++;
+                                                if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
+                                                {
+                                                    return "Arquivo com campos corrompidos, verifique o modelo";
+                                                }
+                                            }
+                                            //Buscar dado da pessoa aqui
+                                            //resultadoQuery = "teste query";
+                                            resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
+
+                                            //atualiza o texto formatado
+                                            textoParagrafo.Append(resultadoQuery);
+                                        }
+                                        else
+                                        {
+                                            //caso não seja um campo somente adiciona o caractere
+                                            textoParagrafo.Append(paragrafo.Text[i].ToString());
+                                        }
+
+                                    }
+                                    // Populando campo de retorno
+                                    textoFormatado.Append($"<p>{textoParagrafo}</p>");
+                                }
+                            }
+                        }
+                    }
+                    return textoFormatado.ToString();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw new Exception("Ocorreu algum erro ao utilizar o modelo");
+                }
+
+            }
 
             #region | MOCAR DADOS |
             //DtoDadosImovel dadosImovel = new DtoDadosImovel()
@@ -615,98 +675,42 @@ namespace AdmCartorio.Controllers
             //};
 
             #endregion
-
-
-            StringBuilder textoFormatado = new StringBuilder();
-
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
-            try
-            {
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    //Carrega o Modelo
-                    using (DocX docX = DocX.Load(fileStream))
-                    {
-                        //Varre todos os paragrafos do Modelo
-                        foreach (var paragrafo in docX.Paragraphs)
-                        {
-                            if (paragrafo.Text != "")
-                            {
-                                StringBuilder textoParagrafo = new StringBuilder();
-                                for (int i = 0; i < paragrafo.Text.Length; i++)
-                                {
-                                    if (paragrafo.Text[i] == '[')
-                                    {
-                                        i++;
-                                        string nomeCampo = string.Empty;
-                                        string resultadoQuery = string.Empty;
-                                        while (paragrafo.Text[i] != ']')
-                                        {
-                                            nomeCampo += paragrafo.Text[i].ToString().Trim();
-                                            i++;
-                                            if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
-                                            {
-                                                return "Arquivo com campos corrompidos, verifique o modelo";
-                                            }
-                                        }
-                                        //Buscar dado da pessoa aqui
-                                        resultadoQuery = "teste query";
-                                        //resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
-
-                                        //atualiza o texto formatado
-                                        textoParagrafo.Append(resultadoQuery);
-                                    }
-                                    else
-                                    {
-                                        //caso não seja um campo somente adiciona o caractere
-                                        textoParagrafo.Append(paragrafo.Text[i].ToString());
-                                    }
-
-                                }
-                                // Populando campo de retorno
-                                textoFormatado.Append($"<p>{textoParagrafo}</p>");
-                            }
-                        }
-                    }
-                }
-                return textoFormatado.ToString();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                throw new Exception("Ocorreu algum erro ao utilizar o modelo");
-            }
         }
 
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
-
+            string Campotmp = string.Empty;
+            bool CampoEncontrado = false;
 
             try
             {
                 //PESQUISA DADOS IMÓVEL
-                //foreach (var item in dtoDados.CamposValorDadosImovel)
-                //{
-                //    if (item.Campo.Equals(campoQuery))
-                //    {
-                //        //Retorna o campo
-                //        return item.Valor;
-                //    }
-                //}
-                //PESQUISA DADOS PESSOA
-                StringBuilder strBuilder = new StringBuilder();
-                foreach (var pessoas in dtoDados.Pessoas)
+                foreach (var item in dtoDados.listaCamposValor)
                 {
-                    foreach (var pessoa in pessoas.listaCamposValor)
+                    if (item.Campo.Equals(campoQuery))
                     {
-                        if (pessoa.Campo.Equals(campoQuery))
+                        //Retorna o campo
+                        Campotmp = item.Valor;
+                        CampoEncontrado = true;
+                    }
+                }
+
+                //PESQUISA DADOS PESSOA
+                if (!CampoEncontrado) {
+                    foreach (var pessoas in dtoDados.Pessoas)
+                    {
+                        foreach (var pessoa in pessoas.listaCamposValor)
                         {
-                            strBuilder.Append(pessoa.Valor + " ");
+                            if (pessoa.Campo.Equals(campoQuery))
+                            {
+                                Campotmp = pessoa.Valor;
+                            }
                         }
                     }
                 }
+
                 //Retorna o dados das pessoas
-                return string.IsNullOrEmpty(strBuilder.ToString()) ? $"[{campoQuery}]" : strBuilder.ToString();
+                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
 
             }
             catch (Exception)
