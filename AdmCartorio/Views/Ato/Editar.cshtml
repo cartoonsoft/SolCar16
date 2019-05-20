@@ -595,6 +595,9 @@
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').valid();
             $('#ArquivoModelo_NomeModelo').valid();
+            HabilitarProximo();
+            $('#modeloInvalido').val("False");
+            IrParaProximo();
 
         }
         function AtualizarModelo(idTipoAto){
@@ -720,7 +723,7 @@
                         $('#infoAdicional').addClass('hidden');
                         $('#btnConfirmar').removeAttr('disabled');
                         if (idTipoAto == 3) {
-                            //voltarPasso();
+                            voltarPasso();
                             $('#labelRespImo').text('Já existe ato inicial para os dados!');
                             $('#divRespImo').removeAttr('hidden');
                             $('#modeloInvalido').val("True");

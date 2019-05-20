@@ -618,6 +618,9 @@
             $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
             $('#ArquivoModelo_DescricaoTipoAto').valid();
             $('#ArquivoModelo_NomeModelo').valid();
+            HabilitarProximo();
+            $('#modeloInvalido').val("False");
+            IrParaProximo();
 
         }
         function AtualizarModelo(idTipoAto){
@@ -717,7 +720,7 @@
     }
 
     function ExibirModal() {
-        if ($('#ExisteNoSistema').val() == "False") {
+        if ($('#ExisteNoSistema').val() == "False" && $('#IdTipoAto').val() != 3 ) {
             $('.linkModal').click();
         }
     }
@@ -733,17 +736,21 @@
                     debugger;
                     if (existeAto == "False") {
                         $('#ModalLoading').modal('show');
-                        $('#ExisteNoSistema').val("False");
                         $('#divRespImo').attr('hidden', 'hidden');
-                        $('#infoAdicional').removeClass('hidden');
-                        $('#btnConfirmar').attr('disabled');
+                        if (idTipoAto != 3) {
+                            $('#ExisteNoSistema').val("False");
+                            $('#infoAdicional').removeClass('hidden');
+                            $('#btnConfirmar').attr('disabled');
+                        } else {
+                            $('#btnConfirmar').removeAttr('disabled');
+                        }
                         AtualizarModelo(idTipoAto);
                     } else {
                         $('#ExisteNoSistema').val("True");
                         $('#infoAdicional').addClass('hidden');
                         $('#btnConfirmar').removeAttr('disabled');
                         if (idTipoAto == 3) {
-                            //voltarPasso();
+                            voltarPasso();
                             $('#labelRespImo').text('Já existe ato inicial para os dados!');
                             $('#divRespImo').removeAttr('hidden');
                             $('#modeloInvalido').val("True");
@@ -1017,7 +1024,6 @@
                         }
                         else if (quantidade == 1) {
                             AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
-                           // AtualizarModelo();
                             var resultado = $('#modeloInvalido').val();
                             if (resultado == "True") return;
                         } else if (quantidade == 2) {
@@ -1025,7 +1031,7 @@
                             $('#textAreaAto').val($('#Ato').val());
                             ExibirModal();
                         }
-
+                        
                         var objeto = lista.find('.active');
                         var item = objeto[0];
                         item.classList.remove('active');

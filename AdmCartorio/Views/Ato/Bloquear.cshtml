@@ -52,11 +52,11 @@
                                         <section class="col col-6">
                                             <div class="row padding-10 padding-left-10 text-capitalize font-md">
                                                 @Html.LabelFor(model => model.IdPrenotacao)
-                                                @Html.DisplayTextFor(model => model.IdPrenotacao)
+                                                <b>@Html.DisplayTextFor(model => model.IdPrenotacao)</b>
                                             </div>
                                             <div class="row padding-10 padding-left-10 text-capitalize font-md">
                                                 @Html.LabelFor(model => model.NumMatricula)
-                                                @Html.DisplayTextFor(model => model.NumMatricula)
+                                                <b>@Html.DisplayTextFor(model => model.NumMatricula)</b>
                                             </div>
                                             <div class="row padding-10 padding-left-10 text-capitalize font-md">
 
@@ -65,7 +65,6 @@
                                                 @if (!Model.Bloqueado)
                                                 {
                                                     @Html.Label("Disponível para alteração")
-
                                                 }
                                                 else
                                                 {
@@ -79,6 +78,8 @@
                                             <br />
                                             @if (!Model.Bloqueado)
                                             {
+
+
                                                 <h2>
                                                     <a id="btnDownload" target="_blank" class="linkArquivo" href="@Url.Action("DownloadFile","Ato",new { ID = Model.NumMatricula})">
                                                         Cliqui aqui para baixar o ato <i class="glyphicon glyphicon-download"></i>
@@ -101,11 +102,13 @@
                                     <button type="button" typeof="button" id="btnBloquear" class="btn btn-success font-md margin-bottom-10" style="float:right;">
                                         Bloquear
                                     </button>
+                                    @Html.ActionLink("Editar", "Editar", new { Id = Model.Id }, new { @class = "btn btn-primary font-md margin-bottom-10 margin-right-15", @style = "float:right;" })
+
                                 }
                                 else
                                 {
                                     <label type="" id="" class="btn btn-success font-md margin-bottom-10" style="float:right;" disabled>
-                                        Bloquear
+                                        Já Bloqueado
                                     </label>
                                 }
 

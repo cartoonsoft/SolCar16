@@ -37,13 +37,13 @@ namespace AdmCartorio.Controllers
         #endregion
 
         // GET: Ato
-        public ActionResult Index(MatriculaAtoViewModel modelo)
+        public ActionResult Index()
         {
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
             using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null);
+                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null).Where(a => a.Ativo == true);
                 listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
             }
 
@@ -445,6 +445,29 @@ namespace AdmCartorio.Controllers
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
                
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Pega o arquivo DOCX do ATO
+        /// </summary>
+        /// <param name="dadosPost">Dados do post</param>
+        /// <returns>Download do arquivo DOCX</returns>
+        public FileResult DownloadFileCompleto([Bind(Include = "Id")]long? Id)
+        {
+            string fileName = Id.ToString();
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{Id}.docx");
+            try
+            {
+                byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
+
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
