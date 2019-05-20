@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.DatesFunc
 {
     public static class DataHelper
     {
@@ -20,5 +21,19 @@ namespace LibFunctions.Functions
             return date[1].Trim();
         }
 
+
+        public static string GetDataPorExtenso(string cidade)
+        {
+            CultureInfo culture = new CultureInfo("pt-BR");
+            DateTimeFormatInfo dtfi = culture.DateTimeFormat;
+            int dia = DateTime.Now.Day;
+            int ano = DateTime.Now.Year;
+            string mes = culture.TextInfo.ToTitleCase(dtfi.GetMonthName(DateTime.Now.Month));
+
+
+            return cidade + ", " + dia + " de " + mes + " de " + ano;
+        }
+
     }
+
 }

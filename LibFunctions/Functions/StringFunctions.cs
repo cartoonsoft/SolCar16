@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.StringsFunc
 {
     public static class StringFunctions
     {

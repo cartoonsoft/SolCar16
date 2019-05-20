@@ -1,14 +1,14 @@
-﻿using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.enums;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Dto.Car16.Entities.Diversos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibFunctions.Functions.DatesFunc;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
+using Domain.Car16.Interfaces.UnitOfWork;
+using Dto.Car16.Entities.Diversos;
 
 namespace AppServices.Car16.AppServices
 {
@@ -87,16 +87,14 @@ namespace AppServices.Car16.AppServices
             DtoDadosImovel dtoTmp = new DtoDadosImovel();
 
             //Geral 
-            CultureInfo culture = new CultureInfo("pt-BR");
-            DateTimeFormatInfo dtfi = culture.DateTimeFormat;
-            int dia = DateTime.Now.Day;
-            int ano = DateTime.Now.Year;
-            string mes = culture.TextInfo.ToTitleCase(dtfi.GetMonthName(DateTime.Now.Month));
             dtoTmp.listaCamposValor.Add(new DtoCamposValor
             {
                 Campo = "DataAtualExtenso",
-                Valor = "São Paulo, " + dia + " de " + mes + " de " + ano
+                Valor = DataHelper.GetDataPorExtenso("São Paulo")
             });
+
+            //Prenotacao
+            dtoTmp.listaCamposValor.AddRange(GetCamposPrenotacao(IdTipoAto, IdPrenotacao, IdMatricula));
 
             //Matricula
             dtoTmp.listaCamposValor.Add(new DtoCamposValor
@@ -105,30 +103,11 @@ namespace AppServices.Car16.AppServices
                 Valor = IdMatricula.ToString()
             });
 
-            //DataregPrenotacao
-            dtoTmp.listaCamposValor.AddRange(GetCamposPrenotacao(IdTipoAto, IdPrenotacao, IdMatricula));
-
             //pessoas
             dtoTmp.Pessoas.AddRange(GetListaPessoas(listIdsPessoas, IdTipoAto, IdPrenotacao));
 
             //Imovel
             dtoTmp.listaCamposValor.AddRange(GetCamposImovel(IdTipoAto, IdPrenotacao, IdMatricula));
-
-            //Registro
-            //if ((TipoAtoEnum)IdTipoAto == TipoAtoEnum.Registro)
-            //{
-            //    //
-            //}
-
-            //Averbação
-            //if ((TipoAtoEnum)IdTipoAto == TipoAtoEnum.Averbacao)
-            //{
-            //}
-
-            //Ato inicial
-            //if ((TipoAtoEnum)IdTipoAto == TipoAtoEnum.AtoInicial)
-            //{
-            //}
 
             return dtoTmp;
         }
@@ -139,7 +118,7 @@ namespace AppServices.Car16.AppServices
             string valorTmp = string.Empty;
 
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CamposArquivoModeloDocx> listaCampos =  GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PREMAD").ToList();
+            List<CamposArquivoModeloDocx> listaCampos =  GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PRENOTACAO").ToList();
 
             PREMAD premad = _unitOfWorkCar16.Repositories.GenericRepository<PREMAD>().
                 GetWhere(p => (p.SEQPRED == IdPrenotacao) && (p.TIPODATA.Trim() == "R")).OrderByDescending(o => o.DATA).FirstOrDefault();
@@ -151,6 +130,11 @@ namespace AppServices.Car16.AppServices
                 if (prop != null)
                 {
                     valorTmp = prop.GetValue(premad).ToString();
+
+                    if (item.Campo == "IdPrenotacao")
+                    {
+                        valorTmp = IdPrenotacao.ToString();
+                    }
 
                     if (item.Campo == "DATA")
                     {

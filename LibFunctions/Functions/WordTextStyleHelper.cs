@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.Word
 {
     public static class WordTextStyleHelper
     {

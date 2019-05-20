@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LibFunctions.Functions;
+using Xceed.Words.NET;
+using System.Drawing;
 using Microsoft.Office.Interop.Word;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
-using Xceed.Words.NET;
-using System.Drawing;
+using LibFunctions.Functions.Word;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServiceCadastroDeAto : AppServiceBase<DtoCadastroDeAto,CadastroDeAto>, IAppServiceCadastroAto
+    public class AppServiceCadastroDeAto : AppServiceBase<DtoCadastroDeAto, CadastroDeAto>, IAppServiceCadastroAto
     {
         public AppServiceCadastroDeAto(IUnitOfWorkDataBaseCar16New unitOfWork) : base(unitOfWork)
         {
@@ -45,7 +45,6 @@ namespace AppServices.Car16.AppServices
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
                     WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
-
                 }
                 else
                 {
@@ -53,7 +52,7 @@ namespace AppServices.Car16.AppServices
                     app.Visible = true;
                     try
                     {
-                        var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes","Atos");
+                        var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes", "Atos");
                         doc = app.Documents.Open(caminho);
                         foreach (Microsoft.Office.Interop.Word.Paragraph paragrafo in doc.Paragraphs)
                         {
@@ -83,7 +82,7 @@ namespace AppServices.Car16.AppServices
                         //        {
                         //            item.Color(Color.Transparent);
                         //        }
-                                
+
                         //    }
                         //    docx.Paragraphs.Last().Color(Color.Black);
                         //    docx.SaveAs(filePath);
@@ -94,10 +93,10 @@ namespace AppServices.Car16.AppServices
                     {
                         doc = app.Documents.Add();
                     }
-                    
+
                     //if (!modelo.ExisteNoSistema)
                     //{
-                        
+
                     //}
                     //else
                     //{ 
@@ -139,7 +138,6 @@ namespace AppServices.Car16.AppServices
                             WordLayoutPageHelper.InserirCabecalho(modelo, doc, true, false);
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                         }
-
                     }
                     else
                     {

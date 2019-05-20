@@ -7,7 +7,7 @@ using Domain.Core.enums;
 using Domain.Core.Interfaces.Repositories;
 using Dto.Car16.Entities.Diversos;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.FeriadosFunc
 {
     public class FeriadoHelper
     {
