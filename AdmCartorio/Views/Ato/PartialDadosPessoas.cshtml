@@ -77,8 +77,8 @@
     $('#btnFecharPessoas').on('click', function () {
         LimparTabelaPessoas();
         DesabilitarProximo();
-        $('#labelResp').text('Por favor, selecione algum participante!');
-        $('#divResp').removeAttr('hidden');
+        $('#labelRespPes').text('Por favor, selecione algum participante!');
+        $('#divRespPes').removeAttr('hidden');
         participantes = [];
         $('#linkParticipantes').removeClass('hidden');
     });
@@ -114,7 +114,9 @@
                 console.log(participantes);  
             }
             HabilitarProximo();
-            $('#divResp').attr('hidden');
+            IrParaProximo();
+            debugger;
+            $('#divRespPes').attr('hidden','hidden');
             $('#linkParticipantes').removeClass('hidden');
         }
     });
@@ -123,7 +125,7 @@
         $('#divMsgPessoas').removeClass('hidden');
     }
     function EsconderMensagemErro() {
-        $('#divMsgPessoas').addClass('hidden');
+        $('#divMsgPessoasPes').addClass('hidden');
     }
     function PreencherTabelaPessoas(item) {
         var tabela = $('#tblPessoas > tbody');
