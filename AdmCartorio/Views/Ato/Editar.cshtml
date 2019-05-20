@@ -473,16 +473,14 @@
                                                 <br />
                                                 <br />
                                                 <h1 class="text-align-center">Deseja confirmar o ato escrito?</h1>
-                                                <div class="text-align-center">
+                                                @*<div class="text-align-center">
                                                     <span class="text-danger h3">Após confirmar, não sera possível mais modificar o ato</span>
-                                                </div>
-                                                <br />
-                                                <br />
+                                                </div>*@
                                                 @Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
                                                 <br />
                                                 <div class="row hidden" id="infoAdicional">
                                                     <div class="col-sm-12 text-align-center">
-                                                        <span class="text-danger h3 text-align-center">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
+                                                        <span class="text-danger h3 text-align-center" id="spanInfoAdicionais">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
                                                         <br />
                                                         @Html.HiddenFor(model => model.IrParaFicha)
