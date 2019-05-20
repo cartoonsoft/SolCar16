@@ -106,10 +106,10 @@ namespace AppServices.Car16.AppServices
                     string sigla = string.Empty;
                     switch (modelo.IdTipoAto)
                     {
-                        case 1:
+                        case 2:
                             sigla = "AV";
                             break;
-                        case 2:
+                        case 1:
                             sigla = "R";
                             break;
                         default:

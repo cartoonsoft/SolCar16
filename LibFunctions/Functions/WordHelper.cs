@@ -151,7 +151,7 @@ namespace LibFunctions.Functions.Word
                 {
                     //Selecionando texto para salvar
                     string textoParaSalvar = string.Empty;
-                    if (!houveDesvio) textoParaSalvar = SelecionaTextoParaSalvar(doc);
+                    textoParaSalvar = SelecionaTextoParaSalvar(doc);
 
                     //Escreve no documento o texto para salvar
                     posicaoCursor = EscreverNoDocumento(modelo, doc, ref numeroPagina, textoParaSalvar);

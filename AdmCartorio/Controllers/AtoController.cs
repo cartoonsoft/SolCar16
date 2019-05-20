@@ -513,7 +513,7 @@ namespace AdmCartorio.Controllers
         private static string RemoveUltimaMarcacao(string ato)
         {
             var atoString = ato.Substring(0, ato.Length - 1);
-            atoString = atoString.Replace('\n', ' ');
+            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;","");
             return atoString;
         }
 
