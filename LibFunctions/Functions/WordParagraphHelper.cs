@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.Word
 {
     public static class WordParagraphHelper
     {
@@ -34,7 +34,9 @@ namespace LibFunctions.Functions
             else
             {
                 if (!String.IsNullOrEmpty(text))
+                {
                     doc.Paragraphs.Add().Range.Text = text;
+                }
             }
         }
         /// <summary>
@@ -52,7 +54,9 @@ namespace LibFunctions.Functions
             else
             {
                 if (!String.IsNullOrEmpty(text))
+                {
                     doc.Application.ActiveDocument.Range(posicaoInicial).Text = text;
+                }
             }
         }
         /// <summary>

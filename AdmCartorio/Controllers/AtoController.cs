@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -9,6 +7,8 @@ using System.Net;
 using System.Text;
 using System.Web.Mvc;
 using Xceed.Words.NET;
+using AutoMapper;
+using Newtonsoft.Json;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using AppServices.Car16.AppServices;
@@ -16,9 +16,7 @@ using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using LibFunctions.Functions;
+using LibFunctions.Functions.Word;
 
 namespace AdmCartorio.Controllers
 {

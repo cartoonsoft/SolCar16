@@ -7,7 +7,7 @@ namespace Domain.Car16.Entities.Car16
     using System.Data.Entity.Spatial;
 
     [Table("MATRICULAS", Schema = "DEZESSEIS")]     
-    public partial class Matricula
+    public class Matricula
     {
         [Key]
         [Column(Order = 0)]

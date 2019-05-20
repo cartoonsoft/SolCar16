@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using LibFunctions.Functions;
+using Xceed.Words.NET;
+using System.Drawing;
 using Microsoft.Office.Interop.Word;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Diversas;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
-using Xceed.Words.NET;
-using System.Drawing;
+using LibFunctions.Functions.Word;
 
 namespace AppServices.Car16.AppServices
 {
-    public class AppServiceCadastroDeAto : AppServiceBase<DtoCadastroDeAto,CadastroDeAto>, IAppServiceCadastroAto
+    public class AppServiceCadastroDeAto : AppServiceBase<DtoCadastroDeAto, CadastroDeAto>, IAppServiceCadastroAto
     {
         public AppServiceCadastroDeAto(IUnitOfWorkDataBaseCar16New unitOfWork) : base(unitOfWork)
         {
@@ -44,13 +44,7 @@ namespace AppServices.Car16.AppServices
                     //Pegando o numero da pagina para configurar o layout
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                     WordPageHelper.ConfigurePageLayout(doc, numeroPagina);
-                    //WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
-                    WordParagraphHelper.InserirParagrafo(doc, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 17 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
-                    WordPageHelper.GetNumeroFicha(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFicha(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
-                    , false);
-                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                    WordParagraphHelper.InserirParagrafoEmBranco(doc);
-                    WordParagraphHelper.SpaceAfterParagraphs(doc, 0);
+                    WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
                 }
                 else
                 {
@@ -58,37 +52,51 @@ namespace AppServices.Car16.AppServices
                     app.Visible = true;
                     try
                     {
-                        var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes","Atos");
+                        var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes", "Atos");
                         doc = app.Documents.Open(caminho);
                         foreach (Microsoft.Office.Interop.Word.Paragraph paragrafo in doc.Paragraphs)
                         {
-                            if (paragrafo.Range.Text.Contains('\u0001'))
+                            if (paragrafo.Range.Text.Contains('\f'))
                             {
-                                paragrafo.Range.Text = " ";
-                                WordParagraphHelper.InserirParagrafoEmBranco(doc);
+                                continue;
+                            }
+                            else
+                            {
+                                paragrafo.Range.Text = '\r'.ToString();
                             }
                         }
-                        doc.SaveAs(caminho);
+                        doc.SaveAs(filePath);
                         doc.Close();
-                        using (var docx = DocX.Load(caminho))
-                        {
-                            foreach (var item in docx.Paragraphs)
-                            {
-                                item.Color(Color.Transparent);
-                            }
-                            docx.Paragraphs.Last().Color(Color.Black);
-                            docx.SaveAs(filePath);
-                        }
+
+
+                        //using (var docx = DocX.Load(caminho))
+                        //{
+                        //    foreach (var item in docx.Paragraphs)
+                        //    {
+                        //        if (string.IsNullOrEmpty(item.Text) && item != docx.Paragraphs.Last())
+                        //        {
+                        //            item.Remove(false);
+                        //            docx.InsertParagraph();
+                        //        }
+                        //        else
+                        //        {
+                        //            item.Color(Color.Transparent);
+                        //        }
+
+                        //    }
+                        //    docx.Paragraphs.Last().Color(Color.Black);
+                        //    docx.SaveAs(filePath);
+                        //}
                         doc = app.Documents.Open(filePath);
                     }
                     catch (Exception ex)
                     {
                         doc = app.Documents.Add();
                     }
-                    
+
                     //if (!modelo.ExisteNoSistema)
                     //{
-                        
+
                     //}
                     //else
                     //{ 
@@ -123,14 +131,13 @@ namespace AppServices.Car16.AppServices
                         {
                             ///Desloca os centimetros e escreve o cabeçalho, se necessario. 
                             ///Atualiza o numero da pagina e a posição do cursor
-                            WordHelper.DesviarCentimetros(doc, modelo, sigla, numSequenciaAto, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor);
+                            WordHelper.DesviarCentimetros(doc, modelo, sigla, numSequenciaAto, modelo.QuantidadeCentimetrosDaBorda, ref numeroPagina, ref posicaoCursor, true);
                         }
                         else
                         {
                             WordLayoutPageHelper.InserirCabecalho(modelo, doc, true, false);
                             numeroPagina = WordPageHelper.GetNumeroPagina(doc);
                         }
-
                     }
                     else
                     {
@@ -173,7 +180,7 @@ namespace AppServices.Car16.AppServices
                 //Não deixa o texto começar com negrito
                 WordTextStyleHelper.Bold(doc, posicaoCursor, false);
                 //Escreve o ato e ajusta o documento, caso necessário
-                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
+                WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor, modelo.IrParaFicha > 0);
                 WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
 
                 #endregion

@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.BusinessFuncs
 {
     public static class BusinessFunctions
     {

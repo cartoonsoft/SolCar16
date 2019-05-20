@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xceed.Words.NET;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.Word
 {
     public static class WordHelper
     {

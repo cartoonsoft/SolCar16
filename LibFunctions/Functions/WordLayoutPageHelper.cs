@@ -1,15 +1,17 @@
-﻿using Dto.Car16.Entities.Cadastros;
-using Microsoft.Office.Interop.Word;
+﻿using Microsoft.Office.Interop.Word;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LibFunctions.Functions.DatesFunc;
+using Dto.Car16.Entities.Cadastros;
 
-namespace LibFunctions.Functions
+namespace LibFunctions.Functions.Word
 {
     public static class WordLayoutPageHelper
     {
+        
         /// <summary>
         /// Função que alinha o texto ao shape após inserir o cabeçalho
         /// </summary>
