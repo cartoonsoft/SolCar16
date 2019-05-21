@@ -21,26 +21,20 @@ using Microsoft.AspNet.Identity.Owin;
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class UsuariosController : AdmCartorioBaseController
+    public class UsuariosController : Controller
     {
-        private ApplicationDbContextIdentity dbContext = new ApplicationDbContextIdentity();
         private ApplicationUserManager _userManager;
         private ApplicationSignInManager _signInManager;
 
-        public UsuariosController() : base(null, null)
+        public UsuariosController()
         {
-            //
+
         }
 
-        public UsuariosController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) : base(null, null)
+        public UsuariosController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
-        }
-
-        public UsuariosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New): base (unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
-        {
-            //colocar aqui Appp services 
         }
 
         private void AddErrors(IdentityResult result)
@@ -81,7 +75,7 @@ namespace AdmCartorio.Controllers
         {
             if (disposing)
             {
-                dbContext.Dispose();
+                //
             }
             base.Dispose(disposing);
         }
@@ -89,7 +83,7 @@ namespace AdmCartorio.Controllers
         // GET: Usuarios
         public ActionResult Index()
         {
-            return View(dbContext.Users.ToList());
+            return View(UserManager.Users.ToList());
         }
 
         // GET: Usuarios/Create
@@ -164,7 +158,7 @@ namespace AdmCartorio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            ApplicationUser applicationUser = dbContext.Users.Find(id);
+            ApplicationUser applicationUser = UserManager.FindById(id);
 
             if (applicationUser == null)
             {
@@ -198,17 +192,23 @@ namespace AdmCartorio.Controllers
             if (ModelState.IsValid)
             {
 
-                ApplicationUser applicationUser = dbContext.Users.Find(accountRegisterViewModel.Id);
+                ApplicationUser applicationUser = UserManager.FindById(accountRegisterViewModel.Id.ToString());
 
-                if (applicationUser == null)
+                if (applicationUser != null)
                 {
+                    if (!accountRegisterViewModel.Admin)
+                    {
+                        IdentityUserClaim claimAdmin = applicationUser.Claims.Where(c => c.ClaimType == "AdminUsers").FirstOrDefault();
+                        applicationUser.Claims.Remove(claimAdmin);
+                    }
+
                     applicationUser.Nome = accountRegisterViewModel.Nome;
                     applicationUser.AccessFailedCount = 0;
                     applicationUser.Ativo = accountRegisterViewModel.Ativo;
                     applicationUser.UserName = accountRegisterViewModel.Email;
                     applicationUser.Email = accountRegisterViewModel.Email;
                     applicationUser.LastPwdChangedDate = DateTime.Now;
-                    applicationUser.PhoneNumber = accountRegisterViewModel.Nome;
+                    applicationUser.PhoneNumber = accountRegisterViewModel.PhoneNumber;
                     applicationUser.PhoneNumberConfirmed = false;
 
                     await UserManager.UpdateAsync(applicationUser);
@@ -231,7 +231,7 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                ApplicationUser user =  dbContext.Users.Find(id);
+                ApplicationUser user = UserManager.FindById(id);
                 if (user == null)
                 {
                     msg = "Usuário não cadastrado";
@@ -239,7 +239,7 @@ namespace AdmCartorio.Controllers
                 else
                 {
                     user.Ativo = !user.Ativo;
-                    dbContext.SaveChanges();
+                    UserManager.Update(user);
                     requestOk = true;
                     msg = "Usuário alaterado com sucesso!";
                 }

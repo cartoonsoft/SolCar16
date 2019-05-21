@@ -5,19 +5,16 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using Domain.Car16.Entities.Car16New;
 using Domain.Car16.Interfaces.UnitOfWork;
 using Domain.Car16.enums;
-using Infra.Data.Car16.UnitsOfWork;
-using AppServices.Car16.AppServices;
-using Dto.Car16.Entities.Cadastros;
-using Domain.Car16.Entities.Diversas;
-using AutoMapper;
-using Dto.Car16.Entities.Diversos;
-using System.Threading;
 using Infra.Data.Car16.UnitsOfWork.DbCar16New;
+using AppServices.Car16.AppServices;
+using Dto.Car16.Entities.Diversos;
+using Dto.Car16.Entities.Cadastros;
 
 namespace AdmCartorio.Controllers
 {
