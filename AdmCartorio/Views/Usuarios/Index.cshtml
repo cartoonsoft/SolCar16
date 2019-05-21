@@ -18,7 +18,7 @@
     }
 
     #tbl-usuarios tr td:nth-child(1) {
-        width: 15%;
+        width: 20%;
     }
     #tbl-usuarios tr td:nth-child(2) {
         width: 15%;
@@ -27,27 +27,31 @@
         width: 15%;
     }
     #tbl-usuarios tr td:nth-child(4) {
-        width: 8%;
+        width: 6%;
         align-content: flex-end;
         text-align: center;
         margin-left: 1em;
     }
     #tbl-usuarios tr td:nth-child(5) {
-        width: 8%;
+        width: 6%;
         align-content: flex-end;
         text-align: center;
         margin-left: 1em;
     }
     #tbl-usuarios tr td:nth-child(6) {
-        width: 8%;
+        width: 6%;
         align-content: flex-end;
         text-align: center;
         margin-left: 1em;
     }
     #tbl-usuarios tr td:nth-child(7) {
-        width: 8%;
+        width: 6%;
         align-content: flex-end;
         text-align: center;
+        margin-left: 1em;
+    }
+    #tbl-usuarios tr td:nth-child(8) {
+        text-align: left;
         margin-left: 1em;
     }
 
@@ -138,44 +142,72 @@
                             <tbody>
                                 @foreach (var item in Model)
                                 {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Nome)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Email)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PhoneNumber)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Ativo)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.EmailConfirmed)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("Editar", "Edit", "Usuarios", new { id = item.Id }, new { @class = "btn btn-primary" })&ensp;
-                                            @{
-                                                if (item.Ativo)
-                                                {
-                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-danger">Desativar</a>
-                                                }
-                                                else
-                                                {
-                                                    <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')" class="btn btn-default">Ativar</a>
-                                                }
+                                <tr>
+                                    <td>
+                                        @if (item.Claims.Where(c => c.ClaimType == "AdminUsers").FirstOrDefault() != null)
+                                        {
+                                            <i class="fa fa-briefcase" aria-hidden="true"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa fa-user" aria-hidden="true"></i>
 
-                                            }
+                                        }
 
-                                        </td>
-                                    </tr>
+                                        @Html.DisplayFor(modelItem => item.Nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ativo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumberConfirmed)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TwoFactorEnabled)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", "Usuarios", new { id = item.Id })" class="btn btn-primary btn-sm" title="Editar usuário">
+                                            <i class="fa fa-edit" aria-hidden="true"></i> Editar
+                                        </a>
+                                        <div class="btn-group">
+                                            <a class="btn btn-default btn-sm" data-toggle="dropdown" href="javascript:void(0);"><span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    @{ if (item.Claims.Where(c => c.ClaimType == "AdminUsers").FirstOrDefault() == null)
+                                                        {
+                                                            <a href="javascript:void(0);" title="Definir usuário como administrador.">Definir como Admin</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="javascript:void(0);" title="Definir usuário como não administrador.">Definir como não Admin</a>
+                                                        }
+                                                    }
+                                                </li>
+                                                <li>
+                                                    @{ if (item.Ativo)
+                                                        {
+
+                                                            <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')">Desativar</a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a href="javascript:void(0);" id="@item.Id" onclick="AtivarDesativarUsuario(this, '@item.Id')">Ativar</a>
+                                                        }
+                                                    }
+                                                </li>
+                                            </ul>
+                                        </div><!-- /btn-group -->
+                                    </td>
+                                </tr>
                                 }
                             </tbody>
                         </table>

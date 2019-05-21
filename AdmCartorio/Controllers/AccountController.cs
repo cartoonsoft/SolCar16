@@ -567,7 +567,6 @@ namespace AdmCartorio.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SignOutEverywhere()
