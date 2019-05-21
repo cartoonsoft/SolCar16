@@ -217,32 +217,25 @@ namespace AdmCartorio.Controllers
                         logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                         logArquivo.IP = arquivoModeloDocxViewModel.IpLocal;
 
-                        var resultado = appService.EditarModelo(new DtoArquivoModeloDocxModel()
+                        appService.EditarModelo(new DtoArquivoModeloDocxModel()
                         {
+                            Id = arquivoModeloDocxViewModel.Id,
                             IdContaAcessoSistema = 1,
                             Ativo = true,
                             IdTipoAto = arquivoModeloDocxViewModel.IdTipoAto,
                             CaminhoEArquivo = arquivoModeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                             Files = arquivoModeloDocxViewModel.Files,
                             NomeModelo = arquivoModeloDocxViewModel.NomeModelo,
-                            LogArquivo = logArquivo
+                            LogArquivo = logArquivo,
+                            
                         }, UsuarioAtual.Id);
-
-                        if (resultado == 1)
-                        {
-                            this.UnitOfWorkDataBaseCar16New.SaveChanges();
-                        }
-                        else
-                        {
-                            return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                        }
 
                     }
 
                     //UploadArquivo(arquivoModeloDocxViewModel);
 
                     //ViewBag.resultado = "Arquivo salvo com sucesso!";
-                    return View(nameof(Index));
+                    return RedirectToActionPermanent(nameof(Index));
 
                 }
                 return View(nameof(Editar), arquivoModeloDocxViewModel);

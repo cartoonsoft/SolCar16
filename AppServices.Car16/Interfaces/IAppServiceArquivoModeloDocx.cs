@@ -17,6 +17,6 @@ namespace AppServices.Car16.Interfaces
 
         IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
 
-        long? EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
+        void EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
     }
 }

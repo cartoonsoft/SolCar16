@@ -15,5 +15,6 @@ namespace Domain.Car16.Interfaces.DomainServices
         IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
 
         long? SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario);
+        long? EditarModelo(LogArquivoModeloDocx logArquivoModeloDocx);
     }
 }

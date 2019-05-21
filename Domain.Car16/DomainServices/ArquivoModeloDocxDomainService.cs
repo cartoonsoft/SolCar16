@@ -56,5 +56,20 @@ namespace Domain.Car16.DomainServices
 
             return NovoId;
         }
+        public long? EditarModelo(LogArquivoModeloDocx logArquivoModeloDocx)
+        {
+            long? NovoId = null;
+
+            UnitOfWorkCar16New.BeginTransaction();
+            
+            logArquivoModeloDocx.Id = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+
+            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            UnitOfWorkCar16New.SaveChanges();
+
+            UnitOfWorkCar16New.CommitTransaction();
+
+            return NovoId;
+        }
     }
 }

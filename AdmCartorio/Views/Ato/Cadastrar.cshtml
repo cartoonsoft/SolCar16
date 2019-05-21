@@ -501,7 +501,7 @@
                                                 <br />
                                                 <div class="row hidden" id="infoAdicional">
                                                     <div class="col-sm-12 text-align-center">
-                                                        <span class="text-danger h3 text-align-center" id="spanInfoAdicionais">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
+                                                        <span class="h4 text-align-center" id="spanInfoAdicionais">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
                                                         <br />
                                                         <br />
                                                         @Html.HiddenFor(model => model.IrParaFicha)
@@ -681,7 +681,7 @@
                     console.log(error);
                     voltarPasso();
                     $('#divRespImo').removeAttr('hidden');
-                    $('#labelRespImo').text('Erro ao escrever o modelo, revise-o');
+                    $('#labelRespImo').text(error.statusText);
                     $('#ModalLoading').modal('hide');
 
                 },

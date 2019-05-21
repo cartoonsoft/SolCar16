@@ -113,7 +113,7 @@ namespace AppServices.Car16.AppServices
             return listaDto;
         }
 
-        public long? EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
+        public void EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
         {
             try
             {
@@ -131,16 +131,13 @@ namespace AppServices.Car16.AppServices
                     DataHora = DateTime.Now,
                     UsuarioSistOperacional = dtoArq.LogArquivo.UsuarioSistOperacional,
                     IP = dtoArq.LogArquivo.IP,
-                    TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
+                    TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload                    
                 };
 
-                this.DomainServices.GenericDomainService<LogArquivoModeloDocx>().Add(logArquivoModeloDocx);
-
-                return 1;
+                logArquivoModeloDocx.Id = this._arquivoModeloDocxDomainService.EditarModelo(logArquivoModeloDocx);
             }
             catch (Exception)
             {
-                return 0;
                 throw;
             }
             

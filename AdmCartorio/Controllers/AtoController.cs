@@ -556,7 +556,9 @@ namespace AdmCartorio.Controllers
                                                 i++;
                                                 if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
                                                 {
-                                                    return "Arquivo com campos corrompidos, verifique o modelo";
+                                                    Response.StatusCode = 500;
+                                                    Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
+                                                    return Response.StatusDescription;
                                                 }
                                             }
                                             //Buscar dado da pessoa aqui
@@ -581,10 +583,19 @@ namespace AdmCartorio.Controllers
                     }
                     return textoFormatado.ToString();
                 }
+                catch (FileNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    Response.StatusCode = 404;
+                    Response.StatusDescription = "Modelo não encontrado na base de dados";
+                    return Response.StatusDescription;
+                }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    throw new Exception("Ocorreu algum erro ao utilizar o modelo");
+                    Response.StatusCode = 500;
+                    Response.StatusDescription = "Ocorreu algum erro ao utilizar o modelo";
+                    return Response.StatusDescription;
                 }
 
             }
