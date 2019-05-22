@@ -130,7 +130,7 @@ namespace AppServices.Car16.AppServices
 
                     if (prop != null)
                     {
-                        valorTmp = prop.GetValue(premad).ToString();
+                        valorTmp = (prop.GetValue(premad) == null)? "" : prop.GetValue(premad).ToString();
 
                         if (item.Campo == "IdPrenotacao")
                         {
@@ -173,7 +173,7 @@ namespace AppServices.Car16.AppServices
                         listaTmp.Add(new DtoCamposValor
                         {
                             Campo = item.NomeCampo,
-                            Valor = prop.GetValue(Imovel).ToString()
+                            Valor = (prop.GetValue(Imovel) == null) ? "" : prop.GetValue(Imovel).ToString()
                         });
                     }
                 }
@@ -188,7 +188,7 @@ namespace AppServices.Car16.AppServices
             {
                 var listaPessoas =
                     from pre in _unitOfWorkCar16.Repositories.GenericRepository<PESXPRE>().Get().Where(pr => (pr.SEQPRE == IdPrenotacao) && (Relacoes.Contains(pr.REL)))
-                    join pes in _unitOfWorkCar16.Repositories.GenericRepository<PESSOA>().Get() on pre.SEQPES equals pes.SEQPES
+                    join pes in _unitOfWorkCar16.Repositories.GenericRepository<PESSOA>().Get() on pre.SEQPES equals pes.SEQPES 
                     orderby pes.NOM
                     select new DtoPessoaPesxPre
                     {
@@ -227,7 +227,7 @@ namespace AppServices.Car16.AppServices
                     {
                         campos.Id,
                         campos.IdAcessoSistema,
-                         campos.IdTipoAto,
+                        campos.IdTipoAto,
                         campos.NomeCampo,
                         campos.PlaceHolder,
                         campos.Entidade,
@@ -255,6 +255,58 @@ namespace AppServices.Car16.AppServices
 
         private List<DtoPessoaPesxPre> GetListaPessoas(long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao)
         {
+            bool povoarCampo = false;
+
+            string[] CamposOutorgado = {
+                "NomeOutorgado",
+                "EnderecoOutorgado",
+                "BairroOutorgado",
+                "CidadeOutorgado",
+                "UFOutorgado",
+                "CEPOutorgado",
+                "TelefoneOutorgado",
+                "TipoDoc1Outorgado",
+                "NumDoc1Outorgado",
+                "TipoDoc2Outorgado",
+                "NumDoc2Outorgado",
+                "NomeOutorgado",
+                "EnderecoOutorgado",
+                "BairroOutorgado",
+                "CidadeOutorgado",
+                "UFOutorgado",
+                "CEPOutorgado",
+                "TelefoneOutorgado",
+                "TipoDoc1Outorgado",
+                "NumDoc1Outorgado",
+                "TipoDoc2Outorgado",
+                "NumDoc2Outorgado"
+            };
+
+            string[] CamposOutorgante = {
+                "NomeOutorgante",
+                "EnderecoOutorgante",
+                "BairroOutorgante",
+                "CidadeOutorgante",
+                "UFOutorgante",
+                "CEPOutorgante",
+                "TelefoneOutorgante",
+                "TipoDoc1Outorgante",
+                "NumDoc1Outorgante",
+                "TipoDoc2Outorgante",
+                "NumDoc2Outorgante",
+                "NomeOutorgante",
+                "EnderecoOutorgante",
+                "BairroOutorgante",
+                "CidadeOutorgante",
+                "UFOutorgante",
+                "CEPOutorgante",
+                "TelefoneOutorgante",
+                "TipoDoc1Outorgante",
+                "NumDoc1Outorgante",
+                "TipoDoc2Outorgante",
+                "NumDoc2Outorgante"
+            };
+
             List<DtoPessoaPesxPre> listaPessoasTmp = GetPessoasPorPrenotacao(IdPrenotacao).Where(p => listIdsPessoas.Contains(p.IdPessoa)).ToList();
             List<CamposArquivoModeloDocx> listaCampos = GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PESSOA").ToList();
 
@@ -262,15 +314,29 @@ namespace AppServices.Car16.AppServices
             {
                 foreach (var CampoPessoa in listaCampos)
                 {
-                    var prop = pessoa.GetType().GetProperty(CampoPessoa.Campo);
-
-                    if (prop != null)
+                    povoarCampo = false;
+                    //Sse for outorgado
+                    if (pessoa.Relacao =="O")
                     {
-                        pessoa.listaCamposValor.Add(new DtoCamposValor
+                        povoarCampo = CamposOutorgado.Contains(CampoPessoa.NomeCampo); 
+
+                    } else if (pessoa.Relacao == "E") //outrogante
+                    {
+                        povoarCampo = CamposOutorgante.Contains(CampoPessoa.NomeCampo);
+                    }
+
+                    if (povoarCampo)
+                    {
+                        var prop = pessoa.GetType().GetProperty(CampoPessoa.Campo);
+
+                        if (prop != null)
                         {
-                            Campo = CampoPessoa.NomeCampo,
-                            Valor = prop.GetValue(pessoa).ToString()
-                        });
+                            pessoa.listaCamposValor.Add(new DtoCamposValor
+                            {
+                                Campo = CampoPessoa.NomeCampo,
+                                Valor = (prop.GetValue(pessoa) == null) ? "" : prop.GetValue(pessoa).ToString()
+                            });
+                        }
                     }
                 }
             }
