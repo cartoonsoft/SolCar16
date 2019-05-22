@@ -110,7 +110,7 @@ namespace AdmCartorio.Controllers
                         {
                             Ativo = true,
                             Bloqueado = false,
-                            IdPrenotacao = 511898,//modelo.PREIMO.SEQPRE,
+                            IdPrenotacao = modelo.PREIMO.SEQPRE,
                             IdTipoAto = modelo.IdTipoAto,
                             NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
                             Observacao = "Cadastro de teste",
@@ -227,8 +227,8 @@ namespace AdmCartorio.Controllers
                     {
                         IdAto = Id,
                         PREIMO = new PREIMOViewModel(){
-                            MATRI = Convert.ToInt32(Ato.NumMatricula),
-                            SEQIMO = Convert.ToInt64(Ato.NumMatricula)
+                            SEQIMO = Convert.ToInt64(Ato.NumMatricula),
+                            SEQPRE= Ato.IdPrenotacao
                         },
                         NumSequencia = Convert.ToInt32(Ato.NumSequencia)
                     };
@@ -340,7 +340,6 @@ namespace AdmCartorio.Controllers
         }
         public PartialViewResult PartialDadosPessoas(string listaPessoas)
         {
-
             var dados = JsonConvert.DeserializeObject<List<DadosPessoaViewModel>>(listaPessoas);
             return PartialView(dados);
         }

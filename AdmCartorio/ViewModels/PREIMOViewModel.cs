@@ -27,7 +27,7 @@ namespace AdmCartorio.ViewModels
         public string EDIF { get; set; }
         public string VAGA { get; set; }
         public string OUTROS { get; set; }
-        public int MATRI { get; set; }
+        public int? MATRI { get; set; }
 
         public int TRANS { get; set; }
 

@@ -28,7 +28,7 @@ namespace AdmCartorio.ViewModels
         public string Telefone { get; set; }
         [DataMember]
         [Display(Description ="Tipo Documento",Name = "Tipo Documento")]
-        public byte? TipoDoc1 { get; set; }
+        public string TipoDoc1 { get; set; }
         [DataMember]
         [Display(Description ="N.° Documento",Name = "N.° Documento")]
         public string Numero1 { get; set; }
