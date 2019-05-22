@@ -227,7 +227,8 @@ namespace AdmCartorio.Controllers
                     {
                         IdAto = Id,
                         PREIMO = new PREIMOViewModel(){
-                            SEQIMO = Convert.ToInt64(Ato.NumMatricula)
+                            SEQIMO = Convert.ToInt64(Ato.NumMatricula),
+                            SEQPRE= Ato.IdPrenotacao
                         },
                         NumSequencia = Convert.ToInt32(Ato.NumSequencia)
                     };
