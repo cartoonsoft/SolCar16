@@ -35,7 +35,7 @@ namespace AppServices.Car16.AppServices
                 if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
                 {
                     //Inicia a variavel que representa o documento
-                    app.Visible = true;
+                    app.Visible = false;
                     doc = app.Documents.Add();
 
                     //Configuração do documento
@@ -56,7 +56,7 @@ namespace AppServices.Car16.AppServices
                 else
                 {
                     //Abre o arquivo para escrever o ATO e faz as configurações iniciais
-                    app.Visible = true;
+                    app.Visible = false;
                     try
                     {
                         var caminho = filePath.Replace("_pendente", "").Replace("AtosPendentes", "Atos");

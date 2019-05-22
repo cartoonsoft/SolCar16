@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
@@ -26,14 +27,18 @@ namespace AdmCartorio.ViewModels
         [DataMember]
         public string Telefone { get; set; }
         [DataMember]
+        [Display(Description ="Tipo Documento",Name = "Tipo Documento")]
         public byte? TipoDoc1 { get; set; }
         [DataMember]
+        [Display(Description ="N.° Documento",Name = "N.° Documento")]
         public string Numero1 { get; set; }
         [DataMember]
+        [Display(Description = "Tipo Doc2", Name = "Tipo Doc2")]
         public string TipoDoc2 { get; set; }
         [DataMember]
         public string Numero2 { get; set; }
         [DataMember]
+        [Display(Description ="TP Pessoa",Name = "TP Pessoa")]
         public string TipoPessoa { get; set; }
     }
 }

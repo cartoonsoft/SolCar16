@@ -18,6 +18,9 @@
                             @Html.DisplayNameFor(model => model.Nome)
                         </th>
                         <th>
+                            @Html.DisplayNameFor(model => model.TipoPessoa)
+                        </th>
+                        <th>
                             @Html.DisplayNameFor(model => model.Endereco)
                         </th>
                         <th>
@@ -42,6 +45,9 @@
 
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Nome)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TipoPessoa)
                                     </td>
                                     <td>
                                         @Html.DisplayFor(modelItem => item.Endereco)
@@ -73,41 +79,40 @@
     </div>
 </div>
 <script>
+    /************************ VARIAVEL GLOVAL *************************************/
+    var participantes = [];
 
-    $('#btnFecharPessoas').on('click', function () {
+    /*********************************** EVENTOS **********************************/
+    $('#btnFecharPessoas').on('click', btnFecharPessoasClick);      
+    $('#enviaInfoPessoa').on('click', enviaInfoPessoaClick);    
+
+    /****************************** FUNCOES DE EVENTOS ***************************/
+    function btnFecharPessoasClick() {
         LimparTabelaPessoas();
         DesabilitarProximo();
         $('#labelRespPes').text('Por favor, selecione algum participante!');
         $('#divRespPes').removeAttr('hidden');
         participantes = [];
         $('#linkParticipantes').removeClass('hidden');
-    });
-
-
-    $('#enviaInfoPessoa').on('click', function () {
-        var elementos = $('#tblPartialPessoa > tbody > tr > td > input');
-        var itens = [];
-        
-        debugger;
-        for (var i = 0; i < elementos.length; i++) {
+    }
+    function enviaInfoPessoaClick() {
+        const elementos = $('#tblPartialPessoa > tbody > tr > td > input');
+        let itens = [];
+        for (let i = 0; i < elementos.length; i++) {
             if ($(elementos[i]).prop('checked')) {
-                var linha = $(elementos[i]).closest('tr');
+                const linha = $(elementos[i]).closest('tr');
                 itens.push(linha);
             }
         }
-        debugger;
         participantes = [];
         if ($.isEmptyObject(itens)) {
             MostrarMensagemErro();
             LimparTabelaPessoas();
-            
-
         } else {
             EsconderMensagemErro();
             LimparTabelaPessoas();
             while (!$.isEmptyObject(itens)) {
-                var item = itens.pop();
-                debugger;
+                let item = itens.pop();
                 participantes.push(item);
                 PreencherTabelaPessoas(item);
                 $('#PartialDadosPessoas').modal('hide');
@@ -115,12 +120,12 @@
             }
             HabilitarProximo();
             IrParaProximo();
-            debugger;
             $('#divRespPes').attr('hidden','hidden');
             $('#linkParticipantes').removeClass('hidden');
         }
-    });
-
+    }
+    /*********************************** FUNCOES *********************************/
+    
     function MostrarMensagemErro() {
         $('#divMsgPessoas').removeClass('hidden');
     }
@@ -128,20 +133,19 @@
         $('#divMsgPessoasPes').addClass('hidden');
     }
     function PreencherTabelaPessoas(item) {
-        var tabela = $('#tblPessoas > tbody');
-        var linha = '<tr>'+
+        const tabela = $('#tblPessoas > tbody');
+        const linha = '<tr>'+
                         '<td>' + $(item).data("tppessoa").trim() + '</td>' +
                         '<td>' + $(item).children('td').get(0).innerText.trim() + '</td>' +
-                        '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
                         '<td>' + $(item).children('td').get(2).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(4).innerText.trim() + '</td>' +
+                        '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
                         '<td>' + ($(item).data("bairro").trim() ==  undefined || $(item).data("bairro").trim() == ""  ? "-" : $(item).data("bairro").trim()) + '</td>' +
                         '<td>' + ($(item).data("cidade").trim() == undefined || $(item).data("cidade").trim() == "" ? "-" : $(item).data("cidade").trim()) + '</td>' +
                         '<td>' + ($(item).data("UF") == undefined ? "-" : $(item).data("UF").trim()) + '</td>' +
                         '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
                         '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim())+ '</td>' +                        
-                    '</tr>';
+                      '</tr>';
         $(tabela).append(linha);
     }
-
-    
 </script>

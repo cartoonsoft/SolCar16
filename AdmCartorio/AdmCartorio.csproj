@@ -495,6 +495,16 @@
     <None Include="Properties\PublishProfiles\SmartAdmin - Debug.pubxml" />
     <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.min.js" />
+    <Content Include="Scripts\Ato\ArquivoModelo.js" />
+    <Content Include="Scripts\Ato\Ato.js" />
+    <Content Include="Scripts\Ato\DadosImovel.js" />
+    <Content Include="Scripts\Ato\DadosPessoas.js" />
+    <Content Include="Scripts\Ato\DecoupledEditor.js" />
+    <Content Include="Scripts\Ato\ExibirModal.js" />
+    <Content Include="Scripts\Ato\HabilitarDesabilitar.js" />
+    <Content Include="Scripts\Ato\LimparDados.js" />
+    <Content Include="Scripts\Ato\MovimentarNoGrid.js" />
+    <Content Include="Scripts\Ato\PartialDadosAdicionais.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\cartoonsoft\libs.js" />
     <Content Include="Scripts\cartoonsoft\_layout.js" />
@@ -1045,6 +1055,10 @@
     <Content Include="Views\Shared\ViewLoading.cshtml" />
     <Content Include="Views\Ato\Bloquear.cshtml" />
     <Content Include="Views\Ato\Editar.cshtml" />
+    <Content Include="Views\Ato\_dadosPessoas.cshtml" />
+    <Content Include="Views\Ato\_dadosModelos.cshtml" />
+    <Content Include="Views\Ato\_decoupledEditor.cshtml" />
+    <Content Include="Views\Ato\_dadosImovel.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
