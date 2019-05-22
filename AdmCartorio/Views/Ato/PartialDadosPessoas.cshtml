@@ -69,7 +69,7 @@
             </table>
         </div>
         <div class="modal-footer">
-            <button id="btnFecharPessoas"  type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button id="btnFecharPessoas" type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 
             <button id="enviaInfoPessoa"
                     type="button" class="btn btn-primary">
@@ -83,8 +83,8 @@
     var participantes = [];
 
     /*********************************** EVENTOS **********************************/
-    $('#btnFecharPessoas').on('click', btnFecharPessoasClick);      
-    $('#enviaInfoPessoa').on('click', enviaInfoPessoaClick);    
+    $('#btnFecharPessoas').on('click', btnFecharPessoasClick);
+    $('#enviaInfoPessoa').on('click', enviaInfoPessoaClick);
 
     /****************************** FUNCOES DE EVENTOS ***************************/
     function btnFecharPessoasClick() {
@@ -116,16 +116,16 @@
                 participantes.push(item);
                 PreencherTabelaPessoas(item);
                 $('#PartialDadosPessoas').modal('hide');
-                console.log(participantes);  
+                console.log(participantes);
             }
             HabilitarProximo();
             IrParaProximo();
-            $('#divRespPes').attr('hidden','hidden');
+            $('#divRespPes').attr('hidden', 'hidden');
             $('#linkParticipantes').removeClass('hidden');
         }
     }
     /*********************************** FUNCOES *********************************/
-    
+
     function MostrarMensagemErro() {
         $('#divMsgPessoas').removeClass('hidden');
     }
@@ -134,18 +134,20 @@
     }
     function PreencherTabelaPessoas(item) {
         const tabela = $('#tblPessoas > tbody');
-        const linha = '<tr>'+
-                        '<td>' + $(item).data("tppessoa").trim() + '</td>' +
-                        '<td>' + $(item).children('td').get(0).innerText.trim() + '</td>' +
-                        '<td>' + $(item).children('td').get(2).innerText.trim() + '</td>' +
-                        '<td>' + $(item).children('td').get(4).innerText.trim() + '</td>' +
-                        '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
-                        '<td>' + ($(item).data("bairro").trim() ==  undefined || $(item).data("bairro").trim() == ""  ? "-" : $(item).data("bairro").trim()) + '</td>' +
-                        '<td>' + ($(item).data("cidade").trim() == undefined || $(item).data("cidade").trim() == "" ? "-" : $(item).data("cidade").trim()) + '</td>' +
-                        '<td>' + ($(item).data("UF") == undefined ? "-" : $(item).data("UF").trim()) + '</td>' +
-                        '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
-                        '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim())+ '</td>' +                        
-                      '</tr>';
+        const linha = '<tr>' +
+            '<td>' + $(item).data("tppessoa").trim() + '</td>' +
+            '<td>' + $(item).children('td').get(0).innerText.trim() + '</td>' +
+            '<td>' + $(item).children('td').get(2).innerText.trim() + '</td>' +
+            '<td>' + $(item).children('td').get(4).innerText.trim() + '</td>' +
+            '<td>' + $(item).children('td').get(3).innerText.trim() + '</td>' +
+            '<td>' + ($(item).data("bairro").trim() == undefined || $(item).data("bairro").trim() == "" ? "-" : $(item).data("bairro").trim()) + '</td>' +
+            '<td>' + ($(item).data("cidade").trim() == undefined || $(item).data("cidade").trim() == "" ? "-" : $(item).data("cidade").trim()) + '</td>' +
+            '<td>' + ($(item).data("UF") == undefined ? "-" : $(item).data("UF").trim()) + '</td>' +
+            '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
+            '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim()) + '</td>' +
+            '</tr>';
         $(tabela).append(linha);
     }
+
+    
 </script>

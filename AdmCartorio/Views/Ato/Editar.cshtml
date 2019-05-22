@@ -54,13 +54,14 @@
                 width: 10%;
             }
 
-            #tblPessoas tr td:nth-child(4),#tblPessoas tr td:nth-child(7) {
+            #tblPessoas tr td:nth-child(4), #tblPessoas tr td:nth-child(7) {
                 width: 15%;
                 text-align: left;
                 align-content: flex-start;
                 margin-left: 1em;
             }
-            #tblPessoas tr td:nth-child(9){
+
+            #tblPessoas tr td:nth-child(9) {
                 width: 20%;
                 text-align: left;
                 align-content: flex-start;
@@ -290,12 +291,10 @@
         $(document).ready(function () {
             GetModelos();
             PesquisarImovel();
-
             $('#wizard-1').on('submit', function () {
                 $('#ModalLoading').modal('show');
                 $('#mensagemLoading').text('Escrevendo ato...');
             });
-
 
             var $validator = $("#wizard-1").validate({
                 highlight: function (element) {
