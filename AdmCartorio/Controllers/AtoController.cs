@@ -151,7 +151,7 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
-        
+
         public ActionResult Bloquear(long? Id)
         {
             try
@@ -163,11 +163,12 @@ namespace AdmCartorio.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
-                    else if(Ato.Bloqueado == true)
+                    else if (Ato.Bloqueado == true)
                     {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest,"Não é possível bloquear um ato já bloqueado");
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
                     }
-                    AtoListViewModel atoViewModel = new AtoListViewModel {
+                    AtoListViewModel atoViewModel = new AtoListViewModel
+                    {
                         Id = Ato.Id,
                         Ativo = Ato.Ativo,
                         Bloqueado = Ato.Bloqueado,
@@ -192,25 +193,28 @@ namespace AdmCartorio.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
             }
-            
+
         }
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
             using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
-                
+
                 var resultado = appService.FinalizarAto(IdAto);
                 if (resultado)
                 {
                     this.UnitOfWorkDataBaseCar16New.SaveChanges();
                     WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
+                    Response.StatusCode = 200;
+                    Response.Status = "Ato Bloqueado com sucesso!";
                 }
                 else
                 {
-                    throw new Exception("Erro ao atualizar o ato!");
+                    Response.StatusCode = 500;
+                    Response.Status = "Erro ao atualizar o ato!";
                 }
-            }            
+            }
         }
         #endregion
 
@@ -226,16 +230,17 @@ namespace AdmCartorio.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
-                    else if(Ato.Bloqueado == true)
+                    else if (Ato.Bloqueado == true)
                     {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest,"Não é possível editar um ato já bloqueado.");
+                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
                     }
                     CadastroDeAtoViewModel atoViewModel = new CadastroDeAtoViewModel
                     {
                         IdAto = Id,
-                        PREIMO = new PREIMOViewModel(){
+                        PREIMO = new PREIMOViewModel()
+                        {
                             SEQIMO = Convert.ToInt64(Ato.NumMatricula),
-                            SEQPRE= Ato.IdPrenotacao
+                            SEQPRE = Ato.IdPrenotacao
                         },
                         NumSequencia = Convert.ToInt32(Ato.NumSequencia)
                     };
@@ -247,9 +252,6 @@ namespace AdmCartorio.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                 }
-
-
-
             }
             catch (Exception ex)
             {
@@ -381,11 +383,11 @@ namespace AdmCartorio.Controllers
             catch (Exception)
             {
                 jsonResult = "";
-
+                Response.StatusCode = 500;
+                Response.Status = "Erro ao serializar o objeto";
                 //Cadastrar log de erro
-
             }
-
+            Response.StatusCode = 200;
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
 
@@ -407,8 +409,10 @@ namespace AdmCartorio.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                //
+                Response.StatusCode = 500;
+                Response.Status = "Erro ao buscar os dados das pessoas";
             }
+            Response.StatusCode = 200;
             return Json(jsonResult, JsonRequestBehavior.AllowGet);
 
         }
@@ -428,10 +432,18 @@ namespace AdmCartorio.Controllers
                 {
 
                 }
+                Response.StatusCode = 200;
                 return true;
+            }
+            catch (FileNotFoundException ex)
+            {
+                Response.StatusCode = 200;
+                Console.Write(ex);
+                return false;
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
                 Console.Write(ex);
                 return false;
             }
@@ -450,12 +462,13 @@ namespace AdmCartorio.Controllers
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-               
+                Response.StatusCode = 200;
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Response.StatusCode = 500;
                 return null;
                 throw;
             }
@@ -473,12 +486,13 @@ namespace AdmCartorio.Controllers
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
-
+                Response.StatusCode = 200;
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Response.StatusCode = 500;
                 return null;
                 throw;
             }
@@ -519,7 +533,7 @@ namespace AdmCartorio.Controllers
         private static string RemoveUltimaMarcacao(string ato)
         {
             var atoString = ato.Substring(0, ato.Length - 1);
-            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;","");
+            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;", "");
             return atoString;
         }
 
@@ -530,7 +544,7 @@ namespace AdmCartorio.Controllers
         /// <returns>string HTML</returns>
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
-            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16,this.UnitOfWorkDataBaseCar16New))
+            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCar16, this.UnitOfWorkDataBaseCar16New))
             {
                 DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
                 StringBuilder textoFormatado = new StringBuilder();
@@ -574,7 +588,7 @@ namespace AdmCartorio.Controllers
                                             //atualiza o texto formatado
                                             textoParagrafo.Append(resultadoQuery);
                                         }
-                                        else if(paragrafo.Text[i] == '<')
+                                        else if (paragrafo.Text[i] == '<')
                                         {
                                             i++;
                                             var tipoTag = string.Empty;
@@ -612,6 +626,7 @@ namespace AdmCartorio.Controllers
                             }
                         }
                     }
+                    Response.StatusCode = 200;
                     return textoFormatado.ToString();
                 }
                 catch (FileNotFoundException ex)
@@ -639,7 +654,7 @@ namespace AdmCartorio.Controllers
         /// <param name="textoParagrafo">String Builder</param>
         /// <param name="i">Posição do texto do word</param>
         /// <returns></returns>
-        private int Repetir(DtoDadosImovel dadosImovel, Paragraph paragrafo, StringBuilder textoParagrafo, int i,bool isOutorgado = true)
+        private int Repetir(DtoDadosImovel dadosImovel, Paragraph paragrafo, StringBuilder textoParagrafo, int i, bool isOutorgado = true)
         {
             StringBuilder stringBuilder = new StringBuilder();
             bool expression(DtoPessoaPesxPre r) => r.Relacao == (isOutorgado ? "E" : "O");
@@ -714,11 +729,11 @@ namespace AdmCartorio.Controllers
         /// <param name="pessoa">Pessoa</param>
         /// <param name="campoQuery">Campo procurado</param>
         /// <returns></returns>
-        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa,string campoQuery)
+        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa, string campoQuery)
         {
             string Campotmp = string.Empty;
             try
-            {  
+            {
                 foreach (var Campo in pessoa.listaCamposValor)
                 {
                     if (Campo.Campo.Equals(campoQuery))
@@ -757,7 +772,8 @@ namespace AdmCartorio.Controllers
                 }
 
                 //PESQUISA DADOS PESSOA
-                if (!CampoEncontrado) {
+                if (!CampoEncontrado)
+                {
                     foreach (var pessoas in dtoDados.Pessoas)
                     {
                         foreach (var pessoa in pessoas.listaCamposValor)
