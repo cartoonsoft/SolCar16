@@ -255,6 +255,7 @@
     <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\fontawesome4.2\readme.txt" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\errorImg.png" />
     <Content Include="Content\img\gifLoading.gif" />
     <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="Content\img\alpha.png" />
@@ -331,6 +332,7 @@
     <Content Include="Content\img\favicon\favicon.ico" />
     <Content Include="Content\img\favicon\favicon.png" />
     <Content Include="Content\img\flags\flags.png" />
+    <Content Include="Content\img\gifSuccess.gif" />
     <Content Include="Content\img\glass.jpg" />
     <Content Include="Content\img\gradient\login.png" />
     <Content Include="Content\img\hue.png" />

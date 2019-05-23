@@ -84,41 +84,12 @@ namespace AppServices.Car16.AppServices
                         doc.SaveAs(filePath);
                         doc.Close();
 
-
-                        //using (var docx = DocX.Load(caminho))
-                        //{
-                        //    foreach (var item in docx.Paragraphs)
-                        //    {
-                        //        if (string.IsNullOrEmpty(item.Text) && item != docx.Paragraphs.Last())
-                        //        {
-                        //            item.Remove(false);
-                        //            docx.InsertParagraph();
-                        //        }
-                        //        else
-                        //        {
-                        //            item.Color(Color.Transparent);
-                        //        }
-
-                        //    }
-                        //    docx.Paragraphs.Last().Color(Color.Black);
-                        //    docx.SaveAs(filePath);
-                        //}
                         doc = app.Documents.Open(filePath);
                     }
                     catch (Exception ex)
                     {
                         doc = app.Documents.Add();
                     }
-
-                    //if (!modelo.ExisteNoSistema)
-                    //{
-
-                    //}
-                    //else
-                    //{ 
-                    //    doc = app.Documents.Open(filePath);
-                    //}
-
                     string sigla = string.Empty;
                     switch (modelo.IdTipoAto)
                     {
@@ -204,8 +175,6 @@ namespace AppServices.Car16.AppServices
                 //Salvando e finalizando documento
                 doc.SaveAs2(filePath);
                 doc.Close();
-
-                //throw new Exception("Erro teste");
 
             }
             catch (Exception ex)
