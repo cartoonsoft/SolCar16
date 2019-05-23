@@ -193,7 +193,7 @@ namespace AppServices.Car16.AppServices
                     select new DtoPessoaPesxPre
                     {
                         IdPessoa = pes.SEQPES,
-                        TipoPessoa = pre.REL == "O" ? "Outorgante" : "Outorgado",
+                        TipoPessoa = pre.REL == "O" ? "Outorgado": "Outorgante",
                         Relacao = pre.REL,
                         Bairro = pes.BAI,
                         Cidade = pes.CID,

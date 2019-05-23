@@ -567,6 +567,31 @@ namespace AdmCartorio.Controllers
                                             //atualiza o texto formatado
                                             textoParagrafo.Append(resultadoQuery);
                                         }
+                                        else if(paragrafo.Text[i] == '<')
+                                        {
+                                            i++;
+                                            var tipoTag = string.Empty;
+                                            while (paragrafo.Text[i] != '>')
+                                            {
+                                                tipoTag += paragrafo.Text[i].ToString().Trim();
+                                                i++;
+                                                if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
+                                                {
+                                                    Response.StatusCode = 500;
+                                                    Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
+                                                    return Response.StatusDescription;
+                                                }
+                                            }
+                                            i++;
+                                            if (tipoTag.Equals("outorgantes"))
+                                            {
+                                                i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
+                                            }
+                                            else if (tipoTag.Equals("outorgados"))
+                                            {
+                                                i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
+                                            }
+                                        }
                                         else
                                         {
                                             //caso não seja um campo somente adiciona o caractere
@@ -596,96 +621,115 @@ namespace AdmCartorio.Controllers
                     Response.StatusDescription = "Ocorreu algum erro ao utilizar o modelo";
                     return Response.StatusDescription;
                 }
+            }
+        }
 
+        /// <summary>
+        /// Função que identifica o texto para ser repetido e repete para outorgantes ou ortorgados
+        /// </summary>
+        /// <param name="dadosImovel">Dados do imóvel para filtrar as pessoas</param>
+        /// <param name="paragrafo">Texto que ira ser identificado</param>
+        /// <param name="textoParagrafo">String Builder</param>
+        /// <param name="i">Posição do texto do word</param>
+        /// <returns></returns>
+        private int Repetir(DtoDadosImovel dadosImovel, Paragraph paragrafo, StringBuilder textoParagrafo, int i,bool isOutorgado = true)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            bool expression(DtoPessoaPesxPre r) => r.Relacao == (isOutorgado ? "E" : "O");
+
+            while (paragrafo.Text[i] != '<')
+            {
+                stringBuilder.Append(paragrafo.Text[i]);
+                i++;
+            }
+            while (paragrafo.Text[i] != '>')
+            {
+                i++;
+            }
+            i++;
+            var textoRepetir = stringBuilder.ToString();
+            foreach (var pessoa in dadosImovel.Pessoas.Where(expression))
+            {
+                textoParagrafo.Append(PopularCamposDoTexto(textoRepetir, pessoa));
             }
 
-            #region | MOCAR DADOS |
-            //DtoDadosImovel dadosImovel = new DtoDadosImovel()
-            //{
-            //    CamposValorDadosImovel = new List<DtoCamposValor>()
-            //    {
-            //        new DtoCamposValor()
-            //        {
-            //           Campo = "Nome_IMO",
-            //           Valor = "Edificio Pedro HP"
-            //        },
-            //        new DtoCamposValor()
-            //        {
-            //            Campo = "Endereco_IMO",
-            //            Valor = "Rua primeiro"
-            //        },new DtoCamposValor()
-            //        {
-            //            Campo = "Apto_IMO",
-            //            Valor = "Apartamento 1"
-            //        }
-
-            //    },
-            //    IdMatricula = Convert.ToInt64(DadosPostModelo.IdMatricula),
-            //    IdPrenotacao = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
-            //    Imovel = new Domain.Car16.Entities.Car16.PREIMO()
-            //    {
-            //        APTO = "APARTAMENTO 1",
-            //        BLOCO = "BLOCO A",
-            //        CONTRIB = "98782398755",
-            //        EDIF = "EDIFICIO PEDRO HP",
-            //        ENDER = "RUA DOS PASSAROS",
-            //        HIPO = 0,
-            //        INSCR = 123321,
-            //        LOTE = "LOTE 1",
-            //        MATRI = Convert.ToInt32(DadosPostModelo.IdMatricula),
-            //        NUM = "96",
-            //        OUTROS = "PRIMEIRO EDIFICIO DE TESTE",
-            //        QUADRA = "",
-            //        RD = 1,
-            //        SEQIMO = 1,
-            //        SEQPRE = Convert.ToInt64(DadosPostModelo.IdPrenotacao),
-            //        SUBD = 1,
-            //        TIPO = "T",
-            //        TITULO = "TITULO",
-            //        TRANS = 0,
-            //        VAGA = ""
-            //    },
-            //    Pessoas = new List<DtoPessoaPesxPre>()
-            //    {
-            //        new DtoPessoaPesxPre()
-            //        {
-            //            Bairro = "Caucaia do alto",
-            //            CEP = 12345623,
-            //            Cidade = "Cotia",
-            //            Endereco = "Rua primeiro",
-            //            IdPessoa = 1,
-            //            Nome = "Pedro Pires",
-            //            Numero1 = "555345235",
-            //            TipoDoc1 = 1,
-            //            Numero2 = "12312312345",
-            //            TipoDoc2 = "CPF",
-            //            Telefone = "99887766",
-            //            TipoPessoa = "Outorgante",
-            //            UF = "SP",
-            //            listaCamposValor = new List<DtoCamposValor>()
-            //            {
-            //                new DtoCamposValor()
-            //                {
-            //                    Campo = "Bairro",
-            //                    Valor = "Caucaia do alto"
-            //                },
-            //                new DtoCamposValor()
-            //                {
-            //                    Campo = "Cidade",
-            //                    Valor = "Cotia"
-            //                },
-            //                new DtoCamposValor()
-            //                {
-            //                    Campo = "Nome",
-            //                    Valor = "Pedro Pires"
-            //                }
-            //            }
-            //        }
-            //    }
-            //};
-
-            #endregion
+            return i;
         }
+
+
+        /// <summary>
+        /// Função que repete o texto e popula para a pessoa
+        /// </summary>
+        /// <param name="texto">texto que esta sendo repetido</param>
+        /// <param name="pessoa">Pessoa</param>
+        /// <returns></returns>
+        private string PopularCamposDoTexto(string texto, DtoPessoaPesxPre pessoa)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < texto.Length; i++)
+            {
+                if (texto[i] == '[')
+                {
+                    i++;
+                    string nomeCampo = string.Empty;
+                    string resultadoQuery = string.Empty;
+                    while (texto[i] != ']')
+                    {
+                        nomeCampo += texto[i].ToString().Trim();
+                        i++;
+                        if (i >= texto.Length || texto[i] == '[')
+                        {
+                            Response.StatusCode = 500;
+                            Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
+                            return Response.StatusDescription;
+                        }
+                    }
+                    //Buscar dado da pessoa aqui
+                    //resultadoQuery = "teste query";
+                    resultadoQuery = GetValorCampoPessoa(pessoa, nomeCampo);
+
+                    //atualiza o texto formatado
+                    stringBuilder.Append(resultadoQuery);
+                }
+                else
+                {
+                    //caso não seja um campo somente adiciona o caractere
+                    stringBuilder.Append(texto[i].ToString());
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        /// <summary>
+        /// Função que pega o campo independente da pessoa
+        /// </summary>
+        /// <param name="pessoa">Pessoa</param>
+        /// <param name="campoQuery">Campo procurado</param>
+        /// <returns></returns>
+        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa,string campoQuery)
+        {
+            string Campotmp = string.Empty;
+            try
+            {  
+                foreach (var Campo in pessoa.listaCamposValor)
+                {
+                    if (Campo.Campo.Equals(campoQuery))
+                    {
+                        Campotmp = Campo.Valor;
+                    }
+                }
+                //Retorna o dados das pessoas
+                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
+
+            }
+            catch (Exception)
+            {
+                return "[NÃO ENCONTRADO]";
+                throw;
+            }
+        }
+
 
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
