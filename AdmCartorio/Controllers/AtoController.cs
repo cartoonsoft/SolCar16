@@ -17,6 +17,7 @@ using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using LibFunctions.Functions.Word;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace AdmCartorio.Controllers
 {
@@ -44,7 +45,10 @@ namespace AdmCartorio.Controllers
             using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCar16New))
             {
                 IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null).Where(a => a.Ativo == true);
-                listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
+                if (listaDto != null)
+                {
+                    listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
+                }
             }
 
             return View(listaAtoListViewModel);
@@ -139,6 +143,7 @@ namespace AdmCartorio.Controllers
             }
             catch (Exception ex)
             {
+                IOFunctions.GerarLogErro(ex);
                 Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;

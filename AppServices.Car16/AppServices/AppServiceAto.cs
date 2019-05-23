@@ -81,9 +81,10 @@ namespace AppServices.Car16.AppServices
         /// <returns></returns>
         public IEnumerable<DtoAtoList> ListarAtos(long? IdTipoAto = null, string IdUsuario = null)
         {
-            var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.Get()
-                where ((IdTipoAto == null) || (a.IdTipoAto == IdTipoAto)) && ((IdUsuario == null) || (a.IdUsuarioCadastro == IdUsuario))
-                join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().Get() on a.IdTipoAto equals t.Id
+            var lista = 
+                from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
+                where((IdTipoAto == null) || (a.IdTipoAto == IdTipoAto)) && ((IdUsuario == null) || (a.IdUsuarioCadastro == IdUsuario))
+                join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().GetAll() on a.IdTipoAto equals t.Id
                 orderby a.NumMatricula ascending, a.NumSequencia ascending
                 select new DtoAtoList {
                     Id = a.Id,

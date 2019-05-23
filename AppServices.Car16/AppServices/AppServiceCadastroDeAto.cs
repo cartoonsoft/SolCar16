@@ -205,6 +205,8 @@ namespace AppServices.Car16.AppServices
                 doc.SaveAs2(filePath);
                 doc.Close();
 
+                //throw new Exception("Erro teste");
+
             }
             catch (Exception ex)
             {
