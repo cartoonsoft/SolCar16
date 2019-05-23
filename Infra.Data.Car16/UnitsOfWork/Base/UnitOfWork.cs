@@ -20,6 +20,7 @@ using System.Data.Entity.Infrastructure;
 using System.Web.Hosting;
 using System.IO;
 using LibFunctions.Functions.IOAdmCartorio;
+using System.Reflection;
 
 namespace Infra.Data.Car16.UnitsOfWork.Base
 {
@@ -198,7 +199,8 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
         protected virtual void SaveLog(Exception ex)
         {
-            IOFunctions.GerarLogErro(ex);
+            TypeInfo t = this.GetType().GetTypeInfo();
+            IOFunctions.GerarLogErro(t, ex);
         }
 
     }

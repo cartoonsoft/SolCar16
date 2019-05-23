@@ -14,6 +14,7 @@ using Dto.Car16.Entities.Cadastros;
 using LibFunctions.Functions.Word;
 using LibFunctions.Functions.DatesFunc;
 using LibFunctions.Functions.IOAdmCartorio;
+using System.Reflection;
 
 namespace AppServices.Car16.AppServices
 {
@@ -210,7 +211,8 @@ namespace AppServices.Car16.AppServices
             }
             catch (Exception ex)
             {
-                IOFunctions.GerarLogErro(ex);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
 
                 doc.Close(WdSaveOptions.wdDoNotSaveChanges);
                 return false;
