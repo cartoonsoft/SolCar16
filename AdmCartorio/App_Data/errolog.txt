@@ -1,0 +1,4 @@
+>>>Log em, 23/05/2019 11:17:56 Class/ Message ==>"AppServices.Car16.AppServices: AppServices.Car16.AppServices.AppServiceCadastroDeAto" "Erro teste" 
+>>>Log em, 23/05/2019 11:18:08 Class/ Message ==>"AdmCartorio.Controllers: AdmCartorio.Controllers.AtoController" "The object invoked has disconnected from its clients. (Exception from HRESULT: 0x80010108 (RPC_E_DISCONNECTED))" 
+>>>Log em, 23/05/2019 11:18:26 Class/ Message ==>"AppServices.Car16.AppServices: AppServices.Car16.AppServices.AppServiceCadastroDeAto" "Erro teste" 
+>>>Log em, 23/05/2019 11:18:26 Class/ Message ==>"AdmCartorio.Controllers: AdmCartorio.Controllers.AtoController" "The object invoked has disconnected from its clients. (Exception from HRESULT: 0x80010108 (RPC_E_DISCONNECTED))" 

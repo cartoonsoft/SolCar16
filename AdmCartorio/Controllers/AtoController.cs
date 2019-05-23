@@ -18,6 +18,7 @@ using Dto.Car16.Entities.Cadastros;
 using Dto.Car16.Entities.Diversos;
 using LibFunctions.Functions.Word;
 using LibFunctions.Functions.IOAdmCartorio;
+using System.Reflection;
 
 namespace AdmCartorio.Controllers
 {
@@ -143,7 +144,8 @@ namespace AdmCartorio.Controllers
             }
             catch (Exception ex)
             {
-                IOFunctions.GerarLogErro(ex);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
