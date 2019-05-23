@@ -1062,6 +1062,7 @@
     <Content Include="Views\Ato\_dadosModelos.cshtml" />
     <Content Include="Views\Ato\_decoupledEditor.cshtml" />
     <Content Include="Views\Ato\_dadosImovel.cshtml" />
+    <Content Include="Views\Ato\_RenderPartials.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
