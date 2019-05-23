@@ -1,72 +1,73 @@
 ﻿@model IEnumerable<AdmCartorio.ViewModels.DadosPessoaViewModel>
 
+
 <div class="container" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h1>Dados das Pessoas</h1>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="height:40em; overflow-y:scroll;">
             <div class="hidden" id="divMsgPessoas">
                 <div class="alert alert-danger">
                     <label class="" id="lblMsgPessoas">Por favor, selecione ao menos uma pessoa!</label>
                 </div>
             </div>
-            <table id="tblPartialPessoa" class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nome)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TipoPessoa)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Endereco)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.TipoDoc1)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Numero1)
-                        </th>
-                        <th>
-                            Utilizar?
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        if (Model != null)
-                        {
-                            foreach (var item in Model)
+                <table id="tblPartialPessoa" class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nome)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoPessoa)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Endereco)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TipoDoc1)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Numero1)
+                            </th>
+                            <th>
+                                Utilizar?
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyPartial">
+                        @{
+                            if (Model != null)
                             {
-                                <tr id="@item.IdPessoa" data-bairro="@item.Bairro" data-CEP="@item.CEP" data-cidade="@item.Cidade" data-UF="@item.UF"
-                                    data-telefone="@item.Telefone" data-tipodoc2="@item.TipoDoc2" data-numero2="@item.Numero2" data-tpPessoa="@item.TipoPessoa">
+                                foreach (var item in Model)
+                                {
+                                    <tr id="@item.IdPessoa" data-bairro="@item.Bairro" data-CEP="@item.CEP" data-cidade="@item.Cidade" data-UF="@item.UF"
+                                        data-telefone="@item.Telefone" data-tipodoc2="@item.TipoDoc2" data-numero2="@item.Numero2" data-tpPessoa="@item.TipoPessoa">
 
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Nome)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TipoPessoa)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Endereco)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.TipoDoc1)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.Numero1)
-                                    </td>
-                                    <td>
-                                        <input class="" type="checkbox" name="ckUsar" value="" checked />
-                                    </td>
-                                </tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Nome)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TipoPessoa)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Endereco)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TipoDoc1)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Numero1)
+                                        </td>
+                                        <td>
+                                            <input class="" type="checkbox" name="ckUsar" value="" checked />
+                                        </td>
+                                    </tr>
+                                }
                             }
                         }
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
         </div>
         <div class="modal-footer">
             <button id="btnFecharPessoas" type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -146,6 +147,7 @@
             '<td>' + ($(item).data("CEP") == undefined ? "-" : $(item).data("CEP").trim()) + '</td>' +
             '<td>' + ($(item).data("telefone").trim() == undefined || $(item).data("telefone").trim() == "" ? "-" : $(item).data("telefone").trim()) + '</td>' +
             '</tr>';
-        $(tabela).append(linha);
+        $(tabela).append(linha);        
+        
     }
 </script>
