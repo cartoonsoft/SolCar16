@@ -19,6 +19,7 @@ using Domain.Core.Interfaces.Data;
 using System.Data.Entity.Infrastructure;
 using System.Web.Hosting;
 using System.IO;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace Infra.Data.Car16.UnitsOfWork.Base
 {
@@ -197,17 +198,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
 
         protected virtual void SaveLog(Exception ex)
         {
-            string path = HostingEnvironment.MapPath(@"~/App_Data/errolog.txt");
-
-            using (var errorLog = new StreamWriter(path, true))
-            {
-                errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " Message ==> \"{0}\" ", ex.Message);
-                if (ex.InnerException.InnerException != null)
-                {
-                    errorLog.WriteLine("    >> InnerException: \"{0}\"", ex.InnerException.InnerException);
-                }
-                errorLog.Close();
-            }
+            IOFunctions.GerarLogErro(ex);
         }
 
     }

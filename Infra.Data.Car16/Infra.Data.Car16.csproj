@@ -99,6 +99,10 @@
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
+      <Project>{9448e205-b5ff-4c2c-8fd5-f02d33fbd6be}</Project>
+      <Name>LibFunctions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

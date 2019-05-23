@@ -29,7 +29,7 @@ namespace AppServices.Car16.AppServices
                 ato.IdPrenotacao = modelo.PREIMO.SEQPRE;
                 ato.IdTipoAto = modelo.IdTipoAto;
                 ato.NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx";
-                ato.Observacao = "Cadastro de teste";
+                ato.Observacao = modelo.Observacao;
                 ato.NumMatricula = modelo.PREIMO.MATRI.ToString();
                 ato.IdUsuarioAlteracao = UsuarioAlteracao;
                 ato.IdContaAcessoSistema = 1;
@@ -81,9 +81,9 @@ namespace AppServices.Car16.AppServices
         /// <returns></returns>
         public IEnumerable<DtoAtoList> ListarAtos(long? IdTipoAto = null, string IdUsuario = null)
         {
-            var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.GetAll()
+            var lista = from a in UnitOfWorkCar16New.Repositories.RepositoryAto.Get()
                 where ((IdTipoAto == null) || (a.IdTipoAto == IdTipoAto)) && ((IdUsuario == null) || (a.IdUsuarioCadastro == IdUsuario))
-                join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().GetAll() on a.IdTipoAto equals t.Id
+                join t in UnitOfWorkCar16New.Repositories.GenericRepository<TipoAto>().Get() on a.IdTipoAto equals t.Id
                 orderby a.NumMatricula ascending, a.NumSequencia ascending
                 select new DtoAtoList {
                     Id = a.Id,
