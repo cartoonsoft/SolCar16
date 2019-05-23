@@ -1063,6 +1063,7 @@
     <Content Include="Views\Ato\_decoupledEditor.cshtml" />
     <Content Include="Views\Ato\_dadosImovel.cshtml" />
     <Content Include="Views\Ato\_RenderPartials.cshtml" />
+    <Content Include="Views\Ato\_confirmarAto.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
