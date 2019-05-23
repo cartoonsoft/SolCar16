@@ -13,6 +13,7 @@ using Domain.Car16.Interfaces.UnitOfWork;
 using Dto.Car16.Entities.Cadastros;
 using LibFunctions.Functions.Word;
 using LibFunctions.Functions.DatesFunc;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace AppServices.Car16.AppServices
 {
@@ -204,9 +205,13 @@ namespace AppServices.Car16.AppServices
                 doc.SaveAs2(filePath);
                 doc.Close();
 
+                //throw new Exception("Erro teste");
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                IOFunctions.GerarLogErro(ex);
+
                 doc.Close(WdSaveOptions.wdDoNotSaveChanges);
                 return false;
                 throw;

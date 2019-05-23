@@ -316,7 +316,7 @@ namespace AppServices.Car16.AppServices
                 {
                     povoarCampo = false;
                     //Sse for outorgado
-                    if (pessoa.Relacao =="O")
+                    if (pessoa.Relacao == "O")
                     {
                         povoarCampo = CamposOutorgado.Contains(CampoPessoa.NomeCampo); 
 
