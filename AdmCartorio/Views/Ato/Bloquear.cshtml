@@ -78,11 +78,11 @@
                                             <br />
                                             @if (!Model.Bloqueado)
                                             {
-
-
                                                 <h2>
                                                     <a id="btnDownload" target="_blank" class="linkArquivo" href="@Url.Action("DownloadFile","Ato",new { ID = Model.NumMatricula})">
                                                         Cliqui aqui para baixar o ato <i class="glyphicon glyphicon-download"></i>
+                                                        <br />
+                                                        <span class="text-danger font-xs">Após bloquear, não sera possível mais baixar o ato específico,<br /> somente o histórico</span>
                                                     </a>
                                                 </h2>
                                             }
@@ -95,7 +95,7 @@
                                     </div>
                                 </div>
                             </fieldset>
-
+                            <br />  
                             <div class="">
                                 @if (!Model.Bloqueado)
                                 {
