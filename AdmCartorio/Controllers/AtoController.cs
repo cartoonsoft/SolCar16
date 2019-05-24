@@ -146,9 +146,7 @@ namespace AdmCartorio.Controllers
             {
                 TypeInfo t = this.GetType().GetTypeInfo();
                 IOFunctions.GerarLogErro(t, ex);
-                Console.WriteLine(ex.Message);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                throw;
+                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
         

@@ -12,5 +12,6 @@ namespace AppServices.Car16.Interfaces
     public interface IAppServiceCadastroAto : IAppServiceCar16<DtoCadastroDeAto,CadastroDeAto>
     {
         bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto);
+        bool EscreverAtoNoWord2(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto);
     }
 }
