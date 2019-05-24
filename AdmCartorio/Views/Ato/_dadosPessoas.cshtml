@@ -1,14 +1,17 @@
-﻿<div class="row" hidden id="divRespPes">
+﻿
+<div class="row" hidden id="divRespPes">
     <div class="col-sm-12 alert alert-danger">
         <label id="divRespPes" class="">Não existem participantes para os dados digitados!</label>
     </div>
 </div>
-<button type="button" class="hidden btn btn-primary margin-bottom-10"
-        style="float:right; font-weight:bold; padding-right:10px; font-size:15px;"
-        id="linkParticipantes" href="#" onclick="AlterarParticipantes()">
-    Editar
-</button>
 <div class="row">
+    <button type="button" class="hidden btn btn-primary margin-bottom-10"
+            style="float:right; font-weight:bold; margin-right:15px; font-size:15px;"
+            id="linkParticipantes" href="#" onclick="AlterarParticipantes()">
+        Editar
+    </button>
+</div>
+<div class="row" style="height:40em; overflow-y:auto; scrollbar-track-color:none;">
     <div class="col-sm-12">
         <table id="tblPessoas" class="table">
             <thead>

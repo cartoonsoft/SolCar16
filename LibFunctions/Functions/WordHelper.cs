@@ -28,22 +28,10 @@ namespace LibFunctions.Functions.Word
                     }
                     doc.SaveAs(novoFilePath);
                 }
-
-
-                //Application app = new Application();
-                //Document doc = app.Documents.Open(filePath);
-                //foreach (Paragraph item in doc.Paragraphs)
-                //{
-                //    item.Range.Font.Color = WdColor.wdColorBlack;
-                //}
-                //doc.SaveAs(novoFilePath);
-                //doc.Close();
-                //doc = null;
-                //app = null;
-                //GC.Collect();
             }
             catch (Exception)
             {
+                
                 throw;
             }
         }

@@ -76,7 +76,7 @@
                 <a href="@Url.Action("Cadastrar", "Ato")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo registro</a>
             </p>
 
-            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false" data-widget-colorbutton="false">
 
                 <!-- widget options:
                 usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
@@ -93,7 +93,7 @@
                 -->
                 <header>
                     <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                    <h2>Arquivos</h2>
+                    <h2>Atos</h2>
                 </header>
 
                 <!-- widget div-->
@@ -217,6 +217,7 @@
                 "drawCallback": function (oSettings) {
                     responsiveHelper_dt_basic.respond();
                 },
+                "order": [[ 3, "desc" ]],
                 "language": {
                     "lengthMenu": "Mostrar _MENU_ reg. por página",
                     "zeroRecords": "Nenhum Registro Encontrado",

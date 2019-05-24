@@ -1,0 +1,24 @@
+﻿@model AdmCartorio.ViewModels.CadastroDeAtoViewModel
+<h1 class="text-align-center"><b>Número da Prenotação:</b> <label id="numeroPre" class="h1"></label></h1>
+@Html.HiddenFor(model => model.PREIMO.SEQPRE)
+<br />
+<br />
+<h1 class="text-align-center">Deseja confirmar o ato escrito?</h1>
+@Html.TextAreaFor(model => model.Ato, new { @class = "form-control input-lg text-area", @readonly = "readonly", @id = "textAreaAto" })
+<br />
+<div class="row hidden" id="infoAdicional">
+    <div class="col-sm-12 text-align-center">
+        <span class="h4 text-align-center" id="spanInfoAdicionais">Não encontramos registros de atos anteriores, por favor, disponibilize informações adicionais <a class="linkModal" data-toggle="modal" data-target="#PartialDadosAdicionais">Clicando Aqui</a></span>
+        <br />
+        <br />
+        @Html.HiddenFor(model => model.IrParaFicha)
+        @Html.HiddenFor(model => model.IrParaVerso)
+        @Html.HiddenFor(model => model.QuantidadeCentimetrosDaBorda)
+        @Html.HiddenFor(model => model.NumSequencia)
+        @Html.HiddenFor(model => model.ExisteNoSistema)
+    </div>
+</div>
+
+<button id="btnConfirmar" class="btn btn-success btn-lg col-lg-offset-5" style="border-radius:15px;" disabled>
+    <h1><strong><i class="fa fa-check fa-lg"></i> Confirmar</strong></h1>
+</button>
