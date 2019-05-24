@@ -1,9 +1,11 @@
 ﻿using Microsoft.Office.Interop.Word;
+using Spire.Doc.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Words.NET;
 
 namespace LibFunctions.Functions.Word
 {
@@ -53,6 +55,16 @@ namespace LibFunctions.Functions.Word
             }
             return doc.Application.Selection.Information[WdInformation.wdNumberOfPagesInDocument] - backOFF;
         }
+
+        public static int GetNumeroPaginaSpire(Spire.Doc.Document doc, int backOFF = 0)
+        {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            return doc.PageCount - backOFF;
+        }
+
 
         /// <summary>
         /// Pega o range final do documento ativo
@@ -109,6 +121,20 @@ namespace LibFunctions.Functions.Word
                     WordPageHelper.GetNumeroPagina(doc) % 2 + WordPageHelper.GetNumeroPagina(doc) / 2;
 
         }
+
+        public static int GetNumeroFichaSpire(Spire.Doc.Document doc, bool isParagrafo = false)
+        {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            return isParagrafo ?
+                    ((WordPageHelper.GetNumeroPaginaSpire(doc) < 2 ? WordPageHelper.GetNumeroPaginaSpire(doc) : WordPageHelper.GetNumeroPaginaSpire(doc) + 1) % 2 + (WordPageHelper.GetNumeroPaginaSpire(doc) < 2 ? WordPageHelper.GetNumeroPaginaSpire(doc) : WordPageHelper.GetNumeroPaginaSpire(doc) + 1) / 2)
+                :
+                    WordPageHelper.GetNumeroPaginaSpire(doc) % 2 + WordPageHelper.GetNumeroPaginaSpire(doc) / 2;
+
+        }
+
         /// <summary>
         /// Desloca uma quantidade de centimetros em relação ao SHAPE
         /// </summary>
@@ -157,6 +183,32 @@ namespace LibFunctions.Functions.Word
                 doc.Application.ActiveDocument.Sections.Last.PageSetup.RightMargin = 36.5f;
             }
         }
+
+        public static void ConfigurePageLayoutSpire(int numeroPagina, Spire.Doc.Section section)
+        {
+            if (section == null)
+            {
+                throw new ArgumentNullException("doc", "Sessão não pode ser nula!");
+            }
+            if (numeroPagina > 0)
+            {
+                if (numeroPagina > 1)
+                    InsertBreakOfSectionSpire(section);
+                section.PageSetup.Margins.Bottom = 40;
+                section.PageSetup.Margins.Top = 25;
+                if (WordPageHelper.IsVerso(numeroPagina))
+                {
+                    section.PageSetup.Margins.Left = 36.35f;
+                    section.PageSetup.Margins.Right = 62.3f;
+
+                    return;
+                }
+                section.PageSetup.Margins.Left = 62.3f;
+                section.PageSetup.Margins.Right = 36.0f;
+            }
+        }
+
+
         /// <summary>
         /// Quebra a seção
         /// </summary>
@@ -168,6 +220,15 @@ namespace LibFunctions.Functions.Word
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
             doc.Application.Selection.InsertBreak(WdBreakType.wdSectionBreakNextPage);
+        }
+
+        public static void InsertBreakOfSectionSpire(Spire.Doc.Section section)
+        {
+            if (section == null)
+            {
+                throw new ArgumentNullException("doc", "Sessão não pode ser nula!");
+            }
+            section.Paragraphs[section.Paragraphs.Count].AppendBreak(BreakType.PageBreak);
         }
         /// <summary>
         /// Configura a pagina do word da seção ativa
@@ -188,6 +249,37 @@ namespace LibFunctions.Functions.Word
             doc.Application.Selection.Font.Size = fontSize;
             doc.Application.Selection.Font.Name = fontName;
         }
+        public static void InicialConfigurationSpire(Spire.Doc.Document doc,Spire.Doc.Section section, string fontName, bool autoHyphenation)
+        {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            section.PageSetup.PageSize = new System.Drawing.SizeF(510,720); 
+            //doc.Application.ActiveDocument.AutoHyphenation = autoHyphenation;
+            foreach (Spire.Doc.Documents.Paragraph paragrafo in section.Paragraphs)
+            {
+                AplicarEstilo(doc, fontName, paragrafo);
+            }
+        }
 
+        private static void AplicarEstilo(Spire.Doc.Document doc, string fontName, Spire.Doc.Documents.Paragraph paragrafo)
+        {
+            ParagraphStyle style = new ParagraphStyle(doc);
+            style.Name = fontName;
+            style.CharacterFormat.FontSize = 14;
+            style.CharacterFormat.FontName = "Times New Roman";
+            doc.Styles.Add(style);
+            paragrafo.ApplyStyle(style.Name);
+        }
+
+        public static void InicialConfigurationDocX(DocX doc, WdPaperSize wdPaperSize, float fontSize, string fontName, bool autoHyphenation)
+        {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+
+        }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xceed.Words.NET;
 
 namespace LibFunctions.Functions.Word
 {
@@ -19,6 +20,14 @@ namespace LibFunctions.Functions.Word
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             else
                 doc.Paragraphs.Add();
+        }
+
+        public static void InserirParagrafoEmBrancoSpire(Spire.Doc.Section section)
+        {
+            if (section == null)
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            else
+                section.AddParagraph();
         }
         /// <summary>
         /// Insere um novo paragrafo com texto em range
@@ -108,7 +117,30 @@ namespace LibFunctions.Functions.Word
                     throw new ArgumentOutOfRangeException("O texto não pode ser nulo");
                 }
             }
+        }
 
+        public static void InserirParagrafoSpire(Spire.Doc.Section section, string text, bool insertAfter)
+        {
+            if (section == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            else
+            {
+                if (!String.IsNullOrEmpty(text.Trim()))
+                {
+                    if (!insertAfter)
+                    {
+                        section.AddParagraph().Text = text;
+                        return;
+                    }
+                    section.AddParagraph().AppendText(text);
+                }
+                else
+                {
+                    throw new ArgumentOutOfRangeException("O texto não pode ser nulo");
+                }
+            }
         }
         /// <summary>
         /// Método que imprime o rodapé de acordo com o numero da pagina
@@ -171,6 +203,22 @@ namespace LibFunctions.Functions.Word
             }
             doc.Paragraphs.Format.Alignment = wdParagraphAlignment;
         }
+
+        public static void ParapraphAlignmentSpire(Spire.Doc.Document doc, Spire.Doc.Documents.HorizontalAlignment alignment)
+        {
+            if (doc == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            foreach (Spire.Doc.Section section in doc.Sections)
+            {
+                foreach (Spire.Doc.Documents.Paragraph paragrafo in section.Paragraphs)
+                {
+                    paragrafo.Format.HorizontalAlignment = alignment;
+                }
+            }
+        }
+
         /// <summary>
         /// Função que configura o espaçamento entre os paragrafos
         /// </summary>
@@ -183,6 +231,18 @@ namespace LibFunctions.Functions.Word
                 throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
             }
             doc.Paragraphs.SpaceAfter = spaceLenght;
+        }
+
+        public static void SpaceAfterParagraphsSpire(Spire.Doc.Section section, float spaceLenght)
+        {
+            if (section == null)
+            {
+                throw new ArgumentNullException("doc", "Documento não pode ser nulo!");
+            }
+            foreach (Spire.Doc.Documents.Paragraph paragraph in section.Paragraphs)
+            {
+                paragraph.Format.AfterSpacing = spaceLenght;
+            }
         }
     }
 }
