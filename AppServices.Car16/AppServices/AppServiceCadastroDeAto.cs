@@ -24,6 +24,54 @@ namespace AppServices.Car16.AppServices
         {
         }
 
+        public bool EscreverAtoNoWord3(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
+        {
+            int numeroPagina;
+            int posicaoCursor;
+            try
+            {
+                // 3 = ATO INICIAL
+
+                if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
+                {
+                    //Inicia a variavel que representa o documento
+                    
+                    using (Spire.Doc.Document doc = new Spire.Doc.Document())
+                    {
+                        Spire.Doc.Section section = doc.AddSection();
+
+                        WordParagraphHelper.ParapraphAlignmentSpire(doc, Spire.Doc.Documents.HorizontalAlignment.Justify);
+                        //Configuração do documento
+                        WordPageHelper.InicialConfigurationSpire(doc,section, "Times New Roman", true);
+
+                        //Pegando o numero da pagina para configurar o layout
+                        numeroPagina = WordPageHelper.GetNumeroPaginaSpire(doc);
+                        WordPageHelper.ConfigurePageLayoutSpire(numeroPagina,section);
+                        //WordLayoutPageHelper.InserirCabecalho(modelo, doc, true);
+                        WordParagraphHelper.InserirParagrafoSpire(section, new string(' ', 5) + modelo.PREIMO.MATRI + new string(' ', 17 + (15 - modelo.PREIMO.MATRI.ToString().Length)) +
+                        WordPageHelper.GetNumeroFichaSpire(doc, true) + new string(' ', 18 + (5 - WordPageHelper.GetNumeroFichaSpire(doc, true).ToString().Length)) + new string(' ', 14) + DataHelper.GetDataPorExtenso() + "."
+                        , false);
+                        WordParagraphHelper.InserirParagrafoEmBrancoSpire(section);
+                        WordParagraphHelper.InserirParagrafoEmBrancoSpire(section);
+                        WordParagraphHelper.SpaceAfterParagraphsSpire(section, 0);
+
+                        doc.SaveToFile(filePath);
+                        doc.Close();
+                    };
+                }
+                
+
+
+            }
+            catch (Exception ex)
+            {
+                return false;
+                throw;
+            }
+            return true;
+        }
+
+
         public bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
         {
             //Representa o documento e o numero de pagina
@@ -105,7 +153,7 @@ namespace AppServices.Car16.AppServices
                             break;
                     }
 
-                    WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman",true);
+                    WordPageHelper.InicialConfiguration(doc, WdPaperSize.wdPaperB5, 14, "Times New Roman", true);
 
                     //Numero de paginas do documento e a posição do cursor
                     numeroPagina = WordPageHelper.GetNumeroPagina(doc);

@@ -103,7 +103,7 @@ namespace AdmCartorio.Controllers
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                     {
 
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                        respEscreverWord = appService.EscreverAtoNoWord3(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
                     }
                     if (respEscreverWord)
                     {
