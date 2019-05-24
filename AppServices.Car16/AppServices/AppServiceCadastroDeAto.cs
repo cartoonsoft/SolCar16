@@ -26,6 +26,8 @@ namespace AppServices.Car16.AppServices
 
         public  bool EscreverAtoNoWord2(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
         {
+            DocX doc = DocX.Create("aa");
+            //DocumentCore docx = new DocumentCore();
 
 
             return true;
@@ -36,8 +38,6 @@ namespace AppServices.Car16.AppServices
             int numeroPagina;
             int posicaoCursor;
 
-            //DocX doc = DocX.Create("aa");
-            //DocumentCore docx = new DocumentCore();
 
             try
             {

@@ -70,10 +70,6 @@
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.2\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Office.Interop.Word.15.0.4797.1003\lib\net20\Microsoft.Office.Interop.Word.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="Microsoft.Owin, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.4.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
@@ -194,6 +190,7 @@
     <Compile Include="App_Start\AutoMapper\ViewModelToDtoMappingProfileAdminCartorio.cs" />
     <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />
     <Compile Include="App_Start\Identity\IdentityInit.cs" />
+    <Compile Include="Controllers\AdmController.cs" />
     <Compile Include="Controllers\ArquivosController.cs" />
     <Compile Include="Controllers\Base\AdmCartorioBaseController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -206,6 +203,7 @@
     <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
     <Compile Include="ViewModels\DadosPostModelo.cs" />
+    <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
     <Compile Include="ViewModels\PESSOAViewModel.cs" />
     <Compile Include="ViewModels\PREIMOViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
@@ -1064,6 +1062,8 @@
     <Content Include="Views\Ato\_dadosImovel.cshtml" />
     <Content Include="Views\Ato\_RenderPartials.cshtml" />
     <Content Include="Views\Ato\_confirmarAto.cshtml" />
+    <Content Include="Views\Adm\AdmError.cshtml" />
+    <Content Include="Views\Adm\InternalServerError.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

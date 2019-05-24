@@ -73,6 +73,7 @@ namespace AdmCartorio.Controllers
             Ato ato;
             try
             {
+                throw new Exception("Teste Ronaldo");
 
                 if (modelo.Ato == null)
                 {
@@ -85,7 +86,6 @@ namespace AdmCartorio.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
@@ -102,9 +102,9 @@ namespace AdmCartorio.Controllers
 
                     using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCar16New))
                     {
-
                         respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
                     }
+
                     if (respEscreverWord)
                     {
                         // Gravar no banco o array de bytes
@@ -146,7 +146,7 @@ namespace AdmCartorio.Controllers
             {
                 TypeInfo t = this.GetType().GetTypeInfo();
                 IOFunctions.GerarLogErro(t, ex);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError, ex.Message);
+                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
             }
         }
 
@@ -186,12 +186,12 @@ namespace AdmCartorio.Controllers
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                throw;
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
             }
-
         }
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
@@ -253,8 +253,9 @@ namespace AdmCartorio.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
             }
         }
 
@@ -266,7 +267,6 @@ namespace AdmCartorio.Controllers
             bool respEscreverWord = false;
             try
             {
-
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
@@ -333,7 +333,6 @@ namespace AdmCartorio.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
             }
@@ -676,7 +675,6 @@ namespace AdmCartorio.Controllers
             return i;
         }
 
-
         /// <summary>
         /// Função que repete o texto e popula para a pessoa
         /// </summary>
@@ -750,7 +748,6 @@ namespace AdmCartorio.Controllers
             }
         }
 
-
         private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
         {
             string Campotmp = string.Empty;
@@ -796,6 +793,5 @@ namespace AdmCartorio.Controllers
         }
 
         #endregion
-
     }
 }
