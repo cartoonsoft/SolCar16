@@ -38,7 +38,6 @@ namespace AppServices.Car16.AppServices
             int numeroPagina;
             int posicaoCursor;
 
-
             try
             {
                 Application app = new Application();
