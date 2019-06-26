@@ -203,7 +203,8 @@ namespace AdmCartorio.Controllers
                 if (resultado)
                 {
                     this.UnitOfWorkDataBaseCar16New.SaveChanges();
-                    WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
+                    //todo: ronaldo fazer 
+                    //WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
                     Response.StatusCode = 200;
                     Response.Status = "Ato Bloqueado com sucesso!";
                 }

@@ -17,7 +17,7 @@
             <div class="well no-padding">
                 <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
                     <header>
-                        Sign In
+                        Cartório  - Login 
                     </header>
                     @Html.HiddenFor(m => m.ReturnUrl)
                     @Html.AntiForgeryToken()
@@ -48,13 +48,13 @@
                             <label class="checkbox">
                                 <input type="checkbox" name="rememberMe" value="true" checked="checked">
                                 <input type="hidden" name="rememberMe" value="false" />
-                                <i></i>Stay signed in
+                                <i></i>Lembrar 
                             </label>
                         </section>
                     </fieldset>
                     <footer>
                         <button type="submit" class="btn btn-primary">
-                            Sign in
+                            Fazer login
                         </button>
                     </footer>
                 </form>

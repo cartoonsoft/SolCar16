@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xceed.Words.NET;
 using System.Drawing;
-using Microsoft.Office.Interop.Word;
 using AppServices.Car16.AppServices.Base;
 using AppServices.Car16.Interfaces;
 using Domain.Car16.Entities.Diversas;
@@ -24,29 +22,15 @@ namespace AppServices.Car16.AppServices
         {
         }
 
-        public  bool EscreverAtoNoWord2(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
-        {
-            DocX doc = DocX.Create("aa");
-            //DocumentCore docx = new DocumentCore();
-
-
-            return true;
-        }
-
         public bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto)
         {
-            int numeroPagina;
-            int posicaoCursor;
-
             try
             {
-                Application app = new Application();
-                Document doc = null;
+                string filePathTmp = @"~/App_Data/Arquivos/ato_base.docx";
 
-                //Representa o documento e o numero de pagina
-                try
+                using (WordHelperDocument wordHelperDocument = new WordHelperDocument(filePathTmp))
                 {
-
+                    /*
                     // 3 = ATO INICIAL
                     if (modelo.IdTipoAto == (int)Domain.Car16.enums.TipoAtoEnum.AtoInicial)
                     {
@@ -213,7 +197,6 @@ namespace AppServices.Car16.AppServices
                     //Escreve o ato e ajusta o documento, caso necessário
                     WordHelper.EscreverAto(modelo, doc, ref numeroPagina, ref posicaoCursor);
                     WordLayoutPageHelper.AjustarFinalDocumento(doc, numeroPagina, posicaoCursor, modelo);
-
                     #endregion
 
                     //Salvando e finalizando documento
@@ -221,22 +204,8 @@ namespace AppServices.Car16.AppServices
                     doc.Close();
 
                     //throw new Exception("Erro teste");
-
-                }
-                catch (Exception ex1)
-                {
-                    doc.Close(WdSaveOptions.wdDoNotSaveChanges);
-                    throw new Exception(ex1.Message, ex1);
-                }
-                finally
-                {
-                    if (app != null)
-                    {
-                        app.Quit();
-                    }
-                    app = null;
-                    doc = null;
-                    GC.Collect();
+                     
+                    */
                 }
             }
             catch (Exception ex2)

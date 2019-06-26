@@ -164,14 +164,15 @@
                                             @{
                                                 if (!item.Bloqueado)
                                                 {
-                                                    @Html.ActionLink("Bloquear", "Bloquear", new { Id = item.Id }, new { @class = "btn btn-danger col-sm-4" })
-                                                    @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary col-sm-4 col-sm-offset-1" })
+                                                    <a href="@Url.Action("Bloquear", "Ato", new { Id = item.Id })" class="btn btn-danger" rel="tooltip" data-placement="top" data-original-title="Bloquear"><i class="fa fa-lock"></i></a>
+                                                    <a href="@Url.Action("Editar", "Ato", new { Id = item.Id })" class="btn btn-primary" rel="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
                                                 }
                                                 else
                                                 {
-                                                    @Html.ActionLink("Historico", "DownloadFileCompleto", new { ID = item.NumMatricula }, new { @class = "btn btn-default col-sm-9" })
+                                                    <a href="@Url.Action("DownloadFileCompleto", "Ato", new { Id = item.NumMatricula})" class="btn btn-info" rel="tooltip" data-placement="top" data-original-title="Histórico"><i class="fa fa-cloud-download"></i></a>
                                                 }
                                             }
+                                            <a href="javascript:void(0);" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="Imprimir"><i class="fa fa-print"></i></a>
                                         </td>
                                     </tr>
                                 }

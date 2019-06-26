@@ -90,8 +90,8 @@ namespace AdmCartorio.App_Start.Identity
                 user.Clients.Add(client);
             }
 
-            var result = await UpdateAsync(user);
             user.CurrentClientId = client.Id.ToString();
+            var result = await UpdateAsync(user);
             return result;
         }
 

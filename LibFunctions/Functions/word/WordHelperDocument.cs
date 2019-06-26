@@ -21,6 +21,7 @@ namespace LibFunctions.Functions.Word
         {
             _doc = new DocumentModel();
             SetUpPage();
+
         }
 
         /// <summary>
@@ -169,6 +170,12 @@ namespace LibFunctions.Functions.Word
         public int EscreverNoDocumento(DtoCadastroDeAto modelo, string textoParaSalvar)
         {
             ValidarDoc();
+
+            int numberOfSections = _doc.Sections.Count;
+            int numberOfParagraphs = _doc.GetChildElements(true, ElementType.Paragraph).Count();
+            int numberOfRunsAndFields = _doc.GetChildElements(true, ElementType.Run, ElementType.Field).Count();
+            int numberOfInlines = _doc.GetChildElements(true).OfType<Inline>().Count();
+
 
             StringBuilder sb = new StringBuilder();
 

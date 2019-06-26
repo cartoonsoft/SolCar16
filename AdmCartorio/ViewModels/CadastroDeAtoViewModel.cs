@@ -21,7 +21,6 @@ namespace AdmCartorio.ViewModels
         public float QuantidadeCentimetrosDaBorda { get; set; }
         public int NumSequencia { get; set; }
         public long? IdAto { get; set; }
-
         public string Observacao { get; set; }
     }
 }

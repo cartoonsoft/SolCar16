@@ -61,7 +61,9 @@
     <Compile Include="DomainServices\UfDomainService.cs" />
     <Compile Include="Entities\Car16New\ArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\Ato.cs" />
+    <Compile Include="Entities\Car16New\AtoDocx.cs" />
     <Compile Include="Entities\Car16New\CamposArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Car16New\Docx.cs" />
     <Compile Include="Entities\Car16New\LogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Car16New\Municipio.cs" />
     <Compile Include="Entities\Car16New\Pais.cs" />
