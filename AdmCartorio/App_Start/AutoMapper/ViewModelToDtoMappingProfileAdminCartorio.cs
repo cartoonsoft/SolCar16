@@ -1,6 +1,6 @@
 ﻿using AdmCartorio.ViewModels;
 using AutoMapper;
-using Dto.Car16.Entities.Diversos;
+using Dto.Cartorio.Entities.Diversos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

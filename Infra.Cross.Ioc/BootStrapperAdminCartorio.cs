@@ -1,8 +1,8 @@
 ﻿using SimpleInjector;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Car16.enums;
-using Infra.Data.Car16.UnitsOfWork.DbCar16New;
-using Infra.Data.Car16.UnitsOfWork.DbCar16;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Cartorio.enums;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 
 namespace Infra.Cross.Ioc
 {
@@ -20,15 +20,15 @@ namespace Infra.Cross.Ioc
             ContainerAdmCartorio = container;
 
             // Infra Dados: Context and UnitofWork 
-            //ContainerAppMin.Register<ContextMainCar16>(Lifestyle.Scoped);
+            //ContainerAppMin.Register<ContextMainCartorio>(Lifestyle.Scoped);
 
             // Infra Dados: UnitofWork 
-            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCar16New>(() => new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
-            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCar16>(() => new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
+            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorioNew>(() => new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
+            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorio>(() => new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
 
 
             // AppServices 
-            //ContainerAdmCartorio.Register<IAppServicePais>(() => new AppServicePais((IUnitOfWorkCar16)container.GetInstance(typeof(IUnitOfWorkCar16))), Lifestyle.Scoped);
+            //ContainerAdmCartorio.Register<IAppServicePais>(() => new AppServicePais((IufwCart)container.GetInstance(typeof(IufwCart))), Lifestyle.Scoped);
 
         }
     }

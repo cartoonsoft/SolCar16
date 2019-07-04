@@ -8,24 +8,24 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using AdmCartorio.App_Start.Identity;
 using AdmCartorio.Models.Identity.Entities;
-using Domain.Car16.enums;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Infra.Data.Car16.UnitsOfWork;
-using Infra.Data.Car16.UnitsOfWork.DbCar16;
-using Infra.Data.Car16.UnitsOfWork.DbCar16New;
+using Domain.Cartorio.enums;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Infra.Data.Cartorio.UnitsOfWork;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace AdmCartorio.Controllers.Base
 {
     public class AdmCartorioBaseController : Controller
     {
-        private readonly UnitOfWorkDataBaseCar16 _unitOfWorkDataBaseCar16;
-        private readonly UnitOfWorkDataBaseCar16New _unitOfWorkDataBaseCar16New;
+        private readonly UnitOfWorkDataBaseCartorio _UnitOfWorkDataBaseCartorio;
+        private readonly UnitOfWorkDataBaseCartorioNew _UnitOfWorkDataBaseCartorioNew;
         private readonly ApplicationUser _currentUser;
 
-        public AdmCartorioBaseController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New)
+        public AdmCartorioBaseController(IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio, IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew)
         {
-            _unitOfWorkDataBaseCar16 = new UnitOfWorkDataBaseCar16(BaseDados.DesenvDezesseis);
-            _unitOfWorkDataBaseCar16New = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew);
+            _UnitOfWorkDataBaseCartorio = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis);
+            _UnitOfWorkDataBaseCartorioNew = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew);
             this._currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             //WindowsIdentity a = WindowsIdentity.GetCurrent();
         }
@@ -34,13 +34,13 @@ namespace AdmCartorio.Controllers.Base
         {
             if (disposing)
             {
-                if (_unitOfWorkDataBaseCar16 != null) {
-                    _unitOfWorkDataBaseCar16.Dispose();
+                if (_UnitOfWorkDataBaseCartorio != null) {
+                    _UnitOfWorkDataBaseCartorio.Dispose();
                 }
 
-                if (_unitOfWorkDataBaseCar16New != null)
+                if (_UnitOfWorkDataBaseCartorioNew != null)
                 {
-                    _unitOfWorkDataBaseCar16New.Dispose();
+                    _UnitOfWorkDataBaseCartorioNew.Dispose();
                 }
             }
             base.Dispose(disposing);
@@ -51,14 +51,14 @@ namespace AdmCartorio.Controllers.Base
             get { return _currentUser; }
         } 
 
-        protected IUnitOfWorkDataBaseCar16 UnitOfWorkDataBaseCar16
+        protected IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio
         {
-            get { return _unitOfWorkDataBaseCar16; }
+            get { return _UnitOfWorkDataBaseCartorio; }
         }
 
-        protected IUnitOfWorkDataBaseCar16New UnitOfWorkDataBaseCar16New
+        protected IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew
         {
-            get { return _unitOfWorkDataBaseCar16New; }
+            get { return _UnitOfWorkDataBaseCartorioNew; }
 
         }
 

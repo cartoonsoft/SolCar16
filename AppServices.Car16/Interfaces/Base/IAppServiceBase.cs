@@ -8,12 +8,12 @@ using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.DomainServices;
 using Domain.Core.Interfaces.Repositories;
 
-namespace AppServices.Car16.Interfaces.Base
+namespace AppServices.Cartorio.Interfaces.Base
 {
     public interface IAppServiceBase <TDtoEntityModel, TEntity>: IDisposable where TDtoEntityModel : class where TEntity : class
     {
         //ronaldo arrumar
-        IDomainServicesFactoryBase DomainServices
+        IDomainServicesFactoryBase DsFactoryBase
         {
             get;
             set;

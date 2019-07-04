@@ -12,18 +12,18 @@ using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
-using Domain.Car16.enums;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Context.Base;
-using Infra.Data.Car16.Repositories.Base;
+using Domain.Cartorio.enums;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Context.Base;
+using Infra.Data.Cartorio.Repositories.Base;
 
-namespace Infra.Data.Car16.UnitsOfWork.Base
+namespace Infra.Data.Cartorio.UnitsOfWork.Base
 {
-    public class UnitOfWorkCar16 : UnitOfWork, IUnitOfWorkCar16
+    public class UfwCart : UnitOfWork, IunitOfWorkCartoonSoft
     {
-        const string LOG_NAME = "log_car16_InfraDataUnitOfWork";
-        const string SOURCE = "CartoonSoft-Car16";
+        const string LOG_NAME = "log_Cartorio_InfraDataUnitOfWork";
+        const string SOURCE = "CartoonSoft-Cartorio";
 
         private ContextOraBase _context;
         private readonly InfraDataEventLogging _log;
@@ -32,7 +32,7 @@ namespace Infra.Data.Car16.UnitsOfWork.Base
         /// Construtor
         /// </summary>
         /// <param name="context"></param>
-        public UnitOfWorkCar16(BaseDados baseDados, ContextOraBase context = null, InfraDataEventLogging log = null ) : base(context)
+        public UfwCart(BaseDados baseDados, ContextOraBase context = null, InfraDataEventLogging log = null ) : base(context)
         {
             this._context = context;
             if (_context != null)

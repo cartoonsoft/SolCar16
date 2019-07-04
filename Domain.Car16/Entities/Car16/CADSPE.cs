@@ -1,4 +1,4 @@
-namespace Domain.Car16.Entities.Car16
+namespace Domain.Cartorio.Entities.Cartorio
 {
     using System;
     using System.Collections.Generic;

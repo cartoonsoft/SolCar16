@@ -17,9 +17,17 @@ using Domain.Core.Interfaces.DomainServices;
 
 namespace Domain.Core.Interfaces.DomainServices
 {
+    /// <summary>
+    /// Domain Services Fatory Base
+    /// </summary>
     public interface IDomainServicesFactoryBase: IDisposable
     {
-        IDomainServiceBase<TEntity> GenericDomainService<TEntity>() where TEntity : class;
+        /// <summary>
+        /// Generic Domain Service
+        /// </summary>
+        /// <typeparam name="TEntity"></typeparam>
+        /// <returns></returns>
+        IDomainServiceBase<TEntity> GenericDs<TEntity>() where TEntity : class;
 
     }
 }

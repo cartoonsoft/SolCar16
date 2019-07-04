@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.Repositories;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories.DbCar16New
+namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {
-    public class RepositoriesFactoryCar16New : RepositoriesFactoryBase, IRepositoriesFactoryCar16New
+    public class RepositoriesFactoryCartorioNew : RepositoriesFactoryBase, IRepositoriesFactoryCartorioNew
     {
-        private readonly ContextMainCar16New _context;
+        private readonly ContextMainCartorioNew _context;
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public RepositoriesFactoryCar16New(ContextMainCar16New context): base(context)
+        public RepositoriesFactoryCartorioNew(ContextMainCartorioNew context): base(context)
         {
             //
             this._context = context;
@@ -84,9 +84,9 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
                     {
                         repository = new RepositoryMunicipio(this._context);
                     }
-                    if (typeof(T).Equals(typeof(Pessoa)))
+                    if (typeof(T).Equals(typeof(PessoaCartorioNew)))
                     {
-                        repository = new RepositoryPessoa(this._context);
+                        repository = new RepositoryPessoaCartorioNew(this._context);
                     }
                     if (typeof(T).Equals(typeof(ArquivoModeloDocx)))
                     {
@@ -143,9 +143,9 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
             }
         }
 
-        public IRepositoryPessoa RepositoryPessoa
+        public IRepositoryPessoaCartorioNew RepositoryPessoa
         {
-            get { return GetRepositoryInstance<Pessoa>() as RepositoryPessoa; }
+            get { return GetRepositoryInstance<PessoaCartorioNew>() as RepositoryPessoaCartorioNew; }
         }
 
         public IRepositoryArquivoModeloDocx RepositoryArquivoModeloDocx

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.enums;
 using Domain.Core.Interfaces.Repositories;
-using Dto.Car16.Entities.Diversos;
+using Dto.Cartorio.Entities.Diversos;
 
 namespace LibFunctions.Functions.FeriadosFunc
 {
@@ -116,7 +116,8 @@ namespace LibFunctions.Functions.FeriadosFunc
                 feriadosAno.Add(new DtoFeriado { DataFeriado = DateTime.Parse("15/11/" + this._ano), Descricao = "Proclamação da República", Ano = this._ano, PontoFacultativo = false, TipoFeriado = TiposFeriado.FeriadoNaciona, Ativo = true });
                 feriadosAno.Add(new DtoFeriado { DataFeriado = DateTime.Parse("25/12/" + this._ano), Descricao = "Natal", Ano = this._ano, PontoFacultativo = false, TipoFeriado = TiposFeriado.FeriadoNaciona, Ativo = true });
 
-                //todo: Criar rotina par ler do banco os feriados municipais/região e povoar. Adicione aqui os feriados para sua cidade ou estado se necessário
+                //todo: Criar rotina para ler do banco os feriados municipais/regionais e povoar. 
+                //Adicione aqui os feriados para sua cidade ou estado se necessário
                 //_repositoryFeriadoHelper.FeriadosDoAno
                 return FeriadosAno;
             }

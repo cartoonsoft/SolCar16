@@ -8,13 +8,13 @@ using System.Web.Mvc;
 using AutoMapper;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Domain.Car16.enums;
-using Infra.Data.Car16.UnitsOfWork.DbCar16New;
-using AppServices.Car16.AppServices;
-using Dto.Car16.Entities.Diversos;
-using Dto.Car16.Entities.Cadastros;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Cartorio.enums;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
+using AppServices.Cartorio.AppServices;
+using Dto.Cartorio.Entities.Diversos;
+using Dto.Cartorio.Entities.Cadastros;
 
 namespace AdmCartorio.Controllers
 {
@@ -26,7 +26,7 @@ namespace AdmCartorio.Controllers
             //
         }
 
-        public ArquivosController(IUnitOfWorkDataBaseCar16 unitOfWorkDataBaseCar16, IUnitOfWorkDataBaseCar16New unitOfWorkDataBaseCar16New) : base(unitOfWorkDataBaseCar16, unitOfWorkDataBaseCar16New)
+        public ArquivosController(IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio, IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew) : base(UnitOfWorkDataBaseCartorio, UnitOfWorkDataBaseCartorioNew)
         {
             //Criar instancia dos seus App services aqui
         }
@@ -45,7 +45,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<ArquivoModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ArquivoModeloDocxListViewModel>();
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
+            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorioNew))
             {
                 IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx().Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
@@ -60,7 +60,7 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 return View();
@@ -83,7 +83,7 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCar16New.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
+                List<TipoAto> listaTipoAto = this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
                 ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
 
                 if (ControllerModelValid)
@@ -97,7 +97,7 @@ namespace AdmCartorio.Controllers
                     string filePath = string.Empty;
                     arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+                    using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
                     {
                         using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                         {
@@ -166,7 +166,7 @@ namespace AdmCartorio.Controllers
             {
                 try
                 {
-                    ArquivoModeloDocx arquivoModelo = this.UnitOfWorkDataBaseCar16New.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
+                    ArquivoModeloDocx arquivoModelo = this.UnitOfWorkDataBaseCartorioNew.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
                     ArquivoModeloDocxViewModel arquivoViewModel = new ArquivoModeloDocxViewModel
                     {
                         Id = arquivoModelo.Id,
@@ -206,7 +206,7 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
+                    using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorioNew))
                     {
                         //Cadastro de log
                         LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
@@ -267,13 +267,13 @@ namespace AdmCartorio.Controllers
         {
             int respDesativar;
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCar16New))
+            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorioNew))
             {
                 respDesativar = appService.DesativarModelo(Convert.ToInt64(dadosPost.Id));
             }
             if (respDesativar == 1)
             {
-                this.UnitOfWorkDataBaseCar16New.SaveChanges();
+                this.UnitOfWorkDataBaseCartorioNew.SaveChanges();
             }
             else
             {

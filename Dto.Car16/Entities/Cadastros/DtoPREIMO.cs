@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     [DataContract]
     public class DtoPREIMO

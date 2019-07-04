@@ -20,13 +20,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.Data;
-using Domain.Car16.Entities.Car16New;
+using Domain.Cartorio.Entities.CartorioNew;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Web.Hosting;
 using System.Web;
 
-namespace Infra.Data.Car16.Context.Base
+namespace Infra.Data.Cartorio.Context.Base
 {
     /// <summary>
     /// Context para banco de dados oracle

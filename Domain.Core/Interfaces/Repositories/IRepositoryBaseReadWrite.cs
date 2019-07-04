@@ -26,7 +26,7 @@ namespace Domain.Core.Interfaces.Repositories
         void Remove(TEntity item);
         void RemoveRange(IEnumerable<TEntity> itens);
 
-        //void Merge(TEntity persisted, TEntity current);
+        long GetNextValFromOracleSequence(string SequenceName);
 
     }
 }

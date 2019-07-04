@@ -28,7 +28,7 @@ namespace AdmCartorio
         /// <summary>
         ///     Retrieves the entry value for the following composed key: "config:Project" as a string.
         /// </summary>
-        public static readonly string Project = GetValue<string>("Car16");
+        public static readonly string Project = GetValue<string>("Cartorio");
 
         /// <summary>
         ///     Retrieves the entry value for the following composed key: "config:EnableTiles" as a boolean.

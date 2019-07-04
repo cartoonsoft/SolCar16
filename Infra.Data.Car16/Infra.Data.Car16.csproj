@@ -67,6 +67,7 @@
     <Compile Include="Repositories\Base\RepositoriesFactoryBase.cs" />
     <Compile Include="Repositories\Base\InfraDataEventLogging.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoriesFactoryCar16New.cs" />
+    <Compile Include="Repositories\DbCar16\RepositoryPessoaCartorio.cs" />
     <Compile Include="Repositories\DbCar16\RepositoryPREIMO.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryAto.cs" />
     <Compile Include="Repositories\Base\RepositoryBaseReadWrite.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Repositories\DbCar16\RepositoriesFactoryCar16.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryArquivoModeloDocx.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryLogArquivoModeloDocx.cs" />
-    <Compile Include="Repositories\DbCar16New\RepositoryPessoa.cs" />
+    <Compile Include="Repositories\DbCar16New\RepositoryPessoaCartorioNew.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryUf.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryMunicipio.cs" />
     <Compile Include="Repositories\DbCar16New\RepositoryPais.cs" />

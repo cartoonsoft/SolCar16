@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities.Diversas
+namespace Domain.Cartorio.Entities.Diversas
 {
     public class ArquivoModeloDocxList
     {

@@ -13,7 +13,7 @@ using AdmCartorio.Models.Identity;
 using AdmCartorio.Models.Identity.Context;
 using AdmCartorio.Models.Identity.Entities;
 using AdmCartorio.ViewModels.Identity;
-using Domain.Car16.Interfaces.UnitOfWork;
+using Domain.Cartorio.Interfaces.UnitOfWork;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;

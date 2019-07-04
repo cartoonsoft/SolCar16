@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     public class DtoCadastroDeAto
     {
         public DtoPREIMO PREIMO { get; set; }
-        public List<DtoPESSOA> Pessoas { get; set; }
+        public List<DtoPessoaCartorio> Pessoas { get; set; }
         public DtoArquivoModeloSimplificadoDocxList ArquivoModelo { get; set; }
         public string TipoPessoa { get; set; }
         public long IdTipoAto { get; set; }

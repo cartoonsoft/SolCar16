@@ -5,25 +5,25 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Infra.Data.Car16.Context.Base;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Entities.CartorioNew;
+using Infra.Data.Cartorio.Context.Base;
 
-namespace Infra.Data.Car16.Context
+namespace Infra.Data.Cartorio.Context
 {
     /// <summary>
-    /// context para Car16 New
+    /// context para Cartorio New
     /// </summary>
     [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
-    public class ContextMainCar16New : ContextOraBase
+    public class ContextMainCartorioNew : ContextOraBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="connName"></param>
-        public ContextMainCar16New(string connName) : base(connName)
+        public ContextMainCartorioNew(string connName) : base(connName)
         {
-            Database.SetInitializer<ContextMainCar16New>(null);
+            Database.SetInitializer<ContextMainCartorioNew>(null);
         }
 
         /// <summary>

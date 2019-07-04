@@ -39,7 +39,6 @@ namespace Domain.Core.DomainServices
                     // dispose managed state (managed objects).
                     GenericDomainServices = null;
 
-                    //todo: verificar se deve dar dispose no _unitOfWork aqui
                     //if (_unitOfWork != null)
                     //{
                     //    _unitOfWork.Dispose();
@@ -70,7 +69,7 @@ namespace Domain.Core.DomainServices
         }
         #endregion
 
-        public IDomainServiceBase<T> GenericDomainService<T>() where T : class
+        public IDomainServiceBase<T> GenericDs<T>() where T : class
         {
             this.VerifyUnitOfWork();
 

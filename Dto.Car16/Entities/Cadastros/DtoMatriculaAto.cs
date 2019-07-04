@@ -1,11 +1,11 @@
-﻿using Dto.Car16.Entities.Diversos;
+﻿using Dto.Cartorio.Entities.Diversos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     public class DtoMatriculaAto
     {

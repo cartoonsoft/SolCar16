@@ -5,7 +5,7 @@ using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
 
-namespace Infra.Data.Car16.Repositories.Base
+namespace Infra.Data.Cartorio.Repositories.Base
 {
     public class RepositoriesFactoryBase : IRepositoriesFactoryBase
     {

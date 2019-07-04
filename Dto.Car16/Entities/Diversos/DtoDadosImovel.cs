@@ -1,11 +1,11 @@
-﻿using Domain.Car16.Entities.Car16;
+﻿using Domain.Cartorio.Entities.Cartorio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.Car16.Entities.Diversos
+namespace Dto.Cartorio.Entities.Diversos
 {
     public class DtoDadosImovel
     {

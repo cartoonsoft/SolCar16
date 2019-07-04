@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.DomainServices.Base;
-using Domain.Car16.Interfaces.DomainServices;
-using Domain.Car16.Interfaces.UnitOfWork;
+using AppServices.Cartorio.Interfaces.Base;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using DomainServices.Base;
+using DomainServices.Interfaces;
 
-namespace AppServices.Car16.AppServices.Base
+namespace AppServices.Cartorio.AppServices.Base
 {
-    public class AppServiceCar16New<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCar16<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
+    public class AppServiceCartorioNew<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCartorio<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
-        private readonly IUnitOfWorkDataBaseCar16New _unitOfWorkCar16New;
-        private readonly IDomainServicesFactoryCar16New _domainServicesFactoryCar16New;
-
+        private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
+        private readonly IUnitOfWorkDataBaseCartorioNew _ufwCartNew;
+        private readonly IDomainServicesFactoryCartorioNew _domainServicesFactoryCartorioNew;
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCar16New(IUnitOfWorkDataBaseCar16New unitOfWorkCar16New) : base(unitOfWorkCar16New)
+        public AppServiceCartorioNew(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
         {
-            this._unitOfWorkCar16New = unitOfWorkCar16New;
-            _domainServicesFactoryCar16New = new DomainServicesFactoryCar16New(this._unitOfWorkCar16New);
-            base.DomainServices = _domainServicesFactoryCar16New;
+            this._ufwCart = UfwCart;
+            this._ufwCartNew = UfwCartNew;
+            this._domainServicesFactoryCartorioNew = new DomainServicesFactoryCartorioNew(this._ufwCart, this._ufwCartNew);
+            base.DsFactoryBase = _domainServicesFactoryCartorioNew;
         }
 
         #region IDisposable Support
@@ -36,9 +37,9 @@ namespace AppServices.Car16.AppServices.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_domainServicesFactoryCar16New != null)
+                    if (_domainServicesFactoryCartorioNew != null)
                     {
-                        _domainServicesFactoryCar16New.Dispose();
+                        _domainServicesFactoryCartorioNew.Dispose();
                     }
                 }
 
@@ -65,14 +66,16 @@ namespace AppServices.Car16.AppServices.Base
         }
         #endregion
 
-        public IUnitOfWorkDataBaseCar16New UnitOfWorkCar16New
-        {
-            get { return this._unitOfWorkCar16New; }
-        }
 
-        public new IDomainServicesFactoryCar16New DomainServices
+        public virtual IDomainServicesFactoryCartorioNew DsFactoryCartNew { get; }
+
+        public IUnitOfWorkDataBaseCartorio UfwCart
         {
-            get { return _domainServicesFactoryCar16New; }
+            get { return this._ufwCart; }
+        }
+        public IUnitOfWorkDataBaseCartorioNew UfwCartNew
+        {
+            get { return this._ufwCartNew; }
         }
 
     }

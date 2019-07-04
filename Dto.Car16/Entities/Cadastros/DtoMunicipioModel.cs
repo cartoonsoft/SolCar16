@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Dto.Car16.Entities.Base;
+using Dto.Cartorio.Entities.Base;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     public class DtoMunicipioModel: DtoEntityBaseModel
     {

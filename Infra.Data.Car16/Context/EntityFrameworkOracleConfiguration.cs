@@ -7,7 +7,7 @@ using System.Data.Entity;
 using Oracle.ManagedDataAccess.EntityFramework;
 using Oracle.ManagedDataAccess.Client;
 
-namespace Infra.Data.Car16.Context
+namespace Infra.Data.Cartorio.Context
 {
     public sealed class EntityFrameworkOracleConfiguration : DbConfiguration
     {

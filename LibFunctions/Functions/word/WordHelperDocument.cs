@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dto.Car16.Entities.Cadastros;
+using Dto.Cartorio.Entities.Cadastros;
 using GemBox.Document;
 
 namespace LibFunctions.Functions.Word

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Car16.AppServices;
-using Domain.Car16.enums;
-using Dto.Car16.Entities.Cadastros;
-using Infra.Data.Car16.UnitsOfWork;
-using Infra.Data.Car16.UnitsOfWork.DbCar16New;
+using AppServices.Cartorio.AppServices;
+using Domain.Cartorio.enums;
+using Dto.Cartorio.Entities.Cadastros;
+using Infra.Data.Cartorio.UnitsOfWork;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace ConsoleAppTeste2
 {
@@ -15,7 +15,7 @@ namespace ConsoleAppTeste2
     {
         static void Main(string[] args)
         {
-            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
             {
                 using (AppServicePais appService = new AppServicePais(unitOfWork))
                 {

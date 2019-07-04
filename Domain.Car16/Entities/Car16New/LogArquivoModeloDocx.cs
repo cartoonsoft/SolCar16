@@ -1,4 +1,4 @@
-﻿using Domain.Car16.enums;
+﻿using Domain.Cartorio.enums;
 using Domain.Core.Entities.Base;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities.Car16New
+namespace Domain.Cartorio.Entities.CartorioNew
 {
     [Table("TB_LOG_ARQ_MOD_DOCX", Schema = "DEZESSEIS_NEW")]
     public class LogArquivoModeloDocx : EntityBase

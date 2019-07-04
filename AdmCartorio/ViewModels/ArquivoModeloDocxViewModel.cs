@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
-using Domain.Car16.Attributes;
+using Domain.Cartorio.Attributes;
 
 namespace AdmCartorio.ViewModels
 {

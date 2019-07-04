@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Interfaces.Repositories;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories
+namespace Infra.Data.Cartorio.Repositories
 {
     public class RepositoryPREIMO : RepositoryBaseReadWrite<PREIMO>, IRepositoryPREIMO
     {
-        private readonly ContextMainCar16 _contexRepository;
+        private readonly ContextMainCartorio _contexRepository;
 
-        public RepositoryPREIMO(ContextMainCar16 contexRepository) : base(contexRepository)
+        public RepositoryPREIMO(ContextMainCartorio contexRepository) : base(contexRepository)
         {
             _contexRepository = contexRepository;
         }

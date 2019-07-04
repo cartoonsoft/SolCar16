@@ -1,5 +1,5 @@
-﻿using Domain.Car16.Entities.Car16;
-using Dto.Car16.Entities.Cadastros;
+﻿using Domain.Cartorio.Entities.Cartorio;
+using Dto.Cartorio.Entities.Cadastros;
 using System;
 using System.Collections.Generic;
 using System.Linq;

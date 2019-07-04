@@ -22,7 +22,7 @@ using System.IO;
 using LibFunctions.Functions.IOAdmCartorio;
 using System.Reflection;
 
-namespace Infra.Data.Car16.UnitsOfWork.Base
+namespace Infra.Data.Cartorio.UnitsOfWork.Base
 {
     public class UnitOfWork : IUnitOfWork
     {

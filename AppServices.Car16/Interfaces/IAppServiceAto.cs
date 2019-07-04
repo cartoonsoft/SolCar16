@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.Entities.Car16New;
-using Dto.Car16.Entities.Cadastros;
+using AppServices.Cartorio.Interfaces.Base;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.enums;
+using Dto.Cartorio.Entities.Cadastros;
 
-namespace AppServices.Car16.Interfaces
+namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceAto : IAppServiceCar16<DtoAto,Ato>
+    public interface IAppServiceAto : IAppServiceCartorio<DtoAto,Ato>
     {
-        bool ExisteAtoCadastrado(long numMatricula);
-        bool FinalizarAto(long Id);
-        bool Editar(DtoCadastroDeAto modelo, string UsuarioAlteracao);
+        DtoAtoCadastro NovoAto(DtoAto Ato, string textoHtml);
+        bool EditarAto(long IdAto, string textoHtml);
+
+        List<DtoAtoDocx> GerarFichas(long IdAto);
+        void UploadFicha( long IdDocx);
+
+        void ImprimirFicha(long IdDocx);
+        void ImprimirAto(long IdAto);
+
+        void ConferirAto(long IdAto, TipoConferenciaAto tipoConferencia);
+        bool FinalizarAto(long IdAto);
+
+        void Bloquear(long IdAto);
+        void Desativar(long IdAto);
+
     }
 }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.Entities.Diversas;
-using Dto.Car16.Entities.Cadastros;
+using AppServices.Cartorio.Interfaces.Base;
+using Domain.Cartorio.Entities.Diversas;
+using Dto.Cartorio.Entities.Cadastros;
 
-namespace AppServices.Car16.Interfaces
+namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceCadastroAto : IAppServiceCar16<DtoCadastroDeAto,CadastroDeAto>
+    public interface IAppServiceCadastroAto : IAppServiceCartorio<DtoCadastroDeAto,CadastroDeAto>
     {
         bool EscreverAtoNoWord(DtoCadastroDeAto modelo, string filePath, long numSequenciaAto);
     }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Web;
 
-namespace Domain.Car16.Attributes
+namespace Domain.Cartorio.Attributes
 {
     public class IsWordFile : ValidationAttribute
     {

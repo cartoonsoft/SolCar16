@@ -22,7 +22,7 @@ using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
 using Oracle.ManagedDataAccess.Client;
 
-namespace Infra.Data.Car16.Repositories.Base
+namespace Infra.Data.Cartorio.Repositories.Base
 {
     public class RepositoryBaseRead<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : class
     {
@@ -279,36 +279,5 @@ namespace Infra.Data.Car16.Repositories.Base
             return paged;
         }
 
-        /// <summary>
-        /// Busca o NextVal de uma sequence
-        /// </summary>
-        /// <param name="SequenceName"></param>
-        /// <returns></returns>
-        public long GetNextValFromOracleSequence(string SequenceName)
-        {
-            long SeqTmp = 0;
-            ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
-            var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
-
-            using (OracleConnection conn = new OracleConnection(connStr))
-            {
-                conn.Open();
-                using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
-                {
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.BindByName = true;
-                    using (OracleDataReader row = command.ExecuteReader())
-                    {
-                        while (row.Read())
-                        {
-                            SeqTmp = row.GetOracleDecimal(0).ToInt64();
-                        }
-                    }
-                }
-                conn.Close();
-            }
-
-            return SeqTmp;
-        }
     }
 }

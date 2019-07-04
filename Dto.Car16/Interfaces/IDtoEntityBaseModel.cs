@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Dto.Car16.Interfaces
+namespace Dto.Cartorio.Interfaces
 {
     public interface IDtoEntityBaseModel
     {

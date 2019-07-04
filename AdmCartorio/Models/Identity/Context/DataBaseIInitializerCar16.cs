@@ -12,7 +12,7 @@ using System.Web.Helpers;
 
 namespace AdmCartorio.Models.Identity.Context
 {
-    public class DataBaseIInitializerCar16: DropCreateDatabaseAlways<ApplicationDbContextIdentity>
+    public class DataBaseIInitializerCartorio: DropCreateDatabaseAlways<ApplicationDbContextIdentity>
     {
 
         protected override void Seed(ApplicationDbContextIdentity context)

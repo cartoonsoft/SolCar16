@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AppServices.Car16.AppServices;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.enums;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.DbCar16New;
-using Infra.Data.Car16.UnitsOfWork.DbCar16New;
+using AppServices.Cartorio.AppServices;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.enums;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.DbCartorioNew;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace ConsoleAppTeste
 {
@@ -64,7 +64,7 @@ namespace ConsoleAppTeste
             //Console.WriteLine("***************|       RELATORIO     |**************************");
             //Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
             {
                 using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
                 {
@@ -83,7 +83,7 @@ namespace ConsoleAppTeste
             Console.WriteLine("***************|       RELATORIO     |**************************");
             Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseis))
+            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseis))
             {
                 List<Matricula> listMatriculas = unitOfWork.Repositories.GenericRepository<Matricula>().GetAll().ToList();
 
@@ -99,7 +99,7 @@ namespace ConsoleAppTeste
 
         public static void NovoPais()
         {
-            using (UnitOfWorkDataBaseCar16New unitOfWork = new UnitOfWorkDataBaseCar16New(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
             {
                 //Pais pais = new Pais();
                 //pais.NomePais = "Teste id pelo banco realizado em :" + DateTime.Now.ToString();
@@ -126,17 +126,17 @@ namespace ConsoleAppTeste
         public static void Teste()
         {
 
-            ContextMainCar16New context = new ContextMainCar16New("contextOraDevCartorioNew");
+            ContextMainCartorioNew context = new ContextMainCartorioNew("contextOraDevCartorioNew");
 
             RepositoryPais RepPais = new RepositoryPais(context);
             List<Pais> listPaizes = RepPais.GetAll().ToList();
 
 
-            ContextMainCar16 context2 = new ContextMainCar16("contextOraDevCartorio");
+            ContextMainCartorio context2 = new ContextMainCartorio("contextOraDevCartorio");
 
             //Repository Pais RepPais = new RepositoryPais(context);
 
-            //using (UnitOfWorkCar16 unitOfWork = new UnitOfWorkCar16(BaseDados.DesenvDezesseisNew))
+            //using (ufwCart unitOfWork = new UfwCart(BaseDados.DesenvDezesseisNew))
             //{
             //    List<Pais> listPaizes = unitOfWork.Repositories.GenericRepository<Pais>().GetAll().ToList();
 

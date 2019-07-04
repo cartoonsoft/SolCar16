@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.enums
+namespace Domain.Cartorio.enums
 {
     public enum TipoAtoEnum
     {

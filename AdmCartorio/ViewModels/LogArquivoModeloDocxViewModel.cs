@@ -1,4 +1,4 @@
-﻿using Domain.Car16.enums;
+﻿using Domain.Cartorio.enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

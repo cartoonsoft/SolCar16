@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dto.Car16.Interfaces;
+using Dto.Cartorio.Interfaces;
 
-namespace Dto.Car16.Entities.Base
+namespace Dto.Cartorio.Entities.Base
 {
     public abstract class DtoEntityBaseModel : IDtoEntityBaseModel
     {

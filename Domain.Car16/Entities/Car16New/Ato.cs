@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 
-namespace Domain.Car16.Entities.Car16New
+namespace Domain.Cartorio.Entities.CartorioNew
 {
     [Table("TB_ATO", Schema = "DEZESSEIS_NEW")]
     public class Ato: EntityBase
@@ -39,7 +39,7 @@ namespace Domain.Car16.Entities.Car16New
         public DateTime? DataAlteracao { get; set; }
 
         [Column("NUM_SEQ_ATO")] //numeric(5,0)
-        public Int16 NumSequenciaAto { get; set; }
+        public short NumSequenciaAto { get; set; }
 
         [Column("DT_ATO")] //Date
         public string DataAto { get; set; }

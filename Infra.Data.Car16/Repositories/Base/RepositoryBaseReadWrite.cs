@@ -9,18 +9,20 @@ Todos os direitos reservados ®
 -----------------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Configuration;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.Data;
 using Domain.Core.Interfaces.Repositories;
 using Oracle.ManagedDataAccess.Client;
 using Oracle.ManagedDataAccess.Types;
 
-namespace Infra.Data.Car16.Repositories.Base
+namespace Infra.Data.Cartorio.Repositories.Base
 {
     public class RepositoryBaseReadWrite<TEntity> : RepositoryBaseRead<TEntity>, IRepositoryBaseReadWrite<TEntity> where TEntity : class
     {
@@ -104,5 +106,36 @@ namespace Infra.Data.Car16.Repositories.Base
             }
         }
 
+        /// <summary>
+        /// Busca o NextVal de uma sequence
+        /// </summary>
+        /// <param name="SequenceName"></param>
+        /// <returns></returns>
+        public long GetNextValFromOracleSequence(string SequenceName)
+        {
+            long SeqTmp = 0;
+            ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
+            var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
+
+            using (OracleConnection conn = new OracleConnection(connStr))
+            {
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.BindByName = true;
+                    using (OracleDataReader row = command.ExecuteReader())
+                    {
+                        while (row.Read())
+                        {
+                            SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                        }
+                    }
+                }
+                conn.Close();
+            }
+
+            return SeqTmp;
+        }
     }
 }

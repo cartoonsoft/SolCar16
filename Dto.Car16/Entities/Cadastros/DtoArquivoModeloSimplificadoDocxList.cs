@@ -1,4 +1,4 @@
-﻿using Domain.Car16.Entities.Car16New;
+﻿using Domain.Cartorio.Entities.CartorioNew;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     public class DtoArquivoModeloSimplificadoDocxList
     {

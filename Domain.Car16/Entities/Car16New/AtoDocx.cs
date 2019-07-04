@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities.Car16New
+namespace Domain.Cartorio.Entities.CartorioNew
 {
     [Table("TB_ATO_DOCX", Schema = "DEZESSEIS_NEW")]
     public class AtoDocx: EntityBase
@@ -27,7 +27,7 @@ namespace Domain.Car16.Entities.Car16New
         public long IdDocx { get; set; }
 
         [Column("IDX_PARA")] //IDX_PARA NUMERIC(5, 0),
-        public Int16 IdxParagrago { get; set; }
+        public short IdxParagrago { get; set; }
 
         [Column("TXT_HTML")] //TXT_HTML VARCHAR2(2048),
         public string TextoHtml { get; set; }

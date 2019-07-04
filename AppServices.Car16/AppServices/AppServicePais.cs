@@ -4,24 +4,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Car16.AppServices.Base;
-using AppServices.Car16.Interfaces;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Dto.Car16.Entities.Cadastros;
+using AppServices.Cartorio.AppServices.Base;
+using AppServices.Cartorio.Interfaces;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Dto.Cartorio.Entities.Cadastros;
 
-namespace AppServices.Car16.AppServices
+namespace AppServices.Cartorio.AppServices
 {
-    public class AppServicePais : AppServiceCar16New<DtoPaisModel, Pais>, IAppServicePais
+    public class AppServicePais : AppServiceCartorioNew<DtoPaisModel, Pais>, IAppServicePais
     {
-        public AppServicePais(IUnitOfWorkDataBaseCar16New unitOfWork) : base(unitOfWork)
+        public AppServicePais(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(ufwCart, UfwCartNew)
         {
             //
         }
 
         public IEnumerable<DtoPaisModel> BuscarPorNome(string nome)
         {
-            IEnumerable<Pais> listpaizes = this.DomainServices.PaisDomainService.BuscarPorNome(nome);
+            IEnumerable<Pais> listpaizes = this.DomainServicesFactoryCartorioNew.PaisDomainService.BuscarPorNome(nome);
             IEnumerable<DtoPaisModel> listPaizes = Mapper.Map<IEnumerable<Pais>, IEnumerable<DtoPaisModel>>(listpaizes);
 
             return listPaizes;

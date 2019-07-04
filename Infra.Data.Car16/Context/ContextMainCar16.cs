@@ -5,25 +5,25 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Infra.Data.Car16.Context.Base;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Entities.CartorioNew;
+using Infra.Data.Cartorio.Context.Base;
 
-namespace Infra.Data.Car16.Context
+namespace Infra.Data.Cartorio.Context
 {
     /// <summary>
-    /// context para Car16 New
+    /// context para Cartorio New
     /// </summary>
     [DbConfigurationType(typeof(EntityFrameworkOracleConfiguration))]
-    public class ContextMainCar16 : ContextOraBase
+    public class ContextMainCartorio : ContextOraBase
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="connName"></param>
-        public ContextMainCar16(string connName) : base(connName)
+        public ContextMainCartorio(string connName) : base(connName)
         {
-            Database.SetInitializer<ContextMainCar16>(null);
+            Database.SetInitializer<ContextMainCartorio>(null);
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Infra.Data.Car16.Context
         public DbSet<Matricula> DbMatricula { get; set; }
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
-        public DbSet<PESSOA> DbPESSOA { get; set; }
+        public DbSet<PessoaCartorio> DbPESSOA { get; set; }
         public DbSet<PREMAD> DbPREMAD { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

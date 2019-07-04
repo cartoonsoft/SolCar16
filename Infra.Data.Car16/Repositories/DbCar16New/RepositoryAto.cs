@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Interfaces.Repositories;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 using Oracle.ManagedDataAccess.Client;
 
-namespace Infra.Data.Car16.Repositories.DbCar16New
+namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {
     public class RepositoryAto : RepositoryBaseReadWrite<Ato>, IRepositoryAto
     {
-        private readonly ContextMainCar16New _contextRepository;
+        private readonly ContextMainCartorioNew _contextRepository;
 
-        public RepositoryAto(ContextMainCar16New contextRepository) : base(contextRepository)
+        public RepositoryAto(ContextMainCartorioNew contextRepository) : base(contextRepository)
         {
             _contextRepository = contextRepository;
         }

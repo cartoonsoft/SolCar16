@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.enums;
-using Dto.Car16.Entities.Base;
+using Dto.Cartorio.Entities.Base;
 
-namespace Dto.Car16.Entities.Diversos
+namespace Dto.Cartorio.Entities.Diversos
 {
     public class DtoFeriado : DtoEntityBaseModel
     {

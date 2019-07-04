@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Interfaces.Repositories;
+using Domain.Cartorio.Entities.Cartorio;
+using Domain.Cartorio.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories.DbCar16
+namespace Infra.Data.Cartorio.Repositories.DbCartorio
 {
-    public class RepositoriesFactoryCar16 : RepositoriesFactoryBase, IRepositoriesFactoryCar16
+    public class RepositoriesFactoryCartorio : RepositoriesFactoryBase, IRepositoriesFactoryCartorio
     {
-        private readonly ContextMainCar16 _context;
+        private readonly ContextMainCartorio _context;
 
         private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
 
@@ -19,7 +19,7 @@ namespace Infra.Data.Car16.Repositories.DbCar16
         /// Método construtor
         /// </summary>
         /// <param name="context"></param>
-        public RepositoriesFactoryCar16(ContextMainCar16 context): base(context)
+        public RepositoriesFactoryCartorio(ContextMainCartorio context): base(context)
         {
             this._context = context;
         }

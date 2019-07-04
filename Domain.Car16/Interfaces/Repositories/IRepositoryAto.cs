@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
+using Domain.Cartorio.Entities.CartorioNew;
 using Domain.Core.Interfaces.Repositories;
 
-namespace Domain.Car16.Interfaces.Repositories
+namespace Domain.Cartorio.Interfaces.Repositories
 {
     public interface IRepositoryAto : IRepositoryBaseReadWrite<Ato>
     {

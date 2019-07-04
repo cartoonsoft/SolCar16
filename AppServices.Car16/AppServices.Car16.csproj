@@ -82,7 +82,6 @@
   <ItemGroup>
     <Compile Include="AppServices\AppServiceArquivoModeloDocx.cs" />
     <Compile Include="AppServices\AppServiceAto.cs" />
-    <Compile Include="AppServices\AppServiceCadastroDeAto.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
     <Compile Include="AppServices\AppServicePessoa.cs" />
     <Compile Include="AppServices\Base\AppServiceBase.cs" />
@@ -92,11 +91,13 @@
     <Compile Include="Interfaces\IAppServiceArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\IAppServiceAto.cs" />
     <Compile Include="Interfaces\IAppServiceCadastroAto.cs" />
+    <Compile Include="Interfaces\IAppServicePessoa.cs" />
     <Compile Include="Interfaces\IAppServicePais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +108,10 @@
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainServices\DomainServices.csproj">
+      <Project>{7ab42828-49e2-4ee6-919a-7974d200f9a3}</Project>
+      <Name>DomainServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
       <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>

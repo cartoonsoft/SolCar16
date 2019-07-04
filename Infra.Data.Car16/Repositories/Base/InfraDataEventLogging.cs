@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infra.Data.Car16.Repositories.Base
+namespace Infra.Data.Cartorio.Repositories.Base
 {
     public class InfraDataEventLogging
     {

@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.enums;
-using Domain.Car16.Interfaces.Repositories;
-using Domain.Car16.Interfaces.UnitOfWork;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
-using Infra.Data.Car16.Repositories.DbCar16;
-using Infra.Data.Car16.UnitsOfWork.Base;
+using Domain.Cartorio.enums;
+using Domain.Cartorio.Interfaces.Repositories;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
+using Infra.Data.Cartorio.Repositories.DbCartorio;
+using Infra.Data.Cartorio.UnitsOfWork.Base;
 
-namespace Infra.Data.Car16.UnitsOfWork.DbCar16
+namespace Infra.Data.Cartorio.UnitsOfWork.DbCartorio
 {
-    public class UnitOfWorkDataBaseCar16: UnitOfWorkCar16, IUnitOfWorkDataBaseCar16
+    public class UnitOfWorkDataBaseCartorio: UfwCart, IUnitOfWorkDataBaseCartorio
     {
-        private ContextMainCar16 _context;
-        private readonly IRepositoriesFactoryCar16 _repositoriesCar16;
+        private ContextMainCartorio _context;
+        private readonly IRepositoriesFactoryCartorio _repositoriesCartorio;
 
         /// <summary>
         /// Constructor
@@ -24,18 +24,18 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16
         /// <param name="baseDados"></param>
         /// <param name="context"></param>
         /// <param name="log"></param>
-        public UnitOfWorkDataBaseCar16(BaseDados baseDados, ContextMainCar16 context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
+        public UnitOfWorkDataBaseCartorio(BaseDados baseDados, ContextMainCartorio context = null, InfraDataEventLogging log = null): base(baseDados, context, log)
         {
             _context = context;
 
             if (_context == null)
             {
-                _context = new ContextMainCar16(GetContextName(baseDados));
+                _context = new ContextMainCartorio(GetContextName(baseDados));
                 base.Context = _context;
             }
 
-            _repositoriesCar16 = new RepositoriesFactoryCar16(_context);
-            base.Repositories = _repositoriesCar16;
+            _repositoriesCartorio = new RepositoriesFactoryCartorio(_context);
+            base.Repositories = _repositoriesCartorio;
         }
 
         #region IDisposable Support
@@ -48,9 +48,9 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (this._repositoriesCar16 != null)
+                    if (this._repositoriesCartorio != null)
                     {
-                        _repositoriesCar16.Dispose();
+                        _repositoriesCartorio.Dispose();
                     }
                 }
 
@@ -70,13 +70,13 @@ namespace Infra.Data.Car16.UnitsOfWork.DbCar16
         }
         #endregion
 
-        public new IRepositoriesFactoryCar16 Repositories
+        public new IRepositoriesFactoryCartorio Repositories
         {
-            get { return _repositoriesCar16; }
+            get { return _repositoriesCartorio; }
 
         }
 
-        ContextMainCar16 ContextCar16
+        ContextMainCartorio ContextCartorio
         {
             get { return _context; }
         }

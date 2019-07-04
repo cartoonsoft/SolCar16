@@ -3,20 +3,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using AppServices.Car16.Interfaces.Base;
-using Domain.Car16.Entities.Car16New;
-using Dto.Car16.Entities.Cadastros;
-using Dto.Car16.Entities.Diversos;
+using AppServices.Cartorio.Interfaces.Base;
+using Domain.Cartorio.Entities.CartorioNew;
+using Dto.Cartorio.Entities.Cadastros;
+using Dto.Cartorio.Entities.Diversos;
 
-namespace AppServices.Car16.Interfaces
+namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceArquivoModeloDocx: IAppServiceCar16<DtoArquivoModeloDocxModel, ArquivoModeloDocx>
+    public interface IAppServiceArquivoModeloDocx: IAppServiceCartorio<DtoArquivoModeloDocxModel, ArquivoModeloDocx>
     {
-        //
+        /// <summary>
+        /// SAvalr um Modelo de doc
+        /// </summary>
+        /// <param name="dtoArq"></param>
+        /// <param name="IdUsuario"></param>
+        /// <returns></returns>
         long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
 
-        IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
-
         void EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
+
+        bool DesativarModelo(long Id, string IdUsuario);
+
+        IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
+        IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null);
+
+
+
+        
+
+        /*
+        DtoDadosImovel GetCamposModeloMatricula(long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
+
+        IEnumerable<DtoCamposValor> GetCamposPrenotacao(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
+
+        IEnumerable<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
+
+        IEnumerable<CamposArquivoModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto);
+        */
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Entities.Diversas;
-using Dto.Car16.Entities.Cadastros;
-using Dto.Car16.Entities.Diversos;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Entities.Diversas;
+using Dto.Cartorio.Entities.Cadastros;
+using Dto.Cartorio.Entities.Diversos;
 
 namespace AdmCartorio.App_Start.AutoMapper
 {

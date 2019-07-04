@@ -1,6 +1,6 @@
-﻿using Domain.Car16.Attributes;
-using Domain.Car16.Entities.Car16New;
-using Dto.Car16.Entities.Base;
+﻿using Domain.Cartorio.Attributes;
+using Domain.Cartorio.Entities.CartorioNew;
+using Dto.Cartorio.Entities.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Dto.Car16.Entities.Cadastros
+namespace Dto.Cartorio.Entities.Cadastros
 {
     public class DtoArquivoModeloDocxModel : DtoEntityBaseModel
     {

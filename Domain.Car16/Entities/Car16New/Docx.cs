@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Car16.Entities.Car16New
+namespace Domain.Cartorio.Entities.CartorioNew
 {
     [Table("TB_DOCX", Schema = "DEZESSEIS_NEW")]
     public class Docx : EntityBase
@@ -36,7 +36,7 @@ namespace Domain.Car16.Entities.Car16New
         public string NumMatricula { get; set; }
 
         [Column("NUM_SEQ_FICHA")]   //      NUM_SEQ_FICHA SMALLINT,
-        public Int16 Ficha { get; set; }
+        public short Ficha { get; set; }
 
         [Column("DT_DOCX")]    //DT_DOCX              DATE,
         public DateTime DataDocx { get; set; }

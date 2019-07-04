@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Oracle.ManagedDataAccess.Client;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Entities.Diversas;
-using Domain.Car16.Interfaces.Repositories;
-using Infra.Data.Car16.Context;
-using Infra.Data.Car16.Repositories.Base;
+using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Cartorio.Entities.Diversas;
+using Domain.Cartorio.Interfaces.Repositories;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 
-namespace Infra.Data.Car16.Repositories.DbCar16New
+namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {
     public class RepositoryArquivoModeloDocx : RepositoryBaseReadWrite<ArquivoModeloDocx>, IRepositoryArquivoModeloDocx
     {
-        private readonly ContextMainCar16New _contextRepository;
+        private readonly ContextMainCartorioNew _contextRepository;
 
-        public RepositoryArquivoModeloDocx(ContextMainCar16New contexRepository) : base(contexRepository)
+        public RepositoryArquivoModeloDocx(ContextMainCartorioNew contexRepository) : base(contexRepository)
         {
             _contextRepository = contexRepository;
         }
@@ -197,5 +198,41 @@ namespace Infra.Data.Car16.Repositories.DbCar16New
 
             return ListaArquivos;
         }
+
+        public IEnumerable<CamposArquivoModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto)
+        {
+            List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = new List<CamposArquivoModeloDocx>();
+            
+            var listaCampos =
+                from campos in _contextRepository.DbCamposArquivoModeloDocx.Where(c => c.IdTipoAto == IdTipoAto)
+                orderby campos.NomeCampo
+                select new
+                {
+                    campos.Id,
+                    campos.IdAcessoSistema,
+                    campos.IdTipoAto,
+                    campos.NomeCampo,
+                    campos.PlaceHolder,
+                    campos.Entidade,
+                    campos.Campo
+                };
+
+            foreach (var item in listaCampos)
+            {
+                listaCamposArquivoModeloDocx.Add(new CamposArquivoModeloDocx
+                {
+                    Id = item.Id,
+                    IdAcessoSistema = item.IdAcessoSistema,
+                    IdTipoAto = item.IdTipoAto,
+                    NomeCampo = item.NomeCampo,
+                    Campo = item.Campo,
+                    Entidade = item.Entidade,
+                    PlaceHolder = item.PlaceHolder
+                });
+            }
+
+            return listaCamposArquivoModeloDocx;
+        }
+
     }
 }
