@@ -7,6 +7,7 @@ using AppServices.Cartorio.AppServices;
 using Domain.Cartorio.enums;
 using Dto.Cartorio.Entities.Cadastros;
 using Infra.Data.Cartorio.UnitsOfWork;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace ConsoleAppTeste2
@@ -15,17 +16,20 @@ namespace ConsoleAppTeste2
     {
         static void Main(string[] args)
         {
-            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartorio unitOfWork1 = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis))
             {
-                using (AppServicePais appService = new AppServicePais(unitOfWork))
+                using (UnitOfWorkDataBaseCartorioNew unitOfWork2 = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
                 {
-                    List<DtoPaisModel> listPaizes = appService.GetAll().ToList<DtoPaisModel>();
-
-                    foreach (var pais in listPaizes)
+                    using (AppServicePais appService = new AppServicePais(unitOfWork1, unitOfWork2))
                     {
-                        Console.WriteLine("        {0}           {1}", pais.Id, pais.NomePais);
+                        List<DtoPaisModel> listPaizes = appService.GetAll().ToList<DtoPaisModel>();
+
+                        foreach (var pais in listPaizes)
+                        {
+                            Console.WriteLine("        {0}           {1}", pais.Id, pais.NomePais);
+                        }
+                        Console.WriteLine("----------------------------fim relatório----------------------");
                     }
-                    Console.WriteLine("----------------------------fim relatório----------------------");
                 }
             }
 

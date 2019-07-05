@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core.DomainServices;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.DomainServices;
 using Domain.Core.Interfaces.Repositories;
@@ -13,11 +14,6 @@ namespace AppServices.Cartorio.Interfaces.Base
     public interface IAppServiceBase <TDtoEntityModel, TEntity>: IDisposable where TDtoEntityModel : class where TEntity : class
     {
         //ronaldo arrumar
-        IDomainServicesFactoryBase DsFactoryBase
-        {
-            get;
-            set;
-        }
 
         void Add(TDtoEntityModel dtoItem);
         void AddRange(IEnumerable<TDtoEntityModel> dtoItens);

@@ -18,7 +18,7 @@ namespace AdmCartorio.App_Start.AutoMapper
             CreateMap<DtoPaisModel, Pais>();
             CreateMap<DtoUfModel, Uf>();
             CreateMap<DtoMunicipioModel, Municipio>();
-            CreateMap<DtoPessoaModel, Pessoa>();
+            CreateMap<DtoPessoaCartorioNew , PessoaCartorioNew>();
             CreateMap<DtoArquivoModeloDocxList, ArquivoModeloDocxList>();
 
         }

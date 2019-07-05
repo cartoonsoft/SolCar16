@@ -34,7 +34,7 @@ namespace Infra.Cross.Ioc
             ContainerAppMin.Register<IunitOfWorkCartoonSoft>(() => new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
 
             // AppServices 
-            ContainerAppMin.Register<IAppServicePais>(() => new AppServicePais((IUnitOfWorkDataBaseCartorioNew)container.GetInstance(typeof(IUnitOfWorkDataBaseCartorioNew))), Lifestyle.Scoped);
+            //ContainerAppMin.Register<IAppServicePais>(() => new AppServicePais((IUnitOfWorkDataBaseCartorioNew)container.GetInstance(typeof(IUnitOfWorkDataBaseCartorioNew))), Lifestyle.Scoped);
 
         }
     }

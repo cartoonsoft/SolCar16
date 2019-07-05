@@ -14,14 +14,14 @@ namespace AppServices.Cartorio.AppServices
 {
     public class AppServicePais : AppServiceCartorioNew<DtoPaisModel, Pais>, IAppServicePais
     {
-        public AppServicePais(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(ufwCart, UfwCartNew)
+        public AppServicePais(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
             //
         }
 
         public IEnumerable<DtoPaisModel> BuscarPorNome(string nome)
         {
-            IEnumerable<Pais> listpaizes = this.DomainServicesFactoryCartorioNew.PaisDomainService.BuscarPorNome(nome);
+            IEnumerable<Pais> listpaizes = this.DsFactoryCartNew.PaisDs.BuscarPorNome(nome);
             IEnumerable<DtoPaisModel> listPaizes = Mapper.Map<IEnumerable<Pais>, IEnumerable<DtoPaisModel>>(listpaizes);
 
             return listPaizes;

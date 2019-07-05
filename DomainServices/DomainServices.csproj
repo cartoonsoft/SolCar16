@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DomainServices</RootNamespace>
     <AssemblyName>DomainServices</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,22 +50,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\DomainServiceCartorioNew.cs" />
-    <Compile Include="Base\DomainServicesFactoryCartorioNew.cs" />
-    <Compile Include="Interfaces\IArquivoModeloDocxDomainService.cs" />
-    <Compile Include="Interfaces\IAtoDomainService.cs" />
-    <Compile Include="Interfaces\IDomainServiceCartorioNew.cs" />
-    <Compile Include="Interfaces\IDomainServicesFactoryCartorioNew.cs" />
-    <Compile Include="Interfaces\IMunicipioDomainService.cs" />
-    <Compile Include="Interfaces\IPaisDomainService.cs" />
-    <Compile Include="Interfaces\IPessoaDomainService.cs" />
-    <Compile Include="Interfaces\IUfDomainService.cs" />
+    <Compile Include="Factory\DomainServicesFactoryCartorioNew.cs" />
+    <Compile Include="Interfaces\IArquivoModeloDocxDs.cs" />
+    <Compile Include="Interfaces\IAtoDs.cs" />
+    <Compile Include="Interfaces\Base\IDomainServiceCartorioNew.cs" />
+    <Compile Include="Interfaces\Factory\IDomainServicesFactoryCartorioNew.cs" />
+    <Compile Include="Interfaces\IMunicipioDs.cs" />
+    <Compile Include="Interfaces\IPaisDs.cs" />
+    <Compile Include="Interfaces\IPessoaDs.cs" />
+    <Compile Include="Interfaces\IUfDs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ArquivoModeloDocxDomainService.cs" />
-    <Compile Include="Services\AtoDomainService.cs" />
-    <Compile Include="Services\MunicipioDomainService.cs" />
-    <Compile Include="Services\PaisDomainService.cs" />
-    <Compile Include="Services\PessoaDomainService.cs" />
-    <Compile Include="Services\UfDomainService.cs" />
+    <Compile Include="Services\ArquivoModeloDocxDs.cs" />
+    <Compile Include="Services\AtoDs.cs" />
+    <Compile Include="Services\MunicipioDs.cs" />
+    <Compile Include="Services\PaisDs.cs" />
+    <Compile Include="Services\PessoaDs.cs" />
+    <Compile Include="Services\UfDs.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
@@ -84,5 +85,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

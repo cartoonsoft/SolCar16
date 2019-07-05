@@ -22,14 +22,12 @@ namespace AppServices.Cartorio.AppServices
 {
     public class AppServiceArquivoModeloDocx : AppServiceCartorioNew<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
     {
-        private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
+        //private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
         public AppServiceArquivoModeloDocx(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
             //
-            this.ds
         }
-
 
         private List<DtoCamposValor> GetCamposPrenotacao(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula)
         {
@@ -37,10 +35,9 @@ namespace AppServices.Cartorio.AppServices
             string valorTmp = string.Empty;
 
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
+            List<CamposArquivoModeloDocx> listaCampos = this.UfwCartNew.Repositories.RepositoryArquivoModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PRENOTACAO").ToList();
 
-            List<CamposArquivoModeloDocx> listaCampos = GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PRENOTACAO").ToList();
-
-            PREMAD premad = _ufwCart.Repositories.GenericRepository<PREMAD>().
+            PREMAD premad = this.UfwCart.Repositories.GenericRepository<PREMAD>().
                 GetWhere(p => (p.SEQPRED == IdPrenotacao) && (p.TIPODATA.Trim() == "R")).OrderByDescending(o => o.DATA).FirstOrDefault();
 
             if (premad != null)
@@ -102,8 +99,6 @@ namespace AppServices.Cartorio.AppServices
             return listaTmp;
         }
 
-
-
         public long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
         {
             long? NovoId = null;
@@ -134,7 +129,7 @@ namespace AppServices.Cartorio.AppServices
                     TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
                 };
 
-                NovoId = this.DomainServicesFactoryCartorioNew.ArquivoModeloDocxDomainService.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
+                NovoId = this.DsFactoryCartNew.ArquivoModeloDocxDs.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }
             catch (Exception ex)
             {
@@ -166,7 +161,7 @@ namespace AppServices.Cartorio.AppServices
                     TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
                 };
 
-                logArquivoModeloDocx.Id = this.DomainServicesFactoryCartorioNew.ArquivoModeloDocxDomainService.EditarModelo(logArquivoModeloDocx);
+                logArquivoModeloDocx.Id = this.DsFactoryCartNew.ArquivoModeloDocxDs.EditarModelo(logArquivoModeloDocx);
             }
             catch (Exception)
             {
@@ -174,20 +169,13 @@ namespace AppServices.Cartorio.AppServices
             }
         }
 
-        public bool DesativarModelo(long Id, string IdUsuario)
+        public bool Desativar(long Id, string IdUsuario)
         {
             bool resposta = false;
 
             try
             {
-                // Criando objeto do arquivo 
-                ArquivoModeloDocx arquivoModelo = this.DomainServicesFactoryCartorioNew.GenericDomainService<ArquivoModeloDocx>().GetById(Id);
-                if (arquivoModelo != null)
-                {
-                    arquivoModelo.Ativo = false;
-                    arquivoModelo.IdUsuarioAlteracao = IdUsuario;
-                    resposta = true;
-                }
+                resposta = this.DsFactoryCartNew.ArquivoModeloDocxDs.Desativar(Id, IdUsuario);
             }
             catch (Exception ex)
             {
@@ -200,7 +188,7 @@ namespace AppServices.Cartorio.AppServices
         
         public IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
-            IEnumerable<ArquivoModeloDocxList> listaDomain = this.DomainServicesFactoryCartorioNew.ArquivoModeloDocxDomainService.ListarArquivoModeloDocx(IdTipoAto);
+            IEnumerable<ArquivoModeloDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
             IEnumerable <DtoArquivoModeloDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloDocxList>, IEnumerable<DtoArquivoModeloDocxList>>(listaDomain);
 
             return listaDto;
@@ -208,7 +196,7 @@ namespace AppServices.Cartorio.AppServices
 
         public IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null)
         {
-            IEnumerable<ArquivoModeloSimplificadoDocxList> listaDomain = this.DomainServicesFactoryCartorioNew.ArquivoModeloDocxDomainService.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
+            IEnumerable<ArquivoModeloSimplificadoDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
             IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloSimplificadoDocxList>, IEnumerable<DtoArquivoModeloSimplificadoDocxList>>(listaDomain);
 
             return listaDto;
@@ -236,7 +224,7 @@ namespace AppServices.Cartorio.AppServices
             });
             
             //pessoas
-            dtoTmp.Pessoas.AddRange(this.DomainServicesFactoryCartorioNew.PessoaDomainService.GetListaOutorgadosOutorgantes(listIdsPessoas, IdTipoAto, IdPrenotacao??0));
+            dtoTmp.Pessoas.AddRange(this.DsFactoryCartNew.PessoaDs.GetListaOutorgadosOutorgantes(listIdsPessoas, IdTipoAto, IdPrenotacao??0));
 
             //Imovel
             dtoTmp.listaCamposValor.AddRange(GetCamposImovel(IdTipoAto, IdPrenotacao, IdMatricula));

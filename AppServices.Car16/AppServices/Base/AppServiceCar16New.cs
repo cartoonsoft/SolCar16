@@ -5,26 +5,30 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Cartorio.Interfaces.Base;
 using Domain.Cartorio.Interfaces.UnitOfWork;
-using DomainServices.Base;
-using DomainServices.Interfaces;
+using DomainServices.Factory;
+using DomainServices.Interfaces.Factory;
 
 namespace AppServices.Cartorio.AppServices.Base
 {
-    public class AppServiceCartorioNew<TDtoEntityModel, TEntity>: AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCartorio<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
+    public class AppServiceCartorioNew<TDtoEntityModel, TEntity> : AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCartorio<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
         private readonly IUnitOfWorkDataBaseCartorioNew _ufwCartNew;
         private readonly IDomainServicesFactoryCartorioNew _domainServicesFactoryCartorioNew;
+
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCartorioNew(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceCartorioNew(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew, IDomainServicesFactoryCartorioNew dsFactoryCartorioNew = null) : base(UfwCartNew, dsFactoryCartorioNew)
         {
             this._ufwCart = UfwCart;
             this._ufwCartNew = UfwCartNew;
-            this._domainServicesFactoryCartorioNew = new DomainServicesFactoryCartorioNew(this._ufwCart, this._ufwCartNew);
-            base.DsFactoryBase = _domainServicesFactoryCartorioNew;
+
+            if (dsFactoryCartorioNew == null)
+            {
+                this._domainServicesFactoryCartorioNew = new DomainServicesFactoryCartorioNew(this._ufwCart, this._ufwCartNew);
+            }
         }
 
         #region IDisposable Support
@@ -65,15 +69,17 @@ namespace AppServices.Cartorio.AppServices.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
+        
+        public virtual IDomainServicesFactoryCartorioNew DsFactoryCartNew
+        {
+            get { return _domainServicesFactoryCartorioNew; }
+        }
 
-
-        public virtual IDomainServicesFactoryCartorioNew DsFactoryCartNew { get; }
-
-        public IUnitOfWorkDataBaseCartorio UfwCart
+        public virtual IUnitOfWorkDataBaseCartorio UfwCart
         {
             get { return this._ufwCart; }
         }
-        public IUnitOfWorkDataBaseCartorioNew UfwCartNew
+        public virtual IUnitOfWorkDataBaseCartorioNew UfwCartNew
         {
             get { return this._ufwCartNew; }
         }

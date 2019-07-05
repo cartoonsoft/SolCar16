@@ -17,9 +17,9 @@ namespace AppServices.Cartorio.AppServices
     {
         private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
         private readonly IUnitOfWorkDataBaseCartorioNew _ufwCartNew;
-        private List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = null;
+        //private List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = null;
 
-        public AppServicePessoa(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew): base(ufwCart, UfwCartNew)
+        public AppServicePessoa(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew): base(UfwCart, UfwCartNew)
         {
             //
             _ufwCart = UfwCart;
@@ -63,6 +63,7 @@ namespace AppServices.Cartorio.AppServices
         }
 
         #endregion
+
         public IEnumerable<DtoPessoaPesxPre> GetPessoasPorPrenotacao(long IdPrenotacao)
         {
             throw new NotImplementedException();

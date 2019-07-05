@@ -43,9 +43,9 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
-            using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorioNew))
+            using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(null, null).Where(a => a.Ativo == true);
+                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
                 if (listaDto != null)
                 {
                     listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
@@ -100,10 +100,11 @@ namespace AdmCartorio.Controllers
                         numSequenciaAto = modelo.NumSequencia;
                     }
 
-                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartorioNew))
-                    {
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                    }
+                    //todo: ronaldo arrumar AppServiceCadastroDeAto
+                    //using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartorioNew))
+                    //{
+                    //    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    //}
 
                     if (respEscreverWord)
                     {
@@ -117,12 +118,12 @@ namespace AdmCartorio.Controllers
                             Bloqueado = false,
                             IdPrenotacao = modelo.PREIMO.SEQPRE,
                             IdTipoAto = modelo.IdTipoAto,
-                            NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
+                            //NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
                             IdUsuarioCadastro = this.UsuarioAtual.Id,
-                            IdContaAcessoSistema = 1,
-                            NumSequencia = Convert.ToInt64(numSequenciaAto)
+                            IdContaAcessoSistema = 1
+                            //NumSequencia = Convert.ToInt64(numSequenciaAto)
                         };
 
                         this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<Ato>().Add(ato);
@@ -170,11 +171,11 @@ namespace AdmCartorio.Controllers
                         Id = Ato.Id,
                         Ativo = Ato.Ativo,
                         Bloqueado = Ato.Bloqueado,
-                        NumSequencia = Ato.NumSequencia,
+                        //NumSequencia = Ato.NumSequencia,
                         Codigo = "",
                         DataAlteracao = Ato.DataAlteracao,
                         DataCadastro = Ato.DataCadastro,
-                        NomeArquivo = Ato.NomeArquivo,
+                        //NomeArquivo = Ato.NomeArquivo,
                         NumMatricula = Ato.NumMatricula,
                         IdPrenotacao = Ato.IdPrenotacao
                     };
@@ -196,7 +197,7 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorioNew))
+            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
             {
 
                 var resultado = appService.FinalizarAto(IdAto);
@@ -241,7 +242,7 @@ namespace AdmCartorio.Controllers
                             SEQIMO = Convert.ToInt64(Ato.NumMatricula),
                             SEQPRE = Ato.IdPrenotacao
                         },
-                        NumSequencia = Convert.ToInt32(Ato.NumSequencia)
+                        NumSequencia = Convert.ToInt32(Ato.NumSequenciaAto)
                     };
 
                     return View(atoViewModel);
@@ -294,29 +295,32 @@ namespace AdmCartorio.Controllers
                         numSequenciaAto = modelo.NumSequencia;
                     }
 
-                    using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartorioNew))
-                    {
+                    //using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                    //{
 
-                        respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                    }
+                    //    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
+                    //}
+
                     if (respEscreverWord)
                     {
                         // Gravar no banco o array de bytes
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorioNew))
+                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
                         {
                             var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
-                            var resultado = appService.Editar(dtoEditar, this.UsuarioAtual.Id);
-                            if (resultado)
-                            {
-                                this.UnitOfWorkDataBaseCartorioNew.SaveChanges();
-                            }
-                            else
-                            {
-                                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                            }
+
+                            //var resultado = appService.EditarAto(dtoEditar, this.UsuarioAtual.Id);
+
+                            //if (resultado)
+                            //{
+                            //    this.UnitOfWorkDataBaseCartorioNew.SaveChanges();
+                            //}
+                            //else
+                            //{
+                            //    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                            //}
                         }
                     }
                     else
@@ -354,13 +358,14 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | JsonResults e .GET |
+
         /// <summary>
-        /// Função que retorna os arquivos de modelo (JSON)
+        /// Lista de Modelos (JSON)
         /// </summary>
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorioNew))
+            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
             {
                 var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
@@ -401,7 +406,7 @@ namespace AdmCartorio.Controllers
             {
                 using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
                 {
-                    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPrenotacao(numeroPrenotacao));
+                    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPorPrenotacao(numeroPrenotacao));
                 }
             }
             catch (Exception ex)
@@ -542,6 +547,15 @@ namespace AdmCartorio.Controllers
         /// <returns>string HTML</returns>
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
+
+            using (var appServiceAto = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            {
+                //appServiceAto.
+            }
+
+            return null;
+
+            /*
             using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
             {
                 DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
@@ -641,7 +655,9 @@ namespace AdmCartorio.Controllers
                     Response.StatusDescription = "Ocorreu algum erro ao utilizar o modelo";
                     return Response.StatusDescription;
                 }
+
             }
+            */
         }
 
         /// <summary>

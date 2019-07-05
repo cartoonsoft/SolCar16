@@ -22,7 +22,7 @@ namespace AppServices.Cartorio.Interfaces
 
         void EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
 
-        bool DesativarModelo(long Id, string IdUsuario);
+        bool Desativar(long Id, string IdUsuario);
 
         IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
         IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null);

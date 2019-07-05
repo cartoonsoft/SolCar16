@@ -20,7 +20,7 @@ namespace Domain.Core.Interfaces.DomainServices
     /// <summary>
     /// Domain Services Fatory Base
     /// </summary>
-    public interface IDomainServicesFactoryBase: IDisposable
+    public interface IDomainServicesFactoryBase : IDisposable
     {
         /// <summary>
         /// Generic Domain Service

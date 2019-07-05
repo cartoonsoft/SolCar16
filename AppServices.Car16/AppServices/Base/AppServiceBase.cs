@@ -10,16 +10,19 @@ using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
 using Domain.Core.Interfaces.DomainServices;
+using Domain.Core.DomainServices;
 
 namespace AppServices.Cartorio.AppServices.Base
 {
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDomainServicesFactoryBase _dsFactoryBase;
 
-        public AppServiceBase(IUnitOfWork unitOfWork)
+        public AppServiceBase(IUnitOfWork unitOfWork, IDomainServicesFactoryBase dsFactoryBase)
         {
             _unitOfWork = unitOfWork;
+            _dsFactoryBase = dsFactoryBase;
 
             //todo: ronaldo verificar automapper
             //   Mapper.Initialize(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
@@ -59,39 +62,34 @@ namespace AppServices.Cartorio.AppServices.Base
         }
         #endregion
 
-        /// <summary>
-        /// Domain Services Factory 
-        /// </summary>
-        public virtual IDomainServicesFactoryBase DsFactoryBase { get; set; }
-
         public virtual void Add(TDtoEntityModel dtoItem)
         {
             //var config = new MapperConfiguration(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
-            this.DsFactoryBase.GenericDs<TEntity>().Add(entityTmp);
+            this._dsFactoryBase.GenericDs<TEntity>().Add(entityTmp);
         }
 
         public virtual void AddRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.DsFactoryBase.GenericDs<TEntity>().AddRange(listEntities);
+            this._dsFactoryBase.GenericDs<TEntity>().AddRange(listEntities);
         }
         public virtual TDtoEntityModel GetById(long id)
         {
-            TEntity entityTmp = this.DsFactoryBase.GenericDs<TEntity>().GetById(id);
+            TEntity entityTmp = this._dsFactoryBase.GenericDs<TEntity>().GetById(id);
             TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
             return dtoEntityTmp;
         }
         public TDtoEntityModel GetById(params object[] keyValues)
         {
-            TEntity entityTmp = this.DsFactoryBase.GenericDs<TEntity>().GetById(keyValues);
+            TEntity entityTmp = this._dsFactoryBase.GenericDs<TEntity>().GetById(keyValues);
             TDtoEntityModel dtoEntityTmp = Mapper.Map<TEntity, TDtoEntityModel>(entityTmp);
             return dtoEntityTmp;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetAll()
         {
-            IEnumerable<TEntity> listEntities = this.DsFactoryBase.GenericDs<TEntity>().GetAll();
+            IEnumerable<TEntity> listEntities = this._dsFactoryBase.GenericDs<TEntity>().GetAll();
             IEnumerable<TDtoEntityModel> listDtoEntities = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDtoEntities;
         }
@@ -99,50 +97,50 @@ namespace AppServices.Cartorio.AppServices.Base
         public virtual void Update(TDtoEntityModel dtoItem)
         {
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
-            this.DsFactoryBase.GenericDs<TEntity>().Update(entityTmp);
+            this._dsFactoryBase.GenericDs<TEntity>().Update(entityTmp);
         }
 
         public virtual void Remove(long id)
         {
-            this.DsFactoryBase.GenericDs<TEntity>().Remove(id);
+            this._dsFactoryBase.GenericDs<TEntity>().Remove(id);
         }
 
         public virtual void Remove(TDtoEntityModel dtoitem)
         {
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoitem);
-            this.DsFactoryBase.GenericDs<TEntity>().Remove(entityTmp);
+            this._dsFactoryBase.GenericDs<TEntity>().Remove(entityTmp);
         }
 
         public virtual void RemoveRange(IEnumerable<TDtoEntityModel> dtoItens)
         {
             IEnumerable<TEntity> listEntities = Mapper.Map<IEnumerable<TDtoEntityModel>, IEnumerable<TEntity>>(dtoItens);
-            this.DsFactoryBase.GenericDs<TEntity>().RemoveRange(listEntities);
+            this._dsFactoryBase.GenericDs<TEntity>().RemoveRange(listEntities);
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
-            IEnumerable<TEntity> listEntities = this.DsFactoryBase.GenericDs<TEntity>().GetWhere(expression);
+            IEnumerable<TEntity> listEntities = this._dsFactoryBase.GenericDs<TEntity>().GetWhere(expression);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhere(ISpecification<TEntity> specification)
         {
-            IEnumerable<TEntity> listEntities = this.DsFactoryBase.GenericDs<TEntity>().GetWhere(specification);
+            IEnumerable<TEntity> listEntities = this._dsFactoryBase.GenericDs<TEntity>().GetWhere(specification);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntities = this.DsFactoryBase.GenericDs<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntities = this._dsFactoryBase.GenericDs<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
 
         public virtual IEnumerable<TDtoEntityModel> GetWhereOrderBy<KProperty>(ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
-            IEnumerable<TEntity> listEntities = this.DsFactoryBase.GenericDs<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
+            IEnumerable<TEntity> listEntities = this._dsFactoryBase.GenericDs<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(listEntities);
             return listDto;
         }
@@ -151,7 +149,7 @@ namespace AppServices.Cartorio.AppServices.Base
         {
             Paged<TDtoEntityModel> dtoPaged = new Paged<TDtoEntityModel>();
             Paged<TEntity> entityPaged = new Paged<TEntity>();
-            entityPaged = this.DsFactoryBase.GenericDs<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, expression, fieldSort, ascending);
+            entityPaged = this._dsFactoryBase.GenericDs<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, expression, fieldSort, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(entityPaged.listEntities);
 
             dtoPaged.CurrentPage = entityPaged.CurrentPage;
@@ -165,7 +163,7 @@ namespace AppServices.Cartorio.AppServices.Base
         {
             Paged<TDtoEntityModel> dtoPaged = new Paged<TDtoEntityModel>();
             Paged<TEntity> entityPaged = new Paged<TEntity>();
-            entityPaged = this.DsFactoryBase.GenericDs<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending);
+            entityPaged = this._dsFactoryBase.GenericDs<TEntity>().GetWhereOrderByPaged(pageIndex, pageCount, specification, orderByExpression, ascending);
             IEnumerable<TDtoEntityModel> listDto = Mapper.Map<IEnumerable<TEntity>, IEnumerable<TDtoEntityModel>>(entityPaged.listEntities);
 
             dtoPaged.CurrentPage = entityPaged.CurrentPage;

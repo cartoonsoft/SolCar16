@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 using Domain.Cartorio.Interfaces.UnitOfWork;
 using Domain.Core.DomainServices;
 using Domain.Core.Interfaces.DomainServices;
+using DomainServices.Interfaces.Base;
 
 namespace DomainServices.Base
 {
-    public class DomainServiceCartorioNew<TEntity> : DomainServiceBase<TEntity>, IDomainServiceBase<TEntity> where TEntity : class
+    public class DomainServiceCartorioNew<TEntity> : DomainServiceBase<TEntity>, IDomainServiceCartorioNew<TEntity>  where TEntity : class
     {
         private readonly IUnitOfWorkDataBaseCartorioNew _ufwCartNew;
         private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
 
-        public DomainServiceCartorioNew(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(ufwCartNew)
+        public DomainServiceCartorioNew(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
         {
             _ufwCart = UfwCart;
             _ufwCartNew = UfwCartNew;

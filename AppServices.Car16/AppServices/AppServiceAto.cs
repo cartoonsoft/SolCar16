@@ -17,7 +17,7 @@ namespace AppServices.Cartorio.AppServices
     {
         private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
 
-        public AppServiceAto(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(ufwCart, UfwCartNew)
+        public AppServiceAto(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
             //
             _ufwCart = UfwCart;
@@ -48,17 +48,22 @@ namespace AppServices.Cartorio.AppServices
             throw new NotImplementedException();
         }
 
-        public List<DtoAtoDocx> GerarFichas(long IdAto)
+        public IEnumerable<DtoAtoDocx> GerarFichas(long IdAto)
         {
             throw new NotImplementedException();
         }
-          
+
         public void ImprimirAto(long IdAto)
         {
             throw new NotImplementedException();
         }
 
         public void ImprimirFicha(long IdDocx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoAtoList> ListarAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null)
         {
             throw new NotImplementedException();
         }
@@ -72,5 +77,6 @@ namespace AppServices.Cartorio.AppServices
         {
             throw new NotImplementedException();
         }
+
     }
 }

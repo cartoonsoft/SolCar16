@@ -7,6 +7,7 @@ using Domain.Cartorio.Entities.CartorioNew;
 using Domain.Cartorio.enums;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.DbCartorioNew;
+using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace ConsoleAppTeste
@@ -64,15 +65,17 @@ namespace ConsoleAppTeste
             //Console.WriteLine("***************|       RELATORIO     |**************************");
             //Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartorio unitOfWork1 = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis))
             {
-                using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork))
+                using (UnitOfWorkDataBaseCartorioNew unitOfWork2 = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
                 {
-                    //
+                    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork1, unitOfWork2))
+                    {
+                        //
+                    }
+                    //unitOfWork.SaveChanges();
                 }
-                //unitOfWork.SaveChanges();
             }
-
             Console.ReadKey();
         }
 
