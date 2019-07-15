@@ -62,6 +62,7 @@
     <Compile Include="Entities\Car16New\PessoaCartorioNew.cs" />
     <Compile Include="Entities\Car16New\TipoAto.cs" />
     <Compile Include="Entities\Car16New\Uf.cs" />
+    <Compile Include="Entities\Car16New\UsuarioAcesso.cs" />
     <Compile Include="Entities\Car16\ACESSO.cs" />
     <Compile Include="Entities\Car16\AtoReadOnly.cs" />
     <Compile Include="Entities\Car16\AUTENTICACAO.cs" />

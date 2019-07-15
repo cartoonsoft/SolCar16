@@ -17,7 +17,7 @@ namespace AppServices.Cartorio.AppServices.Base
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IDomainServicesFactoryBase _dsFactoryBase;
+        private IDomainServicesFactoryBase _dsFactoryBase;
 
         public AppServiceBase(IUnitOfWork unitOfWork, IDomainServicesFactoryBase dsFactoryBase)
         {
@@ -61,6 +61,12 @@ namespace AppServices.Cartorio.AppServices.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        protected IDomainServicesFactoryBase DsFactoryBase
+        {
+            get { return _dsFactoryBase; }
+            set { _dsFactoryBase = value; }
+        }
 
         public virtual void Add(TDtoEntityModel dtoItem)
         {

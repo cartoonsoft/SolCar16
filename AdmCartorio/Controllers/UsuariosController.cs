@@ -7,16 +7,12 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AdmCartorio.App_Start.Identity;
-using AdmCartorio.Controllers.Base;
-using AdmCartorio.Models.Identity;
-using AdmCartorio.Models.Identity.Context;
-using AdmCartorio.Models.Identity.Entities;
-using AdmCartorio.ViewModels.Identity;
-using Domain.Cartorio.Interfaces.UnitOfWork;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using AdmCartorio.App_Start.Identity;
+using AdmCartorio.Models.Identity.Entities;
+using AdmCartorio.ViewModels.Identity;
 
 namespace AdmCartorio.Controllers
 {

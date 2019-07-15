@@ -7,7 +7,7 @@ namespace Domain.Cartorio.Entities.Cartorio
     using System.Data.Entity.Spatial;
 
     [Table("ACESSO",Schema = "DEZESSEIS")]
-    public partial class ACESSO
+    public class ACESSO
     {
         [Key]
         [Column(Order = 0)]

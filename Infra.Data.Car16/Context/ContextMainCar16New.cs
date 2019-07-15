@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Entities.Cartorio;
 using Domain.Cartorio.Entities.CartorioNew;
 using Infra.Data.Cartorio.Context.Base;
@@ -38,6 +39,8 @@ namespace Infra.Data.Cartorio.Context
         public DbSet<LogArquivoModeloDocx> DbLogArquivoModeloDocx { get; set;}
         public DbSet<TipoAto> DbTipoAto { get; set; }
         public DbSet<Ato> DbAto { get; set; }
+
+        public DbSet<UsuarioAcesso> DbUsuarioAcesso { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

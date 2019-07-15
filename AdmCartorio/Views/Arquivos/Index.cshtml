@@ -67,7 +67,7 @@
     <section id="widget-grid" class="">
         <div class="row">
             <p>
-                <a href="@Url.Action("Cadastrar", "Arquivos")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo Modelo</a>
+                <a href="@Url.Action("Novo", "Arquivos")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo Modelo</a>
             </p>
 
             <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
@@ -221,8 +221,8 @@
                     __RequestVerificationToken: token,
                 },
                 success: function (result) {
-                    console.log(result);
-                    console.log("Deu certo");
+                    //console.log(result);
+                    //console.log("Deu certo");
                     //deleta a linha e da efeito
                     linha.setAttribute("class", "desaparecer");
                     setTimeout(function () {
@@ -233,7 +233,7 @@
                 },
                 error: function (error) {
                     console.log(error);
-                    console.log("Deu erro");
+                    //console.log("Deu erro");
                     monstrarMensagem("Erro ao remover",false);
                 }
             });

@@ -57,7 +57,7 @@ namespace AdmCartorio.Controllers
 
         #region | CADASTRAR |
         // GET: Arquivos/Cadastrar
-        public ActionResult Cadastrar()
+        public ActionResult Novo()
         {
             try
             {
@@ -75,7 +75,7 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Cadastrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Cadastrar([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ArquivoModeloDocxViewModel arquivoModel)
+        public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ArquivoModeloDocxViewModel arquivoModel)
         {
             bool success = false;
             bool ControllerModelValid = ModelState.IsValid;
@@ -104,14 +104,14 @@ namespace AdmCartorio.Controllers
                         {
                             using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork1, unitOfWork2))
                             {
-                                NovoId = appService.SalvarModelo(
+                                NovoId = appService.NovoModelo(
                                     new DtoArquivoModeloDocxModel()
                                     {
                                         IdContaAcessoSistema = 1,
                                         Ativo = true,
                                         IdTipoAto = arquivoModel.IdTipoAto,
                                         CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
-                                    Files = arquivoModel.Files,
+                                        Files = arquivoModel.Files,
                                         NomeModelo = arquivoModel.NomeModelo,
                                         LogArquivo = logArquivo
                                     },
@@ -157,7 +157,7 @@ namespace AdmCartorio.Controllers
             ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
             ViewBag.msg = msg;
 
-            return View(nameof(Cadastrar));
+            return View(nameof(Novo));
 
         }
         #endregion
@@ -189,7 +189,7 @@ namespace AdmCartorio.Controllers
 
                     return View(arquivoViewModel);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //System.Diagnostics.Debug.WriteLine(ex.Message);
                     return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);

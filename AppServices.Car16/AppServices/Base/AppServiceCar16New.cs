@@ -28,6 +28,7 @@ namespace AppServices.Cartorio.AppServices.Base
             if (dsFactoryCartorioNew == null)
             {
                 this._domainServicesFactoryCartorioNew = new DomainServicesFactoryCartorioNew(this._ufwCart, this._ufwCartNew);
+                this.DsFactoryBase = _domainServicesFactoryCartorioNew;
             }
         }
 

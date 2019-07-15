@@ -14,16 +14,16 @@ namespace Domain.Cartorio.Entities.CartorioNew
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("ID_ATO_DOCX")]  //ID_ATO_DOCX NUMERIC(38, 0)       not null,
+        [Column("ID_ATO_DOCX")]  //ID_ATO_DOCX NUMERIC(19, 0)       not null,
         public override long? Id { get; set; }
 
-        [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
+        [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(19, 0)       not null,
         public long IdContaAcessoSistema { get; set; }
 
-        [Column("ID_ATO")] //ID_ATO NUMERIC(38, 0)       not null,
+        [Column("ID_ATO")] //ID_ATO NUMERIC(19, 0)       not null,
         public long IdAto { get; set; }
 
-        [Column("ID_DOCX")] //ID_DOCX NUMERIC(38, 0)       not null,
+        [Column("ID_DOCX")] //ID_DOCX NUMERIC(19, 0)       not null,
         public long IdDocx { get; set; }
 
         [Column("IDX_PARA")] //IDX_PARA NUMERIC(5, 0),

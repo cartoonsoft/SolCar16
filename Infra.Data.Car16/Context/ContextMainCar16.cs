@@ -34,6 +34,7 @@ namespace Infra.Data.Cartorio.Context
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
         public DbSet<PessoaCartorio> DbPESSOA { get; set; }
         public DbSet<PREMAD> DbPREMAD { get; set; }
+        public DbSet<ACESSO> DbACESSO { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

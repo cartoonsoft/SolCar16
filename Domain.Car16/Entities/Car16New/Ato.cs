@@ -17,13 +17,13 @@ namespace Domain.Cartorio.Entities.CartorioNew
         [Column("ID_ATO")]
         public override long? Id { get; set; }
 
-        [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
+        [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(19, 0)       not null,
         public long IdContaAcessoSistema { get; set; }
 
         [Column("ID_TP_ATO")]
         public long IdTipoAto { get; set; }
 
-        [Column("ID_PREMA")] //NUMERIC(38, 0),
+        [Column("ID_PREMA")] //NUMERIC(19, 0),
         public long IdPrenotacao { get; set; }
 
         [Column("ID_USR_CAD")]

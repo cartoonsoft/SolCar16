@@ -56,7 +56,7 @@ namespace AdmCartorio.Controllers
         }
 
         #region | CADASTRO |
-        public ActionResult Cadastrar()
+        public ActionResult Novo()
         {
             var dados = new CadastroDeAtoViewModel();
 
@@ -66,19 +66,19 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Cadastrar(CadastroDeAtoViewModel modelo)
+        public ActionResult Novo(CadastroDeAtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
             Ato ato;
             try
             {
-                throw new Exception("Teste Ronaldo");
+                //throw new Exception("Teste Ronaldo");
 
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Cadastrar), modelo);
+                    return View(nameof(Novo), modelo);
                 }
 
                 //Ajusta a string de ato
@@ -141,7 +141,7 @@ namespace AdmCartorio.Controllers
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
-                return View(nameof(Cadastrar), modelo);
+                return View(nameof(Novo), modelo);
             }
             catch (Exception ex)
             {
@@ -272,7 +272,7 @@ namespace AdmCartorio.Controllers
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Cadastrar), modelo);
+                    return View(nameof(Editar), modelo);
                 }
 
                 //Ajusta a string de ato
@@ -280,7 +280,6 @@ namespace AdmCartorio.Controllers
 
                 if (ModelState.IsValid)
                 {
-
                     //Representa o documento e o numero de pagina
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
@@ -336,7 +335,7 @@ namespace AdmCartorio.Controllers
 
                 return View(nameof(Editar), modelo);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
@@ -452,7 +451,6 @@ namespace AdmCartorio.Controllers
             }
         }
 
-
         /// <summary>
         /// Pega o arquivo DOCX do ATO
         /// </summary>
@@ -500,7 +498,6 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
-
         #endregion
 
         #region | Funcoes auxiliares |
@@ -808,7 +805,6 @@ namespace AdmCartorio.Controllers
                 throw;
             }
         }
-
         #endregion
     }
 }

@@ -18,7 +18,7 @@ namespace AppServices.Cartorio.Interfaces
         /// <param name="dtoArq"></param>
         /// <param name="IdUsuario"></param>
         /// <returns></returns>
-        long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
+        long? NovoModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
 
         void EditarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario);
 
@@ -27,18 +27,5 @@ namespace AppServices.Cartorio.Interfaces
         IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
         IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null);
 
-
-
-        
-
-        /*
-        DtoDadosImovel GetCamposModeloMatricula(long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
-
-        IEnumerable<DtoCamposValor> GetCamposPrenotacao(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
-
-        IEnumerable<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula);
-
-        IEnumerable<CamposArquivoModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto);
-        */
     }
 }

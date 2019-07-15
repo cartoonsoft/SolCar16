@@ -19,5 +19,6 @@ namespace DomainServices.Interfaces.Base
         {
             get;
         }
+
     }
 }

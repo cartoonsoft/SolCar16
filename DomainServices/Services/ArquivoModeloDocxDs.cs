@@ -35,7 +35,7 @@ namespace DomainServices.Services
             return _repositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
         }
 
-        public long? SalvarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? NovoModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -59,7 +59,7 @@ namespace DomainServices.Services
             return NovoId;
         }
 
-        public long? EditarModelo(LogArquivoModeloDocx logArquivoModeloDocx)
+        public long? EditarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 

@@ -65,7 +65,10 @@ namespace AppServices.Cartorio.AppServices
 
         public IEnumerable<DtoAtoList> ListarAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null)
         {
-            throw new NotImplementedException();
+            IEnumerable<DtoAtoList> lista = new List<DtoAtoList>();
+
+            //throw new NotImplementedException();
+            return lista;
         }
 
         public DtoAtoCadastro NovoAto(DtoAto Ato, string textoHtml)

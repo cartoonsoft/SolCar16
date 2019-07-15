@@ -7,7 +7,7 @@
 
 @section styles_especific {
     <style>
-        //coloque aqui seu codigo css
+        /* coloque aqui seu codigo css */
     </style>
 }
 
@@ -63,7 +63,7 @@
                         <!-- widget content -->
 
                         <div class="widget-body no-padding">
-                            @using (Html.BeginForm("Cadastrar", "Arquivos", FormMethod.Post, new { id = "frmCadastrarArquivo", enctype="multipart/form-data", @class = "smart-form"}))
+                            @using (Html.BeginForm("", "", FormMethod.Post, new { id = "frmNovoArqModelo", enctype="multipart/form-data", @class = "smart-form"}))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
@@ -121,8 +121,6 @@
 <script type="text/javascript" src="~/Scripts/cartoonsoft/libs.js"></script>
 <script type="text/javascript">
 
-    @* Coloque aqui seu codigo javascript *@
-
     $(document).ready(function () {
 
         //coloque aqui seu codigo jquery
@@ -131,7 +129,7 @@
             $("#IpLocal").val(ip);
         });
 
-        $("#frmCadastrarArquivo").validate({
+        $("#frmNovoArqModelo").validate({
             // Rules for form validation
             rules: {
                 NomeModelo: {
@@ -176,7 +174,6 @@
         }
 
     });
-
 
 </script>
 }

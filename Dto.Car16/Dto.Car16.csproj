@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Base\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cadastros\DtoAcesso.cs" />
     <Compile Include="Entities\Cadastros\DtoArquivoModeloSimplificadoDocxList.cs" />
     <Compile Include="Entities\Cadastros\DtoAto.cs" />
     <Compile Include="Entities\Cadastros\DtoAtoCadastro.cs" />

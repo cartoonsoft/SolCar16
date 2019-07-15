@@ -16,7 +16,7 @@ namespace AdmCartorio.Models.Identity.Entities
     {
         public ApplicationUser()
         {
-            Clients = new Collection<Client>();
+            this.Clients = new Collection<Client>();
         }
 
         public virtual ICollection<Client> Clients { get; set; }

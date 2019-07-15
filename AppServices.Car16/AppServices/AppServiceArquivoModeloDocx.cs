@@ -99,7 +99,7 @@ namespace AppServices.Cartorio.AppServices
             return listaTmp;
         }
 
-        public long? SalvarModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
+        public long? NovoModelo(DtoArquivoModeloDocxModel dtoArq, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -129,7 +129,7 @@ namespace AppServices.Cartorio.AppServices
                     TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
                 };
 
-                NovoId = this.DsFactoryCartNew.ArquivoModeloDocxDs.SalvarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
+                NovoId = this.DsFactoryCartNew.ArquivoModeloDocxDs.NovoModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }
             catch (Exception ex)
             {
@@ -144,6 +144,18 @@ namespace AppServices.Cartorio.AppServices
         {
             try
             {
+                ArquivoModeloDocx arquivoModelo = new ArquivoModeloDocx
+                {
+                    Id = dtoArq.Id,
+                    IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
+                    Ativo = dtoArq.Ativo,
+                    IdTipoAto = dtoArq.IdTipoAto,
+                    IdUsuarioAlteracao = IdUsuario,
+                    //ArquivoBytes = dtoArq.ArquivoByte,
+                    CaminhoEArquivo = dtoArq.CaminhoEArquivo,
+                    NomeModelo = dtoArq.NomeModelo
+                };
+
                 HttpPostedFileBase arquivo = dtoArq.Files[0];
                 #region | Gravacao do arquivo fisicamente |
                 // Salva o arquivo fisicamente
@@ -161,7 +173,7 @@ namespace AppServices.Cartorio.AppServices
                     TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Upload
                 };
 
-                logArquivoModeloDocx.Id = this.DsFactoryCartNew.ArquivoModeloDocxDs.EditarModelo(logArquivoModeloDocx);
+                logArquivoModeloDocx.Id = this.DsFactoryCartNew.ArquivoModeloDocxDs.EditarModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
             }
             catch (Exception)
             {
