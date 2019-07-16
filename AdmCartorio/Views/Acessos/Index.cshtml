@@ -6,38 +6,35 @@
 }
 
 @section styles_especific {
-
     <style>
         /*------------------------------------------------------------------------------
-        tbl-Arquivos
+        tbl-acessos-usuarios
         ------------------------------------------------------------------------------*/
         #tbl-acessos-usuarios {
             /*border: 1px solid #808080; */
             width: 100%;
         }
-
         
         .tr_main td:nth-child(1) {
             width: 2%;
         }
 
         .tr_main td:nth-child(2) {
-                width: 5%;
+            width: 5%;
         }
 
         .tr_main td:nth-child(3) {
-                width: 10%;
-                text-align:left;
+            width: 10%;
+            text-align:left;
         }
 
         .tr_main td:nth-child(4) {
-                text-align:left;
+            text-align:left;
         }
 
         .tbl-usuarios-acesso{
             width: 600px;
         }
-
         
         /**********************************************************************/
         .desaparecer {
@@ -47,10 +44,10 @@
 
     </style>
 }
+
 <div id="divMensagem" class="alert" hidden>
     <label id="labelMensagem"></label>
 </div>
-
 
 <div id="content">
     <input hidden id="IP" />
@@ -123,7 +120,7 @@
                                 {
                                     <tr id="trMain_@acesso.SEQACESSO" class="tab-content tr_main">
                                         <td>
-                                            <button type="button" onclick="ShowUsuarios(this, @acesso.SEQACESSO)" class="btn btn-default btn-xs"><i id="img_@acesso.SEQACESSO" class="fa fa-chevron-down"></i></button>
+                                            <button type="button" onclick="ShowHideUsuarios(this, @acesso.SEQACESSO)" class="btn btn-default btn-xs"><i id="img_@acesso.SEQACESSO" class="fa fa-chevron-down"></i></button>
                                         </td>
                                         <td>
                                             @acesso.SEQACESSO
@@ -138,29 +135,31 @@
                                     <tr id="trDetail_@acesso.SEQACESSO" class="tab-content tr_detail" style="display: none">
                                         <td colspan="4">
                                             <div class="row">
-                                                <div class="col-md-4">
-                                                    @Html.DropDownList("Id", (SelectList)ViewBag.listaUsuarios, new { @class = "form-control-static" })
-                                                    @Html.ActionLink("Adicionar", "AddUsuario", "Acessos", new { id = acesso.SEQACESSO }, new { @class = "btn btn-primary btn-sm" })
+                                                <div class="form-group-sm">
+                                                    <div class="col-md-3 form-inline">
+                                                        @Html.DropDownList("Id", (SelectList)ViewBag.listaUsuarios, new { @id = "ddListUsuarios_" + @acesso.SEQACESSO, @class = "form-control" })
+                                                        <button type="button" onclick="AddUsrAcesso(this, @acesso.SEQACESSO)" class="btn btn-primary btn-group-sm"><i id="img_@acesso.SEQACESSO" class="fa fa-user"></i> Adicinonar</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <hr />
                                                 <table class="table table-striped tbl-usuarios-acesso" id="tbl-usr-acesso-@acesso.SEQACESSO">
                                                     <thead>
-                                                        <th>Usuário</th>
-                                                        <th>E-mail</th>
-                                                        <th></th>
+                                                    <th>Usuário</th>
+                                                    <th>E-mail</th>
+                                                    <th></th>
                                                     </thead>
                                                     <tbody>
                                                         @foreach (var usuario in acesso.ListaUsersAcesso)
                                                         {
-                                                        <tr>
-                                                            <td>@usuario.Nome</td>
-                                                            <td>@usuario.Email</td>
-                                                            <td>
-                                                                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-remove"></i></button>
-                                                            </td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td>@usuario.Nome</td>
+                                                                <td>@usuario.Email</td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-default btn-xs"><i class="fa fa-remove"></i></button>
+                                                                </td>
+                                                            </tr>
                                                         }
                                                     </tbody>
                                                 </table>
@@ -183,7 +182,12 @@
 
 <script type="text/javascript">
 
-    function ShowUsuarios(btn, seq) {
+    /**
+     * mostra/esconde tr com os dados dos usuarios
+     * @@param btn
+     * @@param seq
+    **/
+    function ShowHideUsuarios(btn, seq) {
         var btnTmp = btn;
         var id = 'trDetail_' + seq;
         var id_img = 'img_' + seq;
@@ -191,10 +195,8 @@
         var img = document.getElementById(id_img);
 
         if (img != null) {
-            $(img).toggleClass("fa-chevron-down fa-chevron-up");
+            $(img).toggleClass("fa-chevron-down fa-chevron-up", 1000);
         }
-
-        $(btnTmp).toggleClass()
 
         if (ele != null) {
             if ($(ele).is(':visible')) {
@@ -203,6 +205,66 @@
                 $(ele).show("show");
             }
         }
+    }
+
+    /**
+     * adiciona usuario a um acessos
+     * @@param btn
+     * @@param seq
+     */
+    function AddUsrAcesso(btn, seq) {
+        var btnTmp = btn;
+        var id = 'ddListUsuarios_' + seq;
+        var ddList = document.getElementById(id);
+
+        if (ddList != null) {
+            var idUsuario = $(ddList).val();
+
+            if (idUsuario.trim() != "") {
+
+                var objData = {
+                    IdAcesso: seq,
+                    IdUsuario: idUsuario 
+                };
+
+                $.ajax('@Url.Action("AddUsrAcesso", "Acessos")', {
+                    method: 'POST',
+                    dataType: 'json',
+                    data: objData,
+                    beforeSend: function () {
+                        ShowProgreessBar("Processando requisição...");
+                    }
+                }).done(function (data) {
+                    //
+                    if (data.success) {
+                        //$("#txtResposta").val(data.resposta);
+
+                        $.smallBox({
+                            title: data.mensagem,
+                            content: "<i class='fa fa-clock-o'></i> <i></i>",
+                            color: "#296191",
+                            iconSmall: "fa fa-thumbs-up bounce animated",
+                            timeout: 4000
+                        });
+                    } else {
+                        $.smallBox({
+                            title: data.mensagem,
+                            content: "<i class='fa fa-clock-o'></i> <i></i>",
+                            color: "#96191",
+                            iconSmall: "fa fa-thumbs-up bounce animated",
+                            timeout: 4000
+                        });
+                    }
+                }).fail(function (jq, textStatus, error) {
+                    //
+
+                }).always(function () {
+                    HideProgressBar();
+                });
+
+            } 
+        }
+
     }
 
     $(document).ready(function () {

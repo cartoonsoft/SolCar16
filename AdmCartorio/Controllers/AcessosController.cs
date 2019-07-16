@@ -15,6 +15,7 @@ using Domain.Car16.Entities.Car16New;
 
 namespace AdmCartorio.Controllers
 {
+    [Authorize]
     public class AcessosController : AdmCartorioBaseController
     {
         public AcessosController(): base(null, null)
@@ -65,6 +66,91 @@ namespace AdmCartorio.Controllers
             ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");
 
             return View(listAcessos);
+        }
+
+        public JsonResult AddUsrAcesso(long IdAcesso, string IdUsuario)
+        {
+            bool resposta = false;
+            string msg = string.Empty;
+
+            try
+            {
+                using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                {
+                    ACESSO acesso = appServAcesso.UfwCart.Repositories.GenericRepository<ACESSO>().GetWhere(a => a.SEQACESSO == IdAcesso).FirstOrDefault();
+
+                    if ((acesso != null) || (!string.IsNullOrEmpty(acesso.PROGRAMA)))
+                    {
+                        var usuario = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Id == IdUsuario).FirstOrDefault();
+
+                        if ((usuario == null) || (!usuario.Ativo))
+                        {
+                            msg = "Usuário inexistente ou não ativo, não pode ser adicionado.";
+                        }
+                        else
+                        {
+                            //fazer add
+                            var appResp = appServAcesso.AddUsrAcesso(IdAcesso, IdUsuario);
+                            resposta = appResp.Execute;
+                            msg = appResp.Message;
+                        }
+                    }
+                    else
+                    {
+                        msg = string.Format("Acesso {0} não encontrado!", IdAcesso);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Erro na solicitação: " + ex.Message;
+            }
+
+            var resultado = new
+            {
+                success = resposta,
+                mensagem = msg
+            };
+
+            return Json(resultado);
+        }
+
+        public JsonResult RemoveUsrAcesso(long IdAcesso, string IdUsuario)
+        {
+            bool resposta = false;
+            string msg = string.Empty;
+
+            try
+            {
+                using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                {
+                    var usrAcesso = appServAcesso.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().GetWhere(u => (u.SeqAcesso == IdAcesso) && (u.IdUsuario == IdUsuario) && (u.IdContaAcessoSistema == 1)).FirstOrDefault();
+
+                    if ((usrAcesso != null) || (!string.IsNullOrEmpty(usrAcesso.IdUsuario)))
+                    {
+                        //fazer removo
+                        var appResp = appServAcesso.RemoveUsrAcesso(IdAcesso, IdUsuario);
+                        resposta = appResp.Execute;
+                        msg = appResp.Message;
+                    }
+                    else
+                    {
+                        msg = string.Format("Acesso {0} não encontrado para oo usuário!", IdAcesso);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                msg = "Erro na solicitação: " + ex.Message;
+            }
+
+            var resultado = new
+            {
+                success = resposta,
+                mensagem = msg
+            };
+
+            return Json(resultado);
         }
 
         // GET: Acessos/Details/5

@@ -67,6 +67,7 @@
     <Compile Include="Entities\Diversos\DtoAtoList.cs" />
     <Compile Include="Entities\Diversos\DtoCamposValor.cs" />
     <Compile Include="Entities\Diversos\DtoDadosImovel.cs" />
+    <Compile Include="Entities\Diversos\DtoExcuteService.cs" />
     <Compile Include="Entities\Diversos\DtoFeriado.cs" />
     <Compile Include="Entities\Diversos\DtoImovel.cs" />
     <Compile Include="Entities\Diversos\DtoMatricula.cs" />
