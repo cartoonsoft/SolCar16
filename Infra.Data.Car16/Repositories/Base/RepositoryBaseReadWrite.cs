@@ -75,10 +75,7 @@ namespace Infra.Data.Cartorio.Repositories.Base
 
         public void Remove(TEntity item)
         {
-            if (this.DbSet.Find(item) != null)
-            {
-                this.DbSet.Remove(item);
-            }
+            this.DbSet.Remove(item);
         }
 
         public void RemoveRange(IEnumerable<TEntity> itens)
@@ -97,12 +94,8 @@ namespace Infra.Data.Cartorio.Repositories.Base
         {
             if (item != null)
             {
-                var entry = this.DbSet.Find(item);
-                if ( entry != null)
-                {
-                    this.DbSet.Attach(item);
-                    this.Context.Entry(item).State = EntityState.Modified;
-                }
+                this.DbSet.Attach(item);
+                this.Context.Entry(item).State = EntityState.Modified;
             }
         }
 

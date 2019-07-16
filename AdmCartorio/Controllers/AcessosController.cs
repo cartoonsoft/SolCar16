@@ -72,9 +72,12 @@ namespace AdmCartorio.Controllers
         {
             bool resposta = false;
             string msg = string.Empty;
+            string nome = string.Empty;
+            string email = string.Empty;
 
             try
             {
+
                 using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
                 {
                     ACESSO acesso = appServAcesso.UfwCart.Repositories.GenericRepository<ACESSO>().GetWhere(a => a.SEQACESSO == IdAcesso).FirstOrDefault();
@@ -93,6 +96,8 @@ namespace AdmCartorio.Controllers
                             var appResp = appServAcesso.AddUsrAcesso(IdAcesso, IdUsuario);
                             resposta = appResp.Execute;
                             msg = appResp.Message;
+                            nome = usuario.Nome;
+                            email = usuario.Email;
                         }
                     }
                     else
@@ -109,7 +114,14 @@ namespace AdmCartorio.Controllers
             var resultado = new
             {
                 success = resposta,
-                mensagem = msg
+                mensagem = msg,
+                usuario = new
+                {
+                    Id  = IdUsuario,
+                    Nome = nome,
+                    Email = email
+                }
+
             };
 
             return Json(resultado);
@@ -128,7 +140,7 @@ namespace AdmCartorio.Controllers
 
                     if ((usrAcesso != null) || (!string.IsNullOrEmpty(usrAcesso.IdUsuario)))
                     {
-                        //fazer removo
+                        //fazer remove
                         var appResp = appServAcesso.RemoveUsrAcesso(IdAcesso, IdUsuario);
                         resposta = appResp.Execute;
                         msg = appResp.Message;
@@ -143,7 +155,6 @@ namespace AdmCartorio.Controllers
             {
                 msg = "Erro na solicitação: " + ex.Message;
             }
-
             var resultado = new
             {
                 success = resposta,

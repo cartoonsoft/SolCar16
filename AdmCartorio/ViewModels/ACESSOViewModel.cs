@@ -16,12 +16,13 @@ namespace AdmCartorio.ViewModels
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Display(Description = "", Name = "Seq")]
         public long SEQACESSO { get; set; }
 
         [Key]
         [Column(Order = 1)]
         [StringLength(15)]
-        [Display(Description = "Código do programa", Name = "Programa")]
+        [Display(Description = "Código do programa",  Name = "Programa")]
         public string PROGRAMA { get; set; }
 
         [StringLength(200)]

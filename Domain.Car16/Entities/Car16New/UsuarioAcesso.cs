@@ -25,5 +25,7 @@ namespace Domain.Car16.Entities.Car16New
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("SEQACESSO", Order = 2)] //	"SEQACESSO" NUMBER(11,0)
         public long SeqAcesso { get; set; }
+
+ 
     }
 }
