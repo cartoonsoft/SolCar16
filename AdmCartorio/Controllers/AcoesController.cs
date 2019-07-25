@@ -8,7 +8,6 @@ using Microsoft.AspNet.Identity.Owin;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using AppServices.Cartorio.AppServices;
-using Domain.Cartorio.Entities.Cartorio;
 using AdmCartorio.Models.Identity.Entities;
 using AdmCartorio.App_Start.Identity;
 using Domain.Car16.Entities.Car16New;
@@ -16,9 +15,9 @@ using Domain.Car16.Entities.Car16New;
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class AcessosController : AdmCartorioBaseController
+    public class AcoesController : AdmCartorioBaseController
     {
-        public AcessosController(): base(null, null)
+        public AcoesController(): base(null, null)
         {
             //
         }
@@ -27,36 +26,53 @@ namespace AdmCartorio.Controllers
         public ActionResult Index()
         {
             List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Ativo == true).ToList();
-            List<ACESSOViewModel> listAcessos = new List<ACESSOViewModel>();
+            List<AcaoViewModel> listaAcoes  = new List<AcaoViewModel>();
 
-            using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
             {
-                IEnumerable<ACESSO> listaAcessos = appServAcesso.UfwCart.Repositories.GenericRepository<ACESSO>().GetAll().OrderBy(o => o.OBS);
-                foreach (var acesso in listaAcessos) 
+                IEnumerable<Acao> listaTodasAcoes = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<Acao>().GetAll().OrderBy(a => a.DescricaoPequeno);
+
+                foreach (var acao in listaTodasAcoes) 
                 {
-                    List<UsuarioAcessoViewModel> listaUsersAcessos = new List<UsuarioAcessoViewModel>();
-                    var listaUsers = appServAcesso.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().GetWhere(u => u.SeqAcesso == acesso.SEQACESSO).ToList();
+                    List<UsuarioAcaoViewModel> listaUsrAcao  = new List<UsuarioAcaoViewModel>();
+                    var listaUsers = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => u.IdAcao == acao.Id).ToList();
+
                     foreach (var usuario in listaUsers)
                     {
                         var usrtmp = listaUsrSist.Find(u => u.Id == usuario.IdUsuario);
 
-                        listaUsersAcessos.Add(new UsuarioAcessoViewModel
+                        if (usrtmp != null)
                         {
-                            IdUsuario = usuario.IdUsuario,
-                            IdContaAcessoSistema = usuario.IdContaAcessoSistema,
-                            SeqAcesso = usuario.SeqAcesso,
-                            UserName = usrtmp.UserName,
-                            Email = usrtmp.Email,
-                            Nome = usrtmp.Nome
-                        }); 
-
+                            listaUsrAcao.Add(new UsuarioAcaoViewModel
+                            {
+                                IdUsuario = usuario.IdUsuario,
+                                UserName = usrtmp.UserName,
+                                Email = usrtmp.Email,
+                                Nome = usrtmp.Nome
+                            });
+                        }
                     }
 
-                    listAcessos.Add(new ACESSOViewModel {
-                        SEQACESSO = acesso.SEQACESSO,
-                        PROGRAMA = acesso.PROGRAMA,
-                        OBS = acesso.OBS,
-                        ListaUsersAcesso = listaUsersAcessos
+                    listaAcoes.Add(new AcaoViewModel {
+                        Id = acao.Id,
+                        IdContaAcessoSistema = acao.IdContaAcessoSistema,
+                        SeqAcesso            = acao.SeqAcesso,        
+                        Programa             = acao.Programa,
+                        Obs                  = acao.Obs,
+                        DescricaoPequeno     = acao.DescricaoPequeno, 
+                        DescricaoMedio       = acao.DescricaoMedio,   
+                        DescricaoGrande      = acao.DescricaoGrande,  
+                        DescricaoTip         = acao.DescricaoTip,
+                        DescricaoBalao       = acao.DescricaoBalao,   
+                        Orientacao           = acao.Orientacao,
+                        Action               = acao.Action,
+                        Controller           = acao.Controller,
+                        Parametros           = acao.Parametros,
+                        IconeWeb             = acao.IconeWeb,
+                        IconeMobile          = acao.IconeMobile,
+                        Ativo                = acao.Ativo,
+                        EmManutencao         = acao.EmManutencao,
+                        ListaUsersAcao       = listaUsrAcao
                     });
                 }
 
@@ -65,10 +81,10 @@ namespace AdmCartorio.Controllers
 
             ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");
 
-            return View(listAcessos);
+            return View(listaAcoes);
         }
 
-        public JsonResult AddUsrAcesso(long IdAcesso, string IdUsuario)
+        public JsonResult AddUsrAcao(long IdAcao, string IdUsuario)
         {
             bool resposta = false;
             string msg = string.Empty;
@@ -77,12 +93,11 @@ namespace AdmCartorio.Controllers
 
             try
             {
-
-                using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
                 {
-                    ACESSO acesso = appServAcesso.UfwCart.Repositories.GenericRepository<ACESSO>().GetWhere(a => a.SEQACESSO == IdAcesso).FirstOrDefault();
+                    Acao acesso = appServAcoesUsuarios.UfwCart.Repositories.GenericRepository<Acao>().GetWhere(a => a.Id == IdAcao).FirstOrDefault();
 
-                    if ((acesso != null) || (!string.IsNullOrEmpty(acesso.PROGRAMA)))
+                    if ((acesso != null) || (!string.IsNullOrEmpty(acesso.Programa)))
                     {
                         var usuario = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Id == IdUsuario).FirstOrDefault();
 
@@ -93,7 +108,7 @@ namespace AdmCartorio.Controllers
                         else
                         {
                             //fazer add
-                            var appResp = appServAcesso.AddUsrAcesso(IdAcesso, IdUsuario);
+                            var appResp = appServAcoesUsuarios.AddUsrAcesso(IdAcao, IdUsuario);
                             resposta = appResp.Execute;
                             msg = appResp.Message;
                             nome = usuario.Nome;
@@ -102,7 +117,7 @@ namespace AdmCartorio.Controllers
                     }
                     else
                     {
-                        msg = string.Format("Acesso {0} não encontrado!", IdAcesso);
+                        msg = string.Format("Acesso {0} não encontrado!", IdAcao);
                     }
                 }
             }
@@ -127,27 +142,27 @@ namespace AdmCartorio.Controllers
             return Json(resultado);
         }
 
-        public JsonResult RemoveUsrAcesso(long IdAcesso, string IdUsuario)
+        public JsonResult RemoveUsrAcao(long IdAcao, string IdUsuario)
         {
             bool resposta = false;
             string msg = string.Empty;
 
             try
             {
-                using (AppServiceAcesso appServAcesso = new AppServiceAcesso(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                using (AppServiceAcoesUsuarios appServiceAcoesUsuarios = new AppServiceAcoesUsuarios(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
                 {
-                    var usrAcesso = appServAcesso.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().GetWhere(u => (u.SeqAcesso == IdAcesso) && (u.IdUsuario == IdUsuario) && (u.IdContaAcessoSistema == 1)).FirstOrDefault();
+                    var usrAcesso = appServiceAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdAcao == IdAcao) && (u.IdUsuario == IdUsuario)).FirstOrDefault();
 
                     if ((usrAcesso != null) || (!string.IsNullOrEmpty(usrAcesso.IdUsuario)))
                     {
                         //fazer remove
-                        var appResp = appServAcesso.RemoveUsrAcesso(IdAcesso, IdUsuario);
+                        var appResp = appServiceAcoesUsuarios.RemoveUsrAcesso(IdAcao, IdUsuario);
                         resposta = appResp.Execute;
                         msg = appResp.Message;
                     }
                     else
                     {
-                        msg = string.Format("Acesso {0} não encontrado para oo usuário!", IdAcesso);
+                        msg = string.Format("Acesso {0} não encontrado para oo usuário!", IdAcao);
                     }
                 }
             }

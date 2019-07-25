@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Cartorio.Entities.Cartorio;
+using Domain.Car16.Entities.Car16;
 using Domain.Cartorio.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;

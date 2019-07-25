@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 
-namespace Domain.Cartorio.Entities.CartorioNew
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_PESSOA", Schema = "DEZESSEIS_NEW")]
     public class PessoaCartorioNew : AuditedEntity

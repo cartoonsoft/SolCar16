@@ -9,7 +9,7 @@ by Ronaldo Moreira - 2019
 
 /**
  * Mostrar o progresbar
- * @param {any} menssagem
+ * param {any} menssagem
  */
 function ShowProgreessBar(menssagem) {
     $('#frmProgreessBarModal').modal("show");

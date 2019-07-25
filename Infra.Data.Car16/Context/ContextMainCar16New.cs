@@ -6,8 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Entities.Cartorio;
-using Domain.Cartorio.Entities.CartorioNew;
 using Infra.Data.Cartorio.Context.Base;
 
 namespace Infra.Data.Cartorio.Context
@@ -30,6 +28,16 @@ namespace Infra.Data.Cartorio.Context
         /// <summary>
         /// Base de dados: dezesseis_new 
         /// </summary>
+        /// 
+        public DbSet<CtaAcessoSist> DbCtaAcessoSist { get; set; }
+        public DbSet<TipoCfgCtaAcessoSist> DbTipoCfgCtaAcessoSist { get; set; }
+        public DbSet<CfgCtaAcessoSist> DbCfgCtaAcessoSist { get; set; }
+
+        public DbSet<Status> DbStatus { get; set; }
+        public DbSet<StatusValor> DbStatusValor { get; set; }
+        public DbSet<StatusValorAnt> DbStatusValorAnt { get; set; }
+        public DbSet<StatusValorPos> DbStatusValorPos { get; set; }
+
         public DbSet<Pais> DbPais { get; set; }
         public DbSet<Uf> DbUf { get; set; }
         public DbSet<Municipio> DbMunicipio { get; set; }
@@ -40,7 +48,10 @@ namespace Infra.Data.Cartorio.Context
         public DbSet<TipoAto> DbTipoAto { get; set; }
         public DbSet<Ato> DbAto { get; set; }
 
-        public DbSet<UsuarioAcesso> DbUsuarioAcesso { get; set; }
+        public DbSet<TipoMenu> DbTipoMenu { get; set; }
+        public DbSet<Menu> DbMenuo { get; set; }
+        public DbSet<Acao> DbAcao { get; set; }
+        public DbSet<UsuarioAcao> DbUsuarioAcao { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

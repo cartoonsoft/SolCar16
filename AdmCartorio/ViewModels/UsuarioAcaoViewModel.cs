@@ -6,13 +6,11 @@ using System.Web;
 
 namespace AdmCartorio.ViewModels
 {
-    public class UsuarioAcessoViewModel
+    public class UsuarioAcaoViewModel
     {
         public string IdUsuario { get; set; }
 
         public long IdContaAcessoSistema { get; set; }
-
-        public long SeqAcesso { get; set; }
 
         [MaxLength(100)]
         public string Nome { get; set; }

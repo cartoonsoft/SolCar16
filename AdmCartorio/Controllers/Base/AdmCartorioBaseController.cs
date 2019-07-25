@@ -13,6 +13,7 @@ using Domain.Cartorio.Interfaces.UnitOfWork;
 using Infra.Data.Cartorio.UnitsOfWork;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
+using System.Web.Routing;
 
 namespace AdmCartorio.Controllers.Base
 {
@@ -28,6 +29,13 @@ namespace AdmCartorio.Controllers.Base
             _UnitOfWorkDataBaseCartorioNew = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew);
             this._currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             //WindowsIdentity a = WindowsIdentity.GetCurrent();
+        }
+
+        protected override void Execute(RequestContext requestContext)
+        {
+            var x = 1;
+
+            base.Execute(requestContext);
         }
 
         protected override void Dispose(bool disposing)

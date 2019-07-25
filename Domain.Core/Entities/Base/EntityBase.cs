@@ -21,12 +21,12 @@ namespace Domain.Core.Entities.Base
         private int? _requestedHashCode;
 
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="generateNewId"></param>
         protected EntityBase()
         {
-
+            this.Id = 0;
         }
         
         /// <summary>

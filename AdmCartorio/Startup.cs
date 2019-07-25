@@ -13,7 +13,7 @@ namespace AdmCartorio
         {
             //autoMapper
             AdmCartorio.App_Start.AutoMapper.AutoMapperConfigAdmCartorio.RegisterMappingsAdmCartorio();
-
+            
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
             ConfigureAuth(app);
             

@@ -3,9 +3,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Domain.Cartorio.Entities.CartorioNew;
 using Domain.Cartorio.Entities.Diversas;
 using DomainServices.Interfaces.Base;
+using Domain.Car16.Entities.Car16New;
 
 namespace DomainServices.Interfaces
 {

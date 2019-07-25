@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppServices.Cartorio.AppServices;
-using Domain.Cartorio.Entities.Cartorio;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.enums;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.DbCartorioNew;

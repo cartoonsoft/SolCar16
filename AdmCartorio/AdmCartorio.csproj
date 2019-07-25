@@ -190,13 +190,13 @@
     <Compile Include="App_Start\AutoMapper\ViewModelToDtoMappingProfileAdminCartorio.cs" />
     <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />
     <Compile Include="App_Start\Identity\IdentityInit.cs" />
-    <Compile Include="Controllers\AcessosController.cs" />
+    <Compile Include="Controllers\AcoesController.cs" />
     <Compile Include="Controllers\AdmController.cs" />
     <Compile Include="Controllers\ArquivosController.cs" />
     <Compile Include="Controllers\Base\AdmCartorioBaseController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="ViewModels\ACESSOViewModel.cs" />
+    <Compile Include="ViewModels\AcaoViewModel.cs" />
     <Compile Include="ViewModels\ArquivoModeloSimplificadoViewModel.cs" />
     <Compile Include="Models\Identity\Context\DataBaseIInitializerCar16.cs" />
     <Compile Include="Models\Identity\Entities\Claims.cs" />
@@ -221,7 +221,7 @@
     <Compile Include="ViewModels\Identity\ManageViewModels.cs" />
     <Compile Include="ViewModels\Identity\RoleViewModel.cs" />
     <Compile Include="ViewModels\LogArquivoModeloDocxViewModel.cs" />
-    <Compile Include="ViewModels\UsuarioAcessoViewModel.cs" />
+    <Compile Include="ViewModels\UsuarioAcaoViewModel.cs" />
     <Content Include="Content\ajax\email-compose.html" />
     <Content Include="Content\ajax\email-opened.html" />
     <Content Include="Content\ajax\email-reply.html" />
@@ -1068,7 +1068,7 @@
     <Content Include="Views\Ato\_confirmarAto.cshtml" />
     <Content Include="Views\Adm\AdmError.cshtml" />
     <Content Include="Views\Adm\InternalServerError.cshtml" />
-    <Content Include="Views\Acessos\Index.cshtml" />
+    <Content Include="Views\Acoes\Index.cshtml" />
     <None Include="Web.CustomProfile.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -6,36 +6,33 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Cartorio.AppServices.Base;
 using AppServices.Cartorio.Interfaces;
-using Domain.Cartorio.Entities.CartorioNew;
-using Domain.Cartorio.Interfaces.UnitOfWork;
-using Dto.Cartorio.Entities.Cadastros;
-using Dto.Car16.Entities.Cadastros;
-using Domain.Cartorio.Entities.Cartorio;
-using Dto.Car16.Entities.Diversos;
 using Domain.Car16.Entities.Car16New;
+using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Car16.Entities.Car16;
+using Dto.Car16.Entities.Cadastros;
+using Dto.Car16.Entities.Diversos;
 
 namespace AppServices.Cartorio.AppServices
 {
-    public class AppServiceAcesso : AppServiceCartorioNew<DtoAcesso, ACESSO>, IAppServiceAcesso
+    public class AppServiceAcoesUsuarios : AppServiceCartorioNew<DtoAcao, Acao>, IAppServiceAcoesUsuarios
     {
-        public AppServiceAcesso(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
+        public AppServiceAcoesUsuarios(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
             //
         }
 
-        public DtoExcuteService AddUsrAcesso(long IdAcesso, string IdUsuario)
+        public DtoExcuteService AddUsrAcesso(long IdAcao, string IdUsuario)
         {
             DtoExcuteService resposta = new DtoExcuteService();
-            var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().GetWhere(u => (u.SeqAcesso == IdAcesso) && (u.IdUsuario == IdUsuario) && (u.IdContaAcessoSistema == 1)).FirstOrDefault();
+            var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdUsuario == IdUsuario) && (u.IdAcao ==  IdAcao)).FirstOrDefault();
 
             if ((usr == null) || (string.IsNullOrEmpty(usr.IdUsuario)))
             {
-                UsuarioAcesso usrAcesso = new UsuarioAcesso();
-                usrAcesso.IdUsuario = IdUsuario;
-                usrAcesso.SeqAcesso = IdAcesso;
-                usrAcesso.IdContaAcessoSistema = 1;
+                UsuarioAcao usrAcao = new UsuarioAcao();
+                usrAcao.IdUsuario = IdUsuario;
+                usrAcao.IdAcao = IdAcao;
 
-                this.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().Add(usrAcesso);
+                this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().Add(usrAcao);
                 this.UfwCartNew.SaveChanges();
                 resposta.Execute = true;
                 resposta.Message = "Acesso concedido ao usuário com sucesso!";
@@ -48,14 +45,14 @@ namespace AppServices.Cartorio.AppServices
             return resposta;
         }
 
-        public DtoExcuteService RemoveUsrAcesso(long IdAcesso, string IdUsuario)
+        public DtoExcuteService RemoveUsrAcesso(long IdAcao, string IdUsuario)
         {
             DtoExcuteService resposta = new DtoExcuteService();
-            var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().GetWhere(u => (u.SeqAcesso == IdAcesso) && (u.IdUsuario == IdUsuario) && (u.IdContaAcessoSistema == 1)).FirstOrDefault();
+            var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdUsuario == IdUsuario) && (u.IdAcao == IdAcao)).FirstOrDefault();
 
             if ((usr != null) && (!string.IsNullOrEmpty(usr.IdUsuario)))
             {
-                this.UfwCartNew.Repositories.GenericRepository<UsuarioAcesso>().Remove(usr);
+                this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().Remove(usr);
                 this.UfwCartNew.SaveChanges();
                 resposta.Execute = true;
                 resposta.Message = "Acesso removido do usuário com sucesso!";

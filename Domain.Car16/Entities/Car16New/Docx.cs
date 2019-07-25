@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Cartorio.Entities.CartorioNew
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_DOCX", Schema = "DEZESSEIS_NEW")]
     public class Docx : EntityBase

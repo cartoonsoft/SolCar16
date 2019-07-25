@@ -8,7 +8,7 @@ using System.Web.Mvc;
 using AutoMapper;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Interfaces.UnitOfWork;
 using Domain.Cartorio.enums;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;

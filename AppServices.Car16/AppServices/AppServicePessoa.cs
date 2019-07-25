@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Diversos;
 using Dto.Cartorio.Entities.Cadastros;

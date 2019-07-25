@@ -15,7 +15,7 @@ namespace AdmCartorio.App_Start.AutoMapper
         {
             CreateMap<ArquivoModeloDocxListViewModel, DtoArquivoModeloDocxList>();
             CreateMap<AtoListViewModel, DtoAtoList>();
-            CreateMap<ACESSOViewModel, DtoAcesso>();
+            CreateMap<AcaoViewModel, DtoAcao>();
         }
     }
 }

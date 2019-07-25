@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AdmCartorio.ViewModels.ACESSOViewModel>
+﻿@model IEnumerable<AdmCartorio.ViewModels.AcaoViewModel>
 
 @{
     ViewBag.Title = "Acessos";
@@ -230,7 +230,7 @@
     }
 
     /**
-     * adiciona usuario a um acessos
+     * adiciona usuario a um acesso
      * @@param btn
      * @@param seq
      */
@@ -261,7 +261,6 @@
                 }).done(function (data) {
                     //
                     if (data.success) {
-                        //$("#txtResposta").val(data.resposta);
 
                         if (tblUsr != null) {
                             InsertRowTabelaUsuarios(tblUsr, data.usuario);
@@ -296,7 +295,7 @@
     }
 
     /**
-     * RemoveUsrAcesso - Remove usuario de um acessos
+     * RemoveUsrAcesso - Remove usuario de um acesso
      * @@param btn
      * @@param seq
      */

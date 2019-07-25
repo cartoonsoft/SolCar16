@@ -6,17 +6,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using AutoMapper;
+using LibFunctions.Functions.DatesFunc;
 using AppServices.Cartorio.AppServices.Base;
 using AppServices.Cartorio.Interfaces;
-using Domain.Cartorio.Entities.CartorioNew;
 using Domain.Cartorio.enums;
 using Domain.Cartorio.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
 using Domain.Cartorio.Entities.Diversas;
-using LibFunctions.Functions.DatesFunc;
 using System.Globalization;
-using Domain.Cartorio.Entities.Cartorio;
+using Domain.Car16.Entities.Car16New;
+using Domain.Car16.Entities.Car16;
 
 namespace AppServices.Cartorio.AppServices
 {

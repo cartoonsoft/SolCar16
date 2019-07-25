@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Cartorio.Entities.CartorioNew
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_CAMPOS_TP_ATO", Schema = "DEZESSEIS_NEW")]
     public class CamposArquivoModeloDocx : EntityBase
@@ -18,7 +18,7 @@ namespace Domain.Cartorio.Entities.CartorioNew
         public long IdTipoAto { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")]
-        public long IdAcessoSistema { get; set; }
+        public long IdContaAcessoSistema { get; set; }
 
         [Column("NOME_CAMPO")]
         public string NomeCampo { get; set; }

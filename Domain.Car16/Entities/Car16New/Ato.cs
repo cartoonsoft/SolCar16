@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Core.Entities.Base;
 
-namespace Domain.Cartorio.Entities.CartorioNew
+namespace Domain.Car16.Entities.Car16New
 {
     [Table("TB_ATO", Schema = "DEZESSEIS_NEW")]
     public class Ato: EntityBase
@@ -17,7 +17,7 @@ namespace Domain.Cartorio.Entities.CartorioNew
         [Column("ID_ATO")]
         public override long? Id { get; set; }
 
-        [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(19, 0)       not null,
+        [Column("ID_CTA_ACESSO_SIST")] 
         public long IdContaAcessoSistema { get; set; }
 
         [Column("ID_TP_ATO")]

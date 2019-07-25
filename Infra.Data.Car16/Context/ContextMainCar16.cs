@@ -5,8 +5,8 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Cartorio.Entities.Cartorio;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16;
+using Domain.Car16.Entities.Car16New;
 using Infra.Data.Cartorio.Context.Base;
 
 namespace Infra.Data.Cartorio.Context

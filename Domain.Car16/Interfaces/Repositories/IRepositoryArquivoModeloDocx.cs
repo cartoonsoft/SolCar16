@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Entities.Diversas;
 using Domain.Core.Interfaces.Repositories;
 

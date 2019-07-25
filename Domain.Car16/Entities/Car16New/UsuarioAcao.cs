@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Car16.Entities.Car16New
 {
-    [Table("TB_USR_ACESSO", Schema = "DEZESSEIS_NEW")]
-    public class UsuarioAcesso 
+    [Table("TB_USR_ACAO", Schema = "DEZESSEIS_NEW")]
+    public class UsuarioAcao 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -18,14 +18,7 @@ namespace Domain.Car16.Entities.Car16New
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("ID_CTA_ACESSO_SIST", Order = 1)] //ID_CTA_ACESSO_SIST NUMERIC(19, 0)       not null,
-        public long IdContaAcessoSistema { get; set; }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("SEQACESSO", Order = 2)] //	"SEQACESSO" NUMBER(11,0)
-        public long SeqAcesso { get; set; }
-
- 
+        [Column("ID_ACAO", Order = 1)] 
+        public long IdAcao { get; set; }
     }
 }

@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using AppServices.Cartorio.AppServices;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;

@@ -1,4 +1,4 @@
-﻿using Domain.Cartorio.Entities.Cartorio;
+﻿using Domain.Car16.Entities.Car16;
 using Dto.Cartorio.Entities.Cadastros;
 using System;
 using System.Collections.Generic;

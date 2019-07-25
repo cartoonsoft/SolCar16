@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DomainServices.Base;
 using DomainServices.Interfaces;
-using Domain.Cartorio.Entities.CartorioNew;
 using Domain.Cartorio.Entities.Diversas;
 using Domain.Cartorio.Interfaces.Repositories;
 using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Car16.Entities.Car16New;
 
 namespace DomainServices.Services
 {

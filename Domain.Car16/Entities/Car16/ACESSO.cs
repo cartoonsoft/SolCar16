@@ -1,6 +1,6 @@
-namespace Domain.Cartorio.Entities.Cartorio
+namespace Domain.Car16.Entities.Car16
 {
-    using System;
+     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;

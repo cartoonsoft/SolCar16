@@ -20,7 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Oracle.ManagedDataAccess.Client;
 using Domain.Core.Interfaces.Data;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Web.Hosting;

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using Oracle.ManagedDataAccess.Client;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Entities.Diversas;
 using Domain.Cartorio.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
@@ -209,7 +209,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
                 select new
                 {
                     campos.Id,
-                    campos.IdAcessoSistema,
+                    campos.IdContaAcessoSistema,
                     campos.IdTipoAto,
                     campos.NomeCampo,
                     campos.PlaceHolder,
@@ -222,7 +222,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
                 listaCamposArquivoModeloDocx.Add(new CamposArquivoModeloDocx
                 {
                     Id = item.Id,
-                    IdAcessoSistema = item.IdAcessoSistema,
+                    IdContaAcessoSistema = item.IdContaAcessoSistema,
                     IdTipoAto = item.IdTipoAto,
                     NomeCampo = item.NomeCampo,
                     Campo = item.Campo,

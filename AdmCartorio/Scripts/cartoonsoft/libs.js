@@ -9,7 +9,7 @@ by Ronaldo Moreira - 2019
 /**
  * /
  * IP local
- * @param {any} onNewIP
+ * param {any} onNewIP
  */
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     //compatibility for firefox and chrome
@@ -51,11 +51,11 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 
 /**
  * Adiciona uma div para um obj html ex: articleMesssagensCrud
- * @param {any} objHtml
- * @param {any} titleMsg
- * @param {any} message
- * @param {any} link
- * @param {any} success
+ * param {any} objHtml
+ * param {any} titleMsg
+ * param {any} message
+ * param {any} link
+ * param {any} success
  */
 function ShowMessageCrud(objHtml, titleMsg, message, link = "#", success = false) {
     var div = objHtml;

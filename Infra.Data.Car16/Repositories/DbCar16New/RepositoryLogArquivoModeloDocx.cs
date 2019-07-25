@@ -1,5 +1,5 @@
 ﻿using Domain.Cartorio.Entities;
-using Domain.Cartorio.Entities.CartorioNew;
+using Domain.Car16.Entities.Car16New;
 using Domain.Cartorio.Interfaces.Repositories;
 using Domain.Core.Interfaces.Data;
 using Infra.Data.Cartorio.Context;

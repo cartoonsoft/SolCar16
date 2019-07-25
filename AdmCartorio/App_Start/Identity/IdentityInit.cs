@@ -18,7 +18,6 @@ namespace AdmCartorio.App_Start.Identity
 
         private readonly string users = "{\"usuarios\":[" +
             "{\"Nome\":\"Ana Cristina Aoki\",\"Email\":\"cris@cartoonsoft.com.br\"}," +
-            "{\"Nome\":\"Pedro Pires\",\"Email\":\"pedro.pires@cartoonsoft.com.br\"}," +
             "{\"Nome\":\"Ronaldo Moreira\",\"Email\":\"ronaldo.moreira@cartoonsoft.com.br\"}," +
         "]}";
 
