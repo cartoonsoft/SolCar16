@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dto.Cartorio.Interfaces;
 
-namespace Dto.Cartorio.Entities.Base
+namespace Dto.Car16.Entities.Base
 {
     public abstract class DtoEntityBaseModel : IDtoEntityBaseModel
     {

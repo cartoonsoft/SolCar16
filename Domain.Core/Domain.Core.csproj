@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Domain.Core</RootNamespace>
     <AssemblyName>Domain.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,17 +55,16 @@
     <Compile Include="Entities\Base\EntityBase.cs" />
     <Compile Include="Entities\Base\Paged.cs" />
     <Compile Include="Entities\Base\SynchronizableEntity.cs" />
-    <Compile Include="enums\TiposFeriado.cs" />
+    <Compile Include="Enumerations\BaseDados.cs" />
     <Compile Include="Interfaces\Data\IContextCore.cs" />
     <Compile Include="Interfaces\DomainServices\IDomainServiceBase.cs" />
-    <Compile Include="Entities\Feriado.cs" />
     <Compile Include="Interfaces\DomainServices\IDomainServicesFactoryBase.cs" />
     <Compile Include="Interfaces\Entities\IEntity.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoriesFactoryBase.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBaseReadWrite.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBaseRead.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />
     <Compile Include="Interfaces\Repositories\ISpecification.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

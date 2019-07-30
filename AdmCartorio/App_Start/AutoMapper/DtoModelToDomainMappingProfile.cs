@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Entities.Diversas;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Entities.Diversos;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
 
@@ -18,9 +18,8 @@ namespace AdmCartorio.App_Start.AutoMapper
             CreateMap<DtoPaisModel, Pais>();
             CreateMap<DtoUfModel, Uf>();
             CreateMap<DtoMunicipioModel, Municipio>();
-            CreateMap<DtoPessoaCartorioNew , PessoaCartorioNew>();
+            CreateMap<DtoPessoaCartorioNew , PessoaCartNew>();
             CreateMap<DtoArquivoModeloDocxList, ArquivoModeloDocxList>();
-
         }
     }
 }

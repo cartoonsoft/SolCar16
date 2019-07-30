@@ -12,15 +12,15 @@ using System.Configuration;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
-using Domain.Cartorio.enums;
-using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Core.Enumerations;
+using Domain.Core.Interfaces.UnitOfWork;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Context.Base;
 using Infra.Data.Cartorio.Repositories.Base;
 
 namespace Infra.Data.Cartorio.UnitsOfWork.Base
 {
-    public class UfwCart : UnitOfWork, IunitOfWorkCartoonSoft
+    public class UfwCart : UnitOfWork, IUnitOfWorkCar16
     {
         const string LOG_NAME = "log_Cartorio_InfraDataUnitOfWork";
         const string SOURCE = "CartoonSoft-Cartorio";

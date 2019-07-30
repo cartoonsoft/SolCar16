@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Dto.Cartorio.Entities.Base;
+using Dto.Car16.Entities.Base;
 
 namespace Dto.Cartorio.Entities.Cadastros
 {

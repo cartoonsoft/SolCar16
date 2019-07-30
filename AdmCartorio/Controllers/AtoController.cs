@@ -9,16 +9,17 @@ using System.Web.Mvc;
 using Xceed.Words.NET;
 using AutoMapper;
 using Newtonsoft.Json;
+using System.Reflection;
+using Domain.CartNew.Enumerations;
+using Domain.CartNew.Entities;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
 using AppServices.Cartorio.AppServices;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
-using LibFunctions.Functions.Word;
 using LibFunctions.Functions.IOAdmCartorio;
-using System.Reflection;
 
 namespace AdmCartorio.Controllers
 {
@@ -32,9 +33,9 @@ namespace AdmCartorio.Controllers
 
         }
 
-        public AtoController(IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio, IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew) : base(UnitOfWorkDataBaseCartorio, UnitOfWorkDataBaseCartorioNew)
+        public AtoController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
-            //Criar instancia dos seus App services aqui
+            //
         }
         #endregion
 
@@ -43,7 +44,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
-            using (AppServiceAto appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            using (AppServiceAto appService = new AppServiceAto(this.UfwCart, this.UfwCartNew))
             {
                 IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
                 if (listaDto != null)
@@ -90,9 +91,9 @@ namespace AdmCartorio.Controllers
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Cartorio.enums.TipoAtoEnum.AtoInicial)
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UnitOfWorkDataBaseCartorioNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
                     }
                     else
@@ -126,9 +127,8 @@ namespace AdmCartorio.Controllers
                             //NumSequencia = Convert.ToInt64(numSequenciaAto)
                         };
 
-                        this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<Ato>().Add(ato);
-                        this.UnitOfWorkDataBaseCartorioNew.SaveChanges();
-
+                        this.UfwCartNew.Repositories.GenericRepository<Ato>().Add(ato);
+                        this.UfwCartNew.SaveChanges();
                     }
                     else
                     {
@@ -157,7 +157,7 @@ namespace AdmCartorio.Controllers
             {
                 if (Id.HasValue)
                 {
-                    Ato Ato = this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<Ato>().GetById(Id);
+                    Ato Ato = this.UfwCartNew.Repositories.GenericRepository<Ato>().GetById(Id);
                     if (Ato == null)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -197,13 +197,13 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            using (var appService = new AppServiceAto(this.UfwCart, this.UfwCartNew))
             {
 
                 var resultado = appService.FinalizarAto(IdAto);
                 if (resultado)
                 {
-                    this.UnitOfWorkDataBaseCartorioNew.SaveChanges();
+                    this.UfwCartNew.SaveChanges();
                     //todo: ronaldo fazer 
                     //WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
                     Response.StatusCode = 200;
@@ -225,7 +225,7 @@ namespace AdmCartorio.Controllers
             {
                 if (Id.HasValue)
                 {
-                    Ato Ato = this.UnitOfWorkDataBaseCartorioNew.Repositories.GenericRepository<Ato>().GetById(Id);
+                    Ato Ato = this.UfwCartNew.Repositories.GenericRepository<Ato>().GetById(Id);
                     if (Ato == null)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -284,9 +284,9 @@ namespace AdmCartorio.Controllers
                     DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)Domain.Cartorio.enums.TipoAtoEnum.AtoInicial)
+                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UnitOfWorkDataBaseCartorioNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
                     }
                     else
@@ -306,7 +306,7 @@ namespace AdmCartorio.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        using (var appService = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                        using (var appService = new AppServiceAto(this.UfwCart, this.UfwCartNew))
                         {
                             var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
 
@@ -364,7 +364,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
-            using (var appService = new AppServiceArquivoModeloDocx(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            using (var appService = new AppServiceArquivoModeloDocx(this.UfwCart, this.UfwCartNew))
             {
                 var listaDtoArquivoModelosDocx = appService.ListarArquivoModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoArquivoModeloSimplificadoDocxList>, IEnumerable<ArquivoModeloSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
@@ -379,7 +379,7 @@ namespace AdmCartorio.Controllers
             string jsonResult;
             try
             {
-                var PREIMO = this.UnitOfWorkDataBaseCartorio.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
+                var PREIMO = this.UfwCart.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
                 jsonResult = JsonConvert.SerializeObject(PREIMO);
             }
             catch (Exception)
@@ -403,7 +403,7 @@ namespace AdmCartorio.Controllers
             var jsonResult = "";
             try
             {
-                using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+                using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UfwCart, this.UfwCartNew))
                 {
                     jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPorPrenotacao(numeroPrenotacao));
                 }
@@ -421,7 +421,7 @@ namespace AdmCartorio.Controllers
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
 
-            return this.UnitOfWorkDataBaseCartorioNew.Repositories.RepositoryArquivoModeloDocx
+            return this.UfwCartNew.Repositories.RepositoryArquivoModeloDocx
                 .GetById(idModelo).IdTipoAto;
 
         }
@@ -545,7 +545,7 @@ namespace AdmCartorio.Controllers
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
 
-            using (var appServiceAto = new AppServiceAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartorioNew))
+            using (var appServiceAto = new AppServiceAto(this.UfwCart, this.UfwCartNew))
             {
                 //appServiceAto.
             }

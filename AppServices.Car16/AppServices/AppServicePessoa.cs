@@ -4,26 +4,23 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Diversos;
 using Dto.Cartorio.Entities.Cadastros;
 using AppServices.Cartorio.AppServices.Base;
 using AppServices.Cartorio.Interfaces;
+using Domain.Cart.Entities;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
 
 namespace AppServices.Cartorio.AppServices
 {
-    public class AppServicePessoa : AppServiceCartorioNew<DtoPessoaCartorioNew, PessoaCartorioNew>, IAppServicePessoa
+    public class AppServicePessoa : AppServiceCartorio<DtoPessoaCartorio, PessoaCart>, IAppServicePessoa
     {
-        private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
-        private readonly IUnitOfWorkDataBaseCartorioNew _ufwCartNew;
         //private List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = null;
 
         public AppServicePessoa(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew): base(UfwCart, UfwCartNew)
         {
             //
-            _ufwCart = UfwCart;
-            _ufwCartNew = UfwCartNew;
             
         }
 

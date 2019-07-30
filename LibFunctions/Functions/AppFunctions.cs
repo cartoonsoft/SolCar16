@@ -30,7 +30,6 @@ namespace LibFunctions.Functions.AppFuncs
             }
         }
 
-
         private static CompilerResults CompileScript(string source)
         {
             CompilerParameters parms = new CompilerParameters();
@@ -68,10 +67,20 @@ namespace LibFunctions.Functions.AppFuncs
 
         public static bool ValideFormula(string expression)
         {
-            var code = GetCodeExpression(expression);
-            CompilerResults compilerResults = CompileScript(code);
+            bool resultado = false;
 
-            return !compilerResults.Errors.HasErrors;
+            try
+            {
+                var code = GetCodeExpression(expression);
+                CompilerResults compilerResults = CompileScript(code);
+                resultado = !compilerResults.Errors.HasErrors;
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return resultado;
         }
 
         public static double ExecutaFormula(string expression)
@@ -138,7 +147,7 @@ namespace LibFunctions.Functions.AppFuncs
             {
                 foreach (var destinatario in destinatarios)
                 {
-                    //todo: ronaldo arrumar
+                    //todo: ronaldo arrumar ValidaEmail
                     //if (ValidaEmail(destinatario))
                     //    msg.To.Add(new MailAddress(destinatario));
                 }
@@ -309,7 +318,5 @@ namespace LibFunctions.Functions.AppFuncs
                 destinatarios.ToString(),
                 files);
         }
-
-
     }
 }

@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Collections.Generic;
 using Oracle.ManagedDataAccess.Client;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Entities.Diversas;
-using Domain.Cartorio.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Interfaces.Repositories;
+using Domain.CartNew.Entities.Diversos;
 
 namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {
@@ -128,6 +128,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 
             return ListaAquivoModeloDocxList;
         }
+
         /// <summary>
         /// Lista de modelos simplificados (DOC.ID_MODELO_DOC,DOC.DESCRICAO,ATO.DESCRICAO AS DESC_ATO)
         /// </summary>

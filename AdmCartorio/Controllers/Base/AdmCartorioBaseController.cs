@@ -6,10 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
 using AdmCartorio.App_Start.Identity;
 using AdmCartorio.Models.Identity.Entities;
-using Domain.Cartorio.enums;
-using Domain.Cartorio.Interfaces.UnitOfWork;
 using Infra.Data.Cartorio.UnitsOfWork;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
@@ -17,19 +17,50 @@ using System.Web.Routing;
 
 namespace AdmCartorio.Controllers.Base
 {
-    public class AdmCartorioBaseController : Controller
+    public class AdmCartorioBaseController : CartoonSoftBaseController
     {
-        private readonly UnitOfWorkDataBaseCartorio _UnitOfWorkDataBaseCartorio;
-        private readonly UnitOfWorkDataBaseCartorioNew _UnitOfWorkDataBaseCartorioNew;
-        private readonly ApplicationUser _currentUser;
+        private ApplicationUser currentUser;
 
-        public AdmCartorioBaseController(IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio, IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew)
+        public AdmCartorioBaseController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew): base(UfwCart, UfwCartNew)
         {
-            _UnitOfWorkDataBaseCartorio = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis);
-            _UnitOfWorkDataBaseCartorioNew = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew);
-            this._currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            this.currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             //WindowsIdentity a = WindowsIdentity.GetCurrent();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // dispose managed state (managed objects).
+                    currentUser = null;
+                }
+
+                // free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // set large fields to null.
+                disposedValue = true;
+            }
+            base.Dispose(disposing);
+        }
+
+        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~AppServiceBase() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        public new void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
 
         protected override void Execute(RequestContext requestContext)
         {
@@ -38,37 +69,9 @@ namespace AdmCartorio.Controllers.Base
             base.Execute(requestContext);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_UnitOfWorkDataBaseCartorio != null) {
-                    _UnitOfWorkDataBaseCartorio.Dispose();
-                }
-
-                if (_UnitOfWorkDataBaseCartorioNew != null)
-                {
-                    _UnitOfWorkDataBaseCartorioNew.Dispose();
-                }
-            }
-            base.Dispose(disposing);
-
-        }
-
         protected ApplicationUser UsuarioAtual {
-            get { return _currentUser; }
+            get { return currentUser; }
         } 
-
-        protected IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio
-        {
-            get { return _UnitOfWorkDataBaseCartorio; }
-        }
-
-        protected IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew
-        {
-            get { return _UnitOfWorkDataBaseCartorioNew; }
-
-        }
 
     }
 }

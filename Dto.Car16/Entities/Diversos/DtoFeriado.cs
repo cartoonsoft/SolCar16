@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Core.enums;
-using Dto.Cartorio.Entities.Base;
+using Domain.CartNew.Enumerations;
+using Dto.Car16.Entities.Base;
 
 namespace Dto.Cartorio.Entities.Diversos
 {

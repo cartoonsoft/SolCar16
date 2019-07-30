@@ -5,22 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Globalization;
 using AutoMapper;
 using LibFunctions.Functions.DatesFunc;
-using AppServices.Cartorio.AppServices.Base;
-using AppServices.Cartorio.Interfaces;
-using Domain.Cartorio.enums;
-using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Cart.Entities;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Enumerations;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
-using Domain.Cartorio.Entities.Diversas;
-using System.Globalization;
-using Domain.Car16.Entities.Car16New;
-using Domain.Car16.Entities.Car16;
+using Dto.Car16.Entities.Cadastros;
+using AppServices.Cartorio.AppServices.Base;
+using AppServices.Cartorio.Interfaces;
+using Domain.CartNew.Entities.Diversos;
 
 namespace AppServices.Cartorio.AppServices
 {
-    public class AppServiceArquivoModeloDocx : AppServiceCartorioNew<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
+    public class AppServiceArquivoModeloDocx : AppServiceCartorio<DtoArquivoModeloDocxModel, ArquivoModeloDocx>, IAppServiceArquivoModeloDocx
     {
         //private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
@@ -200,18 +202,18 @@ namespace AppServices.Cartorio.AppServices
         
         public IEnumerable<DtoArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
-            IEnumerable<ArquivoModeloDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
-            IEnumerable <DtoArquivoModeloDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloDocxList>, IEnumerable<DtoArquivoModeloDocxList>>(listaDomain);
+            //IEnumerable<ArquivoModeloDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
+            //IEnumerable <DtoArquivoModeloDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloDocxList>, IEnumerable<DtoArquivoModeloDocxList>>(listaDomain);
 
-            return listaDto;
+            return null; // listaDto;
         }
 
         public IEnumerable<DtoArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificado(long? IdTipoAto = null)
         {
-            IEnumerable<ArquivoModeloSimplificadoDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
-            IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloSimplificadoDocxList>, IEnumerable<DtoArquivoModeloSimplificadoDocxList>>(listaDomain);
+            //IEnumerable<ArquivoModeloSimplificadoDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
+            //IEnumerable<DtoArquivoModeloSimplificadoDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloSimplificadoDocxList>, IEnumerable<DtoArquivoModeloSimplificadoDocxList>>(listaDomain);
 
-            return listaDto;
+            return null; // listaDto;
         }
 
         public DtoDadosImovel GetDatosImovel(long[] listIdsPessoas, long? IdTipoAto, long? IdPrenotacao, long? IdMatricula)
@@ -235,8 +237,9 @@ namespace AppServices.Cartorio.AppServices
                 Valor = IdMatricula.ToString()
             });
             
+            //todo: ronaldo arrumar
             //pessoas
-            dtoTmp.Pessoas.AddRange(this.DsFactoryCartNew.PessoaDs.GetListaOutorgadosOutorgantes(listIdsPessoas, IdTipoAto, IdPrenotacao??0));
+            //dtoTmp.Pessoas.AddRange(this.DsFactoryCartNew.PessoaCartNewDs.GetListaOutorgadosOutorgantes(listIdsPessoas, IdTipoAto, IdPrenotacao??0));
 
             //Imovel
             dtoTmp.listaCamposValor.AddRange(GetCamposImovel(IdTipoAto, IdPrenotacao, IdMatricula));

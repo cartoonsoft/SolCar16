@@ -5,22 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServices.Cartorio.AppServices.Base;
 using AppServices.Cartorio.Interfaces;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.enums;
-using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Enumerations;
+using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
 
 namespace AppServices.Cartorio.AppServices
 {
-    public class AppServiceAto : AppServiceCartorioNew<DtoAto, Ato>, IAppServiceAto
+    public class AppServiceAto : AppServiceCartorio<DtoAto, Ato>, IAppServiceAto
     {
-        private readonly IUnitOfWorkDataBaseCartorio _ufwCart;
+
 
         public AppServiceAto(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {
             //
-            _ufwCart = UfwCart;
+
         }
 
         public void Bloquear(long IdAto)

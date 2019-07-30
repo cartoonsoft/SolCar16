@@ -4,8 +4,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.Repositories;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
 

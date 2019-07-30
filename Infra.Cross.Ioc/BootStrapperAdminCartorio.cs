@@ -1,8 +1,7 @@
 ﻿using SimpleInjector;
-using Domain.Cartorio.Interfaces.UnitOfWork;
-using Domain.Cartorio.enums;
+using Domain.CartNew.Interfaces.UnitOfWork;
+using Domain.Core.Enumerations;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 
 namespace Infra.Cross.Ioc
 {
@@ -24,7 +23,7 @@ namespace Infra.Cross.Ioc
 
             // Infra Dados: UnitofWork 
             ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorioNew>(() => new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
-            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorio>(() => new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
+            //ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorio>(() => new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
 
 
             // AppServices 

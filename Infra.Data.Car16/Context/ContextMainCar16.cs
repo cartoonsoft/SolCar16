@@ -5,8 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
+using Domain.Cart.Entities;
 using Infra.Data.Cartorio.Context.Base;
 
 namespace Infra.Data.Cartorio.Context
@@ -32,7 +31,7 @@ namespace Infra.Data.Cartorio.Context
         public DbSet<Matricula> DbMatricula { get; set; }
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
-        public DbSet<PessoaCartorio> DbPESSOA { get; set; }
+        public DbSet<PessoaCart> DbPESSOA { get; set; }
         public DbSet<PREMAD> DbPREMAD { get; set; }
         public DbSet<ACESSO> DbACESSO { get; set; }
 

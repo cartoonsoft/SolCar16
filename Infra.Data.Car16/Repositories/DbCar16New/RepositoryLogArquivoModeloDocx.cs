@@ -1,14 +1,12 @@
-﻿using Domain.Cartorio.Entities;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.Repositories;
-using Domain.Core.Interfaces.Data;
-using Infra.Data.Cartorio.Context;
-using Infra.Data.Cartorio.Repositories.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Interfaces.Repositories;
+using Infra.Data.Cartorio.Context;
+using Infra.Data.Cartorio.Repositories.Base;
 
 namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {

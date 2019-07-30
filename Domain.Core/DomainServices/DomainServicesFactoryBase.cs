@@ -19,10 +19,10 @@ namespace Domain.Core.DomainServices
 {
     public class DomainServicesFactoryBase : IDomainServicesFactoryBase
     {
-        protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IUnitOfWorkCar16 _unitOfWork;
         private Dictionary<Type, object> GenericDomainServices = new Dictionary<Type, object>();
 
-        public DomainServicesFactoryBase(IUnitOfWork unitOfWork)
+        public DomainServicesFactoryBase(IUnitOfWorkCar16 unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }
@@ -53,7 +53,7 @@ namespace Domain.Core.DomainServices
             }
         }
 
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
         // ~RepositoriesBase() {
         //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
         //   Dispose(false);
@@ -64,7 +64,7 @@ namespace Domain.Core.DomainServices
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
+            // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
         #endregion

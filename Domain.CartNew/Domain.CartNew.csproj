@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain.CartNew</RootNamespace>
+    <AssemblyName>Domain.CartNew</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attributes\IsWordFile.cs" />
+    <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
+    <Compile Include="Entities\Acao.cs" />
+    <Compile Include="Entities\ArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Ato.cs" />
+    <Compile Include="Entities\AtoDocx.cs" />
+    <Compile Include="Entities\CamposArquivoModeloDocx.cs" />
+    <Compile Include="Entities\CfgCtaAcessoSist.cs" />
+    <Compile Include="Entities\CtaAcessoSist.cs" />
+    <Compile Include="Entities\Diversos\ArquivoModeloDocxList.cs" />
+    <Compile Include="Entities\Diversos\ArquivoModeloSimplificadoDocxList.cs" />
+    <Compile Include="Entities\Diversos\CamposValor.cs" />
+    <Compile Include="Entities\Diversos\PessoaPesxPre.cs" />
+    <Compile Include="Entities\Docx.cs" />
+    <Compile Include="Entities\Feriado.cs" />
+    <Compile Include="Entities\LogArquivoModeloDocx.cs" />
+    <Compile Include="Entities\Menu.cs" />
+    <Compile Include="Entities\Municipio.cs" />
+    <Compile Include="Entities\Pais.cs" />
+    <Compile Include="Entities\PessoaCartNew.cs" />
+    <Compile Include="Entities\Status.cs" />
+    <Compile Include="Entities\StatusValor.cs" />
+    <Compile Include="Entities\StatusValorAnt.cs" />
+    <Compile Include="Entities\StatusValorPos.cs" />
+    <Compile Include="Entities\TipoAto.cs" />
+    <Compile Include="Entities\TipoCfgCtaAcessoSist.cs" />
+    <Compile Include="Entities\TipoMenu.cs" />
+    <Compile Include="Entities\Uf.cs" />
+    <Compile Include="Entities\UsuarioAcao.cs" />
+    <Compile Include="Enumerations\TipoAtoEnum.cs" />
+    <Compile Include="Enumerations\TipoConferenciaAto.cs" />
+    <Compile Include="Enumerations\TipoLogArquivoModeloDocx.cs" />
+    <Compile Include="Enumerations\TiposFeriado.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCartorioNew.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryAto.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPessoaCartNew.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCartorioNew.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

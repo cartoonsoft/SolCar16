@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Cartorio.Interfaces.Repositories;
+using Domain.Cart.Entities;
+using Domain.Cart.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
 

@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleAppTeste2</RootNamespace>
     <AssemblyName>ConsoleAppTeste2</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -27,6 +27,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -79,9 +80,13 @@
       <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
       <Name>AppServices.Car16</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
-      <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
-      <Name>Domain.Car16</Name>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
+      <Project>{0BC25526-A5A4-49CC-B72F-32A4F73BA92B}</Project>
+      <Name>Domain.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>

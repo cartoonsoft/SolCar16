@@ -1,14 +1,31 @@
-﻿#region Using
-
+﻿using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-
-#endregion
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
+using AdmCartorio.Controllers.Base;
 
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class HomeController : Controller
+    public class HomeController : AdmCartorioBaseController
     {
+        #region | Construtores |
+        public HomeController() : base(null, null)
+        {
+            //
+
+        }
+
+        public HomeController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
+        {
+            //
+        }
+        #endregion
+
         // GET: home/index
         public ActionResult Index()
         {
@@ -36,6 +53,14 @@ namespace AdmCartorio.Controllers
         public ActionResult Chat()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public ActionResult MontarMenu(string IdUsuario)
+        { 
+
+
+            return PartialView();
         }
     }
 }

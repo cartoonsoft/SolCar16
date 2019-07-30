@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServices.Cartorio.AppServices.Base;
-using AppServices.Cartorio.Interfaces;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.UnitOfWork;
+using Domain.CartNew.Entities;
 using Dto.Cartorio.Entities.Cadastros;
+using AppServices.Cartorio.Interfaces;
+using AppServices.Cartorio.AppServices.Base;
+using Domain.Cart.Interfaces.UnitOfWork;
+using Domain.CartNew.Interfaces.UnitOfWork;
 
 namespace AppServices.Cartorio.AppServices
 {
-    public class AppServicePais : AppServiceCartorioNew<DtoPaisModel, Pais>, IAppServicePais
+    public class AppServicePais : AppServiceCartorio<DtoPaisModel, Pais>, IAppServicePais
     {
         public AppServicePais(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
         {

@@ -4,8 +4,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AppServices.Cartorio.Interfaces.Base;
-using Domain.Car16.Entities.Car16New;
 using Dto.Cartorio.Entities.Cadastros;
+using Domain.CartNew.Entities;
 
 namespace AppServices.Cartorio.Interfaces
 {

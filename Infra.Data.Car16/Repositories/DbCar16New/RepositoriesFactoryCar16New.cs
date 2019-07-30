@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.Repositories;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
@@ -54,7 +51,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
+            // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
         #endregion
@@ -84,7 +81,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
                     {
                         repository = new RepositoryMunicipio(this._context);
                     }
-                    if (typeof(T).Equals(typeof(PessoaCartorioNew)))
+                    if (typeof(T).Equals(typeof(PessoaCartNew)))
                     {
                         repository = new RepositoryPessoaCartorioNew(this._context);
                     }
@@ -143,9 +140,9 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
             }
         }
 
-        public IRepositoryPessoaCartorioNew RepositoryPessoa
+        public IRepositoryPessoaCartNew RepositoryPessoa
         {
-            get { return GetRepositoryInstance<PessoaCartorioNew>() as RepositoryPessoaCartorioNew; }
+            get { return GetRepositoryInstance<PessoaCartNew>() as RepositoryPessoaCartorioNew; }
         }
 
         public IRepositoryArquivoModeloDocx RepositoryArquivoModeloDocx
@@ -162,9 +159,5 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
             get { return GetRepositoryInstance<LogArquivoModeloDocx>() as RepositoryLogArquivoModeloDocx; }
         }
 
-        public IRepositoryPREIMO RepositoryPREIMO
-        {
-            get { return GetRepositoryInstance<PREIMO>() as RepositoryPREIMO; }
-        }
     }
 }

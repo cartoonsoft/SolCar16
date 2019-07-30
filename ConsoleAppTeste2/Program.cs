@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppServices.Cartorio.AppServices;
-using Domain.Cartorio.enums;
+using Domain.Core.Enumerations;
 using Dto.Cartorio.Entities.Cadastros;
-using Infra.Data.Cartorio.UnitsOfWork;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
 using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
@@ -34,7 +33,6 @@ namespace ConsoleAppTeste2
             }
 
             Console.ReadKey();
-
         }
     }
 }

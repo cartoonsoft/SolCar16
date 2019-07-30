@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppServices.Cartorio.Interfaces.Base;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.enums;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Enumerations;
 using Dto.Cartorio.Entities.Cadastros;
 using Dto.Cartorio.Entities.Diversos;
 

@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Entities.Diversos;
 using Dto.Cartorio.Entities.Cadastros;
-using Domain.Cartorio.Entities.Diversas;
 using Dto.Cartorio.Entities.Diversos;
 using Dto.Car16.Entities.Cadastros;
-using Domain.Car16.Entities.Car16;
 
 namespace AdmCartorio.App_Start.AutoMapper
 {
@@ -20,9 +19,9 @@ namespace AdmCartorio.App_Start.AutoMapper
             CreateMap<Pais, DtoPaisModel>();
             CreateMap<Uf, DtoUfModel>();
             CreateMap<Municipio, DtoMunicipioModel>();
-            CreateMap<PessoaCartorioNew , DtoPessoaCartorioNew >();
+            CreateMap<PessoaCartNew , DtoPessoaCartorioNew >();
             CreateMap<ArquivoModeloDocxList, DtoArquivoModeloDocxList>();
-            CreateMap<ACESSO, DtoAcao>();
+            CreateMap<Acao, DtoAcao>();
 
         }
     }

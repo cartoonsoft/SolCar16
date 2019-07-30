@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Domain.CartNew.Enumerations;
+using Domain.CartNew.Interfaces.Repositories;
+using Dto.Cartorio.Entities.Diversos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Core.enums;
-using Domain.Core.Interfaces.Repositories;
-using Dto.Cartorio.Entities.Diversos;
 
 namespace LibFunctions.Functions.FeriadosFunc
 {

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Infra.Data.Car16</RootNamespace>
     <AssemblyName>Infra.Data.Car16</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,9 +93,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
-      <Project>{AE8086A7-8173-4A35-BC8F-67574C1BD7DD}</Project>
-      <Name>Domain.Car16</Name>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
+      <Project>{0BC25526-A5A4-49CC-B72F-32A4F73BA92B}</Project>
+      <Name>Domain.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>

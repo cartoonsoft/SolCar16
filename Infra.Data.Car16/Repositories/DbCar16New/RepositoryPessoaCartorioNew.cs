@@ -4,14 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Interfaces.Repositories;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
 
 namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
 {
-    public class RepositoryPessoaCartorioNew : RepositoryBaseReadWrite<PessoaCartorioNew>, IRepositoryPessoaCartorioNew
+    public class RepositoryPessoaCartorioNew : RepositoryBaseReadWrite<PessoaCartNew>, IRepositoryPessoaCartNew
     {
         private readonly ContextMainCartorioNew _contextRepository;
 
@@ -20,12 +20,12 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorioNew
             _contextRepository = contextRepository;
         }
 
-        public PessoaCartorioNew BuscarPorCPFCNPJ(string CpfCnpj)
+        public PessoaCartNew BuscarPorCPFCNPJ(string CpfCnpj)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<PessoaCartorioNew> BuscarPorNome(string nome)
+        public IEnumerable<PessoaCartNew> BuscarPorNome(string nome)
         {
             throw new NotImplementedException();
         }

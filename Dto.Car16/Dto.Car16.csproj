@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Dto.Car16</RootNamespace>
     <AssemblyName>Dto.Car16</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,6 +56,7 @@
     <Compile Include="Entities\Cadastros\DtoAtoDocx.cs" />
     <Compile Include="Entities\Cadastros\DtoCadastroDeAto.cs" />
     <Compile Include="Entities\Cadastros\DtoDocx.cs" />
+    <Compile Include="Entities\Cadastros\DtoLogArquivoModeloDocx.cs" />
     <Compile Include="Entities\Cadastros\DtoPessoaCartorio.cs" />
     <Compile Include="Entities\Cadastros\DtoPESXPRE.cs" />
     <Compile Include="Entities\Cadastros\DtoPREIMO.cs" />
@@ -72,6 +74,7 @@
     <Compile Include="Entities\Diversos\DtoImovel.cs" />
     <Compile Include="Entities\Diversos\DtoMatricula.cs" />
     <Compile Include="Entities\Cadastros\DtoMatriculaAto.cs" />
+    <Compile Include="Entities\Diversos\DtoMenu.cs" />
     <Compile Include="Entities\Diversos\DtoPessoaPesxPre.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,9 +83,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
-      <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
-      <Name>Domain.Car16</Name>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703fa-fefd-4b4e-a573-e1a5102dc487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
+      <Project>{0bc25526-a5a4-49cc-b72f-32a4f73ba92b}</Project>
+      <Name>Domain.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>

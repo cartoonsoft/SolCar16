@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Domain.Car16.Entities.Car16New;
-using Domain.Cartorio.Attributes;
-using Dto.Cartorio.Entities.Base;
+using Domain.CartNew.Attributes;
+using Dto.Car16.Entities.Base;
 
-namespace Dto.Cartorio.Entities.Cadastros
+namespace Dto.Car16.Entities.Cadastros
 {
     public class DtoArquivoModeloDocxModel : DtoEntityBaseModel
     {
@@ -31,11 +30,8 @@ namespace Dto.Cartorio.Entities.Cadastros
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
         public List<HttpPostedFileBase> Files { get; set; }
 
+        /*----------------------------------------------------------------------------------*/
         #region | Dados nao obrigatorios |
-
-        [Display(Name = "Log Arquivo")]
-        public LogArquivoModeloDocx LogArquivo { get; set; }
-
         [Display(Name = "Caminho e Arquivo")]
         public string CaminhoEArquivo { get; set; }
 
@@ -45,6 +41,8 @@ namespace Dto.Cartorio.Entities.Cadastros
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
 
+        [Display(Name = "Log Arquivo")]
+        public DtoLogArquivoModeloDocx LogArquivo { get; set; }
         #endregion
     }
 }

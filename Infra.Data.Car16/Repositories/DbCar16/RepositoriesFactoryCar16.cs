@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Domain.Car16.Entities.Car16;
-using Domain.Cartorio.Interfaces.Repositories;
+using Domain.Cart.Entities;
+using Domain.Cart.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.Cartorio.Context;
 using Infra.Data.Cartorio.Repositories.Base;
@@ -51,7 +51,7 @@ namespace Infra.Data.Cartorio.Repositories.DbCartorio
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
+            // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
         #endregion

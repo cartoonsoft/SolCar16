@@ -16,10 +16,10 @@ namespace AppServices.Cartorio.AppServices.Base
 {
     public class AppServiceBase<TDtoEntityModel, TEntity> : IAppServiceBase<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWorkCar16 _unitOfWork;
         private IDomainServicesFactoryBase _dsFactoryBase;
 
-        public AppServiceBase(IUnitOfWork unitOfWork, IDomainServicesFactoryBase dsFactoryBase)
+        public AppServiceBase(IUnitOfWorkCar16 unitOfWork, IDomainServicesFactoryBase dsFactoryBase)
         {
             _unitOfWork = unitOfWork;
             _dsFactoryBase = dsFactoryBase;

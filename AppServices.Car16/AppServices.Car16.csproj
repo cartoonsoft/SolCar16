@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AppServices.Car16</RootNamespace>
     <AssemblyName>AppServices.Car16</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -85,15 +86,16 @@
     <Compile Include="AppServices\AppServiceAcoesUsuarios.cs" />
     <Compile Include="AppServices\AppServicePais.cs" />
     <Compile Include="AppServices\AppServicePessoa.cs" />
+    <Compile Include="AppServices\AppServicePessoaNew.cs" />
     <Compile Include="AppServices\Base\AppServiceBase.cs" />
-    <Compile Include="AppServices\Base\AppServiceCar16New.cs" />
+    <Compile Include="AppServices\Base\AppServiceCartorio.cs" />
     <Compile Include="Interfaces\Base\IAppServiceBase.cs" />
-    <Compile Include="Interfaces\Base\IAppServiceCar16.cs" />
+    <Compile Include="Interfaces\Base\IAppServiceCartorio.cs" />
     <Compile Include="Interfaces\IAppServiceArquivoModeloDocx.cs" />
     <Compile Include="Interfaces\IAppServiceAto.cs" />
-    <Compile Include="Interfaces\IAppServiceCadastroAto.cs" />
     <Compile Include="Interfaces\IAppServiceAcoesUsuarios.cs" />
     <Compile Include="Interfaces\IAppServicePessoa.cs" />
+    <Compile Include="Interfaces\IAppServicePessoaNew.cs" />
     <Compile Include="Interfaces\IAppServicePais.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -103,17 +105,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain.Car16\Domain.Car16.csproj">
-      <Project>{ae8086a7-8173-4a35-bc8f-67574c1bd7dd}</Project>
-      <Name>Domain.Car16</Name>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703fa-fefd-4b4e-a573-e1a5102dc487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
+      <Project>{0bc25526-a5a4-49cc-b72f-32a4f73ba92b}</Project>
+      <Name>Domain.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainServices\DomainServices.csproj">
-      <Project>{7ab42828-49e2-4ee6-919a-7974d200f9a3}</Project>
-      <Name>DomainServices</Name>
+    <ProjectReference Include="..\DomainServ.CartNew\DomainServ.CartNew.csproj">
+      <Project>{85CD34C3-543E-47B3-9F84-EFDDD4842DF3}</Project>
+      <Name>DomainServ.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DomainServ.Cart\DomainServ.Cart.csproj">
+      <Project>{B2B35A7D-128A-4619-8CA6-92B6B47D2A06}</Project>
+      <Name>DomainServ.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
       <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
