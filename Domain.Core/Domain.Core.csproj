@@ -55,7 +55,6 @@
     <Compile Include="Entities\Base\EntityBase.cs" />
     <Compile Include="Entities\Base\Paged.cs" />
     <Compile Include="Entities\Base\SynchronizableEntity.cs" />
-    <Compile Include="Enumerations\BaseDados.cs" />
     <Compile Include="Interfaces\Data\IContextCore.cs" />
     <Compile Include="Interfaces\DomainServices\IDomainServiceBase.cs" />
     <Compile Include="Interfaces\DomainServices\IDomainServicesFactoryBase.cs" />
@@ -64,7 +63,7 @@
     <Compile Include="Interfaces\Repositories\IRepositoryBaseReadWrite.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryBaseRead.cs" />
     <Compile Include="Interfaces\Repositories\ISpecification.cs" />
-    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkCar16.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUfwCart.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -72,6 +71,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Enumerations\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

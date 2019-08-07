@@ -66,9 +66,9 @@
       <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
-      <Project>{07FD67EE-88AB-4D3D-9040-038DFB13D7F3}</Project>
-      <Name>Dto.Car16</Name>
+    <ProjectReference Include="..\Dto.CartNew\Dto.CartNew.csproj">
+      <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
+      <Name>Dto.CartNew</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

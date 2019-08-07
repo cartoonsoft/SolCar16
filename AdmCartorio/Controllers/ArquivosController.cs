@@ -8,25 +8,24 @@ using System.Web.Mvc;
 using AutoMapper;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Entities;
-using Domain.Cart.Interfaces.UnitOfWork;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
-using AppServices.Cartorio.AppServices;
-using Dto.Cartorio.Entities.Diversos;
-using Dto.Car16.Entities.Cadastros;
+using AppServCart11RI.AppServices;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.Cart_11RI;
 
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class ArquivosController : AdmCartorioBaseController
+    public class ArquivosController : CartorioBaseController
     {
-        public ArquivosController() : base(null, null)
+        public ArquivosController() : base(null)
         {
             //
         }
 
-        public ArquivosController(IUnitOfWorkDataBaseCartorio UnitOfWorkDataBaseCartorio, IUnitOfWorkDataBaseCartorioNew UnitOfWorkDataBaseCartorioNew) : base(UnitOfWorkDataBaseCartorio, UnitOfWorkDataBaseCartorioNew)
+        public ArquivosController(IUnitOfWorkDataBaseCartNew UnitOfWorkDataBaseCartNew) : base(UnitOfWorkDataBaseCartNew)
         {
             //Criar instancia dos seus App services aqui
         }
@@ -43,15 +42,15 @@ namespace AdmCartorio.Controllers
         // GET: Arquivos
         public ActionResult Index()
         {
-            IEnumerable<ArquivoModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ArquivoModeloDocxListViewModel>();
+            IEnumerable<ModeloDocxListViewModel> listaModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UfwCart, this.UfwCartNew))
+            using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
             {
-                IEnumerable<DtoArquivoModeloDocxList> listaDtoArquivoModelosDocx = appService.ListarArquivoModeloDocx().Where(a => a.Ativo == true);
-                listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoArquivoModeloDocxList>, IEnumerable<ArquivoModeloDocxListViewModel>>(listaDtoArquivoModelosDocx);
+                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModeloDocx().Where(a => a.Ativo == true);
+                listaModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
             }
 
-            return View(listaArquivoModeloDocxListViewModel);
+            return View(listaModeloDocxListViewModel);
         }
 
         #region | CADASTRAR |
@@ -74,7 +73,7 @@ namespace AdmCartorio.Controllers
         // POST: Arquivos/Cadastrar
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ArquivoModeloDocxViewModel arquivoModel)
+        public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogModeloDocxViewModel,Arquivo,IpLocal")]ModeloDocxViewModel arquivoModel)
         {
             bool success = false;
             bool ControllerModelValid = ModelState.IsValid;
@@ -88,7 +87,7 @@ namespace AdmCartorio.Controllers
 
                 if (ControllerModelValid)
                 {
-                    LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
+                    LogModeloDocx logArquivo = new LogModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
                     logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                     logArquivo.IP = arquivoModel.IpLocal;
@@ -97,10 +96,10 @@ namespace AdmCartorio.Controllers
                     string filePath = string.Empty;
                     arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UfwCart, this.UfwCartNew))
+                    using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
                     {
                         NovoId = appService.NovoModelo(
-                            new DtoArquivoModeloDocxModel()
+                            new DtoModeloDocx()
                             {
                                 IdContaAcessoSistema = 1,
                                 Ativo = true,
@@ -108,13 +107,13 @@ namespace AdmCartorio.Controllers
                                 CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                                 Files = arquivoModel.Files,
                                 NomeModelo = arquivoModel.NomeModelo,
-                                LogArquivo = new DtoLogArquivoModeloDocx {
+                                LogArquivo = new DtoLogModeloDocx {
                                     Id = logArquivo.Id,
-                                    IdArquivoModeloDocx = logArquivo.IdArquivoModeloDocx,
+                                    IdModeloDocx = logArquivo.IdModeloDocx,
                                     IdUsuario = logArquivo.IdUsuario,
                                     DataHora = logArquivo.DataHora,
                                     IP = logArquivo.IP,
-                                    TipoLogArquivoModeloDocx = logArquivo.TipoLogArquivoModeloDocx,
+                                    TipoLogModeloDocx = logArquivo.TipoLogModeloDocx,
                                     UsuarioSistOperacional = logArquivo.UsuarioSistOperacional
                                 } 
                             },
@@ -171,13 +170,13 @@ namespace AdmCartorio.Controllers
             {
                 try
                 {
-                    ArquivoModeloDocx arquivoModelo = this.UfwCartNew.Repositories.RepositoryArquivoModeloDocx.GetById(Id);
-                    ArquivoModeloDocxViewModel arquivoViewModel = new ArquivoModeloDocxViewModel
+                    ModeloDocx arquivoModelo = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
+                    ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel
                     {
                         Id = arquivoModelo.Id,
                         DescricaoTipoAto = "",
                         IdTipoAto = arquivoModelo.IdTipoAto,
-                        //logArquivoModeloDocxViewModel = 
+                        //logModeloDocxViewModel = 
                         NomeModelo = arquivoModelo.NomeModelo,
                         CaminhoEArquivo = arquivoModelo.CaminhoEArquivo
                     };
@@ -204,38 +203,38 @@ namespace AdmCartorio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(ArquivoModeloDocxViewModel arquivoModeloDocxViewModel)
+        public ActionResult Editar(ModeloDocxViewModel modeloDocxViewModel)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceArquivoModeloDocx(this.UfwCart, this.UfwCartNew))
+                    using (var appService = new AppServiceModeloDocx(this.UfwCartNew))
                     {
                         //Cadastro de log
-                        LogArquivoModeloDocx logArquivo = new LogArquivoModeloDocx();
+                        LogModeloDocx logArquivo = new LogModeloDocx();
                         logArquivo.IdUsuario = UsuarioAtual.Id;
                         logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
-                        logArquivo.IP = arquivoModeloDocxViewModel.IpLocal;
+                        logArquivo.IP = modeloDocxViewModel.IpLocal;
 
-                        appService.EditarModelo(new DtoArquivoModeloDocxModel()
+                        appService.EditarModelo(new DtoModeloDocx()
                         {
-                            Id = arquivoModeloDocxViewModel.Id,
+                            Id = modeloDocxViewModel.Id,
                             IdContaAcessoSistema = 1,
                             Ativo = true,
-                            IdTipoAto = arquivoModeloDocxViewModel.IdTipoAto,
-                            CaminhoEArquivo = arquivoModeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
-                            Files = arquivoModeloDocxViewModel.Files,
-                            NomeModelo = arquivoModeloDocxViewModel.NomeModelo,
-                            LogArquivo = new DtoLogArquivoModeloDocx
+                            IdTipoAto = modeloDocxViewModel.IdTipoAto,
+                            CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
+                            Files = modeloDocxViewModel.Files,
+                            NomeModelo = modeloDocxViewModel.NomeModelo,
+                            LogArquivo = new DtoLogModeloDocx
                             {
                                 Id = logArquivo.Id,
-                                IdArquivoModeloDocx = logArquivo.IdArquivoModeloDocx,
+                                IdModeloDocx = logArquivo.IdModeloDocx,
                                 IdUsuario = logArquivo.IdUsuario,
                                 DataHora = logArquivo.DataHora,
                                 IP = logArquivo.IP,
-                                TipoLogArquivoModeloDocx = logArquivo.TipoLogArquivoModeloDocx,
+                                TipoLogModeloDocx = logArquivo.TipoLogModeloDocx,
                                 UsuarioSistOperacional = logArquivo.UsuarioSistOperacional
                             }
                         }, UsuarioAtual.Id);
@@ -248,7 +247,7 @@ namespace AdmCartorio.Controllers
                     return RedirectToActionPermanent(nameof(Index));
 
                 }
-                return View(nameof(Editar), arquivoModeloDocxViewModel);
+                return View(nameof(Editar), modeloDocxViewModel);
             }
             catch (Exception ex)
             {
@@ -261,13 +260,13 @@ namespace AdmCartorio.Controllers
         #region | METODOS COMPARTILHADOS |
         private void CadastrarLogDownload(string IP, long Id)
         {
-            var arquivolog = new LogArquivoModeloDocx()
+            var arquivolog = new LogModeloDocx()
             {
-                IdArquivoModeloDocx = Id,
+                IdModeloDocx = Id,
                 IdUsuario = UsuarioAtual.Id,
                 DataHora = DateTime.Now,
                 IP = IP,
-                TipoLogArquivoModeloDocx = TipoLogArquivoModeloDocx.Download
+                TipoLogModeloDocx = TipoLogModeloDocx.Download
             };
 
             //todo: Ronaldo criar rotina de cadastro 
@@ -280,7 +279,7 @@ namespace AdmCartorio.Controllers
         {
             bool respDesativar;
 
-            using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(this.UfwCart, this.UfwCartNew))
+            using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
             {
                 respDesativar = appService.Desativar(Convert.ToInt64(dadosPost.Id), this.UsuarioAtual.Id);
             }

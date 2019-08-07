@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{697AC870-2894-4E2E-80D1-E1FE8E0F4989}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain.Cart11RI</RootNamespace>
+    <AssemblyName>Domain.Cart11RI</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\ACESSO.cs" />
+    <Compile Include="Entities\ARISP.cs" />
+    <Compile Include="Entities\ARQCND.cs" />
+    <Compile Include="Entities\ATO.cs" />
+    <Compile Include="Entities\AUTENTICACAO.cs" />
+    <Compile Include="Entities\AUTXPRE.cs" />
+    <Compile Include="Entities\AVIMG.cs" />
+    <Compile Include="Entities\BKP_EXTRATO.cs" />
+    <Compile Include="Entities\BKP_EXTRATO_AD.cs" />
+    <Compile Include="Entities\BKP_EXTRATO_DIG.cs" />
+    <Compile Include="Entities\BKP_LIVROES.cs" />
+    <Compile Include="Entities\BLOQUEIOCX.cs" />
+    <Compile Include="Entities\BLOQUEIOCXF.cs" />
+    <Compile Include="Entities\BUSCAS.cs" />
+    <Compile Include="Entities\CADCQTF.cs" />
+    <Compile Include="Entities\CADESP2.cs" />
+    <Compile Include="Entities\CADSPE.cs" />
+    <Compile Include="Entities\CADTP2.cs" />
+    <Compile Include="Entities\CAIXAC.cs" />
+    <Compile Include="Entities\CAIXAE.cs" />
+    <Compile Include="Entities\CAIXAP.cs" />
+    <Compile Include="Entities\CERTDEP.cs" />
+    <Compile Include="Entities\CERTENT.cs" />
+    <Compile Include="Entities\CERTIDAO.cs" />
+    <Compile Include="Entities\CERTIDAOS.cs" />
+    <Compile Include="Entities\CERTIDAOV.cs" />
+    <Compile Include="Entities\CERTIDAO_IMG.cs" />
+    <Compile Include="Entities\CERTNOFI.cs" />
+    <Compile Include="Entities\CERTPOS.cs" />
+    <Compile Include="Entities\CHEQUE.cs" />
+    <Compile Include="Entities\CHEQUE_DV.cs" />
+    <Compile Include="Entities\CHEXREL.cs" />
+    <Compile Include="Entities\CIP.cs" />
+    <Compile Include="Entities\CONTROCXC.cs" />
+    <Compile Include="Entities\CONTROCXP.cs" />
+    <Compile Include="Entities\CONTROCXU.cs" />
+    <Compile Include="Entities\CONTROLESAC.cs" />
+    <Compile Include="Entities\DEGE.cs" />
+    <Compile Include="Entities\DEGEAFAST.cs" />
+    <Compile Include="Entities\DEGEATFA.cs" />
+    <Compile Include="Entities\DEGEATFE.cs" />
+    <Compile Include="Entities\DEGEATFI.cs" />
+    <Compile Include="Entities\DEGEATFM.cs" />
+    <Compile Include="Entities\DEGEATFMS.cs" />
+    <Compile Include="Entities\DEGEATFO.cs" />
+    <Compile Include="Entities\DEGEATFOS.cs" />
+    <Compile Include="Entities\DEGEFALTAA.cs" />
+    <Compile Include="Entities\DEGEFALTAI.cs" />
+    <Compile Include="Entities\DEGEFALTAJ.cs" />
+    <Compile Include="Entities\DEGEFERIAS.cs" />
+    <Compile Include="Entities\DEGEFERIASN.cs" />
+    <Compile Include="Entities\DEGELIC.cs" />
+    <Compile Include="Entities\DEGELICPREMIO.cs" />
+    <Compile Include="Entities\DEGEOBS.cs" />
+    <Compile Include="Entities\DEGEOPC.cs" />
+    <Compile Include="Entities\DEGEPENAL.cs" />
+    <Compile Include="Entities\DIFERENCA.cs" />
+    <Compile Include="Entities\DOC_E.cs" />
+    <Compile Include="Entities\DOC_E_COMP.cs" />
+    <Compile Include="Entities\DOIATO.cs" />
+    <Compile Include="Entities\DOICAD.cs" />
+    <Compile Include="Entities\DOIEND.cs" />
+    <Compile Include="Entities\DOINOMES.cs" />
+    <Compile Include="Entities\DRCOBS.cs" />
+    <Compile Include="Entities\EMPREENDIMENTO.cs" />
+    <Compile Include="Entities\EXAME.cs" />
+    <Compile Include="Entities\EXIGE.cs" />
+    <Compile Include="Entities\EXTRATO.cs" />
+    <Compile Include="Entities\EXTRATOW_AD.cs" />
+    <Compile Include="Entities\EXTRATO_AD.cs" />
+    <Compile Include="Entities\EXTRATO_DIG.cs" />
+    <Compile Include="Entities\FERIADOS.cs" />
+    <Compile Include="Entities\FREQAFA.cs" />
+    <Compile Include="Entities\FREQFALTA.cs" />
+    <Compile Include="Entities\FREQFERIAS.cs" />
+    <Compile Include="Entities\FREQLIC.cs" />
+    <Compile Include="Entities\FREQPEN.cs" />
+    <Compile Include="Entities\FREQUENCIA.cs" />
+    <Compile Include="Entities\FUNCAO.cs" />
+    <Compile Include="Entities\FUNCIONARIOS.cs" />
+    <Compile Include="Entities\IBDLIGHT.cs" />
+    <Compile Include="Entities\ICONTRIB.cs" />
+    <Compile Include="Entities\ICONTROLE.cs" />
+    <Compile Include="Entities\IDATA.cs" />
+    <Compile Include="Entities\ILOTEAMENTO.cs" />
+    <Compile Include="Entities\INDICADOR.cs" />
+    <Compile Include="Entities\INTIMACAO.cs" />
+    <Compile Include="Entities\INTXDEST.cs" />
+    <Compile Include="Entities\INTXOCOR.cs" />
+    <Compile Include="Entities\INTXVAL.cs" />
+    <Compile Include="Entities\IOBS.cs" />
+    <Compile Include="Entities\IPESSOAL.cs" />
+    <Compile Include="Entities\IREAL.cs" />
+    <Compile Include="Entities\IREGANTERIOR.cs" />
+    <Compile Include="Entities\ISENTOS.cs" />
+    <Compile Include="Entities\IUSUARIO.cs" />
+    <Compile Include="Entities\LIVRO10.cs" />
+    <Compile Include="Entities\LIVRO2.cs" />
+    <Compile Include="Entities\LIVRO4.cs" />
+    <Compile Include="Entities\LIVRO5.cs" />
+    <Compile Include="Entities\LIVRO7.cs" />
+    <Compile Include="Entities\LIVRO8.cs" />
+    <Compile Include="Entities\LIVRO9.cs" />
+    <Compile Include="Entities\LIVROES.cs" />
+    <Compile Include="Entities\LIVROESOBS.cs" />
+    <Compile Include="Entities\LOTEAMENTO.cs" />
+    <Compile Include="Entities\LOTEINSCR.cs" />
+    <Compile Include="Entities\LOTEINSCR_DENOMINACAO.cs" />
+    <Compile Include="Entities\LOTEINSCR_LOG.cs" />
+    <Compile Include="Entities\LOTEINSCR_PROPRIETARIO.cs" />
+    <Compile Include="Entities\LOTEINSCR_QUADRA.cs" />
+    <Compile Include="Entities\LOTELA.cs" />
+    <Compile Include="Entities\LOTENINSCR.cs" />
+    <Compile Include="Entities\LOTENINSCR_PROPRIETARIO.cs" />
+    <Compile Include="Entities\LOTENINSCR_QUADRA.cs" />
+    <Compile Include="Entities\LOTENOME.cs" />
+    <Compile Include="Entities\LOTETRANS.cs" />
+    <Compile Include="Entities\MATRIMO.cs" />
+    <Compile Include="Entities\MENSAL.cs" />
+    <Compile Include="Entities\NEGRAX.cs" />
+    <Compile Include="Entities\NFE_RPS.cs" />
+    <Compile Include="Entities\NFE_RPS_CONTROL.cs" />
+    <Compile Include="Entities\NFE_RPS_RET.cs" />
+    <Compile Include="Entities\OFICIO.cs" />
+    <Compile Include="Entities\OPERACAO.cs" />
+    <Compile Include="Entities\PAGTO.cs" />
+    <Compile Include="Entities\PESSOAS.cs" />
+    <Compile Include="Entities\PESXPRE.cs" />
+    <Compile Include="Entities\PESXTOMADOR.cs" />
+    <Compile Include="Entities\POFICIO.cs" />
+    <Compile Include="Entities\PORTAL.cs" />
+    <Compile Include="Entities\PREIMO.cs" />
+    <Compile Include="Entities\PREMA.cs" />
+    <Compile Include="Entities\PREMAD.cs" />
+    <Compile Include="Entities\PREMADEP.cs" />
+    <Compile Include="Entities\PREMAOBS.cs" />
+    <Compile Include="Entities\PREMAV.cs" />
+    <Compile Include="Entities\PROCESSOS.cs" />
+    <Compile Include="Entities\PROCURA.cs" />
+    <Compile Include="Entities\REGISTRO_1.cs" />
+    <Compile Include="Entities\REGISTRO_2.cs" />
+    <Compile Include="Entities\REGISTRO_3.cs" />
+    <Compile Include="Entities\SELOCIA.cs" />
+    <Compile Include="Entities\SELODIGITAL.cs" />
+    <Compile Include="Entities\SELOREGISTRO.cs" />
+    <Compile Include="Entities\TABTPS.cs" />
+    <Compile Include="Entities\TABTPV.cs" />
+    <Compile Include="Entities\TABTPVX.cs" />
+    <Compile Include="Entities\TEPROT.cs" />
+    <Compile Include="Entities\TERMO.cs" />
+    <Compile Include="Entities\TITPOS.cs" />
+    <Compile Include="Entities\TOMADOR.cs" />
+    <Compile Include="Entities\TRANSCRICAO.cs" />
+    <Compile Include="Entities\TRANSNEGRA.cs" />
+    <Compile Include="Entities\UCPXDEST.cs" />
+    <Compile Include="Entities\UCPXOCOR.cs" />
+    <Compile Include="Entities\UCPXVAL.cs" />
+    <Compile Include="Entities\ULTRPS.cs" />
+    <Compile Include="Entities\USUARIOS.cs" />
+    <Compile Include="Entities\USUCAPIAO.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPessoa11RI.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryPREIMO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enumerations\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
+      <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
+      <Name>Domain.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

@@ -322,7 +322,7 @@
                             }
                         }
                         else if (quantidade == 2) {
-                            AtualizarIdTipoAto($('#ArquivoModelo_Id').val());
+                            AtualizarIdTipoAto($('#Modelo_Id').val());
                             var resultado = $('#modeloInvalido').val();
                             if (resultado == "True") return;
                         } else if (quantidade == 3) {
@@ -407,7 +407,7 @@
         });
     </script>
 }
-@Scripts.Render("~/Scripts/Ato/ArquivoModelo.js", "~/Scripts/Ato/Ato.js")
+@Scripts.Render("~/Scripts/Ato/Modelo.js", "~/Scripts/Ato/Ato.js")
 @Scripts.Render("~/Scripts/Ato/DadosImovel.js", "~/Scripts/Ato/DadosPessoas.js")
 @Scripts.Render("~/Scripts/Ato/ExibirModal.js", "~/Scripts/Ato/HabilitarDesabilitar.js")
 @Scripts.Render("~/Scripts/Ato/LimparDados.js", "~/Scripts/Ato/MovimentarNoGrid.js")

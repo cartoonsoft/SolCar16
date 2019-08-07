@@ -8,7 +8,7 @@ using DomainServ.CartNew.Interfaces.Base;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IPaisDs : IDomainServiceCartorioNew<Pais>
+    public interface IPaisDs : IDomainServiceCartNew<Pais>
     { 
         IEnumerable<Pais> BuscarPorNome(string nome);
     }

@@ -26,11 +26,11 @@ function enviarDados(objeto) {
     var tipoAto = linha.querySelector(".descricaoTipoAto");
     var idModelo = linha.querySelector(".idModelo");
 
-    $('#ArquivoModelo_Id').val(idModelo.innerText);
-    $('#ArquivoModelo_NomeModelo').val(modeloNome.innerText);
-    $('#ArquivoModelo_DescricaoTipoAto').val(tipoAto.innerText);
-    $('#ArquivoModelo_DescricaoTipoAto').valid();
-    $('#ArquivoModelo_NomeModelo').valid();
+    $('#Modelo_Id').val(idModelo.innerText);
+    $('#Modelo_NomeModelo').val(modeloNome.innerText);
+    $('#Modelo_DescricaoTipoAto').val(tipoAto.innerText);
+    $('#Modelo_DescricaoTipoAto').valid();
+    $('#Modelo_NomeModelo').valid();
     HabilitarProximo();
     $('#modeloInvalido').val("False");
     IrParaProximo();
@@ -38,7 +38,7 @@ function enviarDados(objeto) {
 }
 
 function AtualizarModelo(idTipoAto) {
-    var Id = parseInt($('#ArquivoModelo_Id').val());
+    var Id = parseInt($('#Modelo_Id').val());
     var IdMatricula = parseInt($('#PREIMO_MATRI').val());
     var IdPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
     var IdTipoAto = parseInt(idTipoAto);

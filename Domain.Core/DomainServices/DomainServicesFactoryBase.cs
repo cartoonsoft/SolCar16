@@ -19,10 +19,10 @@ namespace Domain.Core.DomainServices
 {
     public class DomainServicesFactoryBase : IDomainServicesFactoryBase
     {
-        protected readonly IUnitOfWorkCar16 _unitOfWork;
+        protected readonly IUfwCart _unitOfWork;
         private Dictionary<Type, object> GenericDomainServices = new Dictionary<Type, object>();
 
-        public DomainServicesFactoryBase(IUnitOfWorkCar16 unitOfWork)
+        public DomainServicesFactoryBase(IUfwCart unitOfWork)
         {
             this._unitOfWork = unitOfWork;
         }

@@ -8,7 +8,7 @@ using DomainServ.CartNew.Interfaces.Base;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IUfDs : IDomainServiceCartorioNew<Uf>
+    public interface IUfDs : IDomainServiceCartNew<Uf>
     {
 
     }

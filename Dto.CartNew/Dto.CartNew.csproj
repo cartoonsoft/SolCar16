@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9D2D425D-C18A-4303-B1A3-1EE479026791}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dto.CartNew</RootNamespace>
+    <AssemblyName>Dto.CartNew</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entities\TodosCart\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoModeloDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoModeloDocxSimplificadoList.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoAto.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoAtoCadastro.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoAtoDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoCadastroDeAto.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoLogModeloDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoMatriculaAto.cs" />
+    <Compile Include="Entities\TodosCart\DtoMunicipio.cs" />
+    <Compile Include="Entities\TodosCart\DtoPais.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoPessoaCartorio.cs" />
+    <Compile Include="Entities\TodosCart\DtoPessoaCartNew.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoPESXPRE.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoPREIMO.cs" />
+    <Compile Include="Entities\TodosCart\DtoUf.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoModeloDocxList.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoAtoList.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoCamposValor.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoDadosImovel.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoExcuteService.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoFeriado.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoImovel.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoMatricula.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoMenu.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoPessoaPesxPre.cs" />
+    <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Entities\Cart_16RI\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

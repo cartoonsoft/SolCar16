@@ -32,10 +32,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SimpleInjector, Version=4.5.1.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
-      <HintPath>..\packages\SimpleInjector.4.5.1\lib\net45\SimpleInjector.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.2\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=4.6.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.6.2\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=4.6.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.Integration.Web.4.6.2\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,17 +65,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BootStrapperAdminCartorio.cs" />
-    <Compile Include="BootStrapperAppMin.cs" />
+    <Compile Include="BootStrapperCartorio11RI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">
-      <Project>{CF7ADFFE-266E-4348-9626-980D1BF1932D}</Project>
-      <Name>AppServices.Car16</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
       <Project>{389703fa-fefd-4b4e-a573-e1a5102dc487}</Project>
       <Name>Domain.CartNew</Name>
@@ -65,9 +81,17 @@
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
-      <Project>{1214A5F7-317D-47B4-AC8D-88A3DB601F39}</Project>
-      <Name>Infra.Data.Car16</Name>
+    <ProjectReference Include="..\Infra.Cross.Identity\Infra.Cross.Identity.csproj">
+      <Project>{39653212-6783-499E-B779-3C8963EA2FA9}</Project>
+      <Name>Infra.Cross.Identity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Data.CartNew\Infra.Data.CartNew.csproj">
+      <Project>{8A65401A-6278-47D0-A1F4-3B4ACAB83322}</Project>
+      <Name>Infra.Data.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Data.Core\Infra.Data.Core.csproj">
+      <Project>{930ABDED-1ACC-4E71-8BEF-B093A7A3A48E}</Project>
+      <Name>Infra.Data.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

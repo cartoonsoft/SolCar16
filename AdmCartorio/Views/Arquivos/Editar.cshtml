@@ -1,4 +1,4 @@
-﻿@model AdmCartorio.ViewModels.ArquivoModeloDocxViewModel
+﻿@model AdmCartorio.ViewModels.ModeloDocxViewModel
 
 @{
     ViewBag.Title = "Arquivos";
@@ -72,7 +72,7 @@
                                 @Html.HiddenFor(model => model.CaminhoEArquivo)
                                 @Html.HiddenFor(model => model.NomeModelo)
                                 @Html.HiddenFor(model => model.IdTipoAto)
-                                @Html.HiddenFor(model => model.logArquivoModeloDocxViewModel.IP)
+                                @Html.HiddenFor(model => model.logModeloDocxViewModel.IP)
                                 @Html.HiddenFor(model => model.Id)
 
                                 <header>
@@ -154,7 +154,7 @@
 
     getIp(function (ip) {
         console.log(ip);
-        document.getElementById("LogArquivoModeloDocxViewModel_IP").value = ip;
+        document.getElementById("LogModeloDocxViewModel_IP").value = ip;
         var id = parseInt($('#Id').val());
         var arquivo = $('#Arquivo').val();
 

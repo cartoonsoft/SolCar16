@@ -7,17 +7,17 @@ using Domain.CartNew.Enumerations;
 
 namespace AdmCartorio.ViewModels
 {
-    public class LogArquivoModeloDocxViewModel
+    public class LogModeloDocxViewModel
     {
         public long Id { get; set; }
 
-        public long IdArquivoModeloDocx { get; set; }
+        public long IdModeloDocx { get; set; }
 
         public string IdUsuario { get; set; }
 
         public string IP { get; set; }
 
-        public TipoLogArquivoModeloDocx TipoLogArquivoModeloDocx { get; set; }
+        public TipoLogModeloDocx TipoLogModeloDocx { get; set; }
 
         public DateTime DataHora { get; set; }
 

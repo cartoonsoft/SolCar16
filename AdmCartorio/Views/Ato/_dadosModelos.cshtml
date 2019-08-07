@@ -13,8 +13,8 @@
     </div>
     <div class="col-sm-3 form-group">
         <div>
-            @Html.HiddenFor(model => model.ArquivoModelo.Id)
-            @Html.TextBoxFor(model => model.ArquivoModelo.NomeModelo, new
+            @Html.HiddenFor(model => model.Modelo.Id)
+            @Html.TextBoxFor(model => model.Modelo.NomeModelo, new
             {
                 @class = "form-control input-lg",
                 @placeholder = "NOME DO MODELO",
@@ -28,7 +28,7 @@
         <label class="h5">Tipo de Ato</label>
     </div>
     <div class="col-sm-2 col-lg-pull-1 form-group">
-        @Html.TextBoxFor(model => model.ArquivoModelo.DescricaoTipoAto,
+        @Html.TextBoxFor(model => model.Modelo.DescricaoTipoAto,
             new { @class = "form-control input-lg", @placeholder = "Tipo de ato", @readonly = "readonly", @required = "required", @title = "Preencha o tipo de ato" })
         @Html.HiddenFor(model => model.IdTipoAto)
         <input hidden id="modeloInvalido" />

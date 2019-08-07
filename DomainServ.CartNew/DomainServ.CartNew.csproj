@@ -48,10 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\DomainServiceCartorioNew.cs" />
-    <Compile Include="Factory\DomainServicesFactoryCartorioNew.cs" />
-    <Compile Include="Interfaces\Base\IDomainServiceCartorioNew.cs" />
-    <Compile Include="Interfaces\Factory\IDomainServicesFactoryCartorioNew.cs" />
+    <Compile Include="Base\DomainServiceCartNew.cs" />
+    <Compile Include="Factory\DomainServicesFactoryCartNew.cs" />
+    <Compile Include="Interfaces\Base\IDomainServiceCartNew.cs" />
+    <Compile Include="Interfaces\Factory\IDomainServicesFactoryCartNew.cs" />
     <Compile Include="Interfaces\IArquivoModeloDocxDs.cs" />
     <Compile Include="Interfaces\IAtoDs.cs" />
     <Compile Include="Interfaces\IMunicipioDs.cs" />

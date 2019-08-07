@@ -8,7 +8,7 @@ using DomainServ.CartNew.Interfaces.Base;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IPessoaCartNewDs : IDomainServiceCartorioNew<PessoaCartNew>
+    public interface IPessoaCartNewDs : IDomainServiceCartNew<PessoaCartNew>
     {
         //
     }

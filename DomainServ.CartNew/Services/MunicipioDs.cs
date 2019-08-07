@@ -11,11 +11,11 @@ using DomainServ.CartNew.Interfaces;
 
 namespace DomainServ.CartNew.Services
 {
-    public class MunicipioDs : DomainServiceCartorioNew<Municipio>, IMunicipioDs
+    public class MunicipioDs : DomainServiceCartNew<Municipio>, IMunicipioDs
     {
         private readonly IRepositoryUf _repositoryUf;
 
-        public MunicipioDs(IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public MunicipioDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             _repositoryUf = this.UfwCartNew.Repositories.RepositoryUf;
         }

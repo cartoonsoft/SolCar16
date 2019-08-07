@@ -8,7 +8,7 @@ using Domain.CartNew.Entities;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IAtoDs : IDomainServiceCartorioNew<Ato>
+    public interface IAtoDs : IDomainServiceCartNew<Ato>
     {
         bool ExisteAtoCadastrado(long numMatricula);
 

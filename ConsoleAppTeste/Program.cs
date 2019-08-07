@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AppServices.Cartorio.AppServices;
-using Domain.Cart.Entities;
+using AppServCart11RI.AppServices;
+using Domain.Cart16RI.Entities;
 using Domain.CartNew.Entities;
-using Domain.Core.Enumerations;
-using Infra.Data.Cartorio.Context;
-using Infra.Data.Cartorio.Repositories.DbCartorioNew;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
+using Infra.Data.CartNew.Context;
+using Infra.Data.CartNew.Repositories.DbCartNew;
+using Infra.Data.CartNew.UnitsOfWork.DbCartNew;
 
 namespace ConsoleAppTeste
 {
@@ -65,16 +63,13 @@ namespace ConsoleAppTeste
             //Console.WriteLine("***************|       RELATORIO     |**************************");
             //Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkDataBaseCartorio unitOfWork1 = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis))
+            using (UnitOfWorkDataBaseCartNew unitOfWork2 = new UnitOfWorkDataBaseCartNew("contextOraCartNew"))
             {
-                using (UnitOfWorkDataBaseCartorioNew unitOfWork2 = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
+                using (AppServiceModeloDocx appService = new AppServiceModeloDocx(unitOfWork2))
                 {
-                    using (AppServiceArquivoModeloDocx appService = new AppServiceArquivoModeloDocx(unitOfWork1, unitOfWork2))
-                    {
-                        //
-                    }
-                    //unitOfWork.SaveChanges();
+                    //
                 }
+                //unitOfWork2.SaveChanges();
             }
             Console.ReadKey();
         }
@@ -86,9 +81,9 @@ namespace ConsoleAppTeste
             Console.WriteLine("***************|       RELATORIO     |**************************");
             Console.WriteLine("----------------------------------------------------------------");
 
-            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseis))
+            using (UnitOfWorkDataBaseCartNew unitOfWork = new UnitOfWorkDataBaseCartNew("contextOraCartNew"))
             {
-                List<Matricula> listMatriculas = unitOfWork.Repositories.GenericRepository<Matricula>().GetAll().ToList();
+                List<MATRICULAS> listMatriculas = unitOfWork.Repositories.GenericRepository<MATRICULAS>().GetAll().ToList();
 
                 foreach (var matricula in listMatriculas)
                 {
@@ -102,7 +97,7 @@ namespace ConsoleAppTeste
 
         public static void NovoPais()
         {
-            using (UnitOfWorkDataBaseCartorioNew unitOfWork = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew))
+            using (UnitOfWorkDataBaseCartNew unitOfWork = new UnitOfWorkDataBaseCartNew("contextOraCartNew"))
             {
                 //Pais pais = new Pais();
                 //pais.NomePais = "Teste id pelo banco realizado em :" + DateTime.Now.ToString();
@@ -129,13 +124,12 @@ namespace ConsoleAppTeste
         public static void Teste()
         {
 
-            ContextMainCartorioNew context = new ContextMainCartorioNew("contextOraDevCartorioNew");
+            ContextMainCartNew context = new ContextMainCartNew("contextOraCartNew");
 
             RepositoryPais RepPais = new RepositoryPais(context);
             List<Pais> listPaizes = RepPais.GetAll().ToList();
 
 
-            ContextMainCartorio context2 = new ContextMainCartorio("contextOraDevCartorio");
 
             //Repository Pais RepPais = new RepositoryPais(context);
 

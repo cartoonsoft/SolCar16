@@ -2,7 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Microsoft.Owin;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,10 +11,8 @@ using System.Web;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using AdmCartorio.App_Start.Identity;
-using AdmCartorio.Models.Identity;
 using AdmCartorio.ViewModels.Identity;
 using Newtonsoft.Json.Linq;
-using System;
 using AdmCartorio.Models.Identity.Entities;
 #endregion
 

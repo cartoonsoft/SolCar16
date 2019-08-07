@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
-using Dto.Cartorio.Entities.Cadastros;
-using Dto.Cartorio.Entities.Diversos;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.TodosCart;
 
 namespace AdmCartorio.App_Start.AutoMapper
 {
@@ -15,11 +15,11 @@ namespace AdmCartorio.App_Start.AutoMapper
     {
         public DtoModelToDomainMappingProfile()
         {
-            CreateMap<DtoPaisModel, Pais>();
-            CreateMap<DtoUfModel, Uf>();
-            CreateMap<DtoMunicipioModel, Municipio>();
-            CreateMap<DtoPessoaCartorioNew , PessoaCartNew>();
-            CreateMap<DtoArquivoModeloDocxList, ArquivoModeloDocxList>();
+            CreateMap<DtoPais, Pais>();
+            CreateMap<DtoUf, Uf>();
+            CreateMap<DtoMunicipio, Municipio>();
+            CreateMap<DtoPessoaCartNew , PessoaCartNew>();
+            CreateMap<DtoModeloDocxList, ModeloDocxList>();
         }
     }
 }

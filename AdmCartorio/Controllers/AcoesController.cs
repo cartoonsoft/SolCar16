@@ -6,27 +6,26 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using Domain.CartNew.Entities;
-using Domain.Cart.Interfaces.UnitOfWork;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using AdmCartorio.Controllers.Base;
 using AdmCartorio.ViewModels;
-using AppServices.Cartorio.AppServices;
 using AdmCartorio.Models.Identity.Entities;
 using AdmCartorio.App_Start.Identity;
+using AppServCart11RI.AppServices;
 
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class AcoesController : AdmCartorioBaseController
+    public class AcoesController : CartorioBaseController
     {
         #region | Construtores |
-        public AcoesController() : base(null, null)
+        public AcoesController() : base(null)
         {
             //
 
         }
 
-        public AcoesController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
+        public AcoesController(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
@@ -38,7 +37,7 @@ namespace AdmCartorio.Controllers
             List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Ativo == true).ToList();
             List<AcaoViewModel> listaAcoes  = new List<AcaoViewModel>();
 
-            using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCart, this.UfwCartNew))
+            using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCartNew))
             {
                 IEnumerable<Acao> listaTodasAcoes = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<Acao>().GetAll().OrderBy(a => a.DescricaoPequeno);
 
@@ -103,9 +102,9 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCart, this.UfwCartNew))
+                using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCartNew))
                 {
-                    Acao acesso = appServAcoesUsuarios.UfwCart.Repositories.GenericRepository<Acao>().GetWhere(a => a.Id == IdAcao).FirstOrDefault();
+                    Acao acesso = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<Acao>().GetWhere(a => a.Id == IdAcao).FirstOrDefault();
 
                     if ((acesso != null) || (!string.IsNullOrEmpty(acesso.Programa)))
                     {
@@ -159,7 +158,7 @@ namespace AdmCartorio.Controllers
 
             try
             {
-                using (AppServiceAcoesUsuarios appServiceAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCart, this.UfwCartNew))
+                using (AppServiceAcoesUsuarios appServiceAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCartNew))
                 {
                     var usrAcesso = appServiceAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdAcao == IdAcao) && (u.IdUsuario == IdUsuario)).FirstOrDefault();
 

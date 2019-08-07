@@ -8,14 +8,14 @@ using Domain.CartNew.Entities;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IArquivoModeloDocxDs : IDomainServiceCartorioNew<ArquivoModeloDocx>
+    public interface IArquivoModeloDocxDs : IDomainServiceCartNew<ModeloDocx>
     {
         //IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
 
         //IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
 
-        long? NovoModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario);
-        long? EditarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario);
+        long? NovoModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario);
+        long? EditarModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario);
 
         bool Desativar(long Id, string IdUsuario);
     }

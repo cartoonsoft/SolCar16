@@ -4,23 +4,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Domain.Cart.Interfaces.UnitOfWork;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using AdmCartorio.Controllers.Base;
 
 namespace AdmCartorio.Controllers
 {
     [Authorize]
-    public class HomeController : AdmCartorioBaseController
+    public class HomeController : CartorioBaseController
     {
         #region | Construtores |
-        public HomeController() : base(null, null)
+        public HomeController() : base(null)
         {
             //
 
         }
 
-        public HomeController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCart, UfwCartNew)
+        public HomeController(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }

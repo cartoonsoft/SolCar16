@@ -21,9 +21,9 @@ namespace Domain.Core.DomainServices
 {
     public class DomainServiceBase<TEntity> : IDomainServiceBase<TEntity> where TEntity : class
     {
-        private readonly IUnitOfWorkCar16 _unitOfWork;
+        private readonly IUfwCart _unitOfWork;
 
-        public DomainServiceBase(IUnitOfWorkCar16 unitOfWork)
+        public DomainServiceBase(IUfwCart unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

@@ -11,11 +11,11 @@ using DomainServ.CartNew.Interfaces;
 
 namespace DomainServ.CartNew.Services
 {
-    public class AtoDs : DomainServiceCartorioNew<Ato>, IAtoDs
+    public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
         private readonly IRepositoryAto _repositoryAto;
 
-        public AtoDs(IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             _repositoryAto = UfwCartNew.Repositories.RepositoryAto;
         }

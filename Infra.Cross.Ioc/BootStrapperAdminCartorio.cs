@@ -1,7 +1,5 @@
 ﻿using SimpleInjector;
 using Domain.CartNew.Interfaces.UnitOfWork;
-using Domain.Core.Enumerations;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
 
 namespace Infra.Cross.Ioc
 {
@@ -22,7 +20,7 @@ namespace Infra.Cross.Ioc
             //ContainerAppMin.Register<ContextMainCartorio>(Lifestyle.Scoped);
 
             // Infra Dados: UnitofWork 
-            ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorioNew>(() => new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
+            //ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartNew>(() => new UnitOfWorkDataBaseCartNew(BaseDados.DesenvDezesseisNew), Lifestyle.Scoped);
             //ContainerAdmCartorio.Register<IUnitOfWorkDataBaseCartorio>(() => new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis), Lifestyle.Scoped);
 
 

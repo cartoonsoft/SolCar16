@@ -11,14 +11,14 @@ using DomainServ.CartNew.Interfaces;
 
 namespace DomainServ.CartNew.Services
 {
-    public class PessoaCartNewDs : DomainServiceCartorioNew<PessoaCartNew>, IPessoaCartNewDs
+    public class PessoaCartNewDs : DomainServiceCartNew<PessoaCartNew>, IPessoaCartNewDs
     {
         //O - Outorgado, E - Outorgante
         private readonly string[] Relacoes = { "O", "E" };
    
         //private IEnumerable<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
-        public PessoaCartNewDs(IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public PessoaCartNewDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }

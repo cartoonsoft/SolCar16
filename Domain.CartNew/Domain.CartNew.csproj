@@ -52,19 +52,19 @@
     <Compile Include="Attributes\IsWordFile.cs" />
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
-    <Compile Include="Entities\ArquivoModeloDocx.cs" />
+    <Compile Include="Entities\ModeloDocx.cs" />
     <Compile Include="Entities\Ato.cs" />
     <Compile Include="Entities\AtoDocx.cs" />
-    <Compile Include="Entities\CamposArquivoModeloDocx.cs" />
+    <Compile Include="Entities\CamposModeloDocx.cs" />
     <Compile Include="Entities\CfgCtaAcessoSist.cs" />
     <Compile Include="Entities\CtaAcessoSist.cs" />
-    <Compile Include="Entities\Diversos\ArquivoModeloDocxList.cs" />
-    <Compile Include="Entities\Diversos\ArquivoModeloSimplificadoDocxList.cs" />
+    <Compile Include="Entities\Diversos\ModeloDocxList.cs" />
+    <Compile Include="Entities\Diversos\ModeloDocxSimplificadoList.cs" />
     <Compile Include="Entities\Diversos\CamposValor.cs" />
     <Compile Include="Entities\Diversos\PessoaPesxPre.cs" />
     <Compile Include="Entities\Docx.cs" />
     <Compile Include="Entities\Feriado.cs" />
-    <Compile Include="Entities\LogArquivoModeloDocx.cs" />
+    <Compile Include="Entities\LogModeloDocx.cs" />
     <Compile Include="Entities\Menu.cs" />
     <Compile Include="Entities\Municipio.cs" />
     <Compile Include="Entities\Pais.cs" />
@@ -78,20 +78,22 @@
     <Compile Include="Entities\TipoMenu.cs" />
     <Compile Include="Entities\Uf.cs" />
     <Compile Include="Entities\UsuarioAcao.cs" />
+    <Compile Include="Entities\UsuarioIdentity.cs" />
     <Compile Include="Enumerations\TipoAtoEnum.cs" />
     <Compile Include="Enumerations\TipoConferenciaAto.cs" />
-    <Compile Include="Enumerations\TipoLogArquivoModeloDocx.cs" />
+    <Compile Include="Enumerations\TipoLogModeloDocx.cs" />
     <Compile Include="Enumerations\TiposFeriado.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCartorioNew.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCartNew.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryAto.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryLogArquivoModeloDocx.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryLogModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoaCartNew.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
-    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCartorioNew.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryUsuarioIdentity.cs" />
+    <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCartNew.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -104,5 +106,6 @@
       <Name>Domain.Core</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>ConsoleAppTeste</RootNamespace>
     <AssemblyName>ConsoleAppTeste</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,17 +62,21 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">
-      <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
-      <Name>AppServices.Car16</Name>
+    <ProjectReference Include="..\AppServ.Core\AppServ.Core.csproj">
+      <Project>{65530998-722F-4323-80A9-96DEE5AD0629}</Project>
+      <Name>AppServ.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppServCart11RI\AppServCart11RI.csproj">
+      <Project>{068FD258-C027-4BF5-8D36-C43D78DE3BEF}</Project>
+      <Name>AppServCart11RI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain.Cart16RI\Domain.Cart16RI.csproj">
+      <Project>{69484485-7DE7-4DA1-815A-F2FE2A341F24}</Project>
+      <Name>Domain.Cart16RI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
       <Project>{389703fa-fefd-4b4e-a573-e1a5102dc487}</Project>
       <Name>Domain.CartNew</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
-      <Project>{0bc25526-a5a4-49cc-b72f-32a4f73ba92b}</Project>
-      <Name>Domain.Cart</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
@@ -81,17 +86,13 @@
       <Project>{85cd34c3-543e-47b3-9f84-efddd4842df3}</Project>
       <Name>DomainServ.CartNew</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DomainServ.Cart\DomainServ.Cart.csproj">
-      <Project>{b2b35a7d-128a-4619-8ca6-92b6b47d2a06}</Project>
-      <Name>DomainServ.Cart</Name>
+    <ProjectReference Include="..\Infra.Data.CartNew\Infra.Data.CartNew.csproj">
+      <Project>{8A65401A-6278-47D0-A1F4-3B4ACAB83322}</Project>
+      <Name>Infra.Data.CartNew</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
-      <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
-      <Name>Dto.Car16</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
-      <Project>{1214a5f7-317d-47b4-ac8d-88a3db601f39}</Project>
-      <Name>Infra.Data.Car16</Name>
+    <ProjectReference Include="..\Infra.Data.Core\Infra.Data.Core.csproj">
+      <Project>{930ABDED-1ACC-4E71-8BEF-B093A7A3A48E}</Project>
+      <Name>Infra.Data.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
       <Project>{9448e205-b5ff-4c2c-8fd5-f02d33fbd6be}</Project>

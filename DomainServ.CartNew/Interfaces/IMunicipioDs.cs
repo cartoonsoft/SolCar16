@@ -8,7 +8,7 @@ using DomainServ.CartNew.Interfaces.Base;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IMunicipioDs : IDomainServiceCartorioNew<Municipio>
+    public interface IMunicipioDs : IDomainServiceCartNew<Municipio>
     {
 
     }

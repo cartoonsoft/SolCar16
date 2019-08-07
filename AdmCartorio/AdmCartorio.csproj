@@ -179,6 +179,7 @@
     <Reference Include="WebGrease">
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
     </Reference>
+    <Reference Include="WindowsBase" />
     <Reference Include="Xceed.Words.NET, Version=1.3.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>..\packages\DocX.1.3.0\lib\net40\Xceed.Words.NET.dll</HintPath>
     </Reference>
@@ -194,11 +195,11 @@
     <Compile Include="Controllers\AdmController.cs" />
     <Compile Include="Controllers\ArquivosController.cs" />
     <Compile Include="Controllers\Base\CartoonSoftBaseController.cs" />
-    <Compile Include="Controllers\Base\AdmCartorioBaseController.cs" />
+    <Compile Include="Controllers\Base\CartorioBaseController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\AcaoViewModel.cs" />
-    <Compile Include="ViewModels\ArquivoModeloSimplificadoViewModel.cs" />
+    <Compile Include="ViewModels\ModeloDocxSimplificadoViewModel.cs" />
     <Compile Include="Models\Identity\Context\DataBaseIInitializerCar16.cs" />
     <Compile Include="Models\Identity\Entities\Claims.cs" />
     <Compile Include="Models\Identity\Entities\ApplicationUser.cs" />
@@ -211,8 +212,8 @@
     <Compile Include="ViewModels\PREIMOViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
-    <Compile Include="ViewModels\ArquivoModeloDocxListViewModel.cs" />
-    <Compile Include="ViewModels\ArquivoModeloDocxViewModel.cs" />
+    <Compile Include="ViewModels\ModeloDocxListViewModel.cs" />
+    <Compile Include="ViewModels\ModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\DadosPostArquivoUsuario.cs" />
     <Compile Include="ViewModels\Identity\AccountViewModels.cs" />
     <Compile Include="ViewModels\Identity\AdminViewModel.cs" />
@@ -1123,29 +1124,33 @@
     <Folder Include="Content\img\realestate\thumbs\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AppServices.Car16\AppServices.Car16.csproj">
-      <Project>{cf7adffe-266e-4348-9626-980d1bf1932d}</Project>
-      <Name>AppServices.Car16</Name>
+    <ProjectReference Include="..\AppServ.Core\AppServ.Core.csproj">
+      <Project>{65530998-722F-4323-80A9-96DEE5AD0629}</Project>
+      <Name>AppServ.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AppServCart11RI\AppServCart11RI.csproj">
+      <Project>{068FD258-C027-4BF5-8D36-C43D78DE3BEF}</Project>
+      <Name>AppServCart11RI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
       <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
       <Name>Domain.CartNew</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Domain.Cart\Domain.Cart.csproj">
-      <Project>{0BC25526-A5A4-49CC-B72F-32A4F73BA92B}</Project>
-      <Name>Domain.Cart</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dto.Car16\Dto.Car16.csproj">
-      <Project>{07fd67ee-88ab-4d3d-9040-038dfb13d7f3}</Project>
-      <Name>Dto.Car16</Name>
+    <ProjectReference Include="..\Dto.CartNew\Dto.CartNew.csproj">
+      <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
+      <Name>Dto.CartNew</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Infra.Data.Car16\Infra.Data.Car16.csproj">
-      <Project>{1214a5f7-317d-47b4-ac8d-88a3db601f39}</Project>
-      <Name>Infra.Data.Car16</Name>
+    <ProjectReference Include="..\Infra.Data.CartNew\Infra.Data.CartNew.csproj">
+      <Project>{8A65401A-6278-47D0-A1F4-3B4ACAB83322}</Project>
+      <Name>Infra.Data.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Data.Core\Infra.Data.Core.csproj">
+      <Project>{930ABDED-1ACC-4E71-8BEF-B093A7A3A48E}</Project>
+      <Name>Infra.Data.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
       <Project>{9448e205-b5ff-4c2c-8fd5-f02d33fbd6be}</Project>

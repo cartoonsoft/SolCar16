@@ -8,7 +8,7 @@ using System.Web;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Oracle.ManagedDataAccess.Client;
 using AdmCartorio.Models.Identity.Entities;
-using Infra.Data.Cartorio.Context;
+using Infra.Data.Core.Context;
 
 namespace AdmCartorio.Models.Identity.Context
 {

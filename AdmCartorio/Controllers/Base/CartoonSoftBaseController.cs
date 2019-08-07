@@ -4,29 +4,21 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
-using Domain.Cart.Interfaces.UnitOfWork;
 using Domain.CartNew.Interfaces.UnitOfWork;
-using Domain.Core.Enumerations;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorio;
-using Infra.Data.Cartorio.UnitsOfWork.DbCartorioNew;
+using Infra.Data.CartNew.UnitsOfWork.DbCartNew;
 
 namespace AdmCartorio.Controllers.Base
 {
     public class CartoonSoftBaseController : Controller
     {
-        private readonly IUnitOfWorkDataBaseCartorio     _UfwCart;
-        private readonly IUnitOfWorkDataBaseCartorioNew  _UfwCartNew;
+        private readonly IUnitOfWorkDataBaseCartNew  _UfwCartNew;
 
-        public CartoonSoftBaseController(IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew)
+        public CartoonSoftBaseController( IUnitOfWorkDataBaseCartNew UfwCartNew)
         {
-            if (UfwCart == null)
-            {
-                _UfwCart = new UnitOfWorkDataBaseCartorio(BaseDados.DesenvDezesseis);
-            }
-
+        
             if (UfwCartNew == null)
             {
-                _UfwCartNew = new UnitOfWorkDataBaseCartorioNew(BaseDados.DesenvDezesseisNew);
+                _UfwCartNew = new UnitOfWorkDataBaseCartNew("contextOraCartNew");
             }
         }
 
@@ -40,11 +32,6 @@ namespace AdmCartorio.Controllers.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    if (_UfwCart != null)
-                    {
-                        _UfwCart.Dispose();
-                    }
-
                     if (_UfwCartNew != null)
                     {
                         _UfwCartNew.Dispose();
@@ -73,12 +60,8 @@ namespace AdmCartorio.Controllers.Base
         }
         #endregion
 
-        protected IUnitOfWorkDataBaseCartorio UfwCart
-        {
-            get { return _UfwCart; }
-        }
 
-        protected IUnitOfWorkDataBaseCartorioNew UfwCartNew
+        protected IUnitOfWorkDataBaseCartNew UfwCartNew
         {
             get { return _UfwCartNew; }
 

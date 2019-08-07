@@ -11,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace DomainServ.CartNew.Services
 {
-    public class UfDs : DomainServiceCartorioNew<Uf> , IUfDs
+    public class UfDs : DomainServiceCartNew<Uf> , IUfDs
     {
         private readonly IRepositoryUf _repositoryUf;
 
-        public UfDs(IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public UfDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             _repositoryUf = this.UfwCartNew.Repositories.RepositoryUf;
         }

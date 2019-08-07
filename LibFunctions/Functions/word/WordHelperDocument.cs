@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dto.Cartorio.Entities.Cadastros;
+using Dto.CartNew.Entities.Cart_11RI;
 using GemBox.Document;
 
 namespace LibFunctions.Functions.Word
@@ -169,6 +169,7 @@ namespace LibFunctions.Functions.Word
         /// <returns>A posição do cursor para continuar a escrita do documento</returns>
         public int EscreverNoDocumento(DtoCadastroDeAto modelo, string textoParaSalvar)
         {
+            //todo: MUDAR DtoCadastroDeAto para TodosCArt 
             ValidarDoc();
 
             int numberOfSections = _doc.Sections.Count;

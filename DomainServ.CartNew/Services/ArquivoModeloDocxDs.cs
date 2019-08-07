@@ -11,16 +11,16 @@ using DomainServ.CartNew.Interfaces;
 
 namespace DomainServ.CartNew.Services
 {
-    public class ArquivoModeloDocxDs: DomainServiceCartorioNew<ArquivoModeloDocx>, IArquivoModeloDocxDs
+    public class ArquivoModeloDocxDs: DomainServiceCartNew<ModeloDocx>, IArquivoModeloDocxDs
     {
-        private readonly IRepositoryArquivoModeloDocx _repositoryArquivoModeloDocx;
-        private readonly IRepositoryLogArquivoModeloDocx _repositoryLogArquivoModeloDocx;
+        private readonly IRepositoryModeloDocx _repositoryArquivoModeloDocx;
+        private readonly IRepositoryLogModeloDocx _repositoryLogArquivoModeloDocx;
 
-        public ArquivoModeloDocxDs(IUnitOfWorkDataBaseCartorioNew UfwCartNew) : base(UfwCartNew)
+        public ArquivoModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
-            //IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartorioNew UfwCartNew
-            _repositoryArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryArquivoModeloDocx;
-            _repositoryLogArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryLogArquivoModeloDocx;
+            //IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartNew UfwCartNew
+            _repositoryArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
+            _repositoryLogArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
         /*
@@ -35,7 +35,7 @@ namespace DomainServ.CartNew.Services
         }
         */
 
-        public long? NovoModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? NovoModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -49,7 +49,7 @@ namespace DomainServ.CartNew.Services
             UfwCartNew.SaveChanges();
 
             logArquivoModeloDocx.Id = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-            logArquivoModeloDocx.IdArquivoModeloDocx = NovoId??0;
+            logArquivoModeloDocx.IdModeloDocx = NovoId??0;
 
             _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
             UfwCartNew.SaveChanges();
@@ -59,7 +59,7 @@ namespace DomainServ.CartNew.Services
             return NovoId;
         }
 
-        public long? EditarModelo(ArquivoModeloDocx arquivoModeloDocx, LogArquivoModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? EditarModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -79,7 +79,7 @@ namespace DomainServ.CartNew.Services
         {
             bool resultado = false;
 
-            ArquivoModeloDocx arquivoModeloDocx = _repositoryArquivoModeloDocx.GetById(Id);
+            ModeloDocx arquivoModeloDocx = _repositoryArquivoModeloDocx.GetById(Id);
 
             if (arquivoModeloDocx != null)
             {
