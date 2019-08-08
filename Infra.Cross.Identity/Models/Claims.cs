@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Infra.Cross.Identity.Models
 {
-    [Table("AspNetClaims")]
+    [Table("AspNetClaims", Schema = "DEZESSEIS_NEW")]
     public class Claims
     {
         public Claims()

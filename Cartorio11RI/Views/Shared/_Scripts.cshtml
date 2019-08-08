@@ -7,6 +7,27 @@
 <!-- IMPORTANT: SmartAdmin Core -->
 @Scripts.Render("~/scripts/smartadmin")
 
+<!-- SmartChat UI : plugin -->
+@Scripts.Render("~/scripts/smart-chat")
+
+<!-- DataTables : plugin -->
+@Scripts.Render("~/scripts/datatables")
+
+<!-- jQGrid : plugin -->
+@Scripts.Render("~/scripts/jq-grid")
+
+<!-- Forms : plugin -->
+@Scripts.Render("~/scripts/forms")
+
+<!-- Flot Chart Plugin: Flot Engine, Flot Resizer, Flot Tooltip, Morris, Sparkline, EasyPie -->
+@Scripts.Render("~/scripts/charts")
+
+<!-- Vector Maps Plugin: Vectormap engine, Vectormap language -->
+@Scripts.Render("~/scripts/vector-map")
+
+<!-- Full Calendar -->
+@Scripts.Render("~/scripts/full-calendar")
+
 <!-- DO NOT REMOVE : GLOBAL FUNCTIONS! -->
 <script>
     $(document).ready(function () {
@@ -19,6 +40,7 @@
 {
     @Model
 }
+
 <!-- Your GOOGLE ANALYTICS CODE Below-->
     @*<script type="text/javascript">
     var _gaq = _gaq || [];

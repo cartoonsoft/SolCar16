@@ -5,66 +5,162 @@
     ViewBag.PageClass = "animated fadeInDown";
 }
 
-@section topright{
-    <span id="extr-page-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="@Url.Action("register", "account")" class="btn btn-danger">Create account</a> </span>
+<!--css styles -->
+@section styles_especific {
+    <style>
+        .video-hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: block;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            background-size: cover;
+        }
+
+            .video-bg video {
+                position: absolute;
+                min-width: 100%;
+                min-height: 100%;
+                width: auto;
+                height: auto;
+                top: 50%;
+                left: 50%;
+                -webkit-transform: translate(-50%,-50%);
+                -moz-transform: translate(-50%,-50%);
+                transform: translate(-50%,-50%);
+            }
+
+        .video-bg--fullscreen {
+            position: fixed;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            pointer-events: none; /* Allows right click menu on the video */
+            background: rgba(0,0,0,0.5); /* You can play with the opacity */
+        }
+
+        .video-bg.demo-video {
+            background-image: url(files/open-plan-working.jpg);
+        }
+
+        .js .video-bg video {
+            opacity: 0;
+            -webkit-transition: opacity .8s linear;
+            -moz-transition: opacity .8s linear;
+            transition: opacity .8s linear;
+        }
+
+            .js .video-bg video.is-playing {
+                opacity: 1;
+            }
+
+        .video-hero {
+            height: 480px; /* Feel free to set a height in your own way */
+        }
+
+        .center_form {
+            margin: auto;
+            top: 50%;
+            width: 50%;
+            padding: 20px;        
+        }
+
+        #header{
+             display: none;
+        }
+
+    </style>
 }
 
-<div id="content" class="container">
-    <div class="row">
-        @{ Html.RenderPartial("_LoginText"); }
-        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
-            <div class="well no-padding">
-                <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form client-form">
-                    <header>
-                        Sign In
-                    </header>
-                    @Html.HiddenFor(m => m.ReturnUrl)
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationBootstrap()
-                    <fieldset>
-                        <section>
-                            <label class="label">E-mail</label>
-                            <label class="input">
-                                <i class="icon-append fa fa-user"></i>
-                                <input type="email" name="email" value="demo@email.com">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter email address/username</b>
-                            </label>
-                        </section>
+@section topright{
+    <!--
+    <span id="extr-page-header-space"> <span class="hidden-mobile">Need an account?</span> <a href="@Url.Action("register", "account")" class="btn btn-danger">Create account</a> </span>
+    -->
+}
 
-                        <section>
-                            <label class="label">Password</label>
-                            <label class="input">
-                                <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password" value="demo">
-                                <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Enter your password</b>
-                            </label>
-                            <div class="note">
-                                <a href="@Url.Action("forgotpassword", "account")"><i class="fa fa-frown-o"></i> Forgot password?</a>
-                            </div>
-                        </section>
-
-                        <section>
-                            <label class="checkbox">
-                                <input type="checkbox" name="rememberMe" value="true" checked="checked">
-                                <input type="hidden" name="rememberMe" value="false" />
-                                <i></i>Stay signed in
-                            </label>
-                        </section>
-                    </fieldset>
-                    <footer>
-                        <button type="submit" class="btn btn-primary">
-                            Sign in
-                        </button>
-                    </footer>
-                </form>
-            </div>
-            @{ Html.RenderPartial("_SocialMedia"); }
-        </div>
-    </div>
+<!-- Start full screen video background -->
+<div class="video-bg video-bg--fullscreen demo-video">
+    <video autoplay muted loop poster="../Content/files/open-plan-working.jpg">
+        <source src="../Content/files/open-plan-working.mp4" type="video/mp4">
+        <source src="../Content/files/open-plan-working.webm" type="video/webm">
+        <source src="../Content/files/open-plan-working.ogv" type="video/ogg">
+    </video>
 </div>
+<!-- End full screen video background -->
+
+<div id="content" class="container">
+    <div class="center_form">
+        <div class="well bordered">
+            <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form">
+                <header>
+                    <img src="~/Content/img/logoCart11RI.png" />
+                    <h3><strong>11º Cartório de Registro de Imóveis São Paulo/SP</strong></h3>
+                    <p class="small txt-color-grayDark"><strong>Versão 1.0.0.1</strong></p>
+                </header>
+                @Html.HiddenFor(m => m.ReturnUrl)
+                @Html.AntiForgeryToken()
+                @Html.ValidationBootstrap()
+                <fieldset>
+                    <section>
+                        <label class="label">E-mail</label>
+                        <label class="input">
+                            <i class="icon-prepend fa fa-user"></i>
+                            <input type="email" name="email">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Digite seu e-mail</b>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Senha</label>
+                        <label class="input">
+                            <i class="icon-prepend fa fa-lock"></i>
+                            <input type="password" name="password">
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Digite sua senha</b>
+                        </label>
+                        <div class="note">
+                            <a href="@Url.Action("forgotpassword", "account")"><i class="fa fa-frown-o"></i> Esqueci minha senha.</a>
+                        </div>
+                    </section>
+
+                    <section>
+                        <label class="checkbox">
+                            <input type="checkbox" name="rememberMe" value="true" checked="checked">
+                            <input type="hidden" name="rememberMe" value="false" />
+                            <i></i>Me mantenha conectado
+                        </label>
+                    </section>
+                </fieldset>
+                <footer>
+                    <button type="submit" class="btn btn-primary">
+                        Entrar
+                    </button>
+                </footer>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
 @section pagespecific {
-    <script type="text/javascript">
-        $(function () {
+    <script>
+        $(document).ready(function () {
             // Validation
             $("#login-form").validate({
                 // Rules for form validation
@@ -79,18 +175,16 @@
                         maxlength: 20
                     }
                 },
-
                 // Messages for form validation
                 messages: {
                     email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
+                        required: 'Entre com seu e-mail',
+                        email: 'E-mail não é válido'
                     },
                     password: {
-                        required: 'Please enter your password'
+                        required: 'Digite sua senha'
                     }
                 },
-
                 // Do not change code below
                 errorPlacement: function (error, element) {
                     error.insertAfter(element.parent());

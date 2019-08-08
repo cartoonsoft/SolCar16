@@ -11,7 +11,7 @@ using Infra.Cross.Identity.Configuration;
 using Infra.Cross.Identity.Models;
 using Infra.Cross.Identity.ViewModels;
 
-namespace EP.IdentityIsolation.MVC.Controllers
+namespace Cartorio11RI.Controllers
 {
     [Authorize]
     public class AccountController : Controller
@@ -381,11 +381,16 @@ namespace EP.IdentityIsolation.MVC.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut();
+            if (AuthenticationManager != null)
+            {
+                AuthenticationManager.SignOut();
+            }
+
             return RedirectToAction("Index", "Home");
         }
 

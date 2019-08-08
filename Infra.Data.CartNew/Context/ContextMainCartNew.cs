@@ -58,6 +58,7 @@ namespace Infra.Data.CartNew.Context
             //modelBuilder.Configurations.Add(new EnderecoConfig());
             //modelBuilder.Entity<Matricula>().ToTable("MATRICULAS");
             //modelBuilder.Ignore<Matricula>();
+            modelBuilder.HasDefaultSchema("DEZESSEIS_NEW");
 
             base.OnModelCreating(modelBuilder);
         }
