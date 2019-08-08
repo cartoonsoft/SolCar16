@@ -15,11 +15,11 @@ namespace Cartorio11RI.Controllers.Base
 {
     public class CartorioBaseController : CartoonSoftBaseController
     {
-        private ApplicationUser currentUser;
-
         public CartorioBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew): base(UfwCartNew)
         {
-            //this.currentUser = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
+            //string x = System.Web.HttpContext.Current.User.Identity.GetUserId();
+            //Cartorio11RI.Settings.Company
+            //this._usuarioAtual = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
             //WindowsIdentity a = WindowsIdentity.GetCurrent();
         }
 
@@ -33,7 +33,6 @@ namespace Cartorio11RI.Controllers.Base
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    currentUser = null;
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -63,10 +62,22 @@ namespace Cartorio11RI.Controllers.Base
             var x = 1;
 
             base.Execute(requestContext);
+            
         }
 
         protected ApplicationUser UsuarioAtual {
-            get { return currentUser; }
+            get {
+
+                ApplicationUser usrTmp = null;
+
+                if ((User.Identity != null) && (User.Identity.IsAuthenticated))
+                {
+                    usrTmp = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(User.Identity.GetUserId());
+                    //System.Web.HttpContext.Current.User.Identity.GetUserId()
+                }
+
+                return usrTmp;
+            }
         } 
 
     }

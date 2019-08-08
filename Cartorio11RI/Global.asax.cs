@@ -9,8 +9,11 @@ using System.Web.Routing;
 
 namespace Cartorio11RI
 {
+
     public class MvcApplication : HttpApplication
     {
+        public const long IdCtaAcessoSist = 1;
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();

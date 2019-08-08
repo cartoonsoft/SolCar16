@@ -22,23 +22,21 @@
             display: block;
             background-position: center center;
             background-repeat: no-repeat;
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
             background-size: cover;
         }
 
-            .video-bg video {
-                position: absolute;
-                min-width: 100%;
-                min-height: 100%;
-                width: auto;
-                height: auto;
-                top: 50%;
-                left: 50%;
-                -webkit-transform: translate(-50%,-50%);
-                -moz-transform: translate(-50%,-50%);
-                transform: translate(-50%,-50%);
-            }
+        .video-bg video {
+            position: absolute;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%,-50%);
+            -moz-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
 
         .video-bg--fullscreen {
             position: fixed;
@@ -80,7 +78,7 @@
             padding: 20px;        
         }
 
-        #header{
+        #header {
              display: none;
         }
 
@@ -109,8 +107,8 @@
             <form action="@Url.Action("login", "account")" method="POST" id="login-form" class="smart-form">
                 <header>
                     <img src="~/Content/img/logoCart11RI.png" />
-                    <h3><strong>11º Cartório de Registro de Imóveis São Paulo/SP</strong></h3>
-                    <p class="small txt-color-grayDark"><strong>Versão 1.0.0.1</strong></p>
+                    <h4><strong>@Cartorio11RI.Settings.Company</strong></h4>
+                    <p class="small txt-color-grayDark"><strong>Versão @ViewContext.Controller.GetType().Assembly.GetName().Version</strong></p>
                 </header>
                 @Html.HiddenFor(m => m.ReturnUrl)
                 @Html.AntiForgeryToken()

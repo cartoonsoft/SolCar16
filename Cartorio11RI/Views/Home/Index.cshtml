@@ -1,16 +1,27 @@
-﻿<!-- MAIN CONTENT -->
+﻿@{
+    ViewBag.PageId = "home-page";
+    ViewBag.Title = "Home";
+    ViewBag.SubTitle = "Index";
+}
+
+<!--css styles -->
+@section styles_especific {
+<style>
+    /* coloque seu codigo css aqui*/
+
+</style>
+}
+
+<!-- MAIN CONTENT -->
 <div id="content">
     <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-        <h1 class="page-title txt-color-blueDark">
-            <i class="fa-fw fa fa-home"></i>
-            Page Header
-            <span>
-                >
-                Subtitle
-            </span>
-        </h1>
+
     </div>
 </div>
+
 <!-- END MAIN CONTENT -->
 @section pagespecific {
+    <script>
+        /*coloque ser codigo javascript aqui*/
+    </script>
 }

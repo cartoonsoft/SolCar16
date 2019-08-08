@@ -11,10 +11,13 @@ namespace Cartorio11RI.Controllers.Base
     public class CartoonSoftBaseController : Controller
     {
         private readonly IUnitOfWorkDataBaseCartNew  _UfwCartNew;
+        private readonly long _idCtaAcessoSist;
 
         public CartoonSoftBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew)
         {
             //
+            this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
+
         }
 
         #region IDisposable Support
@@ -59,6 +62,11 @@ namespace Cartorio11RI.Controllers.Base
         {
             get { return _UfwCartNew; }
 
+        }
+
+        public long IdCtaAcessoSist
+        {
+            get { return _idCtaAcessoSist; }
         }
     }
 }

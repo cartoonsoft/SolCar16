@@ -19,8 +19,8 @@
     @if (Request.IsAuthenticated)
     {
         <div class="project-context hidden-xs">
-            <span class="text-left">11º Cartório de Registro de Imóveis</span>
-            <span class="text-left label">Versão 1.0.0.1</span>
+            <span></span><span class="text-left label font-md">@Cartorio11RI.Settings.Company</span>
+            <span></span><span class="text-left label">Versão @ViewContext.Controller.GetType().Assembly.GetName().Version</span>
         </div>
 
     }
