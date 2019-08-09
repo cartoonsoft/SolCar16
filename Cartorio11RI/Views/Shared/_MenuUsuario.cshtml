@@ -1,0 +1,45 @@
+﻿@using Dto.CartNew.Entities.Cart_11RI.Diversos;
+@model IEnumerable<DtoMenu>
+
+@foreach (var i in Model.Where(ii => ((ii.IdTipoMenu == 1) && (ii.IdMenuPai == null))))
+{
+    if (Model.Where(mm1 => (mm1.IdMenuPai == i.Id)).Count() == 0)
+    {
+        if (string.IsNullOrEmpty(i.Action))
+        {
+            <li>
+                <a href="#" title="@i.DescricaoTip"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+            </li>
+        }
+        else
+        {
+            <li class="@Html.RouteIf(i.Action, "active")">
+                <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoTip"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+            </li>
+        }
+
+    }
+    else
+    {
+        <li>
+            <a href="#" title="@i.DescricaoTip"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+            <ul>
+                @foreach (var j in Model.Where(jj => jj.IdMenuPai == i.Id))
+                {
+                    if (string.IsNullOrEmpty(i.Action))
+                    {
+                        <li>
+                            <a href="#" title="@j.DescricaoTip"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+
+                        </li>
+                    }else {
+                        <li class="@Html.RouteIf(j.Action, "active")">
+                            <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoTip"> <i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+                        </li>
+                    }
+                }
+            </ul>
+        </li>
+    }
+
+}

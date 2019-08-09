@@ -6,6 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Cartorio11RI.Controllers.Base;
+using AppServCart11RI.AppServices;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace Cartorio11RI.Controllers
 {
@@ -48,11 +50,16 @@ namespace Cartorio11RI.Controllers
         }
 
         [ChildActionOnly]
-        public ActionResult MontarMenu(string IdUsuario)
-        { 
+        public PartialViewResult MontarMenuUsuario(string IdUsuario)
+        {
+            IEnumerable<DtoMenu> Menu = new List<DtoMenu>();
 
+            using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this.UfwCartNew))
+            {
+                Menu = appService.ListaMenuUsusurio(IdUsuario);
+            }
 
-            return PartialView();
+            return PartialView("_MenuUsuario", Menu);
         }
     }
 }

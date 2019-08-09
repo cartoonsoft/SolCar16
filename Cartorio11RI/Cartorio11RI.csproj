@@ -795,6 +795,7 @@
     <Content Include="Scripts\plugin\ckeditor\README.md" />
     <Content Include="Scripts\plugin\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\plugin\ckeditor\skins\moono\readme.md" />
+    <Content Include="Views\Shared\_MenuUsuario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

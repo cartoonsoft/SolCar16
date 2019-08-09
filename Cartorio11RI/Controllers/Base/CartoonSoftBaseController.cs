@@ -17,7 +17,7 @@ namespace Cartorio11RI.Controllers.Base
         {
             //
             this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
-
+            this._UfwCartNew = UfwCartNew;
         }
 
         #region IDisposable Support

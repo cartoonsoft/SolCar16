@@ -14,7 +14,7 @@ namespace Domain.CartNew.Entities
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("ID_CAO")]
+        [Column("ID_ACAO")]
         public override long? Id { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")] 
@@ -45,7 +45,7 @@ namespace Domain.CartNew.Entities
         public string DescricaoBalao { get; set; }
 
         [Column("ORIENTACAO")]
-        public string Orientacao { get; set; }
+        public string Orientacao { get; set; } // orientações sobre o que faz a action
 
         [Column("ACTION")]
         public string Action { get; set; }
