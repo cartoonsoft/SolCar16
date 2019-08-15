@@ -177,9 +177,22 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\ajax\dashboard.html" />
+    <Content Include="Content\ajax\email-compose.html" />
+    <Content Include="Content\ajax\email-opened.html" />
+    <Content Include="Content\ajax\email-reply.html" />
+    <Content Include="Content\ajax\email-template.html" />
+    <Content Include="Content\ajax\email\email-list.html" />
+    <Content Include="Content\ajax\modal-content\modal-voicecommand.html" />
+    <Content Include="Content\ajax\notify\mail.html" />
+    <Content Include="Content\ajax\notify\notifications.html" />
+    <Content Include="Content\ajax\notify\tasks.html" />
+    <Content Include="Content\ajax\website-template.html" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\demo.min.css" />
     <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\invoice.min.css" />
     <Content Include="Content\css\lockscreen.min.css" />
+    <Content Include="Content\css\smartadmin-production-plugins.min.css" />
     <Content Include="Content\css\smartadmin-production.min.css" />
     <Content Include="Content\css\smartadmin-rtl.min.css" />
     <Content Include="Content\css\smartadmin-skins.min.css" />
@@ -191,6 +204,8 @@
     <Content Include="Content\files\open-plan-working.mp4" />
     <Content Include="Content\files\open-plan-working.webm" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\fontawesome4.2\readme.txt" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\img\ajax-loader.gif" />
     <Content Include="Content\img\alpha.png" />
@@ -238,7 +253,6 @@
     <Content Include="Content\img\favicon\favicon.ico" />
     <Content Include="Content\img\favicon\favicon.png" />
     <Content Include="Content\img\flags\flags.png" />
-    <Content Include="Content\img\glass-image-copyright.txt" />
     <Content Include="Content\img\glass.jpg" />
     <Content Include="Content\img\gradient\login.png" />
     <Content Include="Content\img\hue.png" />
@@ -294,6 +308,14 @@
     <Content Include="Content\img\splash\touch-icon-ipad.png" />
     <Content Include="Content\img\splash\touch-icon-iphone-retina.png" />
     <Content Include="Content\img\vt-menu.png" />
+    <Content Include="Content\sound\bigbox.mp3" />
+    <Content Include="Content\sound\license.txt" />
+    <Content Include="Content\sound\messagebox.mp3" />
+    <Content Include="Content\sound\smallbox.mp3" />
+    <Content Include="Content\sound\voice_alert.mp3" />
+    <Content Include="Content\sound\voice_off.mp3" />
+    <Content Include="Content\sound\voice_on.mp3" />
+    <Content Include="Content\xml\gmap\pins.xml" />
     <Content Include="Global.asax" />
     <Content Include="packages.config" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
@@ -306,17 +328,34 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\files\.DS_Store" />
     <Content Include="Content\files\open-plan-working.ogv" />
+    <Content Include="Content\css\your_style.less" />
+    <Content Include="Content\data\dataList.json" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome4.2\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\fontawesome4.2\FontAwesome.otf" />
+    <Content Include="Content\sound\bigbox.ogg" />
+    <Content Include="Content\sound\messagebox.ogg" />
+    <Content Include="Content\sound\smallbox.ogg" />
+    <Content Include="Content\sound\voice_alert.ogg" />
+    <Content Include="Content\sound\voice_off.ogg" />
+    <Content Include="Content\sound\voice_on.ogg" />
     <None Include="Properties\PublishProfiles\SmartAdmin - Release.pubxml" />
     <None Include="Properties\PublishProfiles\SmartAdmin - Debug.pubxml" />
+    <Content Include="Scripts\app.config.js" />
     <Content Include="Scripts\app.config.seed.js" />
     <Content Include="Scripts\app.config.seed.min.js">
       <DependentUpon>app.config.seed.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\app.min.js" />
     <Content Include="Scripts\app.seed.js" />
     <Content Include="Scripts\app.seed.min.js">
       <DependentUpon>app.seed.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\cartoonsoft\cartoonsoft_libs.js" />
+    <Content Include="Scripts\cartoonsoft\_layout.js" />
+    <Content Include="Scripts\demo.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\notification\SmartNotification.min.js" />
@@ -757,6 +796,7 @@
     <Content Include="Scripts\smart-chat-ui\smart.chat.manager.min.js" />
     <Content Include="Scripts\smart-chat-ui\smart.chat.ui.min.js" />
     <Content Include="Scripts\smartwidgets\jarvis.widget.min.js" />
+    <Content Include="Scripts\speech\voicecommand.min.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -796,6 +836,8 @@
     <Content Include="Scripts\plugin\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\plugin\ckeditor\skins\moono\readme.md" />
     <Content Include="Views\Shared\_MenuUsuario.cshtml" />
+    <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -831,7 +873,6 @@
     <Compile Include="Controllers\Base\CartorioBaseController.cs" />
     <Compile Include="Controllers\Base\CartoonSoftBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UsuariosController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

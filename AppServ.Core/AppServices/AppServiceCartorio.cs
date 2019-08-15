@@ -5,29 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServ.Core.Interfaces;
 using Domain.CartNew.Interfaces.UnitOfWork;
-using Domain.Core.Interfaces.DomainServices;
-using Domain.Core.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Factory;
+using DomainServ.CartNew.Interfaces.Factory;
 
 namespace AppServ.Core.AppServices
 {
     public class AppServiceCartorio<TDtoEntityModel, TEntity> : AppServiceBase<TDtoEntityModel, TEntity>, IAppServiceCartorio<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
-        private readonly IDomainServicesFactoryBase _dsFactoryBase;
+        private readonly IDomainServicesFactoryCartNew _dsFactoryCartNew;
 
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, IDomainServicesFactoryBase dsFactoryBase = null) : base(UfwCartNew, dsFactoryBase)
+        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, IDomainServicesFactoryCartNew dsFactoryCartNew = null) : base(UfwCartNew, dsFactoryCartNew)
         {
             this._ufwCartNew = UfwCartNew;
-            this._dsFactoryBase = dsFactoryBase;
+            this._dsFactoryCartNew = dsFactoryCartNew;
 
-            if (_dsFactoryBase == null)
+            if (_dsFactoryCartNew == null)
             {
-                _dsFactoryBase = new DomainServicesFactoryCartNew(_ufwCartNew);
+                _dsFactoryCartNew = new DomainServicesFactoryCartNew(_ufwCartNew);
+                base.DsFactoryBase = _dsFactoryCartNew;
             }
         }
 
@@ -73,6 +73,11 @@ namespace AppServ.Core.AppServices
         public virtual IUnitOfWorkDataBaseCartNew UfwCartNew
         {
             get { return this._ufwCartNew; }
+        }
+
+        public virtual IDomainServicesFactoryCartNew DsFactoryCartNew
+        {
+            get { return this._dsFactoryCartNew; }
         }
 
     }

@@ -16,7 +16,7 @@ namespace DomainServ.CartNew.Factory
     public class DomainServicesFactoryCartNew : DomainServicesFactoryBase, IDomainServicesFactoryCartNew
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
-        private Dictionary<Type, object> DomainServices = new Dictionary<Type, object>();
+        private Dictionary<Type, object> _domainServices; 
 
         /// <summary>
         /// Método construtor
@@ -24,8 +24,8 @@ namespace DomainServ.CartNew.Factory
         /// <param name="context"></param>
         public DomainServicesFactoryCartNew(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
-            //
             this._ufwCartNew = UfwCartNew;
+            _domainServices = new Dictionary<Type, object>();
         }
 
         #region IDisposable Support
@@ -38,7 +38,7 @@ namespace DomainServ.CartNew.Factory
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    DomainServices = null;
+                    _domainServices = null;
 
                     //todo: Ronaldo, verificar se deve dar dispose no _ufwCart
                 }
@@ -75,9 +75,9 @@ namespace DomainServ.CartNew.Factory
 
             try
             {
-                if (DomainServices.Keys.Contains(typeof(T)))
+                if (_domainServices.Keys.Contains(typeof(T)))
                 {
-                    domainService = DomainServices[typeof(T)] as IDomainServiceCartNew<T>;
+                    domainService = _domainServices[typeof(T)] as IDomainServiceCartNew<T>;
                 }
                 else
                 {
@@ -100,16 +100,20 @@ namespace DomainServ.CartNew.Factory
                     }
                     if (typeof(T).Equals(typeof(ModeloDocx)))
                     {
-                        domainService = new ArquivoModeloDocxDs(this._ufwCartNew);
+                        domainService = new ModeloDocxDs(this._ufwCartNew);
                     }
                     if (typeof(T).Equals(typeof(Ato)))
                     {
                         domainService = new AtoDs(this._ufwCartNew);
                     }
+                    if (typeof(T).Equals(typeof(Acao)))
+                    {
+                        domainService = new AcoesUsuariosDs(this._ufwCartNew);
+                    }
 
                     if (domainService != null)
                     {
-                        DomainServices.Add(typeof(T), domainService);
+                        _domainServices.Add(typeof(T), domainService);
                     }
                 }
 
@@ -147,13 +151,20 @@ namespace DomainServ.CartNew.Factory
             get { return GetDomainServiceInstance<PessoaCartNew>() as IPessoaCartNewDs; }
         }
 
-        public IArquivoModeloDocxDs ArquivoModeloDocxDs
+        public IModeloDocxDs ArquivoModeloDocxDs
         {
-            get { return GetDomainServiceInstance<ModeloDocx>() as IArquivoModeloDocxDs; }
+            get { return GetDomainServiceInstance<ModeloDocx>() as IModeloDocxDs; }
         }
 
-        public IAtoDs AtoDs{
+        public IAtoDs AtoDs
+        {
             get { return GetDomainServiceInstance<Ato>() as IAtoDs; }
-        } 
+        }
+
+        public IAcoesUsuariosDs AcoesUsuariosDs
+        {
+            get { return GetDomainServiceInstance<Acao>() as IAcoesUsuariosDs; }
+        }
+        
     }
 }

@@ -1,102 +1,108 @@
-﻿@model AccountRegistrationModel
+﻿@using Infra.Cross.Identity.ViewModels
+
+@model RegisterViewModel
+
 @{
-    ViewBag.PageId = "extr-page";
+    ViewBag.Title = "Account";
+    ViewBag.SubTitle = "Novo usuário";
 }
 
-@section topright{
-    <span id="extr-page-header-space"> <span class="hidden-mobile">Already registered?</span> <a href="@Url.Action("login", "account")" class="btn btn-danger">Sign In</a> </span>
-}
-
-<div id="content" class="container">
+<div id="content">
     <div class="row">
-        @{ Html.RenderPartial("_LoginText"); }
-        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-pencil-square-o fa-fw "></i>
+                @ViewBag.Title
+                <span>
+                    >
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
             <div class="well no-padding">
-                <form action="@Url.Action("register", "account")" method="POST" id="smart-form-register" class="smart-form client-form">
+                <form action="@Url.Action("register", "account")" method="POST" id="frm-register-user" class="smart-form">
                     <header>
-                        Registration
+                        Novo usuário
                     </header>
                     @Html.AntiForgeryToken()
                     @Html.ValidationBootstrap()
-                    <fieldset>
-                        <section>
-                            <label class="input">
-                                <i class="icon-append fa fa-user"></i>
-                                <input type="text" name="username" placeholder="Username" id="username" autocomplete="off" value="@Model.Username">
-                                <b class="tooltip tooltip-bottom-right">(Optional) Used to display the profile name on the website</b>
-                            </label>
-                        </section>
-                        <section>
-                            <label class="input">
-                                <i class="icon-append fa fa-envelope"></i>
-                                <input type="email" name="email" placeholder="Email address" id="email" autocomplete="off" value="@Model.Email">
-                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
-                            </label>
-                        </section>
-                        <section>
-                            <label class="input">
-                                <i class="icon-append fa fa-envelope"></i>
-                                <input type="email" name="emailConfirm" placeholder="Confirm email address" autocomplete="off" value="@Model.EmailConfirm">
-                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
-                            </label>
-                        </section>
-                        <section>
-                            <label class="input">
-                                <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="password" placeholder="Password" id="password" autocomplete="off">
-                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
-                            </label>
-                        </section>
-                        <section>
-                            <label class="input">
-                                <i class="icon-append fa fa-lock"></i>
-                                <input type="password" name="passwordConfirm" placeholder="Confirm password" autocomplete="off">
-                                <b class="tooltip tooltip-bottom-right">Don't forget your password</b>
-                            </label>
-                        </section>
-                    </fieldset>
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.Ativo)
                     <fieldset>
                         <div class="row">
-                            <section class="col col-6">
+                            <section class="col col-md-12">
+                                @Html.LabelFor(model => model.Nome)
                                 <label class="input">
-                                    <input type="text" name="firstname" placeholder="First name">
-                                </label>
-                            </section>
-                            <section class="col col-6">
-                                <label class="input">
-                                    <input type="text" name="lastname" placeholder="Last name">
+                                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control", placeholder = "Nome", autocomplete = "off" } })
                                 </label>
                             </section>
                         </div>
                         <div class="row">
                             <section class="col col-6">
-                                <label class="select">
-                                    <select name="gender">
-                                        <option value="0" selected="selected" disabled="disabled">Gender</option>
-                                        <option value="1">Male</option>
-                                        <option value="2">Female</option>
-                                        <option value="3">Prefer not to answer</option>
-                                    </select> <i></i>
+                                @Html.LabelFor(model => model.UserName)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-user"></i>
+                                    @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control", placeholder = "Usuário", autocomplete = "off" } })
                                 </label>
                             </section>
                             <section class="col col-6">
+                                @Html.LabelFor(model => model.GrupoUsuario)
                                 <label class="input">
-                                    <i class="icon-append fa fa-calendar"></i>
-                                    <input type="text" name="birthdate" placeholder="Birthdate" class="datepicker" data-dateformat='dd/mm/yy'>
+                                    @Html.EnumDropDownListFor(model => model.GrupoUsuario, htmlAttributes: new { @class = "form-control" })
                                 </label>
                             </section>
                         </div>
-                        <section>
-                            <label class="checkbox">
-                                <input type="checkbox" name="terms" id="terms">
-                                <i></i>I agree with the <a href="#" data-toggle="modal" data-target="#myModal"> Terms and Conditions </a>
-                            </label>
-                        </section>
+                        <div class="row">
+                            <section class="col col-6">
+                                @Html.LabelFor(model => model.Email)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-envelope-o"></i>
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email", autocomplete = "off" } })
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                @Html.LabelFor(model => model.EmailConfirm)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-envelope-o"></i>
+                                    @Html.EditorFor(model => model.EmailConfirm, new { htmlAttributes = new { @class = "form-control" } })
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-6">
+                                @Html.LabelFor(model => model.Password)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-lock"></i>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+                                </label>
+                            </section>
+                            <section class="col col-6">
+                                @Html.LabelFor(model => model.ConfirmPassword)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-lock"></i>
+                                    @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                                </label>
+                            </section>
+                        </div>
+                        <div class="row">
+                            <section class="col col-6">
+                                @Html.LabelFor(model => model.PhoneNumber)
+                                <label class="input">
+                                    <i class="icon-prepend fa fa-phone"></i>
+                                    <input type="tel" id="PhoneNumber" name="PhoneNumber" class="form-control" placeholder="Numero de telefone">
+                                </label>
+                            </section>
+                        </div>
                     </fieldset>
                     <footer>
-                        <button type="submit" class="btn btn-primary">
-                            Register
+                        <button class="btn btn-primary btn-lg">
+                            <i class="fa fa-save"></i>
+                            Salvar
                         </button>
+                        @Html.ActionLink("Voltar", "Index", "Account", null, new { @class = "btn btn-default" })
                     </footer>
                     <div class="message">
                         <i class="fa fa-check"></i>
@@ -106,86 +112,92 @@
                     </div>
                 </form>
             </div>
-            @{ Html.RenderPartial("_SocialMedia"); }
         </div>
     </div>
 </div>
 
-@{ Html.RenderPartial("_TermsAndConditions"); }
-
 @section pagespecific{
-    <script type="text/javascript">
-        // Model i agree button
-        $("#i-agree").click(function () {
-            var $this = $("#terms");
-            if ($this.checked) {
-                $('#myModal').modal('toggle');
-            } else {
-                $this.prop('checked', true);
-                $('#myModal').modal('toggle');
-            }
-        });
 
-        // Validation
+    <script type="text/javascript">
         $(function () {
-            // Validation
-            $("#smart-form-register").validate({
+
+            $("#PhoneNumber").mask("(99) 99999-9999");
+
+            // Validation -------------------------------------------------------------
+            $("#frm-register-user").validate({
                 // Rules for form validation
                 rules: {
-                    email: {
+                    Nome: {
+                        required: true,
+                        minlength: 5,
+                        maxlength: 100
+                    },
+                    UserName: {
+                        required: true,
+                        minlength: 5,
+                        maxlength: 20
+                    },
+                    GrupoUsuario: {
+                        required: {
+                            depends: function () {
+                                return false; //$("#GrupoUsuario option:selected").val() != "0";
+                            }
+                        }
+                    },
+                    Email: {
                         required: true,
                         email: true
                     },
-                    emailConfirm: {
+                    EmailConfirm: {
                         required: true,
                         email: true,
-                        equalTo: '#email'
+                        equalTo: '#Email'
                     },
-                    password: {
+                    Password: {
                         required: true,
-                        minlength: 4,
+                        minlength: 6,
                         maxlength: 20
                     },
-                    passwordConfirm: {
+                    PasswordConfirm: {
                         required: true,
-                        minlength: 4,
+                        minlength: 6,
                         maxlength: 20,
-                        equalTo: '#password'
-                    },
-                    firstname: {
-                        required: false
-                    },
-                    lastname: {
-                        required: false
-                    },
-                    gender: {
-                        required: false
-                    },
-                    terms: {
-                        required: true
+                        equalTo: '#Password'
                     }
                 },
 
                 // Messages for form validation
                 messages: {
-                    email: {
-                        required: 'Please enter your email address',
-                        email: 'Please enter a VALID email address'
+                    Nome: {
+                        required: 'Por gentileza, digite seu Nome',
+                        minlength: 'Tamanho mínimo de 5 caracteres',
+                        maxlength: 'Tamanho máximo de 100 caracteres'
                     },
-                    emailConfirm: {
-                        required: 'Please enter your email address one more time',
-                        email: 'Please enter a VALID email address',
-                        equalTo: 'Please enter the same email address as above'
+                    UserName: {
+                        requered: 'Por gentileza, digite um nome de usuário',
+                        minlength: 'Tamanho mínimo de 5 caracteres',
+                        maxlength: 'Tamanho máximo de 10 caracteres'
                     },
-                    password: {
-                        required: 'Please enter your password'
+                    GrupoUsuario: {
+                        requered: 'Por gentileza, selecione um grupo'
                     },
-                    passwordConfirm: {
-                        required: 'Please enter your password one more time',
-                        equalTo: 'Please enter the same password as above'
+                    Email: {
+                        required: 'Por gentileza, digite seu e-mail',
+                        Email: 'Por gentileza, digite um e-mail válido'
                     },
-                    terms: {
-                        required: 'You must agree with Terms and Conditions'
+                    EmailConfirm: {
+                        required: 'Confirme seu e-mail',
+                        Email: 'Por gentileza, digite um e-mail válido',
+                        equalTo: 'E-mails digitados estão diferentes, favor repetir!'
+                    },
+                    Password: {
+                        required: 'Por gentileza, digite sua senha',
+                        minlength: 'Tamanho mínimo de 6 caracteres',
+                        maxlength: 'Tamanho máximo de 20 caracteres'
+                    },
+                    PasswordConfirm: {
+                        required: 'Confirme sua senha',
+                        equalTo: 'Senha digitadas, não conferen, favor repetir!'
                     }
                 },
 

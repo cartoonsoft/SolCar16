@@ -9,12 +9,13 @@ namespace Infra.Data.Core.Repositories
 {
     public class RepositoriesFactoryBase : IRepositoriesFactoryBase
     {
-        protected readonly IContextCore _contextCore;
-        private Dictionary<Type, object> GenericRepositories = new Dictionary<Type, object>();
+        private readonly IContextCore _contextCore;
+        private Dictionary<Type, object> _genericRepositories; 
 
         public RepositoriesFactoryBase(IContextCore contextCore)
         {
             _contextCore = contextCore;
+            _genericRepositories  = new Dictionary<Type, object>();
         }
 
         #region IDisposable Support
@@ -27,8 +28,7 @@ namespace Infra.Data.Core.Repositories
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    GenericRepositories = null;
-
+                    _genericRepositories = null;
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
@@ -60,9 +60,9 @@ namespace Infra.Data.Core.Repositories
 
             IRepositoryBaseReadWrite<T> repository = null;
 
-            if (GenericRepositories.Keys.Contains(typeof(T)))
+            if (_genericRepositories.Keys.Contains(typeof(T)))
             {
-                repository = GenericRepositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
+                repository = _genericRepositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
             }
             else
             {
@@ -70,7 +70,7 @@ namespace Infra.Data.Core.Repositories
 
                 if (repository != null)
                 {
-                    GenericRepositories.Add(typeof(T), repository);
+                    _genericRepositories.Add(typeof(T), repository);
                 }
             }
 

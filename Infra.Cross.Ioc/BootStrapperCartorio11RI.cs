@@ -24,8 +24,6 @@ namespace Infra.Cross.Ioc
             container.Register<ApplicationRoleManager>(Lifestyle.Scoped);
             container.Register<ApplicationUserManager>(Lifestyle.Scoped);
             container.Register<ApplicationSignInManager>(Lifestyle.Scoped);
-
-            container.Register<IRepositoryUsuarioIdentity, RepositoryUsuarioIdentity>(Lifestyle.Scoped);
         }
 
     }

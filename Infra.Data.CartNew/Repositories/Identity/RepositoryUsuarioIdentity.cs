@@ -1,6 +1,7 @@
 ﻿using Domain.CartNew.Entities;
 using Domain.CartNew.Interfaces.Repositories;
 using Infra.Data.CartNew.Context;
+using Infra.Data.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,39 +10,30 @@ using System.Threading.Tasks;
 
 namespace Infra.Data.CartNew.Repositories.Identity
 {
-    public class RepositoryUsuarioIdentity : IRepositoryUsuarioIdentity
+    public class RepositoryUsuarioIdentity : RepositoryBaseReadWrite<UsuarioIdentity>,  IRepositoryUsuarioIdentity
     {
-        private readonly ContextMainCartNew _db;
-        public RepositoryUsuarioIdentity()
-        {
-            //_db = new ContextMainCartNew()
-        }
+        private readonly ContextMainCartNew _contextRepository;
 
-        public UsuarioIdentity ObterPorId(string id)
+        public RepositoryUsuarioIdentity(ContextMainCartNew contextRepository) : base(contextRepository)
         {
-            return _db.DbUsuariosIdentity.Find(id);
-        }
-
-        public IEnumerable<UsuarioIdentity> ObterTodos()
-        {
-            return _db.DbUsuariosIdentity.ToList();
+            _contextRepository = contextRepository;
         }
 
         public void LockUsuario(string id)
         {
-            if (_db.DbUsuariosIdentity.Find(id) != null)
+            if (_contextRepository.DbUsuariosIdentity.Find(id) != null)
             {
-                _db.DbUsuariosIdentity.Find(id).LockoutEnabled = true;
-                _db.SaveChanges();
+                _contextRepository.DbUsuariosIdentity.Find(id).LockoutEnabled = true;
+                _contextRepository.SaveChanges();
             }
         }
 
         public void UnLockUsuario(string id)
         {
-            if (_db.DbUsuariosIdentity.Find(id) != null)
+            if (_contextRepository.DbUsuariosIdentity.Find(id) != null)
             {
-                _db.DbUsuariosIdentity.Find(id).LockoutEnabled = false;
-                _db.SaveChanges();
+                _contextRepository.DbUsuariosIdentity.Find(id).LockoutEnabled = false;
+                _contextRepository.SaveChanges();
             }
         }
     }

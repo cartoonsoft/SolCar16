@@ -8,7 +8,7 @@ using Domain.CartNew.Entities;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IArquivoModeloDocxDs : IDomainServiceCartNew<ModeloDocx>
+    public interface IModeloDocxDs : IDomainServiceCartNew<ModeloDocx>
     {
         //IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
 

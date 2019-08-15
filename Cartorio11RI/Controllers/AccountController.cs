@@ -2,14 +2,22 @@
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Security.Claims;
 using Microsoft.Owin.Security;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Infra.Cross.Identity.Configuration;
 using Infra.Cross.Identity.Models;
 using Infra.Cross.Identity.ViewModels;
+using AppServCart11RI.AppServices;
+using Domain.CartNew.Entities;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Domain.CartNew.Interfaces.UnitOfWork;
+using System.Collections.Generic;
+using System.Security.Claims;
+using System;
+using Domain.CartNew.Enumerations;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Net;
 
 namespace Cartorio11RI.Controllers
 {
@@ -18,11 +26,13 @@ namespace Cartorio11RI.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private IUnitOfWorkDataBaseCartNew _ufwCartNew;
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, IUnitOfWorkDataBaseCartNew UfwCartNew = null)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _ufwCartNew = UfwCartNew;
         }
 
         protected override void Dispose(bool disposing)
@@ -47,7 +57,38 @@ namespace Cartorio11RI.Controllers
             base.Dispose(disposing);
         }
 
-        //
+        private void SetClaimsUsuario(string IdUsuario, GrupoUsuarioEnum grupo)
+        {
+            //remover all claims
+            var claims = _userManager.GetClaims(IdUsuario);
+            foreach (var claim in claims.Where(c => c.Type == ClaimTypes.Role))
+            {
+                _userManager.RemoveClaim(IdUsuario, claim);
+            }
+
+            // add claim
+            switch (grupo)
+            {
+                case GrupoUsuarioEnum.Admin:
+                    _userManager.AddClaim(IdUsuario, new Claim(ClaimTypes.Role, "Admin"));
+                    break;
+                case GrupoUsuarioEnum.GerenteRI:
+                    _userManager.AddClaim(IdUsuario, new Claim(ClaimTypes.Role, "GerenteRI"));
+                    break;
+                case GrupoUsuarioEnum.UsuarioRI:
+                    _userManager.AddClaim(IdUsuario, new Claim(ClaimTypes.Role, "UsuarioRI"));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // GET: /Account/Index
+        public ActionResult Index()
+        {
+            return View(_userManager.Users.ToList());
+        }
+
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
@@ -56,7 +97,6 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -70,7 +110,7 @@ namespace Cartorio11RI.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: true);
+            var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, shouldLockout: true);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -99,8 +139,8 @@ namespace Cartorio11RI.Controllers
             var user = await _userManager.FindByIdAsync(await _signInManager.GetVerifiedUserIdAsync());
             if (user != null)
             {
-                ViewBag.Status = "DEMO: Caso o código não chegue via " + provider + " o código é: ";
-                ViewBag.CodigoAcesso = await _userManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+                //ViewBag.Status = "DEMO: Caso o código não chegue via " + provider + " o código é: ";
+                //ViewBag.CodigoAcesso = await _userManager.GenerateTwoFactorTokenAsync(user.Id, provider);
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
@@ -131,43 +171,143 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        //
         // GET: /Account/Register
-        [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel usuarioViewModel = new RegisterViewModel();
+
+            return View(usuarioViewModel);
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Include = "Id,Nome,UserName,Email,EmailConfirm,Password,ConfirmPassword,PhoneNumber,Ativo,GrupoUsuario")]RegisterViewModel usuarioViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(usuarioViewModel);
+            }
+
+            var usr = _userManager.FindByName(usuarioViewModel.UserName);
+            if (usr  != null)
+            {
+                ModelState.AddModelError(usuarioViewModel.UserName, string.Format("Usuário {0} já existe na base!", usuarioViewModel.UserName));
+                return View(usuarioViewModel);
+            }
+
+            var usuario = new ApplicationUser {
+                    IdCtaAcessoSist = MvcApplication.IdCtaAcessoSist,
+                    Nome = usuarioViewModel.Nome,
+                    UserName = usuarioViewModel.UserName,
+                    CreateDate = DateTime.Now,
+                    Email = usuarioViewModel.Email,
+                    EmailConfirmed = true,
+                    PhoneNumber = usuarioViewModel.PhoneNumber,
+                    PhoneNumberConfirmed = true,
+                    LockoutEnabled = true, //If you set LockoutEnabled to true and add a LockoutEnd date, you'll prevent that user from logging in again until after the LockoutEnd date is reached.
+                    Ativo = true
+                };
+
+            var result = await _userManager.CreateAsync(usuario, usuarioViewModel.Password);
+
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(usuario, isPersistent: false, rememberBrowser: false);
+                //var claimsIdentity = await _userManager.CreateIdentityAsync(usuario, DefaultAuthenticationTypes.ApplicationCookie);
+                SetClaimsUsuario(usuario.Id, usuarioViewModel.GrupoUsuario);
+
+                return RedirectToAction("Index", "Account");
+
+                //var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario.Id);
+                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = usuario.Id, code = code }, protocol: Request.Url.Scheme);
+                //await _userManager.SendEmailAsync(usuario.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'></a>");
+                //ViewBag.Link = callbackUrl;
+                //return View("DisplayEmail");
+            }
+            else
+            {
+                AddErrors(result);
+                return View(usuarioViewModel);
+            }
+        }
+
+        // GET: Usuarios/Edit/5
+        public ActionResult Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "IdUsuário é null ou inválido");
+            }
+
+            ApplicationUser applicationUser = _userManager.FindById(id);
+
+            if (applicationUser == null)
+            {
+                return HttpNotFound("Usuário não foi encontrado na base de dados!");
+            }
+
+            RegisterViewModel usuarioViewModel = new RegisterViewModel
+            {
+                Id = Guid.Parse(applicationUser.Id),
+                Nome = applicationUser.Nome,
+                Ativo = applicationUser.Ativo,
+                UserName = applicationUser.UserName,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+            };
+
+            var claims = _userManager.GetClaims(id).ToList();
+
+            if (claims.Find(c =>  (c.Type == ClaimTypes.Role) && (c.Value == "Admin")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.Admin;
+            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "GerenteRI")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.GerenteRI;
+            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "UsuarioRI")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.UsuarioRI;
+            }
+
+            return View(usuarioViewModel);
+        }
+
+        // POST: Usuarios/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Nome,UserName,Email,EmailConfirm,Password,ConfirmPassword,PhoneNumber,Ativo,GrupoUsuario")]RegisterViewModel usuarioViewModel)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                ApplicationUser applicationUser = _userManager.FindById(usuarioViewModel.Id.ToString());
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await _userManager.SendEmailAsync(user.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'></a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
+                if (applicationUser != null)
+                {
+                    applicationUser.Nome = usuarioViewModel.Nome;
+                    applicationUser.UserName = usuarioViewModel.UserName;
+                    applicationUser.Email = usuarioViewModel.Email;
+                    applicationUser.AccessFailedCount = 0;
+                    applicationUser.Ativo = usuarioViewModel.Ativo;
+                    applicationUser.LastPwdChangedDate = DateTime.Now;
+                    applicationUser.PhoneNumber = usuarioViewModel.PhoneNumber;
+                    applicationUser.PhoneNumberConfirmed = false;
+
+                    await _userManager.UpdateAsync(applicationUser);
+                    await _userManager.UpdateSecurityStampAsync(applicationUser.Id);
+                    string resetToken = await _userManager.GeneratePasswordResetTokenAsync(applicationUser.Id);
+                    IdentityResult passwordChangeResult = await _userManager.ResetPasswordAsync(applicationUser.Id, resetToken, usuarioViewModel.Password);
+
+                    SetClaimsUsuario(applicationUser.Id, usuarioViewModel.GrupoUsuario);
+                    return RedirectToAction("Index", "Account");
                 }
-                AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            return View(usuarioViewModel);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
@@ -180,7 +320,6 @@ namespace Cartorio11RI.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
@@ -188,7 +327,6 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -217,7 +355,6 @@ namespace Cartorio11RI.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
@@ -225,7 +362,6 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
@@ -233,7 +369,6 @@ namespace Cartorio11RI.Controllers
             return code == null ? View("Error") : View();
         }
 
-        //
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -259,7 +394,6 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        //
         // GET: /Account/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
@@ -267,7 +401,6 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        //
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
@@ -278,7 +411,6 @@ namespace Cartorio11RI.Controllers
             return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
-        //
         // GET: /Account/SendCode
         [AllowAnonymous]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
@@ -293,7 +425,6 @@ namespace Cartorio11RI.Controllers
             return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
@@ -313,7 +444,6 @@ namespace Cartorio11RI.Controllers
             return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
 
-        //
         // GET: /Account/ExternalLoginCallback
         [AllowAnonymous]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
@@ -343,7 +473,6 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        //
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
@@ -381,7 +510,6 @@ namespace Cartorio11RI.Controllers
             return View(model);
         }
 
-        //
         // POST: /Account/LogOff
         //[HttpPost]
         [AllowAnonymous]
@@ -396,12 +524,51 @@ namespace Cartorio11RI.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-        //
         // GET: /Account/ExternalLoginFailure
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [ChildActionOnly]
+        public PartialViewResult MontarMenuUsuario(string IdUsuario)
+        {
+            IEnumerable<DtoMenu> Menu = new List<DtoMenu>();
+            ApplicationUser usrApp = _userManager.FindById(IdUsuario);
+            var claims = _userManager.GetClaims(IdUsuario).ToList();
+
+            //Claim claim3 = new Claim(ClaimTypes.Role, "Admin");
+
+            if (usrApp != null)
+            {
+                UsuarioIdentity usr = new UsuarioIdentity()
+                {
+                    Id = usrApp.Id,
+                    IdCtaAcessoSist = usrApp.IdCtaAcessoSist,
+                    AccessFailedCount = usrApp.AccessFailedCount,
+                    UserName = usrApp.UserName,
+                    Email = usrApp.Email,
+                    Nome = usrApp.Nome,
+                    Ativo = usrApp.Ativo,
+                    CreateDate = usrApp.CreateDate,
+                    EmailConfirmed = usrApp.EmailConfirmed,
+                    LastLockoutDate = usrApp.LastLockoutDate,
+                    LastLoginDate = usrApp.LastLoginDate,
+                    LastPwdChangedDate = usrApp.LastPwdChangedDate,
+                    LockoutEnabled = usrApp.LockoutEnabled,
+                    PhoneNumber = usrApp.PhoneNumber,
+                    PhoneNumberConfirmed = usrApp.PhoneNumberConfirmed,
+                    TwoFactorEnabled = usrApp.TwoFactorEnabled
+                };
+
+                using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this._ufwCartNew))
+                {
+                    Menu = appService.ListaMenuUsuario(usr);
+                }
+            }
+
+            return PartialView("_MenuUsuario", Menu);
         }
 
         #region Helpers

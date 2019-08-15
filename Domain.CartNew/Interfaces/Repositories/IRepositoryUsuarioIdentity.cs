@@ -1,4 +1,5 @@
 ﻿using Domain.CartNew.Entities;
+using Domain.Core.Interfaces.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,12 +8,9 @@ using System.Threading.Tasks;
 
 namespace Domain.CartNew.Interfaces.Repositories
 {
-    public interface IRepositoryUsuarioIdentity
+    public interface IRepositoryUsuarioIdentity: IRepositoryBaseReadWrite<UsuarioIdentity>
     {
-        UsuarioIdentity ObterPorId(string id);
-        IEnumerable<UsuarioIdentity> ObterTodos();
         void LockUsuario(string id);
         void UnLockUsuario(string id);
-
     }
 }

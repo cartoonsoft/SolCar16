@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace Domain.CartNew.Entities
         {
             Id = Guid.NewGuid().ToString();
         }
+
         public  string Id                          { get; set; }
         public virtual long IdCtaAcessoSist        { get; set; }
         public virtual bool Ativo                  { get; set; }
@@ -26,11 +28,10 @@ namespace Domain.CartNew.Entities
         public virtual string PasswordHash         { get; set; }
         public virtual string SecurityStamp        { get; set; }
         public virtual string PhoneNumber          { get; set; }
-        public virtual string PhoneNumberConfirmed { get; set; }
-        public virtual string TwoFactorEnabled     { get; set; }
+        public virtual bool PhoneNumberConfirmed   { get; set; }
+        public virtual bool TwoFactorEnabled       { get; set; }
         public virtual DateTime LockoutEndDateUtc  { get; set; }
         public virtual bool LockoutEnabled         { get; set; }
         public virtual int AccessFailedCount       { get; set; }
-
     }
 }

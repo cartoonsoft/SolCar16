@@ -20,11 +20,12 @@ namespace Domain.Core.DomainServices
     public class DomainServicesFactoryBase : IDomainServicesFactoryBase
     {
         protected readonly IUfwCart _unitOfWork;
-        private Dictionary<Type, object> GenericDomainServices = new Dictionary<Type, object>();
+        private Dictionary<Type, object> _genericDomainServices;
 
         public DomainServicesFactoryBase(IUfwCart unitOfWork)
         {
             this._unitOfWork = unitOfWork;
+            _genericDomainServices = new Dictionary<Type, object>();
         }
 
         #region IDisposable Support
@@ -37,7 +38,7 @@ namespace Domain.Core.DomainServices
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    GenericDomainServices = null;
+                    _genericDomainServices = null;
 
                     //if (_unitOfWork != null)
                     //{
@@ -75,9 +76,9 @@ namespace Domain.Core.DomainServices
 
             IDomainServiceBase<T> domainService = null;
 
-            if (GenericDomainServices.Keys.Contains(typeof(T)))
+            if (_genericDomainServices.Keys.Contains(typeof(T)))
             {
-                domainService = GenericDomainServices[typeof(T)] as IDomainServiceBase<T>;
+                domainService = _genericDomainServices[typeof(T)] as IDomainServiceBase<T>;
             }
             else
             {
@@ -86,7 +87,7 @@ namespace Domain.Core.DomainServices
 
             if (domainService != null)
             {
-                GenericDomainServices.Add(typeof(T), domainService);
+                _genericDomainServices.Add(typeof(T), domainService);
             }
 
             return domainService;

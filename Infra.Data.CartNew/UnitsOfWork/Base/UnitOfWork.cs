@@ -90,7 +90,11 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
         /// Repositories factory
         /// </summary>
         public virtual IRepositoriesFactoryBase Repositories { get; set; }
-        
+
+        /// <summary>
+        /// BeginTransaction
+        /// </summary>
+        /// <param name="pIsolationLevel"></param>
         public virtual void BeginTransaction(IsolationLevel pIsolationLevel = IsolationLevel.ReadCommitted)
         {
             if (this.transaction == null)

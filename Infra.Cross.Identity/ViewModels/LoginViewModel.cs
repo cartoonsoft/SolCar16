@@ -5,9 +5,9 @@ namespace Infra.Cross.Identity.ViewModels
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [MaxLength(10)]
+        [Display(Name = "Usuário")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

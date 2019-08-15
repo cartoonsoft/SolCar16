@@ -52,14 +52,16 @@
     <Compile Include="Factory\DomainServicesFactoryCartNew.cs" />
     <Compile Include="Interfaces\Base\IDomainServiceCartNew.cs" />
     <Compile Include="Interfaces\Factory\IDomainServicesFactoryCartNew.cs" />
-    <Compile Include="Interfaces\IArquivoModeloDocxDs.cs" />
+    <Compile Include="Interfaces\IModeloDocxDs.cs" />
     <Compile Include="Interfaces\IAtoDs.cs" />
     <Compile Include="Interfaces\IMunicipioDs.cs" />
+    <Compile Include="Interfaces\IAcoesUsuariosDs.cs" />
     <Compile Include="Interfaces\IPaisDs.cs" />
     <Compile Include="Interfaces\IPessoaCartNewDs.cs" />
     <Compile Include="Interfaces\IUfDs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ArquivoModeloDocxDs.cs" />
+    <Compile Include="Services\AcoesUsuariosDs.cs" />
+    <Compile Include="Services\ModeloDocxDs.cs" />
     <Compile Include="Services\AtoDs.cs" />
     <Compile Include="Services\MunicipioDs.cs" />
     <Compile Include="Services\PaisDs.cs" />
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
       <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
       <Name>Domain.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dto.CartNew\Dto.CartNew.csproj">
+      <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
+      <Name>Dto.CartNew</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

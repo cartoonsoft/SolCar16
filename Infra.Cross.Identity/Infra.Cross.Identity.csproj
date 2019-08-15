@@ -146,7 +146,12 @@
     <Compile Include="ViewModels\VerifyCodeViewModel.cs" />
     <Compile Include="ViewModels\VerifyPhoneNumberViewModel.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
+      <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
+      <Name>Domain.CartNew</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />

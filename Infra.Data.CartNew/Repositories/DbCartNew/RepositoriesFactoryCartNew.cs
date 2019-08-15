@@ -5,6 +5,7 @@ using Domain.CartNew.Entities;
 using Domain.CartNew.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.CartNew.Context;
+using Infra.Data.CartNew.Repositories.Identity;
 using Infra.Data.Core.Repositories;
 
 namespace Infra.Data.CartNew.Repositories.DbCartNew
@@ -12,7 +13,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
     public class RepositoriesFactoryCartNew : RepositoriesFactoryBase, IRepositoriesFactoryCartNew
     {
         private readonly ContextMainCartNew _context;
-        private Dictionary<Type, object> Repositories = new Dictionary<Type, object>();
+        private Dictionary<Type, object> _repositories;
 
         /// <summary>
         /// Método construtor
@@ -22,6 +23,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         {
             //
             this._context = context;
+            _repositories = new Dictionary<Type, object>();
         }
 
         #region IDisposable Support
@@ -34,12 +36,12 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 if (disposing)
                 {
                     // dispose managed state (managed objects).
-                    Repositories = null;
+                    _repositories = null;
                 }
 
                 // free unmanaged resources (unmanaged objects) and override a finalizer below.
                 // set large fields to null.
-                Repositories = null;
+                _repositories = null;
 
                 disposedValue = true;
             }
@@ -63,9 +65,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             try
             {
-                if (Repositories.Keys.Contains(typeof(T)))
+                if (_repositories.Keys.Contains(typeof(T)))
                 {
-                    repository = Repositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
+                    repository = _repositories[typeof(T)] as IRepositoryBaseReadWrite<T>;
                 }
                 else
                 {
@@ -100,7 +102,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
                     if (repository != null)
                     {
-                        Repositories.Add(typeof(T), repository);
+                        _repositories.Add(typeof(T), repository);
                     }
                 }
 
@@ -158,6 +160,5 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         {
             get { return GetRepositoryInstance<LogModeloDocx>() as RepositoryLogModeloDocx; }
         }
-
     }
 }

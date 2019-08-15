@@ -74,9 +74,17 @@
       <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DomainServ.CartNew\DomainServ.CartNew.csproj">
+      <Project>{85CD34C3-543E-47B3-9F84-EFDDD4842DF3}</Project>
+      <Name>DomainServ.CartNew</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dto.CartNew\Dto.CartNew.csproj">
       <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
       <Name>Dto.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infra.Cross.Identity\Infra.Cross.Identity.csproj">
+      <Project>{39653212-6783-499E-B779-3C8963EA2FA9}</Project>
+      <Name>Infra.Cross.Identity</Name>
     </ProjectReference>
     <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
       <Project>{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}</Project>

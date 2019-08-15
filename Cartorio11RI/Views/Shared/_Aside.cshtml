@@ -3,7 +3,6 @@
 <!-- Left panel : Navigation area -->
 <!-- Note: This width of the aside area can be adjusted through LESS variables -->
 <aside id="left-panel">
-
     <!-- User info -->
     @{ Html.RenderPartial("_CurrentUser"); }
     <!-- end user info -->
@@ -18,20 +17,15 @@
         Please note that these links work a bit different than
         traditional href="" links. See documentation for details.
         -->
-
         <ul>
             <li class="@Html.RouteIf("index", "active")">
                 <a href="@Url.Action("index", "home")" title="Home"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Início</span></a>
             </li>
-
-            @{Html.RenderAction("MontarMenuUsuario", "home", new { IdUsuario = User.Identity.GetUserId() });}
-
+            @{Html.RenderAction("MontarMenuUsuario", "Account", new { IdUsuario = User.Identity.GetUserId() });}
         </ul>
-
     </nav>
     <span class="minifyme" data-action="minifyMenu">
         <i class="fa fa-arrow-circle-left hit"></i>
     </span>
-
 </aside>
 <!-- END NAVIGATION -->

@@ -42,5 +42,6 @@ namespace Domain.CartNew.Interfaces.Repositories
         {
             get;
         }
+
     }
 }

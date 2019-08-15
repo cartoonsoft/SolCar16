@@ -11,16 +11,16 @@ using DomainServ.CartNew.Interfaces;
 
 namespace DomainServ.CartNew.Services
 {
-    public class ArquivoModeloDocxDs: DomainServiceCartNew<ModeloDocx>, IArquivoModeloDocxDs
+    public class ModeloDocxDs: DomainServiceCartNew<ModeloDocx>, IModeloDocxDs
     {
-        private readonly IRepositoryModeloDocx _repositoryArquivoModeloDocx;
-        private readonly IRepositoryLogModeloDocx _repositoryLogArquivoModeloDocx;
+        private readonly IRepositoryModeloDocx _repositoryModeloDocx;
+        private readonly IRepositoryLogModeloDocx _repositoryLogModeloDocx;
 
-        public ArquivoModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public ModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartNew UfwCartNew
-            _repositoryArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
-            _repositoryLogArquivoModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
+            _repositoryModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
+            _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
         /*
@@ -41,17 +41,17 @@ namespace DomainServ.CartNew.Services
 
             UfwCartNew.BeginTransaction();
 
-            NovoId = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
+            NovoId = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
             arquivoModeloDocx.Id = NovoId;
             arquivoModeloDocx.CaminhoEArquivo = arquivoModeloDocx.CaminhoEArquivo + NovoId.ToString() + ".docx";
 
-            _repositoryArquivoModeloDocx.Add(arquivoModeloDocx);
+            _repositoryModeloDocx.Add(arquivoModeloDocx);
             UfwCartNew.SaveChanges();
 
-            logArquivoModeloDocx.Id = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
             logArquivoModeloDocx.IdModeloDocx = NovoId??0;
 
-            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
             UfwCartNew.SaveChanges();
 
             UfwCartNew.CommitTransaction();
@@ -65,9 +65,9 @@ namespace DomainServ.CartNew.Services
 
             UfwCartNew.BeginTransaction();
             
-            logArquivoModeloDocx.Id = _repositoryArquivoModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
 
-            _repositoryLogArquivoModeloDocx.Add(logArquivoModeloDocx);
+            _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
             UfwCartNew.SaveChanges();
 
             UfwCartNew.CommitTransaction();
@@ -79,13 +79,13 @@ namespace DomainServ.CartNew.Services
         {
             bool resultado = false;
 
-            ModeloDocx arquivoModeloDocx = _repositoryArquivoModeloDocx.GetById(Id);
+            ModeloDocx arquivoModeloDocx = _repositoryModeloDocx.GetById(Id);
 
             if (arquivoModeloDocx != null)
             {
                 arquivoModeloDocx.Ativo = false;
                 arquivoModeloDocx.IdUsuarioAlteracao = IdUsuario;
-                _repositoryArquivoModeloDocx.Update(arquivoModeloDocx);
+                _repositoryModeloDocx.Update(arquivoModeloDocx);
                 UfwCartNew.SaveChanges();
                 resultado = true;
             }

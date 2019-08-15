@@ -20,6 +20,8 @@ namespace Infra.Cross.Identity.Models
             this.Clients = new Collection<Client>();
         }
 
+        public long IdCtaAcessoSist { get; set; }
+
         public virtual ICollection<Client> Clients { get; set; }
 
         [NotMapped]
