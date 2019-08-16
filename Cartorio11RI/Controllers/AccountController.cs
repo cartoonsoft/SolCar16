@@ -190,6 +190,7 @@ namespace Cartorio11RI.Controllers
             }
 
             var usr = _userManager.FindByName(usuarioViewModel.UserName);
+
             if (usr  != null)
             {
                 ModelState.AddModelError(usuarioViewModel.UserName, string.Format("Usuário {0} já existe na base!", usuarioViewModel.UserName));
@@ -570,6 +571,43 @@ namespace Cartorio11RI.Controllers
 
             return PartialView("_MenuUsuario", Menu);
         }
+
+        [HttpPost]
+        public ActionResult AtivaDesativaUsuario(string id, string cmd)
+        {
+            bool requestOk = false; //operacao realizada com sucesso
+            string msg = "";
+
+            try
+            {
+                ApplicationUser user = _userManager.FindById(id);
+                if (user == null)
+                {
+                    msg = "Usuário não cadastrado";
+                }
+                else
+                {
+                    user.Ativo = !user.Ativo;
+                    _userManager.Update(user);
+                    requestOk = true;
+                    msg = "Usuário alaterado com sucesso!";
+                }
+            }
+            catch (Exception ex)
+            {
+                requestOk = false;
+                msg = "Falha na requisição! [" + ex.Message + "]";
+            }
+
+            var resultado = new
+            {
+                success = requestOk,
+                mensagem = msg
+            };
+
+            return Json(resultado);
+        }
+
 
         #region Helpers
         // Used for XSRF protection when adding external logins

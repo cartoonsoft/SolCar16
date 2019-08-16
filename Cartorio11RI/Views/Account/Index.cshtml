@@ -201,13 +201,13 @@
                                             @{ 
                                                 if (item.Ativo)
                                                 {
-                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Desativar usuário">
+                                                    <a href="javascript:void(0);" class="btn btn-danger btn-sm" title="Desativar usuário" onclick="AtivarDesativarUsuario(this, '@item.Id', 'D');">
                                                         <i class="fa fa-close" aria-hidden="true"></i>
                                                     </a>
                                                 }
                                                 else
                                                 {
-                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" title="Ativar usuário">
+                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" title="Ativar usuário" onclick="AtivarDesativarUsuario(this, '@item.Id', 'A');">
                                                         <i class="fa fa-check" aria-hidden="true"></i>
                                                     </a>
                                                 }
@@ -231,12 +231,13 @@
 
     <script type="text/javascript">
 
-        function AtivarDesativarUsuario(objLink, Id) {
+        function AtivarDesativarUsuario(objLink, Id, Cmd) {
 
             var obj = objLink;
 
             var objData = {
-                id: Id
+                id: Id,
+                cmd: Cmd 
             };
 
             $.ajax('@Url.Action("AtivaDesativaUsuario", "Usuarios")', {
@@ -258,15 +259,8 @@
                         timeout: 4000
                     });
 
-                    //$(obj).switchClass("fa fa-lock", "fa fa-unlock");
+                    $(obj).switchClass("btn-danger", "btn-success");
 
-                    if (obj.innerText == "Ativar") {
-
-                        obj.innerText = "Desativar"
-                    } else {
-
-                        obj.innerText = "Ativar"
-                    }
                 }
             }).fail(function (jq, textStatus, error) {
                 //
