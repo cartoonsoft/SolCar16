@@ -23,4 +23,36 @@ function HideProgressBar() {
     $('#frmProgreessBarModal').modal("hide");
 }
 
+
+/**
+ * Exibir Aviso
+ * */
+function Aviso(titulo, msg, cor, timeout, icone) {
+
+    $.smallBox({
+        title:   titulo,
+        content: msg,
+        color:   cor,
+        timeout: timeout,
+        icon:    icone
+    });
+}
+
+/**
+ * Mostrar Menssagem: Usuariu não tem permissão de acesso
+ * */
+function ShowMessageUser() {
+
+    var tit = "Ação não permitida";
+    var msg = "Usuário não tem permissão para esta funcionalidade <br/> Para maiores informações, contate o administrador.";
+    var cor = "#B66246";
+    var timeout = 8000;
+    var icone = "fa fa-lock swing animated";
+
+    Aviso(tit, msg, cor, timeout, icone)
+}
+
+
 /*-----------------------------------------------------------------------------*/
+
+

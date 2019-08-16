@@ -12,6 +12,7 @@ using Cartorio11RI.ViewModels;
 using AppServCart11RI.AppServices;
 using Infra.Cross.Identity.Models;
 using Infra.Cross.Identity.Configuration;
+using Microsoft.AspNet.Identity;
 
 namespace Cartorio11RI.Controllers
 {
@@ -21,7 +22,7 @@ namespace Cartorio11RI.Controllers
         public AcoesController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
         {
             //
-
+            
         }
 
         // GET: Acessos

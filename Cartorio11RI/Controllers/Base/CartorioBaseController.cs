@@ -57,14 +57,6 @@ namespace Cartorio11RI.Controllers.Base
         }
         #endregion
 
-        protected override void Execute(RequestContext requestContext)
-        {
-            var x = 1;
-
-            base.Execute(requestContext);
-            
-        }
-
         protected ApplicationUser UsuarioAtual {
             get {
 

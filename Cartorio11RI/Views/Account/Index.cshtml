@@ -24,6 +24,10 @@
             }
 
             #tbl-usuarios tr td:nth-child(2) {
+                width: 5%;
+            }
+
+            #tbl-usuarios tr td:nth-child(2) {
                 width: 10%;
             }
 
@@ -124,7 +128,10 @@
                             <thead>
                                 <tr>
                                     <th>
-                                        Nome
+                                        Nome Completo
+                                    </th>
+                                    <th>
+                                        Usuário
                                     </th>
                                     <th>
                                         Grupo
@@ -161,6 +168,9 @@
                                         <td>
                                             <i class="fa fa-user" aria-hidden="true"></i>
                                             @Html.DisplayFor(modelItem => item.Nome)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserName)
                                         </td>
                                         <td>
                                             @if (item.Claims.Where(c => (c.ClaimType == ClaimTypes.Role) && (c.ClaimValue == "Admin")).FirstOrDefault() != null)

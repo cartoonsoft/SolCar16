@@ -6855,8 +6855,8 @@ a.clearsearchclass, a.g-menu-item, a.soptclass {
 
 #divSmallBoxes {
     position: fixed;
-    right: 0;
-    top: 0;
+    right: 45%;
+    top: 20%;
     z-index: 9999
 }
 

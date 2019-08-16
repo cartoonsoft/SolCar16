@@ -14,7 +14,13 @@
         else
         {
             <li class="@Html.RouteIf(i.Action, "active")">
-                <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoMenu"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+                @if(i.Permissao)
+                {
+                    <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoMenu"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+                } else
+                {
+                    <a href="#" title="@i.DescricaoMenu" onclick="ShowMessageUser();"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+                }
             </li>
         }
     }
@@ -33,7 +39,13 @@
                         </li>
                     }else {
                         <li class="@Html.RouteIf(j.Action, "active")">
-                            <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoMenu"> <i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+                            @if (j.Permissao)
+                            {
+                                <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoMenu"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+                            } else
+                            {
+                                <a href="#" title="@j.DescricaoMenu" onclick="ShowMessageUser()"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+                            }
                         </li>
                     }
                 }

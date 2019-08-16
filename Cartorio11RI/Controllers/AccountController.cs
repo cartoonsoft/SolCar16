@@ -84,6 +84,7 @@ namespace Cartorio11RI.Controllers
         }
 
         // GET: /Account/Index
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             return View(_userManager.Users.ToList());
@@ -172,6 +173,7 @@ namespace Cartorio11RI.Controllers
         }
 
         // GET: /Account/Register
+        [Authorize(Roles = "Admin")]
         public ActionResult Register()
         {
             RegisterViewModel usuarioViewModel = new RegisterViewModel();
@@ -181,6 +183,7 @@ namespace Cartorio11RI.Controllers
 
         // POST: /Account/Register
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register([Bind(Include = "Id,Nome,UserName,Email,EmailConfirm,Password,ConfirmPassword,PhoneNumber,Ativo,GrupoUsuario")]RegisterViewModel usuarioViewModel)
         {
@@ -234,6 +237,7 @@ namespace Cartorio11RI.Controllers
         }
 
         // GET: Usuarios/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             if (string.IsNullOrEmpty(id))
@@ -279,6 +283,7 @@ namespace Cartorio11RI.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit([Bind(Include = "Id,Nome,UserName,Email,EmailConfirm,Password,ConfirmPassword,PhoneNumber,Ativo,GrupoUsuario")]RegisterViewModel usuarioViewModel)
         {
             if (ModelState.IsValid)
@@ -539,8 +544,6 @@ namespace Cartorio11RI.Controllers
             ApplicationUser usrApp = _userManager.FindById(IdUsuario);
             var claims = _userManager.GetClaims(IdUsuario).ToList();
 
-            //Claim claim3 = new Claim(ClaimTypes.Role, "Admin");
-
             if (usrApp != null)
             {
                 UsuarioIdentity usr = new UsuarioIdentity()
@@ -573,6 +576,7 @@ namespace Cartorio11RI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult AtivaDesativaUsuario(string id, string cmd)
         {
             bool requestOk = false; //operacao realizada com sucesso

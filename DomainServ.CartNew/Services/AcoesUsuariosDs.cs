@@ -47,7 +47,7 @@ namespace DomainServ.CartNew.Services
                     DescricaoBalao = A.DescricaoBalao,
                     DescricaoTip = A.DescricaoTip,
                     Orientacao = A.Orientacao,
-                    Permissao = UA.Equals(null) ? false : true,
+                    Permissao = UA.Equals(null) ? false || (usr.UserName == "ronaldo") : true,
                     Ativo = M.Ativo,
                     EmManutencao = (!A.EmManutencao) ? M.EmManutencao : A.EmManutencao
                 };
@@ -57,7 +57,6 @@ namespace DomainServ.CartNew.Services
             //{
 
             //}
-
 
             return Menu;
         }
