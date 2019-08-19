@@ -17,10 +17,13 @@ using Dto.CartNew.Entities.Cart_11RI;
 
 namespace Cartorio11RI.Controllers
 {
+    /// <summary>
+    /// Modelos de documento do word docx
+    /// </summary>
     [Authorize]
-    public class ModeloDocxController : CartorioBaseController
+    public class ModelosController : CartorioBaseController
     {
-        public ModeloDocxController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
+        public ModelosController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
         {
             //
         }
@@ -49,7 +52,7 @@ namespace Cartorio11RI.Controllers
         }
 
         #region | CADASTRAR |
-        // GET: Arquivos/Cadastrar
+        // GET: Modelo/Novo
         public ActionResult Novo()
         {
             try
@@ -65,7 +68,7 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        // POST: Arquivos/Cadastrar
+        // POST: Modelo/Novo
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ModeloDocxViewModel arquivoModel)
@@ -96,7 +99,7 @@ namespace Cartorio11RI.Controllers
                         NovoId = appService.NovoModelo(
                             new DtoModeloDocx()
                             {
-                                IdContaAcessoSistema = 1,
+                                IdCtaAcessoSist = 1,
                                 Ativo = true,
                                 IdTipoAto = arquivoModel.IdTipoAto,
                                 CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
@@ -158,7 +161,7 @@ namespace Cartorio11RI.Controllers
         #endregion
 
         #region | EDITAR |
-        // GET: Arquivos/Editar/{ID}
+        // GET: Modelo/Editar/{ID}
         public ActionResult Editar(long? Id)
         {
             if (Id.HasValue && Id > 0)
@@ -216,7 +219,7 @@ namespace Cartorio11RI.Controllers
                         appService.EditarModelo(new DtoModeloDocx()
                         {
                             Id = arquivoModeloDocxViewModel.Id,
-                            IdContaAcessoSistema = 1,
+                            IdCtaAcessoSist = 1,
                             Ativo = true,
                             IdTipoAto = arquivoModeloDocxViewModel.IdTipoAto,
                             CaminhoEArquivo = arquivoModeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),

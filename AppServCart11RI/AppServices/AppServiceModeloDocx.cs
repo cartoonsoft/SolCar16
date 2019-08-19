@@ -107,7 +107,7 @@ namespace AppServCart11RI.AppServices
                 ModeloDocx arquivoModelo = new ModeloDocx
                 {
                     Id = dtoArq.Id,
-                    IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
+                    IdCtaAcessoSist = dtoArq.IdCtaAcessoSist,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,
                     IdUsuarioCadastro = IdUsuario,
@@ -145,7 +145,7 @@ namespace AppServCart11RI.AppServices
                 ModeloDocx arquivoModelo = new ModeloDocx
                 {
                     Id = dtoArq.Id,
-                    IdContaAcessoSistema = dtoArq.IdContaAcessoSistema,
+                    IdCtaAcessoSist = dtoArq.IdCtaAcessoSist,
                     Ativo = dtoArq.Ativo,
                     IdTipoAto = dtoArq.IdTipoAto,
                     IdUsuarioAlteracao = IdUsuario,
@@ -198,10 +198,8 @@ namespace AppServCart11RI.AppServices
         
         public IEnumerable<DtoModeloDocxList> ListarModeloDocx(long? IdTipoAto = null)
         {
-            //IEnumerable<ArquivoModeloDocxList> listaDomain = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
-            //IEnumerable <DtoArquivoModeloDocxList> listaDto = Mapper.Map<IEnumerable<ArquivoModeloDocxList>, IEnumerable<DtoArquivoModeloDocxList>>(listaDomain);
-
-            return null; // listaDto;
+            IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
+            return listaDs;
         }
 
         public IEnumerable<DtoModeloDocxSimplificadoList> ListarModeloSimplificado(long? IdTipoAto = null)

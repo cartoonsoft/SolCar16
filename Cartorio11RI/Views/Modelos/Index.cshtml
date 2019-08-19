@@ -1,0 +1,253 @@
+﻿@model IEnumerable<Cartorio11RI.ViewModels.ModeloDocxListViewModel>
+
+@{
+    ViewBag.Title = "Modelos";
+    ViewBag.SubTitle = "Index";
+}
+
+@section styles_especific {
+
+    <style>
+        /*------------------------------------------------------------------------------
+        tbl-Arquivos
+        ------------------------------------------------------------------------------*/
+        #tbl-arquivos {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
+
+            #tbl-arquivos tr td:nth-child(1) {
+                width: 5%;
+            }
+
+            #tbl-arquivos tr td:nth-child(2) {
+                width: 50%;
+            }
+
+            #tbl-arquivos tr td:nth-child(3) {
+                width: 20%;
+            }
+
+            #tbl-arquivos tr td:nth-child(4) {
+                text-align: right;
+                align-content: flex-end;
+                margin-left: 1em;
+            }
+
+
+        /**********************************************************************/
+        .desaparecer {
+            opacity: 0;
+            transition: 0.5s;
+        }
+    </style>
+}
+
+<div id="divMensagem" class="alert" hidden>
+    <label id="labelMensagem"></label>
+</div>
+
+<div id="content">
+    <input hidden id="IP" />
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+
+                <!-- PAGE HEADER -->
+                <i class="fa-fw fa fa-user"></i>
+                @ViewBag.Title
+                <span>
+                    >
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <p>
+                <a href="@Url.Action("Novo", "Arquivos")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo Modelo</a>
+            </p>
+
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Arquivos</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <table id="tbl-arquivos" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        Código
+                                    </th>
+                                    <th>
+                                        Nome
+                                    </th>
+                                    <th>
+                                        Tipo
+                                    </th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr id="tr@item.Id">
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NomeModelo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
+                                        </td>
+                                        <td>
+                                            @Html.ActionLink("Editar", "Editar", new { Id = item.Id }, new { @class = "btn btn-primary" })
+                                            <button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+    </section>
+</div>
+
+@section pagespecific{
+
+    <script type="text/javascript">
+
+        var responsiveHelper_dt_basic = undefined;
+        var breakpointDefinition = {
+            Id: 1
+        };
+
+        $(document).ready(function () {
+
+            //coloque aqui seu codigo jquery
+
+            $('#tbl-arquivos').dataTable({
+                columnDefs: [{ orderable: false, targets: [3] }],
+
+                "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+                    "t" +
+                    "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+                "autoWidth": true,
+                "preDrawCallback": function () {
+                    // Initialize the responsive datatables helper once.
+                    if (!responsiveHelper_dt_basic) {
+                        responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#tbl-arquivos'));
+                    }
+                },
+                "rowCallback": function (nRow) {
+                    responsiveHelper_dt_basic.createExpandIcon(nRow);
+                },
+                "drawCallback": function (oSettings) {
+                    responsiveHelper_dt_basic.respond();
+                },
+                "language": {
+                    "lengthMenu": "Mostrar _MENU_ reg. por página",
+                    "zeroRecords": "Nenhum Registro Encontrado",
+                    "info": "Mostrando Página _PAGE_ de _PAGES_",
+                    "infoEmpty": "Nenhum registro Disponível",
+                    "infoFiltered": "(filtrado)",
+                    "loadingRecords": "Lendo...",
+                    "processing": "Processando...",
+                    "search": "Procurar: ",
+                    "paginate": {
+                        "first": "Primeiro",
+                        "last": "Último",
+                        "next": "Próx.",
+                        "previous": "Anterior"
+                    },
+                }
+            });
+
+        });
+
+    // funcao remove uma linha da tabela
+    function removeLinha(linha) {
+        var linha = linha.closest("tr");
+        var i = linha.rowIndex;
+        var ID = parseInt(linha.getAttribute("Id"));
+
+        var IP = document.getElementById('IP').value;
+        var token = $('input[name="__RequestVerificationToken"]').val();
+
+        var dadosPost = {
+            Ip: IP,
+            Id: ID
+        };
+
+        var res = confirm("Deseja desativar o modelo de ID: " + ID);
+        debugger;
+        if (res) {
+            $.ajax({
+                url: '@Url.Action("Desativar", "Arquivos")',
+                type: 'POST',
+                data: {
+                    dadosPost,
+                    __RequestVerificationToken: token,
+                },
+                success: function (result) {
+                    //console.log(result);
+                    //console.log("Deu certo");
+                    //deleta a linha e da efeito
+                    linha.setAttribute("class", "desaparecer");
+                    setTimeout(function () {
+                        linha.remove();
+                        monstrarMensagem("Modelo removido com sucesso",true);
+                    }, 600);
+
+                },
+                error: function (error) {
+                    console.log(error);
+                    //console.log("Deu erro");
+                    monstrarMensagem("Erro ao remover",false);
+                }
+            });
+
+
+        }
+    }
+
+    function monstrarMensagem(mensagem, statusMensagem) {
+        if (statusMensagem == true) { $('#divMensagem').attr("class", "alert alert-success"); }
+        else { $('#divMensagem').attr("class", "alert alert-danger"); }
+        $('#labelMensagem').text(mensagem);
+        $('#divMensagem').removeAttr("hidden");
+    }
+
+    </script>
+}

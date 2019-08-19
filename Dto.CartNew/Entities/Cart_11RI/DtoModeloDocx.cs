@@ -15,7 +15,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Key]
         public override long? Id { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         [Display(Name = "Tipo de ato")]
         [Required(ErrorMessage = "Selecione um tipo")]
@@ -30,8 +30,6 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
         public List<HttpPostedFileBase> Files { get; set; }
 
-        /*----------------------------------------------------------------------------------*/
-        #region | Dados nao obrigatorios |
         [Display(Name = "Caminho e Arquivo")]
         public string CaminhoEArquivo { get; set; }
 
@@ -43,6 +41,5 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         [Display(Name = "Log Arquivo")]
         public DtoLogModeloDocx LogArquivo { get; set; }
-        #endregion
     }
 }

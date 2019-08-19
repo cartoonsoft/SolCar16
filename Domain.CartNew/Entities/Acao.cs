@@ -18,10 +18,10 @@ namespace Domain.CartNew.Entities
         public override long? Id { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")] 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         [Column("SEQACESSO")]
-        public long SeqAcesso { get; set; }
+        public long? SeqAcesso { get; set; }
 
         [Column("PROGRAMA")]
         public string Programa { get; set; }

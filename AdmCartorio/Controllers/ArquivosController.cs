@@ -101,7 +101,7 @@ namespace AdmCartorio.Controllers
                         NovoId = appService.NovoModelo(
                             new DtoModeloDocx()
                             {
-                                IdContaAcessoSistema = 1,
+                                IdCtaAcessoSist = 1,
                                 Ativo = true,
                                 IdTipoAto = arquivoModel.IdTipoAto,
                                 CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
@@ -221,7 +221,7 @@ namespace AdmCartorio.Controllers
                         appService.EditarModelo(new DtoModeloDocx()
                         {
                             Id = modeloDocxViewModel.Id,
-                            IdContaAcessoSistema = 1,
+                            IdCtaAcessoSist = 1,
                             Ativo = true,
                             IdTipoAto = modeloDocxViewModel.IdTipoAto,
                             CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),

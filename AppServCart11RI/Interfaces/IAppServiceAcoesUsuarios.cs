@@ -12,9 +12,9 @@ namespace AppServices.Cartorio.Interfaces
 {
     public interface IAppServiceAcoesUsuarios : IAppServiceCartorio<DtoAcao, Acao>
     {
-        DtoExcuteService AddUsrAcesso(long IdAcao, string IdUsuario);
+        DtoExcuteService AddUsrAcao(long IdAcao, string IdUsuario);
 
-        DtoExcuteService RemoveUsrAcesso(long IdAcao, string IdUsuario);
+        DtoExcuteService RemoveUsrAcao(long IdAcao, string IdUsuario);
 
         IEnumerable<DtoMenu> ListaMenuUsuario(UsuarioIdentity usr);
 

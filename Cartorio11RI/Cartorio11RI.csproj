@@ -838,6 +838,10 @@
     <Content Include="Views\Shared\_MenuUsuario.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Acoes\Index.cshtml" />
+    <Content Include="Views\Modelos\Editar.cshtml" />
+    <Content Include="Views\Modelos\Index.cshtml" />
+    <Content Include="Views\Modelos\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -868,7 +872,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AcoesController.cs" />
     <Compile Include="Controllers\AdmController.cs" />
-    <Compile Include="Controllers\ModeloDocxController.cs" />
+    <Compile Include="Controllers\ModelosController.cs" />
     <Compile Include="Controllers\AtoController.cs" />
     <Compile Include="Controllers\Base\CartorioBaseController.cs" />
     <Compile Include="Controllers\Base\CartoonSoftBaseController.cs" />
@@ -947,7 +951,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Views\Acoes\" />
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

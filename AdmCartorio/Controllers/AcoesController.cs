@@ -63,25 +63,25 @@ namespace AdmCartorio.Controllers
                     }
 
                     listaAcoes.Add(new AcaoViewModel {
-                        Id = acao.Id,
-                        IdContaAcessoSistema = acao.IdContaAcessoSistema,
-                        SeqAcesso            = acao.SeqAcesso,        
-                        Programa             = acao.Programa,
-                        Obs                  = acao.Obs,
-                        DescricaoPequeno     = acao.DescricaoPequeno, 
-                        DescricaoMedio       = acao.DescricaoMedio,   
-                        DescricaoGrande      = acao.DescricaoGrande,  
-                        DescricaoTip         = acao.DescricaoTip,
-                        DescricaoBalao       = acao.DescricaoBalao,   
-                        Orientacao           = acao.Orientacao,
-                        Action               = acao.Action,
-                        Controller           = acao.Controller,
-                        Parametros           = acao.Parametros,
-                        IconeWeb             = acao.IconeWeb,
-                        IconeMobile          = acao.IconeMobile,
-                        Ativo                = acao.Ativo,
-                        EmManutencao         = acao.EmManutencao,
-                        ListaUsersAcao       = listaUsrAcao
+                        Id                = acao.Id,
+                        IdCtaAcessoSist   = acao.IdCtaAcessoSist,
+                        SeqAcesso         = acao.SeqAcesso,        
+                        Programa          = acao.Programa,
+                        Obs               = acao.Obs,
+                        DescricaoPequeno  = acao.DescricaoPequeno, 
+                        DescricaoMedio    = acao.DescricaoMedio,   
+                        DescricaoGrande   = acao.DescricaoGrande,  
+                        DescricaoTip      = acao.DescricaoTip,
+                        DescricaoBalao    = acao.DescricaoBalao,   
+                        Orientacao        = acao.Orientacao,
+                        Action            = acao.Action,
+                        Controller        = acao.Controller,
+                        Parametros        = acao.Parametros,
+                        IconeWeb          = acao.IconeWeb,
+                        IconeMobile       = acao.IconeMobile,
+                        Ativo             = acao.Ativo,
+                        EmManutencao      = acao.EmManutencao,
+                        ListaUsersAcao    = listaUsrAcao
                     });
                 }
 
@@ -98,6 +98,7 @@ namespace AdmCartorio.Controllers
             bool resposta = false;
             string msg = string.Empty;
             string nome = string.Empty;
+            string userName = string.Empty;
             string email = string.Empty;
 
             try
@@ -117,16 +118,17 @@ namespace AdmCartorio.Controllers
                         else
                         {
                             //fazer add
-                            var appResp = appServAcoesUsuarios.AddUsrAcesso(IdAcao, IdUsuario);
+                            var appResp = appServAcoesUsuarios.AddUsrAcao(IdAcao, IdUsuario);
                             resposta = appResp.Execute;
                             msg = appResp.Message;
+                            userName = usuario.UserName;
                             nome = usuario.Nome;
                             email = usuario.Email;
                         }
                     }
                     else
                     {
-                        msg = string.Format("Acesso {0} não encontrado!", IdAcao);
+                        msg = string.Format("Ação {0} não encontrado!", IdAcao);
                     }
                 }
             }
@@ -142,6 +144,7 @@ namespace AdmCartorio.Controllers
                 usuario = new
                 {
                     Id  = IdUsuario,
+                    UserName = userName,
                     Nome = nome,
                     Email = email
                 }
@@ -165,13 +168,13 @@ namespace AdmCartorio.Controllers
                     if ((usrAcesso != null) || (!string.IsNullOrEmpty(usrAcesso.IdUsuario)))
                     {
                         //fazer remove
-                        var appResp = appServiceAcoesUsuarios.RemoveUsrAcesso(IdAcao, IdUsuario);
+                        var appResp = appServiceAcoesUsuarios.RemoveUsrAcao(IdAcao, IdUsuario);
                         resposta = appResp.Execute;
                         msg = appResp.Message;
                     }
                     else
                     {
-                        msg = string.Format("Acesso {0} não encontrado para oo usuário!", IdAcao);
+                        msg = string.Format("Ação {0} não encontrado para oo usuário!", IdAcao);
                     }
                 }
             }
@@ -179,6 +182,7 @@ namespace AdmCartorio.Controllers
             {
                 msg = "Erro na solicitação: " + ex.Message;
             }
+
             var resultado = new
             {
                 success = resposta,
@@ -206,7 +210,6 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-
                 return RedirectToAction("Index");
             }
             catch
@@ -227,7 +230,6 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-
                 return RedirectToAction("Index");
             }
             catch
@@ -248,7 +250,6 @@ namespace AdmCartorio.Controllers
         {
             try
             {
-
                 return RedirectToAction("Index");
             }
             catch

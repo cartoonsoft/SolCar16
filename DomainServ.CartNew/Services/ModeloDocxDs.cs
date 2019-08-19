@@ -8,6 +8,7 @@ using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace DomainServ.CartNew.Services
 {
@@ -18,17 +19,39 @@ namespace DomainServ.CartNew.Services
 
         public ModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
-            //IUnitOfWorkDataBaseCartorio UfwCart, IUnitOfWorkDataBaseCartNew UfwCartNew
+            //
             _repositoryModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
             _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
-        /*
-        public IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
+        public IEnumerable<DtoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
         {
-            return _repositoryArquivoModeloDocx.ListarArquivoModeloDocx(IdTipoAto);
+            IEnumerable<DtoModeloDocxList> listaModeloDocxLists = new List<DtoModeloDocxList>();
+
+            listaModeloDocxLists =
+                from M in _repositoryModeloDocx.Get().Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
+                join TA in this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get() on M.IdTipoAto equals TA.Id into _a
+                from TA in _a.DefaultIfEmpty()
+                orderby (M.NomeModelo)
+                select new DtoModeloDocxList
+                {
+                    Id = M.Id,
+                    IdCtaAcessoSist = M.IdCtaAcessoSist,
+                    IdTipoAto = M.IdTipoAto,
+                    IdUsuarioCadastro = M.IdUsuarioCadastro,
+                    IdUsuarioAlteracao = M.IdUsuarioAlteracao,
+                    DataCadastro = M.DataCadastro,
+                    DataAlteracao = M.DataAlteracao,
+                    NomeModelo = M.NomeModelo,
+                    CaminhoEArquivo = M.CaminhoEArquivo,
+                    DescricaoTipoAto = TA.Descricao,
+                    Ativo = M.Ativo
+                };
+
+            return listaModeloDocxLists;
         }
 
+        /*
         public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
         {
             return _repositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
@@ -41,14 +64,14 @@ namespace DomainServ.CartNew.Services
 
             UfwCartNew.BeginTransaction();
 
-            NovoId = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
+            NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
             arquivoModeloDocx.Id = NovoId;
             arquivoModeloDocx.CaminhoEArquivo = arquivoModeloDocx.CaminhoEArquivo + NovoId.ToString() + ".docx";
 
-            _repositoryModeloDocx.Add(arquivoModeloDocx);
+            this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(arquivoModeloDocx);
             UfwCartNew.SaveChanges();
 
-            logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            logArquivoModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
             logArquivoModeloDocx.IdModeloDocx = NovoId??0;
 
             _repositoryLogModeloDocx.Add(logArquivoModeloDocx);

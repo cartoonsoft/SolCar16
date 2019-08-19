@@ -12,7 +12,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         [Key]
         public long? Id { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public long IdTipoMenu { get; set; }
 

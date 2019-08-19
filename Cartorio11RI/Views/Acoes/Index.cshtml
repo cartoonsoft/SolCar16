@@ -1,0 +1,362 @@
+﻿
+@model IEnumerable<Cartorio11RI.ViewModels.AcaoViewModel>
+
+@{
+    ViewBag.Title = "acaos";
+    ViewBag.SubTitle = "Index";
+}
+
+@section styles_especific {
+    <style>
+        /*------------------------------------------------------------------------------
+        tbl-acao-usuarios
+        ------------------------------------------------------------------------------*/
+        #tbl-acao-usuarios {
+            /*border: 1px solid #808080; */
+            width: 100%;
+        }
+
+        .tr_main td:nth-child(1) {
+            width: 5%;
+        }
+
+        .tr_main td:nth-child(2) {
+            width: 5%;
+        }
+
+        .tr_main td:nth-child(3) {
+            width: 40%;
+            text-align: left;
+        }
+
+        .tr_main td:nth-child(4) {
+            text-align: left;
+        }
+
+        .tbl-usuarios-acao {
+            width: 600px;
+        }
+
+        /**********************************************************************/
+        .desaparecer {
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .btn-show-hide-usuarios {
+            height: 24px;
+            width: 24px;
+        }
+
+        .table-column-header {
+            text-transform: none;
+            font-weight: bold;
+        }
+
+        .add-usr {
+            white-space: nowrap;
+            display: inline-block;
+        }
+    </style>
+}
+
+<div id="divMensagem" class="alert" hidden>
+    <label id="labelMensagem"></label>
+</div>
+
+<div id="content">
+    <input hidden id="IP" />
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+
+                <!-- PAGE HEADER -->
+                <i class="fa-fw fa fa-user"></i>
+                @ViewBag.Title
+                <span>
+                    >
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <p>
+                <a href="@Url.Action("Novo", "Arquivos")" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i> Novo Modelo</a>
+            </p>
+
+            <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+
+                <!-- widget options:
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
+
+                -->
+                <header>
+                    <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                    <h2>Arquivos</h2>
+                </header>
+
+                <!-- widget div-->
+                <div>
+                    <!-- widget edit box -->
+                    <div class="jarviswidget-editbox">
+                        <!-- This area used as dropdown edit box -->
+                    </div>
+                    <!-- end widget edit box -->
+                    <!-- widget content -->
+                    <div class="widget-body no-padding">
+                        <table id="tbl-acao-usuarios" class="table table-striped table-bordered table-hover">
+                            <thead class="class="table-column-header">
+                                <tr>
+                                    <th>
+                                    </th>
+                                    <th>
+                                        Código
+                                    </th>
+                                    <th>
+                                        Descrição
+                                    </th>
+                                    <th>
+                                        Observações
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var acao in Model)
+                                {
+                                    <tr id="trMain_@acao.Id" class="tab-content tr_main">
+                                        <td>
+                                            <button type="button" onclick="ShowHideUsuarios(this, @acao.Id);" class="btn btn-default btn-xs btn-show-hide-usuarios">
+                                                <i id="img_@acao.Id" class="fa fa-chevron-down"></i>
+                                            </button>
+                                            @if (acao.ListaUsersAcao.Count() > 0)
+                                            {
+                                                <text>(@acao.ListaUsersAcao.Count())</text>
+                                            }
+                                        </td>
+                                        <td>
+                                            @acao.Programa
+                                        </td>
+                                        <td>
+                                            @acao.DescricaoMedio
+                                        </td>
+                                        <td>
+                                            @acao.DescricaoGrande
+                                        </td>
+                                    </tr>
+                                    <tr id="trDetail_@acao.Id" class="tab-content tr_detail" style="display: none">
+                                        <td colspan="4">
+                                            <div class="row">
+                                                <div class="form-inline add-usr">
+                                                    <div class="col-md-3">
+                                                        @Html.DropDownList("Id", (SelectList)ViewBag.listaUsuarios, new { @id = "ddListUsuarios_" + @acao.Id, @class = "form-control add-usr" })
+                                                        <button type="button" onclick="AddUsrAcao(this, @acao.Id);" class="btn btn-primary btn-group-sm add-usr"><i id="img_@acao.Id" class="fa fa-user"></i> Adicinonar</button>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                            </div>
+                                            <div class="row">
+                                                <table class="table table-striped table-bordered tbl-usuarios-acao" id="tbl-usr-acao-@acao.Id">
+                                                    <thead class="table-column-header">
+                                                    <th>Usuário</th>
+                                                    <th>Nome</th>
+                                                    <th>E-mail</th>
+                                                    <th></th>
+                                                    <tbody>
+                                                        @foreach (var usuario in acao.ListaUsersAcao)
+                                                        {
+                                                            <tr>
+                                                                <td>@usuario.UserName</td>
+                                                                <td>@usuario.Nome</td>
+                                                                <td>@usuario.Email</td>
+                                                                <td>
+                                                                    <button type="button" class="btn btn-danger btn-xs" title="Remover permissão do usuário" onclick="RemoveUsrAcao(this, '@usuario.IdUsuario', @acao.Id);"><i class="fa fa-trash-o"></i></button>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- end widget content -->
+                </div>
+                <!-- end widget div -->
+            </div>
+        </div>
+    </section>
+</div>
+
+@section pagespecific{
+
+    <script type="text/javascript">
+
+    /**
+     * mostra/esconde tr com os dados dos usuarios
+     * @@param btn
+     * @@param seq
+    **/
+    function ShowHideUsuarios(btn, seq) {
+        var btnTmp = btn;
+        var id = 'trDetail_' + seq;
+        var id_img = 'img_' + seq;
+        var ele = document.getElementById(id);
+        var img = document.getElementById(id_img);
+
+        if (img != null) {
+            $(img).toggleClass("fa-chevron-down fa-chevron-up", 1000);
+        }
+
+        if (ele != null) {
+            if ($(ele).is(':visible')) {
+                $(ele).hide("show");
+            } else {
+                $(ele).show("show");
+            }
+        }
+    }
+
+    /**
+     * adiciona usuario a um acao
+     * @@param btn
+     * @@param idAcao
+     */
+    function AddUsrAcao(btn, idAcao) {
+        var btnTmp = btn;
+        var id = 'ddListUsuarios_' + idAcao;
+        var ddList = document.getElementById(id);
+        var idTblUsr = 'tbl-usr-acao-' + idAcao;
+        var tblUsr = document.getElementById(idTblUsr);
+
+        if (ddList != null) {
+            var idUsuario = $(ddList).val();
+            var Nome
+            if (idUsuario.trim() != "") {
+
+                var objData = {
+                    IdAcao: idAcao,
+                    IdUsuario: idUsuario
+                };
+
+                $.ajax('@Url.Action("AddUsrAcao", "Acoes")', {
+                    method: 'POST',
+                    dataType: 'json',
+                    data: objData,
+                    beforeSend: function () {
+                        ShowProgreessBar("Processando requisição...");
+                    }
+                }).done(function (data) {
+                    //
+                    if (data.success) {
+
+                        if (tblUsr != null) {
+                            InsertRowTabelaUsuarios(tblUsr, data.usuario);
+                        }
+
+                        $.smallBox({
+                            title: "Requisição processada com sucesso!",
+                            content: data.mensagem,
+                            color: "#296191",
+                            icon: "fa fa-thumbs-up bounce animated",
+                            timeout: 8000
+                        });
+                    } else {
+                        $.smallBox({
+                            title: "Não foi possivel processar sua requisição!",
+                            content: data.mensagem,
+                            color: "#992111",
+                            icon: "fa fa-thumbs-down bounce animated",
+                            timeout: 8000
+                        });
+                    }
+                }).fail(function (jq, textStatus, error) {
+                    //
+
+                }).always(function () {
+                    HideProgressBar();
+                });
+            }
+        }
+    }
+
+    /**
+     * RemoveUsracao - Remove usuario de um acao
+     * @@param btn
+     * @@param idAcao
+     */
+    function RemoveUsrAcao(btn, idUsuario, idAcao) {
+        var btnTmp = btn;
+        //var id = 'ddListUsuarios_' + seq;
+
+        if (idUsuario.trim() != "") {
+
+            var objData = {
+                Idacao: idAcao,
+                IdUsuario: idUsuario
+            };
+
+            $.ajax('@Url.Action("RemoveUsrAcao", "Acoes")', {
+                method: 'POST',
+                dataType: 'json',
+                data: objData,
+                beforeSend: function () {
+                    ShowProgreessBar("Processando requisição...");
+                }
+            }).done(function (data) {
+                //
+                if (data.success) {
+                    //$("#txtResposta").val(data.resposta);
+                    $(btnTmp).closest("tr").remove();
+
+                    $.smallBox({
+                        title: "Requisição processada com sucesso!",
+                        content: data.mensagem,
+                        color: "#296191",
+                        icon: "fa fa-thumbs-up bounce animated",
+                        timeout: 8000
+                    });
+                } else {
+                    $.smallBox({
+                        title: "Não foi possivel processar sua requisição!",
+                        content: data.mensagem,
+                        color: "#992111",
+                        icon: "fa fa-thumbs-down bounce animated",
+                        timeout: 8000
+                    });
+                }
+            }).fail(function (jq, textStatus, error) {
+                //
+
+            }).always(function () {
+                HideProgressBar();
+            });
+
+        }
+    }
+
+    function InsertRowTabelaUsuarios(tblUsr, usuario) {
+        $(tblUsr).append('<tr> <td>' + usuario.Nome + '</td><td>' + usuario.UserName + '</td><td>' + usuario.Email + '</td><td></td></tr>');
+    }
+
+    $(document).ready(function () {
+
+        //coloque aqui seu codigo jquery
+
+    });
+
+    </script>
+}

@@ -15,7 +15,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public long IdTipoAto { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public string IdUsuarioCadastro { get; set; }
 
@@ -31,6 +31,6 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public bool Ativo { get; set; }
 
-        public string DescricaoAto { get; set; }
+        public string DescricaoTipoAto { get; set; }
     }
 }

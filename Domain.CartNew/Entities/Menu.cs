@@ -18,7 +18,7 @@ namespace Domain.CartNew.Entities
         public override long? Id { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")] 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         [Column("ID_TP_MENU")]
         public long IdTipoMenu { get; set; }

@@ -19,7 +19,7 @@ namespace AppServCart11RI.AppServices
             //
         }
 
-        public DtoExcuteService AddUsrAcesso(long IdAcao, string IdUsuario)
+        public DtoExcuteService AddUsrAcao(long IdAcao, string IdUsuario)
         {
             DtoExcuteService resposta = new DtoExcuteService();
             var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdUsuario == IdUsuario) && (u.IdAcao ==  IdAcao)).FirstOrDefault();
@@ -43,7 +43,7 @@ namespace AppServCart11RI.AppServices
             return resposta;
         }
 
-        public DtoExcuteService RemoveUsrAcesso(long IdAcao, string IdUsuario)
+        public DtoExcuteService RemoveUsrAcao(long IdAcao, string IdUsuario)
         {
             DtoExcuteService resposta = new DtoExcuteService();
             var usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => (u.IdUsuario == IdUsuario) && (u.IdAcao == IdAcao)).FirstOrDefault();
@@ -53,11 +53,11 @@ namespace AppServCart11RI.AppServices
                 this.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().Remove(usr);
                 this.UfwCartNew.SaveChanges();
                 resposta.Execute = true;
-                resposta.Message = "Acesso removido do usuário com sucesso!";
+                resposta.Message = "Permissão removida do usuário com sucesso!";
             }
             else
             {
-                resposta.Message = "Usuário não tem este acesso!";
+                resposta.Message = "Usuário não tem esta Permissão!";
             }
 
             return resposta;
