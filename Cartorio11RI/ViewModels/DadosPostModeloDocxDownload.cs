@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Cartorio11RI.ViewModels
 {
-    public class DadosPostArquivoUsuario
+    public class DadosPostModeloDocxDownload
     {
         public long Id { get; set; }
         public string Ip { get; set; }

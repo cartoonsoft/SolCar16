@@ -1,7 +1,7 @@
-﻿@model AdmCartorio.ViewModels.ModeloDocxViewModel
+﻿@model Cartorio11RI.ViewModels.ModeloDocxViewModel
 
 @{
-    ViewBag.Title = "Arquivos";
+    ViewBag.Title = "Modelos";
     ViewBag.SubTitle = "Editar";
 }
 
@@ -10,8 +10,6 @@
         /*coloque aqui seu codigo css*/
     </style>
 }
-
-<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 <div id="content">
     <div class="row">
@@ -65,21 +63,23 @@
                         <!-- widget content -->
 
                         <div class="widget-body no-padding">
-                            @using (Html.BeginForm("Editar", "Arquivos", FormMethod.Post, new { id = "frmEditarArquivo", enctype = "multipart/form-data", @class = "smart-form" }))
+                            @using (Html.BeginForm("Editar", "Modelos", FormMethod.Post, new { id = "frmEditarArquivo", enctype = "multipart/form-data", @class = "smart-form" }))
                             {
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
                                 @Html.HiddenFor(model => model.CaminhoEArquivo)
                                 @Html.HiddenFor(model => model.NomeModelo)
                                 @Html.HiddenFor(model => model.IdTipoAto)
-                                @Html.HiddenFor(model => model.logModeloDocxViewModel.IP)
                                 @Html.HiddenFor(model => model.Id)
 
+                                <input type="hidden" id="IpLocal" name="IpLocal" value="">
+                                
                                 <header>
                                     <h1>
                                         Edição de Modelos |
                                         <a id="btnDownload"
-                                           href="@Url.Action("DownloadFile","Arquivos",new { ID = Model.Id,IP = "atualizadoAoIniciar"})" class="">
+
+                                           href="@Url.Action("DownloadFile","Modelos", new { Id = Model.Id} )" class="fa-link">
                                             <i class="glyphicon glyphicon-download"></i>
                                             <span>
                                                 <strong>Download  </strong>
@@ -102,10 +102,12 @@
                                 </fieldset>
                                 <footer>
                                     <button type="submit" id="btnSbmitFrmEditarArquivo" class="btn btn-primary btn-lg">
-                                        <i class="glyphicon glyphicon-upload"></i>
+                                        <i class="glyphicon glyphicon-floppy-disk"></i>
                                         Salvar
                                     </button>
-                                    @Html.ActionLink("Voltar", "Index", "Arquivos", null, new { @class = "btn btn-default col-sm-2" })
+                                    <a href="@Url.Action("Index", "Modelos")" class="btn btn-default btn-lg" title="Voltar">
+                                        <i class="fa fa-angle-left" aria-hidden="true"></i> Voltar
+                                    </a>
                                 </footer>
                             }
                         </div>
@@ -117,55 +119,20 @@
 </div>
 
 @section pagespecific{
-<script type="text/javascript">
 
-    @* Coloque aqui seu codigo javascript *@
-    function getIp(callback) {
-        function response(s) {
-            callback(window.userip);
+    <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+    <script type="text/javascript">
 
-            s.onload = s.onerror = null;
-            document.body.removeChild(s);
-        }
+        $(document).ready(function () {
+            //obter ip local
+            var ipLocal = getUserIP(function (ip) {
+                var t = navigator.product;
+                $("#IpLocal").val(ip);
+            });
 
-        function trigger() {
-            window.userip = false;
+            var id = $("#Id").val();
+            //$('#btnDownload').attr("href", '/Modelos/DownloadFile/' + id + '?Ip="' + $("#IpLocal").val() + '"');
+        });
 
-            var s = document.createElement("script");
-            s.async = true;
-            s.onload = function () {
-                response(s);
-
-            };
-            s.onerror = function () {
-                response(s);
-            };
-
-            s.src = "https://l2.io/ip.js?var=userip";
-            document.body.appendChild(s);
-        }
-
-        if (/^(interactive|complete)$/i.test(document.readyState)) {
-            trigger();
-        } else {
-            document.addEventListener('DOMContentLoaded', trigger);
-        }
-    }
-
-    getIp(function (ip) {
-        console.log(ip);
-        document.getElementById("LogModeloDocxViewModel_IP").value = ip;
-        var id = parseInt($('#Id').val());
-        var arquivo = $('#Arquivo').val();
-
-        $('#btnDownload').attr("href", "/Arquivos/DownloadFile/" + id + "?Ip=" + ip + "&Arquivo=" + arquivo);
-    });
-
-    $(document).ready(function () {
-
-        //coloque aqui seu codigo jquery
-
-    });
-
-</script>
+    </script>
 }

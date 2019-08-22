@@ -356,6 +356,9 @@
     <Content Include="Scripts\cartoonsoft\cartoonsoft_libs.js" />
     <Content Include="Scripts\cartoonsoft\_layout.js" />
     <Content Include="Scripts\demo.min.js" />
+    <None Include="Scripts\jquery-1.8.0.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.0.js" />
+    <Content Include="Scripts\jquery-1.8.0.min.js" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.js" />
     <Content Include="Scripts\libs\jquery-ui-1.10.3.min.js" />
     <Content Include="Scripts\notification\SmartNotification.min.js" />
@@ -842,6 +845,41 @@
     <Content Include="Views\Modelos\Editar.cshtml" />
     <Content Include="Views\Modelos\Index.cshtml" />
     <Content Include="Views\Modelos\Novo.cshtml" />
+    <Content Include="Views\Ato\Index.cshtml" />
+    <Content Include="Views\Element\Buttons.cshtml" />
+    <Content Include="Views\Element\General.cshtml" />
+    <Content Include="Views\Forms\Bootstrap.cshtml" />
+    <Content Include="Views\Forms\Cropping.cshtml" />
+    <Content Include="Views\Forms\Dropzone.cshtml" />
+    <Content Include="Views\Forms\Editors.cshtml" />
+    <Content Include="Views\Forms\Plugins.cshtml" />
+    <Content Include="Views\Forms\SmartElements.cshtml" />
+    <Content Include="Views\Forms\Templates.cshtml" />
+    <Content Include="Views\Forms\Validation.cshtml" />
+    <Content Include="Views\Forms\Validator.cshtml" />
+    <Content Include="Views\Forms\Wizards.cshtml" />
+    <Content Include="Views\Features\Calendar.cshtml" />
+    <Content Include="Views\Features\Googlemap.cshtml" />
+    <Content Include="Views\Icons\Flags.cshtml" />
+    <Content Include="Views\Icons\FontAwesome.cshtml" />
+    <Content Include="Views\Icons\GlyphIcons.cshtml" />
+    <Content Include="Views\Icons\Grid.cshtml" />
+    <Content Include="Views\Icons\JQueryUI.cshtml" />
+    <Content Include="Views\Icons\NestedLists.cshtml" />
+    <Content Include="Views\Icons\TreeView.cshtml" />
+    <Content Include="Views\Icons\Typography.cshtml" />
+    <Content Include="Views\Misc\Blank.cshtml" />
+    <Content Include="Views\Misc\CKEditor.cshtml" />
+    <Content Include="Views\Misc\EmailTemplate.cshtml" />
+    <Content Include="Views\Misc\Error404.cshtml" />
+    <Content Include="Views\Misc\Error500.cshtml" />
+    <Content Include="Views\Misc\Invoice.cshtml" />
+    <Content Include="Views\Misc\Pricing.cshtml" />
+    <Content Include="Views\Misc\Search.cshtml" />
+    <Content Include="Views\Misc\Versions.cshtml" />
+    <Content Include="Views\Tables\DataTables.cshtml" />
+    <Content Include="Views\Tables\JQGrid.cshtml" />
+    <Content Include="Views\Tables\Normal.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -872,11 +910,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AcoesController.cs" />
     <Compile Include="Controllers\AdmController.cs" />
+    <Compile Include="Controllers\ElementController.cs" />
+    <Compile Include="Controllers\FeaturesController.cs" />
+    <Compile Include="Controllers\FormsController.cs" />
+    <Compile Include="Controllers\IconsController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
     <Compile Include="Controllers\AtoController.cs" />
     <Compile Include="Controllers\Base\CartorioBaseController.cs" />
     <Compile Include="Controllers\Base\CartoonSoftBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TablesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -887,10 +930,10 @@
     <Compile Include="ViewModels\AtoListViewModel.cs" />
     <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
-    <Compile Include="ViewModels\DadosPostArquivoUsuario.cs" />
+    <Compile Include="ViewModels\DadosPostModeloDocxDownload.cs" />
     <Compile Include="ViewModels\DadosPostModelo.cs" />
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
-    <Compile Include="ViewModels\LogArquivoModeloDocxViewModel.cs" />
+    <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocxListViewModel.cs" />

@@ -18,9 +18,6 @@
         traditional href="" links. See documentation for details.
         -->
         <ul>
-            <li class="@Html.RouteIf("index", "active")">
-                <a href="@Url.Action("index", "home")" title="Home"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Início</span></a>
-            </li>
             @{Html.RenderAction("MontarMenuUsuario", "Account", new { IdUsuario = User.Identity.GetUserId() });}
         </ul>
     </nav>

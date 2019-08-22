@@ -1,7 +1,11 @@
 ﻿@using Dto.CartNew.Entities.Cart_11RI.Diversos;
 @model IEnumerable<DtoMenu>
 
-@foreach (var i in Model.Where(ii => ((ii.IdTipoMenu  == 1) || (ii.IdTipoMenu == 3)) && (ii.IdMenuPai == null)))
+<li class="@Html.RouteIf("index", "active")">
+    <a href="@Url.Action("index", "home")" title="Home"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Início</span></a>
+</li>
+
+@foreach (var i in Model.Where(ii => ((ii.IdTipoMenu == 1) || (ii.IdTipoMenu == 3)) && (ii.IdMenuPai == null)))
 {
     if (Model.Where(mm1 => (mm1.IdMenuPai == i.Id)).Count() == 0)
     {
@@ -14,10 +18,11 @@
         else
         {
             <li class="@Html.RouteIf(i.Action, "active")">
-                @if(i.Permissao)
+                @if (i.Permissao)
                 {
                     <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoMenu"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
-                } else
+                }
+                else
                 {
                     <a href="#" title="@i.DescricaoMenu" onclick="ShowMessageUser();"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
                 }
@@ -37,12 +42,15 @@
                             <a href="#" title="@j.DescricaoMenu"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
 
                         </li>
-                    }else {
+                    }
+                    else
+                    {
                         <li class="@Html.RouteIf(j.Action, "active")">
                             @if (j.Permissao)
                             {
                                 <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoMenu"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
-                            } else
+                            }
+                            else
                             {
                                 <a href="#" title="@j.DescricaoMenu" onclick="ShowMessageUser()"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
                             }

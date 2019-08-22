@@ -14,6 +14,7 @@ using Cartorio11RI.ViewModels;
 using AppServCart11RI.AppServices;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
+using System.Net.Sockets;
 
 namespace Cartorio11RI.Controllers
 {
@@ -44,7 +45,7 @@ namespace Cartorio11RI.Controllers
 
             using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
             {
-                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModeloDocx().Where(a => a.Ativo == true);
+                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModelosDocx().Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
             }
 
@@ -73,10 +74,10 @@ namespace Cartorio11RI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ModeloDocxViewModel arquivoModel)
         {
-            bool success = false;
             bool ControllerModelValid = ModelState.IsValid;
+            bool success = false;
             string msg = "";
-            long? NovoId = null;
+            long? NovoId;
 
             try
             {
@@ -85,6 +86,7 @@ namespace Cartorio11RI.Controllers
 
                 if (ControllerModelValid)
                 {
+
                     LogModeloDocx logArquivo = new LogModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
                     logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
@@ -105,7 +107,8 @@ namespace Cartorio11RI.Controllers
                                 CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                                 Files = arquivoModel.Files,
                                 NomeModelo = arquivoModel.NomeModelo,
-                                LogArquivo = new DtoLogModeloDocx {
+                                LogArquivo = new DtoLogModeloDocx
+                                {
                                     Id = logArquivo.Id,
                                     IdModeloDocx = logArquivo.IdModeloDocx,
                                     IdUsuario = logArquivo.IdUsuario,
@@ -113,7 +116,7 @@ namespace Cartorio11RI.Controllers
                                     IP = logArquivo.IP,
                                     TipoLogModeloDocx = logArquivo.TipoLogModeloDocx,
                                     UsuarioSistOperacional = logArquivo.UsuarioSistOperacional
-                                } 
+                                }
                             },
                             UsuarioAtual.Id
                         );
@@ -128,20 +131,24 @@ namespace Cartorio11RI.Controllers
 
                         #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
-                        filePath = Path.Combine(arquivoModel.CaminhoEArquivo, NovoId.ToString() + ".docx");
+                        filePath = Path.Combine(arquivoModel.CaminhoEArquivo, "modelo_" + NovoId.ToString() + ".docx");
                         arquivo.SaveAs(filePath);
                         #endregion
                     }
 
+                    //ModelState.AddModelError(Guid.NewGuid().ToString(), "Erro generico");
+                    msg = "Modelo adicionado com sucesso!";
                     success = true;
-                    msg = "Modelo de documento salvo com sucesso!";
                 }
             }
             catch (Exception ex)
             {
-                msg = "Falha ao Cadastrar! [ArquivosController: " + ex.Message + "]";
+                msg = "Não foi possível salvar! [" + ex.Message + "]";
+                ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
                 //System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                //return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
+
             }
 
             //var resultado = new
@@ -155,7 +162,7 @@ namespace Cartorio11RI.Controllers
             ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
             ViewBag.msg = msg;
 
-            return View(nameof(Novo));
+            return View(arquivoModel);
 
         }
         #endregion
@@ -273,7 +280,7 @@ namespace Cartorio11RI.Controllers
         }
 
         //[ValidateAntiForgeryToken]
-        public void Desativar([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
+        public void Desativar([Bind(Include = "Id, Ip")]DadosPostModeloDocxDownload dadosPost)
         {
             bool respDesativar;
 
@@ -288,16 +295,31 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        public FileResult DownloadFile([Bind(Include = "Id,Ip")]DadosPostArquivoUsuario dadosPost)
+        public FileResult DownloadFile([Bind(Include = "Id, Ip")]DadosPostModeloDocxDownload dadosPost)
         {
-            string fileName = dadosPost.Id.ToString();
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{dadosPost.Id}.docx");
+            string fileName = "modelo_"+dadosPost.Id.ToString()+".docx";
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/modelo_{dadosPost.Id}.docx");
+
             try
             {
+                string ipAddress = dadosPost.Ip;
+                if (string.IsNullOrEmpty(ipAddress))
+                {
+
+                    var host = Dns.GetHostEntry(Dns.GetHostName());
+                    foreach (var ip in host.AddressList)
+                    {
+                        if (ip.AddressFamily == AddressFamily.InterNetwork)
+                        {
+                            ipAddress = ip.ToString();
+                        }
+                    }
+                }
+
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
                 //Cadastro de LOG
-                CadastrarLogDownload(dadosPost.Ip, dadosPost.Id);
+                CadastrarLogDownload(ipAddress, dadosPost.Id);
 
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }

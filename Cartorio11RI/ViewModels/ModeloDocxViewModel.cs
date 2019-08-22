@@ -30,7 +30,7 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Modelo")]
         public List<HttpPostedFileBase> Files { get; set; }
 
-        public LogArquivoModeloDocxViewModel logArquivoModeloDocxViewModel { get; set; }
+        public LogModeloDocxViewModel logModeloDocxViewModel { get; set; }
 
         public string CaminhoEArquivo { get; set; }
   

@@ -46,7 +46,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
             {
-                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModeloDocx().Where(a => a.Ativo == true);
+                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModelosDocx().Where(a => a.Ativo == true);
                 listaModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
             }
 

@@ -27,7 +27,7 @@ namespace DomainServ.CartNew.Interfaces.Factory
             get;
         }
 
-        IModeloDocxDs ArquivoModeloDocxDs
+        IModeloDocxDs ModeloDocxDs
         {
             get;
         }

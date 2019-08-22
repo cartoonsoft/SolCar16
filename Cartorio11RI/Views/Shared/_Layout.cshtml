@@ -61,6 +61,7 @@
         Html.RenderPartialIf("_Tiles", Settings.EnableTiles);
     }
 
+    <!-- Mostra Progress Bar ------------------------------------------------------------------------------------------------------------------>
     <div id="frmProgreessBarModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
@@ -79,8 +80,31 @@
         </div>
     </div>
 
-    @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
+    <!--  Dialogo Geral ----------------------------------------------------------------------------------------------------------------------->
+    <div class="modal fade" id="divDlg1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
+                    <h4 class="modal-title"><label id="lblDlgHeader"></label></h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <span id="spanText"></span>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                        Fechar
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
 
+    @{ Html.RenderPartial("_Scripts", RenderSection("pagespecific", false)); }
 </body>
 
 </html>

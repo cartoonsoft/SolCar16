@@ -151,7 +151,7 @@ namespace DomainServ.CartNew.Factory
             get { return GetDomainServiceInstance<PessoaCartNew>() as IPessoaCartNewDs; }
         }
 
-        public IModeloDocxDs ArquivoModeloDocxDs
+        public IModeloDocxDs ModeloDocxDs
         {
             get { return GetDomainServiceInstance<ModeloDocx>() as IModeloDocxDs; }
         }

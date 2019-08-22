@@ -117,7 +117,7 @@ namespace AppServCart11RI.AppServices
                 };
 
                 // Registro de Log                
-                LogModeloDocx logArquivoModeloDocx = new LogModeloDocx()
+                LogModeloDocx logModeloDocx = new LogModeloDocx()
                 {
                     IdModeloDocx = arquivoModelo.Id ?? 0,
                     IdUsuario = IdUsuario,
@@ -127,7 +127,7 @@ namespace AppServCart11RI.AppServices
                     TipoLogModeloDocx = TipoLogModeloDocx.Upload
                 };
 
-                //NovoId = this.DsFactoryBase .NovoModelo(arquivoModelo, logArquivoModeloDocx, IdUsuario);
+                NovoId = this.DsFactoryCartNew.ModeloDocxDs.NovoModelo(arquivoModelo, logModeloDocx, IdUsuario);
             }
             catch (Exception ex)
             {
@@ -196,9 +196,9 @@ namespace AppServCart11RI.AppServices
             return resposta;
         }
         
-        public IEnumerable<DtoModeloDocxList> ListarModeloDocx(long? IdTipoAto = null)
+        public IEnumerable<DtoModeloDocxList> ListarModelosDocx(long? IdTipoAto = null)
         {
-            IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ArquivoModeloDocxDs.ListarArquivoModeloDocx(IdTipoAto);
+            IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ModeloDocxDs.ListarModelosDocx(IdTipoAto);
             return listaDs;
         }
 

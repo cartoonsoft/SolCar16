@@ -24,7 +24,7 @@ namespace DomainServ.CartNew.Services
             _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
-        public IEnumerable<DtoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
+        public IEnumerable<DtoModeloDocxList> ListarModelosDocx(long? IdTipoAto = null)
         {
             IEnumerable<DtoModeloDocxList> listaModeloDocxLists = new List<DtoModeloDocxList>();
 
@@ -58,23 +58,23 @@ namespace DomainServ.CartNew.Services
         }
         */
 
-        public long? NovoModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? NovoModelo(ModeloDocx modeloDocx, LogModeloDocx logModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
             UfwCartNew.BeginTransaction();
 
             NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
-            arquivoModeloDocx.Id = NovoId;
-            arquivoModeloDocx.CaminhoEArquivo = arquivoModeloDocx.CaminhoEArquivo + NovoId.ToString() + ".docx";
+            modeloDocx.Id = NovoId;
+            modeloDocx.CaminhoEArquivo = modeloDocx.CaminhoEArquivo + "modelo_" + NovoId.ToString() + ".docx";
 
-            this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(arquivoModeloDocx);
+            this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDocx);
             UfwCartNew.SaveChanges();
 
-            logArquivoModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-            logArquivoModeloDocx.IdModeloDocx = NovoId??0;
+            logModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            logModeloDocx.IdModeloDocx = NovoId??0;
 
-            _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
+            _repositoryLogModeloDocx.Add(logModeloDocx);
             UfwCartNew.SaveChanges();
 
             UfwCartNew.CommitTransaction();

@@ -52,6 +52,22 @@ function ShowMessageUser() {
     Aviso(tit, msg, cor, timeout, icone)
 }
 
+/**
+ * Mostra dialogo modal de aviso
+ * @param {any} pAviso
+ * @param {any} pTitulo
+ * @param {any} pTexto
+ */
+function ShowModalDialog( pTitulo, pTexto) {
+    $('#lblDlgHeader').text(pTitulo);
+    $('#spanText').text(pTexto);
+    $('#divDlg1').modal({
+        transition: 'scale',
+        centered: true,
+        closable: false
+    }).modal('show');
+}
+
 
 /*-----------------------------------------------------------------------------*/
 
