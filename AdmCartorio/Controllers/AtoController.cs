@@ -122,7 +122,7 @@ namespace AdmCartorio.Controllers
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
                             IdUsuarioCadastro = this.UsuarioAtual.Id,
-                            IdContaAcessoSistema = 1
+                            IdCtaAcessoSist = 1
                             //NumSequencia = Convert.ToInt64(numSequenciaAto)
                         };
 

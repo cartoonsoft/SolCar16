@@ -14,8 +14,8 @@ namespace Infra.Cross.Identity.ViewModels
         [Key]
         public Guid Id { get; set; }
 
-        [Display(Name = "Nome completo")]
         [Required]
+        [Display(Name = "Nome completo")]
         public string Nome { get; set; }
 
         [Required]

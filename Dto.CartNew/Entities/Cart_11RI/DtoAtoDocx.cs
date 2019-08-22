@@ -19,7 +19,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         }
 
         public long? Id { get; set; }
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
         public long IdAto { get; set; }
         public long IdDocx { get; set; }
         public short IndexParagrafo { get; set; }

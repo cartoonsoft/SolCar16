@@ -108,7 +108,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                             {
                                 Id = row.GetOracleDecimal(row.GetOrdinal("ID_MODELO_DOC")).ToInt64(), // DOC.ID_MODELO_DOC
                                 IdTipoAto = row.IsDBNull(row.GetOrdinal("ID_TP_ATO")) ? default(long?) : row.GetOracleDecimal(row.GetOrdinal("ID_TP_ATO")).ToInt64(), //DOC.ID_TP_ATO,
-                                IdContaAcessoSistema = row.GetOracleDecimal(row.GetOrdinal("ID_CTA_ACESSO_SIST")).ToInt64(), // DOC.ID_CTA_ACESSO_SIST,
+                                IdCtaAcessoSist = row.GetOracleDecimal(row.GetOrdinal("ID_CTA_ACESSO_SIST")).ToInt64(), // DOC.ID_CTA_ACESSO_SIST,
                                 IdUsuarioCadastro = row.GetOracleString(row.GetOrdinal("ID_USR_CAD")).ToString(), //DOC.ID_USR_CAD,
                                 IdUsuarioAlteracao = row.GetOracleString(row.GetOrdinal("ID_USR_ALTER")).ToString(),  //DOC.ID_USR_ALTER
                                 DataCadastro = row.GetOracleDate(row.GetOrdinal("DT_CAD")).Value, //DOC.DT_CAD,
@@ -210,7 +210,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 select new
                 {
                     campos.Id,
-                    campos.IdContaAcessoSistema,
+                    campos.IdCtaAcessoSist,
                     campos.IdTipoAto,
                     campos.NomeCampo,
                     campos.PlaceHolder,
@@ -223,7 +223,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 listaCamposArquivoModeloDocx.Add(new CamposModeloDocx
                 {
                     Id = item.Id,
-                    IdContaAcessoSistema = item.IdContaAcessoSistema,
+                    IdCtaAcessoSist = item.IdCtaAcessoSist,
                     IdTipoAto = item.IdTipoAto,
                     NomeCampo = item.NomeCampo,
                     Campo = item.Campo,

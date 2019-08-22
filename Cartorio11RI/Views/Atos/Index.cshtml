@@ -5,6 +5,50 @@
     ViewBag.SubTitle = "Index";
 }
 
+@section styles_especific {
+
+    <style>
+        /*------------------------------------------------------------------------------
+        tbl-list-atos
+        ------------------------------------------------------------------------------*/
+        #tbl-list-atos {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
+
+            #tbl-list-atos tr td:nth-child(1) {
+                width: 15%;
+            }
+
+            #tbl-list-atos tr td:nth-child(2) {
+                width: 10%;
+            }
+
+            #tbl-list-atos tr td:nth-child(3) {
+                width: 10%;
+            }
+
+            #tbl-list-atos tr td:nth-child(4) {
+                width: 10%;
+            }
+
+            #tbl-list-atos tr td:nth-child(5) {
+                width: 15%;
+            }
+
+            #tbl-list-atos tr td:nth-child(6) {
+                width: 25%;
+            }
+
+        /**********************************************************************/
+        .desaparecer {
+            opacity: 0;
+            transition: 0.5s;
+        }
+    </style>
+}
+
 <!-- MAIN CONTENT -->
 <div id="content">
 
@@ -23,30 +67,47 @@
 
     <!-- widget grid -->
     <section id="widget-grid" class="">
-        <form class="smart-form bordered">
-            <fieldset>
-                <div class="row">
-                    <section class="col col-4">
-                        <label class="input">
-                            <i class="icon-prepend fa fa-calendar"></i>
-                            <input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
-                        </label>
-                    </section>
-                    <section class="col col-4">
-                        <label class="input">
-                            <i class="icon-prepend fa fa-calendar"></i>
-                            <input type="text" name="dataFim" id="dataFim" placeholder="Data final">
-                        </label>
-                    </section>
-                    <section class="col col-4">
-                        <button type="button" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
-                    </section>
+
+        <div class="panel-group smart-accordion-default" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                            <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
+                            <span id="SpanTitFormPesquisa"></span>
+                        </a>
+                    </h4>
                 </div>
-                <div class="row">
-                    @Html.ValidationBootstrap()
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body no-padding">
+                        <form class="smart-form bordered">
+                            <fieldset>
+                                <div class="row">
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
+                                        </label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <label class="input">
+                                            <i class="icon-prepend fa fa-calendar"></i>
+                                            <input type="text" name="dataFim" id="dataFim" placeholder="Data final">
+                                        </label>
+                                    </section>
+                                    <section class="col col-4">
+                                        <button type="button" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                                    </section>
+                                </div>
+                                <div class="row">
+                                    @Html.ValidationBootstrap()
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
-            </fieldset>
-        </form>
+            </div>
+        </div>
 
         <div class="row"><br /></div>
 
@@ -59,21 +120,21 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false">
                     <!-- widget options:
-                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+                usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
-                    data-widget-colorbutton="false"
-                    data-widget-editbutton="false"
-                    data-widget-togglebutton="false"
-                    data-widget-deletebutton="false"
-                    data-widget-fullscreenbutton="false"
-                    data-widget-custombutton="false"
-                    data-widget-collapsed="true"
-                    data-widget-sortable="false"
+                data-widget-colorbutton="false"
+                data-widget-editbutton="false"
+                data-widget-togglebutton="false"
+                data-widget-deletebutton="false"
+                data-widget-fullscreenbutton="false"
+                data-widget-custombutton="false"
+                data-widget-collapsed="true"
+                data-widget-sortable="false"
 
-                    -->
+                -->
                     <header>
                         <span class="widget-icon"> <i class="fa fa-table"></i> </span>
-                        <h2>Standard Data Tables </h2>
+                        <h2>Atos resgistrados no período </h2>
 
                     </header>
 
@@ -89,31 +150,79 @@
                         <!-- widget content -->
                         <div class="widget-body no-padding">
 
-                            <table id="dt_basic" class="table table-striped table-bordered table-hover" width="100%">
+                            <table id="tbl-list-atos" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th data-hide="phone">ID</th>
-                                        <th data-class="expand"><i class="fa fa-fw fa-user text-muted hidden-md hidden-sm hidden-xs"></i> Name</th>
-                                        <th data-hide="phone"><i class="fa fa-fw fa-phone text-muted hidden-md hidden-sm hidden-xs"></i> Phone</th>
-                                        <th>Company</th>
-                                        <th data-hide="phone,tablet"><i class="fa fa-fw fa-map-marker txt-color-blue hidden-md hidden-sm hidden-xs"></i> Zip</th>
-                                        <th data-hide="phone,tablet">City</th>
-                                        <th data-hide="phone,tablet"><i class="fa fa-fw fa-calendar txt-color-blue hidden-md hidden-sm hidden-xs"></i> Date</th>
+                                        <th colspan="1">
+                                            Reg./Mat.
+                                        </th>
+                                        <th colspan="1">
+                                            Prenotação
+                                        </th>
+                                        <th colspan="1">
+                                            Tipo
+                                        </th>
+                                        <th colspan="1">
+                                            Data
+                                        </th>
+                                        <th colspan="2">
+                                            Observação
+                                        </th>
+                                        <th colspan="2">
+                                            Status
+                                        </th>
+                                        <th colspan="2" style="display:none;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Jennifer</td>
-                                        <td>1-342-463-8341</td>
-                                        <td>Et Rutrum Non Associates</td>
-                                        <td>35728</td>
-                                        <td>Fogo</td>
-                                        <td>03/04/14</td>
-                                    </tr>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr id="@item.Id">
+                                            <td colspan="1">
+                                                @Html.DisplayFor(modelItem => item.Codigo)
+                                            </td>
+                                            <td colspan="1">
+                                                @Html.DisplayFor(modelItem => item.IdPrenotacao)
+                                            </td>
+                                            <td colspan="1">
+                                                @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
+                                            </td>
+                                            <td colspan="1">
+                                                @Html.DisplayFor(modelItem => item.DataCadastro)
+                                            </td>
+                                            <td colspan="2">
+                                                @Html.DisplayFor(modelItem => item.Observacao)
+                                            </td>
+                                            <td class="text-capitalize" colspan="2">
+                                                @{
+                                                    if (item.Bloqueado == true)
+                                                    {
+                                                        <label>Bloqueado</label>
+                                                    }
+                                                    else
+                                                    {
+                                                        <label>Disponível para alteração</label>
+                                                    }
+                                                }
+                                            </td>
+                                            <td class="row" colspan="2">
+                                                @{
+                                                    if (!item.Bloqueado)
+                                                    {
+                                                        <a href="@Url.Action("Bloquear", "Ato", new { Id = item.Id })" class="btn btn-danger" rel="tooltip" data-placement="top" data-original-title="Bloquear"><i class="fa fa-lock"></i></a>
+                                                        <a href="@Url.Action("Editar", "Ato", new { Id = item.Id })" class="btn btn-primary" rel="tooltip" data-placement="top" data-original-title="Editar"><i class="fa fa-edit"></i></a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="@Url.Action("DownloadFileCompleto", "Ato", new { Id = item.NumMatricula})" class="btn btn-info" rel="tooltip" data-placement="top" data-original-title="Histórico"><i class="fa fa-cloud-download"></i></a>
+                                                    }
+                                                }
+                                                <a href="javascript:void(0);" class="btn btn-default" rel="tooltip" data-placement="top" data-original-title="Imprimir"><i class="fa fa-print"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
                                 </tbody>
                             </table>
-
 
                         </div>
                         <!-- end widget content -->
@@ -135,7 +244,6 @@
 
 </div>
 <!-- END MAIN CONTENT -->
-
 <!-- scripts pagespecific -------------------------------------------------- -->
 @section pagespecific {
     <script type="text/javascript">
@@ -161,8 +269,9 @@
 
             $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
             $("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
+            $("#SpanTitFormPesquisa").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
 
-            /*-- btnPesquisar ----------------------------------------------- */                                                                           
+            /*-- btnPesquisar ----------------------------------------------- */
             $("#btnPesquisar").click(function (e) {
                 e.preventDefault();
 
@@ -180,6 +289,7 @@
                     }
                 }).done(function (data) {
                     //
+                    $("#SpanTitFormPesquisa").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
 
                 }).fail(function (jq, textStatus, error) {
                     //

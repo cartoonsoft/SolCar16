@@ -69,7 +69,7 @@ namespace Cartorio11RI.Controllers
             }
 
             ViewBag.DataIni = DataIni;
-            ViewBag.DAtaFim = DataFim;
+            ViewBag.DataFim = DataFim;
 
             return View(listaAtoListViewModel);
         }
@@ -77,7 +77,7 @@ namespace Cartorio11RI.Controllers
         #region | CADASTRO |
         public ActionResult Novo()
         {
-            var dados = new CadastroDeAtoViewModel();
+            var dados = new AtoViewModel();
 
             return View(dados);
         }
@@ -85,7 +85,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Novo(CadastroDeAtoViewModel modelo)
+        public ActionResult Novo(AtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
@@ -94,29 +94,29 @@ namespace Cartorio11RI.Controllers
             {
                 //throw new Exception("Teste Ronaldo");
 
-                if (modelo.Ato == null)
+                if (modelo.Id == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Novo), modelo);
                 }
 
                 //Ajusta a string de ato
-                modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
+                //modelo.Id??0 = RemoveUltimaMarcacao("" /*modelo.Id.ToString()*/);  //todo: ronalod arrumar 
 
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
+                    if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
                         numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
                     }
                     else
                     {
-                        numSequenciaAto = modelo.NumSequencia;
+                        numSequenciaAto = modelo.NumSequenciaAto;
                     }
 
                     //todo: ronaldo arrumar AppServiceCadastroDeAto
@@ -141,7 +141,7 @@ namespace Cartorio11RI.Controllers
                             Observacao = "Cadastro de teste",
                             NumMatricula = modelo.PREIMO.MATRI.ToString(),
                             IdUsuarioCadastro = this.UsuarioAtual.Id,
-                            IdContaAcessoSistema = 1
+                            IdCtaAcessoSist = 1
                             //NumSequencia = Convert.ToInt64(numSequenciaAto)
                         };
 
@@ -252,15 +252,15 @@ namespace Cartorio11RI.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
                     }
-                    CadastroDeAtoViewModel atoViewModel = new CadastroDeAtoViewModel
+                    AtoViewModel atoViewModel = new AtoViewModel
                     {
-                        IdAto = Id,
+                        Id = Id,
                         PREIMO = new PREIMOViewModel()
                         {
                             SEQIMO = Convert.ToInt64(Ato.NumMatricula),
                             SEQPRE = Ato.IdPrenotacao
                         },
-                        NumSequencia = Convert.ToInt32(Ato.NumSequenciaAto)
+                        NumSequenciaAto  = Ato.NumSequenciaAto
                     };
 
                     return View(atoViewModel);
@@ -281,35 +281,36 @@ namespace Cartorio11RI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(CadastroDeAtoViewModel modelo)
+        public ActionResult Editar(AtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
             try
             {
-                if (modelo.Ato == null)
+                if (modelo.Id == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
                     return View(nameof(Editar), modelo);
                 }
 
+                //todo: ronaldo arrumar ato editar
                 //Ajusta a string de ato
-                modelo.Ato = RemoveUltimaMarcacao(modelo.Ato);
+                //modelo.Id = RemoveUltimaMarcacao(modelo.Id);
 
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
-                    if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
+                    if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
                         numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
                     }
                     else
                     {
-                        numSequenciaAto = modelo.NumSequencia;
+                        numSequenciaAto = modelo.NumSequenciaAto;
                     }
 
                     //using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartNew))
@@ -326,7 +327,7 @@ namespace Cartorio11RI.Controllers
                         // Gravar o ato e buscar o selo e gravar o selo
                         using (var appService = new AppServiceAtos(this.UfwCartNew))
                         {
-                            var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                            var dtoEditar = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
 
                             //var resultado = appService.EditarAto(dtoEditar, this.UsuarioAtual.Id);
 
@@ -346,7 +347,7 @@ namespace Cartorio11RI.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Bloquear), new { Id = modelo.IdAto });
+                    return RedirectToActionPermanent(nameof(Bloquear), new { Id = modelo.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";

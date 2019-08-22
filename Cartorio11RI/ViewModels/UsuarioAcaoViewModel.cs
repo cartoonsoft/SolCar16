@@ -10,7 +10,7 @@ namespace Cartorio11RI.ViewModels
     {
         public string IdUsuario { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         [MaxLength(100)]
         public string Nome { get; set; }

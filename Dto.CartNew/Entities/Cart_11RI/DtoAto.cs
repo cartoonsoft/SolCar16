@@ -11,7 +11,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         public long? Id { get; set; }
 
         //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public long IdTipoAto { get; set; }
 

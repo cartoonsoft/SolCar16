@@ -13,7 +13,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
     {
         [Key]
         public long? Id { get; set; }
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
         public long SeqAcesso { get; set; }
         public string Programa { get; set; }
         public string Obs { get; set; }

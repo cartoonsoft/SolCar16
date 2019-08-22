@@ -928,7 +928,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\AcaoViewModel.cs" />
     <Compile Include="ViewModels\AtoListViewModel.cs" />
-    <Compile Include="ViewModels\CadastroDeAtoViewModel.cs" />
+    <Compile Include="ViewModels\AtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
     <Compile Include="ViewModels\DadosPostModeloDocxDownload.cs" />
     <Compile Include="ViewModels\DadosPostModelo.cs" />

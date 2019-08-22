@@ -18,7 +18,7 @@ namespace Domain.CartNew.Entities
         public long IdTipoAto { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")]
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         [Column("NOME_CAMPO")]
         public string NomeCampo { get; set; }
