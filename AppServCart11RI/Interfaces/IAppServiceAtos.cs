@@ -11,7 +11,7 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceAto : IAppServiceCartorio<DtoAto, Ato>
+    public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
         DtoAtoCadastro NovoAto(DtoAto Ato, string textoHtml);
         bool EditarAto(long IdAto, string textoHtml);

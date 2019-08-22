@@ -16,7 +16,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public long IdPrenotacao { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public string DescricaoTipoAto { get; set; }
         public string Codigo { get; set; }

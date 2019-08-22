@@ -19,7 +19,7 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Numero da prenotação:")]
         public long IdPrenotacao { get; set; }
 
-        public long IdContaAcessoSistema { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public string DescricaoTipoAto { get; set; }
         public string Codigo { get; set; }

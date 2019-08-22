@@ -10,7 +10,7 @@ using AppServ.Core.Interfaces;
 
 namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceModeloDocx : IAppServiceCartorio<DtoModeloDocx, ModeloDocx>
+    public interface IAppServiceModelosDocx : IAppServiceCartorio<DtoModeloDocx, ModeloDocx>
     {
         /// <summary>
         /// SAvalr um Modelo de doc

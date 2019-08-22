@@ -68,7 +68,13 @@ function ShowModalDialog( pTitulo, pTexto) {
     }).modal('show');
 }
 
+function VerifyActiveClass(obj) {
+    var  objTmp = obj;
 
+    if (!$(objTmp).closest("li").hasClass("active")) {
+        $(objTmp).closest("li").addClass("active")
+    }
+}
 /*-----------------------------------------------------------------------------*/
 
 

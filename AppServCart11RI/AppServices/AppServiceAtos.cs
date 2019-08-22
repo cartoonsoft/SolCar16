@@ -13,9 +13,9 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceAto : AppServiceCartorio<DtoAto, Ato>, IAppServiceAto
+    public class AppServiceAtos : AppServiceCartorio<DtoAto, Ato>, IAppServiceAtos
     {
-        public AppServiceAto(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
 
@@ -64,8 +64,8 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoAtoList> ListarAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null)
         {
             IEnumerable<DtoAtoList> lista = new List<DtoAtoList>();
+            //todo: ronaldo fazer ListarAtos
 
-            //throw new NotImplementedException();
             return lista;
         }
 

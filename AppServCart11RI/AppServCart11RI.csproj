@@ -50,11 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppServices\AppServiceAcoesUsuarios.cs" />
-    <Compile Include="AppServices\AppServiceModeloDocx.cs" />
-    <Compile Include="AppServices\AppServiceAto.cs" />
+    <Compile Include="AppServices\AppServiceModelosDocx.cs" />
+    <Compile Include="AppServices\AppServiceAtos.cs" />
     <Compile Include="Interfaces\IAppServiceAcoesUsuarios.cs" />
-    <Compile Include="Interfaces\IAppServiceModeloDocx.cs" />
-    <Compile Include="Interfaces\IAppServiceAto.cs" />
+    <Compile Include="Interfaces\IAppServiceModelosDocx.cs" />
+    <Compile Include="Interfaces\IAppServiceAtos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

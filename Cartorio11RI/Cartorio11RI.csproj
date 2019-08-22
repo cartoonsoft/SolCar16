@@ -845,7 +845,7 @@
     <Content Include="Views\Modelos\Editar.cshtml" />
     <Content Include="Views\Modelos\Index.cshtml" />
     <Content Include="Views\Modelos\Novo.cshtml" />
-    <Content Include="Views\Ato\Index.cshtml" />
+    <Content Include="Views\Atos\Index.cshtml" />
     <Content Include="Views\Element\Buttons.cshtml" />
     <Content Include="Views\Element\General.cshtml" />
     <Content Include="Views\Forms\Bootstrap.cshtml" />
@@ -915,7 +915,7 @@
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\IconsController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
-    <Compile Include="Controllers\AtoController.cs" />
+    <Compile Include="Controllers\AtosController.cs" />
     <Compile Include="Controllers\Base\CartorioBaseController.cs" />
     <Compile Include="Controllers\Base\CartoonSoftBaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

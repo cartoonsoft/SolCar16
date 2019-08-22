@@ -7,9 +7,11 @@
 
 @foreach (var i in Model.Where(ii => ((ii.IdTipoMenu == 1) || (ii.IdTipoMenu == 3)) && (ii.IdMenuPai == null)))
 {
+
+
     if (Model.Where(mm1 => (mm1.IdMenuPai == i.Id)).Count() == 0)
     {
-        if (string.IsNullOrEmpty(i.Action))
+        if ((string.IsNullOrEmpty(i.Action)) || (string.IsNullOrEmpty(i.Controller)))
         {
             <li>
                 <a href="#" title="@i.DescricaoMenu"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
@@ -17,10 +19,12 @@
         }
         else
         {
-            <li class="@Html.RouteIf(i.Action, "active")">
+            string cur1 = ((ViewBag.CurrentControler == i.Controller.ToLower()) && (ViewBag.CurrentAction == i.Action.ToLower())) ? "active" : "";
+
+            <li class="@cur1">
                 @if (i.Permissao)
                 {
-                    <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoMenu"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
+                    <a href="@Url.Action(i.Action, i.Controller)" title="@i.DescricaoMenu" onclick="VerifyActiveClass(this);"><i class="fa fa-lg fa-fw @i.IconeWeb"></i> <span class="menu-item-parent">@i.DescricaoMenu</span></a>
                 }
                 else
                 {
@@ -36,7 +40,8 @@
             <ul>
                 @foreach (var j in Model.Where(jj => jj.IdMenuPai == i.Id))
                 {
-                    if (string.IsNullOrEmpty(j.Action))
+
+                    if ((string.IsNullOrEmpty(j.Action)) || (string.IsNullOrEmpty(j.Controller)))
                     {
                         <li>
                             <a href="#" title="@j.DescricaoMenu"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
@@ -45,10 +50,11 @@
                     }
                     else
                     {
-                        <li class="@Html.RouteIf(j.Action, "active")">
+                        string cur2 = ((ViewBag.CurrentControler == j.Controller.ToLower()) && (ViewBag.CurrentAction == j.Action.ToLower())) ? "active" : "";
+                        <li class="@cur2">
                             @if (j.Permissao)
                             {
-                                <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoMenu"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
+                                <a href="@Url.Action(j.Action, j.Controller)" title="@j.DescricaoMenu" onclick="VerifyActiveClass(this);"><i class="fa fa-lg fa-fw @j.IconeWeb"></i> <span class="menu-item-parent">@j.DescricaoMenu</span></a>
                             }
                             else
                             {

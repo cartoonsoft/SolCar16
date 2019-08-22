@@ -18,11 +18,11 @@ using LibFunctions.Functions.DatesFunc;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceModeloDocx : AppServiceCartorio<DtoModeloDocx, ModeloDocx>, IAppServiceModeloDocx
+    public class AppServiceModelosDocx : AppServiceCartorio<DtoModeloDocx, ModeloDocx>, IAppServiceModelosDocx
     {
         //private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
-        public AppServiceModeloDocx(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceModelosDocx(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }

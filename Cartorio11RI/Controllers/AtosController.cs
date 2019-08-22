@@ -22,27 +22,54 @@ using LibFunctions.Functions.IOAdmCartorio;
 namespace Cartorio11RI.Controllers
 {
     [Authorize]
-    public class AtoController : CartorioBaseController
+    public class AtosController : CartorioBaseController
     {
-        public AtoController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
+        public AtosController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
         {
             //
 
         }
 
         // GET: Ato
-        public ActionResult Index()
+        public ActionResult Index(DateTime? DataIni = null, DateTime? DataFim = null)
         {
+            bool FlagErro = false;
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
-            using (AppServiceAto appService = new AppServiceAto(this.UfwCartNew))
+            if ((DataIni != null) && (DataFim != null))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
-                if (listaDto != null)
+                if (DataIni > DataFim)
                 {
-                    listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
+                    ModelState.AddModelError(Guid.NewGuid().ToString() , "Data inicial deve ser menor o igual à data final!!");
+                    FlagErro = true;
+                }
+            } else {
+                if (DataIni == null)
+                {
+                    DataIni = DateTime.Today;
+                    DataFim = DateTime.Today;
+                } else {
+                    if (DataFim == null)
+                    {
+                        DataFim = DataIni;
+                    }
                 }
             }
+
+            if (!FlagErro)
+            {
+                using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
+                {
+                    IEnumerable<DtoAtoList> listaDto = appService.ListarAtos((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
+                    if (listaDto != null)
+                    {
+                        listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
+                    }
+                }
+            }
+
+            ViewBag.DataIni = DataIni;
+            ViewBag.DAtaFim = DataFim;
 
             return View(listaAtoListViewModel);
         }
@@ -188,7 +215,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAto(this.UfwCartNew))
+            using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
 
                 var resultado = appService.FinalizarAto(IdAto);
@@ -297,7 +324,7 @@ namespace Cartorio11RI.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        using (var appService = new AppServiceAto(this.UfwCartNew))
+                        using (var appService = new AppServiceAtos(this.UfwCartNew))
                         {
                             var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
 
@@ -355,7 +382,7 @@ namespace Cartorio11RI.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
-            using (var appService = new AppServiceModeloDocx(this.UfwCartNew))
+            using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
                 var listaDtoArquivoModelosDocx = appService.ListarModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxSimplificadoList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
@@ -521,7 +548,7 @@ namespace Cartorio11RI.Controllers
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
 
-            using (var appServiceAto = new AppServiceAto(this.UfwCartNew))
+            using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
             {
                 //appServiceAto.
             }

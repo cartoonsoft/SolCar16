@@ -1,10 +1,9 @@
-﻿@model IEnumerable<Cartorio11RI.ViewModels.AcaoViewModel>
+﻿@model IEnumerable<Cartorio11RI.ViewModels.AtoListViewModel>
 
 @{
-    ViewBag.Title = "Modelos";
-    ViewBag.SubTitle = "Editar";
+    ViewBag.Title = "Atos";
+    ViewBag.SubTitle = "Index";
 }
-
 
 <!-- MAIN CONTENT -->
 <div id="content">
@@ -22,10 +21,8 @@
         </div>
     </div>
 
-
     <!-- widget grid -->
     <section id="widget-grid" class="">
-
         <form class="smart-form bordered">
             <fieldset>
                 <div class="row">
@@ -44,7 +41,9 @@
                     <section class="col col-4">
                         <button type="button" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                     </section>
-
+                </div>
+                <div class="row">
+                    @Html.ValidationBootstrap()
                 </div>
             </fieldset>
         </form>
@@ -135,11 +134,11 @@
     <!-- end widget grid -->
 
 </div>
-
 <!-- END MAIN CONTENT -->
+
+<!-- scripts pagespecific -------------------------------------------------- -->
 @section pagespecific {
     <script type="text/javascript">
-
         $(document).ready(function () {
 
             $('#dataIni').datepicker({
@@ -160,9 +159,36 @@
                 }
             });
 
+            $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
+            $("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
 
+            /*-- btnPesquisar ----------------------------------------------- */                                                                           
+            $("#btnPesquisar").click(function (e) {
+                e.preventDefault();
+
+                var objData = {
+                    DataIni: $("#dataIni").val(),
+                    DataFim: $("#dataFim").val()
+                };
+
+                $.ajax('@Url.Action("Index", "Atos")', {
+                    method: 'POST',
+                    dataType: 'text',
+                    data: objData,
+                    beforeSend: function () {
+                        ShowProgreessBar("Processando requisição...");
+                    }
+                }).done(function (data) {
+                    //
+
+                }).fail(function (jq, textStatus, error) {
+                    //
+
+                }).always(function () {
+                    HideProgressBar();
+                });
+            });
 
         });
-
     </script>
 }

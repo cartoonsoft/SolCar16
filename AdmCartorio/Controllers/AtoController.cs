@@ -43,7 +43,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
 
-            using (AppServiceAto appService = new AppServiceAto(this.UfwCartNew))
+            using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
             {
                 IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
                 if (listaDto != null)
@@ -196,7 +196,7 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAto(this.UfwCartNew))
+            using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
 
                 var resultado = appService.FinalizarAto(IdAto);
@@ -305,7 +305,7 @@ namespace AdmCartorio.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        using (var appService = new AppServiceAto(this.UfwCartNew))
+                        using (var appService = new AppServiceAtos(this.UfwCartNew))
                         {
                             var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
 
@@ -363,7 +363,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetModelos()
         {
-            using (var appService = new AppServiceModeloDocx(this.UfwCartNew))
+            using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
                 var listaDtoModelosDocx = appService.ListarModeloSimplificado();
                 var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxSimplificadoList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoModelosDocx);
@@ -544,7 +544,7 @@ namespace AdmCartorio.Controllers
         public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
         {
 
-            using (var appServiceAto = new AppServiceAto(this.UfwCartNew))
+            using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
             {
                 //appServiceAto.
             }

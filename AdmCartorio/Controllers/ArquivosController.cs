@@ -44,7 +44,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<ModeloDocxListViewModel> listaModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
+            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
                 IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.ListarModelosDocx().Where(a => a.Ativo == true);
                 listaModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
@@ -96,7 +96,7 @@ namespace AdmCartorio.Controllers
                     string filePath = string.Empty;
                     arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
+                    using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
                     {
                         NovoId = appService.NovoModelo(
                             new DtoModeloDocx()
@@ -210,7 +210,7 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceModeloDocx(this.UfwCartNew))
+                    using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
                     {
                         //Cadastro de log
                         LogModeloDocx logArquivo = new LogModeloDocx();
@@ -279,7 +279,7 @@ namespace AdmCartorio.Controllers
         {
             bool respDesativar;
 
-            using (AppServiceModeloDocx appService = new AppServiceModeloDocx(this.UfwCartNew))
+            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
                 respDesativar = appService.Desativar(Convert.ToInt64(dadosPost.Id), this.UsuarioAtual.Id);
             }

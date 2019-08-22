@@ -540,6 +540,9 @@ namespace Cartorio11RI.Controllers
         [ChildActionOnly]
         public PartialViewResult MontarMenuUsuario(string IdUsuario)
         {
+            ViewBag.CurrentControler = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString().ToLower();
+            ViewBag.CurrentAction    = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString().ToLower();
+
             IEnumerable<DtoMenu> Menu = new List<DtoMenu>();
             ApplicationUser usrApp = _userManager.FindById(IdUsuario);
             var claims = _userManager.GetClaims(IdUsuario).ToList();
