@@ -880,6 +880,7 @@
     <Content Include="Views\Tables\DataTables.cshtml" />
     <Content Include="Views\Tables\JQGrid.cshtml" />
     <Content Include="Views\Tables\Normal.cshtml" />
+    <Content Include="Views\Atos\Novo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

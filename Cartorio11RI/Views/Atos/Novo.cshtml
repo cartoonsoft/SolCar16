@@ -1,0 +1,255 @@
+﻿@model Cartorio11RI.ViewModels.AtoViewModel
+
+@{
+    ViewBag.Title = "Atos";
+    ViewBag.SubTitle = "Novo ato";
+}
+
+@section styles_especific {
+    <style>
+        /*coloque aqui seu codigo css*/
+    </style>
+}
+
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-pencil-square-o fa-fw "></i>
+                @ViewBag.Title
+                <span>
+                    >
+                    @ViewBag.SubTitle
+                </span>
+            </h1>
+        </div>
+    </div>
+
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+                    <!-- widget options:
+                    usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                    data-widget-colorbutton="false"
+                    data-widget-editbutton="false"
+                    data-widget-togglebutton="false"
+                    data-widget-deletebutton="false"
+                    data-widget-fullscreenbutton="false"
+                    data-widget-custombutton="false"
+                    data-widget-collapsed="false"
+                    data-widget-sortable="false"
+                    -->
+
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-user"></i> </span>
+                        <h2>Novo ato</h2>
+
+                    </header>
+
+                    <!-- widget div-->
+                    <div>
+
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body fuelux">
+                            <div class="row padding-5">
+                                <div class="wizard" id="divWizardEtapas">
+                                    <ul class="steps">
+                                        <li data-target="#step1" class="active">
+                                            <span class="badge badge-info">1</span>Selecionar imóvel<span class="chevron"></span>
+                                        </li>
+                                        <li data-target="#step2">
+                                            <span class="badge">2</span>Selecionar Pessoas<span class="chevron"></span>
+                                        </li>
+                                        <li data-target="#step3">
+                                            <span class="badge">3</span>Selecionar modelo<span class="chevron"></span>
+                                        </li>
+                                        <li data-target="#step4">
+                                            <span class="badge">4</span>Escrita<span class="chevron"></span>
+                                        </li>
+                                        <li data-target="#step5">
+                                            <span class="badge">5</span>Confirmação<span class="chevron"></span>
+                                        </li>
+                                    </ul>
+                                    <div class="actions">
+                                        <button type="button" class="btn btn-sm btn-primary btn-prev">
+                                            <i class="fa fa-arrow-left"></i>Voltar
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finalizar">
+                                            Próximo<i class="fa fa-arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="step-content">
+                                    <form id="frm-wizard-ato" method="post">
+
+                                        <!-- passo 1--------------------------->
+                                        <div class="step-pane active" id="step1">
+                                            <h3><strong>Etapa 1 </strong> - Selecionar o imóvel</h3>
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <label>Prenotação</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                                        <div class="icon-addon addon-md">
+                                                            <input type="text" placeholder="Número prenotação" class="form-control">
+                                                            <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
+                                                        </div>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" type="button">Pesquisar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <label>Matrícula do imóvel</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                        <div class="icon-addon addon-md">
+                                                            <input type="text" placeholder="Número prenotação" class="form-control">
+                                                            <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="Número de matricula do imóvel"></label>
+                                                        </div>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-primary" type="button">Pesquisar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!-- passo 2--------------------------->
+                                        <div class="step-pane" id="step2">
+                                            <h3><strong>Step 2 </strong> - Alerts</h3>
+
+                                            <div class="alert alert-warning fade in">
+                                                <button class="close" data-dismiss="alert">
+                                                    ×
+                                                </button>
+                                                <i class="fa-fw fa fa-warning"></i>
+                                                <strong>Warning</strong> Your monthly traffic is reaching limit.
+                                            </div>
+
+                                            <div class="alert alert-success fade in">
+                                                <button class="close" data-dismiss="alert">
+                                                    ×
+                                                </button>
+                                                <i class="fa-fw fa fa-check"></i>
+                                                <strong>Success</strong> The page has been added.
+                                            </div>
+
+                                            <div class="alert alert-info fade in">
+                                                <button class="close" data-dismiss="alert">
+                                                    ×
+                                                </button>
+                                                <i class="fa-fw fa fa-info"></i>
+                                                <strong>Info!</strong> You have 198 unread messages.
+                                            </div>
+
+                                            <div class="alert alert-danger fade in">
+                                                <button class="close" data-dismiss="alert">
+                                                    ×
+                                                </button>
+                                                <i class="fa-fw fa fa-times"></i>
+                                                <strong>Error!</strong> The daily cronjob has failed.
+                                            </div>
+                                        </div>
+
+                                        <!-- passo 3--------------------------->
+                                        <div class="step-pane" id="step3">
+                                            <h3><strong>Step 3 </strong> - Wizard continued</h3>
+                                            <br>
+                                            <br>
+                                            <h1 class="text-center text-primary"> This will be your Step 3 </h1>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+
+                                        <!-- passo 4--------------------------->
+                                        <div class="step-pane" id="step4">
+                                            <h3><strong>Step 4 </strong> - Wizard continued...</h3>
+                                            <br>
+                                            <br>
+                                            <h1 class="text-center text-danger"> This will be your Step 4 </h1>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+
+                                        <!-- passo 5--------------------------->
+                                        <div class="step-pane" id="step5">
+                                            <h3><strong>Step 5 </strong> - Finalizar!</h3>
+                                            <br>
+                                            <br>
+                                            <h1 class="text-center text-success">
+                                                <i class="fa fa-check"></i> Congratulations!
+                                                <br>
+                                                <small>Click finish to end wizard</small>
+                                            </h1>
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <br>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+</div>
+
+@section pagespecific{
+
+    <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+    <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //obter ip local
+            var ipLocal = getUserIP(function (ip) {
+                var t = navigator.product;
+                $("#IpLocal").val(ip);
+            });
+
+            var id = $("#Id").val();
+            //$('#btnDownload').attr("href", '/Modelos/DownloadFile/' + id + '?Ip="' + $("#IpLocal").val() + '"');
+
+            // fuelux wizard
+            var wizard = $('#divWizardEtapas').wizard();
+
+            wizard.on('finished', function (e, data) {
+                //$("#fuelux-wizard").submit();
+                //console.log("submitted!");
+                $.smallBox({
+                    title: "Congratulations! Your form was submitted",
+                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                    color: "#5F895F",
+                    icon: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+
+            });
+
+
+        });
+
+    </script>
+}
