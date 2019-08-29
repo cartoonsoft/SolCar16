@@ -9,6 +9,7 @@ using Domain.CartNew.Entities.Diversos;
 using Dto.CartNew.Entities.TodosCart;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Domain.Cart11RI.Entities;
 
 namespace Cartorio11RI.App_Start.AutoMapper
 {
@@ -22,7 +23,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
             CreateMap<PessoaCartNew , DtoPessoaCartNew>();
             CreateMap<ModeloDocxList, DtoModeloDocxList>();
             CreateMap<Acao, DtoAcao>();
-
+            CreateMap<PREIMO, DtoPREIMO>();
         }
     }
 }

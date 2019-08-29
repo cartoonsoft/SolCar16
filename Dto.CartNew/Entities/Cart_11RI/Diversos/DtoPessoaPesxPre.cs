@@ -24,7 +24,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public string UF { get; set; }
         public int? CEP { get; set; }
         public string Telefone { get; set; }
-        public byte? TipoDoc1 { get; set; }
+        public int? TipoDoc1 { get; set; }
         public string Numero1 { get; set; }
         public string TipoDoc2 { get; set; }
         public string Numero2 { get; set; }

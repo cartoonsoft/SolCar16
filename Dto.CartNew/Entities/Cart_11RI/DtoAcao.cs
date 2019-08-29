@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dto.CartNew.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-
-    public class DtoAcao
+    public class DtoAcao: DtoEntityBaseModel
     {
         [Key]
-        public long? Id { get; set; }
+        public override long? Id { get; set; }
         public long IdCtaAcessoSist { get; set; }
         public long SeqAcesso { get; set; }
         public string Programa { get; set; }

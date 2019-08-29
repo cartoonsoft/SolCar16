@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
 using Infra.Data.Core.Context;
 
@@ -51,6 +52,10 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Menu> DbMenuo { get; set; }
         public DbSet<Acao> DbAcao { get; set; }
         public DbSet<UsuarioAcao> DbUsuarioAcao { get; set; }
+
+        public DbSet<PREIMO> DbPREIMO { get; set; }
+        public DbSet<PESXPRE> DbPESXPRE { get; set; }
+        public DbSet<PESSOAS> DbPESSOAS { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

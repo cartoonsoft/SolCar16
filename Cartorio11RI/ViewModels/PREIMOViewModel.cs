@@ -8,9 +8,9 @@ namespace Cartorio11RI.ViewModels
 {
     public class PREIMOViewModel
     {
-        [Display(Name = "Num. Prenotação")]
         public long SEQIMO { get; set; }
 
+        [Display(Name = "Num. prenotação")]
         public long SEQPRE { get; set; }
 
         public int? SUBD { get; set; }
@@ -21,33 +21,43 @@ namespace Cartorio11RI.ViewModels
         [StringLength(4)]
         public string TITULO { get; set; }
 
+        [Display(Name = "Endereço")]
         [StringLength(100)]
         public string ENDER { get; set; }
 
+        [Display(Name = "Núm.")]
         [StringLength(20)]
         public string NUM { get; set; }
 
+        [Display(Name = "Lote")]
         [StringLength(10)]
         public string LOTE { get; set; }
 
+        [Display(Name = "Quadra")]
         [StringLength(10)]
         public string QUADRA { get; set; }
 
+        [Display(Name = "Apt")]
         [StringLength(20)]
         public string APTO { get; set; }
 
+        [Display(Name = "Bloco")]
         [StringLength(10)]
         public string BLOCO { get; set; }
 
+        [Display(Name = "Edfício")]
         [StringLength(50)]
         public string EDIF { get; set; }
 
+        [Display(Name = "Vaga")]
         [StringLength(20)]
         public string VAGA { get; set; }
 
+        [Display(Name = "Outras infomações")]
         [StringLength(300)]
         public string OUTROS { get; set; }
 
+        [Display(Name = "Núm. matrícula imóvel")]
         public int MATRI { get; set; }
 
         public int TRANS { get; set; }
@@ -59,6 +69,5 @@ namespace Cartorio11RI.ViewModels
         public int RD { get; set; }
 
         public long CONTRIB { get; set; }
-
     }
 }

@@ -257,15 +257,13 @@
                     }
                 }).done(function (data) {
                     //
-                    if (data.success) {
-
+                    if (data.resposta) {
                         if (tblUsr != null) {
                             InsertRowTabelaUsuarios(tblUsr, data.usuario);
                         }
-
                         $.smallBox({
                             title: "Requisição processada com sucesso!",
-                            content: data.mensagem,
+                            content: data.msg,
                             color: "#296191",
                             icon: "fa fa-thumbs-up bounce animated",
                             timeout: 8000
@@ -273,7 +271,7 @@
                     } else {
                         $.smallBox({
                             title: "Não foi possivel processar sua requisição!",
-                            content: data.mensagem,
+                            content: data.msg,
                             color: "#992111",
                             icon: "fa fa-thumbs-down bounce animated",
                             timeout: 8000
@@ -314,13 +312,13 @@
                 }
             }).done(function (data) {
                 //
-                if (data.success) {
+                if (data.resposta) {
                     //$("#txtResposta").val(data.resposta);
                     $(btnTmp).closest("tr").remove();
 
                     $.smallBox({
                         title: "Requisição processada com sucesso!",
-                        content: data.mensagem,
+                        content: data.msg,
                         color: "#296191",
                         icon: "fa fa-thumbs-up bounce animated",
                         timeout: 8000
@@ -328,7 +326,7 @@
                 } else {
                     $.smallBox({
                         title: "Não foi possivel processar sua requisição!",
-                        content: data.mensagem,
+                        content: data.msg,
                         color: "#992111",
                         icon: "fa fa-thumbs-down bounce animated",
                         timeout: 8000

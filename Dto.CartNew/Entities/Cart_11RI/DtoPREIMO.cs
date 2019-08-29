@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Dto.CartNew.Base;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -7,38 +9,47 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    [DataContract]
-    public class DtoPREIMO
+    public class DtoPREIMO: DtoBase 
     {
-        [DataMember]
         public long SEQIMO { get; set; }
-        [DataMember]
+
         public long SEQPRE { get; set; }
-        [DataMember]
-        public short? SUBD { get; set; }
-        [DataMember]
+
+        public int? SUBD { get; set; }
+
+        [StringLength(4)]
         public string TIPO { get; set; }
-        [DataMember]
+
+        [StringLength(4)]
         public string TITULO { get; set; }
-        [DataMember]
+
+        [StringLength(100)]
         public string ENDER { get; set; }
-        [DataMember]
+
+        [StringLength(20)]
         public string NUM { get; set; }
-        [DataMember]
+
+        [StringLength(10)]
         public string LOTE { get; set; }
-        [DataMember]
+
+        [StringLength(10)]
         public string QUADRA { get; set; }
-        [DataMember]
+
+        [StringLength(20)]
         public string APTO { get; set; }
-        [DataMember]
+
+        [StringLength(10)]
         public string BLOCO { get; set; }
-        [DataMember]
+
+        [StringLength(50)]
         public string EDIF { get; set; }
-        [DataMember]
+
+        [StringLength(20)]
         public string VAGA { get; set; }
-        [DataMember]
+
+        [StringLength(300)]
         public string OUTROS { get; set; }
-        [DataMember]
+
         public int MATRI { get; set; }
 
         public int TRANS { get; set; }
@@ -48,7 +59,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         public int HIPO { get; set; }
 
         public int RD { get; set; }
-        [DataMember]
-        public string CONTRIB { get; set; }
+
+        public long CONTRIB { get; set; }
     }
 }

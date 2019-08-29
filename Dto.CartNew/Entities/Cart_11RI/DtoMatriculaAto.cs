@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoMatriculaAto
+    public class DtoMatriculaAto: DtoBase
     {
         public long IdMatricula { get; set; }
         public string MatriculaEndereco { get; set; }

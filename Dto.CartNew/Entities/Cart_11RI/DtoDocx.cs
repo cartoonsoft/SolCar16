@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dto.CartNew.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoDocx
+    public class DtoDocx: DtoEntityBaseModel
     {
         [Key]
-        public long? Id { get; set; }
+        public override long? Id { get; set; }
 
         public long IdCtaAcessoSist { get; set; }
 

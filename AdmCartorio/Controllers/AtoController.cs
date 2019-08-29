@@ -373,31 +373,12 @@ namespace AdmCartorio.Controllers
             }
         }
 
-        public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
-        {
-            string jsonResult;
-            try
-            {
-                //var PREIMO = this.UfwCartNew.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
-                //jsonResult = JsonConvert.SerializeObject(PREIMO);
-            }
-            catch (Exception)
-            {
-                jsonResult = "";
-                Response.StatusCode = 500;
-                Response.Status = "Erro ao serializar o objeto";
-                //Cadastrar log de erro
-            }
-            Response.StatusCode = 200;
-            return null; // Json(jsonResult, JsonRequestBehavior.AllowGet);
-        }
-
         /// <summary>
         /// Essa função retorna uma lista de pessoa por um id de prenotação
         /// </summary>
         /// <param name="numeroPrenotacao">Numero da prenotação</param>
         /// <returns>JSON</returns>
-        public JsonResult GetPessoasPremo(long numeroPrenotacao)
+        public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
         {
             var jsonResult = "";
             try
@@ -414,16 +395,16 @@ namespace AdmCartorio.Controllers
                 Response.Status = "Erro ao buscar os dados das pessoas";
             }
             Response.StatusCode = 200;
-            return Json(jsonResult, JsonRequestBehavior.AllowGet);
 
+            return Json(jsonResult, JsonRequestBehavior.AllowGet);
         }
+
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
-
             return this.UfwCartNew.Repositories.RepositoryModeloDocx
                 .GetById(idModelo).IdTipoAto;
-
         }
+
         public bool ExisteAto(long numeroMatricula)
         {
             try

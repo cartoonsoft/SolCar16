@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dto.CartNew.Base;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoModeloDocxSimplificadoList
+    public class DtoModeloDocxSimplificadoList: DtoBase
     {
         [Key]
         [Column("ID_MODELO_DOC")]

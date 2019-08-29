@@ -82,85 +82,170 @@
                                         </li>
                                     </ul>
                                     <div class="actions">
-                                        <button type="button" class="btn btn-sm btn-primary btn-prev">
+                                        <button type="button" class="btn btn-sm btn-primary btn-prev" id="btn-voltar">
                                             <i class="fa fa-arrow-left"></i>Voltar
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-success btn-next" data-last="Finalizar">
+                                        <button type="button" class="btn btn-sm btn-success btn-next" id="btn-proximo" data-last="Finalizar">
                                             Próximo<i class="fa fa-arrow-right"></i>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="step-content">
                                     <form id="frm-wizard-ato" method="post">
+                                        @Html.HiddenFor(model => model.Id)
+                                        @Html.HiddenFor(model => model.IdCtaAcessoSist)
+                                        @Html.HiddenFor(model => model.PREIMO.SUBD)
+                                        @Html.HiddenFor(model => model.PREIMO.TIPO)
+                                        @Html.HiddenFor(model => model.PREIMO.TITULO)
 
-                                        <!-- passo 1--------------------------->
+                                        <!-- passo 1------------------------ -->
                                         <div class="step-pane active" id="step1">
                                             <h3><strong>Etapa 1 </strong> - Selecionar o imóvel</h3>
                                             <div class="row">
                                                 <div class="col-sm-4">
-                                                    <label>Prenotação</label>
+                                                    @Html.LabelFor(model => model.PREIMO.SEQPRE)
                                                     <div class="input-group">
-                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-folder-close"></i></span>
                                                         <div class="icon-addon addon-md">
-                                                            <input type="text" placeholder="Número prenotação" class="form-control">
-                                                            <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
+                                                            @Html.TextBoxFor(model => model.PREIMO.SEQPRE, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. prenotação" })
+                                                            <label for="PREIMO_SEQPRE" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
                                                         </div>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" type="button">Pesquisar</button>
+                                                            <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao">Pesquisar</button>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-4">
-                                                    <label>Matrícula do imóvel</label>
+                                                    @Html.LabelFor(model => model.PREIMO.MATRI)
                                                     <div class="input-group">
                                                         <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                                         <div class="icon-addon addon-md">
-                                                            <input type="text" placeholder="Número prenotação" class="form-control">
-                                                            <label for="email" class="glyphicon glyphicon-search" rel="tooltip" title="Número de matricula do imóvel"></label>
+                                                            @Html.TextBoxFor(model => model.PREIMO.MATRI, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. matrícula" })
+                                                            <label for="PREIMO_MATRI" class="glyphicon glyphicon-search" rel="tooltip" title="Número de matricula do imóvel"></label>
                                                         </div>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" type="button">Pesquisar</button>
+                                                            <button type="button" class="btn btn-primary" id="btn-pesq-matricula">Pesquisar</button>
                                                         </span>
                                                     </div>
                                                 </div>
+                                            </div>
+
+                                            <hr class="simple" />
+
+                                            <!-- Widget ID (each widget will need unique ID)-->
+                                            <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
+
+                                                <header>
+                                                    <span class="widget-icon"> <i class="fa fa-home"></i> </span>
+                                                    <h2>Dados do imóvel</h2>
+
+                                                </header>
+
+                                                <!-- widget div ------------ -->
+                                                <div>
+                                                    <!-- widget edit box --- -->
+                                                    <div class="jarviswidget-editbox">
+                                                        <!-- This area used as dropdown edit box -->
+
+                                                    </div>
+                                                    <!-- end widget edit box -->
+                                                    <!-- widget content ---- -->
+                                                    <div class="widget-body">
+
+                                                        <div class="row">
+                                                            <div class="col-sm-10">
+                                                                @Html.LabelFor(model => model.PREIMO.ENDER)
+                                                                @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.NUM)
+                                                                @Html.TextBoxFor(model => model.PREIMO.NUM, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row"><hr /></div>
+                                                        <div class="row">
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.APTO)
+                                                                @Html.TextBoxFor(model => model.PREIMO.APTO, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.BLOCO)
+                                                                @Html.TextBoxFor(model => model.PREIMO.BLOCO, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.EDIF)
+                                                                @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.LOTE)
+                                                                @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.QUADRA)
+                                                                @Html.TextBoxFor(model => model.PREIMO.QUADRA, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                            <div class="col-sm-2">
+                                                                @Html.LabelFor(model => model.PREIMO.OUTROS)
+                                                                @Html.TextBoxFor(model => model.PREIMO.OUTROS, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="row"><hr /></div>
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                @Html.LabelFor(model => model.PREIMO.VAGA)
+                                                                @Html.TextBoxFor(model => model.PREIMO.VAGA, new { @class = "form-control", @readonly = "readonly" })
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <!-- end widget content- -->
+
+                                                </div>
+                                                <!-- end widget div -------- -->
 
                                             </div>
+                                            <!-- end widget ---------------- -->
+
                                         </div>
 
-                                        <!-- passo 2--------------------------->
+                                        <!-- passo 2------------------------ -->
                                         <div class="step-pane" id="step2">
-                                            <h3><strong>Step 2 </strong> - Alerts</h3>
-
-                                            <div class="alert alert-warning fade in">
-                                                <button class="close" data-dismiss="alert">
-                                                    ×
-                                                </button>
-                                                <i class="fa-fw fa fa-warning"></i>
-                                                <strong>Warning</strong> Your monthly traffic is reaching limit.
+                                            <h3><strong>Etapa 2 </strong> - Selecionar pessoas</h3>
+                                            <div class="row">
+                                                <div class="col-sm-2">
+                                                    <label>Selecionar outorgante(s)/outorgado(s)</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-primary btn-lg" id="btn-pesq-pessoas">     selecionar     </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                             </div>
-
-                                            <div class="alert alert-success fade in">
-                                                <button class="close" data-dismiss="alert">
-                                                    ×
-                                                </button>
-                                                <i class="fa-fw fa fa-check"></i>
-                                                <strong>Success</strong> The page has been added.
-                                            </div>
-
-                                            <div class="alert alert-info fade in">
-                                                <button class="close" data-dismiss="alert">
-                                                    ×
-                                                </button>
-                                                <i class="fa-fw fa fa-info"></i>
-                                                <strong>Info!</strong> You have 198 unread messages.
-                                            </div>
-
-                                            <div class="alert alert-danger fade in">
-                                                <button class="close" data-dismiss="alert">
-                                                    ×
-                                                </button>
-                                                <i class="fa-fw fa fa-times"></i>
-                                                <strong>Error!</strong> The daily cronjob has failed.
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <table id="tblPessoas" class="table table-condensed">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="col-md-1">Tipo</th>
+                                                                <th class="col-md-2">Nome</th>
+                                                                <th class="col-md-2">Endereço</th>
+                                                                <th class="col-md-1">N.° Documento</th>
+                                                                <th class="col-md-1">Tipo Documento</th>
+                                                                <th class="col-md-1">Bairro</th>
+                                                                <th class="col-md-1">Cidade</th>
+                                                                <th class="col-md-1">UF</th>
+                                                                <th class="col-md-1">CEP</th>
+                                                                <th class="col-md-1">Telefone</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <!-- APPEND JSON-->
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -214,42 +299,54 @@
     </section>
 </div>
 
-@section pagespecific{
+<!-- ----------------------------------------------------------------------- -->
+<div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-striped" id="tbl-selecao-pessoas"> 
+                        <thead>
+                            <tr>
+                                <th style="width:20px"></th>
+                                <th style="width:50px">Tipo</th>
+                                <th style="width:80px">DOC</th>
+                                <th style="width:200px">Nome</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="checkbox">
+                                </td>
 
+                            </tr>
+                            <!-- APPEND JSON-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-remove"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-dlg-pessoas-ok">
+                    <i class="glyphicon glyphicon-ok"></i> Ok
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+@section pagespecific{
     <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
     <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            //obter ip local
-            var ipLocal = getUserIP(function (ip) {
-                var t = navigator.product;
-                $("#IpLocal").val(ip);
-            });
-
-            var id = $("#Id").val();
-            //$('#btnDownload').attr("href", '/Modelos/DownloadFile/' + id + '?Ip="' + $("#IpLocal").val() + '"');
-
-            // fuelux wizard
-            var wizard = $('#divWizardEtapas').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    icon: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
-
-            });
-
-
-        });
-
-    </script>
+    <script src="~/Scripts/cartoonsoft/Atos/novo.js"></script>
 }

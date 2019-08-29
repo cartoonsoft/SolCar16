@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.CartNew.Enumerations;
+using Dto.CartNew.Base;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoLogModeloDocx 
+    public class DtoLogModeloDocx : DtoEntityBaseModel
     {
         [Key]
-        public long? Id { get; set; }
+        public override long? Id { get; set; }
 
         public long IdModeloDocx { get; set; }
 

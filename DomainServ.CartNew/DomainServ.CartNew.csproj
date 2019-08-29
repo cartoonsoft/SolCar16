@@ -69,6 +69,10 @@
     <Compile Include="Services\UfDs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Domain.Cart11RI\Domain.Cart11RI.csproj">
+      <Project>{697AC870-2894-4E2E-80D1-E1FE8E0F4989}</Project>
+      <Name>Domain.Cart11RI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain.CartNew\Domain.CartNew.csproj">
       <Project>{389703FA-FEFD-4B4E-A573-E1A5102DC487}</Project>
       <Name>Domain.CartNew</Name>

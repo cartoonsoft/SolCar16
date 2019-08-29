@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServ.Core.AppServices;
 using AppServices.Cartorio.Interfaces;
+using AutoMapper;
+using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.UnitOfWork;
@@ -15,6 +17,8 @@ namespace AppServCart11RI.AppServices
 {
     public class AppServiceAtos : AppServiceCartorio<DtoAto, Ato>, IAppServiceAtos
     {
+        private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
+
         public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
@@ -24,6 +28,59 @@ namespace AppServCart11RI.AppServices
         public void Bloquear(long IdAto)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Busca Dados do imivel por matricula ou prenotação
+        /// </summary>
+        /// <param name="matriculaPrenotacao"></param>
+        /// <returns></returns>
+        public DtoPREIMO GetDadosImovel(long matriculaPrenotacao)
+        {
+            DtoPREIMO dtoPreimo = new DtoPREIMO();
+            try
+            {
+                PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.SEQPRE == matriculaPrenotacao).FirstOrDefault();
+
+                if (preimo == null)
+                {
+                    preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.MATRI == matriculaPrenotacao).FirstOrDefault();
+
+                }
+                dtoPreimo = Mapper.Map<PREIMO, DtoPREIMO>(preimo);
+
+                dtoPreimo.resposta = true;
+                dtoPreimo.msg = "Dados do imóvel obtidos com sucesso";
+            }
+            catch (Exception ex)
+            {
+                dtoPreimo.resposta = false;
+                dtoPreimo.msg = "Falha ao obter dados! [" + ex.Message + "]";
+            }
+
+            return dtoPreimo;
+        }
+
+        /// <summary>
+        /// Lista de Pessoa por Prenotação
+        /// </summary>
+        /// <param name="numeroPrenotacao"></param>
+        /// <returns></returns>
+        public IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao)
+        {
+            if (listaPessoasPrenotacao == null)
+            {
+                try
+                {
+                    listaPessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetPessoasPrenotacao(numeroPrenotacao).ToList();
+                }
+                catch 
+                {
+                    //
+                }
+            }
+
+            return listaPessoasPrenotacao;
         }
 
         public void ConferirAto(long IdAto, TipoConferenciaAto tipoConferencia)
@@ -78,6 +135,8 @@ namespace AppServCart11RI.AppServices
         {
             throw new NotImplementedException();
         }
+
+
 
     }
 }

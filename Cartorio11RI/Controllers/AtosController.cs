@@ -77,7 +77,7 @@ namespace Cartorio11RI.Controllers
         #region | CADASTRO |
         public ActionResult Novo()
         {
-            var dados = new AtoViewModel();
+            var dados = new AtoViewModel(this.IdCtaAcessoSist);
 
             return View(dados);
         }
@@ -212,6 +212,7 @@ namespace Cartorio11RI.Controllers
                 return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
             }
         }
+
         [HttpPost]
         public void BloquearAto(long NumMatricula, long IdAto)
         {
@@ -252,7 +253,7 @@ namespace Cartorio11RI.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
                     }
-                    AtoViewModel atoViewModel = new AtoViewModel
+                    AtoViewModel atoViewModel = new AtoViewModel(this.IdCtaAcessoSist)
                     {
                         Id = Id,
                         PREIMO = new PREIMOViewModel()
@@ -393,23 +394,34 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        public JsonResult GetDadosImovel(long? numeroMatricula = null, long? numeroPrenotacao = null)
+        /// <summary>
+        /// Busca dados do imóvel por matricula ou prenotação
+        /// </summary>
+        /// <param name="matriculaPrenotacao"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public JsonResult GetDadosImovel(long matriculaPrenotacao)
         {
-            string jsonResult;
+            DtoPREIMO dtoPreimo = new DtoPREIMO();
+
             try
             {
-                //var PREIMO = this.UfwCartNew.Repositories.RepositoryPREIMO.BuscaDadosImovel(numeroPrenotacao, numeroMatricula);
-                //jsonResult = JsonConvert.SerializeObject(PREIMO);
+                using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
+                {
+                    dtoPreimo = appServAtos.GetDadosImovel(matriculaPrenotacao);
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                jsonResult = "";
-                Response.StatusCode = 500;
-                Response.Status = "Erro ao serializar o objeto";
-                //Cadastrar log de erro
+                dtoPreimo.msg += " " + "[" + ex.Message + "]";
             }
-            Response.StatusCode = 200;
-            return null; // Json(jsonResult, JsonRequestBehavior.AllowGet);
+
+            var resultado = new
+            {
+                Preimo = dtoPreimo
+            };
+
+            return Json(resultado);
         }
 
         /// <summary>
@@ -417,32 +429,51 @@ namespace Cartorio11RI.Controllers
         /// </summary>
         /// <param name="numeroPrenotacao">Numero da prenotação</param>
         /// <returns>JSON</returns>
-        public JsonResult GetPessoasPremo(long numeroPrenotacao)
+        public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
         {
-            var jsonResult = "";
+            bool resposta = false;
+            string msg = string.Empty;
+            IEnumerable<DtoPessoaPesxPre> listaPessoas = new List<DtoPessoaPesxPre>();
+
             try
             {
-                //using (AppServicePessoa appServicePessoa = new AppServicePessoa(this.UfwCart, this.UfwCartNew))
-                //{
-                //    jsonResult = JsonConvert.SerializeObject(appServicePessoa.GetPessoasPorPrenotacao(numeroPrenotacao));
-                //}
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                {
+                    listaPessoas = appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
+                    resposta = true;
+                    msg = "Lista de pessoas da prenotação obtida com sucesso!";
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
-                Response.StatusCode = 500;
-                Response.Status = "Erro ao buscar os dados das pessoas";
+                resposta = false;
+                msg = "Falha, GetPessoasPrenotacao [" + ex.Message + "]";
+                //    Console.WriteLine(ex);
+                //    Response.StatusCode = 500;
+                //    Response.Status = "Erro ao buscar os dados das pessoas";
+                //
             }
-            Response.StatusCode = 200;
-            return null; // Json(jsonResult, JsonRequestBehavior.AllowGet);
 
+            //JsonConvert.SerializeObject()
+
+            var resultado = new
+            {
+                resposta = resposta,
+                msg = msg,
+                listaPessoas = listaPessoas
+            };
+
+            Response.StatusCode = 200;
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
         }
+
         public long GetIdTipoAtoPeloModelo(long idModelo)
         {
 
             return this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(idModelo).IdTipoAto;
-
         }
+
         public bool ExisteAto(long numeroMatricula)
         {
             try

@@ -8,6 +8,14 @@ namespace Cartorio11RI.ViewModels
 {
     public class AtoViewModel
     {
+        public AtoViewModel(long idCtaAcessoSist)
+        {
+            this.IdCtaAcessoSist = idCtaAcessoSist;
+            this.Pessoas = new List<PESSOAViewModel>();
+            this.PREIMO = new PREIMOViewModel();
+            this.ModeloDocx = new ModeloDocxSimplificadoViewModel(this.IdCtaAcessoSist);
+        }
+
         [Key]
         [Display(Name = "Código")]
         [ScaffoldColumn(true)]
@@ -61,15 +69,9 @@ namespace Cartorio11RI.ViewModels
 
         [MaxLength(512)]
         [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]
-        [Display(Name = "Usuário")]
-        [DataType(DataType.Text)]
+        [Display(Name = "Observações")]
+        [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
-
-        public PREIMOViewModel PREIMO { get; set; }
-
-        public List<PESSOAViewModel> Pessoas { get; set; }
-
-        public ModeloDocxSimplificadoViewModel ArquivoModelo { get; set; }
 
         public string TipoPessoa { get; set; }
 
@@ -80,5 +82,11 @@ namespace Cartorio11RI.ViewModels
         public bool ExisteNoSistema { get; set; }
 
         public float QuantidadeCentimetrosDaBorda { get; set; }
+
+        public List<PESSOAViewModel> Pessoas { get; set; }
+
+        public PREIMOViewModel PREIMO { get; set; }
+
+        public ModeloDocxSimplificadoViewModel ModeloDocx { get; set; }
     }
 }

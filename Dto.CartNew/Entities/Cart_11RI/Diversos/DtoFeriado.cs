@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.CartNew.Enumerations;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.TodosCart;
 
 namespace Dto.CartNew.Entities.Cart_11RI.Diversos

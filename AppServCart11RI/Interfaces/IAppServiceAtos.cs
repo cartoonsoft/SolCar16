@@ -29,5 +29,7 @@ namespace AppServices.Cartorio.Interfaces
         void Desativar(long IdAto);
 
         IEnumerable<DtoAtoList> ListarAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null);
+
+        DtoPREIMO GetDadosImovel(long matriculaPrenotacao); 
     }
 }

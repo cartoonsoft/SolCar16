@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dto.CartNew.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoCadastroDeAto
+    public class DtoCadastroDeAto: DtoBase
     {
         public DtoPREIMO PREIMO { get; set; }
         public List<DtoPessoaCartorio> Pessoas { get; set; }

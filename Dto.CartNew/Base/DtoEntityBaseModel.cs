@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.CartNew.Entities.TodosCart
+namespace Dto.CartNew.Base
 {
-    public abstract class DtoEntityBaseModel : IDtoEntityBaseModel
+    public abstract class DtoEntityBaseModel : DtoBase, IDtoEntityBaseModel
     {
         private long? _Id;
 

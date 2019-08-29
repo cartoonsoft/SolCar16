@@ -159,8 +159,8 @@ namespace Cartorio11RI.Controllers
 
             var resultado = new
             {
-                success = resposta,
-                mensagem = msg,
+                resposta = resposta,
+                msg = msg,
                 usuario = new
                 {
                     Id  = IdUsuario,
@@ -203,8 +203,8 @@ namespace Cartorio11RI.Controllers
             }
             var resultado = new
             {
-                success = resposta,
-                mensagem = msg
+                resposta = resposta,
+                msg = msg
             };
 
             return Json(resultado);

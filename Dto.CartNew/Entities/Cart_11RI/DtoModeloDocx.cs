@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using Domain.CartNew.Attributes;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.TodosCart;
 
 namespace Dto.CartNew.Entities.Cart_11RI

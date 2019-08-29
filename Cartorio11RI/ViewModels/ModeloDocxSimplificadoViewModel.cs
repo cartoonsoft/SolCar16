@@ -7,14 +7,21 @@ using System.Web;
 
 namespace Cartorio11RI.ViewModels
 {
-    [DataContract]
     public class ModeloDocxSimplificadoViewModel
     {
-        [DataMember]
+        public ModeloDocxSimplificadoViewModel(long idCtaAcessoSist)
+        {
+            this.IdCtaAcessoSist = IdCtaAcessoSist;
+        }
+
         public long? Id { get; set; }
-        [DataMember]
+
+        public long IdCtaAcessoSist { get; set; }
+
+        public long IdTipoAto { get; set; }
+
         public string NomeModelo { get; set; }
-        [DataMember]
+
         public string DescricaoTipoAto { get; set; }
 
     }
