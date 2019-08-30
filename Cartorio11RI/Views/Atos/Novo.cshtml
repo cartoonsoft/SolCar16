@@ -8,6 +8,7 @@
 @section styles_especific {
     <style>
         /*coloque aqui seu codigo css*/
+
     </style>
 }
 
@@ -226,19 +227,19 @@
                                             <hr />
                                             <div class="row">
                                                 <div class="col-sm-12">
-                                                    <table id="tblPessoas" class="table table-condensed">
+                                                    <table id="tbl-pessoas-selecionadas" class="table table-condensed">
                                                         <thead>
                                                             <tr>
-                                                                <th class="col-md-1">Tipo</th>
-                                                                <th class="col-md-2">Nome</th>
-                                                                <th class="col-md-2">Endereço</th>
-                                                                <th class="col-md-1">N.° Documento</th>
-                                                                <th class="col-md-1">Tipo Documento</th>
-                                                                <th class="col-md-1">Bairro</th>
-                                                                <th class="col-md-1">Cidade</th>
-                                                                <th class="col-md-1">UF</th>
-                                                                <th class="col-md-1">CEP</th>
-                                                                <th class="col-md-1">Telefone</th>
+                                                                <th>Tipo</th>
+                                                                <th>Nome</th>
+                                                                <th>Endereço</th>
+                                                                <th>N.° Documento</th>
+                                                                <th>Tipo Documento</th>
+                                                                <th>Bairro</th>
+                                                                <th>Cidade</th>
+                                                                <th>UF</th>
+                                                                <th>CEP</th>
+                                                                <th>Telefone</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -299,7 +300,7 @@
     </section>
 </div>
 
-<!-- ----------------------------------------------------------------------- -->
+<!-- dálogo div-dlg-pessoas ------------------------------------------------ -->
 <div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
@@ -311,22 +312,17 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <table class="table table-striped" id="tbl-selecao-pessoas"> 
+                    <table class="table table-striped" id="tbl-selecao-pessoas">
                         <thead>
                             <tr>
-                                <th style="width:20px"></th>
-                                <th style="width:50px">Tipo</th>
-                                <th style="width:80px">DOC</th>
-                                <th style="width:200px">Nome</th>
+                                <th></th>
+                                <th>Tipo</th>
+                                <th>DOC</th>
+                                <th>Nome</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    <input type="checkbox">
-                                </td>
-
-                            </tr>
+                            <tr></tr>
                             <!-- APPEND JSON-->
                         </tbody>
                     </table>
@@ -345,8 +341,95 @@
 </div>
 
 @section pagespecific{
+
     <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
     <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+        /* urls chamadas ajax --------------------------------------------*/
+            var urlGetDadosImovel = '@Url.Action("GetDadosImovel", "Atos")';
+            var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
+
+
+            //obter ip local
+            var ipLocal = getUserIP(function (ip) {
+                var t = navigator.product;
+                $("#IpLocal").val(ip);
+            });
+
+            var vetIdPessoasSel = [];
+
+            var id = $("#Id").val();
+
+            DesabilitarProximo();
+
+            $(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+
+            /*-- pesqusar por prenotacao ------------------------------------ */
+            $("#btn-pesq-prenotacao").click(function (e) {
+                e.preventDefault();
+                var dataPreMat = {
+                    matriculaPrenotacao: $("#PREIMO_SEQPRE").val()
+                };
+
+                GetDadosImovel(dataPreMat, urlGetDadosImovel);
+            });
+
+            /*-- pesqusar por matricula ------------------------------------- */
+            $("#btn-pesq-matricula").click(function (e) {
+                e.preventDefault();
+                var dataPreMat = {
+                    matriculaPrenotacao: $("#PREIMO_MATRI").val()
+                };
+
+                GetDadosImovel(dataPreMat, urlGetDadosImovel);
+            });
+
+            /*-- pesquisar pessoas ------------------------------------------ */
+            $("#btn-pesq-pessoas").click(function (e) {
+                e.preventDefault();
+
+                var dadosPrenotacao = {
+                    numeroPrenotacao: $("#PREIMO_SEQPRE").val()
+                };
+
+                GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
+            });
+
+            /*-- btn-dlg-pessoas-ok   --------------------------------------- */
+            $("#btn-dlg-pessoas-ok").click(function (e) {
+                e.preventDefault();
+
+                PovoarSelecionados();
+
+            });
+
+            /*-- fuelux wizard ---------------------------------------------- */
+            var wizard = $('#divWizardEtapas').wizard();
+
+            wizard.on('finished', function (e, data) {
+                //$("#fuelux-wizard").submit();
+                //console.log("submitted!");
+                $.smallBox({
+                    title: "Congratulations! Your form was submitted",
+                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                    color: "#5F895F",
+                    icon: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+
+            });
+
+        });
+    </script>
+
     <script src="~/Scripts/cartoonsoft/Atos/novo.js"></script>
 }

@@ -2,92 +2,23 @@
 ---------1---------2---------3---------4---------5---------6---------7---------8
 01234567890123456789012345678901234567890123456789012345678901234567890123456789
 --------------------------------------------------------------------------------
-Cartoonsoft 
+Cartoonsoft: Atos.Novo 
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
-/**
- * 
- * */
-$(document).ready(function () {
-    //obter ip local
-    var ipLocal = getUserIP(function (ip) {
-        var t = navigator.product;
-        $("#IpLocal").val(ip);
-    });
 
-    var vetIdPessoasSel = [];
-
-    var id = $("#Id").val();
-
-    DesabilitarProximo();
-
-    $(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {
-        $(this).val($(this).val().replace(/[^\d].+/, ""));
-        if ((event.which < 48 || event.which > 57)) {
-            event.preventDefault();
-        }
-    });
-
-    /*-- pesqusar por prenotacao ------------------------------------ */
-    $("#btn-pesq-prenotacao").click(function (e) {
-        e.preventDefault();
-        var dataPreMat = {
-            matriculaPrenotacao: $("#PREIMO_SEQPRE").val()
-        };
-
-        GetDadosImovel(dataPreMat);
-    });
-
-    /*-- pesqusar por matricula ------------------------------------- */
-    $("#btn-pesq-matricula").click(function (e) {
-        e.preventDefault();
-        var dataPreMat = {
-            matriculaPrenotacao: $("#PREIMO_MATRI").val()
-        };
-
-        GetDadosImovel(dataPreMat);
-    });
-
-    /*-- pesquisar pessoas ------------------------------------------ */
-    $("#btn-pesq-pessoas").click(function (e) {
-        e.preventDefault();
-
-        var dadosPrenotacao = {
-            numeroPrenotacao: $("#PREIMO_SEQPRE").val()
-        };
-
-        GetPessoasPrenotacao(dadosPrenotacao)
-    });
-
-    /*-- fuelux wizard ---------------------------------------------- */
-    var wizard = $('#divWizardEtapas').wizard();
-
-    wizard.on('finished', function (e, data) {
-        //$("#fuelux-wizard").submit();
-        //console.log("submitted!");
-        $.smallBox({
-            title: "Congratulations! Your form was submitted",
-            content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-            color: "#5F895F",
-            icon: "fa fa-thumbs-up bounce animated",
-            timeout: 4000
-        });
-
-    });
-});
-
-/*----------------------------------------------------------------------
- * Funçoes
+/*------------------------------------------------------------------------------
+ * Funçoes: * javascript da view: Atos.Novo
  *
- * -------------------------------------------------------------------*/
+ * ---------------------------------------------------------------------------*/
 
 /**
  * Ajax busca dadso do imóvel por num prenotacao/matricula
  * @@param dataPreMat
  */
-function GetDadosImovel(dataPreMat) {
-    $.ajax('@Url.Action("GetDadosImovel", "Atos")', {
+function GetDadosImovel(dataPreMat, url) {
+
+    $.ajax(url, {
         method: 'POST',
         dataType: 'json',
         data: dataPreMat,
@@ -129,9 +60,9 @@ function GetDadosImovel(dataPreMat) {
  * Busca lista pessoa por prenotação
  * @@param preimo
  */
-function GetPessoasPrenotacao(dadosPrenotacao) {
+function GetPessoasPrenotacao(dadosPrenotacao, url) {
 
-    $.ajax('@Url.Action("GetPessoasPrenotacao", "Atos")', {
+    $.ajax(url, {
         method: 'POST',
         dataType: 'json',
         data: dadosPrenotacao,
@@ -189,6 +120,40 @@ function ShowTblPessoasPrenotacao(listadados) {
 
     $('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#PREIMO_SEQPRE").val());
     $('#div-dlg-pessoas').modal('show');
+}
+
+/**
+ * 
+ * */
+function PovoarSelecionados() {
+
+    $("#tbl-selecao-pessoas").find("tr:gt(0)").remove();
+
+    $.each(listadados, function (index, item) {
+
+        var doc = item.Numero1.trim();
+
+        if (doc == "") {
+            doc = item.Numero2.trim();
+        }
+
+    });
+
+    $('#tbl-selecao-pessoas > tbody  > tr').each(function (elem) {
+
+        $("#tblPessoasSelecionadas tbody").append(
+            '<tr>' +
+            '<td style="width:20px">' + '<input type="checkbox" id="chk-selecao-pessoas_' + item.IdPessoa + '">' + '</td>' +
+            '<td style="width:50px">' + item.TipoPessoa + '</td>' +
+            '<td style="width:80px">' + doc + '</td>' +
+            '<td style="width:200px">' + item.Nome + '</td>' +
+            '</tr>'
+        );
+
+
+    });
+
+    $('#div-dlg-pessoas').modal('hide');
 }
 
 /**

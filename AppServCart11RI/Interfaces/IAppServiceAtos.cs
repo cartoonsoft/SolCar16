@@ -14,18 +14,23 @@ namespace AppServices.Cartorio.Interfaces
     public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
         DtoAtoCadastro NovoAto(DtoAto Ato, string textoHtml);
+
         bool EditarAto(long IdAto, string textoHtml);
 
         IEnumerable<DtoAtoDocx> GerarFichas(long IdAto);
+
         void UploadFicha(long IdDocx);
 
         void ImprimirFicha(long IdDocx);
+
         void ImprimirAto(long IdAto);
 
         void ConferirAto(long IdAto, TipoConferenciaAto tipoConferencia);
+
         bool FinalizarAto(long IdAto);
 
         void Bloquear(long IdAto);
+
         void Desativar(long IdAto);
 
         IEnumerable<DtoAtoList> ListarAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null);
