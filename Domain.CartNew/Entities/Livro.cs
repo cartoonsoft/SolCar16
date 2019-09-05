@@ -1,26 +1,29 @@
-﻿using Domain.Core.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Domain.Core.Entities.Base;
 
 namespace Domain.CartNew.Entities
 {
-    [Table("TB_TP_ATO", Schema = "DEZESSEIS_NEW")]
-    public class TipoAto : EntityBase
+    [Table("TB_LIVRO", Schema = "DEZESSEIS_NEW")]
+    public class Livro: EntityBase
     {
         [Key]
-        [Column("ID_TP_ATO")]
+        [Column("ID_LIVRO")]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override long? Id { get; set; }
-
-        [Column("ID_CTA_ACESSO_SIST")]
-        public decimal IdAcessoSistema { get; set; }
 
         [Column("DESCRICAO")]
         public string Descricao { get; set; }
 
+        [Column("OBS")]
+        public string Obs { get; set; }
     }
 }
+
+
+
+
+

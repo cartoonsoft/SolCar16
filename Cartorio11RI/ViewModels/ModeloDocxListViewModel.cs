@@ -17,6 +17,8 @@ namespace Cartorio11RI.ViewModels
         [Key]
         [Display(Name = "Código")]
         public long? Id { get; set; }
+
+        [Display(Name = "Conta acesso")]
         public long IdCtaAcessoSist { get; set; }
 
         public long IdTipoAto { get; set; }

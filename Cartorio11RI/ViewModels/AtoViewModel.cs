@@ -13,7 +13,6 @@ namespace Cartorio11RI.ViewModels
             this.IdCtaAcessoSist = idCtaAcessoSist;
             this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
-            this.ModeloDocx = new ModeloDocxSimplificadoViewModel(this.IdCtaAcessoSist);
         }
 
         [Key]
@@ -24,11 +23,21 @@ namespace Cartorio11RI.ViewModels
         [ScaffoldColumn(false)]
         public long IdCtaAcessoSist { get; set; }
 
-        [ScaffoldColumn(false)]
+        [Display(Name = "Livro")]
+        [ScaffoldColumn(true)]
+        public long IdLivro { get; set; }
+
+        [Display(Name = "Tipo de ato")]
+        [ScaffoldColumn(true)]
         public long IdTipoAto { get; set; }
 
+        [Display(Name = "Núm. prenotação")]
         [ScaffoldColumn(false)]
         public long IdPrenotacao { get; set; }
+
+        [Display(Name = "Modelo de documento")]
+        [ScaffoldColumn(true)]
+        public long IdModeloDoc{ get; set; }
 
         [ScaffoldColumn(false)]
         public string IdUsuarioCadastro { get; set; }
@@ -86,7 +95,5 @@ namespace Cartorio11RI.ViewModels
         public List<PESSOAViewModel> Pessoas { get; set; }
 
         public PREIMOViewModel PREIMO { get; set; }
-
-        public ModeloDocxSimplificadoViewModel ModeloDocx { get; set; }
     }
 }

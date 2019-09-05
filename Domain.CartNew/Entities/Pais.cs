@@ -1,16 +1,16 @@
-﻿using Domain.Core.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using Domain.Core.Entities.Base;
 
 namespace Domain.CartNew.Entities
 {
     [Table("TB_PAIS", Schema = "DEZESSEIS_NEW")]
     public class Pais : EntityBase
     {
-        //[Key]
+        [Key]
         [Column("ID_PAIS")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public override long? Id { get; set; }

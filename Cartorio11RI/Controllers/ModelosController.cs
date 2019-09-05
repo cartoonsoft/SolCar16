@@ -176,7 +176,7 @@ namespace Cartorio11RI.Controllers
                 try
                 {
                     ModeloDocx arquivoModelo = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
-                    ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel
+                    ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel(this.IdCtaAcessoSist)
                     {
                         Id = arquivoModelo.Id,
                         DescricaoTipoAto = "",

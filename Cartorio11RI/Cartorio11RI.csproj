@@ -943,7 +943,6 @@
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocxListViewModel.cs" />
-    <Compile Include="ViewModels\ModeloDocxSimplificadoViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\PESSOAViewModel.cs" />
     <Compile Include="ViewModels\PREIMOViewModel.cs" />

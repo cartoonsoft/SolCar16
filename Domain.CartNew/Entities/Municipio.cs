@@ -1,11 +1,11 @@
-﻿using Domain.Core.Entities.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Core.Entities.Base;
 
 namespace Domain.CartNew.Entities
 {

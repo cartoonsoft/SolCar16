@@ -14,8 +14,8 @@ using Domain.CartNew.Entities;
 using Cartorio11RI.Controllers.Base;
 using Cartorio11RI.ViewModels;
 using AppServCart11RI.AppServices;
-using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Domain.CartNew.Interfaces.UnitOfWork;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
 using LibFunctions.Functions.IOAdmCartorio;
 
@@ -78,7 +78,20 @@ namespace Cartorio11RI.Controllers
         public ActionResult Novo()
         {
             var dados = new AtoViewModel(this.IdCtaAcessoSist);
+            List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+            List<TipoAto> listaTipoAto = this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get().ToList();
 
+            listaTipoAto.Insert(0, new TipoAto {
+                 Id = 0,
+                 IdAcessoSistema = this.IdCtaAcessoSist,
+                 Descricao = "Selecione um tipo"
+            });
+
+            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
+            ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
+            ViewBag.listaModelosDocx =  new SelectList(new[] {
+                                            new {IdModeloDocx="0",NomeModelo="Selecione um modelo"}
+                                        }, "IdModeloDocx", "NomeModelo");
             return View(dados);
         }
 
@@ -218,8 +231,8 @@ namespace Cartorio11RI.Controllers
         {
             using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
-
                 var resultado = appService.FinalizarAto(IdAto);
+
                 if (resultado)
                 {
                     this.UfwCartNew.SaveChanges();
@@ -265,7 +278,6 @@ namespace Cartorio11RI.Controllers
                     };
 
                     return View(atoViewModel);
-
                 }
                 else
                 {
@@ -368,16 +380,15 @@ namespace Cartorio11RI.Controllers
         {
             return PartialView();
         }
+
         public PartialViewResult PartialDadosPessoas(string listaPessoas)
         {
             var dados = JsonConvert.DeserializeObject<List<DadosPessoaViewModel>>(listaPessoas);
             return PartialView(dados);
         }
-
         #endregion
 
         #region | JsonResults e .GET |
-
         /// <summary>
         /// Lista de Modelos (JSON)
         /// </summary>
@@ -387,7 +398,7 @@ namespace Cartorio11RI.Controllers
             using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
                 var listaDtoArquivoModelosDocx = appService.ListarModeloSimplificado();
-                var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxSimplificadoList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoArquivoModelosDocx);
+                var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxSimplificadoList>, IEnumerable<ModeloDocx>>(listaDtoArquivoModelosDocx);
                 var jsonResult = JsonConvert.SerializeObject(listaModelos);
 
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);

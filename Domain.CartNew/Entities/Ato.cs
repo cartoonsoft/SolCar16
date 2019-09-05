@@ -20,11 +20,17 @@ namespace Domain.CartNew.Entities
         [Column("ID_CTA_ACESSO_SIST")] 
         public long IdCtaAcessoSist { get; set; }
 
+        [Column("ID_LIVRO")]
+        public long IdLivro { get; set; }
+
         [Column("ID_TP_ATO")]
         public long IdTipoAto { get; set; }
 
         [Column("ID_PREMA")] //NUMERIC(19, 0),
         public long IdPrenotacao { get; set; }
+
+        [Column("ID_MODELO_DOC")] //NUMERIC(19, 0),
+        public long IdModeloDoc { get; set; }
 
         [Column("ID_USR_CAD")]
         public string IdUsuarioCadastro { get; set; }

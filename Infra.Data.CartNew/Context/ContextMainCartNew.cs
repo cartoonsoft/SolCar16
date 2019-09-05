@@ -56,6 +56,7 @@ namespace Infra.Data.CartNew.Context
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
         public DbSet<PESSOAS> DbPESSOAS { get; set; }
+        public DbSet<Livro> DbLivro { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -17,7 +17,7 @@
             @Html.TextBoxFor(model => model.Modelo.NomeModelo, new
             {
                 @class = "form-control input-lg",
-                @placeholder = "NOME DO MODELO",
+                @placeholder = "Nome do modelo",
                 @readonly = "readonly",
                 @required = "required",
                 @title = "Preencha o nome do modelo"
@@ -34,6 +34,7 @@
         <input hidden id="modeloInvalido" />
     </div>
 </div>
+
 <div class="row col-sm-12" style="margin-bottom:15px;">
     <table id="tabelaModelo" class="table table-bordered table-hover dataTable no-footer has-columns-hidden" role="grid" aria-describedby="dt_basic_info" style="width: 100%;">
         <thead>
