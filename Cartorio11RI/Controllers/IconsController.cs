@@ -4,7 +4,7 @@ using System.Web.Mvc;
 
 #endregion
 
-namespace AdmCartorio.Controllers
+namespace Cartorio11RI.Controllers
 {
     [Authorize]
     public class IconsController : Controller

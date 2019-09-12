@@ -83,7 +83,7 @@ namespace Cartorio11RI.Controllers
 
             listaTipoAto.Insert(0, new TipoAto {
                  Id = 0,
-                 IdAcessoSistema = this.IdCtaAcessoSist,
+                    IdCtaAcessoSist = this.IdCtaAcessoSist,
                  Descricao = "Selecione um tipo"
             });
 
@@ -147,7 +147,6 @@ namespace Cartorio11RI.Controllers
                         ato = new Ato()
                         {
                             Ativo = true,
-                            Bloqueado = false,
                             IdPrenotacao = modelo.PREIMO.SEQPRE,
                             IdTipoAto = modelo.IdTipoAto,
                             //NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
@@ -193,15 +192,14 @@ namespace Cartorio11RI.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
-                    else if (Ato.Bloqueado == true)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
-                    }
+                    //else if (Ato.Bloqueado == true)
+                    //{
+                    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
+                    //}
                     AtoListViewModel atoViewModel = new AtoListViewModel
                     {
                         Id = Ato.Id,
                         Ativo = Ato.Ativo,
-                        Bloqueado = Ato.Bloqueado,
                         //NumSequencia = Ato.NumSequencia,
                         Codigo = "",
                         DataAlteracao = Ato.DataAlteracao,
@@ -262,10 +260,10 @@ namespace Cartorio11RI.Controllers
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
-                    else if (Ato.Bloqueado == true)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
-                    }
+                    //else if (Ato.Bloqueado == true)
+                    //{
+                    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
+                    //}
                     AtoViewModel atoViewModel = new AtoViewModel(this.IdCtaAcessoSist)
                     {
                         Id = Id,

@@ -58,7 +58,9 @@
     <Compile Include="AppServices\AppServiceAcoesUsuarios.cs" />
     <Compile Include="AppServices\AppServiceModelosDocx.cs" />
     <Compile Include="AppServices\AppServiceAtos.cs" />
+    <Compile Include="AppServices\AppServiceTipoAto.cs" />
     <Compile Include="Interfaces\IAppServiceAcoesUsuarios.cs" />
+    <Compile Include="Interfaces\IAppServicetTipoAto.cs" />
     <Compile Include="Interfaces\IAppServiceModelosDocx.cs" />
     <Compile Include="Interfaces\IAppServiceAtos.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

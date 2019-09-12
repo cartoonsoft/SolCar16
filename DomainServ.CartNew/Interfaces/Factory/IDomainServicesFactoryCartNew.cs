@@ -41,5 +41,9 @@ namespace DomainServ.CartNew.Interfaces.Factory
             get;
         }
 
+        ITipoAtoDs TipoAtoDs {
+            get;
+        }
+
     }
 }

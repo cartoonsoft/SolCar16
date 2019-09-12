@@ -5,10 +5,11 @@ using Domain.CartNew.Entities;
 using Domain.CartNew.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.CartNew.Context;
+using Infra.Data.CartNew.Repositories.DbCartNew;
 using Infra.Data.CartNew.Repositories.Identity;
 using Infra.Data.Core.Repositories;
 
-namespace Infra.Data.CartNew.Repositories.DbCartNew
+namespace Infra.Data.CartNew.Factory
 {
     public class RepositoriesFactoryCartNew : RepositoriesFactoryBase, IRepositoriesFactoryCartNew
     {
@@ -99,6 +100,10 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     {
                         repository = new RepositoryLogModeloDocx(this._context);
                     }
+                    if (typeof(T).Equals(typeof(TipoAto)))
+                    {
+                        repository = new RepositoryTipoAto(this._context);
+                    }
 
                     if (repository != null)
                     {
@@ -156,9 +161,16 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         {
             get { return GetRepositoryInstance<Ato>() as RepositoryAto; }
         }
+
         public IRepositoryLogModeloDocx RepositoryLogModeloDocx
         {
             get { return GetRepositoryInstance<LogModeloDocx>() as RepositoryLogModeloDocx; }
         }
+
+        public IRepositoryTipoAto RepositoryTipoAto
+        {
+            get { return GetRepositoryInstance<TipoAto>() as RepositoryTipoAto; }
+        }
+
     }
 }

@@ -35,6 +35,7 @@
             </ul>
         </div>
     </div>
+
     <!-- widget grid -->
     <section id="widget-grid" class="">
 
@@ -200,6 +201,7 @@
 
             </article>
             <!-- WIDGET END -->
+
             <!-- NEW WIDGET START -->
             <article class="col-sm-12 col-md-12 col-lg-6">
 
@@ -233,10 +235,14 @@
 
                         </div>
                         <!-- end widget edit box -->
+
                         <!-- widget content -->
                         <div class="widget-body">
 
                             <div class="tree smart-form">
+
+                                *********************************
+
                                 <ul>
                                     <li>
                                         <span><i class="fa fa-lg fa-folder-open"></i> Parent</span>
@@ -314,6 +320,8 @@
                                         </ul>
                                     </li>
                                 </ul>
+
+                                ******************************************************
                             </div>
 
                         </div>
@@ -329,14 +337,13 @@
             <!-- WIDGET END -->
 
         </div>
-
         <!-- end row -->
-        <!-- row -->
 
+
+        <!-- row -->
         <div class="row">
 
         </div>
-
         <!-- end row -->
 
     </section>
@@ -358,10 +365,10 @@
         $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span').attr('title', 'Collapse this branch').on('click', function (e) {
             var children = $(this).parent('li.parent_li').find(' > ul > li');
             if (children.is(':visible')) {
-                children.hide('fast');
+                children.hide('slow');
                 $(this).attr('title', 'Expand this branch').find(' > i').removeClass().addClass('fa fa-lg fa-plus-circle');
             } else {
-                children.show('fast');
+                children.show('slow');
                 $(this).attr('title', 'Collapse this branch').find(' > i').removeClass().addClass('fa fa-lg fa-minus-circle');
             }
             e.stopPropagation();

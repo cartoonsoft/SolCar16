@@ -123,6 +123,20 @@ class PessoaPrenotacao {
  * ---------------------------------------------------------------------------*/
 
 /**
+ * 
+ * @@param {any} PrenotacaoMatricula
+ */
+function PesquisarPrenotacaoMatricula(PrenotacaoMatricula, url) {
+    var dataPreMat = {
+        matriculaPrenotacao: PrenotacaoMatricula.trim()
+    };
+
+    if (PrenotacaoMatricula != "") {
+        GetDadosImovel(dataPreMat, url);
+    }
+}
+
+/**
  * Ajax busca dadso do imóvel por num prenotacao/matricula
  * @@param dataPreMat
  */
@@ -360,3 +374,6 @@ function HabilitarProximo() {
     $('#btn-proximo').removeAttr('disabled');
     $('#btn-proximo').addClass('active');
 }
+
+
+

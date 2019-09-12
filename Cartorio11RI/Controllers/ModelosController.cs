@@ -15,6 +15,7 @@ using AppServCart11RI.AppServices;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
 using System.Net.Sockets;
+using Domain.CartNew.Entities.Diversos;
 
 namespace Cartorio11RI.Controllers
 {
@@ -52,14 +53,13 @@ namespace Cartorio11RI.Controllers
             return View(listaArquivoModeloDocxListViewModel);
         }
 
-        #region | CADASTRAR |
         // GET: Modelo/Novo
         public ActionResult Novo()
         {
             try
             {
-                List<TipoAto> listaTipoAto = this.UfwCartNew.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
-                ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
                 return View();
             }
@@ -86,12 +86,10 @@ namespace Cartorio11RI.Controllers
 
                 if (ControllerModelValid)
                 {
-
                     LogModeloDocx logArquivo = new LogModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
                     logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                     logArquivo.IP = arquivoModel.IpLocal;
-
 
                     string filePath = string.Empty;
                     arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
@@ -165,9 +163,7 @@ namespace Cartorio11RI.Controllers
             return View(arquivoModel);
 
         }
-        #endregion
 
-        #region | EDITAR |
         // GET: Modelo/Editar/{ID}
         public ActionResult Editar(long? Id)
         {
@@ -260,7 +256,6 @@ namespace Cartorio11RI.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
-        #endregion
 
         #region | METODOS COMPARTILHADOS |
         private void CadastrarLogDownload(string IP, long Id)

@@ -21,7 +21,7 @@ namespace Infra.Cross.Identity.Configuration
             // Logica de validação e complexidade de senha
             PasswordValidator = new PasswordValidator
             {
-                RequiredLength = 4,
+                RequiredLength = 6,
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = false,

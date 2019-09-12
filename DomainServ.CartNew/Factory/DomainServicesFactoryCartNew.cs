@@ -110,6 +110,10 @@ namespace DomainServ.CartNew.Factory
                     {
                         domainService = new AcoesUsuariosDs(this._ufwCartNew);
                     }
+                    if (typeof(T).Equals(typeof(TipoAto)))
+                    {
+                        domainService = new TipoAtoDs(this._ufwCartNew);
+                    }
 
                     if (domainService != null)
                     {
@@ -164,6 +168,11 @@ namespace DomainServ.CartNew.Factory
         public IAcoesUsuariosDs AcoesUsuariosDs
         {
             get { return GetDomainServiceInstance<Acao>() as IAcoesUsuariosDs; }
+        }
+
+        public ITipoAtoDs TipoAtoDs
+        {
+            get { return GetDomainServiceInstance<TipoAto>() as ITipoAtoDs; }
         }
         
     }

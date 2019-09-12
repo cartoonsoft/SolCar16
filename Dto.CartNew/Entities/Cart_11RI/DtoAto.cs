@@ -1,6 +1,7 @@
 ﻿using Dto.CartNew.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 {
     public class DtoAto: DtoEntityBaseModel
     {
+        [Key]
         public override long? Id { get; set; }
 
         //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
@@ -34,11 +36,10 @@ namespace Dto.CartNew.Entities.Cart_11RI
         //NRO_MATRICULA        VARCHAR2(20),
         public string NumMatricula { get; set; }
 
+        public string StatusAto { get; set; }
+
         //NUMERIC(1,0)         default 0,
         public bool Ativo { get; set; }
-
-        //NUMERIC(1,0),
-        public bool Bloqueado { get; set; }
 
         // VARCHAR2(512),
         public string Observacao { get; set; }

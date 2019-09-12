@@ -52,6 +52,7 @@
     <Compile Include="Attributes\IsWordFile.cs" />
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
+    <Compile Include="Entities\Diversos\TipoAtoList.cs" />
     <Compile Include="Entities\Livro.cs" />
     <Compile Include="Entities\ModeloDocx.cs" />
     <Compile Include="Entities\Ato.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryLogModeloDocx.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryTipoAto.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoaCartNew.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />

@@ -59,11 +59,12 @@
     <Compile Include="EntityConfig\PedidoItemConfig.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\DbCartNew\RepositoriesFactoryCartNew.cs" />
+    <Compile Include="Factory\RepositoriesFactoryCartNew.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryModeloDocx.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryAto.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryLogModeloDocx.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryMunicipio.cs" />
+    <Compile Include="Repositories\DbCartNew\RepositoryTipoAto.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryPais.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryPessoaCartNew.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryUf.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Infra.Data.CartNew.Context;
-using Infra.Data.CartNew.Repositories.DbCartNew;
+using Infra.Data.CartNew.Factory;
 using Infra.Data.Cartorio.UnitsOfWork.Base;
 using Infra.Data.Core.Repositories;
 

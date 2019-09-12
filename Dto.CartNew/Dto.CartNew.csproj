@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Base\DtoBase.cs" />
     <Compile Include="Base\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
     <Compile Include="Entities\Cart_11RI\DtoModeloDocx.cs" />
     <Compile Include="Entities\Cart_11RI\DtoModeloDocxSimplificadoList.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Entities\Cart_11RI\DtoDocx.cs" />
     <Compile Include="Entities\Cart_11RI\DtoLogModeloDocx.cs" />
     <Compile Include="Entities\Cart_11RI\DtoMatriculaAto.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoTipoAto.cs" />
     <Compile Include="Entities\TodosCart\DtoMunicipio.cs" />
     <Compile Include="Entities\TodosCart\DtoPais.cs" />
     <Compile Include="Entities\Cart_11RI\DtoPessoaCartorio.cs" />

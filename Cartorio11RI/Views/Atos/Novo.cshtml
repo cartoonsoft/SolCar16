@@ -298,7 +298,7 @@
                                             <div class="row">
                                                 <div class="col-sm-4">
                                                     @Html.LabelFor(model => model.IdTipoAto)
-                                                    @Html.DropDownListFor(model => model.IdTipoAto, (ViewBag.listaTipoAto as SelectList), new { @id = "ddListTipoAto", @class = "form-control", @onchange = "OnChangeDdListTipoAto(this);" })
+                                                    @Html.DropDownListFor(model => model.IdTipoAto, (ViewBag.listaTipoAto as SelectList), new { @id = "ddListTipoAto", @class = "form-control" })
                                                 </div>
                                                 <div class="col-sm-8">
                                                     @Html.LabelFor(model => model.IdModeloDoc)
@@ -306,10 +306,9 @@
                                                 </div>
                                             </div>
                                             <div class="row">
+                                                <!--                         -->
                                             </div>
-                                            <div class="row">
 
-                                            </div>
                                         </div>
 
                                         <!-- passo 3----------------------------------------------------------------------------------------------------------->
@@ -349,12 +348,6 @@
                                                     </table>
                                                 </div>
                                             </div>
-
-
-
-
-                                            ********
-                                            *****************
                                         </div>
 
                                         <!-- passo 4----------------------------------------------------------------------------------------------------------->
@@ -471,21 +464,27 @@
             /*-- pesqusar por prenotacao ------------------------------------ */
             $("#btn-pesq-prenotacao").click(function (e) {
                 e.preventDefault();
-                var dataPreMat = {
-                    matriculaPrenotacao: $("#PREIMO_SEQPRE").val()
-                };
+                var premaMat = $("#PREIMO_SEQPRE").val();
+                PesquisarPrenotacaoMatricula(premaMat, urlGetDadosImovel);
+            });
 
-                GetDadosImovel(dataPreMat, urlGetDadosImovel);
+            $("#PREIMO_SEQPRE").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $("#btn-pesq-prenotacao").click();
+                }
             });
 
             /*-- pesqusar por matricula ------------------------------------- */
             $("#btn-pesq-matricula").click(function (e) {
                 e.preventDefault();
-                var dataPreMat = {
-                    matriculaPrenotacao: $("#PREIMO_MATRI").val()
-                };
+                var premaMat = $("#PREIMO_MATRI").val();
+                PesquisarPrenotacaoMatricula(premaMat, urlGetDadosImovel);
+            });
 
-                GetDadosImovel(dataPreMat, urlGetDadosImovel);
+            $("#PREIMO_MATRI").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    $("#btn-pesq-matricula").click();
+                }
             });
 
             /*-- pesquisar pessoas ------------------------------------------ */
@@ -502,7 +501,6 @@
             /*-- btn-dlg-pessoas-ok   --------------------------------------- */
             $("#btn-dlg-pessoas-ok").click(function (e) {
                 e.preventDefault();
-
                 PovoarSelecionados($('#PREIMO_SEQPRE').val());
             });
 
@@ -519,6 +517,16 @@
                     icon: "fa fa-thumbs-up bounce animated",
                     timeout: 4000
                 });
+            });
+
+            /*-- ------------------------------------------------------------ */
+            $("#ddListTipoAto").on("change", function () {
+
+                var idSel = $(this).find(":selected").val();
+                alert(idSel);
+                PovoarSelectModelos
+
+
             });
 
         });

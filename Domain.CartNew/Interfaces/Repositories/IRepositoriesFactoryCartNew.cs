@@ -43,5 +43,10 @@ namespace Domain.CartNew.Interfaces.Repositories
             get;
         }
 
+        IRepositoryTipoAto RepositoryTipoAto
+        {
+            get;
+        }
+
     }
 }

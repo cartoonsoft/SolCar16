@@ -14,7 +14,7 @@ namespace Cartorio11RI
             // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=316888
 
             //autoMapper
-            Cartorio11RI.App_Start.AutoMapper.AutoMapperConfigCartorio11RI.RegisterMappingsAdmCartorio();
+            Cartorio11RI.App_Start.AutoMapper.AutoMapperConfigCartorio11RI.RegisterMappingsCartorio11RI();
 
             ConfigureAuth(app);
 

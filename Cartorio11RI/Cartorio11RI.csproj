@@ -920,6 +920,7 @@
     <Compile Include="Controllers\FeaturesController.cs" />
     <Compile Include="Controllers\FormsController.cs" />
     <Compile Include="Controllers\IconsController.cs" />
+    <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\ModelosController.cs" />
     <Compile Include="Controllers\AtosController.cs" />
     <Compile Include="Controllers\Base\CartorioBaseController.cs" />
