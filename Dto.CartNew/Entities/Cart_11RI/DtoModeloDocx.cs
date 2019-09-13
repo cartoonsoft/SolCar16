@@ -22,6 +22,14 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Required(ErrorMessage = "Selecione um tipo")]
         public long IdTipoAto { get; set; }
 
+        public string IdUsuarioCadastro { get; }
+
+        public string IdUsuarioAlteracao { get; }
+
+        public DateTime DataCadastro { get; }
+
+        public DateTime? DataAlteracao { get; }
+
         [Display(Name = "Nome Modelo")]
         [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
         public string NomeModelo { get; set; }

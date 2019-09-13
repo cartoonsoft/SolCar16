@@ -9,10 +9,10 @@
     <style>
         /* coloque aqui seu codigo css */
         .div-container-scroll {
-            width: 620px;
-            height: 600px;
-            overflow-y: scroll;
-            overflow-x: scroll;
+            width: 580px;
+            height: 540px;
+            overflow-y: auto;
+            overflow-x: auto;
         }
 
     </style>
@@ -91,6 +91,7 @@
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationBootstrap()
                                 @Html.HiddenFor(model => model.Id)
+                                @Html.HiddenFor(model => model.IdCtaAcessoSist)
                                 @Html.HiddenFor(model => model.IdTipoAto)
 
                                 <input type="hidden" id="IpLocal" name="IpLocal" value="">
@@ -115,7 +116,7 @@
                                                                                 @foreach (var item2 in item.ListaTipoAtosFihos)
                                                                                 {
                                                                                     <li style="display:none">
-                                                                                        <button type="button" class="btn btn-default btn-sm" rel="popover-hover" data-placement="right" data-original-title="Descrição" data-content="@item2.Orientacao"><i class="glyphicon glyphicon-menu-right"></i> @item2.Descricao</button>
+                                                                                        <button type="button" class="btn btn-info btn-sm btn-tree-tipo-ato" id="btn_tree_tipo_ato_@item2.Id" rel="popover-hover" data-placement="right" data-original-title="Descrição" data-content="@item2.Orientacao" onclick="SelecionarTipoAto(this, @item2.Id);"><i class="glyphicon glyphicon-menu-right"></i> @item2.Descricao</button>
                                                                                     </li>
                                                                                 }
                                                                             </ul>
@@ -131,7 +132,7 @@
                                         <section class="col col-6">
                                             <div class="row">
                                                 <label>Tipo selecionado</label>
-                                                <input type="text" disabled class="form-control" />
+                                                <input type="text" id="txt_tipo_ato" readonly class="form-control" value="" placeholder="" />
                                             </div>
                                             <br />
                                             <div class="row">
@@ -257,6 +258,25 @@
             }
 
         });
+
+        /**
+         * /
+         * @@param btnObj
+         * @@param idTipoAto
+         */
+        function SelecionarTipoAto(btnObj, idTipoAto) {
+
+            var btn = btnObj;
+            var idTmp = idTipoAto;
+            //$(btn).removeClass("btn-info")
+            var txtTipoAto = btn.innerText.trim();
+            $("#IdTipoAto").val(idTipoAto);
+            $("#txt_tipo_ato").val(txtTipoAto);
+
+            $(".btn-tree-tipo-ato").removeClass("btn-danger");
+            $(btn).addClass("btn-danger");
+
+        }
 
     </script>
 }

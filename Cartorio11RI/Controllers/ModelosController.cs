@@ -58,10 +58,13 @@ namespace Cartorio11RI.Controllers
         {
             try
             {
+                ModeloDocxViewModel model = new ModeloDocxViewModel(this.IdCtaAcessoSist);
+                model.IdUsuarioCadastro = this.UsuarioAtual.Id;
+
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
-                return View();
+                return View(model);
             }
             catch (Exception)
             {

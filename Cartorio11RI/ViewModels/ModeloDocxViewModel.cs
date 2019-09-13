@@ -17,23 +17,21 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Código")]
         public long? Id { get; set; }
 
-        [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
-        [Display(Name = "Tipo de ato")]
-        public long IdTipoAto { get; set; }
-
         [Required(ErrorMessage = "Selecione cont de acesso", AllowEmptyStrings = false)]
         [Display(Name = "Conta acesso")]
         public long IdCtaAcessoSist { get; private set; }
 
-        [Required]
-        public string IdUsuarioCadastro { get; }
+        [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
+        [Display(Name = "Tipo de ato")]
+        public long IdTipoAto { get; set; }
 
-        public string IdUsuarioAlteracao { get; }
+        public string IdUsuarioCadastro { get; set; }
 
-        [Required]
-        public DateTime DataCadastro { get; }
+        public string IdUsuarioAlteracao { get; set; }
 
-        public DateTime? DataAlteracao { get; }
+        public DateTime DataCadastro { get; set; }
+
+        public DateTime? DataAlteracao { get; set; }
 
         [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
         [Display(Name = "Nome do Modelo")]
