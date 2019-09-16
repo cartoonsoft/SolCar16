@@ -5,6 +5,7 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Domain.CartNew.Interfaces.UnitOfWork;
+using Infra.Data.CartNew.UnitsOfWork.DbCartNew;
 
 namespace Cartorio11RI.Controllers.Base
 {
@@ -16,6 +17,11 @@ namespace Cartorio11RI.Controllers.Base
         public CartoonSoftBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew)
         {
             //
+            if (UfwCartNew == null)
+            {
+                _UfwCartNew = new UnitOfWorkDataBaseCartNew("contextOraCartNew");
+            }
+
             this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
             this._UfwCartNew = UfwCartNew;
         }

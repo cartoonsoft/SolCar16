@@ -21,6 +21,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
             CreateMap<Uf, DtoUf>();
             CreateMap<Municipio, DtoMunicipio>();
             CreateMap<PessoaCartNew , DtoPessoaCartNew>();
+            CreateMap<ModeloDocx, DtoModeloDocx>();
             CreateMap<ModeloDocxList, DtoModeloDocxList>();
             CreateMap<Acao, DtoAcao>();
             CreateMap<PREIMO, DtoPREIMO>();

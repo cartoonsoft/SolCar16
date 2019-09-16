@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Cartorio11RI.App_Start;
 using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartup(typeof(Cartorio11RI.Startup))]
-
 namespace Cartorio11RI
 {
     public partial class Startup
@@ -23,7 +23,7 @@ namespace Cartorio11RI
             //    AuthenticationType = "ApplicationCookie", 
             //    LoginPath = new PathString("")
             //});
-            
+
         }
     }
 }

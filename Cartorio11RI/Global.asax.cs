@@ -1,11 +1,8 @@
-﻿#region Using
-
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-
-#endregion
+using Cartorio11RI.App_Start;
 
 namespace Cartorio11RI
 {
@@ -20,6 +17,9 @@ namespace Cartorio11RI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            //simple injector
+            SimpleInjectorInitializer.InitializeContainer();
         }
     }
 }

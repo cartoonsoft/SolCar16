@@ -9,11 +9,6 @@ namespace Cartorio11RI.ViewModels
 {
     public class ModeloDocxListViewModel
     {
-        public ModeloDocxListViewModel(long idCtaAcessoSist)
-        {
-            this.IdCtaAcessoSist = IdCtaAcessoSist;
-        }
-
         [Key]
         [Display(Name = "Código")]
         public long? Id { get; set; }

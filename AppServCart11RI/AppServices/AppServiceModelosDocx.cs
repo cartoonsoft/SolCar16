@@ -113,7 +113,7 @@ namespace AppServCart11RI.AppServices
                     IdUsuarioCadastro = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoArq.CaminhoEArquivo,
-                    NomeModelo = dtoArq.NomeModelo
+                    DescricaoModelo = dtoArq.DescricaoModelo
                 };
 
                 // Registro de Log                
@@ -151,7 +151,7 @@ namespace AppServCart11RI.AppServices
                     IdUsuarioAlteracao = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoArq.CaminhoEArquivo,
-                    NomeModelo = dtoArq.NomeModelo
+                    DescricaoModelo = dtoArq.DescricaoModelo
                 };
 
                 HttpPostedFileBase arquivo = dtoArq.Files[0];

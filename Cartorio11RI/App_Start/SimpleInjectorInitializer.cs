@@ -11,17 +11,23 @@ using WebActivatorEx;
 using System.Reflection;
 using System.Web.Mvc;
 using Infra.Cross.Ioc;
-
-[assembly: PostApplicationStartMethod(typeof(SimpleInjectorInitializer), "Initialize")]
+using Domain.CartNew.Interfaces.UnitOfWork;
+using Infra.Data.CartNew.UnitsOfWork.DbCartNew;
+using Owin;
 
 namespace Cartorio11RI.App_Start
 {
     public static class SimpleInjectorInitializer
     {
-        public static void Initialize()
+        public static Container InitializeContainer()
         {
             var container = new Container();
+
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+
+            //container.Register<IAppBuilder>(Lifestyle.Singleton);
+
+            container.Register<IUnitOfWorkDataBaseCartNew>(() => new UnitOfWorkDataBaseCartNew("contextOraCartNew"), Lifestyle.Scoped);
 
             // Chamada dos módulos do Simple Injector
             InitializeContainer(container);
@@ -39,9 +45,12 @@ namespace Cartorio11RI.App_Start
             }, Lifestyle.Scoped);
 
             container.RegisterMvcControllers(Assembly.GetExecutingAssembly());
+            container.RegisterMvcIntegratedFilterProvider();
             container.Verify();
 
             DependencyResolver.SetResolver(new SimpleInjectorDependencyResolver(container));
+
+            return container;
         }
 
         private static void InitializeContainer(Container container)

@@ -106,7 +106,7 @@ namespace AdmCartorio.Controllers
                                 IdTipoAto = arquivoModel.IdTipoAto,
                                 CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                                 Files = arquivoModel.Files,
-                                NomeModelo = arquivoModel.NomeModelo,
+                                DescricaoModelo = arquivoModel.DescricaoModelo,
                                 LogArquivo = new DtoLogModeloDocx {
                                     Id = logArquivo.Id,
                                     IdModeloDocx = logArquivo.IdModeloDocx,
@@ -170,15 +170,15 @@ namespace AdmCartorio.Controllers
             {
                 try
                 {
-                    ModeloDocx arquivoModelo = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
+                    ModeloDocx modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
                     ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel
                     {
-                        Id = arquivoModelo.Id,
+                        Id = modeloDocx.Id,
                         DescricaoTipoAto = "",
-                        IdTipoAto = arquivoModelo.IdTipoAto,
+                        IdTipoAto = modeloDocx.IdTipoAto,
                         //logModeloDocxViewModel = 
-                        NomeModelo = arquivoModelo.NomeModelo,
-                        CaminhoEArquivo = arquivoModelo.CaminhoEArquivo
+                        DescricaoModelo = modeloDocx.DescricaoModelo,
+                        CaminhoEArquivo = modeloDocx.CaminhoEArquivo
                     };
 
                     if (arquivoViewModel == null)
@@ -226,7 +226,7 @@ namespace AdmCartorio.Controllers
                             IdTipoAto = modeloDocxViewModel.IdTipoAto,
                             CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                             Files = modeloDocxViewModel.Files,
-                            NomeModelo = modeloDocxViewModel.NomeModelo,
+                            DescricaoModelo = modeloDocxViewModel.DescricaoModelo,
                             LogArquivo = new DtoLogModeloDocx
                             {
                                 Id = logArquivo.Id,

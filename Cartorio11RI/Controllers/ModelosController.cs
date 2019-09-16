@@ -25,11 +25,11 @@ namespace Cartorio11RI.Controllers
     [Authorize]
     public class ModelosController : CartorioBaseController
     {
-        public ModelosController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
+        public ModelosController(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -58,7 +58,8 @@ namespace Cartorio11RI.Controllers
         {
             try
             {
-                ModeloDocxViewModel model = new ModeloDocxViewModel(this.IdCtaAcessoSist);
+                ModeloDocxViewModel model = new ModeloDocxViewModel();
+                model.IdCtaAcessoSist = this.IdCtaAcessoSist;
                 model.IdUsuarioCadastro = this.UsuarioAtual.Id;
 
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
@@ -75,7 +76,8 @@ namespace Cartorio11RI.Controllers
         // POST: Modelo/Novo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Novo([Bind(Include = "Id,NomeModelo,IdTipoAto,DescricaoTipoAto,Files,LogArquivoModeloDocxViewModel,Arquivo,IpLocal")]ModeloDocxViewModel arquivoModel)
+        public ActionResult Novo([Bind(Include = "Id,IdCtaAcessoSist,IdTipoAto,IdUsuarioCadastro,IdUsuarioAlteracao,DataCadastro,DataAlteracao,NomeModelo," +
+            "DescricaoTipoAto,Files,logModeloDocxViewModel,CaminhoEArquivo,IpLocal")] ModeloDocxViewModel modeloDocxViewModel)
         {
             bool ControllerModelValid = ModelState.IsValid;
             bool success = false;
@@ -84,18 +86,18 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                List<TipoAto> listaTipoAto = this.UfwCartNew.Repositories.GenericRepository<TipoAto>().GetAll().ToList();
-                ViewBag.listaTipoAto = new SelectList(listaTipoAto, "Id", "Descricao");
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                ViewBag.listaTipoAto = listaTipoAto;
 
                 if (ControllerModelValid)
                 {
                     LogModeloDocx logArquivo = new LogModeloDocx();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
                     logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
-                    logArquivo.IP = arquivoModel.IpLocal;
+                    logArquivo.IP = modeloDocxViewModel.IpLocal;
 
                     string filePath = string.Empty;
-                    arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
+                    modeloDocxViewModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
                     using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
                     {
@@ -104,10 +106,10 @@ namespace Cartorio11RI.Controllers
                             {
                                 IdCtaAcessoSist = 1,
                                 Ativo = true,
-                                IdTipoAto = arquivoModel.IdTipoAto,
-                                CaminhoEArquivo = arquivoModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
-                                Files = arquivoModel.Files,
-                                NomeModelo = arquivoModel.NomeModelo,
+                                IdTipoAto = modeloDocxViewModel.IdTipoAto,
+                                CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
+                                Files = modeloDocxViewModel.Files,
+                                DescricaoModelo = modeloDocxViewModel.DescricaoModelo,
                                 LogArquivo = new DtoLogModeloDocx
                                 {
                                     Id = logArquivo.Id,
@@ -123,18 +125,17 @@ namespace Cartorio11RI.Controllers
                         );
                     }
 
-                    for (int i = 0; i < arquivoModel.Files.Count; i++)
+                    for (int i = 0; i < modeloDocxViewModel.Files.Count; i++)
                     {
                         //Pega os dados do arquivo
-                        HttpPostedFileBase arquivo = arquivoModel.Files[i];
+                        HttpPostedFileBase arquivo = modeloDocxViewModel.Files[i];
+
                         //arquivo.FileName = "Mod_"+arquivoModel.DescricaoTipoAto+DateTime.Now.ToString("yyyyMMddTHHmmss")
                         var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
 
-                        #region | Gravacao do arquivo fisicamente |
                         // Salva o arquivo fisicamente
-                        filePath = Path.Combine(arquivoModel.CaminhoEArquivo, "modelo_" + NovoId.ToString() + ".docx");
+                        filePath = Path.Combine(modeloDocxViewModel.CaminhoEArquivo, "modelo_" + NovoId.ToString() + ".docx");
                         arquivo.SaveAs(filePath);
-                        #endregion
                     }
 
                     //ModelState.AddModelError(Guid.NewGuid().ToString(), "Erro generico");
@@ -149,7 +150,6 @@ namespace Cartorio11RI.Controllers
                 //System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 //return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
-
             }
 
             //var resultado = new
@@ -163,8 +163,7 @@ namespace Cartorio11RI.Controllers
             ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
             ViewBag.msg = msg;
 
-            return View(arquivoModel);
-
+            return View(modeloDocxViewModel);
         }
 
         // GET: Modelo/Editar/{ID}
@@ -175,21 +174,12 @@ namespace Cartorio11RI.Controllers
                 try
                 {
                     ModeloDocx arquivoModelo = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
-                    ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel(this.IdCtaAcessoSist)
-                    {
-                        Id = arquivoModelo.Id,
-                        DescricaoTipoAto = "",
-                        IdTipoAto = arquivoModelo.IdTipoAto,
-                        //logArquivoModeloDocxViewModel = 
-                        NomeModelo = arquivoModelo.NomeModelo,
-                        CaminhoEArquivo = arquivoModelo.CaminhoEArquivo
-                    };
+                    ModeloDocxViewModel arquivoViewModel = Mapper.Map<ModeloDocx, ModeloDocxViewModel>(arquivoModelo);
 
                     if (arquivoViewModel == null)
                     {
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
-
 
                     return View(arquivoViewModel);
                 }
@@ -230,7 +220,7 @@ namespace Cartorio11RI.Controllers
                             IdTipoAto = arquivoModeloDocxViewModel.IdTipoAto,
                             CaminhoEArquivo = arquivoModeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
                             Files = arquivoModeloDocxViewModel.Files,
-                            NomeModelo = arquivoModeloDocxViewModel.NomeModelo,
+                            DescricaoModelo = arquivoModeloDocxViewModel.DescricaoModelo,
                             LogArquivo = new DtoLogModeloDocx
                             {
                                 Id = logArquivo.Id,
@@ -295,7 +285,7 @@ namespace Cartorio11RI.Controllers
 
         public FileResult DownloadFile([Bind(Include = "Id, Ip")]DadosPostModeloDocxDownload dadosPost)
         {
-            string fileName = "modelo_"+dadosPost.Id.ToString()+".docx";
+            string fileName = "modelo_" + dadosPost.Id.ToString() + ".docx";
             string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/modelo_{dadosPost.Id}.docx");
 
             try

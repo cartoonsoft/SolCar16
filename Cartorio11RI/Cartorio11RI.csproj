@@ -902,6 +902,7 @@
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
     <Compile Include="App_Start\AutoMapper\AutoMapperConfigCartorio11RI.cs" />
+    <Compile Include="App_Start\AutoMapper\DomainToModelMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DomainToDtoModelMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DtoModelToDomainMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />

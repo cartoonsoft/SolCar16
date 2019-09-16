@@ -30,9 +30,9 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public DateTime? DataAlteracao { get; }
 
-        [Display(Name = "Nome Modelo")]
-        [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
-        public string NomeModelo { get; set; }
+        [Display(Name = "Descrição do modelo")]
+        [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
+        public string DescricaoModelo { get; set; }
 
         [Display(Name = "Arquivo")]
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]

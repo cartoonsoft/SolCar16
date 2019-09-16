@@ -16,8 +16,6 @@ namespace Infra.Cross.Ioc
     {
         public static void RegisterServices(Container container)
         {
-            container.Register<IUnitOfWorkDataBaseCartNew>(() => new UnitOfWorkDataBaseCartNew("contextOraCartNew"), Lifestyle.Scoped);
-
             container.Register<Identity.Context.IdentityDbContext>(Lifestyle.Scoped);
             container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(new Identity.Context.IdentityDbContext()), Lifestyle.Scoped);
             container.Register<IRoleStore<IdentityRole, string>>(() => new RoleStore<IdentityRole>(), Lifestyle.Scoped);
@@ -25,6 +23,5 @@ namespace Infra.Cross.Ioc
             container.Register<ApplicationUserManager>(Lifestyle.Scoped);
             container.Register<ApplicationSignInManager>(Lifestyle.Scoped);
         }
-
     }
 }

@@ -11,9 +11,9 @@ namespace AdmCartorio.ViewModels
     {
         public long? Id { get; set; }
 
-        [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
-        [Display(Name = "Nome do Modelo")]
-        public string NomeModelo { get; set; }
+        [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
+        [Display(Name = "Descricao do modelo")]
+        public string DescricaoModelo { get; set; }
 
         [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
         [Display(Name = "Tipo de ato")]

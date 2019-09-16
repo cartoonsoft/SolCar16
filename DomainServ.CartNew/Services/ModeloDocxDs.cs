@@ -32,7 +32,7 @@ namespace DomainServ.CartNew.Services
                 from M in _repositoryModeloDocx.Get().Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
                 join TA in this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get() on M.IdTipoAto equals TA.Id into _a
                 from TA in _a.DefaultIfEmpty()
-                orderby (M.NomeModelo)
+                orderby (M.DescricaoModelo)
                 select new DtoModeloDocxList
                 {
                     Id = M.Id,
@@ -42,7 +42,7 @@ namespace DomainServ.CartNew.Services
                     IdUsuarioAlteracao = M.IdUsuarioAlteracao,
                     DataCadastro = M.DataCadastro,
                     DataAlteracao = M.DataAlteracao,
-                    NomeModelo = M.NomeModelo,
+                    NomeModelo = M.DescricaoModelo,
                     CaminhoEArquivo = M.CaminhoEArquivo,
                     DescricaoTipoAto = TA.Descricao,
                     Ativo = M.Ativo

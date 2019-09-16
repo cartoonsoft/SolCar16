@@ -9,9 +9,9 @@ namespace Cartorio11RI.ViewModels
 {
     public class ModeloDocxViewModel
     {
-        public ModeloDocxViewModel(long idCtaAcessoSist)
+        public ModeloDocxViewModel()
         {
-            this.IdCtaAcessoSist = IdCtaAcessoSist;
+            this.logModeloDocxViewModel = new LogModeloDocxViewModel();
         }
 
         [Display(Name = "Código")]
@@ -19,7 +19,8 @@ namespace Cartorio11RI.ViewModels
 
         [Required(ErrorMessage = "Selecione cont de acesso", AllowEmptyStrings = false)]
         [Display(Name = "Conta acesso")]
-        public long IdCtaAcessoSist { get; private set; }
+        [Range(minimum: 1, maximum: long.MaxValue, ErrorMessage = "Erro IdCtaAcessoSist cdeve ser maior que zero")]
+        public long IdCtaAcessoSist { get; set; }
 
         [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
         [Display(Name = "Tipo de ato")]
@@ -33,15 +34,12 @@ namespace Cartorio11RI.ViewModels
 
         public DateTime? DataAlteracao { get; set; }
 
-        [Required(ErrorMessage = "O campo nome do modelo é obrigatório", AllowEmptyStrings = false)]
-        [Display(Name = "Nome do Modelo")]
-        public string NomeModelo { get; set; }
+        [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
+        [Display(Name = "Descrição do modelo")]
+        public string DescricaoModelo { get; set; }
 
-        [Display(Name = "Descrição")]
+        [Display(Name = "Descrição tipo ato")]
         public string DescricaoTipoAto { get; set; }
-
-        //[Required(ErrorMessage = "Selecione algum tipo de modelo")]
-        //public NaturezaArquivoModeloDocx NaturezaArquivoModeloDocx { get; set; }
 
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]

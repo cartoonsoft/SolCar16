@@ -107,7 +107,7 @@
                                                                 @foreach (var item in ViewBag.listaTipoAto)
                                                                 {
                                                                     <li>
-                                                                        <span>
+                                                                        <span title="@item.Orientacao">
                                                                             <i class="fa fa-lg fa-plus-circle"></i><strong> @item.Descricao</strong>
                                                                         </span>
                                                                         @if (item.ListaTipoAtosFihos.Count > 0)
@@ -136,9 +136,9 @@
                                             </div>
                                             <br />
                                             <div class="row">
-                                                @Html.LabelFor(model => model.NomeModelo)
+                                                @Html.LabelFor(model => model.DescricaoModelo)
                                                 <label class="input">
-                                                    @Html.TextBoxFor(model => model.NomeModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
+                                                    @Html.TextBoxFor(model => model.DescricaoModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
                                                 </label>
                                             </div>
                                             <br />
@@ -265,7 +265,6 @@
          * @@param idTipoAto
          */
         function SelecionarTipoAto(btnObj, idTipoAto) {
-
             var btn = btnObj;
             var idTmp = idTipoAto;
             //$(btn).removeClass("btn-info")
@@ -275,7 +274,6 @@
 
             $(".btn-tree-tipo-ato").removeClass("btn-danger");
             $(btn).addClass("btn-danger");
-
         }
 
     </script>
