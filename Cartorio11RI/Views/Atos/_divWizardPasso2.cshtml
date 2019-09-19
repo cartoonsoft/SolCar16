@@ -1,0 +1,70 @@
+﻿@model Cartorio11RI.ViewModels.AtoViewModel
+
+<!-- passo 2------------------------------------------------------------------------------------------------------------------------------------------------ -->
+    <div class="step-pane" id="step2">
+        <h3><strong>Etapa 2</strong> - Selecionar um modelo</h3>
+        <fieldset>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DescricaoTipoAto, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DescricaoTipoAto, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="div-container-scroll">
+                            <div class="tree">
+                                <ul>
+                                    <li>
+                                        <span><i class="fa fa-lg fa-file-word-o"></i> Selecione o tipo de documento</span>
+                                        <ul>
+                                            @foreach (var item in ViewBag.listaTipoAto)
+                                            {
+                                                <li>
+                                                    <span title="@item.Orientacao">
+                                                        <i class="fa fa-lg fa-plus-circle"></i><strong> @item.Descricao</strong>
+                                                    </span>
+                                                    @if (item.ListaTipoAtosFihos.Count > 0)
+                                                    {
+                                                        <ul>
+                                                            @foreach (var item2 in item.ListaTipoAtosFihos)
+                                                            {
+                                                                <li style="display:none">
+                                                                    <button type="button" class="btn btn-info btn-sm btn-tree-tipo-ato" id="btn_tree_tipo_ato_@item2.Id" rel="popover-hover" data-placement="right" data-original-title="Descrição" data-content="@item2.Orientacao" onclick="SelecionarTipoAto(this, @item2.Id);"><i class="glyphicon glyphicon-menu-right"></i> @item2.Descricao</button>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </li>
+                                            }
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel-group">
+                        <div class="panel-default">
+                            <label class="control-label">Selecione um modelo de documento</label>
+                            <select id="selModelosDocx" name="selModelosDocx" class="form-control custom-scroll" title="Selecione um modelo de documento" size="6">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="panel-group">
+                        <div class="panel-blue">
+                            <label class="control-label">PreView do Modelo selecionado</label>
+                            <textarea cols="80" id="ckEditorPreviewModelo" name="ckEditorPreviewModelo" rows="10" disabled>
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+
+    </div>
+

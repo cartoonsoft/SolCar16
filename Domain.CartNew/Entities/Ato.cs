@@ -53,7 +53,10 @@ namespace Domain.CartNew.Entities
         [Column("NRO_MATRICULA")]   //NRO_MATRICULA        VARCHAR2(20),
         public string NumMatricula { get; set; }
 
-        [Column("STATUS_ATO")] 
+        [Column("DESCRICAO")]
+        public string DescricaoAto { get; set; }
+
+        [Column("STATUS_ATO")]
         public string StatusAto { get; set; }
 
         [Column("ATIVO")] //NUMERIC(1,0)         default 0,

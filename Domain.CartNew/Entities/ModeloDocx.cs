@@ -38,6 +38,9 @@ namespace Domain.CartNew.Entities
         [Column("DESCRICAO")]
         public string DescricaoModelo { get; set; }
 
+        [Column("ORIENTACAO")]
+        public string Orientacao { get; set; }
+
         [Column("ARQUIVO")]
         public string CaminhoEArquivo { get; set; }
 

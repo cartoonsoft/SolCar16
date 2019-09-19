@@ -24,9 +24,7 @@ namespace AppServices.Cartorio.Interfaces
 
         bool Desativar(long Id, string IdUsuario);
 
-        IEnumerable<DtoModeloDocxList> ListarModelosDocx(long? IdTipoAto = null);
-
-        IEnumerable<DtoModeloDocxSimplificadoList> ListarModeloSimplificado(long? IdTipoAto = null);
+        IEnumerable<DtoModeloDocxList> GetListaModelosDocx(long? IdTipoAto = null);
     }
 
 }

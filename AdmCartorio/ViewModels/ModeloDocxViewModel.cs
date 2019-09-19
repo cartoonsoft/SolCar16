@@ -28,7 +28,7 @@ namespace AdmCartorio.ViewModels
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
         [Display(Name = "Modelo")]
-        public List<HttpPostedFileBase> Files { get; set; }
+        public HttpPostedFileBase ArquivoDocxModelo { get; set; }
 
         public LogModeloDocxViewModel logModeloDocxViewModel { get; set; }
 

@@ -9,11 +9,6 @@ namespace Cartorio11RI.ViewModels
 {
     public class ModeloDocxViewModel
     {
-        public ModeloDocxViewModel()
-        {
-            this.logModeloDocxViewModel = new LogModeloDocxViewModel();
-        }
-
         [Display(Name = "Código")]
         public long? Id { get; set; }
 
@@ -38,15 +33,14 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Descrição do modelo")]
         public string DescricaoModelo { get; set; }
 
+        [Required(ErrorMessage = "O campo Tipo de ato do modelo é obrigatório", AllowEmptyStrings = false)]
         [Display(Name = "Descrição tipo ato")]
         public string DescricaoTipoAto { get; set; }
 
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
-        [Display(Name = "Modelo")]
-        public List<HttpPostedFileBase> Files { get; set; }
-
-        public LogModeloDocxViewModel logModeloDocxViewModel { get; set; }
+        [Display(Name = "Fazer upload do modelo")]
+        public HttpPostedFileBase ArquivoDocxModelo { get; set; }
 
         public string CaminhoEArquivo { get; set; }
 

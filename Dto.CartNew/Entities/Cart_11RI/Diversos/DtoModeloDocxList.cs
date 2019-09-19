@@ -25,7 +25,9 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public DateTime? DataAlteracao { get; set; }
 
-        public string NomeModelo { get; set; }
+        public string DescricaoModelo { get; set; }
+
+        public string Orientacao { get; set; }
 
         public string CaminhoEArquivo { get; set; }
 

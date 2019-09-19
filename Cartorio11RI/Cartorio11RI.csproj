@@ -356,7 +356,7 @@
       <DependentUpon>app.seed.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
-    <Content Include="Scripts\cartoonsoft\Atos\novo.js" />
+    <Content Include="Scripts\cartoonsoft\Atos\novo_ato.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_libs.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_validation_lib.js" />
     <Content Include="Scripts\cartoonsoft\_layout.js" />
@@ -846,11 +846,11 @@
     <Content Include="Views\Shared\_MenuUsuario.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\Acoes\Index.cshtml" />
-    <Content Include="Views\Modelos\Editar.cshtml" />
-    <Content Include="Views\Modelos\Index.cshtml" />
-    <Content Include="Views\Modelos\Novo.cshtml" />
-    <Content Include="Views\Atos\Index.cshtml" />
+    <Content Include="Views\Acoes\IndexAcao.cshtml" />
+    <Content Include="Views\Modelos\EditarModelo.cshtml" />
+    <Content Include="Views\Modelos\IndexModelo.cshtml" />
+    <Content Include="Views\Modelos\NovoModelo.cshtml" />
+    <Content Include="Views\Atos\IndexAto.cshtml" />
     <Content Include="Views\Element\Buttons.cshtml" />
     <Content Include="Views\Element\General.cshtml" />
     <Content Include="Views\Forms\Bootstrap.cshtml" />
@@ -885,7 +885,11 @@
     <Content Include="Views\Tables\DataTables.cshtml" />
     <Content Include="Views\Tables\JQGrid.cshtml" />
     <Content Include="Views\Tables\Normal.cshtml" />
-    <Content Include="Views\Atos\Novo.cshtml" />
+    <Content Include="Views\Atos\NovoAto.cshtml" />
+    <Content Include="Views\Modelos\_frmModeloDocx.cshtml" />
+    <Content Include="Views\Atos\_divWizardAto.cshtml" />
+    <Content Include="Views\Atos\_divWizardPasso1.cshtml" />
+    <Content Include="Views\Atos\_divWizardPasso2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

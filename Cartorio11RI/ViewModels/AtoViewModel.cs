@@ -70,11 +70,14 @@ namespace Cartorio11RI.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
         public string NumMatricula { get; set; }
 
-        [Display(Name = "Ativo")]
-        public bool Ativo { get; set; }
+        [Required(ErrorMessage = "O campo Descrição do ato é obrigatório", AllowEmptyStrings = false)]
+        [MaxLength(200)]
+        [StringLength(200, ErrorMessage = "Máximo de {0} caracteres.")]
+        [Display(Name = "Descrição do ato")]
+        public string DescricaoAto { get; set; }
 
-        [Display(Name = "Bloqueado")]
-        public bool Bloqueado { get; set; }
+        [Display(Name = "Descrição tipo ato")]
+        public string DescricaoTipoAto { get; set; }
 
         [MaxLength(512)]
         [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]
@@ -82,7 +85,10 @@ namespace Cartorio11RI.ViewModels
         [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
 
-        public string TipoPessoa { get; set; }
+        [Display(Name = "Ativo")]
+        public bool Ativo { get; set; }
+
+        public string IpLocal { get; set; }
 
         public int IrParaFicha { get; set; }
 

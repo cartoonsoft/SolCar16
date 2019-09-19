@@ -22,9 +22,9 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Required(ErrorMessage = "Selecione um tipo")]
         public long IdTipoAto { get; set; }
 
-        public string IdUsuarioCadastro { get; }
+        public string IdUsuarioCadastro { get; set; }
 
-        public string IdUsuarioAlteracao { get; }
+        public string IdUsuarioAlteracao { get; set; }
 
         public DateTime DataCadastro { get; }
 
@@ -34,10 +34,13 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
         public string DescricaoModelo { get; set; }
 
+        [Display(Name = "Orientações")]
+        public string Orientacao { get; set; }
+
         [Display(Name = "Arquivo")]
         [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
         [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
-        public List<HttpPostedFileBase> Files { get; set; }
+        public HttpPostedFileBase ArquivoDocxModelo { get; set; }
 
         [Display(Name = "Caminho e Arquivo")]
         public string CaminhoEArquivo { get; set; }
@@ -48,7 +51,8 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
 
-        [Display(Name = "Log Arquivo")]
-        public DtoLogModeloDocx LogArquivo { get; set; }
+        public string UsuarioSistOperacional { get; set; }
+
+        public string IpLocal { get; set; }
     }
 }

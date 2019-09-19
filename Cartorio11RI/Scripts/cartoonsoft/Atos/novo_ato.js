@@ -375,5 +375,38 @@ function HabilitarProximo() {
     $('#btn-proximo').addClass('active');
 }
 
+/**
+ * 
+ * @@param {any} selObj
+ */
+function PovoarSelModelos(selObj, url) {
 
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dadosPrenotacao,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        //
+        if (dataReturn.resposta) {
 
+            ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: "#992111",
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        //
+
+    }).always(function () {
+        HideProgressBar();
+    });
+}

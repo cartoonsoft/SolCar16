@@ -5,7 +5,6 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using Domain.CartNew.Interfaces.UnitOfWork;
-using Infra.Data.CartNew.UnitsOfWork.DbCartNew;
 
 namespace Cartorio11RI.Controllers.Base
 {
@@ -19,7 +18,7 @@ namespace Cartorio11RI.Controllers.Base
             //
             if (UfwCartNew == null)
             {
-                _UfwCartNew = new UnitOfWorkDataBaseCartNew("contextOraCartNew");
+                throw new NullReferenceException("Classe UnitOfWorkDataBaseCartNew não for instanciada! verifique!"); 
             }
 
             this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;

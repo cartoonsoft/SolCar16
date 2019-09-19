@@ -1,9 +1,10 @@
-﻿using Dto.CartNew.Base;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dto.CartNew.Base;
+using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
@@ -11,7 +12,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
     {
         public DtoPREIMO PREIMO { get; set; }
         public List<DtoPessoaCartorio> Pessoas { get; set; }
-        public DtoModeloDocxSimplificadoList ArquivoModelo { get; set; }
+        public DtoModeloDocxList ArquivoModelo { get; set; }
         public string TipoPessoa { get; set; }
         public long IdTipoAto { get; set; }
         public string Ato { get; set; }

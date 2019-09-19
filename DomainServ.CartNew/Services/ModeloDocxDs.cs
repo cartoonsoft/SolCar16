@@ -24,40 +24,6 @@ namespace DomainServ.CartNew.Services
             _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
-        public IEnumerable<DtoModeloDocxList> ListarModelosDocx(long? IdTipoAto = null)
-        {
-            IEnumerable<DtoModeloDocxList> listaModeloDocxLists = new List<DtoModeloDocxList>();
-
-            listaModeloDocxLists =
-                from M in _repositoryModeloDocx.Get().Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
-                join TA in this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get() on M.IdTipoAto equals TA.Id into _a
-                from TA in _a.DefaultIfEmpty()
-                orderby (M.DescricaoModelo)
-                select new DtoModeloDocxList
-                {
-                    Id = M.Id,
-                    IdCtaAcessoSist = M.IdCtaAcessoSist,
-                    IdTipoAto = M.IdTipoAto,
-                    IdUsuarioCadastro = M.IdUsuarioCadastro,
-                    IdUsuarioAlteracao = M.IdUsuarioAlteracao,
-                    DataCadastro = M.DataCadastro,
-                    DataAlteracao = M.DataAlteracao,
-                    NomeModelo = M.DescricaoModelo,
-                    CaminhoEArquivo = M.CaminhoEArquivo,
-                    DescricaoTipoAto = TA.Descricao,
-                    Ativo = M.Ativo
-                };
-
-            return listaModeloDocxLists;
-        }
-
-        /*
-        public IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
-        {
-            return _repositoryArquivoModeloDocx.ListarArquivoModeloSimplificadoDocx(IdTipoAto);
-        }
-        */
-
         public long? NovoModelo(ModeloDocx modeloDocx, LogModeloDocx logModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
@@ -115,5 +81,34 @@ namespace DomainServ.CartNew.Services
 
             return resultado;
         }
+
+        public IEnumerable<DtoModeloDocxList> GetListaModelosDocx(long? IdTipoAto = null)
+        {
+            IEnumerable<DtoModeloDocxList> listaModeloDocxLists = new List<DtoModeloDocxList>();
+
+            listaModeloDocxLists =
+                from M in _repositoryModeloDocx.Get().Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
+                join TA in this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get() on M.IdTipoAto equals TA.Id into _a
+                from TA in _a.DefaultIfEmpty()
+                orderby (M.DescricaoModelo)
+                select new DtoModeloDocxList
+                {
+                    Id = M.Id,
+                    IdCtaAcessoSist = M.IdCtaAcessoSist,
+                    IdTipoAto = M.IdTipoAto,
+                    IdUsuarioCadastro = M.IdUsuarioCadastro,
+                    IdUsuarioAlteracao = M.IdUsuarioAlteracao,
+                    DataCadastro = M.DataCadastro,
+                    DataAlteracao = M.DataAlteracao,
+                    DescricaoModelo = M.DescricaoModelo,
+                    Orientacao = M.Orientacao,
+                    CaminhoEArquivo = M.CaminhoEArquivo,
+                    DescricaoTipoAto = TA.Descricao,
+                    Ativo = M.Ativo
+                };
+
+            return listaModeloDocxLists;
+        }
+
     }
 }

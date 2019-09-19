@@ -84,7 +84,7 @@ namespace Cartorio11RI.Controllers
         }
 
         // GET: Acoes
-        public ActionResult Index()
+        public ActionResult IndexAcao()
         {
             List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Ativo == true).OrderBy(u => u.UserName).ToList();
             List<AcaoViewModel> listaAcoes  = new List<AcaoViewModel>();

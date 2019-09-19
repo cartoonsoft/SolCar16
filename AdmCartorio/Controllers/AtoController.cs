@@ -45,7 +45,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.ListarAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
+                IEnumerable<DtoAtoList> listaDto = appService.GetListaAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
                 if (listaDto != null)
                 {
                     listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
@@ -56,7 +56,7 @@ namespace AdmCartorio.Controllers
         }
 
         #region | CADASTRO |
-        public ActionResult Novo()
+        public ActionResult NovoAto()
         {
             var dados = new CadastroDeAtoViewModel();
 
@@ -66,7 +66,7 @@ namespace AdmCartorio.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult Novo(CadastroDeAtoViewModel modelo)
+        public ActionResult NovoAto(CadastroDeAtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
@@ -78,7 +78,7 @@ namespace AdmCartorio.Controllers
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Novo), modelo);
+                    return View(nameof(NovoAto), modelo);
                 }
 
                 //Ajusta a string de ato
@@ -139,7 +139,7 @@ namespace AdmCartorio.Controllers
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
-                return View(nameof(Novo), modelo);
+                return View(nameof(NovoAto), modelo);
             }
             catch (Exception ex)
             {
@@ -216,7 +216,7 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | EDITAR |
-        public ActionResult Editar(long? Id)
+        public ActionResult EditarAto(long? Id)
         {
             try
             {
@@ -260,7 +260,7 @@ namespace AdmCartorio.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(CadastroDeAtoViewModel modelo)
+        public ActionResult EditarAto(CadastroDeAtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
             bool respEscreverWord = false;
@@ -269,7 +269,7 @@ namespace AdmCartorio.Controllers
                 if (modelo.Ato == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Editar), modelo);
+                    return View(nameof(EditarAto), modelo);
                 }
 
                 //Ajusta a string de ato
@@ -330,7 +330,7 @@ namespace AdmCartorio.Controllers
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
-                return View(nameof(Editar), modelo);
+                return View(nameof(EditarAto), modelo);
             }
             catch (Exception)
             {
@@ -354,17 +354,16 @@ namespace AdmCartorio.Controllers
         #endregion
 
         #region | JsonResults e .GET |
-
         /// <summary>
         /// Lista de Modelos (JSON)
         /// </summary>
         /// <returns>Lista de arquivos</returns>
-        public JsonResult GetModelos()
+        public JsonResult GetListaModelosDocx(long? IdTipoAto)
         {
             using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
             {
-                var listaDtoModelosDocx = appService.ListarModeloSimplificado();
-                var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxSimplificadoList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoModelosDocx);
+                var listaDtoModelosDocx = appService.GetListaModelosDocx(IdTipoAto);
+                var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoModelosDocx);
                 var jsonResult = JsonConvert.SerializeObject(listaModelos);
 
                 return Json(jsonResult, JsonRequestBehavior.AllowGet);
