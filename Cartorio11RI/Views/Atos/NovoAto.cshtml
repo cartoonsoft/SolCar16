@@ -189,7 +189,7 @@
             /* urls chamadas ajax --------------------------------------------*/
             var urlGetDadosImovel = '@Url.Action("GetDadosImovel", "Atos")';
             var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
-            var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
+            var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
 
             //obter ip local ------------------------------------------------- /
             var ipLocal = getUserIP(function (ip) {
@@ -293,7 +293,6 @@
                 });
             });
 
-
             /*-- ckeditor --------------------------------------------------- */
             CKEDITOR.replace('ckEditorPreviewModelo', {
                 width: '100%',
@@ -339,7 +338,7 @@
                 $(btn).addClass("btn-danger");
                 var sel = $("#selModelosDocx");
 
-                PovoarSelModelos(sel);
+                PovoarSelModelos(idTmp, sel, urlGetListaModelosDocx);
 
             }
         }

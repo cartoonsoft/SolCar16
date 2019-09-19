@@ -181,16 +181,12 @@ namespace AppServCart11RI.AppServices
 
                 }
                 dtoPreimo = Mapper.Map<PREIMO, DtoPREIMO>(preimo);
-
-                dtoPreimo.resposta = true;
-                dtoPreimo.msg = "Dados do imóvel obtidos com sucesso";
             }
             catch (Exception ex)
             {
-                dtoPreimo.resposta = false;
-                dtoPreimo.msg = "Falha ao obter dados! [" + ex.Message + "]";
+                throw new Exception("Falha GetDadosImovel: " + ex.Message);
             }
-
+            
             return dtoPreimo;
         }
 
@@ -207,15 +203,14 @@ namespace AppServCart11RI.AppServices
                 {
                     listaPessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetPessoasPrenotacao(numeroPrenotacao).ToList();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    //
+                    throw new Exception("Falha GetPessoasPrenotacao: " + ex.Message);
                 }
             }
 
             return listaPessoasPrenotacao;
         }
-
 
     }
 }

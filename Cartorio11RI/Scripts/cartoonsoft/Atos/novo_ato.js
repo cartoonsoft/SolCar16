@@ -376,15 +376,19 @@ function HabilitarProximo() {
 }
 
 /**
- * 
+ * Povoar select selModelosDocx
  * @@param {any} selObj
  */
-function PovoarSelModelos(selObj, url) {
+function PovoarSelModelos(IdTipoAto, selObj, url) {
+
+    var dados = {
+        IdTipoAto: IdTipoAto
+    };
 
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
-        data: dadosPrenotacao,
+        data: dados,
         beforeSend: function () {
             ShowProgreessBar("Processando requisição...");
         }

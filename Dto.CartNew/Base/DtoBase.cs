@@ -10,12 +10,7 @@ namespace Dto.CartNew.Base
     {
         public DtoBase()
         {
-            this.resposta = false;
-            this.msg = string.Empty;
+            //
         }
-
-        public bool resposta { get; set; }
-
-        public string msg { get; set; }
     }
 }

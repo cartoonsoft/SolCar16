@@ -31,6 +31,125 @@ namespace Cartorio11RI.Controllers
 
         }
 
+        #region |privates Methods|
+        /// <summary>
+        /// Função que pega o campo independente da pessoa
+        /// </summary>
+        /// <param name="pessoa">Pessoa</param>
+        /// <param name="campoQuery">Campo procurado</param>
+        /// <returns></returns>
+        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa, string campoQuery)
+        {
+            string Campotmp = string.Empty;
+            try
+            {
+                foreach (var Campo in pessoa.listaCamposValor)
+                {
+                    if (Campo.Campo.Equals(campoQuery))
+                    {
+                        Campotmp = Campo.Valor;
+                    }
+                }
+                //Retorna o dados das pessoas
+                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
+
+            }
+            catch (Exception)
+            {
+                return "[NÃO ENCONTRADO]";
+                throw;
+            }
+        }
+
+        private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
+        {
+            string Campotmp = string.Empty;
+            bool CampoEncontrado = false;
+
+            try
+            {
+                //PESQUISA DADOS IMÓVEL
+                foreach (var item in dtoDados.listaCamposValor)
+                {
+                    if (item.Campo.Equals(campoQuery))
+                    {
+                        //Retorna o campo
+                        Campotmp = item.Valor;
+                        CampoEncontrado = true;
+                    }
+                }
+
+                //PESQUISA DADOS PESSOA
+                if (!CampoEncontrado)
+                {
+                    foreach (var pessoas in dtoDados.Pessoas)
+                    {
+                        foreach (var pessoa in pessoas.listaCamposValor)
+                        {
+                            if (pessoa.Campo.Equals(campoQuery))
+                            {
+                                Campotmp = pessoa.Valor;
+                            }
+                        }
+                    }
+                }
+
+                //Retorna o dados das pessoas
+                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
+
+            }
+            catch (Exception)
+            {
+                return "[NÃO ENCONTRADO]";
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Função que repete o texto e popula para a pessoa
+        /// </summary>
+        /// <param name="texto">texto que esta sendo repetido</param>
+        /// <param name="pessoa">Pessoa</param>
+        /// <returns></returns>
+        private string PopularCamposDoTexto(string texto, DtoPessoaPesxPre pessoa)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (int i = 0; i < texto.Length; i++)
+            {
+                if (texto[i] == '[')
+                {
+                    i++;
+                    string nomeCampo = string.Empty;
+                    string resultadoQuery = string.Empty;
+                    while (texto[i] != ']')
+                    {
+                        nomeCampo += texto[i].ToString().Trim();
+                        i++;
+                        if (i >= texto.Length || texto[i] == '[')
+                        {
+                            Response.StatusCode = 500;
+                            Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
+                            return Response.StatusDescription;
+                        }
+                    }
+                    //Buscar dado da pessoa aqui
+                    //resultadoQuery = "teste query";
+                    resultadoQuery = this.GetValorCampoPessoa(pessoa, nomeCampo);
+
+                    //atualiza o texto formatado
+                    stringBuilder.Append(resultadoQuery);
+                }
+                else
+                {
+                    //caso não seja um campo somente adiciona o caractere
+                    stringBuilder.Append(texto[i].ToString());
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+        #endregion
+
         // GET: Ato
         public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
         {
@@ -396,13 +515,33 @@ namespace Cartorio11RI.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetListaModelosDocx(long? IdTipoAto)
         {
-            using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
-            {
-                var listaDtoArquivoModelosDocx = appService.GetListaModelosDocx(IdTipoAto);
-                var jsonResult = JsonConvert.SerializeObject(listaDtoArquivoModelosDocx);
+            bool resposta = false;
+            string msg = string.Empty;
+            List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
 
-                return Json(jsonResult, JsonRequestBehavior.AllowGet);
+            try
+            {
+                using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
+                {
+                    lista = appService.GetListaModelosDocx(IdTipoAto).ToList();
+                    resposta = true;
+                    msg = "Dados retornados con sucesso";
+                }
             }
+            catch (Exception ex)
+            {
+                msg = "Falha ao obter dados! " + "[" + ex.Message + "]";
+            }
+
+            var resultado = new
+            {
+                resposta = resposta,
+                msg = msg,
+                ListaModelosDocx = lista
+            };
+
+            return Json(resultado, JsonRequestBehavior.AllowGet);
+
         }
 
         /// <summary>
@@ -413,6 +552,9 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public JsonResult GetDadosImovel(long matriculaPrenotacao)
         {
+            bool resposta = false;
+            string msg = string.Empty;
+
             DtoPREIMO dtoPreimo = new DtoPREIMO();
 
             try
@@ -420,15 +562,19 @@ namespace Cartorio11RI.Controllers
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
                     dtoPreimo = appServAtos.GetDadosImovel(matriculaPrenotacao);
+                    resposta = true;
+                    msg = "Dados retornados con sucesso";
                 }
             }
             catch (Exception ex)
             {
-                dtoPreimo.msg += " " + "[" + ex.Message + "]";
+                msg = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
             var resultado = new
             {
+                resposta = resposta,
+                msg = msg,
                 Preimo = dtoPreimo
             };
 
@@ -698,123 +844,6 @@ namespace Cartorio11RI.Controllers
 
             }
             */
-        }
-
-        /// <summary>
-        /// Função que repete o texto e popula para a pessoa
-        /// </summary>
-        /// <param name="texto">texto que esta sendo repetido</param>
-        /// <param name="pessoa">Pessoa</param>
-        /// <returns></returns>
-        private string PopularCamposDoTexto(string texto, DtoPessoaPesxPre pessoa)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < texto.Length; i++)
-            {
-                if (texto[i] == '[')
-                {
-                    i++;
-                    string nomeCampo = string.Empty;
-                    string resultadoQuery = string.Empty;
-                    while (texto[i] != ']')
-                    {
-                        nomeCampo += texto[i].ToString().Trim();
-                        i++;
-                        if (i >= texto.Length || texto[i] == '[')
-                        {
-                            Response.StatusCode = 500;
-                            Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
-                            return Response.StatusDescription;
-                        }
-                    }
-                    //Buscar dado da pessoa aqui
-                    //resultadoQuery = "teste query";
-                    resultadoQuery = GetValorCampoPessoa(pessoa, nomeCampo);
-
-                    //atualiza o texto formatado
-                    stringBuilder.Append(resultadoQuery);
-                }
-                else
-                {
-                    //caso não seja um campo somente adiciona o caractere
-                    stringBuilder.Append(texto[i].ToString());
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// Função que pega o campo independente da pessoa
-        /// </summary>
-        /// <param name="pessoa">Pessoa</param>
-        /// <param name="campoQuery">Campo procurado</param>
-        /// <returns></returns>
-        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa, string campoQuery)
-        {
-            string Campotmp = string.Empty;
-            try
-            {
-                foreach (var Campo in pessoa.listaCamposValor)
-                {
-                    if (Campo.Campo.Equals(campoQuery))
-                    {
-                        Campotmp = Campo.Valor;
-                    }
-                }
-                //Retorna o dados das pessoas
-                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
-
-            }
-            catch (Exception)
-            {
-                return "[NÃO ENCONTRADO]";
-                throw;
-            }
-        }
-
-        private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
-        {
-            string Campotmp = string.Empty;
-            bool CampoEncontrado = false;
-
-            try
-            {
-                //PESQUISA DADOS IMÓVEL
-                foreach (var item in dtoDados.listaCamposValor)
-                {
-                    if (item.Campo.Equals(campoQuery))
-                    {
-                        //Retorna o campo
-                        Campotmp = item.Valor;
-                        CampoEncontrado = true;
-                    }
-                }
-
-                //PESQUISA DADOS PESSOA
-                if (!CampoEncontrado)
-                {
-                    foreach (var pessoas in dtoDados.Pessoas)
-                    {
-                        foreach (var pessoa in pessoas.listaCamposValor)
-                        {
-                            if (pessoa.Campo.Equals(campoQuery))
-                            {
-                                Campotmp = pessoa.Valor;
-                            }
-                        }
-                    }
-                }
-
-                //Retorna o dados das pessoas
-                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
-
-            }
-            catch (Exception)
-            {
-                return "[NÃO ENCONTRADO]";
-                throw;
-            }
         }
     }
 }
