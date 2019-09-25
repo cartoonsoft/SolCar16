@@ -14,11 +14,8 @@ namespace Cartorio11RI.Cartorio
     public class AtoWordDocx : WordGembox
     {
         private readonly IAppServiceAtos _appServiceAtos;
+        private FilesConfig filesConfig;
 
-        private string file_path_ri_base = @"\App_Data\Arquivos\Reg_Imoveis\Base\";
-        private string file_path_ri_em_escrita = @"\App_Data\Arquivos\Reg_Imoveis\EmEscrita\";
-        private string file_path_ri_finalizados = @"\App_Data\Arquivos\Reg_Imoveis\Finalizados\";
-        private string file_ri_base_name = @"ri_modelo_base.docx";
 
         /// <summary>
         /// Construtor
@@ -27,6 +24,7 @@ namespace Cartorio11RI.Cartorio
         public AtoWordDocx(IAppServiceAtos appServiceAtos,  long IdCtaAcessoSist) : base(IdCtaAcessoSist)
         {
             this._appServiceAtos = appServiceAtos;
+            filesConfig = new FilesConfig(IdCtaAcessoSist);
         }
 
         /// <summary>
@@ -106,7 +104,7 @@ namespace Cartorio11RI.Cartorio
             }
             else
             {
-                NomeArqTmp = HttpContext.Current.Server.MapPath("~" + file_path_ri_base + file_ri_base_name);
+                NomeArqTmp = HttpContext.Current.Server.MapPath("~" + filesConfig.FilePathRiBase +  filesConfig.FileRiBaseName);
                 this.LerDocumento(NomeArqTmp);
             }
 

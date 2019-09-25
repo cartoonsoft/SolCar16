@@ -177,7 +177,7 @@ function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
                     title: "Dados não encontrados!",
                     content: dataReturn.msg,
                     color: "#EF7F0A",
-                    icon: "fa fa-warning bounce animated",
+                    icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
             }
@@ -228,7 +228,7 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
                     title: "Dados não encontrados!",
                     content: "Lista inválida.",
                     color: "#EF7F0A",
-                    icon: "fa fa-warning bounce animated",
+                    icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
             }
@@ -444,7 +444,7 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
                     title: "Dados não encontrados!",
                     content: "Lista inválida.",
                     color: "#EF7F0A",
-                    icon: "fa fa-warning bounce animated",
+                    icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
             }

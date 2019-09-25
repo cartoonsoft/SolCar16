@@ -19,6 +19,8 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
 using LibFunctions.Functions.IOAdmCartorio;
 using Domain.CartNew.Entities.Diversos;
+using GemBox.Document;
+using Cartorio11RI.Cartorio;
 
 namespace Cartorio11RI.Controllers
 {
@@ -28,7 +30,7 @@ namespace Cartorio11RI.Controllers
         public AtosController(IUnitOfWorkDataBaseCartNew UfwCartNew = null) : base(UfwCartNew)
         {
             //
-
+            ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
 
         #region |privates Methods|
@@ -711,6 +713,37 @@ namespace Cartorio11RI.Controllers
                 return null;
                 throw;
             }
+        }
+
+        [HttpPost]
+        public JsonResult GetTextoWordDocModelo(long IdModeloDoc)
+        {
+            FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
+
+            string fileName = files.GetModeloDocFileName(IdModeloDoc);
+            string fullName = Server.MapPath("~" + fileName);
+            string txt = "";
+
+
+            using (var stream = new MemoryStream())
+            {
+                // Convert input file to RTF stream.
+                DocumentModel.Load(fullName).Save(stream, SaveOptions.HtmlDefault);
+                stream.Position = 0;
+
+                using (var reader = new StreamReader(stream))
+                {
+                    txt = reader.ReadToEnd();
+                }
+            }
+
+            var teste = new
+            {
+                resposta = true,
+                TextoHtml = txt
+            };
+
+            return Json(teste);
         }
 
         /// <summary>

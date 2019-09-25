@@ -167,7 +167,7 @@
                     <i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
                 </button>
                 <button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
-                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Ok
+                    <i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
                 </button>
             </div>
         </div><!-- /.modal-content -->
@@ -264,7 +264,7 @@
                         title: "Valor inválido!",
                         content: "Número de prenotação está inválido.",
                         color: "#EF7F0A",
-                        icon: "fa fa-warning bounce animated",
+                        icon: "fa fa-exclamation bounce animated",
                         timeout: 4000
                     });
                 } else {
@@ -283,7 +283,7 @@
                         title: "Valor inválido!",
                         content: "Número de prenotação está inválido.",
                         color: "#EF7F0A",
-                        icon: "fa fa-warning bounce animated",
+                        icon: "fa fa-exclamation bounce animated",
                         timeout: 4000
                     });
                 } else {
@@ -342,8 +342,41 @@
             /*-- ------------------------------------------------------------ */
             $("#IdModeloDoc").click(function (e) {
                 e.preventDefault();
-                //alert("olá");
 
+                var selItem = $("option:selected", this).val();
+
+                if (isNaN(selItem) || (selItem == "")) {
+                    $.smallBox({
+                        title: "Valor inválido!",
+                        content: "Selecine um modelo da lista.",
+                        color: "#EF7F0A",
+                        icon: "fa fa-exclamation bounce animated",
+                        timeout: 4000
+                    });
+                } else {
+                    var dados = {
+                        IdModeloDoc: selItem
+                    }
+
+                    $.ajax("@Url.Action("GetTextoWordDocModelo","Atos")", {
+                        method: 'POST',
+                        dataType: 'json',
+                        data: dados,
+                        beforeSend: function () {
+                        //ShowProgreessBar("Processando requisição...");
+                        }
+                    }).done(function (dataReturn) {
+                        if (dataReturn.resposta) {
+                            //var dadosInvalidos = (typeof dataReturn.Preimo === 'undefined' || dataReturn.Preimo == null);
+                            CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+                            //$("#editor2").val(dataReturn.TextoHtml);
+                        }
+                    }).fail(function (jq, textStatus, error) {
+                        alert(textStatus);
+                    }).always(function () {
+                        //
+                    });
+                }
 
             });
 
