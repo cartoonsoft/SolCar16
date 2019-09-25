@@ -513,6 +513,7 @@ namespace Cartorio11RI.Controllers
         /// Lista de Modelos (JSON) por IdTipo
         /// </summary>
         /// <returns>Lista de arquivos</returns>
+        [HttpPost]
         public JsonResult GetListaModelosDocx(long? IdTipoAto)
         {
             bool resposta = false;
@@ -540,17 +541,17 @@ namespace Cartorio11RI.Controllers
                 ListaModelosDocx = lista
             };
 
-            return Json(resultado, JsonRequestBehavior.AllowGet);
+            return Json(resultado);
 
         }
 
         /// <summary>
-        /// Busca dados do imóvel por matricula ou prenotação
+        /// Busca dados do imóvel por prenotação
         /// </summary>
         /// <param name="matriculaPrenotacao"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetDadosImovel(long matriculaPrenotacao)
+        public JsonResult GetDadosImovelPrenotacao(long numPrenotacao)
         {
             bool resposta = false;
             string msg = string.Empty;
@@ -561,9 +562,15 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    dtoPreimo = appServAtos.GetDadosImovel(matriculaPrenotacao);
+                    dtoPreimo = appServAtos.GetDadosImovelPrenotacao(numPrenotacao);
                     resposta = true;
-                    msg = "Dados retornados con sucesso";
+                    if (dtoPreimo != null)
+                    {
+                        msg = "Dados retornados con sucesso";
+                    } else
+                    {
+                        msg = "Número de Prenotação não encontrada na base de dados";
+                    }
                 }
             }
             catch (Exception ex)
@@ -586,6 +593,7 @@ namespace Cartorio11RI.Controllers
         /// </summary>
         /// <param name="numeroPrenotacao">Numero da prenotação</param>
         /// <returns>JSON</returns>
+        [HttpPost]
         public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
         {
             bool resposta = false;
@@ -620,9 +628,9 @@ namespace Cartorio11RI.Controllers
                 listaPessoas = listaPessoas
             };
 
-            Response.StatusCode = 200;
+            //Response.StatusCode = 200;
 
-            return Json(resultado, JsonRequestBehavior.AllowGet);
+            return Json(resultado);
         }
 
         public long GetIdTipoAtoPeloModelo(long idModelo)

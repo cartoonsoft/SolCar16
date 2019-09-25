@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Cartorio11RI.ViewModels
 {
@@ -78,6 +79,11 @@ namespace Cartorio11RI.ViewModels
 
         [Display(Name = "Descrição tipo ato")]
         public string DescricaoTipoAto { get; set; }
+
+        [Display(Name = "Texto")]
+        [DataType(DataType.Text)]
+        [AllowHtml]
+        public string Texto { get; set; }
 
         [MaxLength(512)]
         [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]

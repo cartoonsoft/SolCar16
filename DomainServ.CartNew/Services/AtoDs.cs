@@ -9,6 +9,7 @@ using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
+using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace DomainServ.CartNew.Services
@@ -101,6 +102,38 @@ namespace DomainServ.CartNew.Services
             }
 
             return listaDtoPessoaPesxPres;
+        }
+
+        public IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula)
+        {
+            var resposta =
+                from Atos in this.UfwCartNew.Repositories.RepositoryAto.Get().Where(a => a.NumMatricula == NumMatricula)
+                join AtoDocx in this.UfwCartNew.Repositories.GenericRepository<AtoDocx>().Get() on Atos.Id equals AtoDocx.IdAto
+                join Doc in this.UfwCartNew.Repositories.GenericRepository<Docx>().Get() on AtoDocx.IdDocx equals Doc.Id
+                orderby Atos.DataAto descending
+                select new DtoDocxList
+                {
+                    IdAto = Atos.Id ?? 0,
+                    IdDocx = AtoDocx.IdDocx,
+                    IdCtaAcessoSist = Atos.IdCtaAcessoSist,
+                    IdTipoAto = Atos.IdTipoAto,
+                    IdPrenotacao = Atos.IdPrenotacao,
+                    IdUsuarioCadastroDocx = Doc.IdUsuarioCadastro,
+                    IdUsuarioAlteracaoDocx = Doc.IdUsuarioAlteracao,
+                    IdxParagrafo = AtoDocx.IdxParagrago,
+                    DataAlteracaoDocx = Doc.DataAlteracao,
+                    DataCadastroDocx = Doc.DataCadastro,
+                    DataDocx = Doc.DataDocx,
+                    DescricaoAto = Atos.DescricaoAto,
+                    NomeArquivo = Doc.NomeArq,
+                    NumMatricula = Atos.NumMatricula,
+                    NumSequenciaFicha = Doc.NumSequenciaFicha,
+                    ObsAto = Atos.Observacao,
+                    StatusAto = Atos.StatusAto,
+                    TextoHtml = AtoDocx.TextoHtml
+                };
+
+            return resposta;
         }
 
     }

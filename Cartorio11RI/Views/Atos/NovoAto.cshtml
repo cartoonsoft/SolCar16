@@ -187,7 +187,7 @@
         $(document).ready(function () {
 
             /* urls chamadas ajax --------------------------------------------*/
-            var urlGetDadosImovel = '@Url.Action("GetDadosImovel", "Atos")';
+            var urlGetDadosImovel = '@Url.Action("GetDadosImovelPrenotacao", "Atos")';
             var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
             var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
 
@@ -209,7 +209,6 @@
                 }
                 e.stopPropagation();
             });
-
 
             var vetIdPessoasSel = [];
             var id = $("#Id").val();
@@ -257,19 +256,43 @@
 
             $("#btn-pesq-prenotacao").click(function (e) {
                 e.preventDefault();
-                var premaMat = $("#PREIMO_SEQPRE").val();
-                PesquisarPrenotacaoMatricula(premaMat, urlGetDadosImovel);
+
+                var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+
+                if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                    $.smallBox({
+                        title: "Valor inválido!",
+                        content: "Número de prenotação está inválido.",
+                        color: "#EF7F0A",
+                        icon: "fa fa-warning bounce animated",
+                        timeout: 4000
+                    });
+                } else {
+                    PesquisarPrenotacao(numPrenotacao, urlGetDadosImovel);
+                }
             });
 
             /*-- pesquisar pessoas ------------------------------------------ */
             $("#btn-pesq-pessoas").click(function (e) {
                 e.preventDefault();
 
-                var dadosPrenotacao = {
-                    numeroPrenotacao: $("#PREIMO_SEQPRE").val()
-                };
+                var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
 
-                GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
+                if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                    $.smallBox({
+                        title: "Valor inválido!",
+                        content: "Número de prenotação está inválido.",
+                        color: "#EF7F0A",
+                        icon: "fa fa-warning bounce animated",
+                        timeout: 4000
+                    });
+                } else {
+                    var dadosPrenotacao = {
+                        numeroPrenotacao: numPrenotacao
+                    };
+
+                    GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
+                }
             });
 
             /*-- btn-dlg-pessoas-ok   --------------------------------------- */
@@ -316,7 +339,13 @@
                 removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
             });
 
+            /*-- ------------------------------------------------------------ */
+            $("#IdModeloDoc").click(function (e) {
+                e.preventDefault();
+                //alert("olá");
 
+
+            });
 
         });
 
@@ -329,17 +358,17 @@
         {
             var btn = btnObj;
             var idTmp = idTipoAto;
-            if (typeof btn !== 'undefined' || btn !== null) {
+
+            if (typeof btn != 'undefined' || btn != null) {
                 var txtTipoAto = btn.innerText.trim();
                 $("#IdTipoAto").val(idTipoAto);
                 $("#DescricaoTipoAto").val(txtTipoAto);
 
                 $(".btn-tree-tipo-ato").removeClass("btn-danger");
                 $(btn).addClass("btn-danger");
-                var sel = $("#selModelosDocx");
+                var sel = $("#IdModeloDoc");
 
-                PovoarSelModelos(idTmp, sel, urlGetListaModelosDocx);
-
+                BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
             }
         }
 

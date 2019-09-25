@@ -35,8 +35,10 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoAtoList> GetListaAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null);
 
-        DtoPREIMO GetDadosImovel(long matriculaPrenotacao);
+        DtoPREIMO GetDadosImovelPrenotacao(long numPrenotacao);
 
         IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao);
+
+        IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula);
     }
 }

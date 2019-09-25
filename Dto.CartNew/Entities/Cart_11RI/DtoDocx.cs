@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoDocx: DtoEntityBaseModel
+    public class DtoDocx 
     {
         [Key]
-        public override long? Id { get; set; }
+        public long IdDocx { get; set; }
 
         public long IdCtaAcessoSist { get; set; }
 
@@ -23,13 +23,9 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public DateTime? DataAlteracao { get; set; }
 
-        public string NumMatricula { get; set; }
-
         public short NumSequenciaFicha { get; set; }
 
         public DateTime DataDocx { get; set; }  //data cabeçalho docx
-
-        public string NomeArquivoModelo { get; set; }
 
         public string NomeArquivo { get; set; }
     }

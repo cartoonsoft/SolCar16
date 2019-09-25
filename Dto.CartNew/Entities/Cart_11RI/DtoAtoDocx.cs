@@ -1,13 +1,14 @@
 ﻿using Dto.CartNew.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoAtoDocx: DtoEntityBaseModel
+    public class DtoAtoDocx 
     {
         public DtoAtoDocx()
         {
@@ -19,12 +20,19 @@ namespace Dto.CartNew.Entities.Cart_11RI
             this.Docx = dtoDocx;
         }
 
-        public override long? Id { get; set; }
-        public long IdCtaAcessoSist { get; set; }
+        [Key]
         public long IdAto { get; set; }
+
+        [Key]
         public long IdDocx { get; set; }
+
+        public long IdCtaAcessoSist { get; set; }
+
+
         public short IndexParagrafo { get; set; }
+
         public string TextoHtml { get; set; }
+
         public DtoDocx Docx { get; set; } // 1 ..1 em relacao docx
     }
 }

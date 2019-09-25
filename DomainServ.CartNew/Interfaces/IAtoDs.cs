@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DomainServ.CartNew.Interfaces.Base;
 using Domain.CartNew.Entities;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.Cart_11RI;
 
 namespace DomainServ.CartNew.Interfaces
 {
@@ -23,6 +24,8 @@ namespace DomainServ.CartNew.Interfaces
         short GetUltimoNumFicha(string NumMatricula);
 
         IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao);
+
+        IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula);
 
     }
 }

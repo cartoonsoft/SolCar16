@@ -12,9 +12,9 @@ namespace Domain.CartNew.Entities
     [Table("TB_DOCX", Schema = "DEZESSEIS_NEW")]
     public class Docx : EntityBase
     {
-        [Column("ID_DOCX")] //ID_DOCX NUMERIC(38, 0)       not null,
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Column("ID_DOCX")] 
         public override long? Id { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
@@ -32,17 +32,11 @@ namespace Domain.CartNew.Entities
         [Column("DT_ALTER")]
         public DateTime? DataAlteracao { get; set; }
 
-        [Column("NRO_MATRICULA")]   //NRO_MATRICULA        VARCHAR2(20),
-        public string NumMatricula { get; set; }
-
         [Column("NUM_SEQ_FICHA")]   //      NUM_SEQ_FICHA SMALLINT,
-        public short Ficha { get; set; }
+        public short NumSequenciaFicha { get; set; }
 
         [Column("DT_DOCX")]    //DT_DOCX              DATE,
         public DateTime DataDocx { get; set; }
-
-        [Column("NOM_ARQ_MOD")] //NOM_ARQ_MOD VARCHAR2(400),
-        public string NomeArqModelo { get; set; }
 
         [Column("NOM_ARQ")] //NOM_ARQ VARCHAR2(400),
         public string NomeArq { get; set; }

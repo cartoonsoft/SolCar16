@@ -12,9 +12,8 @@ namespace Dto.CartNew.Entities.Cart_11RI
     {
         [Key]
         public override long? Id { get; set; }
-
-        //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
-        public long IdCtaAcessoSist { get; set; }
+                
+        public long IdCtaAcessoSist { get; set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
 
         public long IdTipoAto { get; set; }
 
@@ -28,20 +27,24 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public DateTime? DataAlteracao { get; set; }
 
-        //numeric(5,0)
-        public short NumSequenciaAto { get; set; }
+        public short NumSequenciaAto { get; set; } //numeric(5,0)
 
         public string DataAto { get; set; }
 
-        //NRO_MATRICULA        VARCHAR2(20),
-        public string NumMatricula { get; set; }
+        public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
+
+        public string Descricao { get; set; }
+
+        public string Texto { get; set; }
+
+        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
+
+        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
         public string StatusAto { get; set; }
 
-        //NUMERIC(1,0)         default 0,
         public bool Ativo { get; set; }
 
-        // VARCHAR2(512),
-        public string Observacao { get; set; }
+        public string Observacao { get; set; } // VARCHAR2(512)
     }
 }

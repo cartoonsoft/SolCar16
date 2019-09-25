@@ -11,7 +11,7 @@
         <div class="col-sm-4">
             @Html.LabelFor(model => model.PREIMO.SEQPRE)
             <div class="input-group">
-                <span class="input-group-addon dropdown"><i class="glyphicon glyphicon-folder-close"></i></span>
+                <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
                 <div class="icon-addon addon-md">
                     @Html.TextBoxFor(model => model.PREIMO.SEQPRE, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. prenotação" })
                     <label for="PREIMO_SEQPRE" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
@@ -40,12 +40,6 @@
             <!-- end widget edit box -->
             <!-- widget content ---- -->
             <div class="widget-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        @Html.LabelFor(model => model.PREIMO.ENDER)
-                        @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col-sm-10">
                         @Html.LabelFor(model => model.PREIMO.ENDER)

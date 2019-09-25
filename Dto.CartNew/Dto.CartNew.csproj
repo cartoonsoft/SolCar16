@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Base\DtoBase.cs" />
     <Compile Include="Base\DtoEntityBaseModel.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoDocxList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
     <Compile Include="Entities\Cart_11RI\DtoModeloDocx.cs" />

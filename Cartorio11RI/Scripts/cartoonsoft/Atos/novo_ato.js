@@ -123,58 +123,81 @@ class PessoaPrenotacao {
  * ---------------------------------------------------------------------------*/
 
 /**
- * 
- * @@param {any} PrenotacaoMatricula
+ * Pesquisa por prenotação e busca dados do imovel
+ * @@param {any} numPrenotacao: numero prenotacao
  */
-function PesquisarPrenotacaoMatricula(PrenotacaoMatricula, url) {
-    var dataPreMat = {
-        matriculaPrenotacao: PrenotacaoMatricula.trim()
-    };
+function PesquisarPrenotacao(numPrenotacao, url) {
 
-    if (PrenotacaoMatricula != "") {
-        GetDadosImovel(dataPreMat, url);
-    }
+    if (!isNaN(numPrenotacao)) {
+        var dadosPrenotacao = {
+            numPrenotacao: numPrenotacao
+        };
+        GetDadosImovelPrenotacao(dadosPrenotacao, url);
+    } else {
+        $.smallBox({
+            title: "Entrada inválida!",
+            content: "Número de prenotação está inválido!",
+            color: "#992111",
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 4000
+        });
+    }     
 }
 
 /**
- * Ajax busca dadso do imóvel por num prenotacao/matricula
+ * Ajax busca dadso do imóvel por prenotacao
  * @@param dataPreMat
  */
-function GetDadosImovel(dataPreMat, url) {
+function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
-        data: dataPreMat,
+        data: dadosPrenotacao,
         beforeSend: function () {
             ShowProgreessBar("Processando requisição...");
         }
     }).done(function (dataReturn) {
-        //
-        if (dataReturn.Preimo.resposta) {
+        if (dataReturn.resposta) {
 
-            PovoarDadosImovel(dataReturn.Preimo);
-            HabilitarProximo();
+            var dadosInvalidos = (typeof dataReturn.Preimo == 'undefined' || dataReturn.Preimo == null);
 
-            $.smallBox({
-                title: "Requisição processada com sucesso!",
-                content: dataReturn.Preimo.msg,
-                color: "#296191",
-                icon: "fa fa-thumbs-up bounce animated",
-                timeout: 4000
-            });
+            if (!dadosInvalidos) {
+                PovoarDadosImovel(dataReturn.Preimo);
+                HabilitarProximo();
+                $.smallBox({
+                    title: "Requisição processada com sucesso!",
+                    content: dataReturn.msg,
+                    color: "#296191",
+                    icon: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                $.smallBox({
+                    title: "Dados não encontrados!",
+                    content: dataReturn.msg,
+                    color: "#EF7F0A",
+                    icon: "fa fa-warning bounce animated",
+                    timeout: 4000
+                });
+            }
         } else {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
-                content: dataReturn.Preimo.msg,
+                content: dataReturn.msg,
                 color: "#992111",
                 icon: "fa fa-thumbs-down bounce animated",
                 timeout: 8000
             });
         }
     }).fail(function (jq, textStatus, error) {
-        //
-
+        $.smallBox({
+            title: "Falha na sua requisição!",
+            content: textStatus + "[" + error + "]",
+            color: "#992111",
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 8000
+        });
     }).always(function () {
         HideProgressBar();
     });
@@ -186,7 +209,6 @@ function GetDadosImovel(dataPreMat, url) {
  */
 function GetPessoasPrenotacao(dadosPrenotacao, url) {
 
-
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
@@ -195,10 +217,21 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
             ShowProgreessBar("Processando requisição...");
         }
     }).done(function (dataReturn) {
-        //
         if (dataReturn.resposta) {
 
-            ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+            var dadosInvalidos = (typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
+
+            if (!dadosInvalidos) {
+                ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+            } else {
+                $.smallBox({
+                    title: "Dados não encontrados!",
+                    content: "Lista inválida.",
+                    color: "#EF7F0A",
+                    icon: "fa fa-warning bounce animated",
+                    timeout: 4000
+                });
+            }
 
         } else {
             $.smallBox({
@@ -210,7 +243,13 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
             });
         }
     }).fail(function (jq, textStatus, error) {
-        //
+        $.smallBox({
+            title: "Falha na sua requisição!",
+            content: textStatus + "[" + error + "]",
+            color: "#992111",
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 8000
+        });
 
     }).always(function () {
         HideProgressBar();
@@ -379,7 +418,7 @@ function HabilitarProximo() {
  * Povoar select selModelosDocx
  * @@param {any} selObj
  */
-function PovoarSelModelos(IdTipoAto, selObj, url) {
+function BuscarListaModelos(IdTipoAto, selObj, url) {
 
     var dados = {
         IdTipoAto: IdTipoAto
@@ -396,8 +435,19 @@ function PovoarSelModelos(IdTipoAto, selObj, url) {
         //
         if (dataReturn.resposta) {
 
-            ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+            var dadosInvalidos = (typeof dataReturn.ListaModelosDocx == 'undefined' || dataReturn.ListaModelosDocx == null);
 
+            if (!dadosInvalidos) {
+                PovoarSelModelos(selObj, dataReturn.ListaModelosDocx);
+            } else {
+                $.smallBox({
+                    title: "Dados não encontrados!",
+                    content: "Lista inválida.",
+                    color: "#EF7F0A",
+                    icon: "fa fa-warning bounce animated",
+                    timeout: 4000
+                });
+            }
         } else {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
@@ -412,5 +462,19 @@ function PovoarSelModelos(IdTipoAto, selObj, url) {
 
     }).always(function () {
         HideProgressBar();
+    });
+}
+
+/**
+ * 
+ * @@param {any} listaModelos
+ */
+function PovoarSelModelos(selObj, listaModelos) {
+
+    var sel = selObj;
+    $(sel).empty();
+
+    $.each(listaModelos, function (index, item) {
+        $(sel).append('<option value="' + item.Id + '" >' + item.DescricaoModelo + '</option>');
     });
 }

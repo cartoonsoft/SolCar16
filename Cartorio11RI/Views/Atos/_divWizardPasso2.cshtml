@@ -50,8 +50,7 @@
                     <div class="panel-group">
                         <div class="panel-default">
                             <label class="control-label">Selecione um modelo de documento</label>
-                            <select id="selModelosDocx" name="selModelosDocx" class="form-control custom-scroll" title="Selecione um modelo de documento" size="6">
-                            </select>
+                            @Html.DropDownListFor(model => model.IdModeloDoc, new SelectList(new List<SelectListItem>()), new { @class="form-control custom-scroll", @title="Selecione um modelo de documento", @size="6" })
                         </div>
                     </div>
                     <div class="panel-group">

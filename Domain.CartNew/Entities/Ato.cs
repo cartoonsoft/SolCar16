@@ -56,6 +56,9 @@ namespace Domain.CartNew.Entities
         [Column("DESCRICAO")]
         public string DescricaoAto { get; set; }
 
+        [Column("TEXTO")]
+        public string Texto{ get; set; }
+
         [Column("STATUS_ATO")]
         public string StatusAto { get; set; }
 

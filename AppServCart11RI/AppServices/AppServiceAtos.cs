@@ -23,7 +23,7 @@ namespace AppServCart11RI.AppServices
         public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
-
+            
         }
 
         #region Private Methods
@@ -164,27 +164,21 @@ namespace AppServCart11RI.AppServices
         }
 
         /// <summary>
-        /// Busca Dados do imivel por matricula ou prenotação
+        /// Busca Dados do imovel por prenotação
         /// </summary>
         /// <param name="matriculaPrenotacao"></param>
         /// <returns></returns>
-        public DtoPREIMO GetDadosImovel(long matriculaPrenotacao)
+        public DtoPREIMO GetDadosImovelPrenotacao(long numPrenotacao)
         {
             DtoPREIMO dtoPreimo = new DtoPREIMO();
             try
             {
-                PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.SEQPRE == matriculaPrenotacao).FirstOrDefault();
-
-                if (preimo == null)
-                {
-                    preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.MATRI == matriculaPrenotacao).FirstOrDefault();
-
-                }
+                PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.SEQPRE == numPrenotacao).FirstOrDefault();
                 dtoPreimo = Mapper.Map<PREIMO, DtoPREIMO>(preimo);
             }
             catch (Exception ex)
             {
-                throw new Exception("Falha GetDadosImovel: " + ex.Message);
+                throw new Exception("Falha GetDadosImovelPrenotacao: " + ex.Message);
             }
             
             return dtoPreimo;
@@ -210,6 +204,22 @@ namespace AppServCart11RI.AppServices
             }
 
             return listaPessoasPrenotacao;
+        }
+
+        public IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula)
+        {
+            IEnumerable<DtoDocxList> lista = new List<DtoDocxList>();
+
+            try
+            {
+                lista = this.DsFactoryCartNew.AtoDs.GetListDtoDocxAto(NumMatricula);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Falha GetListDtoDocxAto: " + ex.Message);
+            }
+
+            return lista;
         }
 
     }

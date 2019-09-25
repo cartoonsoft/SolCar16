@@ -26,8 +26,11 @@ namespace Cartorio11RI.ViewModels
 
         public DateTime? DataAlteracao { get; set; }
 
-        [Display(Name = "Descrição")]
-        public string NomeModelo { get; set; }
+        [Display(Name = "Descrição modelo")]
+        public string DescricaoModelo { get; set; }
+
+        [Display(Name = "Orientações")]
+        public string Orientacao { get; set; }
 
         [Display(Name = "Nome arquivo")]
         public string CaminhoEArquivo { get; set; }

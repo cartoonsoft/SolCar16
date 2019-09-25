@@ -10,21 +10,19 @@ using Domain.Core.Entities.Base;
 namespace Domain.CartNew.Entities
 {
     [Table("TB_ATO_DOCX", Schema = "DEZESSEIS_NEW")]
-    public class AtoDocx: EntityBase
+    public class AtoDocx
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Column("ID_ATO_DOCX")]  //ID_ATO_DOCX NUMERIC(19, 0)       not null,
-        public override long? Id { get; set; }
+        [Column("ID_ATO", Order = 0)] 
+        public long IdAto { get; set; }
+
+        [Key]
+        [Column("ID_DOCX", Order = 1)] 
+        public long IdDocx { get; set; }
 
         [Column("ID_CTA_ACESSO_SIST")] //ID_CTA_ACESSO_SIST NUMERIC(19, 0)       not null,
         public long IdCtaAcessoSist { get; set; }
 
-        [Column("ID_ATO")] //ID_ATO NUMERIC(19, 0)       not null,
-        public long IdAto { get; set; }
-
-        [Column("ID_DOCX")] //ID_DOCX NUMERIC(19, 0)       not null,
-        public long IdDocx { get; set; }
 
         [Column("IDX_PARA")] //IDX_PARA NUMERIC(5, 0),
         public short IdxParagrago { get; set; }
