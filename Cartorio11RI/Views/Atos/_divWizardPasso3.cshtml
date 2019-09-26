@@ -1,40 +1,67 @@
-﻿<!-- passo 3 --------------------------------------------------------------- -->
+﻿<!-- passo 3---------------------------------------------------------------- -->
+@model Cartorio11RI.ViewModels.AtoViewModel
+
 <div class="step-pane" id="step3">
-    <h3><strong>Etapa 3 </strong> - Selecionar pessoas</h3>
-    <div class="row">
-        <div class="col-sm-2">
-            <label>Selecionar outorgante(s)/outorgado(s)</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary btn-lg" id="btn-pesq-pessoas">     selecionar     </button>
-                </span>
+    <h3><strong>Etapa 3</strong> - Selecionar um modelo</h3>
+    <fieldset>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DescricaoTipoAto, new { @class = "control-label" })
+                        @Html.TextBoxFor(model => model.DescricaoTipoAto, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="div-container-scroll">
+                        <div class="tree">
+                            <ul>
+                                <li>
+                                    <span><i class="fa fa-lg fa-file-word-o"></i> Selecione o tipo de documento</span>
+                                    <ul>
+                                        @foreach (var item in ViewBag.listaTipoAto)
+                                        {
+                                            <li>
+                                                <span title="@item.Orientacao">
+                                                    <i class="fa fa-lg fa-plus-circle"></i><strong> @item.Descricao</strong>
+                                                </span>
+                                                @if (item.ListaTipoAtosFihos.Count > 0)
+                                                {
+                                                    <ul>
+                                                        @foreach (var item2 in item.ListaTipoAtosFihos)
+                                                        {
+                                                            <li style="display:none">
+                                                                <button type="button" class="btn btn-info btn-sm btn-tree-tipo-ato" id="btn_tree_tipo_ato_@item2.Id" rel="popover-hover" data-placement="right" data-original-title="Descrição" data-content="@item2.Orientacao" onclick="SelecionarTipoAto(this, @item2.Id);"><i class="glyphicon glyphicon-menu-right"></i> @item2.Descricao</button>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel-group">
+                    <div class="panel-default">
+                        <label class="control-label">Selecione um modelo de documento</label>
+                        @Html.DropDownListFor(model => model.IdModeloDoc, new SelectList(new List<SelectListItem>()), new { @class = "form-control custom-scroll", @title = "Selecione um modelo de documento", @size = "6" })
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel-blue">
+                        <label class="control-label">PreView do Modelo selecionado</label>
+                        <textarea cols="80" id="ckEditorPreviewModelo" name="ckEditorPreviewModelo" rows="10" disabled>
+                            </textarea>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <hr />
-    <div class="row">
-        <div class="col-sm-12">
-            <table id="tbl-pessoas-selecionadas" class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>Tipo</th>
-                        <th>N° documento</th>
-                        <th>Nome</th>
-                        <th>Endereço</th>
-                        <th>Bairro</th>
-                        <th>Cidade</th>
-                        <th>UF</th>
-                        <th>CEP</th>
-                        <th>Telefone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- APPEND JSON-->
-                </tbody>
-            </table>
-        </div>
-    </div>
+    </fieldset>
 </div>
-
 

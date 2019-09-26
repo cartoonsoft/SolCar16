@@ -1,12 +1,64 @@
-﻿<!-- passo 4 --------------------------------------------------------------- -->
-<div class="step-pane" id="step4">
-    <h3><strong>Step 4 </strong> - Wizard continued...</h3>
-    <br>
-    <br>
-    <h1 class="text-center text-danger"> This will be your Step 4 </h1>
-    <br>
-    <br>
-    <br>
-    <br>
-</div>
+﻿@model Cartorio11RI.ViewModels.AtoViewModel
+<!-- passo 4 --------------------------------------------------------------- -->
+    <div class="step-pane" id="step4">
+        <h3><strong>Etapa 4</strong> - Edição do Ato</h3>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-default" title="Salvar escrita">
+                        <i class="glyphicon glyphicon-floppy-save"></i> Salvar
+                    </button>
+                    <button type="button" class="btn btn-default" title="Imprimir escrita">
+                        <i class="glyphicon glyphicon-print"></i> Imprimir
+                    </button>
+                    <button type="button" class="btn btn-default" title="Anular o ato">
+                        <i class="glyphicon glyphicon-remove"></i> Anular
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DescricaoAto, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TextoDistanciaTopo, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.TextoDistanciaTopo, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Texto, new { @class = "control-label" })
+                    <textarea id="ckEditorAto" name="ckEditorAto" rows="15" cols="160" class="form-control">
+                </textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Observacao, new { @class = "control-label" })
+                            @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 5 })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 

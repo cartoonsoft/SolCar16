@@ -892,8 +892,8 @@
     <Content Include="Views\Modelos\_frmModeloDocx.cshtml" />
     <Content Include="Views\Atos\_divWizardAto.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso1.cshtml" />
-    <Content Include="Views\Atos\_divWizardPasso2.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso3.cshtml" />
+    <Content Include="Views\Atos\_divWizardPasso2.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso4.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso5.cshtml" />
     <None Include="Web.Debug.config">

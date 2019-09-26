@@ -60,7 +60,7 @@ namespace DomainServ.CartNew.Services
             var lista =
                 from pre in this.UfwCartNew.Repositories.GenericRepository<PESXPRE>().Get().Where(pr => (pr.SEQPRE == numeroPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
                 join pes in this.UfwCartNew.Repositories.GenericRepository<PESSOAS>().Get() on pre.SEQPES equals pes.SEQPES
-                orderby pes.NOM
+                orderby pre.REL, pes.NOM
                 select new
                 {
                     IdPessoa = pes.SEQPES,

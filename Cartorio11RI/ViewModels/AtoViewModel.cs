@@ -91,18 +91,29 @@ namespace Cartorio11RI.ViewModels
         [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
 
+        [Display(Name = "Status ato")]
+        public string StatusAto { get; set; }
+
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
 
+        [ScaffoldColumn(false)]
         public string IpLocal { get; set; }
 
+        [ScaffoldColumn(false)]
         public int IrParaFicha { get; set; }
 
+        [ScaffoldColumn(false)]
         public bool IrParaVerso { get; set; }
 
-        public bool ExisteNoSistema { get; set; }
+        [Display(Name = "Ficha número")]
+        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public float QuantidadeCentimetrosDaBorda { get; set; }
+        [Display(Name = "Distância topo (cm)")]
+        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+
+        [ScaffoldColumn(false)]
+        public bool DocxGerado { get; set; }
 
         public List<PESSOAViewModel> Pessoas { get; set; }
 

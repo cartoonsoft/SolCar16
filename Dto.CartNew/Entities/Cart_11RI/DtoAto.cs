@@ -33,18 +33,21 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
 
-        public string Descricao { get; set; }
+        public string DescricaoAto { get; set; }
 
         public string Texto { get; set; }
-
-        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
-
-        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
         public string StatusAto { get; set; }
 
         public bool Ativo { get; set; }
 
         public string Observacao { get; set; } // VARCHAR2(512)
+
+        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
+
+        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+
+        public bool DocxGerado { get; set; }
+
     }
 }
