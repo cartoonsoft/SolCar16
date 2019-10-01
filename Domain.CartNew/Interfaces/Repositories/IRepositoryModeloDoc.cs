@@ -8,13 +8,13 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.CartNew.Interfaces.Repositories
 {
-    public interface IRepositoryModeloDocx : IRepositoryBaseReadWrite<ModeloDocx>
+    public interface IRepositoryModeloDoc : IRepositoryBaseReadWrite<ModeloDoc>
     {
         byte[] GetBytesArquivo(long idArquivo);
         //IEnumerable<ArquivoModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null);
 
         //IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
 
-        IEnumerable<CamposModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto);
+        IEnumerable<CamposModeloDoc> GetListaCamposIdTipoAto(long? IdTipoAto);
     }
 }

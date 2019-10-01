@@ -49,13 +49,13 @@
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDocxList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
-    <Compile Include="Entities\Cart_11RI\DtoModeloDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoModeloDoc.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAto.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAtoCadastro.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAtoDocx.cs" />
     <Compile Include="Entities\Cart_11RI\DtoCadastroDeAto.cs" />
     <Compile Include="Entities\Cart_11RI\DtoDocx.cs" />
-    <Compile Include="Entities\Cart_11RI\DtoLogModeloDocx.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoLogModeloDoc.cs" />
     <Compile Include="Entities\Cart_11RI\DtoMatriculaAto.cs" />
     <Compile Include="Entities\Cart_11RI\DtoTipoAto.cs" />
     <Compile Include="Entities\TodosCart\DtoMunicipio.cs" />

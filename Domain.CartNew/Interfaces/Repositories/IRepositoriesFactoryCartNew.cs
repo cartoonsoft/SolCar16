@@ -28,7 +28,7 @@ namespace Domain.CartNew.Interfaces.Repositories
             get;
         }
 
-        IRepositoryModeloDocx RepositoryModeloDocx
+        IRepositoryModeloDoc RepositoryModeloDocx
         {
             get;
         }
@@ -38,7 +38,7 @@ namespace Domain.CartNew.Interfaces.Repositories
             get;
         }
 
-        IRepositoryLogModeloDocx RepositoryLogModeloDocx
+        IRepositoryLogModeloDoc RepositoryLogModeloDocx
         {
             get;
         }

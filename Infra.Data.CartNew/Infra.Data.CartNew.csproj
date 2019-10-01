@@ -60,9 +60,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Factory\RepositoriesFactoryCartNew.cs" />
-    <Compile Include="Repositories\DbCartNew\RepositoryModeloDocx.cs" />
+    <Compile Include="Repositories\DbCartNew\RepositoryModeloDoc.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryAto.cs" />
-    <Compile Include="Repositories\DbCartNew\RepositoryLogModeloDocx.cs" />
+    <Compile Include="Repositories\DbCartNew\RepositoryLogModeloDoc.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryMunicipio.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryTipoAto.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryPais.cs" />

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.CartNew.Enumerations
 {
-    public enum TipoLogModeloDocx
+    public enum TipoLogModeloDoc
     {
         [Description("Upload")] 
         Upload = 1,

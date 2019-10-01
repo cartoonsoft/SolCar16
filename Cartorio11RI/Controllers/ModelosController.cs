@@ -44,7 +44,7 @@ namespace Cartorio11RI.Controllers
         {
             IEnumerable<ModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
             {
                 IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx(null).Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
@@ -95,10 +95,10 @@ namespace Cartorio11RI.Controllers
                     string filePath = string.Empty;
                     modeloDocxViewModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+                    using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
                     {
                         NovoId = appService.NovoModelo(
-                            new DtoModeloDocx()
+                            new DtoModeloDoc()
                             {
                                 IdCtaAcessoSist = this.IdCtaAcessoSist,
                                 IdTipoAto = modeloDocxViewModel.IdTipoAto,
@@ -165,8 +165,8 @@ namespace Cartorio11RI.Controllers
                     List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
                     ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
-                    ModeloDocx modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
-                    ModeloDocxViewModel modeloDocxViewModel = Mapper.Map<ModeloDocx, ModeloDocxViewModel>(modeloDocx);
+                    ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
+                    ModeloDocxViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocxViewModel>(modeloDocx);
                     modeloDocxViewModel.DescricaoTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.Get().Where(t => t.Id == modeloDocx.IdTipoAto).FirstOrDefault().Descricao;
 
                     if (modeloDocxViewModel == null)
@@ -200,9 +200,9 @@ namespace Cartorio11RI.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
+                    using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
                     {
-                        appService.EditarModelo(new DtoModeloDocx()
+                        appService.EditarModelo(new DtoModeloDoc()
                         {
                             Id = modeloDocxViewModel.Id,
                             IdCtaAcessoSist = this.IdCtaAcessoSist,
@@ -240,13 +240,13 @@ namespace Cartorio11RI.Controllers
 
         private void CadastrarLogDownload(string IP, long Id)
         {
-            var arquivolog = new LogModeloDocx()
+            var arquivolog = new LogModeloDoc()
             {
-                IdModeloDocx = Id,
+                IdModeloDoc = Id,
                 IdUsuario = UsuarioAtual.Id,
                 DataHora = DateTime.Now,
                 IP = IP,
-                TipoLogModeloDocx = TipoLogModeloDocx.Download
+                TipoLogModeloDoc = TipoLogModeloDoc.Download
             };
 
             //todo: Ronaldo criar rotina de cadastro 
@@ -259,7 +259,7 @@ namespace Cartorio11RI.Controllers
         {
             bool respDesativar;
 
-            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
             {
                 respDesativar = appService.Desativar(Convert.ToInt64(dadosPost.Id), this.UsuarioAtual.Id);
             }

@@ -8,7 +8,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.CartNew.Interfaces.Repositories
 {
-    public interface IRepositoryLogModeloDocx : IRepositoryBaseReadWrite<LogModeloDocx>
+    public interface IRepositoryLogModeloDoc : IRepositoryBaseReadWrite<LogModeloDoc>
     {
         //
     }

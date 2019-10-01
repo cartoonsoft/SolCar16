@@ -117,15 +117,11 @@ class PessoaPrenotacao {
     }
 }
 
-/*------------------------------------------------------------------------------
- * Funçoes: * javascript da view: Atos.Novo
- *
- * ---------------------------------------------------------------------------*/
-
-/**
+/** ----------------------------------------------------------------------------
  * Pesquisa por prenotação e busca dados do imovel
- * @@param {any} numPrenotacao: numero prenotacao
- */
+ * @@param {any} numPrenotacao
+ * @@param {any} url
+----------------------------------------------------------------------------- */
 function PesquisarPrenotacao(numPrenotacao, url) {
 
     if (!isNaN(numPrenotacao)) {
@@ -144,10 +140,10 @@ function PesquisarPrenotacao(numPrenotacao, url) {
     }     
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * Ajax busca dadso do imóvel por prenotacao
  * @@param dataPreMat
- */
+----------------------------------------------------------------------------- */
 function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
@@ -203,10 +199,11 @@ function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
     });
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * Busca lista pessoa por prenotação
- * @@param preimo
- */
+ * @@param {any} dadosPrenotacao
+ * @@param {any} url
+ -----------------------------------------------------------------------------*/
 function GetPessoasPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
@@ -256,10 +253,10 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
     });
 }
 
-/**
- * 
+/** ----------------------------------------------------------------------------
+ * ShowTblPessoasPrenotacao
  * @@param listadados
- */
+ -----------------------------------------------------------------------------*/
 function ShowTblPessoasPrenotacao(listadados) {
 
     arrayPessoas = [];
@@ -295,6 +292,12 @@ function ShowTblPessoasPrenotacao(listadados) {
     $('#div-dlg-pessoas').modal('show');
 }
 
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} pessoa
+ * @@param {any} index
+ * @@param {any} array
+----------------------------------------------------------------------------- */
 function InserirLinhasSelecaoPessoas(pessoa, index, array) {
 
     var doc = pessoa.Numero1.trim();
@@ -313,10 +316,10 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array) {
     );
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * 
  * @@param {any} chkObj
- */
+----------------------------------------------------------------------------- */
 function MarcarDesmarcarPessoa(chkObj) {
     var chkTmp = chkObj;
     var idTmp = chkObj.value;
@@ -344,10 +347,12 @@ function ArrayPessoasIndexOfById(id) {
     return idx;
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * idPrenotacao (preimo.SEQPRE)
- * */
-function PovoarSelecionados(idPrenotacao) {
+ ---------------------------------------------------------------------------- */
+function PovoarSelecionados(numPrenotacao) {
+
+    var povoou = false;
 
     $("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
 
@@ -373,18 +378,24 @@ function PovoarSelecionados(idPrenotacao) {
                 '<td>' + arrayPessoas[i].Telefone + '</td>' +
                 '</tr>'
             );
+
+            povoou = true;
         }
     }
 
     $('#div-dlg-pessoas').modal('hide');
+
+    return povoou;
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * povoar dados imovel
  * @@param preimo
- */
+ ----------------------------------------------------------------------------*/
 function PovoarDadosImovel(preimo) {
 
+    $('#IdPrenotacao').val(preimo.SEQPRE);
+    $('#NumMatricula').val(preimo.MATRI);
     $('#PREIMO_SEQPRE').val(preimo.SEQPRE);
     $('#PREIMO_MATRI').val(preimo.MATRI);
 
@@ -414,10 +425,12 @@ function HabilitarProximo() {
     $('#btn-proximo').addClass('active');
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * Povoar select selModelosDocx
- * @@param {any} selObj
- */
+ * @param {any} IdTipoAto
+ * @param {any} selObj
+ * @param {any} url
+----------------------------------------------------------------------------- */
 function BuscarListaModelos(IdTipoAto, selObj, url) {
 
     var dados = {
@@ -465,10 +478,11 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
     });
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * 
+ * @@param {any} selObj
  * @@param {any} listaModelos
- */
+----------------------------------------------------------------------------- */
 function PovoarSelModelos(selObj, listaModelos) {
 
     var sel = selObj;
@@ -477,4 +491,62 @@ function PovoarSelModelos(selObj, listaModelos) {
     $.each(listaModelos, function (index, item) {
         $(sel).append('<option value="' + item.Id + '" >' + item.DescricaoModelo + '</option>');
     });
+}
+
+/** ----------------------------------------------------------------------------
+ * GerarTextoAto
+ * @@param {any} numPrenotacao
+ * @@param {any} arrayPessoas
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function GetTextoAto(numPrenotacao, arrayPessoas, url) {
+
+    var listIdsPessoas = [];
+
+    arrayPessoas.forEach(item => {
+        listIdsPessoas.push(item.IdPessoa);
+    });
+
+    var idAto = $("#Id").val();
+    var idTipoAto = $("#IdTipoAto").val();
+    var idPrenotacao = $("#IdPrenotacao").val();
+    var idMatricula = $("#NumMatricula").val();
+
+    var dados = {
+        IdAto: idAto,
+        IdTipoAto: idTipoAto,
+        IdPrenotacao: idPrenotacao,
+        IdMatricula: idMatricula,
+        ListIdsPessoas: listIdsPessoas
+    };
+
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dados,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        //
+        if (dataReturn.resposta) {
+
+            CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: "#992111",
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        //
+
+    }).always(function () {
+        HideProgressBar();
+    });
+
 }

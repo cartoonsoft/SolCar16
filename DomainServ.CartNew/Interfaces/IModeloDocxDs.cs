@@ -9,11 +9,11 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace DomainServ.CartNew.Interfaces
 {
-    public interface IModeloDocxDs : IDomainServiceCartNew<ModeloDocx>
+    public interface IModeloDocxDs : IDomainServiceCartNew<ModeloDoc>
     {
-        long? NovoModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario);
+        long? NovoModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario);
 
-        long? EditarModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario);
+        long? EditarModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario);
 
         bool Desativar(long Id, string IdUsuario);
 

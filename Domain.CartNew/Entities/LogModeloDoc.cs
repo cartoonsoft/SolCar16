@@ -11,7 +11,7 @@ using Domain.Core.Entities.Base;
 namespace Domain.CartNew.Entities
 {
     [Table("TB_LOG_ARQ_MOD_DOCX", Schema = "DEZESSEIS_NEW")]
-    public class LogModeloDocx : EntityBase
+    public class LogModeloDoc : EntityBase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
@@ -19,7 +19,7 @@ namespace Domain.CartNew.Entities
         public override long? Id { get; set; }
 
         [Column("ID_MODELO_DOC")]
-        public long IdModeloDocx { get; set; }
+        public long IdModeloDoc { get; set; }
 
         [Column("ID_USUARIO")]
         public string IdUsuario { get; set; }
@@ -28,7 +28,7 @@ namespace Domain.CartNew.Entities
         public string IP { get; set; }
 
         [Column("TP_LOG_ARQ_MOD_DOCX")]
-        public TipoLogModeloDocx TipoLogModeloDocx { get; set; }
+        public TipoLogModeloDoc TipoLogModeloDoc { get; set; }
 
         [Column("DTH_LOG")]
         public DateTime DataHora { get; set; }

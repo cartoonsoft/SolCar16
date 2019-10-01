@@ -1,7 +1,7 @@
 ﻿@model Cartorio11RI.ViewModels.AtoViewModel
 
 <!-- passo 1 --------------------------------------------------------------- -->
-<div class="step-pane active" id="step1">
+<div class="step-pane active" id="ato-step-1">
     <h3><strong>Etapa 1 </strong> - Selecionar o imóvel</h3>
     <div class="row">
         <div class="col-sm-4">
@@ -28,7 +28,6 @@
         <header>
             <span class="widget-icon"> <i class="fa fa-home"></i> </span>
             <h2>Dados do imóvel</h2>
-
         </header>
 
         <!-- widget div ------------ -->
@@ -41,7 +40,11 @@
             <!-- widget content ---- -->
             <div class="widget-body">
                 <div class="row">
-                    <div class="col-sm-10">
+                    <div class="col-sm-2">
+                        @Html.LabelFor(model => model.NumMatricula)
+                        @Html.TextBoxFor(model => model.NumMatricula, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-sm-8">
                         @Html.LabelFor(model => model.PREIMO.ENDER)
                         @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
                     </div>
@@ -92,7 +95,6 @@
 
     </div>
     <!-- end widget ---------------- -->
-
 </div>
 
 

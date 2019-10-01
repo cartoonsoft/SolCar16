@@ -10,7 +10,7 @@ using AppServ.Core.Interfaces;
 
 namespace AppServices.Cartorio.Interfaces
 {
-    public interface IAppServiceModelosDocx : IAppServiceCartorio<DtoModeloDocx, ModeloDocx>
+    public interface IAppServiceModelosDoc : IAppServiceCartorio<DtoModeloDoc, ModeloDoc>
     {
         /// <summary>
         /// SAvalr um Modelo de doc
@@ -18,9 +18,9 @@ namespace AppServices.Cartorio.Interfaces
         /// <param name="dtoArq"></param>
         /// <param name="IdUsuario"></param>
         /// <returns></returns>
-        long? NovoModelo(DtoModeloDocx dtoArq, string IdUsuario);
+        long? NovoModelo(DtoModeloDoc dtoArq, string IdUsuario);
 
-        void EditarModelo(DtoModeloDocx dtoArq, string IdUsuario);
+        void EditarModelo(DtoModeloDoc dtoArq, string IdUsuario);
 
         bool Desativar(long Id, string IdUsuario);
 

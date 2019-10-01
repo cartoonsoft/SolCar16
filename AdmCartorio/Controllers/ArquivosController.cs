@@ -44,7 +44,7 @@ namespace AdmCartorio.Controllers
         {
             IEnumerable<ModeloDocxListViewModel> listaModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
             {
                 IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx().Where(a => a.Ativo == true);
                 listaModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
@@ -86,7 +86,7 @@ namespace AdmCartorio.Controllers
 
                 if (ControllerModelValid)
                 {
-                    LogModeloDocx logArquivo = new LogModeloDocx();
+                    LogModeloDoc logArquivo = new LogModeloDoc();
                     logArquivo.IdUsuario = UsuarioAtual.Id;
                     logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                     logArquivo.IP = arquivoModel.IpLocal;
@@ -95,10 +95,10 @@ namespace AdmCartorio.Controllers
                     string filePath = string.Empty;
                     arquivoModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+                    using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
                     {
                         NovoId = appService.NovoModelo(
-                            new DtoModeloDocx()
+                            new DtoModeloDoc()
                             {
                                 IdCtaAcessoSist = 1,
                                 Ativo = true,
@@ -153,7 +153,7 @@ namespace AdmCartorio.Controllers
             {
                 try
                 {
-                    ModeloDocx modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
+                    ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
                     ModeloDocxViewModel arquivoViewModel = new ModeloDocxViewModel
                     {
                         Id = modeloDocx.Id,
@@ -193,15 +193,15 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
+                    using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
                     {
                         //Cadastro de log
-                        LogModeloDocx logArquivo = new LogModeloDocx();
+                        LogModeloDoc logArquivo = new LogModeloDoc();
                         logArquivo.IdUsuario = UsuarioAtual.Id;
                         logArquivo.UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name;  // HttpContext.Current.User.Identity.Name; //  HttpContext.User.Identity.Name;
                         logArquivo.IP = modeloDocxViewModel.IpLocal;
 
-                        appService.EditarModelo(new DtoModeloDocx()
+                        appService.EditarModelo(new DtoModeloDoc()
                         {
                             Id = modeloDocxViewModel.Id,
                             IdCtaAcessoSist = 1,
@@ -230,13 +230,13 @@ namespace AdmCartorio.Controllers
 
         private void CadastrarLogDownload(string IP, long Id)
         {
-            var arquivolog = new LogModeloDocx()
+            var arquivolog = new LogModeloDoc()
             {
-                IdModeloDocx = Id,
+                IdModeloDoc = Id,
                 IdUsuario = UsuarioAtual.Id,
                 DataHora = DateTime.Now,
                 IP = IP,
-                TipoLogModeloDocx = TipoLogModeloDocx.Download
+                TipoLogModeloDoc = TipoLogModeloDoc.Download
             };
 
             //todo: Ronaldo criar rotina de cadastro 
@@ -249,7 +249,7 @@ namespace AdmCartorio.Controllers
         {
             bool respDesativar;
 
-            using (AppServiceModelosDocx appService = new AppServiceModelosDocx(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
             {
                 respDesativar = appService.Desativar(Convert.ToInt64(dadosPost.Id), this.UsuarioAtual.Id);
             }

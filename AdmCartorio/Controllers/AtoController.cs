@@ -360,7 +360,7 @@ namespace AdmCartorio.Controllers
         /// <returns>Lista de arquivos</returns>
         public JsonResult GetListaModelosDocx(long? IdTipoAto)
         {
-            using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
+            using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
             {
                 var listaDtoModelosDocx = appService.GetListaModelosDocx(IdTipoAto);
                 var listaModelos = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxSimplificadoViewModel>>(listaDtoModelosDocx);
@@ -519,7 +519,7 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
+        public string UsaModeloParaAto([Bind(Include = "IdAto,IdTipoAto,IdPrenotacao,IdMatricula,listIdsPessoas")]DadosPostModelo DadosAtoViewModel)
         {
 
             using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))

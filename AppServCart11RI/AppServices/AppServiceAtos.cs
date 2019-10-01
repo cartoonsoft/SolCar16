@@ -33,7 +33,7 @@ namespace AppServCart11RI.AppServices
             string valorTmp = string.Empty;
 
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CamposModeloDocx> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PRENOTACAO").ToList();
+            List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PRENOTACAO").ToList();
 
             PREMAD premad = this.UfwCartNew.Repositories.GenericRepository<PREMAD>().
                 GetWhere(p => (p.SEQPRED == IdPrenotacao) && (p.TIPODATA.Trim() == "R")).OrderByDescending(o => o.DATA).FirstOrDefault();
@@ -73,7 +73,7 @@ namespace AppServCart11RI.AppServices
         private List<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, long? IdMatricula)
         {
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CamposModeloDocx> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "IMOVEL").ToList();
+            List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "IMOVEL").ToList();
 
             PREIMO Imovel = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(i => i.SEQPRE == IdPrenotacao && i.MATRI == IdMatricula).FirstOrDefault();
 

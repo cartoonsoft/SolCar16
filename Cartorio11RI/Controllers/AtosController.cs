@@ -209,8 +209,8 @@ namespace Cartorio11RI.Controllers
 
             ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
             ViewBag.listaModelosDocx = new SelectList(
-                new[] { new { IdModeloDocx = "0", NomeModelo = "Selecione um modelo" } },
-                "IdModeloDocx",
+                new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
+                "IdModeloDoc",
                 "NomeModelo"
             );
 
@@ -518,28 +518,28 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public JsonResult GetListaModelosDocx(long? IdTipoAto)
         {
-            bool resposta = false;
-            string msg = string.Empty;
+            bool resp = false;
+            string mesage = string.Empty;
             List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
 
             try
             {
-                using (var appService = new AppServiceModelosDocx(this.UfwCartNew))
+                using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
                 {
                     lista = appService.GetListaModelosDocx(IdTipoAto).ToList();
-                    resposta = true;
-                    msg = "Dados retornados con sucesso";
+                    resp = true;
+                    mesage = "Dados retornados con sucesso";
                 }
             }
             catch (Exception ex)
             {
-                msg = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
             var resultado = new
             {
-                resposta = resposta,
-                msg = msg,
+                resposta = resp,
+                msg = mesage,
                 ListaModelosDocx = lista
             };
 
@@ -555,8 +555,8 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public JsonResult GetDadosImovelPrenotacao(long numPrenotacao)
         {
-            bool resposta = false;
-            string msg = string.Empty;
+            bool resp = false;
+            string message = string.Empty;
 
             DtoPREIMO dtoPreimo = new DtoPREIMO();
 
@@ -565,25 +565,25 @@ namespace Cartorio11RI.Controllers
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
                     dtoPreimo = appServAtos.GetDadosImovelPrenotacao(numPrenotacao);
-                    resposta = true;
+                    resp = true;
                     if (dtoPreimo != null)
                     {
-                        msg = "Dados retornados con sucesso";
+                        message = "Dados retornados con sucesso";
                     } else
                     {
-                        msg = "Número de Prenotação não encontrada na base de dados";
+                        message = "Número de Prenotação não encontrada na base de dados";
                     }
                 }
             }
             catch (Exception ex)
             {
-                msg = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                message = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
             var resultado = new
             {
-                resposta = resposta,
-                msg = msg,
+                resposta = resp,
+                msg = message,
                 Preimo = dtoPreimo
             };
 
@@ -598,23 +598,23 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
         {
-            bool resposta = false;
-            string msg = string.Empty;
-            IEnumerable<DtoPessoaPesxPre> listaPessoas = new List<DtoPessoaPesxPre>();
+            bool resp = false;
+            string message = string.Empty;
+            IEnumerable<DtoPessoaPesxPre> listaPes = new List<DtoPessoaPesxPre>();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    listaPessoas = appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
-                    resposta = true;
-                    msg = "Lista de pessoas da prenotação obtida com sucesso!";
+                    listaPes = appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
+                    resp = true;
+                    message = "Lista de pessoas da prenotação obtida com sucesso!";
                 }
             }
             catch (Exception ex)
             {
-                resposta = false;
-                msg = "Falha, GetPessoasPrenotacao [" + ex.Message + "]";
+                resp = false;
+                message = "Falha, GetPessoasPrenotacao [" + ex.Message + "]";
                 //    Console.WriteLine(ex);
                 //    Response.StatusCode = 500;
                 //    Response.Status = "Erro ao buscar os dados das pessoas";
@@ -625,20 +625,12 @@ namespace Cartorio11RI.Controllers
 
             var resultado = new
             {
-                resposta = resposta,
-                msg = msg,
-                listaPessoas = listaPessoas
+                resposta = resp,
+                msg = message,
+                listaPessoas = listaPes
             };
 
-            //Response.StatusCode = 200;
-
             return Json(resultado);
-        }
-
-        public long GetIdTipoAtoPeloModelo(long idModelo)
-        {
-
-            return this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(idModelo).IdTipoAto;
         }
 
         public bool ExisteAto(long numeroMatricula)
@@ -722,8 +714,7 @@ namespace Cartorio11RI.Controllers
 
             string fileName = files.GetModeloDocFileName(IdModeloDoc);
             string fullName = Server.MapPath("~" + fileName);
-            string txt = "";
-
+            string texto = string.Empty;
 
             using (var stream = new MemoryStream())
             {
@@ -733,17 +724,17 @@ namespace Cartorio11RI.Controllers
 
                 using (var reader = new StreamReader(stream))
                 {
-                    txt = reader.ReadToEnd();
+                    texto = reader.ReadToEnd();
                 }
             }
 
-            var teste = new
+            var resultado = new
             {
                 resposta = true,
-                TextoHtml = txt
+                TextoHtml = texto
             };
 
-            return Json(teste);
+            return Json(resultado);
         }
 
         /// <summary>
@@ -768,19 +759,52 @@ namespace Cartorio11RI.Controllers
             return atoString;
         }
 
+
         /// <summary>
         /// Função que monta uma string HTML para mostrar na tela exatamente 
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "Id,IdMatricula,IdPrenotacao,listIdsPessoas,IdTipoAto")]DadosPostModelo DadosPostModelo)
+        [HttpPost]
+        public JsonResult GetTextoAto([Bind(Include = "IdAto,IdTipoAto,IdPrenotacao,IdMatricula,ListIdsPessoas")]DadosAtoViewModel dadosAtoViewModel)
         {
-            using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
+            bool resp = false;
+            string message = string.Empty;
+            string texto = string.Empty;
+
+            try
             {
-                //appServiceAto.
+                if (!dadosAtoViewModel.IdTipoAto.HasValue)
+                {
+                    throw new NullReferenceException("Modelo de documento não definido!");
+                }
+
+                FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
+                string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdTipoAto??0);
+                string fullName = Server.MapPath("~" + fileName);
+
+                using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
+                {
+                    //appServiceAto.
+                }
+
+                texto = "Teste 123...";
+                resp = true;
+            }
+            catch (Exception ex)
+            {
+                resp = false;
+                message = "Falha, GetTextoAto [" + ex.Message + "]";
             }
 
-            return null;
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                TextoHtml = texto
+            };
+
+            return Json(resultado);
 
             /*
             using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartNew))

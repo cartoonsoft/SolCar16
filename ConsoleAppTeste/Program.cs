@@ -65,7 +65,7 @@ namespace ConsoleAppTeste
 
             using (UnitOfWorkDataBaseCartNew unitOfWork2 = new UnitOfWorkDataBaseCartNew("contextOraCartNew"))
             {
-                using (AppServiceModelosDocx appService = new AppServiceModelosDocx(unitOfWork2))
+                using (AppServiceModelosDoc appService = new AppServiceModelosDoc(unitOfWork2))
                 {
                     //
                 }

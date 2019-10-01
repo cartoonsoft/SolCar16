@@ -18,7 +18,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
             //CreateMap<Pais, PaisViewModel>();
             //CreateMap<Uf, UfViewModel>();
             //CreateMap<Municipio, MunicipioViewModel>();
-            CreateMap<ModeloDocx, ModeloDocxViewModel>();
+            CreateMap<ModeloDoc, ModeloDocxViewModel>();
             CreateMap<ModeloDocxList, ModeloDocxListViewModel>();
             CreateMap<Acao, AcaoViewModel>();
         }

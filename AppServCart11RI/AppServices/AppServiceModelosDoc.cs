@@ -16,43 +16,43 @@ using AppServices.Cartorio.Interfaces;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceModelosDocx : AppServiceCartorio<DtoModeloDocx, ModeloDocx>, IAppServiceModelosDocx
+    public class AppServiceModelosDoc : AppServiceCartorio<DtoModeloDoc, ModeloDoc>, IAppServiceModelosDoc
     {
         //private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
-        public AppServiceModelosDocx(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceModelosDoc(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
 
-        public long? NovoModelo(DtoModeloDocx dtoArq, string IdUsuario)
+        public long? NovoModelo(DtoModeloDoc dtoModeloDoc, string IdUsuario)
         {
             long? NovoId = null;
 
             try
             {
                 // Criando objeto do arquivo 
-                ModeloDocx arquivoModelo = new ModeloDocx
+                ModeloDoc arquivoModelo = new ModeloDoc
                 {
-                    Id = dtoArq.Id,
-                    IdCtaAcessoSist = dtoArq.IdCtaAcessoSist,
-                    IdTipoAto = dtoArq.IdTipoAto,
+                    Id = dtoModeloDoc.Id,
+                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
+                    IdTipoAto = dtoModeloDoc.IdTipoAto,
                     IdUsuarioCadastro = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
-                    CaminhoEArquivo = dtoArq.CaminhoEArquivo,
-                    DescricaoModelo = dtoArq.DescricaoModelo,
-                    Ativo = dtoArq.Ativo,
+                    CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
+                    DescricaoModelo = dtoModeloDoc.DescricaoModelo,
+                    Ativo = dtoModeloDoc.Ativo,
                 };
 
                 // Registro de Log                
-                LogModeloDocx logModeloDocx = new LogModeloDocx()
+                LogModeloDoc logModeloDocx = new LogModeloDoc()
                 {
-                    IdModeloDocx = arquivoModelo.Id ?? 0,
+                    IdModeloDoc = arquivoModelo.Id ?? 0,
                     IdUsuario = IdUsuario,
                     DataHora = DateTime.Now,
-                    UsuarioSistOperacional = dtoArq.UsuarioSistOperacional,
-                    IP = dtoArq.IpLocal,
-                    TipoLogModeloDocx = TipoLogModeloDocx.Upload
+                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
+                    IP = dtoModeloDoc.IpLocal,
+                    TipoLogModeloDoc = TipoLogModeloDoc.Upload
                 };
 
                 NovoId = this.DsFactoryCartNew.ModeloDocxDs.NovoModelo(arquivoModelo, logModeloDocx, IdUsuario);
@@ -66,20 +66,20 @@ namespace AppServCart11RI.AppServices
             return NovoId;
         }
 
-        public void EditarModelo(DtoModeloDocx dtoArq, string IdUsuario)
+        public void EditarModelo(DtoModeloDoc dtoModeloDoc, string IdUsuario)
         {
             try
             {
-                ModeloDocx arquivoModelo = new ModeloDocx
+                ModeloDoc arquivoModelo = new ModeloDoc
                 {
-                    Id = dtoArq.Id,
-                    IdCtaAcessoSist = dtoArq.IdCtaAcessoSist,
-                    Ativo = dtoArq.Ativo,
-                    IdTipoAto = dtoArq.IdTipoAto,
+                    Id = dtoModeloDoc.Id,
+                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
+                    Ativo = dtoModeloDoc.Ativo,
+                    IdTipoAto = dtoModeloDoc.IdTipoAto,
                     IdUsuarioAlteracao = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
-                    CaminhoEArquivo = dtoArq.CaminhoEArquivo,
-                    DescricaoModelo = dtoArq.DescricaoModelo
+                    CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
+                    DescricaoModelo = dtoModeloDoc.DescricaoModelo
                 };
 
                 //HttpPostedFileBase arquivo = dtoArq.Files[0];
@@ -88,14 +88,14 @@ namespace AppServCart11RI.AppServices
                 //arquivo.SaveAs(dtoArq.CaminhoEArquivo);
 
                 // Registro de Log                
-                LogModeloDocx logModeloDocx = new LogModeloDocx()
+                LogModeloDoc logModeloDocx = new LogModeloDoc()
                 {
-                    IdModeloDocx = dtoArq.Id??0,
+                    IdModeloDoc = dtoModeloDoc.Id??0,
                     IdUsuario = IdUsuario,
                     DataHora = DateTime.Now,
-                    UsuarioSistOperacional = dtoArq.UsuarioSistOperacional,
-                    IP = dtoArq.IpLocal,
-                    TipoLogModeloDocx = TipoLogModeloDocx.Upload
+                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
+                    IP = dtoModeloDoc.IpLocal,
+                    TipoLogModeloDoc = TipoLogModeloDoc.Upload
                 };
 
                 //logArquivoModeloDocx.Id = this.DsFactoryCartNew.ArquivoModeloDocxDs.EditarModelo(arquivoModelo, logModeloDocx, IdUsuario);

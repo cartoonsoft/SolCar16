@@ -10,7 +10,7 @@ using Domain.Core.Entities.Base;
 namespace Domain.CartNew.Entities
 {
     [Table("TB_MODELO_DOC", Schema = "DEZESSEIS_NEW")]
-    public class ModeloDocx : EntityBase
+    public class ModeloDoc : EntityBase
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

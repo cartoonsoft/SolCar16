@@ -11,13 +11,13 @@ namespace Cartorio11RI.ViewModels
     {
         public long Id { get; set; }
 
-        public long IdModeloDocx { get; set; }
+        public long IdModeloDoc { get; set; }
 
         public string IdUsuario { get; set; }
 
         public string IP { get; set; }
 
-        public TipoLogModeloDocx TipoLogModeloDocx { get; set; }
+        public TipoLogModeloDoc TipoLogModeloDoc { get; set; }
 
         public DateTime DataHora { get; set; }
 

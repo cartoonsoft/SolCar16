@@ -10,11 +10,11 @@ using Infra.Data.Core.Repositories;
 
 namespace Infra.Data.CartNew.Repositories.DbCartNew
 {
-    public class RepositoryLogModeloDocx : RepositoryBaseReadWrite<LogModeloDocx>, IRepositoryLogModeloDocx
+    public class RepositoryLogModeloDoc : RepositoryBaseReadWrite<LogModeloDoc>, IRepositoryLogModeloDoc
     {
         private readonly ContextMainCartNew _contextRepository;
 
-        public RepositoryLogModeloDocx(ContextMainCartNew contextRepository) : base(contextRepository)
+        public RepositoryLogModeloDoc(ContextMainCartNew contextRepository) : base(contextRepository)
         {
             _contextRepository = contextRepository;
         }

@@ -12,10 +12,10 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace DomainServ.CartNew.Services
 {
-    public class ModeloDocxDs: DomainServiceCartNew<ModeloDocx>, IModeloDocxDs
+    public class ModeloDocxDs: DomainServiceCartNew<ModeloDoc>, IModeloDocxDs
     {
-        private readonly IRepositoryModeloDocx _repositoryModeloDocx;
-        private readonly IRepositoryLogModeloDocx _repositoryLogModeloDocx;
+        private readonly IRepositoryModeloDoc _repositoryModeloDocx;
+        private readonly IRepositoryLogModeloDoc _repositoryLogModeloDocx;
 
         public ModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
@@ -24,7 +24,7 @@ namespace DomainServ.CartNew.Services
             _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }
 
-        public long? NovoModelo(ModeloDocx modeloDocx, LogModeloDocx logModeloDocx, string IdUsuario)
+        public long? NovoModelo(ModeloDoc modeloDocx, LogModeloDoc logModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -38,7 +38,7 @@ namespace DomainServ.CartNew.Services
             UfwCartNew.SaveChanges();
 
             logModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-            logModeloDocx.IdModeloDocx = NovoId??0;
+            logModeloDocx.IdModeloDoc = NovoId??0;
 
             _repositoryLogModeloDocx.Add(logModeloDocx);
             UfwCartNew.SaveChanges();
@@ -48,7 +48,7 @@ namespace DomainServ.CartNew.Services
             return NovoId;
         }
 
-        public long? EditarModelo(ModeloDocx arquivoModeloDocx, LogModeloDocx logArquivoModeloDocx, string IdUsuario)
+        public long? EditarModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario)
         {
             long? NovoId = null;
 
@@ -68,7 +68,7 @@ namespace DomainServ.CartNew.Services
         {
             bool resultado = false;
 
-            ModeloDocx arquivoModeloDocx = _repositoryModeloDocx.GetById(Id);
+            ModeloDoc arquivoModeloDocx = _repositoryModeloDocx.GetById(Id);
 
             if (arquivoModeloDocx != null)
             {

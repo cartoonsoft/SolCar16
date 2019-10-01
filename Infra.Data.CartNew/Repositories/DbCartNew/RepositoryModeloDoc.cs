@@ -10,11 +10,11 @@ using Infra.Data.CartNew.Context;
 
 namespace Infra.Data.CartNew.Repositories.DbCartNew
 {
-    public class RepositoryModeloDocx : RepositoryBaseReadWrite<ModeloDocx>, IRepositoryModeloDocx
+    public class RepositoryModeloDoc : RepositoryBaseReadWrite<ModeloDoc>, IRepositoryModeloDoc
     {
         private readonly ContextMainCartNew _contextRepository;
 
-        public RepositoryModeloDocx(ContextMainCartNew contexRepository) : base(contexRepository)
+        public RepositoryModeloDoc(ContextMainCartNew contexRepository) : base(contexRepository)
         {
             _contextRepository = contexRepository;
         }
@@ -200,9 +200,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return ListaArquivos;
         }
 
-        public IEnumerable<CamposModeloDocx> GetListaCamposIdTipoAto(long? IdTipoAto)
+        public IEnumerable<CamposModeloDoc> GetListaCamposIdTipoAto(long? IdTipoAto)
         {
-            List<CamposModeloDocx> listaCamposArquivoModeloDocx = new List<CamposModeloDocx>();
+            List<CamposModeloDoc> listaCamposArquivoModeloDocx = new List<CamposModeloDoc>();
             
             var listaCampos =
                 from campos in _contextRepository.DbCamposArquivoModeloDocx.Where(c => c.IdTipoAto == IdTipoAto)
@@ -220,7 +220,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             foreach (var item in listaCampos)
             {
-                listaCamposArquivoModeloDocx.Add(new CamposModeloDocx
+                listaCamposArquivoModeloDocx.Add(new CamposModeloDoc
                 {
                     Id = item.Id,
                     IdCtaAcessoSist = item.IdCtaAcessoSist,

@@ -11,7 +11,7 @@ using Dto.CartNew.Entities.TodosCart;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoModeloDocx : DtoEntityBaseModel
+    public class DtoModeloDoc : DtoEntityBaseModel
     {
         [Key]
         public override long? Id { get; set; }

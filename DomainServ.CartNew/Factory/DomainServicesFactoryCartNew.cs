@@ -98,7 +98,7 @@ namespace DomainServ.CartNew.Factory
                     {
                         domainService = new PessoaCartNewDs(this._ufwCartNew );
                     }
-                    if (typeof(T).Equals(typeof(ModeloDocx)))
+                    if (typeof(T).Equals(typeof(ModeloDoc)))
                     {
                         domainService = new ModeloDocxDs(this._ufwCartNew);
                     }
@@ -157,7 +157,7 @@ namespace DomainServ.CartNew.Factory
 
         public IModeloDocxDs ModeloDocxDs
         {
-            get { return GetDomainServiceInstance<ModeloDocx>() as IModeloDocxDs; }
+            get { return GetDomainServiceInstance<ModeloDoc>() as IModeloDocxDs; }
         }
 
         public IAtoDs AtoDs

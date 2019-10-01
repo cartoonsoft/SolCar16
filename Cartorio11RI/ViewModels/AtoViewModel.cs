@@ -30,7 +30,7 @@ namespace Cartorio11RI.ViewModels
 
         [Display(Name = "Tipo de ato")]
         [ScaffoldColumn(true)]
-        public long IdTipoAto { get; set; }
+        public long IdTipoAto { get; set; } 
 
         [Display(Name = "Núm. prenotação")]
         [ScaffoldColumn(false)]

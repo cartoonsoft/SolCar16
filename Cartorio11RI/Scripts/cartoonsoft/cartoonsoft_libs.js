@@ -6,11 +6,11 @@ Cartoonsoft libs
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
-/**
+/** ----------------------------------------------------------------------------
  * /
  * IP local
  * param {any} onNewIP
- */
+ -----------------------------------------------------------------------------*/
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     //compatibility for firefox and chrome
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
@@ -49,14 +49,14 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     };
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * Adiciona uma div para um obj html ex: articleMesssagensCrud
  * param {any} objHtml
  * param {any} titleMsg
  * param {any} message
  * param {any} link
  * param {any} success
- */
+ -----------------------------------------------------------------------------*/
 function ShowMessageCrud(objHtml, titleMsg, message, success = false) {
     var div = objHtml;
     var div_ok    = '<div class="alert alert-success fade in"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">' + titleMsg + '</h4><label">' + message + '</label></div>';
@@ -71,6 +71,5 @@ function ShowMessageCrud(objHtml, titleMsg, message, success = false) {
     }
 }
 
-/*-----------------------------------------------------------------------------*/
 
 

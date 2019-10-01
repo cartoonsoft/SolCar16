@@ -2,21 +2,21 @@
 
 <div class="widget-body fuelux">
     <div class="row padding-5">
-        <div class="wizard" id="divWizardEtapas">
+        <div class="wizard" id="divWizardEdicaoAto">
             <ul class="steps">
-                <li data-target="#step1" class="active">
+                <li data-target="#ato-step-1" class="active">
                     <span class="badge badge-info">1</span>Selecionar imóvel<span class="chevron"></span>
                 </li>
-                <li data-target="#step2">
+                <li data-target="#ato-step-2">
                     <span class="badge">2</span>Selecionar pessoas<span class="chevron"></span>
                 </li>
-                <li data-target="#step3">
+                <li data-target="#ato-step-3">
                     <span class="badge">3</span>Selecionar modelo<span class="chevron"></span>
                 </li>
-                <li data-target="#step4">
+                <li data-target="#ato-step-4">
                     <span class="badge">4</span>Escrita<span class="chevron"></span>
                 </li>
-                <li data-target="#step5">
+                <li data-target="#ato-step-5">
                     <span class="badge">5</span>Confirmação<span class="chevron"></span>
                 </li>
             </ul>
@@ -31,12 +31,12 @@
         </div>
         <div class="step-content">
             <form id="frm-wizard-ato" method="post" novalidate="novalidate">
-
+                @Html.AntiForgeryToken()
+                @Html.ValidationBootstrap()
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.IdCtaAcessoSist)
-                @Html.HiddenFor(model => model.IdPrenotacao)
-                @Html.HiddenFor(model => model.NumMatricula)
                 @Html.HiddenFor(model => model.IdTipoAto)
+                @Html.HiddenFor(model => model.IdPrenotacao)
                 @Html.HiddenFor(model => model.PREIMO.SUBD)
                 @Html.HiddenFor(model => model.PREIMO.TIPO)
                 @Html.HiddenFor(model => model.PREIMO.TITULO)

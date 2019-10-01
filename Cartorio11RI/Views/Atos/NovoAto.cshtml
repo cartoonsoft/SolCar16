@@ -6,88 +6,88 @@
 }
 
 @section styles_especific {
-    <style>
-        #tbl-pessoas-selecionadas {
-            /*border: 1px solid #808080; */
-            table-layout: auto;
-            width: 100%;
-        }
+<style>
+    #tbl-pessoas-selecionadas {
+        /*border: 1px solid #808080; */
+        table-layout: auto;
+        width: 100%;
+    }
 
-        #tbl-selecao-pessoas {
-            /*border: 1px solid #808080; */
-            table-layout: auto;
-            width: 100%;
-        }
+    #tbl-selecao-pessoas {
+        /*border: 1px solid #808080; */
+        table-layout: auto;
+        width: 100%;
+    }
 
-        /*-- tbl-pessoas-selecionadas ----------------------------------------*/
-        #tbl-pessoas-selecionadas tr td:nth-child(1) {
-            width: 3%;
-        }
+    /*-- tbl-pessoas-selecionadas ----------------------------------------*/
+    #tbl-pessoas-selecionadas tr td:nth-child(1) {
+        width: 3%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(2) {
-            width: 15%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(2) {
+        width: 15%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(3) {
-            width: 15%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(3) {
+        width: 15%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(4) {
-            width: 3%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(4) {
+        width: 3%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(5) {
-            width: 3%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(5) {
+        width: 3%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(6) {
-            width: 10%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(6) {
+        width: 10%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(7) {
-            width: 10%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(7) {
+        width: 10%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(8) {
-            width: 3%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(8) {
+        width: 3%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(9) {
-            width: 4%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(9) {
+        width: 4%;
+    }
 
-        #tbl-pessoas-selecionadas tr td:nth-child(10) {
-            width: 5%;
-        }
+    #tbl-pessoas-selecionadas tr td:nth-child(10) {
+        width: 5%;
+    }
 
-        /*-- tbl-selecao-pessoas ---------------------------------------------*/
-        #tbl-selecao-pessoas tr td:nth-child(1) {
-            width: 3%;
-        }
+    /*-- tbl-selecao-pessoas ---------------------------------------------*/
+    #tbl-selecao-pessoas tr td:nth-child(1) {
+        width: 3%;
+    }
 
-        #tbl-selecao-pessoas tr td:nth-child(2) {
-            width: 10%;
-        }
+    #tbl-selecao-pessoas tr td:nth-child(2) {
+        width: 10%;
+    }
 
-        #tbl-selecao-pessoas tr td:nth-child(3) {
-            width: 20%;
-        }
+    #tbl-selecao-pessoas tr td:nth-child(3) {
+        width: 20%;
+    }
 
-        #tbl-selecao-pessoas tr td:nth-child(4) {
-            width: 67%;
-        }
+    #tbl-selecao-pessoas tr td:nth-child(4) {
+        width: 67%;
+    }
 
-        .checkbox-selecao-pessoas {
-            visibility: visible;
-        }
+    .checkbox-selecao-pessoas {
+        visibility: visible;
+    }
 
-        .div-container-scroll {
-            width: 580px;
-            height: 480px;
-            overflow-y: auto;
-            overflow-x: auto;
-        }
-    </style>
+    .div-container-scroll {
+        width: 580px;
+        height: 480px;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+</style>
 }
 
 <div id="content">
@@ -106,7 +106,6 @@
 
     <!-- widget grid -->
     <section id="widget-grid" class="">
-
         <div class="row">
             <article class="col-sm-12 col-md-12 col-lg-12">
                 <!-- Widget ID (each widget will need unique ID)-->
@@ -134,7 +133,7 @@
     </section>
 </div>
 
-<!-- dálogo div-dlg-pessoas ------------------------------------------------ -->
+<!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
 <div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
     <div class="modal-dialog  modal-lg">
         <div class="modal-content">
@@ -174,263 +173,339 @@
     </div><!-- /.modal-dialog -->
 </div>
 
-@section pagespecific{
+@section pagespecific {
 
-    <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-    <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-    <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
-    <script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
-    <script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-    <script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
+<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+<script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+<script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+<script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
+<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
 
-            /* urls chamadas ajax --------------------------------------------*/
-            var urlGetDadosImovel = '@Url.Action("GetDadosImovelPrenotacao", "Atos")';
-            var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
-            var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
+        /* urls chamadas ajax ------------------------------------------------*/
+        var urlGetDadosImovel = '@Url.Action("GetDadosImovelPrenotacao", "Atos")';
+        var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
+        var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
+        var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 
-            //obter ip local ------------------------------------------------- /
-            var ipLocal = getUserIP(function (ip) {
-                var t = navigator.product;
-                $("#IpLocal").val(ip);
-            });
+        var PodeAvancar2 = false;
+        var PodeAvancar3 = false;
 
-            $('.tree > ul').attr('role', 'tree').find('ul').attr('role', 'group');
-            $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span').on('click', function (e) {
-                var children = $(this).parent('li.parent_li').find(' > ul > li');
-                if (children.is(':visible')) {
-                    children.hide('slow');
-                    $(this).find(' > i').removeClass().addClass('fa fa-lg fa-plus-circle');
-                } else {
-                    children.show('slow');
-                    $(this).find(' > i').removeClass().addClass('fa fa-lg fa-minus-circle');
-                }
-                e.stopPropagation();
-            });
-
-            var vetIdPessoasSel = [];
-            var id = $("#Id").val();
-            DesabilitarProximo();
-            
-            //validate ------------------------------------------------------- /
-            var $frmNovoModelo = $("#frmNovoModelo").validate({
-                // Rules for form validation
-                rules: {
-                    DescricaoTipoAto: {
-                        required: true
-                    },
-                    DescricaoAto: {
-                        required: true
-                    }
-                },
-                // Messages for form validation
-                messages: {
-                    DescricaoTipoAto: {
-                        required: "Selecione tipo de ato"
-                    },
-                    DescricaoAto: {
-                        required: "Digite um descrição para oa ato"
-                    }
-                },
-                // Do not change code below
-                errorPlacement: function (error, element) {
-                    error.insertAfter(element.parent());
-                }
-            });
-
-            $(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {
-                $(this).val($(this).val().replace(/[^\d].+/, ""));
-                if ((event.which < 48 || event.which > 57)) {
-                    event.preventDefault();
-                }
-            });
-
-            /*-- pesqusar por prenotacao ------------------------------------ */
-            $("#PREIMO_SEQPRE").keydown(function (e) {
-                if (e.keyCode == 13) {
-                    $("#btn-pesq-prenotacao").click();
-                }
-            });
-
-            $("#btn-pesq-prenotacao").click(function (e) {
-                e.preventDefault();
-
-                var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
-
-                if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
-                    $.smallBox({
-                        title: "Valor inválido!",
-                        content: "Número de prenotação está inválido.",
-                        color: "#EF7F0A",
-                        icon: "fa fa-exclamation bounce animated",
-                        timeout: 4000
-                    });
-                } else {
-                    PesquisarPrenotacao(numPrenotacao, urlGetDadosImovel);
-                }
-            });
-
-            /*-- pesquisar pessoas ------------------------------------------ */
-            $("#btn-pesq-pessoas").click(function (e) {
-                e.preventDefault();
-
-                var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
-
-                if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
-                    $.smallBox({
-                        title: "Valor inválido!",
-                        content: "Número de prenotação está inválido.",
-                        color: "#EF7F0A",
-                        icon: "fa fa-exclamation bounce animated",
-                        timeout: 4000
-                    });
-                } else {
-                    var dadosPrenotacao = {
-                        numeroPrenotacao: numPrenotacao
-                    };
-
-                    GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
-                }
-            });
-
-            /*-- btn-dlg-pessoas-ok   --------------------------------------- */
-            $("#btn-dlg-pessoas-ok").click(function (e) {
-                e.preventDefault();
-                PovoarSelecionados($('#PREIMO_SEQPRE').val());
-            });
-
-            /*-- fuelux wizard ---------------------------------------------- */
-            var wizard = $('#divWizardEtapas').wizard();
-
-            wizard.on('finished', function (e, data) {
-                //$("#fuelux-wizard").submit();
-                //console.log("submitted!");
-                $.smallBox({
-                    title: "Congratulations! Your form was submitted",
-                    content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                    color: "#5F895F",
-                    icon: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
-            });
-
-            /*-- ckeditor ckEditorPreviewModelo ----------------------------- */
-            CKEDITOR.replace('ckEditorPreviewModelo', {
-                width: '100%',
-                height: '200px',
-                startupFocus: true,
-                toolbarGroups: [
-		            { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-		            { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-		            { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-		            { name: 'forms', groups: [ 'forms' ] },
-		            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-		            { name: 'links', groups: [ 'links' ] },
-		            { name: 'insert', groups: [ 'insert' ] },
-		            { name: 'styles', groups: [ 'styles' ] },
-		            { name: 'colors', groups: [ 'colors' ] },
-		            { name: 'tools', groups: [ 'tools' ] },
-		            { name: 'others', groups: [ 'others' ] },
-		            { name: 'about', groups: [ 'about' ] }
-                ],
-                removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
-            });
-
-            /*-- ckeditor ckEditorPreviewModelo ----------------------------- */
-            CKEDITOR.replace('ckEditorAto', {
-                width: '100%',
-                height: '200px',
-                language: 'pt-br',
-                uiColor: '#0E4775',
-                font_defaultLabel: 'Times New Roman',
-                fontSize_defaultLabel: '14',
-                startupFocus: true,
-                toolbarGroups: [
-		            { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-		            { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-		            { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-		            { name: 'forms', groups: [ 'forms' ] },
-		            { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-		            { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-		            { name: 'links', groups: [ 'links' ] },
-		            { name: 'insert', groups: [ 'insert' ] },
-		            { name: 'styles', groups: [ 'styles' ] },
-		            { name: 'colors', groups: [ 'colors' ] },
-		            { name: 'tools', groups: [ 'tools' ] },
-		            { name: 'others', groups: [ 'others' ] },
-		            { name: 'about', groups: [ 'about' ] }
-                ],
-                removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
-            });
-
-            /*-- ------------------------------------------------------------ */
-            $("#IdModeloDoc").click(function (e) {
-                e.preventDefault();
-
-                var selItem = $("option:selected", this).val();
-
-                if (isNaN(selItem) || (selItem == "")) {
-                    $.smallBox({
-                        title: "Valor inválido!",
-                        content: "Selecine um modelo da lista.",
-                        color: "#EF7F0A",
-                        icon: "fa fa-exclamation bounce animated",
-                        timeout: 4000
-                    });
-                } else {
-                    var dados = {
-                        IdModeloDoc: selItem
-                    }
-
-                    $.ajax("@Url.Action("GetTextoWordDocModelo","Atos")", {
-                        method: 'POST',
-                        dataType: 'json',
-                        data: dados,
-                        beforeSend: function () {
-                        //ShowProgreessBar("Processando requisição...");
-                        }
-                    }).done(function (dataReturn) {
-                        if (dataReturn.resposta) {
-                            //var dadosInvalidos = (typeof dataReturn.Preimo === 'undefined' || dataReturn.Preimo == null);
-                            CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
-                            //$("#editor2").val(dataReturn.TextoHtml);
-                        }
-                    }).fail(function (jq, textStatus, error) {
-                        alert(textStatus);
-                    }).always(function () {
-                        //
-                    });
-                }
-
-            });
-
+        /* obter ip local ----------------------------------------------------*/
+        var ipLocal = getUserIP(function (ip) {
+            var t = navigator.product;
+            $("#IpLocal").val(ip);
         });
 
-        /**
-         * /
-         * @@param btnObj
-         * @@param idTipoAto
-         */
-        function SelecionarTipoAto(btnObj, idTipoAto)
-        {
-            var btn = btnObj;
-            var idTmp = idTipoAto;
-
-            if (typeof btn != 'undefined' || btn != null) {
-                var txtTipoAto = btn.innerText.trim();
-                $("#IdTipoAto").val(idTipoAto);
-                $("#DescricaoTipoAto").val(txtTipoAto);
-
-                $(".btn-tree-tipo-ato").removeClass("btn-danger");
-                $(btn).addClass("btn-danger");
-                var sel = $("#IdModeloDoc");
-                CKEDITOR.instances.ckEditorPreviewModelo.setData("");
-                BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
+        $('.tree > ul').attr('role', 'tree').find('ul').attr('role', 'group');
+        $('.tree').find('li:has(ul)').addClass('parent_li').attr('role', 'treeitem').find(' > span').on('click', function (e) {
+            var children = $(this).parent('li.parent_li').find(' > ul > li');
+            if (children.is(':visible')) {
+                children.hide('slow');
+                $(this).find(' > i').removeClass().addClass('fa fa-lg fa-plus-circle');
+            } else {
+                children.show('slow');
+                $(this).find(' > i').removeClass().addClass('fa fa-lg fa-minus-circle');
             }
-        }
+            e.stopPropagation();
+        });
 
-    </script>
+        var vetIdPessoasSel = [];
+        var id = $("#Id").val();
+        DesabilitarProximo();
+            
+        /*-- validate --------------------------------------------------------*/
+        var $frmNovoModelo = $("#frmNovoModelo").validate({
+            // Rules for form validation
+            rules: {
+                IdLivro: {
+                    required: true
+                },
+                NumMatricula: {
+                    required: true
+                },
+                PREIMO_SEQPRE: {
+                    required: true
+                },
+                DescricaoTipoAto: {
+                    required: true
+                },
+                DescricaoAto: {
+                    required: true
+                }
+            },
+            // Messages for form validation
+            messages: {
+                IdLivro: {
+                    required: "Selecione um livro"
+                },
+                NumMatricula: {
+                    required: "Núm. de matrícula do imóvel inválida"
+                },
+                PREIMO_SEQPRE: {
+                    required: "Digite um número de prenotação"
+                },
+                DescricaoTipoAto: {
+                    required: "Selecione tipo de ato"
+                },
+                DescricaoAto: {
+                    required: "Digite um descrição para oa ato"
+                }
+            },
+            // Do not change code below
+            errorPlacement: function (error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+
+        /*-- somente-numero-sem-decimal ------------------------------------- */
+        $(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {
+            $(this).val($(this).val().replace(/[^\d].+/, ""));
+            if ((event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+
+        /*-- pesqusar por prenotacao ---------------------------------------- */
+        $("#PREIMO_SEQPRE").keydown(function (e) {
+            if (e.keyCode == 13) {
+                $("#btn-pesq-prenotacao").click();
+            }
+        });
+
+        /*-- btn-pesq-prenotacao -------------------------------------------- */
+        $("#btn-pesq-prenotacao").click(function (e) {
+            e.preventDefault();
+
+            var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+
+            if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                $.smallBox({
+                    title: "Valor inválido!",
+                    content: "Número de prenotação está inválido.",
+                    color: "#EF7F0A",
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                PesquisarPrenotacao(numPrenotacao, urlGetDadosImovel);
+            }
+        });
+
+        /*-- pesquisar pessoas ---------------------------------------------- */
+        $("#btn-pesq-pessoas").click(function (e) {
+            e.preventDefault();
+
+            var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+
+            if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                $.smallBox({
+                    title: "Valor inválido!",
+                    content: "Número de prenotação está inválido.",
+                    color: "#EF7F0A",
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                var dadosPrenotacao = {
+                    numeroPrenotacao: numPrenotacao
+                };
+
+                GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
+            }
+        });
+
+        /*-- btn-dlg-pessoas-ok   --------------------------------------------*/
+        $("#btn-dlg-pessoas-ok").click(function (e) {
+            e.preventDefault();
+            PodeAvancar2 = PovoarSelecionados($('#PREIMO_SEQPRE').val());
+        });
+
+        /*-- fuelux wizard ---------------------------------------------------*/
+        var ato_wizard = $('#divWizardEdicaoAto').wizard();
+
+        $(ato_wizard).on('change', function(e, data) {
+
+            /*
+			var $valid = $("#wizard-1").valid();
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+            */
+            var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+
+
+            /*-- etapa 2 -----------------------------------------------------*/
+            if (data.step === 2 && data.direction === 'next') {
+
+                if (!PodeAvancar2) {
+                    $.smallBox({
+                        title: "Selecione as pessoas!",
+                        content: "Selecione pelo menos um outorgante/outorgado para continuar.",
+                        color: "#EF7F0A",
+                        icon: "fa fa-exclamation bounce animated",
+                        timeout: 4000
+                     });
+                    return e.preventDefault();
+                }
+            }
+
+            /*-- etapa 3 -----------------------------------------------------*/
+            if (data.step === 3 && data.direction === 'next') {
+
+                if (!PodeAvancar3) {
+                    $.smallBox({
+                        title: "Selecione um modelo!",
+                        content: "Selecione um modelo de documento para continuar..",
+                        color: "#EF7F0A",
+                        icon: "fa fa-exclamation bounce animated",
+                        timeout: 4000
+                    });
+                    return e.preventDefault();
+                } else {
+                    /*-- -----------------------------------------------------*/
+                    if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                        //
+                    } else {
+                        GetTextoAto(numPrenotacao, arrayPessoas, urlGetTextoAto);
+                    }
+                }
+            }
+        });
+
+        ato_wizard.on('finished', function (e, data) {
+            //$("#fuelux-wizard").submit();
+            //console.log("submitted!");
+            $.smallBox({
+                title: "Finalizado!",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#5F895F",
+                icon: "fa fa-thumbs-up bounce animated",
+                timeout: 4000
+            });
+        });
+
+        /*-- ckeditor ckEditorPreviewModelo --------------------------------- */
+        CKEDITOR.replace('ckEditorPreviewModelo', {
+            width: '100%',
+            height: '200px',
+            language: 'pt-br',
+            uiColor: '#052947',
+            startupFocus: true,
+            toolbarGroups: [
+		        { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		        { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		        { name: 'forms', groups: [ 'forms' ] },
+		        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		        { name: 'links', groups: [ 'links' ] },
+		        { name: 'insert', groups: [ 'insert' ] },
+		        { name: 'styles', groups: [ 'styles' ] },
+		        { name: 'colors', groups: [ 'colors' ] },
+		        { name: 'tools', groups: [ 'tools' ] },
+		        { name: 'others', groups: [ 'others' ] },
+		        { name: 'about', groups: [ 'about' ] }
+            ],
+            removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+        });
+
+        /*-- ckeditor ckEditorPreviewModelo --------------------------------- */
+        CKEDITOR.replace('ckEditorAto', {
+            width: '100%',
+            height: '200px',
+            language: 'pt-br',
+            uiColor: '#052947',
+            font_defaultLabel: 'Times New Roman',
+            fontSize_defaultLabel: '14',
+            startupFocus: true,
+            toolbarGroups: [
+		        { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+		        { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+		        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+		        { name: 'forms', groups: [ 'forms' ] },
+		        { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
+		        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+		        { name: 'links', groups: [ 'links' ] },
+		        { name: 'insert', groups: [ 'insert' ] },
+		        { name: 'styles', groups: [ 'styles' ] },
+		        { name: 'colors', groups: [ 'colors' ] },
+		        { name: 'tools', groups: [ 'tools' ] },
+		        { name: 'others', groups: [ 'others' ] },
+		        { name: 'about', groups: [ 'about' ] }
+            ],
+            removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+        });
+
+        /*-- IdModeloDoc ---------------------------------------------------- */
+        $("#IdModeloDoc").click(function (e) {
+            e.preventDefault();
+
+            var selItem = $("option:selected", this).val();
+
+            if (isNaN(selItem) || (selItem == "")) {
+                $.smallBox({
+                    title: "Valor inválido!",
+                    content: "Selecine um modelo da lista.",
+                    color: "#EF7F0A",
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                var dados = {
+                    IdModeloDoc: selItem
+                }
+
+                $.ajax("@Url.Action("GetTextoWordDocModelo","Atos")", {
+                    method: 'POST',
+                    dataType: 'json',
+                    data: dados,
+                    beforeSend: function () {
+                    //ShowProgreessBar("Processando requisição...");
+                    }
+                }).done(function (dataReturn) {
+                    if (dataReturn.resposta) {
+                        //var dadosInvalidos = (typeof dataReturn.Preimo === 'undefined' || dataReturn.Preimo == null);
+                        CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+                        PodeAvancar3 = true;
+                        //$("#editor2").val(dataReturn.TextoHtml);
+                    }
+                }).fail(function (jq, textStatus, error) {
+                    alert(textStatus);
+                }).always(function () {
+                    //
+                });
+            }
+        });
+
+    });
+
+    /**-------------------------------------------------------------------------
+     * 
+     * @@param btnObj
+     * @@param idTipoAto
+    ------------------------------------------------------------------------- */
+    function SelecionarTipoAto(btnObj, idTipoAto)
+    {
+        var btn = btnObj;
+        var idTmp = idTipoAto;
+
+        if (typeof btn != 'undefined' || btn != null) {
+            var txtTipoAto = btn.innerText.trim();
+            $("#IdTipoAto").val(idTipoAto);
+            $("#DescricaoTipoAto").val(txtTipoAto);
+
+            $(".btn-tree-tipo-ato").removeClass("btn-danger");
+            $(btn).addClass("btn-danger");
+            var sel = $("#IdModeloDoc");
+            CKEDITOR.instances.ckEditorPreviewModelo.setData("");
+            BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
+        }
+    }
+
+</script>
 }

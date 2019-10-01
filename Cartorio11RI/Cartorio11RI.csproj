@@ -949,9 +949,9 @@
     <Compile Include="ViewModels\AcaoViewModel.cs" />
     <Compile Include="ViewModels\AtoListViewModel.cs" />
     <Compile Include="ViewModels\AtoViewModel.cs" />
+    <Compile Include="ViewModels\DadosAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
     <Compile Include="ViewModels\DadosPostModeloDocxDownload.cs" />
-    <Compile Include="ViewModels\DadosPostModelo.cs" />
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
     <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />

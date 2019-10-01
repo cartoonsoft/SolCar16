@@ -42,9 +42,9 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Uf> DbUf { get; set; }
         public DbSet<Municipio> DbMunicipio { get; set; }
 
-        public DbSet<ModeloDocx> DbArquivoModeloDocx { get; set; }
-        public DbSet<CamposModeloDocx> DbCamposArquivoModeloDocx { get; set; }
-        public DbSet<LogModeloDocx> DbLogArquivoModeloDocx { get; set;}
+        public DbSet<ModeloDoc> DbArquivoModeloDocx { get; set; }
+        public DbSet<CamposModeloDoc> DbCamposArquivoModeloDocx { get; set; }
+        public DbSet<LogModeloDoc> DbLogArquivoModeloDocx { get; set;}
         public DbSet<TipoAto> DbTipoAto { get; set; }
         public DbSet<Ato> DbAto { get; set; }
 

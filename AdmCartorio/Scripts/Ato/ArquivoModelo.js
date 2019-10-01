@@ -53,6 +53,7 @@ function AtualizarModelo(idTipoAto) {
         IdTipoAto,
         listIdsPessoas
     }
+
     $('#mensagemLoading').text('Buscando modelo...');
     $('#divRespImo').attr('hidden');
     $.ajax({

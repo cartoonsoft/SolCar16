@@ -88,17 +88,17 @@ namespace Infra.Data.CartNew.Factory
                     {
                         repository = new RepositoryPessoaCartNew(this._context);
                     }
-                    if (typeof(T).Equals(typeof(ModeloDocx)))
+                    if (typeof(T).Equals(typeof(ModeloDoc)))
                     {
-                        repository = new RepositoryModeloDocx(this._context);
+                        repository = new RepositoryModeloDoc(this._context);
                     }
                     if (typeof(T).Equals(typeof(Ato)))
                     {
                         repository = new RepositoryAto(this._context);
                     }
-                    if (typeof(T).Equals(typeof(LogModeloDocx)))
+                    if (typeof(T).Equals(typeof(LogModeloDoc)))
                     {
-                        repository = new RepositoryLogModeloDocx(this._context);
+                        repository = new RepositoryLogModeloDoc(this._context);
                     }
                     if (typeof(T).Equals(typeof(TipoAto)))
                     {
@@ -152,9 +152,9 @@ namespace Infra.Data.CartNew.Factory
             get { return GetRepositoryInstance<PessoaCartNew>() as RepositoryPessoaCartNew; }
         }
 
-        public IRepositoryModeloDocx RepositoryModeloDocx
+        public IRepositoryModeloDoc RepositoryModeloDocx
         {
-            get { return GetRepositoryInstance<ModeloDocx>() as RepositoryModeloDocx; }
+            get { return GetRepositoryInstance<ModeloDoc>() as RepositoryModeloDoc; }
         }
 
         public IRepositoryAto RepositoryAto
@@ -162,9 +162,9 @@ namespace Infra.Data.CartNew.Factory
             get { return GetRepositoryInstance<Ato>() as RepositoryAto; }
         }
 
-        public IRepositoryLogModeloDocx RepositoryLogModeloDocx
+        public IRepositoryLogModeloDoc RepositoryLogModeloDocx
         {
-            get { return GetRepositoryInstance<LogModeloDocx>() as RepositoryLogModeloDocx; }
+            get { return GetRepositoryInstance<LogModeloDoc>() as RepositoryLogModeloDoc; }
         }
 
         public IRepositoryTipoAto RepositoryTipoAto

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Domain.CartNew.Entities
 {
     [Table("TB_CAMPOS_TP_ATO", Schema = "DEZESSEIS_NEW")]
-    public class CamposModeloDocx : EntityBase
+    public class CamposModeloDoc : EntityBase
     {
         [Column("ID_CAMPOS_TP_ATO")]
         public override long? Id { get; set; }
