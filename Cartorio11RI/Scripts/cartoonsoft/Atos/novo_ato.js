@@ -495,7 +495,6 @@ function PovoarSelModelos(selObj, listaModelos) {
 
 /** ----------------------------------------------------------------------------
  * GerarTextoAto
- * @@param {any} numPrenotacao
  * @@param {any} arrayPessoas
  * @@param {any} url
 ----------------------------------------------------------------------------- */
@@ -509,14 +508,14 @@ function GetTextoAto(arrayPessoas, url) {
 
     var idAto = $("#Id").val().trim();
     var idTipoAto = $("#IdTipoAto").val().trim();
-    var idModelo = $("#IdModeloDoc").val().trim();
+    var idModeloDoc = $("#IdModeloDoc").val().trim();
     var idPrenotacao = $("#IdPrenotacao").val().trim();
     var idMatricula = $("#NumMatricula").val().trim();
 
     var dados = {
         IdAto: idAto,
         IdTipoAto: idTipoAto,
-        IdModeloDoc: idModelo,
+        IdModeloDoc: idModeloDoc,
         IdPrenotacao: idPrenotacao,
         IdMatricula: idMatricula,
         ListIdsPessoas: listIdsPessoas

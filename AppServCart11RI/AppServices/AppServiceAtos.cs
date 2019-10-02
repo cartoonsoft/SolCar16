@@ -98,7 +98,7 @@ namespace AppServCart11RI.AppServices
         }
         #endregion
 
-        public DtoAtoCadastro NovoAto(DtoAto Ato, string textoHtml)
+        public DtoAto NovoAto(DtoAto Ato, string textoHtml)
         {
             throw new NotImplementedException();
         }

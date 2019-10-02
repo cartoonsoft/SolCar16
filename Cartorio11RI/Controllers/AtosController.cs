@@ -43,18 +43,19 @@ namespace Cartorio11RI.Controllers
         private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa, string campoQuery)
         {
             string Campotmp = string.Empty;
+
             try
             {
-                foreach (var Campo in pessoa.listaCamposValor)
-                {
-                    if (Campo.Campo.Equals(campoQuery))
-                    {
-                        Campotmp = Campo.Valor;
-                    }
-                }
+                //foreach (var Campo in pessoa.listaCamposValor)
+                //{
+                //    if (Campo.Campo.Equals(campoQuery))
+                //    {
+                //        Campotmp = Campo.Valor;
+                //    }
+                //}
+
                 //Retorna o dados das pessoas
                 return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
-
             }
             catch (Exception)
             {
@@ -71,30 +72,30 @@ namespace Cartorio11RI.Controllers
             try
             {
                 //PESQUISA DADOS IMÓVEL
-                foreach (var item in dtoDados.listaCamposValor)
-                {
-                    if (item.Campo.Equals(campoQuery))
-                    {
-                        //Retorna o campo
-                        Campotmp = item.Valor;
-                        CampoEncontrado = true;
-                    }
-                }
+                //foreach (var item in dtoDados.listaCamposValor)
+                //{
+                //    if (item.Campo.Equals(campoQuery))
+                //    {
+                //        //Retorna o campo
+                //        Campotmp = item.Valor;
+                //        CampoEncontrado = true;
+                //    }
+                //}
 
                 //PESQUISA DADOS PESSOA
-                if (!CampoEncontrado)
-                {
-                    foreach (var pessoas in dtoDados.Pessoas)
-                    {
-                        foreach (var pessoa in pessoas.listaCamposValor)
-                        {
-                            if (pessoa.Campo.Equals(campoQuery))
-                            {
-                                Campotmp = pessoa.Valor;
-                            }
-                        }
-                    }
-                }
+                //if (!CampoEncontrado)
+                //{
+                //    foreach (var pessoas in dtoDados.Pessoas)
+                //    {
+                //        foreach (var pessoa in pessoas.listaCamposValor)
+                //        {
+                //            if (pessoa.Campo.Equals(campoQuery))
+                //            {
+                //                Campotmp = pessoa.Valor;
+                //            }
+                //        }
+                //    }
+                //}
 
                 //Retorna o dados das pessoas
                 return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
@@ -258,7 +259,7 @@ namespace Cartorio11RI.Controllers
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
+                    //DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
                     if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
@@ -384,7 +385,7 @@ namespace Cartorio11RI.Controllers
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
+                    //DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
                     if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
@@ -411,7 +412,7 @@ namespace Cartorio11RI.Controllers
                         // Gravar o ato e buscar o selo e gravar o selo
                         using (var appService = new AppServiceAtos(this.UfwCartNew))
                         {
-                            var dtoEditar = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
+                            //var dtoEditar = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
 
                             //var resultado = appService.EditarAto(dtoEditar, this.UsuarioAtual.Id);
 
@@ -768,7 +769,7 @@ namespace Cartorio11RI.Controllers
         /// </summary>
         /// <returns>string HTML</returns>
         [HttpPost]
-        public JsonResult GetTextoAto([Bind(Include = "IdAto,IdTipoAto,IdPrenotacao,IdMatricula,ListIdsPessoas")]DadosAtoViewModel dadosAtoViewModel)
+        public JsonResult GetTextoAto(DadosAtoViewModel dadosAtoViewModel)
         {
             bool resp = false;
             string message = string.Empty;
@@ -787,7 +788,8 @@ namespace Cartorio11RI.Controllers
 
                 using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
                 {
-                    //appServiceAto.
+                    //DtoDadosImovel dadosImovel = appServiceAto.GetDadosImovelPrenotacao .GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+
                 }
 
                 texto = "Teste 123...";

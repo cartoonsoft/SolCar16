@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Dto.CartNew.Entities.Cart_11RI
 {
     [DataContract]
-    public class DtoPessoaCartorio: DtoBase  //base antiga
+    public class DtoPESSOAS: DtoBase  //base antiga
     {
         [DataMember]
         public long SEQPES { get; set; }

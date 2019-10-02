@@ -12,7 +12,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public DtoPessoaPesxPre(long idPrenotacao)
         {
             this.IdPrenotacao = idPrenotacao;
-            listaCamposValor = new List<DtoCamposValor>();
+            ListaCamposValor = new List<DtoCamposValor>();
         }
 
         [Key]
@@ -31,6 +31,6 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public string Numero1 { get; set; }
         public string TipoDoc2 { get; set; }
         public string Numero2 { get; set; }
-        public List<DtoCamposValor> listaCamposValor { get; set; }
+        public List<DtoCamposValor> ListaCamposValor { get; set; }
     }
 }

@@ -167,7 +167,7 @@ namespace LibFunctions.Functions.Word
         /// <param name="numeroPagina">Numero da pagina (Atualizada por ref) </param>
         /// <param name="textoParaSalvar">Texto para escrever</param>
         /// <returns>A posição do cursor para continuar a escrita do documento</returns>
-        public int EscreverNoDocumento(DtoCadastroDeAto modelo, string textoParaSalvar)
+        public int EscreverNoDocumento(DtoAto modelo, string textoParaSalvar)
         {
             //todo: MUDAR DtoCadastroDeAto para TodosCArt 
             ValidarDoc();
@@ -224,7 +224,7 @@ namespace LibFunctions.Functions.Word
         /// <param name="doc">Documento ativo</param>
         /// <param name="numeroPagina">Numero da pagina</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public void EscreverCabecalhoETexto(DtoCadastroDeAto modelo, int numeroPagina, int posicaoCursor)
+        public void EscreverCabecalhoETexto(DtoAto modelo, int numeroPagina, int posicaoCursor)
         {
             //if (doc == null) throw new ArgumentNullException("doc", "Documento não pode ser nulo");
 
@@ -252,14 +252,14 @@ namespace LibFunctions.Functions.Word
         /// <param name="doc">Documento ativo</param>
         /// <param name="numeroPagina">Numero da pagina inicial</param>
         /// <param name="posicaoCursor">Posição do cursor</param>
-        public void EscreverAto(DtoCadastroDeAto modelo, int numeroPagina, int posicaoCursor, bool houveDesvio = false)
+        public void EscreverAto(DtoAto modelo, int numeroPagina, int posicaoCursor, bool houveDesvio = false)
         {
             ValidarDoc();
 
-            if (string.IsNullOrEmpty(modelo.Ato))
-            {
-                throw new ArgumentNullException("modelo", "O ato do modelo não pode ser nulo");
-            };
+            //if (string.IsNullOrEmpty(modelo.Ato))
+            //{
+            //    throw new ArgumentNullException("modelo", "O ato do modelo não pode ser nulo");
+            //};
 
             //for (int i = 0; i < modelo.Ato.Length; i++)
             //{

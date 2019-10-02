@@ -87,7 +87,7 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    DtoAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoAto>(modelo);
                     long? numSequenciaAto = null;
 
                     if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
@@ -278,7 +278,7 @@ namespace AdmCartorio.Controllers
                 if (ModelState.IsValid)
                 {
                     //Representa o documento e o numero de pagina
-                    DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                    //DtoCadastroDeAto modeloDto = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
                     long? numSequenciaAto = null;
 
                     if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
@@ -305,7 +305,7 @@ namespace AdmCartorio.Controllers
                         // Gravar o ato e buscar o selo e gravar o selo
                         using (var appService = new AppServiceAtos(this.UfwCartNew))
                         {
-                            var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoCadastroDeAto>(modelo);
+                            var dtoEditar = Mapper.Map<CadastroDeAtoViewModel, DtoAto>(modelo);
 
                             //var resultado = appService.EditarAto(dtoEditar, this.UsuarioAtual.Id);
 
@@ -652,16 +652,18 @@ namespace AdmCartorio.Controllers
                 stringBuilder.Append(paragrafo.Text[i]);
                 i++;
             }
+
             while (paragrafo.Text[i] != '>')
             {
                 i++;
             }
+
             i++;
             var textoRepetir = stringBuilder.ToString();
-            foreach (var pessoa in dadosImovel.Pessoas.Where(expression))
-            {
-                textoParagrafo.Append(PopularCamposDoTexto(textoRepetir, pessoa));
-            }
+            //foreach (var pessoa in dadosImovel.Pessoas.Where(expression))
+            //{
+            //    textoParagrafo.Append(PopularCamposDoTexto(textoRepetir, pessoa));
+            //}
 
             return i;
         }
@@ -721,7 +723,7 @@ namespace AdmCartorio.Controllers
             string Campotmp = string.Empty;
             try
             {
-                foreach (var Campo in pessoa.listaCamposValor)
+                foreach (var Campo in pessoa.ListaCamposValor)
                 {
                     if (Campo.Campo.Equals(campoQuery))
                     {
@@ -747,7 +749,7 @@ namespace AdmCartorio.Controllers
             try
             {
                 //PESQUISA DADOS IMÓVEL
-                foreach (var item in dtoDados.listaCamposValor)
+                foreach (var item in dtoDados.ListaCamposValor)
                 {
                     if (item.Campo.Equals(campoQuery))
                     {
@@ -758,19 +760,19 @@ namespace AdmCartorio.Controllers
                 }
 
                 //PESQUISA DADOS PESSOA
-                if (!CampoEncontrado)
-                {
-                    foreach (var pessoas in dtoDados.Pessoas)
-                    {
-                        foreach (var pessoa in pessoas.listaCamposValor)
-                        {
-                            if (pessoa.Campo.Equals(campoQuery))
-                            {
-                                Campotmp = pessoa.Valor;
-                            }
-                        }
-                    }
-                }
+                //if (!CampoEncontrado)
+                //{
+                //    foreach (var pessoas in dtoDados.Pessoas)
+                //    {
+                //        foreach (var pessoa in pessoas.listaCamposValor)
+                //        {
+                //            if (pessoa.Campo.Equals(campoQuery))
+                //            {
+                //                Campotmp = pessoa.Valor;
+                //            }
+                //        }
+                //    }
+                //}
 
                 //Retorna o dados das pessoas
                 return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
