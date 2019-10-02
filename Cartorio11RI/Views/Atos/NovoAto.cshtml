@@ -324,9 +324,9 @@
             PodeAvancar2 = PovoarSelecionados($('#PREIMO_SEQPRE').val());
         });
 
-        /*-- fuelux wizard ---------------------------------------------------*/
         var ato_wizard = $('#divWizardEdicaoAto').wizard();
 
+        /*-- ato_wizard on change ------------------------------------------- */
         $(ato_wizard).on('change', function(e, data) {
 
             /*
@@ -337,7 +337,6 @@
             }
             */
             var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
-
 
             /*-- etapa 2 -----------------------------------------------------*/
             if (data.step === 2 && data.direction === 'next') {
@@ -369,14 +368,23 @@
                 } else {
                     /*-- -----------------------------------------------------*/
                     if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
-                        //
+                        $.smallBox({
+                            title: "Número de prenotação inválido!",
+                            content: "Preencha o número de prenotação...",
+                            color: "#EF7F0A",
+                            icon: "fa fa-exclamation bounce animated",
+                            timeout: 4000
+                        });
+                        return e.preventDefault();
                     } else {
                         GetTextoAto(numPrenotacao, arrayPessoas, urlGetTextoAto);
                     }
                 }
             }
+
         });
 
+        /*-- ato_wizard on finished ------------------------------------------*/
         ato_wizard.on('finished', function (e, data) {
             //$("#fuelux-wizard").submit();
             //console.log("submitted!");

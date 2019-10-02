@@ -61,7 +61,6 @@ namespace AdmCartorio.Controllers.Base
 
         protected override void Execute(RequestContext requestContext)
         {
-            var x = 1;
 
             base.Execute(requestContext);
         }

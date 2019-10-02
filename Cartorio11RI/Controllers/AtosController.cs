@@ -150,6 +150,19 @@ namespace Cartorio11RI.Controllers
 
             return stringBuilder.ToString();
         }
+
+        /// <summary>
+        /// Remove a ultima marcação de espaço da string (\n)
+        /// </summary>
+        /// <param name="ato">ATO como String</param>
+        /// <returns>Ato como string</returns>
+        private static string RemoveUltimaMarcacao(string ato)
+        {
+            var atoString = ato.Substring(0, ato.Length - 1);
+            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;", "");
+            return atoString;
+        }
+
         #endregion
 
         // GET: Ato
@@ -710,55 +723,44 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public JsonResult GetTextoWordDocModelo(long IdModeloDoc)
         {
-            FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
-
-            string fileName = files.GetModeloDocFileName(IdModeloDoc);
-            string fullName = Server.MapPath("~" + fileName);
+            bool resp = false;
             string texto = string.Empty;
-
-            using (var stream = new MemoryStream())
+            string message = string.Empty;
+            
+            try
             {
-                // Convert input file to RTF stream.
-                DocumentModel.Load(fullName).Save(stream, SaveOptions.HtmlDefault);
-                stream.Position = 0;
+                FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
+                string fileName = files.GetModeloDocFileName(IdModeloDoc);
+                string fullName = Server.MapPath("~" + fileName);
 
-                using (var reader = new StreamReader(stream))
+                using (var stream = new MemoryStream())
                 {
-                    texto = reader.ReadToEnd();
+                    // Convert input file to RTF stream.
+                    DocumentModel.Load(fullName).Save(stream, SaveOptions.HtmlDefault);
+                    stream.Position = 0;
+
+                    using (var reader = new StreamReader(stream))
+                    {
+                        texto = reader.ReadToEnd();
+                    }
                 }
+
+                resp = true;
+            }
+            catch (Exception ex)
+            {
+                message = "Falha GetTextoWordDocModelo[" + ex.Message + "]";
             }
 
             var resultado = new
             {
-                resposta = true,
+                resposta = resp,
+                msg = message,
                 TextoHtml = texto
             };
 
             return Json(resultado);
         }
-
-        /// <summary>
-        /// Retorna o numero de Ato do modelo
-        /// </summary>
-        /// <param name="modelo">Modelo</param>
-        /// <returns>N° da Ato</returns>
-        public static long GetNumeroAto(MatriculaAtoViewModel modelo)
-        {
-            return modelo.IdMatricula;
-        }
-
-        /// <summary>
-        /// Remove a ultima marcação de espaço da string (\n)
-        /// </summary>
-        /// <param name="ato">ATO como String</param>
-        /// <returns>Ato como string</returns>
-        private static string RemoveUltimaMarcacao(string ato)
-        {
-            var atoString = ato.Substring(0, ato.Length - 1);
-            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;", "");
-            return atoString;
-        }
-
 
         /// <summary>
         /// Função que monta uma string HTML para mostrar na tela exatamente 
@@ -774,13 +776,13 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                if (!dadosAtoViewModel.IdTipoAto.HasValue)
+                if (dadosAtoViewModel.IdModeloDoc == 0)
                 {
                     throw new NullReferenceException("Modelo de documento não definido!");
                 }
 
                 FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
-                string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdTipoAto??0);
+                string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
                 string fullName = Server.MapPath("~" + fileName);
 
                 using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))

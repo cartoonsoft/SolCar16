@@ -499,7 +499,7 @@ function PovoarSelModelos(selObj, listaModelos) {
  * @@param {any} arrayPessoas
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function GetTextoAto(numPrenotacao, arrayPessoas, url) {
+function GetTextoAto(arrayPessoas, url) {
 
     var listIdsPessoas = [];
 
@@ -507,14 +507,16 @@ function GetTextoAto(numPrenotacao, arrayPessoas, url) {
         listIdsPessoas.push(item.IdPessoa);
     });
 
-    var idAto = $("#Id").val();
-    var idTipoAto = $("#IdTipoAto").val();
-    var idPrenotacao = $("#IdPrenotacao").val();
-    var idMatricula = $("#NumMatricula").val();
+    var idAto = $("#Id").val().trim();
+    var idTipoAto = $("#IdTipoAto").val().trim();
+    var idModelo = $("#IdModeloDoc").val().trim();
+    var idPrenotacao = $("#IdPrenotacao").val().trim();
+    var idMatricula = $("#NumMatricula").val().trim();
 
     var dados = {
         IdAto: idAto,
         IdTipoAto: idTipoAto,
+        IdModeloDoc: idModelo,
         IdPrenotacao: idPrenotacao,
         IdMatricula: idMatricula,
         ListIdsPessoas: listIdsPessoas
