@@ -9,7 +9,7 @@ using Dto.CartNew.Entities.Cart_11RI;
 using GemBox.Document;
 using GemboxLib.Base;
 
-namespace Cartorio11RI.Cartorio
+namespace AppServCart11RI.Cartorio
 {
     public class AtoWordDocx : WordGembox
     {

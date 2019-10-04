@@ -16,7 +16,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public long IdPrenotacao { get; set; }
 
-        public long IdMatricula { get; set; }
+        public string NumMatricula { get; set; }
 
         public string DataAtualExtenso { get; set; }
 

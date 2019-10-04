@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Cartorio11RI.Cartorio
+namespace AppServCart11RI.Cartorio
 {
     public class FilesConfig
     {

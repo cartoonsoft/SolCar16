@@ -32,8 +32,8 @@ namespace Domain.CartNew.Entities
         [Column("DT_ALTER")]
         public DateTime? DataAlteracao { get; set; }
 
-        [Column("NUM_SEQ_FICHA")]   //      NUM_SEQ_FICHA SMALLINT,
-        public short NumSequenciaFicha { get; set; }
+        [Column("NUM_FICHA")]   //      NUM_SEQ_FICHA SMALLINT,
+        public short NumFicha { get; set; }
 
         [Column("DT_DOCX")]    //DT_DOCX              DATE,
         public DateTime DataDocx { get; set; }

@@ -479,16 +479,6 @@ namespace AdmCartorio.Controllers
 
         #region | Funcoes auxiliares |
         /// <summary>
-        /// Retorna o numero de Ato do modelo
-        /// </summary>
-        /// <param name="modelo">Modelo</param>
-        /// <returns>N° da Ato</returns>
-        public static long GetNumeroAto(MatriculaAtoViewModel modelo)
-        {
-            return modelo.IdMatricula;
-        }
-
-        /// <summary>
         /// Deixa o texto transparente do arquivo
         /// </summary>
         /// <param name="docX">Representa o documento</param>
@@ -519,7 +509,7 @@ namespace AdmCartorio.Controllers
         /// oque esta escrito no documento
         /// </summary>
         /// <returns>string HTML</returns>
-        public string UsaModeloParaAto([Bind(Include = "IdAto,IdTipoAto,IdPrenotacao,IdMatricula,listIdsPessoas")]DadosPostModelo DadosAtoViewModel)
+        public string UsaModeloParaAto([Bind(Include = "IdAto,IdTipoAto,IdPrenotacao,NumMatricula,listIdsPessoas")]DadosPostModelo DadosAtoViewModel)
         {
 
             using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
@@ -532,7 +522,7 @@ namespace AdmCartorio.Controllers
             /*
             using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartNew))
             {
-                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.NumMatricula);
                 StringBuilder textoFormatado = new StringBuilder();
 
                 string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");

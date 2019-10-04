@@ -33,139 +33,6 @@ namespace Cartorio11RI.Controllers
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
 
-        #region |privates Methods|
-        /// <summary>
-        /// Função que pega o campo independente da pessoa
-        /// </summary>
-        /// <param name="pessoa">Pessoa</param>
-        /// <param name="campoQuery">Campo procurado</param>
-        /// <returns></returns>
-        private string GetValorCampoPessoa(DtoPessoaPesxPre pessoa, string campoQuery)
-        {
-            string Campotmp = string.Empty;
-
-            try
-            {
-                //foreach (var Campo in pessoa.listaCamposValor)
-                //{
-                //    if (Campo.Campo.Equals(campoQuery))
-                //    {
-                //        Campotmp = Campo.Valor;
-                //    }
-                //}
-
-                //Retorna o dados das pessoas
-                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
-            }
-            catch (Exception)
-            {
-                return "[NÃO ENCONTRADO]";
-                throw;
-            }
-        }
-
-        private string GetValorCampoModeloMatricula(DtoDadosImovel dtoDados, string campoQuery)
-        {
-            string Campotmp = string.Empty;
-            bool CampoEncontrado = false;
-
-            try
-            {
-                //PESQUISA DADOS IMÓVEL
-                //foreach (var item in dtoDados.listaCamposValor)
-                //{
-                //    if (item.Campo.Equals(campoQuery))
-                //    {
-                //        //Retorna o campo
-                //        Campotmp = item.Valor;
-                //        CampoEncontrado = true;
-                //    }
-                //}
-
-                //PESQUISA DADOS PESSOA
-                //if (!CampoEncontrado)
-                //{
-                //    foreach (var pessoas in dtoDados.Pessoas)
-                //    {
-                //        foreach (var pessoa in pessoas.listaCamposValor)
-                //        {
-                //            if (pessoa.Campo.Equals(campoQuery))
-                //            {
-                //                Campotmp = pessoa.Valor;
-                //            }
-                //        }
-                //    }
-                //}
-
-                //Retorna o dados das pessoas
-                return string.IsNullOrEmpty(Campotmp.Trim()) ? $"[{campoQuery}]" : Campotmp;
-
-            }
-            catch (Exception)
-            {
-                return "[NÃO ENCONTRADO]";
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Função que repete o texto e popula para a pessoa
-        /// </summary>
-        /// <param name="texto">texto que esta sendo repetido</param>
-        /// <param name="pessoa">Pessoa</param>
-        /// <returns></returns>
-        private string PopularCamposDoTexto(string texto, DtoPessoaPesxPre pessoa)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (int i = 0; i < texto.Length; i++)
-            {
-                if (texto[i] == '[')
-                {
-                    i++;
-                    string nomeCampo = string.Empty;
-                    string resultadoQuery = string.Empty;
-                    while (texto[i] != ']')
-                    {
-                        nomeCampo += texto[i].ToString().Trim();
-                        i++;
-                        if (i >= texto.Length || texto[i] == '[')
-                        {
-                            Response.StatusCode = 500;
-                            Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
-                            return Response.StatusDescription;
-                        }
-                    }
-                    //Buscar dado da pessoa aqui
-                    //resultadoQuery = "teste query";
-                    resultadoQuery = this.GetValorCampoPessoa(pessoa, nomeCampo);
-
-                    //atualiza o texto formatado
-                    stringBuilder.Append(resultadoQuery);
-                }
-                else
-                {
-                    //caso não seja um campo somente adiciona o caractere
-                    stringBuilder.Append(texto[i].ToString());
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        /// <summary>
-        /// Remove a ultima marcação de espaço da string (\n)
-        /// </summary>
-        /// <param name="ato">ATO como String</param>
-        /// <returns>Ato como string</returns>
-        private static string RemoveUltimaMarcacao(string ato)
-        {
-            var atoString = ato.Substring(0, ato.Length - 1);
-            atoString = atoString.Replace('\n', ' ').Replace("&nbsp;", "");
-            return atoString;
-        }
-
-        #endregion
-
         // GET: Ato
         public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
         {
@@ -213,7 +80,7 @@ namespace Cartorio11RI.Controllers
         #region |NovoAto|
         public ActionResult NovoAto()
         {
-            var dados = new AtoViewModel(this.IdCtaAcessoSist);
+            var dados = new AtoViewModel();
             List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
 
             //povoar tree view
@@ -338,7 +205,7 @@ namespace Cartorio11RI.Controllers
                     //{
                     //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
                     //}
-                    AtoViewModel atoViewModel = new AtoViewModel(this.IdCtaAcessoSist)
+                    AtoViewModel atoViewModel = new AtoViewModel()
                     {
                         Id = Id,
                         PREIMO = new PREIMOViewModel()
@@ -567,20 +434,20 @@ namespace Cartorio11RI.Controllers
         /// <param name="matriculaPrenotacao"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetDadosImovelPrenotacao(long numPrenotacao)
+        public JsonResult GetDadosImovelPrenotacao(long IdPrenotacao)
         {
             bool resp = false;
             string message = string.Empty;
 
-            DtoPREIMO dtoPreimo = new DtoPREIMO();
+            DtoDadosImovel dtoDadosImovel  = new DtoDadosImovel();
 
             try
             {
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    dtoPreimo = appServAtos.GetDadosImovelPrenotacao(numPrenotacao);
+                    dtoDadosImovel = appServAtos.GetDadosImovelPrenotacao(IdPrenotacao);
                     resp = true;
-                    if (dtoPreimo != null)
+                    if (dtoDadosImovel != null)
                     {
                         message = "Dados retornados con sucesso";
                     } else
@@ -598,7 +465,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                Preimo = dtoPreimo
+                dtoDadosImovel = dtoDadosImovel
             };
 
             return Json(resultado);
@@ -764,12 +631,12 @@ namespace Cartorio11RI.Controllers
         }
 
         /// <summary>
-        /// Função que monta uma string HTML para mostrar na tela exatamente 
-        /// oque esta escrito no documento
+        /// Povoar texto do ckEditorAto com texto vindo do modelo 
+        /// e os dados lidos do imovel e pessoas 
         /// </summary>
         /// <returns>string HTML</returns>
         [HttpPost]
-        public JsonResult GetTextoAto(DadosAtoViewModel dadosAtoViewModel)
+        public JsonResult GetTextoAto(InfAtoViewModel dadosAtoViewModel)
         {
             bool resp = false;
             string message = string.Empty;
@@ -782,47 +649,99 @@ namespace Cartorio11RI.Controllers
                     throw new NullReferenceException("Modelo de documento não definido!");
                 }
 
+
+
                 FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
                 string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
                 string fullName = Server.MapPath("~" + fileName);
 
                 using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
                 {
-                    //DtoDadosImovel dadosImovel = appServiceAto.GetDadosImovelPrenotacao .GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
+                    DtoDadosAto dtoDadosAto = new DtoDadosAto();
 
-                }
+                    if (dadosAtoViewModel.IdAto > 0)
+                    {
+                        dtoDadosAto = appServiceAto.GetDadosAto(dadosAtoViewModel.IdAto??0);
+                    } else
+                    {
+                        dtoDadosAto = appServiceAto.GetDadosAtoPrenotacao(dadosAtoViewModel.IdPrenotacao);
+                    }
 
-                texto = "Teste 123...";
-                resp = true;
-            }
-            catch (Exception ex)
-            {
-                resp = false;
-                message = "Falha, GetTextoAto [" + ex.Message + "]";
-            }
-
-            var resultado = new
-            {
-                resposta = resp,
-                msg = message,
-                TextoHtml = texto
-            };
-
-            return Json(resultado);
-
-            /*
-            using (var appService = new AppServicePessoa(this.UnitOfWorkDataBaseCartorio, this.UnitOfWorkDataBaseCartNew))
-            {
-                DtoDadosImovel dadosImovel = appService.GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.IdMatricula);
-                StringBuilder textoFormatado = new StringBuilder();
-
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/Modelos/{DadosPostModelo.Id}.docx");
-                try
-                {
-                    using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    StringBuilder textoFormatado = new StringBuilder();
+                    using (FileStream fileStream = new FileStream(fullName, FileMode.Open, FileAccess.Read))
                     {
                         //Carrega o Modelo
-                        using (DocX docX = DocX.Load(fileStream))
+                        DocumentModel document = DocumentModel.Load(fileStream, LoadOptions.DocxDefault);
+
+                        // Get Word document's plain text.
+                        string text = document.Content.ToString();
+                        if (text != "")
+                        {
+                            StringBuilder textoParagrafo = new StringBuilder();
+                            for (int i = 0; i < text.Length; i++)
+                            {
+                                if (text[i] == '[')
+                                {
+                                    i++;
+                                    string nomeCampo = string.Empty;
+                                    string resultadoQuery = string.Empty;
+                                    while (text[i] != ']')
+                                    {
+                                        nomeCampo += text[i].ToString().Trim();
+                                        i++;
+                                        if (i >= text.Length || text[i] == '[')
+                                        {
+                                            throw new InvalidDataException("Arquivo com campos corrompidos, verifique o modelo");
+                                        }
+                                    }
+                                    //Buscar dado da pessoa aqui
+                                    //resultadoQuery = "teste query";
+                                    resultadoQuery = this.get (dadosImovel, nomeCampo);
+
+                                    //atualiza o texto formatado
+                                    textoParagrafo.Append(resultadoQuery);
+                                }
+                                else if (paragrafo.Text[i] == '<')
+                                {
+                                    i++;
+                                    var tipoTag = string.Empty;
+                                    while (paragrafo.Text[i] != '>')
+                                    {
+                                        tipoTag += paragrafo.Text[i].ToString().Trim();
+                                        i++;
+                                        if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
+                                        {
+                                            Response.StatusCode = 500;
+                                            Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
+                                            return Response.StatusDescription;
+                                        }
+                                    }
+                                    i++;
+                                    if (tipoTag.Equals("outorgantes"))
+                                    {
+                                        i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
+                                    }
+                                    else if (tipoTag.Equals("outorgados"))
+                                    {
+                                        i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
+                                    }
+                                }
+                                else
+                                {
+                                    //caso não seja um campo somente adiciona o caractere
+                                    textoParagrafo.Append(paragrafo.Text[i].ToString());
+                                }
+
+                            }
+                            // Populando campo de retorno
+                            textoFormatado.Append($"<p>{textoParagrafo}</p>");
+                        }
+
+
+
+
+
+                        using (DocumentModel docX = DocumentModel.Load(fileStream))
                         {
                             //Varre todos os paragrafos do Modelo
                             foreach (var paragrafo in docX.Paragraphs)
@@ -893,26 +812,40 @@ namespace Cartorio11RI.Controllers
                             }
                         }
                     }
-                    Response.StatusCode = 200;
-                    return textoFormatado.ToString();
-                }
-                catch (FileNotFoundException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Response.StatusCode = 404;
-                    Response.StatusDescription = "Modelo não encontrado na base de dados";
-                    return Response.StatusDescription;
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                    Response.StatusCode = 500;
-                    Response.StatusDescription = "Ocorreu algum erro ao utilizar o modelo";
-                    return Response.StatusDescription;
+
+
+
+                    DtoDadosImovel imovel = appServiceAto.GetDadosImovelPrenotacao(dadosAtoViewModel.IdPrenotacao);
+
+
+
+
+
+
+
+
+                    //DtoDadosImovel dadosImovel = appServiceAto.GetDadosImovelPrenotacao .GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.NumMatricula);
+
                 }
 
+                texto = "Teste 123...";
+                resp = true;
             }
-            */
+            catch (Exception ex)
+            {
+                resp = false;
+                message = "Falha, GetTextoAto [" + ex.Message + "]";
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                TextoHtml = texto
+            };
+
+            return Json(resultado);
+
         }
     }
 }

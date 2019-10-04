@@ -39,7 +39,7 @@ function enviarDados(objeto) {
 
 function AtualizarModelo(idTipoAto) {
     var Id = parseInt($('#Modelo_Id').val());
-    var IdMatricula = parseInt($('#PREIMO_MATRI').val());
+    var NumMatricula = parseInt($('#PREIMO_MATRI').val());
     var IdPrenotacao = parseInt($('#PREIMO_SEQPRE').val());
     var IdTipoAto = parseInt(idTipoAto);
     var listIdsPessoas = [];
@@ -48,7 +48,7 @@ function AtualizarModelo(idTipoAto) {
     });
     var DadosPostModelo = {
         Id,
-        IdMatricula,
+        NumMatricula,
         IdPrenotacao,
         IdTipoAto,
         listIdsPessoas

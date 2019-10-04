@@ -9,11 +9,11 @@ namespace Cartorio11RI.ViewModels
 {
     public class AtoViewModel
     {
-        public AtoViewModel(long idCtaAcessoSist)
+        public AtoViewModel()
         {
-            this.IdCtaAcessoSist = idCtaAcessoSist;
             this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
+            this.DataAto = DateTime.Today;
         }
 
         [Key]
@@ -64,7 +64,7 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Data do ato")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
-        public string DataAto { get; set; }
+        public DateTime? DataAto { get; set; }
 
         [Display(Name = "Matrícula imóvel")]
         [DataType(DataType.Date)]
@@ -107,7 +107,7 @@ namespace Cartorio11RI.ViewModels
         public bool IrParaVerso { get; set; }
 
         [Display(Name = "Ficha número")]
-        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
+        public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
         [Display(Name = "Distância topo (cm)")]
         public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)

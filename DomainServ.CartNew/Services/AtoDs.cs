@@ -11,6 +11,7 @@ using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using LibFunctions.Functions.DatesFunc;
 
 namespace DomainServ.CartNew.Services
 {
@@ -127,13 +128,46 @@ namespace DomainServ.CartNew.Services
                     DescricaoAto = Atos.DescricaoAto,
                     NomeArquivo = Doc.NomeArq,
                     NumMatricula = Atos.NumMatricula,
-                    NumSequenciaFicha = Doc.NumSequenciaFicha,
+                    NumFicha = Doc.NumFicha,
                     ObsAto = Atos.Observacao,
                     StatusAto = Atos.StatusAto,
                     TextoHtml = AtoDocx.TextoHtml
                 };
 
             return resposta;
+        }
+
+        public DtoDadosImovel GetDadosImovelPrenotacao(long IdPrenotacao)
+        {
+            PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(a => a.SEQPRE == IdPrenotacao).FirstOrDefault();
+            DtoDadosImovel dtoDadosImovel = new DtoDadosImovel
+            {
+                APTO = preimo.APTO,
+                BLOCO = preimo.BLOCO,
+                CONTRIB = preimo.CONTRIB,
+                DataAtualExtenso = DataHelper.GetDataPorExtenso("São Paulo"),
+                EDIF = preimo.EDIF,
+                ENDER = preimo.ENDER,
+                HIPO = preimo.HIPO,
+                IdPrenotacao = IdPrenotacao,
+                INSCR = preimo.INSCR,
+                LOTE = preimo.LOTE,
+                MATRI = preimo.MATRI,
+                NUM = preimo.NUM,
+                OUTROS = preimo.OUTROS,
+                QUADRA = preimo.QUADRA,
+                RD = preimo.RD,
+                SEQIMO = preimo.SEQIMO,
+                SEQPRE = preimo.SEQPRE,
+                SUBD = preimo.SUBD,
+                TIPO = preimo.TIPO,
+                TITULO = preimo.TITULO,
+                TRANS = preimo.TRANS,
+                VAGA = preimo.VAGA,
+                NumMatricula =preimo.MATRI.ToString()
+            };
+
+            return dtoDadosImovel;
         }
 
     }

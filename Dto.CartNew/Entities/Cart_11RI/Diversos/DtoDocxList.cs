@@ -30,7 +30,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public DateTime? DataAlteracaoDocx { get; set; }
 
-        public short NumSequenciaFicha { get; set; }
+        public short NumFicha { get; set; }
 
         public DateTime DataDocx { get; set; }  //data cabeçalho docx
 

@@ -10,9 +10,8 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 {
     public class DtoDadosAto: DtoEntityBaseModel
     {
-        public DtoDadosAto(long idCtaAcessoSist)
+        public DtoDadosAto()
         {
-            this.IdCtaAcessoSist = idCtaAcessoSist;
             Pessoas = new List<DtoPessoaPesxPre>();
         }
 
@@ -21,9 +20,13 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
                 
         public long IdCtaAcessoSist { get; private set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
 
+        public long IdLivro { get; set; }
+
         public long IdTipoAto { get; set; }
 
         public long IdPrenotacao { get; set; }
+
+        public long IdModeloDoc { get; set; }
 
         public string IdUsuarioCadastro { get; set; }
 
@@ -35,7 +38,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public short NumSequenciaAto { get; set; } //numeric(5,0)
 
-        public string DataAto { get; set; }
+        public DateTime? DataAto { get; set; }
 
         public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
 
@@ -49,7 +52,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public string Observacao { get; set; } // VARCHAR2(512)
 
-        public short NumSequenciaFicha { get; set; }  //numero da fihca informado pelo usuario
+        public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
         public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 

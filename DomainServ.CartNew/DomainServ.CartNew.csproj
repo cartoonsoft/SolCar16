@@ -87,6 +87,10 @@
       <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
       <Name>Dto.CartNew</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LibFunctions\LibFunctions.csproj">
+      <Project>{9448E205-B5FF-4C2C-8FD5-F02D33FBD6BE}</Project>
+      <Name>LibFunctions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

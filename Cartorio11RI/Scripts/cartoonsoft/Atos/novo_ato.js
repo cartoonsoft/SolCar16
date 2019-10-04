@@ -126,7 +126,7 @@ function PesquisarPrenotacao(numPrenotacao, url) {
 
     if (!isNaN(numPrenotacao)) {
         var dadosPrenotacao = {
-            numPrenotacao: numPrenotacao
+            IdPrenotacao: numPrenotacao
         };
         GetDadosImovelPrenotacao(dadosPrenotacao, url);
     } else {
@@ -159,7 +159,7 @@ function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
             var dadosInvalidos = (typeof dataReturn.Preimo == 'undefined' || dataReturn.Preimo == null);
 
             if (!dadosInvalidos) {
-                PovoarDadosImovel(dataReturn.Preimo);
+                PovoarDadosImovel(dataReturn.dtoDadosImovel);
                 HabilitarProximo();
                 $.smallBox({
                     title: "Requisição processada com sucesso!",
@@ -392,27 +392,27 @@ function PovoarSelecionados(numPrenotacao) {
  * povoar dados imovel
  * @@param preimo
  ----------------------------------------------------------------------------*/
-function PovoarDadosImovel(preimo) {
+function PovoarDadosImovel(dtoDadosImovel) {
 
-    $('#IdPrenotacao').val(preimo.SEQPRE);
-    $('#NumMatricula').val(preimo.MATRI);
-    $('#PREIMO_SEQPRE').val(preimo.SEQPRE);
-    $('#PREIMO_MATRI').val(preimo.MATRI);
+    $('#IdPrenotacao').val(dtoDadosImovel.SEQPRE);
+    $('#NumMatricula').val(dtoDadosImovel.MATRI);
+    $('#dtoDadosImovel_SEQPRE').val(dtoDadosImovel.SEQPRE);
+    $('#dtoDadosImovel_MATRI').val(dtoDadosImovel.MATRI);
 
-    $('#PREIMO_ENDER').val(preimo.ENDER);
-    $('#PREIMO_NUM').val(preimo.NUM);
-    $('#PREIMO_LOTE').val(preimo.LOTE);
-    $('#PREIMO_QUADRA').val(preimo.QUADRA);
-    $('#PREIMO_APTO').val(preimo.APTO);
-    $('#PREIMO_BLOCO').val(preimo.BLOCO);
-    $('#PREIMO_EDIF').val(preimo.EDIF);
-    $('#PREIMO_VAGA').val(preimo.VAGA);
-    $('#PREIMO_OUTROS').val(preimo.OUTROS);
-    $('#PREIMO_TRANS').val(preimo.TRANS);
-    $('#PREIMO_INSCR').val(preimo.INSCR);
-    $('#PREIMO_HIPO').val(preimo.HIPO);
-    $('#PREIMO_RD').val(preimo.RD);
-    $('#PREIMO_CONTRIB').val(preimo.CONTRIB);
+    $('#dtoDadosImovel_ENDER').val(dtoDadosImovel.ENDER);
+    $('#dtoDadosImovel_NUM').val(dtoDadosImovel.NUM);
+    $('#dtoDadosImovel_LOTE').val(dtoDadosImovel.LOTE);
+    $('#dtoDadosImovel_QUADRA').val(dtoDadosImovel.QUADRA);
+    $('#dtoDadosImovel_APTO').val(dtoDadosImovel.APTO);
+    $('#dtoDadosImovel_BLOCO').val(dtoDadosImovel.BLOCO);
+    $('#dtoDadosImovel_EDIF').val(dtoDadosImovel.EDIF);
+    $('#dtoDadosImovel_VAGA').val(dtoDadosImovel.VAGA);
+    $('#dtoDadosImovel_OUTROS').val(dtoDadosImovel.OUTROS);
+    $('#dtoDadosImovel_TRANS').val(dtoDadosImovel.TRANS);
+    $('#dtoDadosImovel_INSCR').val(dtoDadosImovel.INSCR);
+    $('#dtoDadosImovel_HIPO').val(dtoDadosImovel.HIPO);
+    $('#dtoDadosImovel_RD').val(dtoDadosImovel.RD);
+    $('#dtoDadosImovel_CONTRIB').val(dtoDadosImovel.CONTRIB);
 }
 
 function DesabilitarProximo() {
@@ -510,14 +510,14 @@ function GetTextoAto(arrayPessoas, url) {
     var idTipoAto = $("#IdTipoAto").val().trim();
     var idModeloDoc = $("#IdModeloDoc").val().trim();
     var idPrenotacao = $("#IdPrenotacao").val().trim();
-    var idMatricula = $("#NumMatricula").val().trim();
+    var numMatricula = $("#NumMatricula").val().trim();
 
     var dados = {
         IdAto: idAto,
         IdTipoAto: idTipoAto,
         IdModeloDoc: idModeloDoc,
         IdPrenotacao: idPrenotacao,
-        IdMatricula: idMatricula,
+        NumMatricula: numMatricula,
         ListIdsPessoas: listIdsPessoas
     };
 

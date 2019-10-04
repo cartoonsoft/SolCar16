@@ -8,7 +8,7 @@ namespace AdmCartorio.ViewModels
 {
     public class MatriculaAtoViewModel
     {
-        public long IdMatricula { get; set; }
+        public string NumMatricula { get; set; }
         public string MatriculaEndereco { get; set; }
         public string MatriculaOutorgante { get; set; }
         public string ModeloNome { get; set; }

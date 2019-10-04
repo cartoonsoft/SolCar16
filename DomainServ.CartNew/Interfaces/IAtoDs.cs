@@ -27,5 +27,6 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula);
 
+        DtoDadosImovel GetDadosImovelPrenotacao(long IdPrenotacao);
     }
 }

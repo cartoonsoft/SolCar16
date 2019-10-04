@@ -8,7 +8,7 @@ namespace AdmCartorio.ViewModels
     public class DadosPostModelo
     {
         public long Id { get; set; }
-        public long? IdMatricula { get; set; }
+        public string NumMatricula { get; set; }
         public long? IdPrenotacao { get; set; }
         public long? IdTipoAto { get; set; }
         public long[] listIdsPessoas { get; set; }

@@ -48,7 +48,7 @@ namespace Domain.CartNew.Entities
         public short NumSequenciaAto { get; set; }
 
         [Column("DT_ATO")] //Date
-        public string DataAto { get; set; }
+        public DateTime? DataAto { get; set; }
 
         [Column("NRO_MATRICULA")]   //NRO_MATRICULA        VARCHAR2(20),
         public string NumMatricula { get; set; }

@@ -924,8 +924,6 @@
     <Compile Include="App_Helpers\Settings.cs" />
     <Compile Include="App_Start\SimpleInjectorInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Cartorio\AtoWordDocx.cs" />
-    <Compile Include="Cartorio\FilesConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AcoesController.cs" />
     <Compile Include="Controllers\AdmController.cs" />
@@ -949,12 +947,11 @@
     <Compile Include="ViewModels\AcaoViewModel.cs" />
     <Compile Include="ViewModels\AtoListViewModel.cs" />
     <Compile Include="ViewModels\AtoViewModel.cs" />
-    <Compile Include="ViewModels\DadosAtoViewModel.cs" />
+    <Compile Include="ViewModels\InfAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
     <Compile Include="ViewModels\DadosPostModeloDocxDownload.cs" />
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
     <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
-    <Compile Include="ViewModels\MatriculaAtoViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocxListViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocxViewModel.cs" />

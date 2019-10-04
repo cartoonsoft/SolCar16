@@ -18,12 +18,22 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <div class="row">
                     <div class="panel-body">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
                             @Html.TextBoxFor(model => model.DescricaoAto, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="row">
+                    <div class="panel-body">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
+                            @Html.TextBoxFor(model => model.DataAto, new { @class = "form-control" })
                         </div>
                     </div>
                 </div>

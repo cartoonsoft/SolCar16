@@ -48,6 +48,7 @@
     <Compile Include="Base\DtoEntityBaseModel.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDadosAto.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDocxList.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoInfAto.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
     <Compile Include="Entities\Cart_11RI\DtoModeloDoc.cs" />

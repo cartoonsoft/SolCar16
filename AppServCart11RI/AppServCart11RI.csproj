@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="GemBox.Document, Version=31.0.35.1035, Culture=neutral, PublicKeyToken=b1b72c69714d4847, processorArchitecture=MSIL">
+      <HintPath>..\packages\GemBox.Document.31.0.0.1035\lib\net35\GemBox.Document.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -59,6 +62,8 @@
     <Compile Include="AppServices\AppServiceModelosDoc.cs" />
     <Compile Include="AppServices\AppServiceAtos.cs" />
     <Compile Include="AppServices\AppServiceTipoAto.cs" />
+    <Compile Include="Cartorio\AtoWordDocx.cs" />
+    <Compile Include="Cartorio\FilesConfig.cs" />
     <Compile Include="Interfaces\IAppServiceAcoesUsuarios.cs" />
     <Compile Include="Interfaces\IAppServicetTipoAto.cs" />
     <Compile Include="Interfaces\IAppServiceModelosDoc.cs" />
@@ -89,6 +94,10 @@
     <ProjectReference Include="..\Dto.CartNew\Dto.CartNew.csproj">
       <Project>{9D2D425D-C18A-4303-B1A3-1EE479026791}</Project>
       <Name>Dto.CartNew</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GemboxLib\GemboxLib.csproj">
+      <Project>{44F61DFC-AEBC-44A0-90DD-D81449A93D87}</Project>
+      <Name>GemboxLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infra.Cross.Identity\Infra.Cross.Identity.csproj">
       <Project>{39653212-6783-499E-B779-3C8963EA2FA9}</Project>
