@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppServ.Core.AppServices;
+using AppServCart11RI.Base;
 using AppServCart11RI.Cartorio;
 using AppServices.Cartorio.Interfaces;
 using AutoMapper;
@@ -19,14 +19,14 @@ using GemBox.Document;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceAtos : AppServiceCartorio<DtoAto, Ato>, IAppServiceAtos
+    public class AppServiceAtos : AppServiceCartorio11RI<DtoAto, Ato>, IAppServiceAtos
     {
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
 
         public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
-            
+
         }
 
         #region Private Methods
@@ -45,7 +45,7 @@ namespace AppServCart11RI.AppServices
 
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
             List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto)
-                .Where(l => ((l.Entidade == "ATO") ||(l.Entidade == "PRENOTACAO") || (l.Entidade =="IMOVEL" ))).ToList();
+                .Where(l => ((l.Entidade == "ATO") || (l.Entidade == "PRENOTACAO") || (l.Entidade == "IMOVEL"))).ToList();
 
             Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetWhere(a => (a.IdPrenotacao == IdPrenotacao) && (a.NumMatricula == NumMatricula)).FirstOrDefault();
             PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI.ToString() == NumMatricula)).FirstOrDefault();
@@ -419,7 +419,7 @@ namespace AppServCart11RI.AppServices
             {
                 throw new Exception("Falha GetDadosImovelPrenotacao: " + ex.Message);
             }
-            
+
             return dtoDadosImovel;
         }
 
@@ -467,197 +467,205 @@ namespace AppServCart11RI.AppServices
         }
 
         /// <summary>
+        /// GetTextoWordDocModelo
+        /// </summary>
+        /// <param name="IdModeloDoc"></param>
+        /// <returns></returns>
+        public StringBuilder GetTextoWordDocModelo(string filePathName)
+        {
+            StringBuilder textoDoc = new StringBuilder();
+
+            using (var stream = new MemoryStream())
+            {
+                // Convert input file to RTF stream.
+                stream.Position = 0;
+                DocumentModel.Load(filePathName).Save(stream, SaveOptions.HtmlDefault);
+                
+                using (var reader = new StreamReader(stream))
+                {
+                    textoDoc.Append(reader.ReadToEnd());
+                }
+            }
+
+
+            return textoDoc;
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="dtoInfAto"></param>
         /// <returns></returns>
         public StringBuilder GetTextoAto(DtoInfAto dtoInfAto)
         {
-            StringBuilder textoFormatado = new StringBuilder();
-
-            FilesConfig files = new FilesConfig(dtoInfAto.IdCtaAcessoSist);
-            string fileName = files.GetModeloDocFileName(dtoInfAto.IdModeloDoc);
-            string fullName = dtoInfAto.FileFullName;
+            StringBuilder textoDoc = new StringBuilder();
 
             DtoDadosAto dtoDadosAto = new DtoDadosAto();
             DtoDadosImovel dtoDadosImovel = new DtoDadosImovel();
 
-            using (var appServiceAto = new AppServiceAtos(this.UfwCartNew))
+
+            if (dtoInfAto.IdAto > 0)
             {
-
-                if (dtoInfAto.IdAto > 0)
-                {
-                    //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
-                    //todo: catregar do ato fazer 
-                }
-                else
-                {
-                    dtoDadosAto = GetDadosAtoPrenotacao(dtoInfAto.IdPrenotacao);
-
-                }
-
-                using (FileStream fileStream = new FileStream(fullName, FileMode.Open, FileAccess.Read))
-                {
-                    //Carrega o Modelo
-                    DocumentModel document = DocumentModel.Load(fileStream, LoadOptions.DocxDefault);
-
-                    // Get Word document's plain text.
-                    string text = document.Content.ToString();
-                    if (text != "")
-                    {
-                        StringBuilder textoParagrafo = new StringBuilder();
-                        for (int i = 0; i < text.Length; i++)
-                        {
-                            if (text[i] == '[')
-                            {
-                                i++;
-                                string nomeCampo = string.Empty;
-                                string resultadoQuery = string.Empty;
-                                while (text[i] != ']')
-                                {
-                                    nomeCampo += text[i].ToString().Trim();
-                                    i++;
-                                    if (i >= text.Length || text[i] == '[')
-                                    {
-                                        throw new InvalidDataException("Arquivo com campos corrompidos, verifique o modelo");
-                                    }
-                                }
-                                //Buscar dado da pessoa aqui
-                                //resultadoQuery = "teste query";
-                                resultadoQuery = this.GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
-
-                                //atualiza o texto formatado
-                                textoParagrafo.Append(resultadoQuery);
-                            }
-                            else if (paragrafo.Text[i] == '<')
-                            {
-                                i++;
-                                var tipoTag = string.Empty;
-                                while (paragrafo.Text[i] != '>')
-                                {
-                                    tipoTag += paragrafo.Text[i].ToString().Trim();
-                                    i++;
-                                    if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
-                                    {
-                                        Response.StatusCode = 500;
-                                        Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
-                                        return Response.StatusDescription;
-                                    }
-                                }
-                                i++;
-                                if (tipoTag.Equals("outorgantes"))
-                                {
-                                    i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
-                                }
-                                else if (tipoTag.Equals("outorgados"))
-                                {
-                                    i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
-                                }
-                            }
-                            else
-                            {
-                                //caso não seja um campo somente adiciona o caractere
-                                textoParagrafo.Append(paragrafo.Text[i].ToString());
-                            }
-
-                        }
-                        // Populando campo de retorno
-                        textoFormatado.Append($"<p>{textoParagrafo}</p>");
-                    }
-
-
-
-
-
-                    using (DocumentModel docX = DocumentModel.Load(fileStream))
-                    {
-                        //Varre todos os paragrafos do Modelo
-                        foreach (var paragrafo in docX.Paragraphs)
-                        {
-                            if (paragrafo.Text != "")
-                            {
-                                StringBuilder textoParagrafo = new StringBuilder();
-                                for (int i = 0; i < paragrafo.Text.Length; i++)
-                                {
-                                    if (paragrafo.Text[i] == '[')
-                                    {
-                                        i++;
-                                        string nomeCampo = string.Empty;
-                                        string resultadoQuery = string.Empty;
-                                        while (paragrafo.Text[i] != ']')
-                                        {
-                                            nomeCampo += paragrafo.Text[i].ToString().Trim();
-                                            i++;
-                                            if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
-                                            {
-                                                Response.StatusCode = 500;
-                                                Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
-                                                return Response.StatusDescription;
-                                            }
-                                        }
-                                        //Buscar dado da pessoa aqui
-                                        //resultadoQuery = "teste query";
-                                        resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
-
-                                        //atualiza o texto formatado
-                                        textoParagrafo.Append(resultadoQuery);
-                                    }
-                                    else if (paragrafo.Text[i] == '<')
-                                    {
-                                        i++;
-                                        var tipoTag = string.Empty;
-                                        while (paragrafo.Text[i] != '>')
-                                        {
-                                            tipoTag += paragrafo.Text[i].ToString().Trim();
-                                            i++;
-                                            if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
-                                            {
-                                                Response.StatusCode = 500;
-                                                Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
-                                                return Response.StatusDescription;
-                                            }
-                                        }
-                                        i++;
-                                        if (tipoTag.Equals("outorgantes"))
-                                        {
-                                            i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
-                                        }
-                                        else if (tipoTag.Equals("outorgados"))
-                                        {
-                                            i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        //caso não seja um campo somente adiciona o caractere
-                                        textoParagrafo.Append(paragrafo.Text[i].ToString());
-                                    }
-
-                                }
-                                // Populando campo de retorno
-                                textoFormatado.Append($"<p>{textoParagrafo}</p>");
-                            }
-                        }
-                    }
-                }
-
-
-
-                DtoDadosImovel imovel = appServiceAto.GetDadosImovelPrenotacao(dadosAtoViewModel.IdPrenotacao);
-
-
-
-
-
-
-
-
-                //DtoDadosImovel dadosImovel = appServiceAto.GetDadosImovelPrenotacao .GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.NumMatricula);
+                //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
+                //todo: catregar do ato fazer 
+            }
+            else
+            {
+                dtoDadosAto = GetDadosAtoPrenotacao(dtoInfAto.IdPrenotacao);
 
             }
+            /*
+            using (FileStream fileStream = new FileStream(fullName, FileMode.Open, FileAccess.Read))
+            {
+                //Carrega o Modelo
+                DocumentModel document = DocumentModel.Load(fileStream, LoadOptions.DocxDefault);
+
+                // Get Word document's plain text.
+                string text = document.Content.ToString();
+                if (text != "")
+                {
+                    StringBuilder textoParagrafo = new StringBuilder();
+                    for (int i = 0; i < text.Length; i++)
+                    {
+                        if (text[i] == '[')
+                        {
+                            i++;
+                            string nomeCampo = string.Empty;
+                            string resultadoQuery = string.Empty;
+                            while (text[i] != ']')
+                            {
+                                nomeCampo += text[i].ToString().Trim();
+                                i++;
+                                if (i >= text.Length || text[i] == '[')
+                                {
+                                    throw new InvalidDataException("Arquivo com campos corrompidos, verifique o modelo");
+                                }
+                            }
+                            //Buscar dado da pessoa aqui
+                            //resultadoQuery = "teste query";
+                            resultadoQuery = this.GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
+
+                            //atualiza o texto formatado
+                            textoParagrafo.Append(resultadoQuery);
+                        }
+                        else if (paragrafo.Text[i] == '<')
+                        {
+                            i++;
+                            var tipoTag = string.Empty;
+                            while (paragrafo.Text[i] != '>')
+                            {
+                                tipoTag += paragrafo.Text[i].ToString().Trim();
+                                i++;
+                                if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
+                                {
+                                    Response.StatusCode = 500;
+                                    Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
+                                    return Response.StatusDescription;
+                                }
+                            }
+                            i++;
+                            if (tipoTag.Equals("outorgantes"))
+                            {
+                                i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
+                            }
+                            else if (tipoTag.Equals("outorgados"))
+                            {
+                                i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
+                            }
+                        }
+                        else
+                        {
+                            //caso não seja um campo somente adiciona o caractere
+                            textoParagrafo.Append(paragrafo.Text[i].ToString());
+                        }
+
+                    }
+                    // Populando campo de retorno
+                    textoFormatado.Append($"<p>{textoParagrafo}</p>");
+                }
 
 
-            return null;
+
+
+
+                using (DocumentModel docX = DocumentModel.Load(fileStream))
+                {
+                    //Varre todos os paragrafos do Modelo
+                    foreach (var paragrafo in docX.Paragraphs)
+                    {
+                        if (paragrafo.Text != "")
+                        {
+                            StringBuilder textoParagrafo = new StringBuilder();
+                            for (int i = 0; i < paragrafo.Text.Length; i++)
+                            {
+                                if (paragrafo.Text[i] == '[')
+                                {
+                                    i++;
+                                    string nomeCampo = string.Empty;
+                                    string resultadoQuery = string.Empty;
+                                    while (paragrafo.Text[i] != ']')
+                                    {
+                                        nomeCampo += paragrafo.Text[i].ToString().Trim();
+                                        i++;
+                                        if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '[')
+                                        {
+                                            Response.StatusCode = 500;
+                                            Response.StatusDescription = "Arquivo com campos corrompidos, verifique o modelo";
+                                            return Response.StatusDescription;
+                                        }
+                                    }
+                                    //Buscar dado da pessoa aqui
+                                    //resultadoQuery = "teste query";
+                                    resultadoQuery = GetValorCampoModeloMatricula(dadosImovel, nomeCampo);
+
+                                    //atualiza o texto formatado
+                                    textoParagrafo.Append(resultadoQuery);
+                                }
+                                else if (paragrafo.Text[i] == '<')
+                                {
+                                    i++;
+                                    var tipoTag = string.Empty;
+                                    while (paragrafo.Text[i] != '>')
+                                    {
+                                        tipoTag += paragrafo.Text[i].ToString().Trim();
+                                        i++;
+                                        if (i >= paragrafo.Text.Length || paragrafo.Text[i] == '<')
+                                        {
+                                            Response.StatusCode = 500;
+                                            Response.StatusDescription = "Tags de repetição corrompidas, verifique o modelo";
+                                            return Response.StatusDescription;
+                                        }
+                                    }
+                                    i++;
+                                    if (tipoTag.Equals("outorgantes"))
+                                    {
+                                        i = Repetir(dadosImovel, paragrafo, textoParagrafo, i);
+                                    }
+                                    else if (tipoTag.Equals("outorgados"))
+                                    {
+                                        i = Repetir(dadosImovel, paragrafo, textoParagrafo, i, false);
+                                    }
+                                }
+                                else
+                                {
+                                    //caso não seja um campo somente adiciona o caractere
+                                    textoParagrafo.Append(paragrafo.Text[i].ToString());
+                                }
+
+                            }
+                            // Populando campo de retorno
+                            textoFormatado.Append($"<p>{textoParagrafo}</p>");
+                        }
+                    }
+                }
+            }
+
+            DtoDadosImovel imovel = appServiceAto.GetDadosImovelPrenotacao(dadosAtoViewModel.IdPrenotacao);
+            */
+
+
+            //DtoDadosImovel dadosImovel = appServiceAto.GetDadosImovelPrenotacao .GetCamposModeloMatricula(DadosPostModelo.listIdsPessoas, DadosPostModelo.IdTipoAto, DadosPostModelo.IdPrenotacao, DadosPostModelo.NumMatricula);
+            return textoDoc;
         }
 
     }

@@ -62,8 +62,8 @@
     <Compile Include="AppServices\AppServiceModelosDoc.cs" />
     <Compile Include="AppServices\AppServiceAtos.cs" />
     <Compile Include="AppServices\AppServiceTipoAto.cs" />
+    <Compile Include="Base\AppServiceCartorio11RI.cs" />
     <Compile Include="Cartorio\AtoWordDocx.cs" />
-    <Compile Include="Cartorio\FilesConfig.cs" />
     <Compile Include="Interfaces\IAppServiceAcoesUsuarios.cs" />
     <Compile Include="Interfaces\IAppServicetTipoAto.cs" />
     <Compile Include="Interfaces\IAppServiceModelosDoc.cs" />

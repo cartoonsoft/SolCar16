@@ -13,18 +13,17 @@ namespace AppServCart11RI.Cartorio
 {
     public class AtoWordDocx : WordGembox
     {
+        private readonly long _idCtaAcessoSist;
         private readonly IAppServiceAtos _appServiceAtos;
-        private FilesConfig filesConfig;
-
 
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="layoutPagina">pode ser A4, B4</param>
-        public AtoWordDocx(IAppServiceAtos appServiceAtos,  long IdCtaAcessoSist) : base(IdCtaAcessoSist)
+        public AtoWordDocx(IAppServiceAtos appServiceAtos, long IdCtaAcessoSist) : base(IdCtaAcessoSist)
         {
+            this._idCtaAcessoSist = IdCtaAcessoSist;
             this._appServiceAtos = appServiceAtos;
-            filesConfig = new FilesConfig(IdCtaAcessoSist);
         }
 
         /// <summary>
@@ -72,11 +71,10 @@ namespace AppServCart11RI.Cartorio
         }
         #endregion
 
-        public List<DtoDocx> GerarDocx(DtoAto Ato)
+        public List<DtoDocx> GerarDocx(DtoAto Ato, string filePathName)
         {
             List<DtoDocx> listaDocx = new List<DtoDocx>();
             DtoDocx docxTmp = new DtoDocx();
-            string NomeArqTmp = string.Empty;
             bool flagText = true;
             string strTmp = string.Empty;
             int j = 0;
@@ -95,17 +93,15 @@ namespace AppServCart11RI.Cartorio
                 if (this.VerificarSeArquivoExiste(Ultimodoc.NomeArquivo))
                 {
                     this.LerDocumento(Ultimodoc.NomeArquivo);
-                    NomeArqTmp = Ultimodoc.NomeArquivo;
                 }
                 else
                 {
-                    throw new IOException(string.Format("Arquivo: {0} não existe no servidor!", NomeArqTmp));
+                    throw new IOException(string.Format("Arquivo: {0} não existe no servidor!", filePathName));
                 }
             }
             else
             {
-                NomeArqTmp = HttpContext.Current.Server.MapPath("~" + filesConfig.FilePathRiBase +  filesConfig.FileRiBaseName);
-                this.LerDocumento(NomeArqTmp);
+                this.LerDocumento(filePathName);
             }
 
             paginaInicial = this.WordDocument.GetPaginator().Pages.Count;
