@@ -111,7 +111,6 @@ namespace AppServCart11RI.Cartorio
             Paragraph paragraph = this.NovoParagrafo(Ato.Texto, LoadOpitionsDocGemBox.Html);
             sec.Blocks.Add(paragraph);
 
-
             //AtoWordHelper.IndexParagrafo = sec.Blocks.IndexOf(paragraph);
             paginaAtual = paragraph.Document.GetPaginator().Pages.Count;
 

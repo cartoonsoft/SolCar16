@@ -606,7 +606,10 @@ namespace Cartorio11RI.Controllers
                 string fileName = files.GetModeloDocFileName(IdModeloDoc);
                 string fullName = Server.MapPath("~" + fileName);
 
-
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                {
+                    texto = appServiceAtos.GetTextoWordDocModelo(fullName).ToString();
+                }
 
 
                 resp = true;
@@ -645,6 +648,27 @@ namespace Cartorio11RI.Controllers
                     throw new NullReferenceException("Modelo de documento não definido!");
                 }
 
+                FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
+                string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
+                string fullName = Server.MapPath("~" + fileName);
+
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                {
+                    DtoInfAto dtoInfAto = new DtoInfAto {
+                        IdAto = dadosAtoViewModel.IdAto,
+                        IdCtaAcessoSist = dadosAtoViewModel.IdCtaAcessoSist,
+                        IdTipoAto = dadosAtoViewModel.IdTipoAto,
+                        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
+                        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
+                        NumMatricula = dadosAtoViewModel.NumMatricula,
+                        ListIdsPessoas= dadosAtoViewModel.ListIdsPessoas
+                    };
+
+
+                    texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
+                }
+
+
 
 
 
@@ -665,7 +689,6 @@ namespace Cartorio11RI.Controllers
             };
 
             return Json(resultado);
-
         }
     }
 }

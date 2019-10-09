@@ -12,14 +12,14 @@ namespace GemboxLib.Base
     public class WordGembox: WordGemboxCartoonSoft
     {
         private DocumentModel document = null;
-        private readonly long _IdCtaAcessoSist = 0;
+        private readonly long _idCtaAcessoSist = 0;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public WordGembox(long IdCtaAcessoSist)
         {
-            _IdCtaAcessoSist = IdCtaAcessoSist;
+            _idCtaAcessoSist = IdCtaAcessoSist;
             this.GetLicense();
             this.InitDoc();
         }
@@ -30,7 +30,7 @@ namespace GemboxLib.Base
         /// <param name="filePathName">Path e mome do arquivo</param>
         public WordGembox(string filePathName, long IdCtaAcessoSist) : base(filePathName)
         {
-            _IdCtaAcessoSist = IdCtaAcessoSist;
+            _idCtaAcessoSist = IdCtaAcessoSist;
             this.GetLicense();
             this.InitDoc();
             this.LerDocumento(filePathName);
@@ -88,12 +88,12 @@ namespace GemboxLib.Base
 
         protected long IdCtaAcessoSist
         {
-            get { return _IdCtaAcessoSist; }
+            get { return _idCtaAcessoSist; }
         }
 
         protected virtual void SetDefautFormatsDoc()
         {
-            if (_IdCtaAcessoSist == 1)
+            if (_idCtaAcessoSist == 1)
             {
                 document.DefaultCharacterFormat.Size = 14;
                 document.DefaultCharacterFormat.FontName = "Times New Roman";
@@ -115,7 +115,7 @@ namespace GemboxLib.Base
                     pageSetup.PaperType = PaperType.A4;
                     pageSetup.Orientation = Orientation.Landscape;
 
-                    if (_IdCtaAcessoSist == 1)
+                    if (_idCtaAcessoSist == 1)
                     {
                         pageSetup.PageMargins.Top = 57;  //Default value for this property is 70.85 points (0.98 inch).
                         pageSetup.PageMargins.Bottom = 57; //Default value for this property is 70.85 points (0.98 inch).
@@ -128,7 +128,7 @@ namespace GemboxLib.Base
                     pageSetup.PaperType = PaperType.B5;
                     pageSetup.Orientation = Orientation.Landscape;
 
-                    if (_IdCtaAcessoSist == 1)
+                    if (_idCtaAcessoSist == 1)
                     {
                         pageSetup.PageMargins.Top = 57;  //Default value for this property is 70.85 points (0.98 inch).
                         pageSetup.PageMargins.Bottom = 57; //Default value for this property is 70.85 points (0.98 inch).
@@ -164,11 +164,6 @@ namespace GemboxLib.Base
             }
 
             return section;
-        }
-
-        protected DocumentModel WordDocument
-        {
-            get { return document; }
         }
 
         protected virtual void FormatParagraph(Paragraph paragraph)
@@ -209,6 +204,12 @@ namespace GemboxLib.Base
 
             return paragraph;
         }
+
+        public DocumentModel WordDocument
+        {
+            get { return document; }
+        }
+
 
         /// <summary>
         /// O método reescreve o ato que está pendente e manda para o original

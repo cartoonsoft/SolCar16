@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
+using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
@@ -65,8 +66,10 @@ namespace DomainServ.CartNew.Services
                 select new
                 {
                     IdPessoa = pes.SEQPES,
-                    TipoPessoa = pre.REL == "O" ? "Outorgado" : "Outorgante",
-                    Nome  = pes.NOM,
+                    TipoPessoaPrenotacao =
+                        pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
+                        pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
+                    Nome = pes.NOM,
                     Relacao = pre.REL,
                     Endereco = pes.ENDER,
                     Bairro = pes.BAI,
@@ -82,9 +85,10 @@ namespace DomainServ.CartNew.Services
 
             foreach (var item in lista)
             {
-                listaDtoPessoaPesxPres.Add(new DtoPessoaPesxPre(numeroPrenotacao) {
+                listaDtoPessoaPesxPres.Add(new DtoPessoaPesxPre() {
                     IdPessoa = item.IdPessoa,
-                    TipoPessoa = item.TipoPessoa,
+                    IdPrenotacao = numeroPrenotacao,
+                    TipoPessoaPrenotacao = item.TipoPessoaPrenotacao,
                     Nome = item.Nome,
                     Relacao = item.Relacao,
                     Endereco = item.Endereco,
@@ -96,10 +100,8 @@ namespace DomainServ.CartNew.Services
                     TipoDoc1 = item.TipoDoc1,
                     Numero1 = item.Numero1,
                     TipoDoc2 = item.TipoDoc2,
-                    Numero2 = item.Numero2
-
+                    Numero2 = item.Numero2,
                 });
-
             }
 
             return listaDtoPessoaPesxPres;

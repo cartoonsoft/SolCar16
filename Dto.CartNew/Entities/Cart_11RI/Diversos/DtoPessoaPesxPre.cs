@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.CartNew.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,16 +10,15 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 {
     public class DtoPessoaPesxPre
     {
-        public DtoPessoaPesxPre(long idPrenotacao)
+        public DtoPessoaPesxPre()
         {
-            this.IdPrenotacao = idPrenotacao;
             ListaCamposValor = new List<DtoCamposValor>();
         }
 
         [Key]
         public long IdPessoa { get; set; }
-        public long IdPrenotacao { get; private set; }
-        public string TipoPessoa { get; set; }
+        public long IdPrenotacao { get; set; }
+        public TipoPessoaPrenotacao TipoPessoaPrenotacao { get; set; }
         public string Nome { get; set; }
         public string Relacao { get; set; }
         public string Endereco { get; set; }

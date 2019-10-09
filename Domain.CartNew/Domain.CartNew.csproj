@@ -82,6 +82,7 @@
     <Compile Include="Entities\UsuarioAcao.cs" />
     <Compile Include="Entities\UsuarioIdentity.cs" />
     <Compile Include="Enumerations\GrupoUsuarioEnum.cs" />
+    <Compile Include="Enumerations\TipoPessoaPrenotacao.cs" />
     <Compile Include="Enumerations\TipoAtoEnum.cs" />
     <Compile Include="Enumerations\TipoConferenciaAto.cs" />
     <Compile Include="Enumerations\TipoLogModeloDoc.cs" />

@@ -13,6 +13,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public DtoDadosAto()
         {
             Pessoas = new List<DtoPessoaPesxPre>();
+            ListaCamposValor = new List<DtoCamposValor>();
         }
 
         [Key]
@@ -58,8 +59,8 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public bool DocxGerado { get; set; }
 
+        public List<DtoCamposValor> ListaCamposValor { get; set; }
+
         public List<DtoPessoaPesxPre> Pessoas { get; set; }
-
-
     }
 }

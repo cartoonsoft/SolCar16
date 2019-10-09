@@ -20,7 +20,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public string NumMatricula { get; set; }
 
-        public string FileFullName { get; set; }
+        public string ModeloPathName { get; set; }
 
         public long[] ListIdsPessoas { get; set; }
     }
