@@ -9,8 +9,6 @@ namespace Cartorio11RI.ViewModels
     {
         public long? IdAto { get; set; }
 
-        public long IdCtaAcessoSist { get; set; }
-
         public long IdTipoAto { get; set; }
 
         public long IdModeloDoc { get; set; }

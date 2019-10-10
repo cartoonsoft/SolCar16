@@ -49,12 +49,12 @@ namespace Cartorio11RI.ViewModels
         [Required]
         [Display(Name = "Cadastro")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DataCadastro { get; set; }
 
         [Display(Name = "Alteração")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataAlteracao { get; set; }
 
         [Required]
@@ -63,12 +63,10 @@ namespace Cartorio11RI.ViewModels
 
         [Display(Name = "Data do ato")]
         [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataAto { get; set; }
 
         [Display(Name = "Matrícula imóvel")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MMM-yyyy}")]
         public string NumMatricula { get; set; }
 
         [Required(ErrorMessage = "O campo Descrição do ato é obrigatório", AllowEmptyStrings = false)]
@@ -110,7 +108,8 @@ namespace Cartorio11RI.ViewModels
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
         [Display(Name = "Distância topo (cm)")]
-        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+        [Range(0, 99.99, ErrorMessage = "Distância do topo (cm) é inválida!")]
+        public decimal TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
         [ScaffoldColumn(false)]
         public bool DocxGerado { get; set; }

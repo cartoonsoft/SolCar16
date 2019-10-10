@@ -200,39 +200,25 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return ListaArquivos;
         }
 
-        public IEnumerable<CamposModeloDoc> GetListaCamposIdTipoAto(long? IdTipoAto)
+        public IEnumerable<CampoTipoAto> GetListaCamposIdTipoAto(long? IdTipoAto)
         {
-            List<CamposModeloDoc> listaCamposArquivoModeloDocx = new List<CamposModeloDoc>();
+            List<CampoTipoAto> listaCamposArquivoModeloDocx = new List<CampoTipoAto>();
             
             var listaCampos =
-                from campos in _contextRepository.DbCamposArquivoModeloDocx.Where(c => c.IdTipoAto == IdTipoAto)
-                orderby campos.NomeCampo
-                select new
+                from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
+                join ac in _contextRepository.DbCampoTipoAto on ta.IdCampoTipoAto equals ac.Id   
+                orderby ac.Entidade, ac.NomeCampo
+                select new CampoTipoAto
                 {
-                    campos.Id,
-                    campos.IdCtaAcessoSist,
-                    campos.IdTipoAto,
-                    campos.NomeCampo,
-                    campos.PlaceHolder,
-                    campos.Entidade,
-                    campos.Campo
+                    Id = ac.Id,
+                    IdCtaAcessoSist = ac.IdCtaAcessoSist,
+                    NomeCampo = ac.NomeCampo,
+                    PlaceHolder = ac.PlaceHolder,
+                    Campo = ac.Campo,
+                    Entidade = ac.Entidade
                 };
 
-            foreach (var item in listaCampos)
-            {
-                listaCamposArquivoModeloDocx.Add(new CamposModeloDoc
-                {
-                    Id = item.Id,
-                    IdCtaAcessoSist = item.IdCtaAcessoSist,
-                    IdTipoAto = item.IdTipoAto,
-                    NomeCampo = item.NomeCampo,
-                    Campo = item.Campo,
-                    Entidade = item.Entidade,
-                    PlaceHolder = item.PlaceHolder
-                });
-            }
-
-            return listaCamposArquivoModeloDocx;
+            return listaCampos;
         }
 
     }

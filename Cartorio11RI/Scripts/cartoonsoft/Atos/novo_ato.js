@@ -15,6 +15,7 @@ class PessoaPrenotacao {
     constructor() {
         var _IdPessoa = 0;
         var _IdPrenotacao = 0;
+        var _TipoPessoaPrenotacao = 0;
         var _Selecionado = false;
         var _Nome = "";
         var _Endereco = "";
@@ -38,6 +39,10 @@ class PessoaPrenotacao {
 
     get Selecionado() {
         return this._Selecionado;
+    }
+
+    get TipoPessoaPrenotacao() {
+        return this._TipoPessoaPrenotacao; /* 1- Outorgante 2-Outorgado*/
     }
 
     get Nome() {
@@ -77,6 +82,10 @@ class PessoaPrenotacao {
 
     set IdPrenotacao(value) {
         this._IdPrenotacao = value;
+    }
+
+    set TipoPessoaPrenotacao(value) {
+        this._TipoPessoaPrenotacao = value; /* 1- Outorgante 2-Outorgado*/
     }
 
     set Selecionado(value) {
@@ -156,7 +165,7 @@ function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosInvalidos = (typeof dataReturn.Preimo == 'undefined' || dataReturn.Preimo == null);
+            var dadosInvalidos = (typeof dataReturn.dtoDadosImovel == 'undefined' || dataReturn.dtoDadosImovel == null);
 
             if (!dadosInvalidos) {
                 PovoarDadosImovel(dataReturn.dtoDadosImovel);
@@ -269,6 +278,7 @@ function ShowTblPessoasPrenotacao(listadados) {
 
         pessoa.IdPessoa = item.IdPessoa;
         pessoa.IdPrenotacao = item.IdPrenotacao;
+        pessoa.TipoPessoaPrenotacao = item.TipoPessoaPrenotacao;
         pessoa.Nome = item.Nome;             
         pessoa.Relacao = item.Relacao;     
         pessoa.Endereco = item.Endereco;    
@@ -281,7 +291,6 @@ function ShowTblPessoasPrenotacao(listadados) {
         pessoa.Numero1 = item.Numero1;
         pessoa.TipoDoc2 = item.TipoDoc2;
         pessoa.Numero2 = item.Numero2;
-        pessoa.TipoPessoa = item.TipoPessoa;
         arrayPessoas.push(pessoa)
 
     });
@@ -290,6 +299,15 @@ function ShowTblPessoasPrenotacao(listadados) {
 
     $('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#PREIMO_SEQPRE").val());
     $('#div-dlg-pessoas').modal('show');
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} tipoPessoaPrenotacao
+----------------------------------------------------------------------------- */
+function GetDescTipoPessoaPrenotacao(tipoPessoaPrenotacao)
+{
+    return (tipoPessoaPrenotacao == 1) ? "Outorgante" : (tipoPessoaPrenotacao == 2) ? "Outorgado" : "Indefinido";
 }
 
 /** ----------------------------------------------------------------------------
@@ -309,7 +327,7 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array) {
     $("#tbl-selecao-pessoas tbody").append(
         '<tr>' +
         '<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" class="checkbox-selecao-pessoas" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
-        '<td>' + pessoa.TipoPessoa + '</td>' +
+        '<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoaPrenotacao) + '</td>' +
         '<td>' + doc + '</td>' +
         '<td>' + pessoa.Nome + '</td>' +
         '</tr>'
@@ -334,6 +352,10 @@ function MarcarDesmarcarPessoa(chkObj) {
     }
 }
 
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} id
+----------------------------------------------------------------------------- */
 function ArrayPessoasIndexOfById(id) {
     var idx = -1;
 
@@ -367,7 +389,7 @@ function PovoarSelecionados(numPrenotacao) {
 
             $("#tbl-pessoas-selecionadas tbody").append(
                 '<tr>' +
-                '<td>' + arrayPessoas[i].TipoPessoa + '</td>' +
+                '<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoaPrenotacao) + '</td>' +
                 '<td>' + doc + '</td>' +
                 '<td>' + arrayPessoas[i].Nome + '</td>' +
                 '<td>' + arrayPessoas[i].Bairro + '</td>' +
@@ -396,23 +418,23 @@ function PovoarDadosImovel(dtoDadosImovel) {
 
     $('#IdPrenotacao').val(dtoDadosImovel.SEQPRE);
     $('#NumMatricula').val(dtoDadosImovel.MATRI);
-    $('#dtoDadosImovel_SEQPRE').val(dtoDadosImovel.SEQPRE);
-    $('#dtoDadosImovel_MATRI').val(dtoDadosImovel.MATRI);
 
-    $('#dtoDadosImovel_ENDER').val(dtoDadosImovel.ENDER);
-    $('#dtoDadosImovel_NUM').val(dtoDadosImovel.NUM);
-    $('#dtoDadosImovel_LOTE').val(dtoDadosImovel.LOTE);
-    $('#dtoDadosImovel_QUADRA').val(dtoDadosImovel.QUADRA);
-    $('#dtoDadosImovel_APTO').val(dtoDadosImovel.APTO);
-    $('#dtoDadosImovel_BLOCO').val(dtoDadosImovel.BLOCO);
-    $('#dtoDadosImovel_EDIF').val(dtoDadosImovel.EDIF);
-    $('#dtoDadosImovel_VAGA').val(dtoDadosImovel.VAGA);
-    $('#dtoDadosImovel_OUTROS').val(dtoDadosImovel.OUTROS);
-    $('#dtoDadosImovel_TRANS').val(dtoDadosImovel.TRANS);
-    $('#dtoDadosImovel_INSCR').val(dtoDadosImovel.INSCR);
-    $('#dtoDadosImovel_HIPO').val(dtoDadosImovel.HIPO);
-    $('#dtoDadosImovel_RD').val(dtoDadosImovel.RD);
-    $('#dtoDadosImovel_CONTRIB').val(dtoDadosImovel.CONTRIB);
+    $('#PREIMO_SEQPRE').val(dtoDadosImovel.SEQPRE);
+    $('#PREIMO_MATRI').val(dtoDadosImovel.MATRI);
+    $('#PREIMO_ENDER').val(dtoDadosImovel.ENDER);
+    $('#PREIMO_NUM').val(dtoDadosImovel.NUM);
+    $('#PREIMO_LOTE').val(dtoDadosImovel.LOTE);
+    $('#PREIMO_QUADRA').val(dtoDadosImovel.QUADRA);
+    $('#PREIMO_APTO').val(dtoDadosImovel.APTO);
+    $('#PREIMO_BLOCO').val(dtoDadosImovel.BLOCO);
+    $('#PREIMO_EDIF').val(dtoDadosImovel.EDIF);
+    $('#PREIMO_VAGA').val(dtoDadosImovel.VAGA);
+    $('#PREIMO_OUTROS').val(dtoDadosImovel.OUTROS);
+    $('#PREIMO_TRANS').val(dtoDadosImovel.TRANS);
+    $('#PREIMO_INSCR').val(dtoDadosImovel.INSCR);
+    $('#PREIMO_HIPO').val(dtoDadosImovel.HIPO);
+    $('#PREIMO_RD').val(dtoDadosImovel.RD);
+    $('#PREIMO_CONTRIB').val(dtoDadosImovel.CONTRIB);
 }
 
 function DesabilitarProximo() {

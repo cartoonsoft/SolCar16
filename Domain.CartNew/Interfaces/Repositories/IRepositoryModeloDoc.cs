@@ -15,6 +15,6 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         //IEnumerable<ArquivoModeloSimplificadoDocxList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null);
 
-        IEnumerable<CamposModeloDoc> GetListaCamposIdTipoAto(long? IdTipoAto);
+        IEnumerable<CampoTipoAto> GetListaCamposIdTipoAto(long? IdTipoAto);
     }
 }

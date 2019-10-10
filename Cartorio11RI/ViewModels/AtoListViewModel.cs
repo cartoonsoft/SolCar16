@@ -33,7 +33,7 @@ namespace Cartorio11RI.ViewModels
         public DateTime DataCadastro { get; set; }
 
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataAlteracao { get; set; }
         [Display(Name = "Numero da matrícula:")]
         public string NumMatricula { get; set; }

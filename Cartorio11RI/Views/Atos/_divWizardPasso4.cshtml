@@ -23,7 +23,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.DescricaoAto, new { @class = "form-control" })
+                            @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.DataAto, new { @class = "form-control" })
+                            @Html.EditorFor(model => model.DataAto, new { htmlAttributes = new { @class = "form-control" } })
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                     <div class="panel-body">
                         <div class="form-group">
                             @Html.LabelFor(model => model.TextoDistanciaTopo, new { @class = "control-label" })
-                            @Html.TextBoxFor(model => model.TextoDistanciaTopo, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.EditorFor(model => model.TextoDistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "99.99", @step = "1", @value = "0", @class = "form-control" } })
                         </div>
                     </div>
                 </div>

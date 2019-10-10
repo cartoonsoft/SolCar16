@@ -52,12 +52,13 @@
     <Compile Include="Attributes\IsWordFile.cs" />
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
+    <Compile Include="Entities\AtoPessoa.cs" />
     <Compile Include="Entities\Diversos\TipoAtoList.cs" />
     <Compile Include="Entities\Livro.cs" />
     <Compile Include="Entities\ModeloDoc.cs" />
     <Compile Include="Entities\Ato.cs" />
     <Compile Include="Entities\AtoDocx.cs" />
-    <Compile Include="Entities\CamposModeloDoc.cs" />
+    <Compile Include="Entities\CampoTipoAto.cs" />
     <Compile Include="Entities\CfgCtaAcessoSist.cs" />
     <Compile Include="Entities\CtaAcessoSist.cs" />
     <Compile Include="Entities\Diversos\ModeloDocxList.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Entities\StatusValor.cs" />
     <Compile Include="Entities\StatusValorAnt.cs" />
     <Compile Include="Entities\StatusValorPos.cs" />
+    <Compile Include="Entities\TipoAtoCampo.cs" />
     <Compile Include="Entities\TipoAto.cs" />
     <Compile Include="Entities\TipoCfgCtaAcessoSist.cs" />
     <Compile Include="Entities\TipoMenu.cs" />

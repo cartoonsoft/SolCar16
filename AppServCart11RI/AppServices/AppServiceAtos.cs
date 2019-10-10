@@ -44,7 +44,7 @@ namespace AppServCart11RI.AppServices
             string valorTmp = string.Empty;
 
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto)
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto)
                 .Where(l => ((l.Entidade == "ATO") || (l.Entidade == "PRENOTACAO"))).ToList();
 
             Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetWhere(a => (a.IdPrenotacao == IdPrenotacao) && (a.NumMatricula == NumMatricula)).FirstOrDefault();
@@ -112,7 +112,7 @@ namespace AppServCart11RI.AppServices
         private List<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, string NumMatricula)
         {
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "IMOVEL").ToList();
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "IMOVEL").ToList();
 
             PREIMO Imovel = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(i => i.SEQPRE == IdPrenotacao && i.MATRI.ToString() == NumMatricula).FirstOrDefault();
 
@@ -163,8 +163,7 @@ namespace AppServCart11RI.AppServices
                         pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
                 };
 
-            List<CamposModeloDoc> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PESSOA").ToList();
-
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PESSOA").ToList();
 
             foreach (var pessoa in pessoas)
             {
@@ -182,8 +181,6 @@ namespace AppServCart11RI.AppServices
                     }
                 }
             }
-
-
 
             return pessoas.ToList();
         }

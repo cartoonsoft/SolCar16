@@ -446,7 +446,6 @@ namespace Cartorio11RI.Controllers
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
                     dtoDadosImovel = appServAtos.GetDadosImovelPrenotacao(IdPrenotacao);
-                    resp = true;
                     if (dtoDadosImovel != null)
                     {
                         message = "Dados retornados con sucesso";
@@ -455,6 +454,7 @@ namespace Cartorio11RI.Controllers
                         message = "Número de Prenotação não encontrada na base de dados";
                     }
                 }
+                resp = true;
             }
             catch (Exception ex)
             {
@@ -656,7 +656,7 @@ namespace Cartorio11RI.Controllers
                 {
                     DtoInfAto dtoInfAto = new DtoInfAto {
                         IdAto = dadosAtoViewModel.IdAto,
-                        IdCtaAcessoSist = dadosAtoViewModel.IdCtaAcessoSist,
+                        IdCtaAcessoSist = this.IdCtaAcessoSist,
                         IdTipoAto = dadosAtoViewModel.IdTipoAto,
                         IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
                         IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
@@ -664,13 +664,8 @@ namespace Cartorio11RI.Controllers
                         ListIdsPessoas= dadosAtoViewModel.ListIdsPessoas
                     };
 
-
                     texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
                 }
-
-
-
-
 
                 texto = "Teste 123...";
                 resp = true;

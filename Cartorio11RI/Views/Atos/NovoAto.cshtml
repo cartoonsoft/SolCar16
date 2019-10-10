@@ -190,6 +190,7 @@
 		var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
 		var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
+		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
 
 		var PodeAvancar2 = false;
 		var PodeAvancar3 = false;
@@ -468,7 +469,7 @@
 					IdModeloDoc: selItem
 				}
 
-				$.ajax("@Url.Action("GetTextoWordDocModelo","Atos")", {
+				$.ajax(urlGetTextoWordDocModelo, {
 					method: 'POST',
 					dataType: 'json',
 					data: dados,

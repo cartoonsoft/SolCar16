@@ -43,10 +43,13 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Municipio> DbMunicipio { get; set; }
 
         public DbSet<ModeloDoc> DbArquivoModeloDocx { get; set; }
-        public DbSet<CamposModeloDoc> DbCamposArquivoModeloDocx { get; set; }
-        public DbSet<LogModeloDoc> DbLogArquivoModeloDocx { get; set;}
-        public DbSet<TipoAto> DbTipoAto { get; set; }
+        public DbSet<LogModeloDoc> DbLogArquivoModeloDocx { get; set; }
+
         public DbSet<Ato> DbAto { get; set; }
+        public DbSet<AtoPessoa> DbAtoPessoa { get; set; }
+        public DbSet<CampoTipoAto> DbCampoTipoAto { get; set; }
+        public DbSet<TipoAto> DbTipoAto { get; set; }
+        public DbSet<TipoAtoCampo> DbTipoAtoCampo { get; set; }
 
         public DbSet<TipoMenu> DbTipoMenu { get; set; }
         public DbSet<Menu> DbMenuo { get; set; }
