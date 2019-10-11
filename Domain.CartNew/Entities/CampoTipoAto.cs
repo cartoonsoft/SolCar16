@@ -1,6 +1,7 @@
 ﻿using Domain.Core.Entities.Base;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Domain.CartNew.Entities
     [Table("TB_CAMPO_TP_ATO", Schema = "DEZESSEIS_NEW")]
     public class CampoTipoAto : EntityBase
     {
+        [Key]
         [Column("ID_CAMPO_TP_ATO")]
         public override long? Id { get; set; }
 

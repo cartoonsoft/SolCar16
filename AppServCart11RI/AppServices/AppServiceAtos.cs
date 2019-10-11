@@ -37,22 +37,25 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdPrenotacao"></param>
         /// <param name="NumMatricula"></param>
         /// <returns></returns>
-        private List<DtoCamposValor> GetCamposAto(long? IdTipoAto, long? IdPrenotacao, string NumMatricula)
+        private List<DtoCamposValor> GetCamposAto(long? IdTipoAto, long? IdPrenotacao, long IdCtaAcessoSist, string NumMatricula)
         {
             DateTime dataTmp = DateTime.ParseExact("01/01/1800", "dd/MM/yyyy", CultureInfo.InvariantCulture);
             string dataPremadTmp = string.Empty;
             string valorTmp = string.Empty;
 
+            int matTmp = 0;
+            int.TryParse(NumMatricula, out matTmp);
+
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto)
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto, IdCtaAcessoSist)
                 .Where(l => ((l.Entidade == "ATO") || (l.Entidade == "PRENOTACAO"))).ToList();
 
             Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetWhere(a => (a.IdPrenotacao == IdPrenotacao) && (a.NumMatricula == NumMatricula)).FirstOrDefault();
-            //PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI.ToString() == NumMatricula)).FirstOrDefault();
+            PREIMO preimo = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI == matTmp)).FirstOrDefault();
 
             //para obter data da prenotacao
             PREMAD premad = this.UfwCartNew.Repositories.GenericRepository<PREMAD>()
-                .GetWhere(p => (p.SEQPRED == IdPrenotacao) && (p.TIPODATA.Trim() == "R"))
+                .GetWhere(p => (p.SEQPRE == IdPrenotacao) && (p.TIPODATA.Trim() == "R"))
                 .OrderByDescending(o => o.DATA).FirstOrDefault();
 
             if (premad != null)
@@ -62,7 +65,7 @@ namespace AppServCart11RI.AppServices
 
             foreach (var item in listaCampos)
             {
-                if ((item.Entidade == "ATO"))
+                if ((ato != null) && (item.Entidade == "ATO"))
                 {
                     var prop = ato.GetType().GetProperty(item.Campo);
                     if (prop != null)
@@ -77,7 +80,7 @@ namespace AppServCart11RI.AppServices
                     }
                 }
 
-                if ((item.Entidade == "PRENOTACAO"))
+                if ((preimo != null) && (item.Entidade == "PRENOTACAO"))
                 {
                     if (item.Campo == "IdPrenotacao")
                     {
@@ -109,10 +112,10 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdPrenotacao"></param>
         /// <param name="NumMatricula"></param>
         /// <returns></returns>
-        private List<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, string NumMatricula)
+        private List<DtoCamposValor> GetCamposImovel(long? IdTipoAto, long? IdPrenotacao, long IdCtaAcessoSist, string NumMatricula)
         {
             List<DtoCamposValor> listaTmp = new List<DtoCamposValor>();
-            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "IMOVEL").ToList();
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto, IdCtaAcessoSist).Where(l => l.Entidade == "IMOVEL").ToList();
 
             PREIMO Imovel = this.UfwCartNew.Repositories.GenericRepository<PREIMO>().GetWhere(i => i.SEQPRE == IdPrenotacao && i.MATRI.ToString() == NumMatricula).FirstOrDefault();
 
@@ -136,7 +139,7 @@ namespace AppServCart11RI.AppServices
             return listaTmp;
         }
 
-        private List<DtoPessoaPesxPre> GetPessoas(long IdTipoAto, long IdPrenotacao, long[] ListIdsPessoas)
+        private List<DtoPessoaPesxPre> GetPessoas(long IdTipoAto, long IdPrenotacao, long IdCtaAcessoSist,  long[] ListIdsPessoas)
         {
             var pessoas =
                 from pre in this.UfwCartNew.Repositories.GenericRepository<PESXPRE>().Get().Where(pp => (ListIdsPessoas.Contains(pp.SEQPES) && (pp.SEQPRE == IdPrenotacao)))
@@ -163,7 +166,7 @@ namespace AppServCart11RI.AppServices
                         pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
                 };
 
-            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto).Where(l => l.Entidade == "PESSOA").ToList();
+            List<CampoTipoAto> listaCampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListaCamposIdTipoAto(IdTipoAto, IdCtaAcessoSist).Where(l => l.Entidade == "PESSOA").ToList();
 
             foreach (var pessoa in pessoas)
             {
@@ -418,7 +421,7 @@ namespace AppServCart11RI.AppServices
             }
             else
             {
-                dtoDadosAto.ListaCamposValor = this.GetCamposAto(dtoInfAto.IdTipoAto, dtoInfAto.IdPrenotacao, dtoInfAto.NumMatricula);
+                dtoDadosAto.ListaCamposValor = this.GetCamposAto(dtoInfAto.IdTipoAto, dtoInfAto.IdPrenotacao, dtoInfAto.IdCtaAcessoSist, dtoInfAto.NumMatricula);
 
 
 
@@ -431,9 +434,9 @@ namespace AppServCart11RI.AppServices
                     // Get content from each paragraph
                     foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))
                     {
-                        sb.Append(paragraph.Content.ToString());
+                        textoDoc.Append(paragraph.Content.ToString());
                     }
-
+                    /*
                     string texto = sb.ToString();
                     if (texto != "")
                     {
@@ -518,7 +521,7 @@ namespace AppServCart11RI.AppServices
                         // Populando campo de retorno
                         textoDoc.Append($"<p>{strAto}</p>");
                     }
-
+                    */
                 }
             }
 

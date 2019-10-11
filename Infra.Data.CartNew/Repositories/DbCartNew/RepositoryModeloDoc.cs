@@ -200,15 +200,15 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return ListaArquivos;
         }
 
-        public IEnumerable<CampoTipoAto> GetListaCamposIdTipoAto(long? IdTipoAto)
+        public IEnumerable<CampoTipoAto> GetListaCamposIdTipoAto(long? IdTipoAto, long IdCtaAcessoSist)
         {
-            List<CampoTipoAto> listaCamposArquivoModeloDocx = new List<CampoTipoAto>();
+            List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
             
             var listaCampos =
                 from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
-                join ac in _contextRepository.DbCampoTipoAto on ta.IdCampoTipoAto equals ac.Id   
+                join ac in _contextRepository.DbCampoTipoAto.Where(c => c.IdCtaAcessoSist == IdCtaAcessoSist) on ta.IdCampoTipoAto equals ac.Id    
                 orderby ac.Entidade, ac.NomeCampo
-                select new CampoTipoAto
+                select new 
                 {
                     Id = ac.Id,
                     IdCtaAcessoSist = ac.IdCtaAcessoSist,
@@ -218,7 +218,22 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     Entidade = ac.Entidade
                 };
 
-            return listaCampos;
+            foreach (var campo in listaCampos)
+            {
+                campoTipoAtos.Add(
+                    new CampoTipoAto
+                    {
+                        Id = campo.Id,
+                        IdCtaAcessoSist = campo.IdCtaAcessoSist,
+                        Campo = campo.Campo,
+                        NomeCampo = campo.NomeCampo,
+                        Entidade = campo.Entidade,
+                        PlaceHolder = campo.PlaceHolder
+                    }    
+                );
+            }
+
+            return campoTipoAtos;
         }
 
     }

@@ -661,7 +661,8 @@ namespace Cartorio11RI.Controllers
                         IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
                         IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
                         NumMatricula = dadosAtoViewModel.NumMatricula,
-                        ListIdsPessoas= dadosAtoViewModel.ListIdsPessoas
+                        ModeloPathName = fullName,
+                        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
                     };
 
                     texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
