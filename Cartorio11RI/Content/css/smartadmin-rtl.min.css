@@ -425,7 +425,7 @@
 .smart-rtl .fuelux .wizard ul li .chevron:before {
     left: 1px;
     right: auto;
-    border-right: 14px solid #ededed;
+    border-right: 14px solid #89B7D4;
     border-left: 0
 }
 
@@ -441,7 +441,7 @@
 }
 
 .fuelux .wizard ul li.active .chevron:before {
-    border-right-color: #f1f6fc
+    border-right-color: #1958EC
 }
 
 .smart-rtl .input-group-btn:first-child > .btn {

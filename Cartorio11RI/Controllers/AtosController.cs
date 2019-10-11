@@ -668,7 +668,6 @@ namespace Cartorio11RI.Controllers
                     texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
                 }
 
-                texto = "Teste 123...";
                 resp = true;
             }
             catch (Exception ex)

@@ -14837,7 +14837,7 @@ img.away {
             margin: 0;
             font-size: 16px;
             line-height: 46px;
-            color: #999;
+            color: #2B2F36;
             cursor: default;
             background: #ededed
         }
@@ -14860,7 +14860,7 @@ img.away {
                     display: block;
                     border: 24px solid transparent;
                     border-right: 0;
-                    border-left: 14px solid #ededed;
+                    border-left: 14px solid #EDEDED;
                     content: ""
                 }
 
@@ -14883,12 +14883,12 @@ img.away {
                 }
 
             .fuelux .wizard ul li.active {
-                color: #3a87ad;
-                background: #f1f6fc
+                color: #DDE7EC;
+                background: #6BA4E9
             }
 
                 .fuelux .wizard ul li.active .chevron:before {
-                    border-left: 14px solid #f1f6fc
+                    border-left: 14px solid #6BA4E9
                 }
 
             .fuelux .wizard ul li .badge {
