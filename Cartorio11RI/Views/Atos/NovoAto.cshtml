@@ -6,88 +6,88 @@
 }
 
 @section styles_especific {
-<style>
-	#tbl-pessoas-selecionadas {
-		/*border: 1px solid #808080; */
-		table-layout: auto;
-		width: 100%;
-	}
+	<style>
+		#tbl-pessoas-selecionadas {
+			/*border: 1px solid #808080; */
+			table-layout: auto;
+			width: 100%;
+		}
 
-	#tbl-selecao-pessoas {
-		/*border: 1px solid #808080; */
-		table-layout: auto;
-		width: 100%;
-	}
+		#tbl-selecao-pessoas {
+			/*border: 1px solid #808080; */
+			table-layout: auto;
+			width: 100%;
+		}
 
-	/*-- tbl-pessoas-selecionadas ----------------------------------------*/
-	#tbl-pessoas-selecionadas tr td:nth-child(1) {
-		width: 3%;
-	}
+		/*-- tbl-pessoas-selecionadas ----------------------------------------*/
+		#tbl-pessoas-selecionadas tr td:nth-child(1) {
+			width: 3%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(2) {
-		width: 15%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(2) {
+			width: 15%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(3) {
-		width: 15%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(3) {
+			width: 15%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(4) {
-		width: 3%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(4) {
+			width: 3%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(5) {
-		width: 3%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(5) {
+			width: 3%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(6) {
-		width: 10%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(6) {
+			width: 10%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(7) {
-		width: 10%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(7) {
+			width: 10%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(8) {
-		width: 3%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(8) {
+			width: 3%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(9) {
-		width: 4%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(9) {
+			width: 4%;
+		}
 
-	#tbl-pessoas-selecionadas tr td:nth-child(10) {
-		width: 5%;
-	}
+		#tbl-pessoas-selecionadas tr td:nth-child(10) {
+			width: 5%;
+		}
 
-	/*-- tbl-selecao-pessoas ---------------------------------------------*/
-	#tbl-selecao-pessoas tr td:nth-child(1) {
-		width: 3%;
-	}
+		/*-- tbl-selecao-pessoas ---------------------------------------------*/
+		#tbl-selecao-pessoas tr td:nth-child(1) {
+			width: 3%;
+		}
 
-	#tbl-selecao-pessoas tr td:nth-child(2) {
-		width: 10%;
-	}
+		#tbl-selecao-pessoas tr td:nth-child(2) {
+			width: 10%;
+		}
 
-	#tbl-selecao-pessoas tr td:nth-child(3) {
-		width: 20%;
-	}
+		#tbl-selecao-pessoas tr td:nth-child(3) {
+			width: 20%;
+		}
 
-	#tbl-selecao-pessoas tr td:nth-child(4) {
-		width: 67%;
-	}
+		#tbl-selecao-pessoas tr td:nth-child(4) {
+			width: 67%;
+		}
 
-	.checkbox-selecao-pessoas {
-		visibility: visible;
-	}
+		.checkbox-selecao-pessoas {
+			visibility: visible;
+		}
 
-	.div-container-scroll {
-		width: 580px;
-		height: 480px;
-		overflow-y: auto;
-		overflow-x: auto;
-	}
-</style>
+		.div-container-scroll {
+			width: 580px;
+			height: 480px;
+			overflow-y: auto;
+			overflow-x: auto;
+		}
+	</style>
 }
 
 <div id="content">
@@ -163,14 +163,14 @@
 
 @section pagespecific {
 
-<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-<script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-<script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
-<script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
-<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-<script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
+	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+	<script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+	<script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+	<script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
+	<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+	<script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
 
-<script>
+	<script>
 	$(document).ready(function () {
 
 		/* urls chamadas ajax ------------------------------------------------*/
@@ -182,6 +182,30 @@
 
 		var PodeAvancar2 = false;
 		var PodeAvancar3 = false;
+
+		$('#tbl-matriculas-prenotacao').dataTable({
+			//columnDefs: [{ orderable: false, targets: [3] }],
+			//"paging": false,
+			//"ordering": false,
+			//"info": false,
+			"searching": false,
+			"language": {
+				"lengthMenu": "Mostrar _MENU_ reg. por página",
+				"zeroRecords": "Nenhum Registro Encontrado",
+				"info": "Mostrando Página _PAGE_ de _PAGES_",
+				"infoEmpty": "Nenhum registro Disponível",
+				"infoFiltered": "(filtrado)",
+				"loadingRecords": "Lendo...",
+				"processing": "Processando...",
+				"search": "Procurar: ",
+				"paginate": {
+					"first": "Primeiro",
+					"last": "Último",
+					"next": "Próx.",
+					"previous": "Anterior"
+				},
+			}
+		});
 
 		/* obter ip local ----------------------------------------------------*/
 		var ipLocal = getUserIP(function (ip) {
@@ -205,7 +229,7 @@
 		var vetIdPessoasSel = [];
 		var id = $("#Id").val();
 		DesabilitarProximo();
-			
+
 		/*-- validate --------------------------------------------------------*/
 		var $frmNovoModelo = $("#frmNovoModelo").validate({
 			// Rules for form validation
@@ -482,7 +506,7 @@
 	});
 
 	/**-------------------------------------------------------------------------
-	 * 
+	 *
 	 * @@param btnObj
 	 * @@param idTipoAto
 	------------------------------------------------------------------------- */
@@ -504,5 +528,5 @@
 		}
 	}
 
-</script>
+	</script>
 }

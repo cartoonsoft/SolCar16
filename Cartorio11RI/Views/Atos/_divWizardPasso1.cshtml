@@ -27,7 +27,7 @@
     <div class="jarviswidget" id="wid-id-2" data-widget-colorbutton="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
         <header>
             <span class="widget-icon"> <i class="fa fa-home"></i> </span>
-            <h2>Dados do imóvel</h2>
+            <h2>Matrículas</h2>
         </header>
 
         <!-- widget div ------------ -->
@@ -37,57 +37,45 @@
                 <!-- This area used as dropdown edit box -->
             </div>
             <!-- end widget edit box -->
+
             <!-- widget content ---- -->
             <div class="widget-body">
-
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.NumMatricula)
-                        @Html.TextBoxFor(model => model.NumMatricula, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-8">
-                        @Html.LabelFor(model => model.PREIMO.ENDER)
-                        @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.NUM)
-                        @Html.TextBoxFor(model => model.PREIMO.NUM, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="row"><hr /></div>
-                <div class="row">
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.APTO)
-                        @Html.TextBoxFor(model => model.PREIMO.APTO, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.BLOCO)
-                        @Html.TextBoxFor(model => model.PREIMO.BLOCO, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.EDIF)
-                        @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.LOTE)
-                        @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.QUADRA)
-                        @Html.TextBoxFor(model => model.PREIMO.QUADRA, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-sm-2">
-                        @Html.LabelFor(model => model.PREIMO.OUTROS)
-                        @Html.TextBoxFor(model => model.PREIMO.OUTROS, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-                <div class="row"><hr /></div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        @Html.LabelFor(model => model.PREIMO.VAGA)
-                        @Html.TextBoxFor(model => model.PREIMO.VAGA, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
+                <table id="tbl-matriculas-prenotacao" class="table table-striped table-bordered table-hover" width="100%">
+                    <thead>
+                        <tr>
+                            <th style="width:5%">ID</th>
+                            <th style="width:45%">ID</th>
+                            <th style="width:20%">ID</th>
+                            <th style="width:30%">ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Jennifer</td>
+                            <td>1-342-463-8341</td>
+                            <td>Et Rutrum Non Associates</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Jennifer</td>
+                            <td>1-342-463-8341</td>
+                            <td>Et Rutrum Non Associates</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Jennifer</td>
+                            <td>1-342-463-8341</td>
+                            <td>Et Rutrum Non Associates</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Jennifer</td>
+                            <td>1-342-463-8341</td>
+                            <td>Et Rutrum Non Associates</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <!-- end widget content- -->
 
