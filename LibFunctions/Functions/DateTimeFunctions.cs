@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LibFunctions.Functions.DatesFunc
 {
-    public static class DataHelper
+    public static class DateTimeFunctions
     {
 
         /// <summary>

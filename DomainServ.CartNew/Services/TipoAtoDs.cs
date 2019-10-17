@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
@@ -37,18 +38,8 @@ namespace DomainServ.CartNew.Services
                     IdTipoAtoPai = item.IdTipoAtoPai,
                     Descricao = item.Descricao,
                     Orientacao = item.Orientacao,
+                    ListaTipoAtosFihos = Mapper.Map<List<TipoAtoList>, List<DtoTipoAtoList>>(item.ListaTipoAtosFihos) 
                 };
-
-                foreach (var itemlist in item.ListaTipoAtosFihos)
-                {
-                    dtoTipoAtoList.ListaTipoAtosFihos.Add(new DtoTipoAtoList {
-                        Id = itemlist.Id,
-                        IdCtaAcessoSist = itemlist.IdCtaAcessoSist,
-                        IdTipoAtoPai = itemlist.IdTipoAtoPai,
-                        Descricao = itemlist.Descricao,
-                        Orientacao = itemlist.Orientacao
-                    });
-                } 
             }
 
             return listaDtoTipoAtoList;

@@ -7,6 +7,7 @@ using DomainServ.CartNew.Interfaces.Base;
 using Domain.CartNew.Entities;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
+using Domain.CartNew.Entities.Diversos;
 
 namespace DomainServ.CartNew.Interfaces
 {
@@ -14,19 +15,18 @@ namespace DomainServ.CartNew.Interfaces
     {
         bool ExisteAtoCadastrado(long numMatricula);
 
-        /// <summary>
-        /// Retorda com o numero da ultima ficha gravada, caso não exista retorna : 0
-        /// </summary>
-        /// <param name="NumMatricula"></param>
-        /// <returns></returns>
-        Docx GetUltimaFichaGravada(string NumMatricula);
-
-        short GetUltimoNumFicha(string NumMatricula);
+        long? GetNumSequenciaAto(long numeroMatricula);
 
         IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao);
 
-        IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula);
+        IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
 
-        DtoDadosImovel GetDadosImovelPrenotacao(long IdPrenotacao);
+        IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
+
+        IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
+
+        IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
+
+        IEnumerable<DtoDadosImovel> GetDadosImoveisPrenotacao(long IdPrenotacao);
     }
 }

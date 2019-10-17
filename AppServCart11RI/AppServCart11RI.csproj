@@ -84,7 +84,7 @@
       <Name>Domain.CartNew</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain.Core\Domain.Core.csproj">
-      <Project>{6ABA3AB9-F832-43E0-9242-C2A13F452ED7}</Project>
+      <Project>{6aba3ab9-f832-43e0-9242-c2a13f452ed7}</Project>
       <Name>Domain.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\DomainServ.CartNew\DomainServ.CartNew.csproj">

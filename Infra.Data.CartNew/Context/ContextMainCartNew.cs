@@ -42,10 +42,12 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Uf> DbUf { get; set; }
         public DbSet<Municipio> DbMunicipio { get; set; }
 
-        public DbSet<ModeloDoc> DbArquivoModeloDocx { get; set; }
-        public DbSet<LogModeloDoc> DbLogArquivoModeloDocx { get; set; }
+        public DbSet<ModeloDoc> DbModeloDoc { get; set; }
+        public DbSet<LogModeloDoc> DbLogModeloDoc { get; set; }
 
         public DbSet<Ato> DbAto { get; set; }
+        public DbSet<AtoDocx> DbAtoDocx { get; set; }
+        public DbSet<Docx> DbDocx { get; set; }
         public DbSet<AtoPessoa> DbAtoPessoa { get; set; }
         public DbSet<CampoTipoAto> DbCampoTipoAto { get; set; }
         public DbSet<TipoAto> DbTipoAto { get; set; }
@@ -55,12 +57,13 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Menu> DbMenuo { get; set; }
         public DbSet<Acao> DbAcao { get; set; }
         public DbSet<UsuarioAcao> DbUsuarioAcao { get; set; }
+        public DbSet<Livro> DbLivro { get; set; }
 
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PREMAD> DbPREMAD { get; set; }
         public DbSet<PESXPRE> DbPESXPRE { get; set; }
         public DbSet<PESSOAS> DbPESSOAS { get; set; }
-        public DbSet<Livro> DbLivro { get; set; }
+        public DbSet<MATRIMO> DbMATRIMO { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

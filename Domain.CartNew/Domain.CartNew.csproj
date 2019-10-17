@@ -53,6 +53,8 @@
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
     <Compile Include="Entities\AtoPessoa.cs" />
+    <Compile Include="Entities\Diversos\DadosImovel.cs" />
+    <Compile Include="Entities\Diversos\PessoaAto.cs" />
     <Compile Include="Entities\Diversos\TipoAtoList.cs" />
     <Compile Include="Entities\Livro.cs" />
     <Compile Include="Entities\ModeloDoc.cs" />

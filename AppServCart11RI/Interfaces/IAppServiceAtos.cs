@@ -13,46 +13,6 @@ namespace AppServices.Cartorio.Interfaces
 {
     public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
-        DtoAto NovoAto(DtoAto Ato, string textoHtml);
 
-        bool EditarAto(long IdAto, string textoHtml);
-
-        IEnumerable<DtoAtoDocx> GerarFichas(long IdAto);
-
-        void UploadFicha(long IdDocx);
-
-        void ImprimirFicha(long IdDocx);
-
-        void ImprimirAto(long IdAto);
-
-        void ConferirAto(long IdAto, TipoConferenciaAto tipoConferencia);
-
-        bool FinalizarAto(long IdAto);
-
-        void Bloquear(long IdAto);
-
-        void Desativar(long IdAto);
-
-        IEnumerable<DtoAtoList> GetListaAtos(DateTime dataIni, DateTime dataFim, string IdUsuario = null);
-
-        DtoDadosImovel GetDadosImovelPrenotacao(long IdPrenotacao);
-
-        IEnumerable<DtoPessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao);
-
-        IEnumerable<DtoDocxList> GetListDtoDocxAto(string NumMatricula);
-
-        /// <summary>
-        /// Busca Dados do Ato por IdAto
-        /// </summary>
-        /// <param name="IdAto"></param>
-        /// <returns></returns>
-        DtoDadosAto GetDadosAto(long IdAto);
-
-        /// <summary>
-        /// Busca Dados do Ato por IdPrenotacao
-        /// </summary>
-        /// <param name="IdPrenotacao"></param>
-        /// <returns></returns>
-        DtoDadosAto GetDadosAtoPrenotacao(long IdPrenotacao);
     }
 }

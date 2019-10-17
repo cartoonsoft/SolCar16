@@ -45,7 +45,7 @@ namespace AdmCartorio.Controllers
 
             using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
             {
-                IEnumerable<DtoAtoList> listaDto = appService.GetListaAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
+                IEnumerable<DtoAtoList> listaDto = null; // appService.GetListaAtos(DateTime.Today, DateTime.Today).Where(a => a.Ativo == true);
                 if (listaDto != null)
                 {
                     listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
@@ -197,7 +197,7 @@ namespace AdmCartorio.Controllers
             using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
 
-                var resultado = appService.FinalizarAto(IdAto);
+                var resultado = false; // appService.FinalizarAto(IdAto);
                 if (resultado)
                 {
                     this.UfwCartNew.SaveChanges();

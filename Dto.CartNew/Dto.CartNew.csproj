@@ -47,7 +47,6 @@
     <Compile Include="Base\DtoBase.cs" />
     <Compile Include="Base\DtoEntityBaseModel.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDadosAto.cs" />
-    <Compile Include="Entities\Cart_11RI\Diversos\DtoDocxList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoInfAto.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
@@ -59,7 +58,7 @@
     <Compile Include="Entities\Cart_11RI\DtoTipoAto.cs" />
     <Compile Include="Entities\TodosCart\DtoMunicipio.cs" />
     <Compile Include="Entities\TodosCart\DtoPais.cs" />
-    <Compile Include="Entities\Cart_11RI\DtoPESSOAS.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoPessoaAto.cs" />
     <Compile Include="Entities\TodosCart\DtoPessoaCartNew.cs" />
     <Compile Include="Entities\Cart_11RI\DtoPESXPRE.cs" />
     <Compile Include="Entities\Cart_11RI\DtoPREIMO.cs" />

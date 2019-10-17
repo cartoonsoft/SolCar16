@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using AppServ.Core.AppServices;
 using Domain.CartNew.Interfaces.UnitOfWork;
-using DomainServ.CartNew.Factory;
-using DomainServ.CartNew.Interfaces.Factory;
 
 namespace AppServCart11RI.Base
 {

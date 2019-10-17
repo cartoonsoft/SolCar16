@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.CartNew.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,5 +23,8 @@ namespace Domain.CartNew.Entities
         [Column("REL")]
         [StringLength(1)]
         public string Relacao { get; set; }
+
+        [Column("TP_PES")]
+        public TipoPessoaPrenotacao TipoPessoa { get; set; }
     }
 }

@@ -137,7 +137,7 @@ function PesquisarPrenotacao(numPrenotacao, url) {
         var dadosPrenotacao = {
             IdPrenotacao: numPrenotacao
         };
-        GetDadosImovelPrenotacao(dadosPrenotacao, url);
+        GetDadosImoveisPrenotacao(dadosPrenotacao, url);
     } else {
         $.smallBox({
             title: "Entrada inválida!",
@@ -150,10 +150,10 @@ function PesquisarPrenotacao(numPrenotacao, url) {
 }
 
 /** ----------------------------------------------------------------------------
- * Ajax busca dadso do imóvel por prenotacao
+ * Ajax busca dados dos imoveis por prenotacao
  * @@param dataPreMat
 ----------------------------------------------------------------------------- */
-function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
+function GetDadosImoveisPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
         method: 'POST',
@@ -165,10 +165,11 @@ function GetDadosImovelPrenotacao(dadosPrenotacao, url) {
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosInvalidos = (typeof dataReturn.dtoDadosImovel == 'undefined' || dataReturn.dtoDadosImovel == null);
+            var dadosInvalidos = (typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
 
             if (!dadosInvalidos) {
-                PovoarDadosImovel(dataReturn.dtoDadosImovel);
+
+                obj_tabela_mat.data = dataReturn.listaDtoDadosImovel;
                 HabilitarProximo();
                 $.smallBox({
                     title: "Requisição processada com sucesso!",
@@ -408,33 +409,6 @@ function PovoarSelecionados(numPrenotacao) {
     $('#div-dlg-pessoas').modal('hide');
 
     return povoou;
-}
-
-/** ----------------------------------------------------------------------------
- * povoar dados imovel
- * @@param preimo
- ----------------------------------------------------------------------------*/
-function PovoarDadosImovel(dtoDadosImovel) {
-
-    $('#IdPrenotacao').val(dtoDadosImovel.SEQPRE);
-    $('#NumMatricula').val(dtoDadosImovel.MATRI);
-
-    $('#PREIMO_SEQPRE').val(dtoDadosImovel.SEQPRE);
-    $('#PREIMO_MATRI').val(dtoDadosImovel.MATRI);
-    $('#PREIMO_ENDER').val(dtoDadosImovel.ENDER);
-    $('#PREIMO_NUM').val(dtoDadosImovel.NUM);
-    $('#PREIMO_LOTE').val(dtoDadosImovel.LOTE);
-    $('#PREIMO_QUADRA').val(dtoDadosImovel.QUADRA);
-    $('#PREIMO_APTO').val(dtoDadosImovel.APTO);
-    $('#PREIMO_BLOCO').val(dtoDadosImovel.BLOCO);
-    $('#PREIMO_EDIF').val(dtoDadosImovel.EDIF);
-    $('#PREIMO_VAGA').val(dtoDadosImovel.VAGA);
-    $('#PREIMO_OUTROS').val(dtoDadosImovel.OUTROS);
-    $('#PREIMO_TRANS').val(dtoDadosImovel.TRANS);
-    $('#PREIMO_INSCR').val(dtoDadosImovel.INSCR);
-    $('#PREIMO_HIPO').val(dtoDadosImovel.HIPO);
-    $('#PREIMO_RD').val(dtoDadosImovel.RD);
-    $('#PREIMO_CONTRIB').val(dtoDadosImovel.CONTRIB);
 }
 
 function DesabilitarProximo() {

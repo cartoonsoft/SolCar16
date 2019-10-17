@@ -81,6 +81,7 @@ namespace AppServCart11RI.Cartorio
             int paginaInicial;
             int paginaAtual;
 
+            /*
             List<DtoDocxList> lista = _appServiceAtos.GetListDtoDocxAto(Ato.NumMatricula).ToList();
             bool ExisteDocxAto = lista.Count > 0;
 
@@ -163,6 +164,7 @@ namespace AppServCart11RI.Cartorio
                     }
                 }
             }
+            */
 
             return listaDocx;
         }

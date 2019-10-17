@@ -19,7 +19,6 @@ namespace DomainServ.CartNew.Services
 
         public ModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
-            //
             _repositoryModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
             _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
         }

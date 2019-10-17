@@ -26,6 +26,8 @@ namespace Cartorio11RI.App_Start.AutoMapper
             CreateMap<DtoPREIMO, PREIMO>();
             CreateMap<DtoAto, Ato>();
             CreateMap<DtoDadosAto, Ato>();
+            CreateMap<DtoDocx, Docx>();
+            CreateMap<DtoDadosImovel, DadosImovel>();
         }
     }
 }

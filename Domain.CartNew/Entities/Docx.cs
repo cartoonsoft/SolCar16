@@ -39,6 +39,6 @@ namespace Domain.CartNew.Entities
         public DateTime DataDocx { get; set; }
 
         [Column("NOM_ARQ")] //NOM_ARQ VARCHAR2(400),
-        public string NomeArq { get; set; }
+        public string NomeArquivo { get; set; }
     }
 }

@@ -8,11 +8,17 @@ using System.Threading.Tasks;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoAto: DtoEntityBaseModel
+    public class DtoAto : DtoEntityBaseModel
     {
+        public DtoAto()
+        {
+            this.ListaPessoasAto = new List<DtoPessoaAto>();
+            this.ListaDocxsAto = new List<DtoDocx>();
+        }
+
         [Key]
         public override long? Id { get; set; }
-                
+
         public long IdCtaAcessoSist { get; set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
 
         public long IdLivro { get; set; }
@@ -49,9 +55,11 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
-
         public bool DocxGerado { get; set; }
+
+        public List<DtoPessoaAto> ListaPessoasAto { get; set; }  //pessoas selecionadas para este ato, não é necessariamente, todas as pesoas da prenotação.
+
+        public List<DtoDocx> ListaDocxsAto { get; set; }  //Lista de docx (Fichas) gerados para o ato
 
     }
 }

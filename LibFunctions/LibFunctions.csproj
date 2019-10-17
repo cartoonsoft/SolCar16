@@ -49,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Functions\AppFunctions.cs" />
     <Compile Include="Functions\BusinessFunctions.cs" />
-    <Compile Include="Functions\DataHelper.cs" />
+    <Compile Include="Functions\DateTimeFunctions.cs" />
     <Compile Include="Functions\FeriadosHelper.cs" />
     <Compile Include="Functions\IOFunctions.cs" />
     <Compile Include="Functions\StringFunctions.cs" />

@@ -63,7 +63,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
                 {
-                    IEnumerable<DtoAtoList> listaDto = appService.GetListaAtos((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
+                    IEnumerable<DtoAtoList> listaDto = null; // appService.GetListaAtos((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
                     if (listaDto != null)
                     {
                         listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
@@ -362,7 +362,7 @@ namespace Cartorio11RI.Controllers
         {
             using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
-                var resultado = appService.FinalizarAto(IdAto);
+                var resultado = false; // appService.FinalizarAto(IdAto);
 
                 if (resultado)
                 {
@@ -434,19 +434,19 @@ namespace Cartorio11RI.Controllers
         /// <param name="matriculaPrenotacao"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetDadosImovelPrenotacao(long IdPrenotacao)
+        public JsonResult GetDadosImoveisPrenotacao(long IdPrenotacao)
         {
             bool resp = false;
             string message = string.Empty;
 
-            DtoDadosImovel dtoDadosImovel  = new DtoDadosImovel();
+            List<DtoDadosImovel> listaDtoDadosImovel  = new List<DtoDadosImovel>();
 
             try
             {
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    dtoDadosImovel = appServAtos.GetDadosImovelPrenotacao(IdPrenotacao);
-                    if (dtoDadosImovel != null)
+                    //listaDtoDadosImovel = appServAtos.GetDadosImoveisPrenotacao(IdPrenotacao).ToList();
+                    if (listaDtoDadosImovel != null)
                     {
                         message = "Dados retornados con sucesso";
                     } else
@@ -465,7 +465,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                dtoDadosImovel = dtoDadosImovel
+                listaDtoDadosImovel = listaDtoDadosImovel
             };
 
             return Json(resultado);
@@ -487,7 +487,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    listaPes = appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
+                    listaPes = null; // appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
                     resp = true;
                     message = "Lista de pessoas da prenotação obtida com sucesso!";
                 }
@@ -608,7 +608,7 @@ namespace Cartorio11RI.Controllers
 
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    texto = appServiceAtos.GetTextoWordDocModelo(fullName).ToString();
+                    texto = ""; //  appServiceAtos.GetTextoWordDocModelo(fullName).ToString();
                 }
 
 
@@ -665,7 +665,7 @@ namespace Cartorio11RI.Controllers
                         ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
                     };
 
-                    texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
+                    texto = "";// appServiceAtos.GetTextoAto(dtoInfAto).ToString();
                 }
 
                 resp = true;
