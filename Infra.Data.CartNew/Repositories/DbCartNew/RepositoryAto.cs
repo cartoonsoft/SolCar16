@@ -19,7 +19,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
     public class RepositoryAto : RepositoryBaseReadWrite<Ato>, IRepositoryAto
     {
         private readonly ContextMainCartNew _contextRepository;
-        private readonly string[] PapelPessoaAto = { "O", "E" };  // O - outorgantes E - outorgados 
+        private readonly string[] PapelPessoaAto = { "O", "E" };  // O - outorgante E - outorgado 
 
         public RepositoryAto(ContextMainCartNew contextRepository) : base(contextRepository)
         {
@@ -91,57 +91,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return NumSequenciaAto;
         }
 
-        public IEnumerable<PessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao) 
+        public IEnumerable<Docx> GerarFichas(Ato ato)
         {
-            List<PessoaPesxPre> listaDtoPessoaPesxPres = new List<PessoaPesxPre>();
-
-            var listaPessoasPrenotacao =
-                from pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == numeroPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
-                join pes in this._contextRepository.DbPESSOAS on pre.SEQPES equals pes.SEQPES
-                orderby pre.REL, pes.NOM
-                select new
-                {
-                    IdPessoa = pes.SEQPES,
-                    IdPrenotacao = numeroPrenotacao,
-                    TipoPessoa =
-                        pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
-                        pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
-                    Nome = pes.NOM,
-                    Relacao = pre.REL,
-                    Endereco = pes.ENDER,
-                    Bairro = pes.BAI,
-                    Cidade = pes.CID,
-                    Telefone = pes.TEL,
-                    Cep = pes.CEP,
-                    Uf = pes.UF,
-                    TipoDoc1 = pes.TIPODOC1,
-                    Numero1 = pes.NRO1,
-                    TipoDoc2 = pes.TIPODOC2,
-                    Numero2 = pes.NRO2
-                };
-
-            foreach (var pessoa in listaPessoasPrenotacao)
-            {
-                listaDtoPessoaPesxPres.Add(new PessoaPesxPre {
-                    IdPessoa = pessoa.IdPessoa,
-                    IdPrenotacao = pessoa.IdPrenotacao,
-                    TipoPessoa = pessoa.TipoPessoa,
-                    Nome = pessoa.Nome,
-                    Relacao = pessoa.Relacao,
-                    Endereco = pessoa.Endereco,
-                    Bairro = pessoa.Bairro,
-                    Cidade = pessoa.Cidade,
-                    Uf = pessoa.Uf,
-                    Cep =  pessoa.Cep.ToString(),
-                    Telefone = pessoa.Telefone,
-                    TipoDoc1 = pessoa.TipoDoc1.ToString(),
-                    Numero1 = pessoa.Numero1,
-                    TipoDoc2 = pessoa.TipoDoc2,
-                    Numero2 = pessoa.Numero2
-                });
-            }
-
-            return null;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Ato> GetListAtosMatricula(string NumMatricula)
@@ -161,61 +113,19 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaAtos;
         }
 
-        public IEnumerable<PessoaAto> GetListPessoasAto(long? IdAto) 
+        public IEnumerable<CamposValor> GetListCamposAto(long IdAto)
         {
-            List<PessoaAto> listaPessoas = new List<PessoaAto>();
+            throw new NotImplementedException();
+        }
 
-            if(IdAto != null)
-            {
-                var qry =
-                    from Pes in this._contextRepository.DbPESSOAS
-                    join AtoPes in this._contextRepository.DbAtoPessoa.Where(ad => ad.IdAto == IdAto) on Pes.SEQPES equals AtoPes.SeqPes
-                    join Atos in this._contextRepository.DbAto on AtoPes.IdAto equals Atos.Id
-                    orderby Pes.NOM
-                    select new
-                    {
-                        IdPessoa = Pes.SEQPES,
-                        IdAto = AtoPes.IdAto,
-                        IdPrenotacao  = Atos.IdPrenotacao,
-                        Relacao = AtoPes.Relacao,
-                        TipoPessoa = AtoPes.TipoPessoa,
-                        Nome = Pes.NOM,
-                        Endereco = Pes.ENDER,
-                        Bairro = Pes.BAI,
-                        Cidade = Pes.CID,
-                        Uf = Pes.UF,
-                        Cep = Pes.CEP,
-                        Telefone = Pes.TEL,
-                        TipoDoc1 = Pes.TIPODOC1,
-                        TipoDoc2 = Pes.TIPODOC2,
-                        Numero1 = Pes.NRO1,
-                        Numero2 = Pes.NRO2
-                    };
+        public IEnumerable<CamposValor> GetListCamposImovel(long numeroMatricula)
+        {
+            throw new NotImplementedException();
+        }
 
-                foreach (var pessoa in qry)
-                {
-                    listaPessoas.Add(new PessoaAto { 
-                        IdPessoa = pessoa.IdPessoa,
-                        IdAto = pessoa.IdAto,
-                        IdPrenotacao = pessoa.IdPrenotacao,
-                        Relacao = pessoa.Relacao,
-                        TipoPessoa = pessoa.TipoPessoa,
-                        Nome = pessoa.Nome,
-                        Endereco = pessoa.Endereco,
-                        Bairro = pessoa.Bairro,
-                        Cidade = pessoa.Cidade,
-                        Uf = pessoa.Uf,
-                        Cep = pessoa.Cep.ToString(),
-                        Telefone = pessoa.Telefone,
-                        TipoDoc1 = pessoa.TipoDoc1.ToString(),
-                        TipoDoc2 = pessoa.TipoDoc2,
-                        Numero1 = pessoa.Numero1,
-                        Numero2 = pessoa.Numero2
-                    });
-                }
-            }
-
-            return listaPessoas;
+        public IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa)
+        {
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Docx> GetListDocxAto(long? IdAto)
@@ -226,7 +136,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             {
                 var qry =
                     from Doc in this._contextRepository.DbDocx
-                    join AtoDoc in this._contextRepository.DbAtoDocx.Where(ad => ad.IdAto == IdAto) on Doc.Id equals AtoDoc.IdAto 
+                    join AtoDoc in this._contextRepository.DbAtoDocx.Where(ad => ad.IdAto == IdAto) on Doc.Id equals AtoDoc.IdAto
                     orderby Doc.DataDocx descending
                     select new
                     {
@@ -260,7 +170,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return lista;
         }
 
-        public IEnumerable<DadosImovel> GetDadosImoveisPrenotacao(long IdPrenotacao) 
+        public IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
             List<DadosImovel> lista = new List<DadosImovel>();
             string dataTmp = DateTimeFunctions.GetDataPorExtenso("São Paulo");
@@ -268,9 +178,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             var qryImoveis =
                 from mi in this._contextRepository.DbMATRIMO.Where(m => (m.SEQPRE == IdPrenotacao) && (m.TIPO.Trim() == "1"))
                 join pre in this._contextRepository.DbPREIMO.Where(p => (p.SEQPRE == IdPrenotacao)) on mi.NUMERO equals pre.MATRI into mi_pre
-                from pre in mi_pre.DefaultIfEmpty() 
+                from pre in mi_pre.DefaultIfEmpty()
                 orderby mi.NUMERO
-                select new 
+                select new
                 {
                     IdPrenotacao = IdPrenotacao,
                     NumMatricula = mi.NUMERO,
@@ -299,7 +209,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             foreach (var imovel in qryImoveis)
             {
-                lista.Add(new DadosImovel {
+                lista.Add(new DadosImovel
+                {
                     IdPrenotacao = imovel.IdPrenotacao,
                     NumMatricula = imovel.NumMatricula.ToString(),
                     DataAtualExtenso = imovel.DataAtualExtenso,
@@ -329,17 +240,119 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return lista;
         }
 
-        public IEnumerable<CamposValor> GetCamposAto(long IdAto)
+        public IEnumerable<PessoaAto> GetListPessoasAto(long? IdAto)
         {
-            throw new NotImplementedException();
+            List<PessoaAto> listaPessoas = new List<PessoaAto>();
+
+            if (IdAto != null)
+            {
+                var qry =
+                    from Pes in this._contextRepository.DbPESSOAS
+                    join AtoPes in this._contextRepository.DbAtoPessoa.Where(ad => ad.IdAto == IdAto) on Pes.SEQPES equals AtoPes.SeqPes
+                    join Atos in this._contextRepository.DbAto on AtoPes.IdAto equals Atos.Id
+                    orderby Pes.NOM
+                    select new
+                    {
+                        IdPessoa = Pes.SEQPES,
+                        IdAto = AtoPes.IdAto,
+                        IdPrenotacao = Atos.IdPrenotacao,
+                        Relacao = AtoPes.Relacao,
+                        TipoPessoa = AtoPes.TipoPessoa,
+                        Nome = Pes.NOM,
+                        Endereco = Pes.ENDER,
+                        Bairro = Pes.BAI,
+                        Cidade = Pes.CID,
+                        Uf = Pes.UF,
+                        Cep = Pes.CEP,
+                        Telefone = Pes.TEL,
+                        TipoDoc1 = Pes.TIPODOC1,
+                        TipoDoc2 = Pes.TIPODOC2,
+                        Numero1 = Pes.NRO1,
+                        Numero2 = Pes.NRO2
+                    };
+
+                foreach (var pessoa in qry)
+                {
+                    listaPessoas.Add(new PessoaAto
+                    {
+                        IdPessoa = pessoa.IdPessoa,
+                        IdAto = pessoa.IdAto,
+                        IdPrenotacao = pessoa.IdPrenotacao,
+                        Relacao = pessoa.Relacao,
+                        TipoPessoa = pessoa.TipoPessoa,
+                        Nome = pessoa.Nome,
+                        Endereco = pessoa.Endereco,
+                        Bairro = pessoa.Bairro,
+                        Cidade = pessoa.Cidade,
+                        Uf = pessoa.Uf,
+                        Cep = pessoa.Cep.ToString(),
+                        Telefone = pessoa.Telefone,
+                        TipoDoc1 = pessoa.TipoDoc1.ToString(),
+                        TipoDoc2 = pessoa.TipoDoc2,
+                        Numero1 = pessoa.Numero1,
+                        Numero2 = pessoa.Numero2
+                    });
+                }
+            }
+
+            return listaPessoas;
         }
 
-        public IEnumerable<CamposValor> GetCamposImovel(long numeroMatricula)
+        public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao)
         {
-            throw new NotImplementedException();
+            List<PessoaPesxPre> listaDtoPessoaPesxPres = new List<PessoaPesxPre>();
+
+            var listaPessoasPrenotacao =
+                from pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == numeroPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
+                join pes in this._contextRepository.DbPESSOAS on pre.SEQPES equals pes.SEQPES
+                orderby pre.REL, pes.NOM
+                select new
+                {
+                    IdPessoa = pes.SEQPES,
+                    IdPrenotacao = numeroPrenotacao,
+                    TipoPessoa =
+                        pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
+                        pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
+                    Nome = pes.NOM,
+                    Relacao = pre.REL,
+                    Endereco = pes.ENDER,
+                    Bairro = pes.BAI,
+                    Cidade = pes.CID,
+                    Telefone = pes.TEL,
+                    Cep = pes.CEP,
+                    Uf = pes.UF,
+                    TipoDoc1 = pes.TIPODOC1,
+                    Numero1 = pes.NRO1,
+                    TipoDoc2 = pes.TIPODOC2,
+                    Numero2 = pes.NRO2
+                };
+
+            foreach (var pessoa in listaPessoasPrenotacao)
+            {
+                listaDtoPessoaPesxPres.Add(new PessoaPesxPre
+                {
+                    IdPessoa = pessoa.IdPessoa,
+                    IdPrenotacao = pessoa.IdPrenotacao,
+                    TipoPessoa = pessoa.TipoPessoa,
+                    Nome = pessoa.Nome,
+                    Relacao = pessoa.Relacao,
+                    Endereco = pessoa.Endereco,
+                    Bairro = pessoa.Bairro,
+                    Cidade = pessoa.Cidade,
+                    Uf = pessoa.Uf,
+                    Cep = pessoa.Cep.ToString(),
+                    Telefone = pessoa.Telefone,
+                    TipoDoc1 = pessoa.TipoDoc1.ToString(),
+                    Numero1 = pessoa.Numero1,
+                    TipoDoc2 = pessoa.TipoDoc2,
+                    Numero2 = pessoa.Numero2
+                });
+            }
+
+            return null;
         }
 
-        public IEnumerable<CamposValor> GetCamposPessoa(long IdPessoa)
+        public short GetUltimoNumFicha(long numeroMatricula)
         {
             throw new NotImplementedException();
         }

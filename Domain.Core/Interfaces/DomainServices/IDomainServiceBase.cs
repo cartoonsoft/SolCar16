@@ -43,6 +43,6 @@ namespace Domain.Core.Interfaces.DomainServices
         Paged<TEntity> GetWhereOrderByPaged<KProperty>(int pageIndex, int pageCount, ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true);
         Paged<TEntity> GetWhereOrderByPaged(int pageIndex, int pageCount, Expression<Func<TEntity, bool>> expression, string fieldSort, bool ascending = true);
 
-        long GetNextValFromOracleSequence(string SequenceName);
+        long? GetNextValFromOracleSequence(string SequenceName);
     }
 }

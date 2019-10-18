@@ -54,7 +54,7 @@ namespace Infra.Data.CartNew.Context
         public DbSet<TipoAtoCampo> DbTipoAtoCampo { get; set; }
 
         public DbSet<TipoMenu> DbTipoMenu { get; set; }
-        public DbSet<Menu> DbMenuo { get; set; }
+        public DbSet<Menu> DbMenu { get; set; }
         public DbSet<Acao> DbAcao { get; set; }
         public DbSet<UsuarioAcao> DbUsuarioAcao { get; set; }
         public DbSet<Livro> DbLivro { get; set; }

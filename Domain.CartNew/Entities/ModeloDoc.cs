@@ -36,7 +36,7 @@ namespace Domain.CartNew.Entities
         public DateTime? DataAlteracao { get; set; }
 
         [Column("DESCRICAO")]
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
         [Column("ORIENTACAO")]
         public string Orientacao { get; set; }

@@ -48,13 +48,63 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return arrayBytes;
         }
 
-        public IEnumerable<ModeloDocxList> ListarArquivoModeloDocx(long? IdTipoAto = null)
+        public IEnumerable<ModeloDocxList> GetListModelosDocx(long? IdTipoAto = null)
+        {
+            List<ModeloDocxList> listaModelosDocxList = new List<ModeloDocxList>();
+
+            var listaModelos =
+                from M in this._contextRepository.DbModeloDoc.Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
+                join TA in this._contextRepository.DbTipoAto on M.IdTipoAto equals TA.Id into _a
+                from TA in _a.DefaultIfEmpty()
+                orderby (M.Descricao)
+                select new ModeloDocxList
+                {
+                    Id = M.Id,
+                    IdCtaAcessoSist = M.IdCtaAcessoSist,
+                    IdTipoAto = M.IdTipoAto,
+                    IdTipoAtoPai = TA.IdTipoAtoPai,
+                    IdUsuarioCadastro = M.IdUsuarioCadastro,
+                    IdUsuarioAlteracao = M.IdUsuarioAlteracao,
+                    DataCadastro = M.DataCadastro,
+                    DataAlteracao = M.DataAlteracao,
+                    DescricaoModelo = M.Descricao,
+                    Orientacao = M.Orientacao,
+                    CaminhoEArquivo = M.CaminhoEArquivo,
+                    DescricaoTipo = TA.Descricao,
+                    SiglaSeqAto = TA.SiglaSeqAto,
+                    Ativo = M.Ativo
+                };
+
+            foreach (var modelo in listaModelos)
+            {
+                listaModelosDocxList.Add(new ModeloDocxList {
+                    Id = modelo.Id,
+                    IdCtaAcessoSist = modelo.IdCtaAcessoSist,
+                    IdTipoAto = modelo.IdTipoAto,
+                    IdTipoAtoPai = modelo.IdTipoAtoPai,
+                    IdUsuarioCadastro = modelo.IdUsuarioCadastro,
+                    IdUsuarioAlteracao = modelo.IdUsuarioAlteracao,
+                    DataCadastro = modelo.DataCadastro,
+                    DataAlteracao = modelo.DataAlteracao,
+                    DescricaoModelo = modelo.DescricaoModelo,
+                    Orientacao = modelo.Orientacao,
+                    CaminhoEArquivo = modelo.CaminhoEArquivo,
+                    DescricaoTipo = modelo.DescricaoTipo,
+                    SiglaSeqAto = modelo.SiglaSeqAto,
+                    Ativo = modelo.Ativo
+                });
+            }
+
+            return listaModelosDocxList;
+        }
+
+        public IEnumerable<ModeloDocxList> GetListModelosDocx2(long? IdTipoAto = null)
         {
             string strQuery = string.Empty;
             string sqlWhere = string.Empty;
             string sqlOrder = string.Empty;
 
-            List<ModeloDocxList> ListaAquivoModeloDocxList = new List<ModeloDocxList>();
+            List<ModeloDocxList> listaModelosDocxList = new List<ModeloDocxList>();
             List<OracleParameter> oracleParameters = new List<OracleParameter>();
 
             strQuery +=
@@ -67,12 +117,15 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     DOC.DT_CAD,
                     DOC.DT_ALTER,
                     DOC.DESCRICAO,
+                    DOC.ORIENTACAO,
                     DOC.ARQUIVO,
                     DOC.ATIVO,
-                    ATO.DESCRICAO as DESC_ATO
+                    TA.ID_TP_ATO_PAI,
+                    TA.DESCRICAO DESC_TP_ATO,
+                    TA.SIGLA_SEQ_ATO
                 from
                     TB_MODELO_DOC DOC
-                    left outer join TB_TP_ATO ATO on ATO.ID_TP_ATO = DOC.ID_TP_ATO";
+                    LEFT OUTER JOIN TB_TP_ATO TA ON  TA.ID_TP_ATO = DOC.ID_TP_ATO";
 
             if (IdTipoAto != null)
             {
@@ -104,19 +157,22 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     {
                         while (row.Read())
                         {
-                            ListaAquivoModeloDocxList.Add(new ModeloDocxList
+                            listaModelosDocxList.Add(new ModeloDocxList
                             {
                                 Id = row.GetOracleDecimal(row.GetOrdinal("ID_MODELO_DOC")).ToInt64(), // DOC.ID_MODELO_DOC
                                 IdTipoAto = row.IsDBNull(row.GetOrdinal("ID_TP_ATO")) ? default(long?) : row.GetOracleDecimal(row.GetOrdinal("ID_TP_ATO")).ToInt64(), //DOC.ID_TP_ATO,
+                                IdTipoAtoPai = row.IsDBNull(row.GetOrdinal("ID_TP_ATO_PAI")) ? default(long?) : row.GetOracleDecimal(row.GetOrdinal("ID_TP_ATO_PAI")).ToInt64(), //DOC.ID_TP_ATO,
                                 IdCtaAcessoSist = row.GetOracleDecimal(row.GetOrdinal("ID_CTA_ACESSO_SIST")).ToInt64(), // DOC.ID_CTA_ACESSO_SIST,
                                 IdUsuarioCadastro = row.GetOracleString(row.GetOrdinal("ID_USR_CAD")).ToString(), //DOC.ID_USR_CAD,
                                 IdUsuarioAlteracao = row.GetOracleString(row.GetOrdinal("ID_USR_ALTER")).ToString(),  //DOC.ID_USR_ALTER
                                 DataCadastro = row.GetOracleDate(row.GetOrdinal("DT_CAD")).Value, //DOC.DT_CAD,
                                 DataAlteracao = (DateTime?)(row.IsDBNull(row.GetOrdinal("DT_ALTER")) ? null : row.GetValue(row.GetOrdinal("DT_ALTER"))), //DT_ALTER
-                                NomeModelo = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,
+                                DescricaoModelo = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,
+                                DescricaoTipo = row.GetOracleString(row.GetOrdinal("DESC_TP_ATO")).ToString(), //TA.DESC_TP_ATO,
+                                Orientacao = row.GetOracleString(row.GetOrdinal("ORIENTACAO")).ToString(), // DOC.ORIENTACAO,
                                 CaminhoEArquivo = row.GetOracleString(row.GetOrdinal("ARQUIVO")).ToString(), //DOC.ARQUIVO,
-                                Ativo = !row.GetOracleDecimal(row.GetOrdinal("ATIVO")).IsZero, //DOC.ATIVO,
-                                DescricaoAto = row.GetOracleString(row.GetOrdinal("DESC_ATO")).ToString()  //DESC_ATO
+                                Ativo = !row.GetOracleDecimal(row.GetOrdinal("ATIVO")).IsZero,  //DOC.ATIVO,
+                                SiglaSeqAto = row.GetOracleString(row.GetOrdinal("SIGLA_SEQ_ATO")).ToString()
                             });
                         }
                     }
@@ -126,7 +182,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             //List<ArquivoModeloDocxList> aquivoModeloDocxList = this.Context.Database.SqlQuery<ArquivoModeloDocxList>(strQuery).ToList<ArquivoModeloDocxList>();
 
-            return ListaAquivoModeloDocxList;
+            return listaModelosDocxList;
         }
 
         /// <summary>
@@ -134,7 +190,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         /// </summary>
         /// <param name="IdTipoAto">Id do tipo ato para filtrar </param>
         /// <returns></returns>
-        public IEnumerable<ModeloDocxSimplificadoList> ListarArquivoModeloSimplificadoDocx(long? IdTipoAto = null)
+        public IEnumerable<ModeloDocxSimplificadoList> GetListModeloSimplificadoDocx(long? IdTipoAto = null)
         {
             string strQuery = string.Empty;
             string sqlWhere = string.Empty;
@@ -200,7 +256,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return ListaArquivos;
         }
 
-        public IEnumerable<CampoTipoAto> GetListaCamposIdTipoAto(long? IdTipoAto, long IdCtaAcessoSist)
+        public IEnumerable<CampoTipoAto> GetListCamposIdTipoAto(long? IdTipoAto, long IdCtaAcessoSist)
         {
             List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
             
@@ -235,6 +291,5 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             return campoTipoAtos;
         }
-
     }
 }

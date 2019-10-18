@@ -24,7 +24,7 @@ namespace DomainServ.CartNew.Services
             //_repositoryTipoAto = UfwCartNew.Repositories.RepositoryTipoAto;
         }
 
-        public IEnumerable<DtoTipoAtoList> ListaTipoAtos(long? idTipoAtoPai)
+        public IEnumerable<DtoTipoAtoList> GetListTiposAto(long? idTipoAtoPai)
         {
             List<DtoTipoAtoList> listaDtoTipoAtoList = new List<DtoTipoAtoList>();
             List<TipoAtoList> lista = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(idTipoAtoPai).ToList();

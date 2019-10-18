@@ -27,5 +27,8 @@ namespace Domain.CartNew.Entities
 
         [Column("ORIENTACAO")]
         public string Orientacao { get; set; }
+
+        [Column("SIGLA_SEQ_ATO")]
+        public string SiglaSeqAto { get; set; }
     }
 }

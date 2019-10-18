@@ -13,6 +13,6 @@ namespace AppServices.Cartorio.Interfaces
 {
     public interface IAppServicetTipoAto : IAppServiceCartorio<DtoTipoAto, TipoAto>
     {
-        IEnumerable<DtoTipoAtoList> ListaTipoAtos(long? idTipoAtoPai);
+        IEnumerable<DtoTipoAtoList> GetListTiposAto(long? idTipoAtoPai);
     }
 }

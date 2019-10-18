@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.CartNew.Entities;
+using Domain.CartNew.Entities.Diversos;
 using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
@@ -25,24 +27,28 @@ namespace DomainServ.CartNew.Services
 
         public long? NovoModelo(ModeloDoc modeloDocx, LogModeloDoc logModeloDocx, string IdUsuario)
         {
-            long? NovoId = null;
+            long? NovoId = null; 
 
-            UfwCartNew.BeginTransaction();
+            if (modeloDocx != null)
+            {
+                UfwCartNew.BeginTransaction();
+                NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
 
-            NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
-            modeloDocx.Id = NovoId;
-            modeloDocx.CaminhoEArquivo = modeloDocx.CaminhoEArquivo + "modelo_" + NovoId.ToString() + ".docx";
+                modeloDocx.Id = NovoId;
+                modeloDocx.CaminhoEArquivo = modeloDocx.CaminhoEArquivo + "modelo_" + modeloDocx.Id.ToString() + ".docx";
 
-            this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDocx);
-            UfwCartNew.SaveChanges();
+                this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDocx);
+                UfwCartNew.SaveChanges();
 
-            logModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-            logModeloDocx.IdModeloDoc = NovoId??0;
+                if (logModeloDocx != null) {
+                    logModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+                    logModeloDocx.IdModeloDoc = modeloDocx.Id ?? 0;
 
-            _repositoryLogModeloDocx.Add(logModeloDocx);
-            UfwCartNew.SaveChanges();
-
-            UfwCartNew.CommitTransaction();
+                    _repositoryLogModeloDocx.Add(logModeloDocx);
+                    UfwCartNew.SaveChanges();
+                }
+                UfwCartNew.CommitTransaction();
+            }
 
             return NovoId;
         }
@@ -51,14 +57,16 @@ namespace DomainServ.CartNew.Services
         {
             long? NovoId = null;
 
-            UfwCartNew.BeginTransaction();
-            
-            logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+            if (logArquivoModeloDocx != null)
+            {
+                UfwCartNew.BeginTransaction();
 
-            _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
-            UfwCartNew.SaveChanges();
+                logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
+                _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
+                UfwCartNew.SaveChanges();
 
-            UfwCartNew.CommitTransaction();
+                UfwCartNew.CommitTransaction();
+            }
 
             return NovoId;
         }
@@ -67,13 +75,13 @@ namespace DomainServ.CartNew.Services
         {
             bool resultado = false;
 
-            ModeloDoc arquivoModeloDocx = _repositoryModeloDocx.GetById(Id);
+            ModeloDoc modeloDocx = _repositoryModeloDocx.GetById(Id);
 
-            if (arquivoModeloDocx != null)
+            if (modeloDocx != null)
             {
-                arquivoModeloDocx.Ativo = false;
-                arquivoModeloDocx.IdUsuarioAlteracao = IdUsuario;
-                _repositoryModeloDocx.Update(arquivoModeloDocx);
+                modeloDocx.Ativo = false;
+                modeloDocx.IdUsuarioAlteracao = IdUsuario;
+                _repositoryModeloDocx.Update(modeloDocx);
                 UfwCartNew.SaveChanges();
                 resultado = true;
             }
@@ -81,32 +89,14 @@ namespace DomainServ.CartNew.Services
             return resultado;
         }
 
-        public IEnumerable<DtoModeloDocxList> GetListaModelosDocx(long? IdTipoAto = null)
+        public IEnumerable<DtoModeloDocxList> GetListModelosDocx(long? IdTipoAto = null)
         {
-            IEnumerable<DtoModeloDocxList> listaModeloDocxLists = new List<DtoModeloDocxList>();
+            IEnumerable<DtoModeloDocxList> listaModeloDocxList = new List<DtoModeloDocxList>();
 
-            listaModeloDocxLists =
-                from M in _repositoryModeloDocx.Get().Where(m => (IdTipoAto == null) || (m.IdTipoAto == IdTipoAto))
-                join TA in this.UfwCartNew.Repositories.GenericRepository<TipoAto>().Get() on M.IdTipoAto equals TA.Id into _a
-                from TA in _a.DefaultIfEmpty()
-                orderby (M.DescricaoModelo)
-                select new DtoModeloDocxList
-                {
-                    Id = M.Id,
-                    IdCtaAcessoSist = M.IdCtaAcessoSist,
-                    IdTipoAto = M.IdTipoAto,
-                    IdUsuarioCadastro = M.IdUsuarioCadastro,
-                    IdUsuarioAlteracao = M.IdUsuarioAlteracao,
-                    DataCadastro = M.DataCadastro,
-                    DataAlteracao = M.DataAlteracao,
-                    DescricaoModelo = M.DescricaoModelo,
-                    Orientacao = M.Orientacao,
-                    CaminhoEArquivo = M.CaminhoEArquivo,
-                    DescricaoTipoAto = TA.Descricao,
-                    Ativo = M.Ativo
-                };
+            List<ModeloDocxList> lista = _repositoryModeloDocx.GetListModelosDocx(IdTipoAto).ToList();
+            listaModeloDocxList = Mapper.Map<List<ModeloDocxList>, List<DtoModeloDocxList>>(lista);
 
-            return listaModeloDocxLists;
+            return listaModeloDocxList;
         }
 
     }

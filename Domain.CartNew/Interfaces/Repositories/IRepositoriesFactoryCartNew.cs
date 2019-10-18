@@ -48,5 +48,10 @@ namespace Domain.CartNew.Interfaces.Repositories
             get;
         }
 
+        IRepositoryAcao RepositoryAcao
+        {
+            get;
+        }
+
     }
 }

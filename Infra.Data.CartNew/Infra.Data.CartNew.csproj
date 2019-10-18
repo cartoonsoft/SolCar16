@@ -67,6 +67,7 @@
     <Compile Include="Repositories\DbCartNew\RepositoryTipoAto.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryPais.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryPessoaCartNew.cs" />
+    <Compile Include="Repositories\DbCartNew\RepositoryAcao.cs" />
     <Compile Include="Repositories\DbCartNew\RepositoryUf.cs" />
     <Compile Include="Repositories\Identity\RepositoryUsuarioIdentity.cs" />
     <Compile Include="UnitsOfWork\Base\UnitOfWork.cs" />

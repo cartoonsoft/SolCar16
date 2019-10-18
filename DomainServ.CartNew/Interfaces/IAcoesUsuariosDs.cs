@@ -11,6 +11,6 @@ namespace DomainServ.CartNew.Interfaces
 {
     public interface IAcoesUsuariosDs : IDomainServiceCartNew<Acao>
     {
-        IEnumerable<DtoMenu> ListaMenuUsuario(UsuarioIdentity usr);
+        IEnumerable<DtoAcaoMenuList> GetListMenuUsuario(UsuarioIdentity usr);
     }
 }

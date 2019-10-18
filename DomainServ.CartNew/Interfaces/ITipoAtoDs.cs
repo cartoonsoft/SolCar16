@@ -11,6 +11,6 @@ namespace DomainServ.CartNew.Interfaces
 {
     public interface ITipoAtoDs : IDomainServiceCartNew<TipoAto>
     {
-        IEnumerable<DtoTipoAtoList> ListaTipoAtos(long? idTipoAtoPai);
+        IEnumerable<DtoTipoAtoList> GetListTiposAto(long? idTipoAtoPai);
     }
 }

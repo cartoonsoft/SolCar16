@@ -53,6 +53,7 @@
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
     <Compile Include="Entities\AtoPessoa.cs" />
+    <Compile Include="Entities\Diversos\AcaoMenuList.cs" />
     <Compile Include="Entities\Diversos\DadosImovel.cs" />
     <Compile Include="Entities\Diversos\PessoaAto.cs" />
     <Compile Include="Entities\Diversos\TipoAtoList.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Interfaces\Repositories\IRepositoryTipoAto.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPais.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryPessoaCartNew.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryAcao.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUf.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryUsuarioIdentity.cs" />
     <Compile Include="Interfaces\UnitOfWork\IUnitOfWorkDataBaseCartNew.cs" />

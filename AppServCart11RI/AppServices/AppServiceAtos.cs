@@ -30,8 +30,126 @@ namespace AppServCart11RI.AppServices
         public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
-
         }
 
+        public void AtualizarAto(DtoAto Ato)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BloquearAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool BloquearMatricula(long numeroMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ConfirmarAjusteImpressaoAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ConfirmarFicha(long IdDocx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DesativarAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExisteAtoCadastrado(long numMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoDocx> GerarFichas(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoCamposValor> GetListCamposImovel(long numeroMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long? GetNumSequenciaTipoAto(long numeroMatricula, long IdTipoAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ImprimirFicha(long IdDocx)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ImprimirFichasAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ImprimirMinutaAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NovoAto(DtoAto Ato)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ReabrirAto(long IdAto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UploadFicha(long IdDocx)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -13,7 +13,9 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         [Key]
         public long? Id { get; set; }
 
-        public long IdTipoAto { get; set; }
+        public long? IdTipoAto { get; set; }
+
+        public long? IdTipoAtoPai { get; set; }
 
         public long IdCtaAcessoSist { get; set; }
 
@@ -27,12 +29,14 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public string DescricaoModelo { get; set; }
 
+        public string DescricaoTipo { get; set; }  //TB_TP_ATO
+
+        public string SiglaSeqAto { get; set; } //TB_TP_ATO
+
         public string Orientacao { get; set; }
 
         public string CaminhoEArquivo { get; set; }
 
         public bool Ativo { get; set; }
-
-        public string DescricaoTipoAto { get; set; }
     }
 }

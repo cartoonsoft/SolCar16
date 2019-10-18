@@ -104,6 +104,10 @@ namespace Infra.Data.CartNew.Factory
                     {
                         repository = new RepositoryTipoAto(this._context);
                     }
+                    if (typeof(T).Equals(typeof(Acao)))
+                    {
+                        repository = new RepositoryAcao(this._context);
+                    }
 
                     if (repository != null)
                     {
@@ -172,5 +176,9 @@ namespace Infra.Data.CartNew.Factory
             get { return GetRepositoryInstance<TipoAto>() as RepositoryTipoAto; }
         }
 
+        public IRepositoryAcao RepositoryAcao
+        {
+            get { return GetRepositoryInstance<Acao>() as RepositoryAcao; }
+        }
     }
 }

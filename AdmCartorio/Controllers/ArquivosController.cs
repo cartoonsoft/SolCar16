@@ -160,7 +160,7 @@ namespace AdmCartorio.Controllers
                         DescricaoTipoAto = "",
                         IdTipoAto = modeloDocx.IdTipoAto,
                         //logModeloDocxViewModel = 
-                        DescricaoModelo = modeloDocx.DescricaoModelo,
+                        DescricaoModelo = modeloDocx.Descricao,
                         CaminhoEArquivo = modeloDocx.CaminhoEArquivo
                     };
 

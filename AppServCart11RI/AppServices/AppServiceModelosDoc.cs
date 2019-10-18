@@ -40,7 +40,7 @@ namespace AppServCart11RI.AppServices
                     IdUsuarioCadastro = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
-                    DescricaoModelo = dtoModeloDoc.DescricaoModelo,
+                    Descricao = dtoModeloDoc.DescricaoModelo,
                     Ativo = dtoModeloDoc.Ativo,
                 };
 
@@ -70,7 +70,7 @@ namespace AppServCart11RI.AppServices
         {
             try
             {
-                ModeloDoc arquivoModelo = new ModeloDoc
+                ModeloDoc modeloDoc = new ModeloDoc
                 {
                     Id = dtoModeloDoc.Id,
                     IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
@@ -79,7 +79,7 @@ namespace AppServCart11RI.AppServices
                     IdUsuarioAlteracao = IdUsuario,
                     //ArquivoBytes = dtoArq.ArquivoByte,
                     CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
-                    DescricaoModelo = dtoModeloDoc.DescricaoModelo
+                    Descricao = dtoModeloDoc.DescricaoModelo
                 };
 
                 //HttpPostedFileBase arquivo = dtoArq.Files[0];
@@ -112,7 +112,7 @@ namespace AppServCart11RI.AppServices
 
             try
             {
-                //resposta = this.DsFactoryCartNew.ArquivoModeloDocxDs.Desativar(Id, IdUsuario);
+                resposta = this.DsFactoryCartNew.ModeloDocxDs.Desativar(Id, IdUsuario);
             }
             catch (Exception ex)
             {
@@ -125,7 +125,7 @@ namespace AppServCart11RI.AppServices
         
         public IEnumerable<DtoModeloDocxList> GetListaModelosDocx(long? IdTipoAto = null)
         {
-            IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ModeloDocxDs.GetListaModelosDocx(IdTipoAto);
+            IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ModeloDocxDs.GetListModelosDocx(IdTipoAto);
             return listaDs;
         }
 

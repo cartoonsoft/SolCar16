@@ -543,7 +543,7 @@ namespace Cartorio11RI.Controllers
             ViewBag.CurrentControler = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString().ToLower();
             ViewBag.CurrentAction    = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString().ToLower();
 
-            IEnumerable<DtoMenu> Menu = new List<DtoMenu>();
+            IEnumerable<DtoAcaoMenuList> Menu = new List<DtoAcaoMenuList>();
             ApplicationUser usrApp = _userManager.FindById(IdUsuario);
             var claims = _userManager.GetClaims(IdUsuario).ToList();
 
@@ -571,7 +571,7 @@ namespace Cartorio11RI.Controllers
 
                 using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this._ufwCartNew))
                 {
-                    Menu = appService.ListaMenuUsuario(usr);
+                    Menu = appService.GetListMenuUsuario(usr);
                 }
             }
 

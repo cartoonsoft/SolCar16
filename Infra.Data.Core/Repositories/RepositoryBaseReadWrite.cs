@@ -76,6 +76,7 @@ namespace Infra.Data.Core.Repositories
         public void Remove(TEntity item)
         {
             this.DbSet.Remove(item);
+
         }
 
         public void RemoveRange(IEnumerable<TEntity> itens)
@@ -104,9 +105,9 @@ namespace Infra.Data.Core.Repositories
         /// </summary>
         /// <param name="SequenceName"></param>
         /// <returns></returns>
-        public long GetNextValFromOracleSequence(string SequenceName)
+        public long? GetNextValFromOracleSequence(string SequenceName)
         {
-            long SeqTmp = 0;
+            long? SeqTmp = null;
             ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
             var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
 

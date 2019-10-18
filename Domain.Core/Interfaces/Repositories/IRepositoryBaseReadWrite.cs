@@ -26,7 +26,6 @@ namespace Domain.Core.Interfaces.Repositories
         void Remove(TEntity item);
         void RemoveRange(IEnumerable<TEntity> itens);
 
-        long GetNextValFromOracleSequence(string SequenceName);
-
+        long? GetNextValFromOracleSequence(string SequenceName);
     }
 }

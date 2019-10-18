@@ -19,9 +19,9 @@ namespace AppServCart11RI.AppServices
             //
         }
 
-        public IEnumerable<DtoTipoAtoList> ListaTipoAtos(long? idTipoAtoPai)
+        public IEnumerable<DtoTipoAtoList> GetListTiposAto(long? idTipoAtoPai)
         {
-            return this.DsFactoryCartNew.TipoAtoDs.ListaTipoAtos(idTipoAtoPai);
+            return this.DsFactoryCartNew.TipoAtoDs.GetListTiposAto(idTipoAtoPai);
         }
     }
 }

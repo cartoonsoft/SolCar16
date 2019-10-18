@@ -15,21 +15,26 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         long? GetNumSequenciaAto(long numeroMatricula);
 
-        IEnumerable<PessoaPesxPre> GetPessoasPrenotacao(long numeroPrenotacao);
+        short GetUltimoNumFicha(long numeroMatricula);
+
+        IEnumerable<Docx> GerarFichas(Ato ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<Ato> GetListAtosMatricula(string NumMatricula);
 
         IEnumerable<Ato> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
 
+        IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao);
+        
         IEnumerable<PessoaAto> GetListPessoasAto(long? IdAto);
+
+        IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<Docx> GetListDocxAto(long? IdAto);
 
-        IEnumerable<DadosImovel> GetDadosImoveisPrenotacao(long IdPrenotacao);
+        IEnumerable<CamposValor> GetListCamposAto(long IdAto);
 
-        IEnumerable<CamposValor> GetCamposAto(long IdAto);
-        IEnumerable<CamposValor> GetCamposImovel(long numeroMatricula);  //num matricula vem da base onzeri
-        IEnumerable<CamposValor> GetCamposPessoa(long IdPessoa);
-
+        IEnumerable<CamposValor> GetListCamposImovel(long numeroMatricula);  //num matricula vem da base onzeri
+        
+        IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa);
     }
 }
