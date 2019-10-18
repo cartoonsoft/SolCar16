@@ -59,8 +59,25 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             {
                 acaoMenuList.Add(new AcaoMenuList
                 {
-
-
+                    Id = acaoMenu.Id,
+                    IdMenuPai = acaoMenu.IdMenuPai,
+                    IdCtaAcessoSist = acaoMenu.IdCtaAcessoSist,
+                    IdAcao = acaoMenu.IdAcao,
+                    IdTipoMenu = acaoMenu.IdTipoMenu,
+                    Action = acaoMenu.Action,
+                    Ativo = acaoMenu.Ativo,
+                    Controller = acaoMenu.Controller,
+                    DescricaoBalao = acaoMenu.DescricaoBalao,
+                    DescricaoMenu = acaoMenu.DescricaoMenu,
+                    DescricaoMenuMobile = acaoMenu.DescricaoMenuMobile,
+                    DescricaoTip = acaoMenu.DescricaoTip,
+                    EmManutencao = acaoMenu.EmManutencao,
+                    IconeMobile = acaoMenu.IconeMobile,
+                    IconeWeb = acaoMenu.IconeWeb,
+                    Ordem = acaoMenu.Ordem,
+                    Orientacao = acaoMenu.Orientacao,
+                    Parametros = acaoMenu.Parametros,
+                    Permissao = acaoMenu.Permissao
                 });
             }
 

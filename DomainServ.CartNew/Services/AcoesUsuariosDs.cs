@@ -1,4 +1,6 @@
-﻿using Domain.CartNew.Entities;
+﻿using AutoMapper;
+using Domain.CartNew.Entities;
+using Domain.CartNew.Entities.Diversos;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
@@ -20,13 +22,13 @@ namespace DomainServ.CartNew.Services
 
         public IEnumerable<DtoAcaoMenuList> GetListMenuUsuario(UsuarioIdentity usr)
         {
-            IEnumerable<DtoAcaoMenuList> Menu = new List<DtoAcaoMenuList>();
+            IEnumerable<DtoAcaoMenuList> listaMenu = new List<DtoAcaoMenuList>();
+
             if (usr != null)
             {
-                var lista = this.UfwCartNew.Repositories.RepositoryAcao.GetListMenuUsuario(usr.Id);
-
+                var lista = this.UfwCartNew.Repositories.RepositoryAcao.GetListMenuUsuario(usr.Id).ToList();
+                listaMenu = Mapper.Map<List<AcaoMenuList>, List<DtoAcaoMenuList>>(lista);
             }
-
 
             //se não for  admin retirar menus 
             //if (usr.Claims.Find(c => (c.Type == "AdminUsers") &&(c.Value == "true")) == null)
@@ -34,7 +36,7 @@ namespace DomainServ.CartNew.Services
 
             //}
 
-            return Menu;
+            return listaMenu;
         }
 
     }
