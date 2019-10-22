@@ -20,14 +20,14 @@ namespace DomainServ.CartNew.Services
             //
         }
 
-        public IEnumerable<DtoAcaoMenuList> GetListMenuUsuario(UsuarioIdentity usr)
+        public IEnumerable<DtoMenuAcaoList> GetListMenuUsuario(UsuarioIdentity usr, long IdCtaAcessoSist)
         {
-            IEnumerable<DtoAcaoMenuList> listaMenu = new List<DtoAcaoMenuList>();
+            IEnumerable<DtoMenuAcaoList> listaMenu = new List<DtoMenuAcaoList>();
 
             if (usr != null)
             {
-                var lista = this.UfwCartNew.Repositories.RepositoryAcao.GetListMenuUsuario(usr.Id).ToList();
-                listaMenu = Mapper.Map<List<AcaoMenuList>, List<DtoAcaoMenuList>>(lista);
+                var lista = this.UfwCartNew.Repositories.RepositoryAcao.GetListMenuUsuario(usr.Id, IdCtaAcessoSist).ToList();
+                listaMenu = Mapper.Map<List<MenuAcaoList>, List<DtoMenuAcaoList>>(lista);
             }
 
             //se não for  admin retirar menus 

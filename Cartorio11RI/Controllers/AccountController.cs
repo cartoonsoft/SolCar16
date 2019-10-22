@@ -24,6 +24,8 @@ namespace Cartorio11RI.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private readonly long _idCtaAcessoSist;
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private IUnitOfWorkDataBaseCartNew _ufwCartNew;
@@ -33,6 +35,7 @@ namespace Cartorio11RI.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
             _ufwCartNew = UfwCartNew;
+            this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
         }
 
         protected override void Dispose(bool disposing)
@@ -543,7 +546,7 @@ namespace Cartorio11RI.Controllers
             ViewBag.CurrentControler = ControllerContext.ParentActionViewContext.RouteData.Values["controller"].ToString().ToLower();
             ViewBag.CurrentAction    = ControllerContext.ParentActionViewContext.RouteData.Values["action"].ToString().ToLower();
 
-            IEnumerable<DtoAcaoMenuList> Menu = new List<DtoAcaoMenuList>();
+            IEnumerable<DtoMenuAcaoList> Menu = new List<DtoMenuAcaoList>();
             ApplicationUser usrApp = _userManager.FindById(IdUsuario);
             var claims = _userManager.GetClaims(IdUsuario).ToList();
 
@@ -571,7 +574,7 @@ namespace Cartorio11RI.Controllers
 
                 using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this._ufwCartNew))
                 {
-                    Menu = appService.GetListMenuUsuario(usr);
+                    Menu = appService.GetListMenuUsuario(usr, _idCtaAcessoSist);
                 }
             }
 

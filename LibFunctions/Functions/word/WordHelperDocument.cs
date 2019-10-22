@@ -113,18 +113,18 @@ namespace LibFunctions.Functions.Word
         /// <summary>
         /// O método reescreve o ato que está pendente e manda para o original
         /// </summary>
-        /// <param name="NumMatricula"></param>
-        public void CopiarDocumento( string novoFilePath)
+        /// <param name="filePathName"></param>
+        public void CopiarDocumento( string filePathName)
         {
             //antigo: EscreverAtoPrincipal
-            if (VerificarSeArquivoExiste(novoFilePath))
+            if (VerificarSeArquivoExiste(filePathName))
             {
-                throw new IOException(string.Format("Arquivo de destino: {0} já existe no servidor, não é possível sobreescrever!", novoFilePath));
+                throw new IOException(string.Format("Arquivo de destino: {0} já existe no servidor, não é possível sobreescrever!", filePathName));
             }
 
             try
             {
-                _doc.Save(novoFilePath);
+                _doc.Save(filePathName);
             }
             catch (Exception)
             {

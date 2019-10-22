@@ -13,9 +13,9 @@ namespace DomainServ.CartNew.Interfaces
 {
     public interface IAtoDs : IDomainServiceCartNew<Ato>
     {
-        bool ExisteAtoCadastrado(long numMatricula);
+        bool ExisteAtoCadastrado(string NumMatricula);
 
-        long? GetNumSequenciaAto(long numeroMatricula);
+        long? GetNumSequenciaAto(string NumMatricula);
 
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
@@ -23,7 +23,7 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
 
-        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao);
+        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
         IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
 
@@ -33,7 +33,7 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto);
 
-        IEnumerable<DtoCamposValor> GetListCamposImovel(long numeroMatricula);  //num matricula vem da base onzeri
+        IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
 
         IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa);
     }

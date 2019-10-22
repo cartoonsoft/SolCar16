@@ -11,11 +11,11 @@ namespace Domain.CartNew.Interfaces.Repositories
 {
     public interface IRepositoryAto : IRepositoryBaseReadWrite<Ato>
     {
-        bool ExisteAtoCadastrado(long numMatricula);
+        bool ExisteAtoCadastrado(string numMatricula);
 
-        long? GetNumSequenciaAto(long numeroMatricula);
+        long? GetNumSequenciaAto(string NumMatricula);
 
-        short GetUltimoNumFicha(long numeroMatricula);
+        short GetUltimoNumFicha(string NumMatricula);
 
         IEnumerable<Docx> GerarFichas(Ato ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
@@ -23,7 +23,7 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         IEnumerable<Ato> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
 
-        IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao);
+        IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
         
         IEnumerable<PessoaAto> GetListPessoasAto(long? IdAto);
 
@@ -33,7 +33,7 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         IEnumerable<CamposValor> GetListCamposAto(long IdAto);
 
-        IEnumerable<CamposValor> GetListCamposImovel(long numeroMatricula);  //num matricula vem da base onzeri
+        IEnumerable<CamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
         
         IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa);
     }

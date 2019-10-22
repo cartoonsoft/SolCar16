@@ -896,6 +896,7 @@
     <Content Include="Views\Atos\_divWizardPasso2.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso4.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso5.cshtml" />
+    <Content Include="Views\Atos\_tblImoveisPasso1.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

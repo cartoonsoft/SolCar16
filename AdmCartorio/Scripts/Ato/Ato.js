@@ -1,7 +1,7 @@
 ﻿function ExisteAtoBanco(idTipoAto) {
-    var numeroMatricula = $('#PREIMO_MATRI').val();
+    var NumMatricula = $('#PREIMO_MATRI').val();
     $.get('/Ato/ExisteAto',
-        { numeroMatricula },
+        { NumMatricula },
         function (data, status) {
             if (status == "success") {
                 $('#divRespImo').attr('hidden', 'hidden');

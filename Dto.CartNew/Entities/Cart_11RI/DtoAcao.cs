@@ -14,7 +14,8 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Key]
         public override long? Id { get; set; }
         public long IdCtaAcessoSist { get; set; }
-        public long SeqAcesso { get; set; }
+        public long? IdClaimRole { get; set; }
+        public long? SeqAcesso { get; set; }
         public string Programa { get; set; }
         public string Obs { get; set; }
         public string DescricaoPequeno { get; set; }
@@ -22,7 +23,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         public string DescricaoGrande { get; set; }
         public string DescricaoTip { get; set; } //usar tips
         public string DescricaoBalao { get; set; }
-        public string Orientacao { get; set; }
+        public string Orientacao { get; set; } // orientações sobre o que faz a action
         public string Action { get; set; }
         public string Controller { get; set; }
         public string Parametros { get; set; }

@@ -13,9 +13,9 @@ namespace AppServices.Cartorio.Interfaces
 {
     public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
-        bool ExisteAtoCadastrado(long numMatricula);
+        bool ExisteAtoCadastrado(string NumMatricula);
 
-        long? GetNumSequenciaTipoAto(long numeroMatricula, long IdTipoAto);
+        long? GetNumSequenciaTipoAto(string NumMatricula, long IdTipoAto);
 
         void NovoAto(DtoAto Ato);
 
@@ -37,7 +37,7 @@ namespace AppServices.Cartorio.Interfaces
 
         bool ReabrirAto(long IdAto); //estudar esta caso, deve ser o ultimo ato, coidar quebra de pagina
 
-        bool BloquearMatricula(long numeroMatricula);
+        bool BloquearMatricula(string NumMatricula);
 
         bool BloquearAto(long IdAto);
 
@@ -47,7 +47,7 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
 
-        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao);
+        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
         IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
 
@@ -57,7 +57,7 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto);
 
-        IEnumerable<DtoCamposValor> GetListCamposImovel(long numeroMatricula);  //num matricula vem da base onzeri
+        IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
 
         IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa);
     }

@@ -2,9 +2,9 @@
     setInterval(
         setTimeout(function () {
             var numeroPrenotacao = parseInt($('#txtPrenotacao').val());
-            var numeroMatricula = parseInt($('#txtMatricula').val());
+            var NumMatricula = parseInt($('#txtMatricula').val());
             debugger;
-            if (isNaN(numeroPrenotacao) && numeroPrenotacao == "" && isNaN(numeroMatricula) && numeroMatricula == "") {
+            if (isNaN(numeroPrenotacao) && numeroPrenotacao == "" && isNaN(NumMatricula) && NumMatricula == "") {
                 $('#labelResp').text('Preencha o numero da prenotação e/ou a matricula.');
                 $('#divResp').removeAttr('hidden');
 
@@ -13,7 +13,7 @@
                 LimparTabelaPessoas();
             } else {
                 $('#divResp').attr('hidden');
-                GetDadosImovel(numeroPrenotacao, numeroMatricula);
+                GetDadosImovel(numeroPrenotacao, NumMatricula);
                 $('#btnProximo').removeAttr('disabled');
                 $('#btnProximo').addClass('active');
             }
@@ -25,7 +25,7 @@ function GetDadosImovel(numPre, numMat) {
     $('#ModalLoading').modal('show');
     $('#mensagemLoading').text('Buscando dados do imóvel...');
     $.get('/Ato/GetDadosImovel',
-        { numeroPrenotacao: numPre, numeroMatricula: numMat },
+        { numeroPrenotacao: numPre, NumMatricula: numMat },
         function (data, status) {
             debugger;
             if (status == "success") {

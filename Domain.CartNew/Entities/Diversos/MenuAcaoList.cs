@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace Domain.CartNew.Entities.Diversos
 {
-    public class AcaoMenuList
+    public class MenuAcaoList
     {
         [Key]
         public long? Id { get; set; }
-        public long IdCtaAcessoSist { get; set; }
-        public long IdTipoMenu { get; set; }
         public long? IdMenuPai { get; set; }
         public long? IdAcao { get; set; }
-        public int Ordem { get; set; }
+        public long IdTipoMenu { get; set; }
+        public long? IdClaimRole { get; set; }
+        public long IdCtaAcessoSist { get; set; }
+        public int? Ordem { get; set; }
         public string DescricaoMenu { get; set; }
         public string DescricaoMenuMobile { get; set; }
         public string IconeWeb { get; set; }

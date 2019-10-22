@@ -14884,11 +14884,11 @@ img.away {
 
             .fuelux .wizard ul li.active {
                 color: #DDE7EC;
-                background: #6BA4E9
+                background: #B5CDE9
             }
 
                 .fuelux .wizard ul li.active .chevron:before {
-                    border-left: 14px solid #6BA4E9
+                    border-left: 14px solid #B5CDE9
                 }
 
             .fuelux .wizard ul li .badge {

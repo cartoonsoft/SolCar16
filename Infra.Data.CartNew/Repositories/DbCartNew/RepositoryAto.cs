@@ -26,7 +26,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             _contextRepository = contextRepository;
         }
 
-        public bool ExisteAtoCadastrado(long numMatricula)
+        public bool ExisteAtoCadastrado(string NumMatricula)
         {
             long quantidadeDeAtos = 0;
             string strQuery =
@@ -43,7 +43,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     command.CommandType = System.Data.CommandType.Text;
                     command.BindByName = true;
-                    command.Parameters.Add(new OracleParameter("NRO_MATRICULA", OracleDbType.Long, numMatricula, System.Data.ParameterDirection.Input));
+                    command.Parameters.Add(new OracleParameter("NRO_MATRICULA", OracleDbType.Varchar2, NumMatricula, System.Data.ParameterDirection.Input));
 
                     using (OracleDataReader row = command.ExecuteReader())
                     {
@@ -58,7 +58,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return quantidadeDeAtos > 0;
         }
 
-        public long? GetNumSequenciaAto(long numeroMatricula)
+        public long? GetNumSequenciaAto(string NumMatricula)
         {
             long? NumSequenciaAto = null;
             string strQuery =
@@ -76,7 +76,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     command.CommandType = System.Data.CommandType.Text;
                     command.BindByName = true;
-                    command.Parameters.Add(new OracleParameter("NRO_MATRICULA", OracleDbType.Long, numeroMatricula, System.Data.ParameterDirection.Input));
+                    command.Parameters.Add(new OracleParameter("NRO_MATRICULA", OracleDbType.Long, NumMatricula, System.Data.ParameterDirection.Input));
 
                     using (OracleDataReader row = command.ExecuteReader())
                     {
@@ -118,7 +118,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             throw new NotImplementedException();
         }
 
-        public IEnumerable<CamposValor> GetListCamposImovel(long numeroMatricula)
+        public IEnumerable<CamposValor> GetListCamposImovel(string NumMatricula)
         {
             throw new NotImplementedException();
         }
@@ -298,18 +298,18 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaPessoas;
         }
 
-        public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao)
+        public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<PessoaPesxPre> listaDtoPessoaPesxPres = new List<PessoaPesxPre>();
 
             var listaPessoasPrenotacao =
-                from pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == numeroPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
+                from pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == IdPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
                 join pes in this._contextRepository.DbPESSOAS on pre.SEQPES equals pes.SEQPES
                 orderby pre.REL, pes.NOM
                 select new
                 {
                     IdPessoa = pes.SEQPES,
-                    IdPrenotacao = numeroPrenotacao,
+                    IdPrenotacao = IdPrenotacao,
                     TipoPessoa =
                         pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
                         pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
@@ -352,7 +352,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return null;
         }
 
-        public short GetUltimoNumFicha(long numeroMatricula)
+        public short GetUltimoNumFicha(string NumMatricula)
         {
             throw new NotImplementedException();
         }

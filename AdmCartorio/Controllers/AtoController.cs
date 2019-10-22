@@ -92,7 +92,7 @@ namespace AdmCartorio.Controllers
 
                     if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(modelo.NumSequencia.ToString());
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
                     }
                     else
@@ -192,7 +192,7 @@ namespace AdmCartorio.Controllers
             }
         }
         [HttpPost]
-        public void BloquearAto(long NumMatricula, long IdAto)
+        public void BloquearAto(string NumMatricula, long IdAto)
         {
             using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
@@ -283,7 +283,7 @@ namespace AdmCartorio.Controllers
 
                     if (modelo.NumSequencia == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(modelo.PREIMO.MATRI.ToString());
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
                     }
                     else
@@ -373,9 +373,9 @@ namespace AdmCartorio.Controllers
         /// <summary>
         /// Essa função retorna uma lista de pessoa por um id de prenotação
         /// </summary>
-        /// <param name="numeroPrenotacao">Numero da prenotação</param>
+        /// <param name="IdPrenotacao">Numero da prenotação</param>
         /// <returns>JSON</returns>
-        public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
+        public JsonResult GetPessoasPrenotacao(long IdPrenotacao)
         {
             var jsonResult = "";
             try
@@ -402,15 +402,15 @@ namespace AdmCartorio.Controllers
                 .GetById(idModelo).IdTipoAto;
         }
 
-        public bool ExisteAto(long numeroMatricula)
+        public bool ExisteAto(string NumMatricula)
         {
             try
             {
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{numeroMatricula}.docx");
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
+                //string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
+                //using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                //{
 
-                }
+                //}
                 Response.StatusCode = 200;
                 return true;
             }

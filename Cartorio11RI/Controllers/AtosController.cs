@@ -103,7 +103,7 @@ namespace Cartorio11RI.Controllers
         [ValidateInput(false)]
         public ActionResult NovoAto(AtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
             Ato ato;
             try
@@ -131,7 +131,8 @@ namespace Cartorio11RI.Controllers
 
                     if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        //todo: ronaldo revisar
+                        //numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.NumMatricula));
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
                     }
                     else
@@ -154,11 +155,11 @@ namespace Cartorio11RI.Controllers
                         ato = new Ato()
                         {
                             Ativo = true,
-                            IdPrenotacao = modelo.PREIMO.SEQPRE,
+                            IdPrenotacao = modelo.IdPrenotacao,
                             IdTipoAto = modelo.IdTipoAto,
                             //NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
                             Observacao = "Cadastro de teste",
-                            NumMatricula = modelo.PREIMO.MATRI.ToString(),
+                            NumMatricula = modelo.NumMatricula,
                             IdUsuarioCadastro = this.UsuarioAtual.Id,
                             IdCtaAcessoSist = 1
                             //NumSequencia = Convert.ToInt64(numSequenciaAto)
@@ -208,11 +209,6 @@ namespace Cartorio11RI.Controllers
                     AtoViewModel atoViewModel = new AtoViewModel()
                     {
                         Id = Id,
-                        PREIMO = new PREIMOViewModel()
-                        {
-                            SEQIMO = Convert.ToInt64(Ato.NumMatricula),
-                            SEQPRE = Ato.IdPrenotacao
-                        },
                         NumSequenciaAto = Ato.NumSequenciaAto
                     };
 
@@ -235,7 +231,7 @@ namespace Cartorio11RI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Editar(AtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.PREIMO.MATRI}_pendente.docx");
+            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
             try
             {
@@ -257,7 +253,7 @@ namespace Cartorio11RI.Controllers
 
                     if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
                     {
-                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.PREIMO.MATRI));
+                        numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(modelo.NumMatricula);
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
                     }
                     else
@@ -358,7 +354,7 @@ namespace Cartorio11RI.Controllers
         }
 
         [HttpPost]
-        public void BloquearAto(long NumMatricula, long IdAto)
+        public void BloquearAto(string NumMatricula, long IdAto)
         {
             using (var appService = new AppServiceAtos(this.UfwCartNew))
             {
@@ -434,7 +430,7 @@ namespace Cartorio11RI.Controllers
         /// <param name="matriculaPrenotacao"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetDadosImoveisPrenotacao(long IdPrenotacao)
+        public JsonResult GetListImoveisPrenotacao(long IdPrenotacao)
         {
             bool resp = false;
             string message = string.Empty;
@@ -445,7 +441,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    //listaDtoDadosImovel = appServAtos.GetDadosImoveisPrenotacao(IdPrenotacao).ToList();
+                    listaDtoDadosImovel = appServAtos.GetListImoveisPrenotacao(IdPrenotacao).ToList();
                     if (listaDtoDadosImovel != null)
                     {
                         message = "Dados retornados con sucesso";
@@ -474,10 +470,10 @@ namespace Cartorio11RI.Controllers
         /// <summary>
         /// Essa função retorna uma lista de pessoa por um id de prenotação
         /// </summary>
-        /// <param name="numeroPrenotacao">Numero da prenotação</param>
+        /// <param name="IdPrenotacao">Numero da prenotação SEQPRE</param>
         /// <returns>JSON</returns>
         [HttpPost]
-        public JsonResult GetPessoasPrenotacao(long numeroPrenotacao)
+        public JsonResult GetListPessoasPrenotacao(long IdPrenotacao)
         {
             bool resp = false;
             string message = string.Empty;
@@ -487,7 +483,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    listaPes = null; // appServiceAtos.GetPessoasPrenotacao(numeroPrenotacao);
+                    listaPes = appServiceAtos.GetListPessoasPrenotacao(IdPrenotacao);
                     resp = true;
                     message = "Lista de pessoas da prenotação obtida com sucesso!";
                 }
@@ -514,15 +510,15 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
-        public bool ExisteAto(long numeroMatricula)
+        public bool ExisteAto(string NumMatricula)
         {
             try
             {
-                string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{numeroMatricula}.docx");
-                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
+                //string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx");
+                //using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                //{
 
-                }
+                //}
                 Response.StatusCode = 200;
                 return true;
             }
@@ -685,5 +681,19 @@ namespace Cartorio11RI.Controllers
 
             return Json(resultado);
         }
+
+        [ChildActionOnly]
+        public PartialViewResult MontarTblImoveis(long IdPrenotacao)
+        {
+            List<DtoDadosImovel> dtoImoveis = new List<DtoDadosImovel>();
+
+            using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
+            {
+                dtoImoveis = appService.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+            }
+
+            return PartialView("_tblImoveisPasso1", dtoImoveis);
+        }
+
     }
 }

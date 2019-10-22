@@ -16,7 +16,7 @@ namespace AppServices.Cartorio.Interfaces
 
         DtoExcuteService RemoveUsrAcao(long IdAcao, string IdUsuario);
 
-        IEnumerable<DtoAcaoMenuList> GetListMenuUsuario(UsuarioIdentity usr);
+        IEnumerable<DtoMenuAcaoList> GetListMenuUsuario(UsuarioIdentity usr, long IdCtaAcessoSist);
 
     }
 }

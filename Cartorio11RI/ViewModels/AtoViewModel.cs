@@ -12,32 +12,38 @@ namespace Cartorio11RI.ViewModels
         public AtoViewModel()
         {
             this.Pessoas = new List<PESSOAViewModel>();
-            this.PREIMO = new PREIMOViewModel();
+            this.DataCadastro = DateTime.Today;
             this.DataAto = DateTime.Today;
         }
 
         [Key]
         [Display(Name = "Código")]
-        [ScaffoldColumn(true)]
         public long? Id { get; set; }
 
+        [Required]
         [ScaffoldColumn(false)]
         public long IdCtaAcessoSist { get; set; }
 
+        [Required]
         [Display(Name = "Livro")]
-        [ScaffoldColumn(true)]
         public long IdLivro { get; set; }
 
+        [Required]
         [Display(Name = "Tipo de ato")]
-        [ScaffoldColumn(true)]
-        public long IdTipoAto { get; set; } 
+        public long IdTipoAto { get; set; }
 
+        [Required]
         [Display(Name = "Núm. prenotação")]
-        [ScaffoldColumn(false)]
         public long IdPrenotacao { get; set; }
 
+        [Required(ErrorMessage = "Número de matrícula é obrigatório", AllowEmptyStrings = false)]
+        [Display(Name = "Matrícula imóvel")]
+        [MaxLength(19)]
+        [StringLength(19, ErrorMessage = "Máximo de {0} caracteres.")]
+        public string NumMatricula { get; set; }
+
+        [Required]
         [Display(Name = "Modelo de documento")]
-        [ScaffoldColumn(true)]
         public long IdModeloDoc{ get; set; }
 
         [ScaffoldColumn(false)]
@@ -65,9 +71,6 @@ namespace Cartorio11RI.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataAto { get; set; }
-
-        [Display(Name = "Matrícula imóvel")]
-        public string NumMatricula { get; set; }
 
         [Required(ErrorMessage = "O campo Descrição do ato é obrigatório", AllowEmptyStrings = false)]
         [MaxLength(200)]
@@ -98,12 +101,6 @@ namespace Cartorio11RI.ViewModels
         [ScaffoldColumn(false)]
         public string IpLocal { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int IrParaFicha { get; set; }
-
-        [ScaffoldColumn(false)]
-        public bool IrParaVerso { get; set; }
-
         [Display(Name = "Ficha número")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
@@ -115,7 +112,5 @@ namespace Cartorio11RI.ViewModels
         public bool DocxGerado { get; set; }
 
         public List<PESSOAViewModel> Pessoas { get; set; }
-
-        public PREIMOViewModel PREIMO { get; set; }
     }
 }

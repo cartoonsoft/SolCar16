@@ -59,7 +59,6 @@ namespace AppServCart11RI.AppServices
             }
             catch (Exception ex)
             {
-                //Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
 

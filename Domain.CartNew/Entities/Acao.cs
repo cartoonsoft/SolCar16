@@ -20,6 +20,9 @@ namespace Domain.CartNew.Entities
         [Column("ID_CTA_ACESSO_SIST")] 
         public long IdCtaAcessoSist { get; set; }
 
+        [Column("ID_CLAIM_ROLE")]
+        public long? IdClaimRole { get; set; }
+
         [Column("SEQACESSO")]
         public long? SeqAcesso { get; set; }
 

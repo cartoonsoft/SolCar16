@@ -9,12 +9,12 @@
             @Html.DropDownListFor(model => model.IdLivro, (ViewBag.listaLivro as SelectList), new { @id = "ddListLivro", @class = "form-control" })
         </div>
         <div class="col-sm-4">
-            @Html.LabelFor(model => model.PREIMO.SEQPRE)
+            @Html.LabelFor(model => model.IdPrenotacao)
             <div class="input-group">
                 <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
                 <div class="icon-addon addon-md">
-                    @Html.TextBoxFor(model => model.PREIMO.SEQPRE, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. prenotação" })
-                    <label for="PREIMO_SEQPRE" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
+                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. prenotação" })
+                    <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
                 </div>
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao">Pesquisar</button>
@@ -40,18 +40,7 @@
 
             <!-- widget content ---- -->
             <div class="widget-body">
-                <table id="tbl-matriculas-prenotacao" class="table table-striped table-bordered table-hover" width="100%">
-                    <thead>
-                        <tr>
-                            <th style="width:5%">ID</th>
-                            <th style="width:45%">ID</th>
-                            <th style="width:20%">ID</th>
-                            <th style="width:30%">ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                @{Html.RenderAction("MontarTblImoveis", "Atos", Model.IdPrenotacao);}
             </div>
             <!-- end widget content- -->
 

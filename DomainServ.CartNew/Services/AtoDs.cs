@@ -16,13 +16,16 @@ namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
-
         public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
 
-        public bool ExisteAtoCadastrado(long numMatricula)
+        public bool ExisteAtoCadastrado(string NumMatricula)
+        {
+            throw new NotImplementedException();
+        }
+        public long? GetNumSequenciaAto(string NumMatricula)
         {
             throw new NotImplementedException();
         }
@@ -53,7 +56,7 @@ namespace DomainServ.CartNew.Services
             return dtoCampoValor;
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposImovel(long numeroMatricula)
+        public IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula)
         {
             List<DtoCamposValor> dtoCampoValor = new List<DtoCamposValor>();
 
@@ -92,18 +95,14 @@ namespace DomainServ.CartNew.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = new List<DtoPessoaPesxPre>();
-            List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasPrenotacao(numeroPrenotacao).ToList();
+            List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasPrenotacao(IdPrenotacao).ToList();
             listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
 
             return listaDtoPessoaPesxPre;
         }
 
-        public long? GetNumSequenciaAto(long numeroMatricula)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

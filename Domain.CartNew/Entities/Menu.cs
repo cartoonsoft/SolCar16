@@ -17,20 +17,20 @@ namespace Domain.CartNew.Entities
         [Column("ID_MENU")]
         public override long? Id { get; set; }
 
+        [Column("ID_MENU_PAI")]
+        public long? IdMenuPai { get; set; }
+
         [Column("ID_CTA_ACESSO_SIST")] 
         public long IdCtaAcessoSist { get; set; }
 
         [Column("ID_TP_MENU")]
         public long IdTipoMenu { get; set; }
 
-        [Column("ID_MENU_PAI")]
-        public long IdMenuPai { get; set; }
-
         [Column("ID_ACAO")]
-        public long IdAcao { get; set; }
+        public long? IdAcao { get; set; }
 
         [Column("ORDEM")]
-        public int Ordem { get; set; }
+        public int? Ordem { get; set; }
 
         [Column("DESC_MENU")]
         public string DescricaoMenu { get; set; }

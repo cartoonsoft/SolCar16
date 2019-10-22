@@ -17,6 +17,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
     {
         public DomainToDtoModelMappingProfile()
         {
+            CreateMap<MenuAcaoList, DtoMenuAcaoList>();
             CreateMap<Pais, DtoPais>();
             CreateMap<Uf, DtoUf>();
             CreateMap<Municipio, DtoMunicipio>();

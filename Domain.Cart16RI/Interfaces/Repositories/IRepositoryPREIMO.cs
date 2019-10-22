@@ -10,7 +10,7 @@ namespace Domain.Cart11RI.Interfaces.Repositories
 {
     public interface IRepositoryPREIMO : IRepositoryBaseRead<PREIMO>
     {
-        PREIMO BuscaDadosImovel(long? numeroPrenotacao = null, long? numeroMatricula = null);
+        PREIMO BuscaDadosImovel(long? IdPrenotacao = null, string NumMatricula = null);
 
     }
 }

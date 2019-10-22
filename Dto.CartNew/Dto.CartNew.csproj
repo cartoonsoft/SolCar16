@@ -69,7 +69,7 @@
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDadosImovel.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoExcuteService.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoFeriado.cs" />
-    <Compile Include="Entities\Cart_11RI\Diversos\DtoAcaoMenuList.cs" />
+    <Compile Include="Entities\Cart_11RI\Diversos\DtoMenuAcaoList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoPessoaPesxPre.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

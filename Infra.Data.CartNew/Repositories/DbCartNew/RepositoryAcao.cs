@@ -21,13 +21,13 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             _contextRepository = contextRepository;
         }
 
-        public IEnumerable<AcaoMenuList> GetListMenuUsuario(string IdUsuario)
+        public IEnumerable<MenuAcaoList> GetListMenuUsuario(string IdUsuario, long IdCtaAcessoSist)
         {
-            List<AcaoMenuList> acaoMenuList = new List<AcaoMenuList>();
+            List<MenuAcaoList> acaoMenuList = new List<MenuAcaoList>();
 
             var listaAcaoMenu =
-                from M in this._contextRepository.DbMenu
-                join A1 in this._contextRepository.DbAcao.Where(a1 => a1.SeqAcesso == null) on M.IdAcao equals A1.Id into _a
+                from M in this._contextRepository.DbMenu.Where(m => m.IdCtaAcessoSist == IdCtaAcessoSist)
+                join A1 in this._contextRepository.DbAcao.Where(a1 => a1.IdCtaAcessoSist == IdCtaAcessoSist) on M.IdAcao equals A1.Id into _a  
                 from A1 in _a.DefaultIfEmpty()
                 join UA in this._contextRepository.DbUsuarioAcao.Where(ua2 => ua2.IdUsuario == IdUsuario) on A1.Id equals UA.IdAcao into _ua
                 from UA in _ua.DefaultIfEmpty()
@@ -35,10 +35,11 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 select new 
                 {
                     Id = M.Id,
-                    IdCtaAcessoSist = M.IdCtaAcessoSist,
-                    IdTipoMenu = M.IdTipoMenu,
                     IdMenuPai = M.IdMenuPai,
                     IdAcao = M.IdAcao,
+                    IdTipoMenu = M.IdTipoMenu,
+                    IdClaimRole = A1.IdClaimRole,
+                    IdCtaAcessoSist = M.IdCtaAcessoSist,
                     Ordem = M.Ordem,
                     DescricaoMenu = M.DescricaoMenu ?? A1.DescricaoPequeno,
                     DescricaoMenuMobile = M.DescricaoMenuMobile ?? A1.DescricaoPequeno,
@@ -57,13 +58,14 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             foreach (var acaoMenu in listaAcaoMenu)
             {
-                acaoMenuList.Add(new AcaoMenuList
+                acaoMenuList.Add(new MenuAcaoList
                 {
                     Id = acaoMenu.Id,
                     IdMenuPai = acaoMenu.IdMenuPai,
-                    IdCtaAcessoSist = acaoMenu.IdCtaAcessoSist,
                     IdAcao = acaoMenu.IdAcao,
                     IdTipoMenu = acaoMenu.IdTipoMenu,
+                    IdClaimRole = acaoMenu.IdClaimRole,
+                    IdCtaAcessoSist = acaoMenu.IdCtaAcessoSist,
                     Action = acaoMenu.Action,
                     Ativo = acaoMenu.Ativo,
                     Controller = acaoMenu.Controller,

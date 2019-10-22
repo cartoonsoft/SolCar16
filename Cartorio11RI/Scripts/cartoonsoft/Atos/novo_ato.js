@@ -153,7 +153,7 @@ function PesquisarPrenotacao(numPrenotacao, url) {
  * Ajax busca dados dos imoveis por prenotacao
  * @@param dataPreMat
 ----------------------------------------------------------------------------- */
-function GetDadosImoveisPrenotacao(dadosPrenotacao, url) {
+function GetListImoveisPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
         method: 'POST',

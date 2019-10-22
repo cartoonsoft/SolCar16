@@ -13,15 +13,19 @@ namespace Cartorio11RI.ViewModels
     {
         [Key]
         public long? Id { get; set; }
+        public long IdCtaAcessoSist { get; set; }
 
         public long IdTipoAto { get; set; }
 
-        [Display(Name = "Numero da prenotação:")]
+        [Display(Name = "Núm. de prenotação")]
         public long IdPrenotacao { get; set; }
 
-        public long IdCtaAcessoSist { get; set; }
+        [Display(Name = "Nún. de matrícula")]
+        public string NumMatricula { get; set; }
 
         public string DescricaoTipoAto { get; set; }
+
+        [Display(Name = "Código")]
         public string Codigo { get; set; }
 
         public string IdUsuarioCadastro { get; set; }
@@ -35,8 +39,6 @@ namespace Cartorio11RI.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataAlteracao { get; set; }
-        [Display(Name = "Numero da matrícula:")]
-        public string NumMatricula { get; set; }
 
         public string NomeArquivo { get; set; }
 

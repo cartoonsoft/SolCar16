@@ -63,9 +63,9 @@ namespace AppServCart11RI.AppServices
             return resposta;
         }
 
-        public IEnumerable<DtoAcaoMenuList> GetListMenuUsuario(UsuarioIdentity usr)
+        public IEnumerable<DtoMenuAcaoList> GetListMenuUsuario(UsuarioIdentity usr, long IdCtaAcessoSist)
         {
-            return this.DsFactoryCartNew.AcoesUsuariosDs.GetListMenuUsuario(usr).ToList();
+            return this.DsFactoryCartNew.AcoesUsuariosDs.GetListMenuUsuario(usr, IdCtaAcessoSist).ToList();
         }
 
    }

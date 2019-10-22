@@ -11,7 +11,7 @@ namespace Domain.CartNew.Interfaces.Repositories
 {
     public interface IRepositoryAcao : IRepositoryBaseReadWrite<Acao>
     {
-        IEnumerable<AcaoMenuList> GetListMenuUsuario(string IdUsuario);
+        IEnumerable<MenuAcaoList> GetListMenuUsuario(string IdUsuario, long IdCtaAcessoSist);
 
     }
 }

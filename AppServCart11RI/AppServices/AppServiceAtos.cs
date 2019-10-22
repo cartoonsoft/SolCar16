@@ -42,7 +42,7 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public bool BloquearMatricula(long numeroMatricula)
+        public bool BloquearMatricula(string NumMatricula)
         {
             throw new NotImplementedException();
         }
@@ -62,7 +62,7 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public bool ExisteAtoCadastrado(long numMatricula)
+        public bool ExisteAtoCadastrado(string NumMatricula)
         {
             throw new NotImplementedException();
         }
@@ -87,7 +87,7 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposImovel(long numeroMatricula)
+        public IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula)
         {
             throw new NotImplementedException();
         }
@@ -104,7 +104,12 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
-            throw new NotImplementedException();
+            List<DtoDadosImovel> listaImoveis = new List<DtoDadosImovel>();
+
+            listaImoveis = this.DsFactoryCartNew.AtoDs.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+
+
+            return listaImoveis;
         }
 
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
@@ -112,12 +117,12 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long numeroPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             throw new NotImplementedException();
         }
 
-        public long? GetNumSequenciaTipoAto(long numeroMatricula, long IdTipoAto)
+        public long? GetNumSequenciaTipoAto(string NumMatricula, long IdTipoAto)
         {
             throw new NotImplementedException();
         }

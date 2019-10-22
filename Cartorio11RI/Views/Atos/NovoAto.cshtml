@@ -174,26 +174,26 @@
 	$(document).ready(function () {
 
 		/* urls chamadas ajax ------------------------------------------------*/
-		var urlGetDadosImovel = '@Url.Action("GetDadosImoveisPrenotacao", "Atos")';
-		var urlGetPessoasPrenotacao = '@Url.Action("GetPessoasPrenotacao", "Atos")';
-		var urlGetListaModelosDocx = '@Url.Action("GetListaModelosDocx", "Atos")';
+		var urlGetDadosImovel = '@Url.Action("GetListImoveisPrenotacao", "Atos")';
+		var urlGetPessoasPrenotacao = '@Url.Action("GetListPessoasPrenotacao", "Atos")';
+		var urlGetListaModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
 
 		var PodeAvancar2 = false;
-        var PodeAvancar3 = false;
+		var PodeAvancar3 = false;
 
-        var dataTableMatriculas = null;
+		var dataTableMatriculas = null;
 
-        var obj_tabela_mat = $('#tbl-matriculas-prenotacao').dataTable({
+		var obj_tabela_mat = $('#tbl-matriculas-prenotacao').dataTable({
 			//columnDefs: [{ orderable: false, targets: [3] }],
-            //"autoFill": true,
-            "paging": false,
+			//"autoFill": true,
+			"paging": false,
 			//"ordering": false,
 			"info": false,
 			"searching": false,
-            "autoWidth": true,
-            "data": jQuery.parseJSON(dataTableMatriculas),
+			"autoWidth": true,
+			"data": jQuery.parseJSON(dataTableMatriculas),
 			"language": {
 				"lengthMenu": "Mostrar _MENU_ reg. por página",
 				"zeroRecords": "Nenhum Registro Encontrado",
@@ -329,7 +329,7 @@
 				});
 			} else {
 				var dadosPrenotacao = {
-					numeroPrenotacao: numPrenotacao
+					IdPrenotacao: numPrenotacao
 				};
 
 				GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
