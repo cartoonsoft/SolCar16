@@ -43,7 +43,7 @@ namespace Cartorio11RI.Controllers
             {
                 if (DataIni > DataFim)
                 {
-                    ModelState.AddModelError(Guid.NewGuid().ToString() , "Data inicial deve ser menor o igual à data final!!");
+                    ModelState.AddModelError(Guid.NewGuid().ToString(), "Data inicial deve ser menor o igual à data final!!");
                     FlagErro = true;
                 }
             } else {
@@ -174,7 +174,7 @@ namespace Cartorio11RI.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Bloquear), new { ato.Id });
+                    return RedirectToActionPermanent(nameof(BloquearAto), new { ato.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
@@ -189,9 +189,9 @@ namespace Cartorio11RI.Controllers
             }
         }
         #endregion
-        
+
         #region |EditarAto|
-        public ActionResult Editar(long? Id)
+        public ActionResult EditarAto(long? Id)
         {
             try
             {
@@ -229,7 +229,7 @@ namespace Cartorio11RI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Editar(AtoViewModel modelo)
+        public ActionResult EditarAto(AtoViewModel modelo)
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
@@ -238,7 +238,7 @@ namespace Cartorio11RI.Controllers
                 if (modelo.Id == null)
                 {
                     ViewBag.erro = "O Ato é obrigatório";
-                    return View(nameof(Editar), modelo);
+                    return View(nameof(EditarAto), modelo);
                 }
 
                 //todo: ronaldo arrumar ato editar
@@ -295,12 +295,12 @@ namespace Cartorio11RI.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(Bloquear), new { Id = modelo.Id });
+                    return RedirectToActionPermanent(nameof(BloquearAto), new { Id = modelo.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
-                return View(nameof(Editar), modelo);
+                return View(nameof(EditarAto), modelo);
             }
             catch (Exception)
             {
@@ -309,8 +309,8 @@ namespace Cartorio11RI.Controllers
             }
         }
         #endregion
-               
-        public ActionResult Bloquear(long? Id)
+
+        public ActionResult BloquearAto(long? Id)
         {
             try
             {
@@ -376,7 +376,6 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-
         public PartialViewResult PartialDadosAdicionais()
         {
             return PartialView();
@@ -435,7 +434,7 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string message = string.Empty;
 
-            List<DtoDadosImovel> listaDtoDadosImovel  = new List<DtoDadosImovel>();
+            List<DtoDadosImovel> listaDtoDadosImovel = new List<DtoDadosImovel>();
 
             try
             {
@@ -584,6 +583,7 @@ namespace Cartorio11RI.Controllers
             }
         }
 
+
         /// <summary>
         /// GetTextoWordDocModelo
         /// </summary>
@@ -595,7 +595,7 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string texto = string.Empty;
             string message = string.Empty;
-            
+
             try
             {
                 FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
@@ -682,17 +682,39 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
-        [ChildActionOnly]
-        public PartialViewResult MontarTblImoveis(long IdPrenotacao)
+        public JsonResult ProcReservarMatImovel(TipoReservaMatImovel TipoReserva, long IdPrenotacao, string NumMatricula) 
         {
-            List<DtoDadosImovel> dtoImoveis = new List<DtoDadosImovel>();
+            bool resp = false;
+            string message = string.Empty;
+            DtoReservaImovel reserva = new DtoReservaImovel();
 
-            using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
+            try
             {
-                dtoImoveis = appService.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                {
+                    reserva = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
+
+                }
+
+                resp = reserva.Resposta;
+                message = reserva.Msg;
+            }
+            catch (Exception ex)
+            {
+                resp = false;
+                message = "Falha, ProcReservarMatImovel [" + ex.Message + "]";
             }
 
-            return PartialView("_tblImoveisPasso1", dtoImoveis);
+            var resultado = new
+            {
+                resposta = resp,
+                operacao = reserva.Operacao,
+                tipoMsg = reserva.TipoMsg,
+                msg = message,
+                Reserva = reserva
+            };
+
+            return Json(resultado);
         }
 
     }

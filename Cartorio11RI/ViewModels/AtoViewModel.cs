@@ -11,9 +11,10 @@ namespace Cartorio11RI.ViewModels
     {
         public AtoViewModel()
         {
-            this.Pessoas = new List<PESSOAViewModel>();
             this.DataCadastro = DateTime.Today;
             this.DataAto = DateTime.Today;
+            this.Pessoas = new List<PESSOAViewModel>();
+            this.PREIMO = new PREIMOViewModel();
         }
 
         [Key]
@@ -112,5 +113,7 @@ namespace Cartorio11RI.ViewModels
         public bool DocxGerado { get; set; }
 
         public List<PESSOAViewModel> Pessoas { get; set; }
+
+        public PREIMOViewModel PREIMO { get; set; }
     }
 }

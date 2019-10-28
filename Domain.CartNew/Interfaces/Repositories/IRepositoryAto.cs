@@ -36,5 +36,7 @@ namespace Domain.CartNew.Interfaces.Repositories
         IEnumerable<CamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
         
         IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa);
+
+        DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
     }
 }

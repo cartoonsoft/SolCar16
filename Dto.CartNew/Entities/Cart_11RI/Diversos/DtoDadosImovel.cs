@@ -18,6 +18,8 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public string NumMatricula { get; set; }
 
+        public bool Selecionado { get; set; }
+
         public string DataAtualExtenso { get; set; }
 
         public long SEQIMO { get; set; }

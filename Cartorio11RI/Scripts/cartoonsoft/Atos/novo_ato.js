@@ -131,29 +131,34 @@ class PessoaPrenotacao {
  * @@param {any} numPrenotacao
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function PesquisarPrenotacao(numPrenotacao, url) {
+function PesquisarPrenotacao(numPrenotacao, selObj, url) {
 
     if (!isNaN(numPrenotacao)) {
         var dadosPrenotacao = {
             IdPrenotacao: numPrenotacao
         };
-        GetDadosImoveisPrenotacao(dadosPrenotacao, url);
+        GetListImoveisPrenotacao(dadosPrenotacao, selObj, url);
     } else {
         $.smallBox({
             title: "Entrada inválida!",
             content: "Número de prenotação está inválido!",
-            color: "#992111",
+            color: cor_smallBox_erro,
             icon: "fa fa-thumbs-down bounce animated",
             timeout: 4000
         });
-    }     
+    }
 }
 
 /** ----------------------------------------------------------------------------
  * Ajax busca dados dos imoveis por prenotacao
- * @@param dataPreMat
------------------------------------------------------------------------------ */
-function GetListImoveisPrenotacao(dadosPrenotacao, url) {
+ * @@param {any} dadosPrenotacao
+ * @@param {any} selObj
+ * @@param {any} url
+ -----------------------------------------------------------------------------*/
+function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url) {
+
+    $('#btn-reserva-mat').prop('disabled', true);
+    $('#btn-libera-mat').prop('disabled', true);
 
     $.ajax(url, {
         method: 'POST',
@@ -168,21 +173,14 @@ function GetListImoveisPrenotacao(dadosPrenotacao, url) {
             var dadosInvalidos = (typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
 
             if (!dadosInvalidos) {
-
-                obj_tabela_mat.data = dataReturn.listaDtoDadosImovel;
-                HabilitarProximo();
-                $.smallBox({
-                    title: "Requisição processada com sucesso!",
-                    content: dataReturn.msg,
-                    color: "#296191",
-                    icon: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
+                PovoarSelImoveis(selObj, dataReturn.listaDtoDadosImovel);
+                $('#btn-reserva-mat').prop('disabled', false);
+                $('#btn-libera-mat').prop('disabled', false);
             } else {
                 $.smallBox({
                     title: "Dados não encontrados!",
                     content: dataReturn.msg,
-                    color: "#EF7F0A",
+                    color: cor_smallBox_aviso,
                     icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
@@ -191,7 +189,79 @@ function GetListImoveisPrenotacao(dadosPrenotacao, url) {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
                 content: dataReturn.msg,
-                color: "#992111",
+                color: cor_smallBox_erro,
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        HideProgressBar();
+        $.smallBox({
+            title: "Falha na sua requisição!",
+            content: textStatus + "[" + error + "]",
+            color: cor_smallBox_erro,
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 8000
+        });
+    }).always(function () {
+        HideProgressBar();
+    });
+
+}
+
+/** ----------------------------------------------------------------------------
+ * processar reservar
+ * @@param {any} tipoReserva
+ * @@param {any} idPrenotacao
+ * @@param {any} numMatricula
+----------------------------------------------------------------------------- */
+function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
+{
+    var msg_title = "";
+    var dadosReserva = {
+        TipoReserva:  tipoReserva,
+        IdPrenotacao: numPrenotacao,
+        NumMatricula: numMatricula
+    };
+
+
+    if (tipoReserva == 1) {
+        msg_title = "Matrícula reservada!"
+    } else if (tipoReserva == 2) {
+        msg_title = "Matrícula liberada!"
+    }
+
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dadosReserva,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        if (dataReturn.resposta) {
+            if (dataReturn.tipoMsg == 1) {
+                $.smallBox({
+                    title: msg_title,
+                    content: dataReturn.msg,
+                    color: cor_smallBox_ok,
+                    icon: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                $.smallBox({
+                    title: msg_title,
+                    content: dataReturn.msg,
+                    color: cor_smallBox_aviso,
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            }
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: cor_smallBox_erro,
                 icon: "fa fa-thumbs-down bounce animated",
                 timeout: 8000
             });
@@ -200,13 +270,15 @@ function GetListImoveisPrenotacao(dadosPrenotacao, url) {
         $.smallBox({
             title: "Falha na sua requisição!",
             content: textStatus + "[" + error + "]",
-            color: "#992111",
+            color: cor_smallBox_erro,
             icon: "fa fa-thumbs-down bounce animated",
             timeout: 8000
         });
+
     }).always(function () {
         HideProgressBar();
     });
+
 }
 
 /** ----------------------------------------------------------------------------
@@ -234,7 +306,7 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
                 $.smallBox({
                     title: "Dados não encontrados!",
                     content: "Lista inválida.",
-                    color: "#EF7F0A",
+                    color: cor_smallBox_aviso,
                     icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
@@ -244,7 +316,7 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
                 content: dataReturn.msg,
-                color: "#992111",
+                color: cor_smallBox_erro,
                 icon: "fa fa-thumbs-down bounce animated",
                 timeout: 8000
             });
@@ -253,7 +325,7 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
         $.smallBox({
             title: "Falha na sua requisição!",
             content: textStatus + "[" + error + "]",
-            color: "#992111",
+            color: cor_smallBox_erro,
             icon: "fa fa-thumbs-down bounce animated",
             timeout: 8000
         });
@@ -280,13 +352,13 @@ function ShowTblPessoasPrenotacao(listadados) {
         pessoa.IdPessoa = item.IdPessoa;
         pessoa.IdPrenotacao = item.IdPrenotacao;
         pessoa.TipoPessoaPrenotacao = item.TipoPessoaPrenotacao;
-        pessoa.Nome = item.Nome;             
-        pessoa.Relacao = item.Relacao;     
-        pessoa.Endereco = item.Endereco;    
-        pessoa.Bairro = item.Bairro;      
-        pessoa.Cidade = item.Cidade;      
-        pessoa.UF = item.Uf;          
-        pessoa.CEP = item.Cep;         
+        pessoa.Nome = item.Nome;
+        pessoa.Relacao = item.Relacao;
+        pessoa.Endereco = item.Endereco;
+        pessoa.Bairro = item.Bairro;
+        pessoa.Cidade = item.Cidade;
+        pessoa.UF = item.Uf;
+        pessoa.CEP = item.Cep;
         pessoa.Telefone = item.Telefone;
         pessoa.TipoDoc1 = item.TipoDoc1;
         pessoa.Numero1 = item.Numero1;
@@ -306,8 +378,7 @@ function ShowTblPessoasPrenotacao(listadados) {
  * 
  * @@param {any} tipoPessoaPrenotacao
 ----------------------------------------------------------------------------- */
-function GetDescTipoPessoaPrenotacao(tipoPessoaPrenotacao)
-{
+function GetDescTipoPessoaPrenotacao(tipoPessoaPrenotacao) {
     return (tipoPessoaPrenotacao == 1) ? "Outorgante" : (tipoPessoaPrenotacao == 2) ? "Outorgado" : "Indefinido";
 }
 
@@ -452,7 +523,7 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
                 $.smallBox({
                     title: "Dados não encontrados!",
                     content: "Lista inválida.",
-                    color: "#EF7F0A",
+                    color: cor_smallBox_aviso,
                     icon: "fa fa-exclamation bounce animated",
                     timeout: 4000
                 });
@@ -461,7 +532,7 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
                 content: dataReturn.msg,
-                color: "#992111",
+                color: cor_smallBox_erro,
                 icon: "fa fa-thumbs-down bounce animated",
                 timeout: 8000
             });
@@ -471,6 +542,22 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
 
     }).always(function () {
         HideProgressBar();
+    });
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} selObj
+ * @@param {any} listaModelos
+----------------------------------------------------------------------------- */
+function PovoarSelImoveis(selObj, listaImoveis) {
+
+    var sel = selObj;
+    $(sel).empty();
+
+    $.each(listaImoveis, function (index, item) {
+
+        $(sel).append('<option value="' + item.NumMatricula + '" >' + item.NumMatricula + '</option>');
     });
 }
 
@@ -534,7 +621,7 @@ function GetTextoAto(arrayPessoas, url) {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
                 content: dataReturn.msg,
-                color: "#992111",
+                color: cor_smallBox_erro,
                 icon: "fa fa-thumbs-down bounce animated",
                 timeout: 8000
             });

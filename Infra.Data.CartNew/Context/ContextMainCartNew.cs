@@ -58,6 +58,7 @@ namespace Infra.Data.CartNew.Context
         public DbSet<Acao> DbAcao { get; set; }
         public DbSet<UsuarioAcao> DbUsuarioAcao { get; set; }
         public DbSet<Livro> DbLivro { get; set; }
+        public DbSet<PrenotacaoImovel> DbPrenotacaoImovel { get; set; }
 
         public DbSet<PREIMO> DbPREIMO { get; set; }
         public DbSet<PREMAD> DbPREMAD { get; set; }

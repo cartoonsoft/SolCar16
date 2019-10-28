@@ -75,6 +75,7 @@
     <Compile Include="Entities\Municipio.cs" />
     <Compile Include="Entities\Pais.cs" />
     <Compile Include="Entities\PessoaCartNew.cs" />
+    <Compile Include="Entities\PrenotacaoImovel.cs" />
     <Compile Include="Entities\Status.cs" />
     <Compile Include="Entities\StatusValor.cs" />
     <Compile Include="Entities\StatusValorAnt.cs" />
@@ -86,6 +87,9 @@
     <Compile Include="Entities\Uf.cs" />
     <Compile Include="Entities\UsuarioAcao.cs" />
     <Compile Include="Entities\UsuarioIdentity.cs" />
+    <Compile Include="Enumerations\DataBaseOperacoes.cs" />
+    <Compile Include="Enumerations\TipoMsgResposta.cs" />
+    <Compile Include="Enumerations\TipoReservaMatImovel.cs" />
     <Compile Include="Enumerations\GrupoUsuarioEnum.cs" />
     <Compile Include="Enumerations\TipoPessoaPrenotacao.cs" />
     <Compile Include="Enumerations\TipoAtoEnum.cs" />

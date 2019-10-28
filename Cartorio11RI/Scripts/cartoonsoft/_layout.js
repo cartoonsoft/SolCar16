@@ -6,6 +6,11 @@ Cartoonsoft _layout
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
+var cor_smallBox_aviso = "#D99651";
+var cor_smallBox_erro = "#D16E60";
+var cor_smallBox_ok = "#0A97EF";
+var cor_smallBox_confima = "#2A881A";
+
 /** ----------------------------------------------------------------------------
  * Mostrar o progresbar
  * param {any} menssagem

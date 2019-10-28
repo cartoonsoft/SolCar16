@@ -14,8 +14,6 @@ namespace Domain.CartNew.Entities.Diversos
 
         public string NumMatricula { get; set; }
 
-        public string DataAtualExtenso { get; set; }
-
         public long SEQIMO { get; set; }
 
         public long SEQPRE { get; set; }

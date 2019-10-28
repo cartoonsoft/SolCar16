@@ -36,5 +36,8 @@ namespace DomainServ.CartNew.Interfaces
         IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
 
         IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa);
+
+        DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
+
     }
 }

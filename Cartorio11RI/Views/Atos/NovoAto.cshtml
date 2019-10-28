@@ -177,40 +177,12 @@
 		var urlGetDadosImovel = '@Url.Action("GetListImoveisPrenotacao", "Atos")';
 		var urlGetPessoasPrenotacao = '@Url.Action("GetListPessoasPrenotacao", "Atos")';
 		var urlGetListaModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
+		var urlProcReservarMatImovel = '@Url.Action("ProcReservarMatImovel", "Atos")';
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
 
 		var PodeAvancar2 = false;
 		var PodeAvancar3 = false;
-
-		var dataTableMatriculas = null;
-
-		var obj_tabela_mat = $('#tbl-matriculas-prenotacao').dataTable({
-			//columnDefs: [{ orderable: false, targets: [3] }],
-			//"autoFill": true,
-			"paging": false,
-			//"ordering": false,
-			"info": false,
-			"searching": false,
-			"autoWidth": true,
-			"data": jQuery.parseJSON(dataTableMatriculas),
-			"language": {
-				"lengthMenu": "Mostrar _MENU_ reg. por página",
-				"zeroRecords": "Nenhum Registro Encontrado",
-				"info": "Mostrando Página _PAGE_ de _PAGES_",
-				"infoEmpty": "Nenhum registro Disponível",
-				"infoFiltered": "(filtrado)",
-				"loadingRecords": "Lendo...",
-				"processing": "Processando...",
-				"search": "Procurar: ",
-				"paginate": {
-					"first": "Primeiro",
-					"last": "Último",
-					"next": "Próx.",
-					"previous": "Anterior"
-				},
-			}
-		});
 
 		/* obter ip local ----------------------------------------------------*/
 		var ipLocal = getUserIP(function (ip) {
@@ -236,16 +208,16 @@
 		DesabilitarProximo();
 
 		/*-- validate --------------------------------------------------------*/
-		var $frmNovoModelo = $("#frmNovoModelo").validate({
+		var $frmWizardNovoAto = $("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
 			rules: {
 				IdLivro: {
 					required: true
 				},
-				NumMatricula: {
+				IdPrenotacao: {
 					required: true
 				},
-				PREIMO_SEQPRE: {
+				NumMatricula: {
 					required: true
 				},
 				DescricaoTipoAto: {
@@ -260,11 +232,11 @@
 				IdLivro: {
 					required: "Selecione um livro"
 				},
+				IdPrenotacao: {
+					required: "Digite um número de prenotação"
+				},
 				NumMatricula: {
 					required: "Núm. de matrícula do imóvel inválida"
-				},
-				PREIMO_SEQPRE: {
-					required: "Digite um número de prenotação"
 				},
 				DescricaoTipoAto: {
 					required: "Selecione tipo de ato"
@@ -288,7 +260,7 @@
 		});
 
 		/*-- pesqusar por prenotacao ---------------------------------------- */
-		$("#PREIMO_SEQPRE").keydown(function (e) {
+		$("#IdPrenotacao").keydown(function (e) {
 			if (e.keyCode == 13) {
 				$("#btn-pesq-prenotacao").click();
 			}
@@ -298,32 +270,56 @@
 		$("#btn-pesq-prenotacao").click(function (e) {
 			e.preventDefault();
 
-			var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
+			var sel = $("#ddListImoveisPrenotacao");
 
 			if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
 				$.smallBox({
 					title: "Valor inválido!",
 					content: "Número de prenotação está inválido.",
-					color: "#EF7F0A",
+					color: cor_smallBox_aviso,
 					icon: "fa fa-exclamation bounce animated",
 					timeout: 4000
 				});
 			} else {
-				PesquisarPrenotacao(numPrenotacao, urlGetDadosImovel);
+
+				PesquisarPrenotacao(numPrenotacao, sel, urlGetDadosImovel);
 			}
+		});
+
+		/*-- btn-reserva-mat ------------------------------------------------ */
+		$("#btn-reserva-mat").click(function (e) {
+			e.preventDefault();
+
+			var obj = $("#ddListImoveisPrenotacao");
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
+			var numMat = $("option:selected", obj).val();
+
+			ProcReservarMatImovel(1, numPrenotacao, numMat, urlProcReservarMatImovel);
+		});
+
+		/*-- btn-libera-mat ------------------------------------------------ */
+		$("#btn-libera-mat").click(function (e) {
+			e.preventDefault();
+
+			var obj = $("#ddListImoveisPrenotacao");
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
+			var numMat = $("option:selected", obj).val();
+
+			ProcReservarMatImovel(2, numPrenotacao, numMat, urlProcReservarMatImovel);
 		});
 
 		/*-- pesquisar pessoas ---------------------------------------------- */
 		$("#btn-pesq-pessoas").click(function (e) {
 			e.preventDefault();
 
-			var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
 
 			if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
 				$.smallBox({
 					title: "Valor inválido!",
 					content: "Número de prenotação está inválido.",
-					color: "#EF7F0A",
+					color: cor_smallBox_aviso,
 					icon: "fa fa-exclamation bounce animated",
 					timeout: 4000
 				});
@@ -339,7 +335,7 @@
 		/*-- btn-dlg-pessoas-ok   --------------------------------------------*/
 		$("#btn-dlg-pessoas-ok").click(function (e) {
 			e.preventDefault();
-			PodeAvancar2 = PovoarSelecionados($('#PREIMO_SEQPRE').val());
+			PodeAvancar2 = PovoarSelecionados($('#IdPrenotacao').val());
 		});
 
 		var ato_wizard = $('#divWizardEdicaoAto').wizard();
@@ -347,14 +343,14 @@
 		/*-- ato_wizard on change ------------------------------------------- */
 		$(ato_wizard).on('change', function(e, data) {
 
-			/*
-			var $valid = $("#wizard-1").valid();
+			
+			var $valid = $("#frm-wizard-novo-ato").valid();
 			if (!$valid) {
 				$validator.focusInvalid();
 				return false;
 			}
-			*/
-			var numPrenotacao = $("#PREIMO_SEQPRE").val().trim();
+			
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
 
 			/*-- etapa 2 -----------------------------------------------------*/
 			if (data.step === 2 && data.direction === 'next') {
@@ -363,7 +359,7 @@
 					$.smallBox({
 						title: "Selecione as pessoas!",
 						content: "Selecione pelo menos um outorgante/outorgado para continuar.",
-						color: "#EF7F0A",
+						color: cor_smallBox_aviso,
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
 					 });
@@ -378,7 +374,7 @@
 					$.smallBox({
 						title: "Selecione um modelo!",
 						content: "Selecione um modelo de documento para continuar..",
-						color: "#EF7F0A",
+						color: cor_smallBox_aviso,
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
 					});
@@ -389,7 +385,7 @@
 						$.smallBox({
 							title: "Número de prenotação inválido!",
 							content: "Preencha o número de prenotação...",
-							color: "#EF7F0A",
+							color: cor_smallBox_aviso,
 							icon: "fa fa-exclamation bounce animated",
 							timeout: 4000
 						});
@@ -477,7 +473,7 @@
 				$.smallBox({
 					title: "Valor inválido!",
 					content: "Selecine um modelo da lista.",
-					color: "#EF7F0A",
+					color: cor_smallBox_aviso,
 					icon: "fa fa-exclamation bounce animated",
 					timeout: 4000
 				});
@@ -495,7 +491,7 @@
 					}
 				}).done(function (dataReturn) {
 					if (dataReturn.resposta) {
-						//var dadosInvalidos = (typeof dataReturn.Preimo === 'undefined' || dataReturn.Preimo == null);
+						//var dadosInvalidos = (typeof dataReturn.IdPrenotacao === 'undefined' || dataReturn.IdPrenotacao == null);
 						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
 						PodeAvancar3 = true;
 						//$("#editor2").val(dataReturn.TextoHtml);
@@ -507,6 +503,7 @@
 				});
 			}
 		});
+
 
 	});
 

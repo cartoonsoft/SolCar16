@@ -4,7 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
 using Domain.CartNew.Enumerations;
@@ -213,7 +212,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPrenotacao = imovel.IdPrenotacao,
                     NumMatricula = imovel.NumMatricula.ToString(),
-                    DataAtualExtenso = imovel.DataAtualExtenso,
                     APTO = imovel.APTO,
                     BLOCO = imovel.BLOCO,
                     CONTRIB = imovel.CONTRIB,
@@ -356,6 +354,43 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         {
             throw new NotImplementedException();
         }
+
+        public DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
+        {
+            long mat = 0;
+            DadosImovel dadosImovel = new DadosImovel();
+
+            if (long.TryParse(NumMatricula, out mat))
+            {
+                var imovel = this._contextRepository.DbPREIMO.Where(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI == mat)).FirstOrDefault();
+
+                dadosImovel.IdPrenotacao = IdPrenotacao;
+                dadosImovel.NumMatricula = NumMatricula;
+                dadosImovel.APTO = imovel.APTO;
+                dadosImovel.BLOCO = imovel.BLOCO;
+                dadosImovel.CONTRIB = imovel.CONTRIB;
+                dadosImovel.EDIF = imovel.EDIF;
+                dadosImovel.ENDER = imovel.ENDER;
+                dadosImovel.HIPO = imovel.HIPO;
+                dadosImovel.INSCR = imovel.INSCR;
+                dadosImovel.LOTE = imovel.LOTE;
+                dadosImovel.MATRI = imovel.MATRI;
+                dadosImovel.NUM = imovel.NUM;
+                dadosImovel.OUTROS = imovel.OUTROS;
+                dadosImovel.QUADRA = imovel.QUADRA;
+                dadosImovel.RD = imovel.RD;
+                dadosImovel.SEQIMO = imovel.SEQIMO;
+                dadosImovel.SEQPRE = imovel.SEQPRE;
+                dadosImovel.SUBD = imovel.SUBD;
+                dadosImovel.TIPO = imovel.TIPO;
+                dadosImovel.TITULO = imovel.TITULO;
+                dadosImovel.TRANS = imovel.TRANS;
+                dadosImovel.VAGA = imovel.VAGA;
+            }
+
+            return dadosImovel;
+        }
+
     }
 
 }

@@ -104,5 +104,15 @@ namespace DomainServ.CartNew.Services
             return listaDtoPessoaPesxPre;
         }
 
+        public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
+        {
+            DtoDadosImovel dtoImovel = new DtoDadosImovel(); 
+            DadosImovel imovel = this.UfwCartNew.Repositories.RepositoryAto.GetDadosImovel(IdPrenotacao, NumMatricula);
+            dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
+
+            return dtoImovel;
+        }
+
+
     }
 }

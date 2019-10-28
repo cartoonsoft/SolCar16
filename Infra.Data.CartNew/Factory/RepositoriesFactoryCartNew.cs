@@ -6,7 +6,6 @@ using Domain.CartNew.Interfaces.Repositories;
 using Domain.Core.Interfaces.Repositories;
 using Infra.Data.CartNew.Context;
 using Infra.Data.CartNew.Repositories.DbCartNew;
-using Infra.Data.CartNew.Repositories.Identity;
 using Infra.Data.Core.Repositories;
 
 namespace Infra.Data.CartNew.Factory

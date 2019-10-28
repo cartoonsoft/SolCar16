@@ -30,16 +30,12 @@
             </div>
         </div>
         <div class="step-content">
-            <form id="frm-wizard-ato" method="post" novalidate="novalidate">
+            <form id="frm-wizard-novo-ato" method="post" novalidate="novalidate">
                 @Html.AntiForgeryToken()
                 @Html.ValidationBootstrap()
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.IdCtaAcessoSist)
                 @Html.HiddenFor(model => model.IdTipoAto)
-                @Html.HiddenFor(model => model.IdPrenotacao)
-                @Html.HiddenFor(model => model.PREIMO.SUBD)
-                @Html.HiddenFor(model => model.PREIMO.TIPO)
-                @Html.HiddenFor(model => model.PREIMO.TITULO)
                 @Html.HiddenFor(model => model.IpLocal)
 
                 @Html.Partial("_divWizardPasso1", Model)
@@ -47,7 +43,6 @@
                 @Html.Partial("_divWizardPasso3", Model)
                 @Html.Partial("_divWizardPasso4", Model)
                 @Html.Partial("_divWizardPasso5", Model)
-
             </form>
         </div>
     </div>
