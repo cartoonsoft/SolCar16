@@ -686,18 +686,18 @@ namespace Cartorio11RI.Controllers
         {
             bool resp = false;
             string message = string.Empty;
-            DtoReservaImovel reserva = new DtoReservaImovel();
+            DtoReservaImovel reservaImovel = new DtoReservaImovel();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
                 {
-                    reserva = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
+                    reservaImovel = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
 
                 }
 
-                resp = reserva.Resposta;
-                message = reserva.Msg;
+                resp = reservaImovel.Resposta;
+                message = reservaImovel.Msg;
             }
             catch (Exception ex)
             {
@@ -708,10 +708,10 @@ namespace Cartorio11RI.Controllers
             var resultado = new
             {
                 resposta = resp,
-                operacao = reserva.Operacao,
-                tipoMsg = reserva.TipoMsg,
+                operacao = reservaImovel.Operacao,
+                tipoMsg = reservaImovel.TipoMsg,
                 msg = message,
-                Reserva = reserva
+                Reserva = reservaImovel
             };
 
             return Json(resultado);

@@ -181,9 +181,6 @@
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
 
-		var PodeAvancar2 = false;
-		var PodeAvancar3 = false;
-
 		/* obter ip local ----------------------------------------------------*/
 		var ipLocal = getUserIP(function (ip) {
 			var t = navigator.product;
@@ -352,6 +349,21 @@
 			
 			var numPrenotacao = $("#IdPrenotacao").val().trim();
 
+			/*-- etapa 1 -----------------------------------------------------*/
+			if (data.step === 1 && data.direction === 'next') {
+
+				if (!PodeAvancar1) {
+					$.smallBox({
+						title: "Selecione uma matrícula!",
+						content: "Reserve uma matrícula para poder avançar.",
+						color: cor_smallBox_aviso,
+						icon: "fa fa-exclamation bounce animated",
+						timeout: 4000
+					 });
+					return e.preventDefault();
+				}
+			}
+
 			/*-- etapa 2 -----------------------------------------------------*/
 			if (data.step === 2 && data.direction === 'next') {
 
@@ -491,7 +503,7 @@
 					}
 				}).done(function (dataReturn) {
 					if (dataReturn.resposta) {
-						//var dadosInvalidos = (typeof dataReturn.IdPrenotacao === 'undefined' || dataReturn.IdPrenotacao == null);
+						//var dadosValidos = !(typeof dataReturn.IdPrenotacao === 'undefined' || dataReturn.IdPrenotacao == null);
 						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
 						PodeAvancar3 = true;
 						//$("#editor2").val(dataReturn.TextoHtml);

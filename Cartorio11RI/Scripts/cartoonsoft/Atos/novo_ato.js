@@ -6,6 +6,10 @@ Cartoonsoft: Atos.Novo
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
+var PodeAvancar1 = false;
+var PodeAvancar2 = false;
+var PodeAvancar3 = false;
+
 /*----------------------------------------------------------------------------*/
 var arrayPessoas = [];
 
@@ -170,9 +174,9 @@ function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url) {
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosInvalidos = (typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
+            var dadosValidos = !(typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
 
-            if (!dadosInvalidos) {
+            if (dadosValidos) {
                 PovoarSelImoveis(selObj, dataReturn.listaDtoDadosImovel);
                 $('#btn-reserva-mat').prop('disabled', false);
                 $('#btn-libera-mat').prop('disabled', false);
@@ -240,6 +244,21 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
         }
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
+
+            //reservar
+            if (tipoReserva == 1) {
+                var dadosValidos = !(typeof dataReturn.Reserva.Imovel == 'undefined' || dataReturn.Reserva.Imovel == null);
+                if (dadosValidos) {
+                    PodeAvancar1 = true;
+                    HabilitarProximo();
+                    PovoarDadosImovel(dataReturn.Reserva.Imovel);
+                }
+            } else {
+                PodeAvancar1 = false;
+                DesabilitarProximo();
+                LimparDadosImovel();
+            }
+
             if (dataReturn.tipoMsg == 1) {
                 $.smallBox({
                     title: msg_title,
@@ -298,9 +317,9 @@ function GetPessoasPrenotacao(dadosPrenotacao, url) {
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosInvalidos = (typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
+            var dadosValidos = !(typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
 
-            if (!dadosInvalidos) {
+            if (dadosValidos) {
                 ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
             } else {
                 $.smallBox({
@@ -370,7 +389,7 @@ function ShowTblPessoasPrenotacao(listadados) {
 
     arrayPessoas.forEach(InserirLinhasSelecaoPessoas);
 
-    $('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#PREIMO_SEQPRE").val());
+    $('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
     $('#div-dlg-pessoas').modal('show');
 }
 
@@ -442,7 +461,7 @@ function ArrayPessoasIndexOfById(id) {
 }
 
 /** ----------------------------------------------------------------------------
- * idPrenotacao (preimo.SEQPRE)
+ * idPrenotacao (IdPrenotacao)
  ---------------------------------------------------------------------------- */
 function PovoarSelecionados(numPrenotacao) {
 
@@ -515,9 +534,9 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
         //
         if (dataReturn.resposta) {
 
-            var dadosInvalidos = (typeof dataReturn.ListaModelosDocx == 'undefined' || dataReturn.ListaModelosDocx == null);
+            var dadosValidos = !(typeof dataReturn.ListaModelosDocx == 'undefined' || dataReturn.ListaModelosDocx == null);
 
-            if (!dadosInvalidos) {
+            if (dadosValidos) {
                 PovoarSelModelos(selObj, dataReturn.ListaModelosDocx);
             } else {
                 $.smallBox({
@@ -634,3 +653,54 @@ function GetTextoAto(arrayPessoas, url) {
     });
 
 }
+
+/**
+ * Povoar dados do imovel
+ * @@param {any} Imovel
+ */
+function PovoarDadosImovel(Imovel)
+{
+    $('#NumMatricula').val(Imovel.SEQPRE);
+    $('#PREIMO_SEQPRE').val(Imovel.SEQPRE);
+    
+    $('#PREIMO_ENDER').val(Imovel.ENDER);
+    $('#PREIMO_NUM').val(Imovel.NUM);
+    $('#PREIMO_LOTE').val(Imovel.LOTE);
+    $('#PREIMO_QUADRA').val(Imovel.QUADRA);
+    $('#PREIMO_APTO').val(Imovel.APTO);
+    $('#PREIMO_BLOCO').val(Imovel.BLOCO);
+    $('#PREIMO_EDIF').val(Imovel.EDIF);
+    $('#PREIMO_VAGA').val(Imovel.VAGA);
+    $('#PREIMO_OUTROS').val(Imovel.OUTROS);
+    $('#PREIMO_TRANS').val(Imovel.TRANS);
+    $('#PREIMO_INSCR').val(Imovel.INSCR);
+    $('#PREIMO_HIPO').val(Imovel.HIPO);
+    $('#PREIMO_RD').val(Imovel.RD);
+    $('#PREIMO_CONTRIB').val(Imovel.CONTRIB);
+}
+
+
+/**
+ * Povoar dados do imovel
+ * @@param {any} Imovel
+ */
+function LimparDadosImovel() {
+    $('#NumMatricula').val("");
+    $('#PREIMO_SEQPRE').val("");
+
+    $('#PREIMO_ENDER').val("");
+    $('#PREIMO_NUM').val("");
+    $('#PREIMO_LOTE').val("");
+    $('#PREIMO_QUADRA').val("");
+    $('#PREIMO_APTO').val("");
+    $('#PREIMO_BLOCO').val("");
+    $('#PREIMO_EDIF').val("");
+    $('#PREIMO_VAGA').val("");
+    $('#PREIMO_OUTROS').val("");
+    $('#PREIMO_TRANS').val("");
+    $('#PREIMO_INSCR').val("");
+    $('#PREIMO_HIPO').val("");
+    $('#PREIMO_RD').val("");
+    $('#PREIMO_CONTRIB').val("");
+}
+
