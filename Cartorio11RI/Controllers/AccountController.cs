@@ -60,6 +60,11 @@ namespace Cartorio11RI.Controllers
             base.Dispose(disposing);
         }
 
+        public long IdCtaAcessoSist
+        {
+            get { return this._idCtaAcessoSist; }
+        }
+
         private void SetClaimsUsuario(string IdUsuario, GrupoUsuarioEnum grupo)
         {
             //remover all claims
@@ -572,9 +577,9 @@ namespace Cartorio11RI.Controllers
                     TwoFactorEnabled = usrApp.TwoFactorEnabled
                 };
 
-                using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this._ufwCartNew))
+                using (AppServiceAcoesUsuarios appService = new AppServiceAcoesUsuarios(this._ufwCartNew, this.IdCtaAcessoSist))
                 {
-                    Menu = appService.GetListMenuUsuario(usr, _idCtaAcessoSist);
+                    Menu = appService.GetListMenuUsuario(usr, this.IdCtaAcessoSist);
                 }
             }
 

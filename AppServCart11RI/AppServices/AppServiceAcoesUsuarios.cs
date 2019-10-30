@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AppServ.Core.AppServices;
+using AppServCart11RI.Base;
 using AppServices.Cartorio.Interfaces;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Interfaces.UnitOfWork;
@@ -12,9 +13,9 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceAcoesUsuarios : AppServiceCartorio<DtoAcao, Acao>, IAppServiceAcoesUsuarios
+    public class AppServiceAcoesUsuarios : AppServiceCartorio11RI<DtoAcao, Acao>, IAppServiceAcoesUsuarios
     {
-        public AppServiceAcoesUsuarios(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceAcoesUsuarios(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
             //
         }

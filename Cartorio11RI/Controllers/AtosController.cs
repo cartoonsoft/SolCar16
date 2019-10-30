@@ -20,7 +20,6 @@ using Dto.CartNew.Entities.Cart_11RI;
 using LibFunctions.Functions.IOAdmCartorio;
 using Domain.CartNew.Entities.Diversos;
 using GemBox.Document;
-using Cartorio11RI.Cartorio;
 
 namespace Cartorio11RI.Controllers
 {
@@ -61,7 +60,7 @@ namespace Cartorio11RI.Controllers
 
             if (!FlagErro)
             {
-                using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew))
+                using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     IEnumerable<DtoAtoList> listaDto = null; // appService.GetListaAtos((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
                     if (listaDto != null)
@@ -86,7 +85,6 @@ namespace Cartorio11RI.Controllers
             //povoar tree view
             List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
             ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
-
 
             ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
             ViewBag.listaModelosDocx = new SelectList(
@@ -273,7 +271,7 @@ namespace Cartorio11RI.Controllers
                         var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
 
                         // Gravar o ato e buscar o selo e gravar o selo
-                        using (var appService = new AppServiceAtos(this.UfwCartNew))
+                        using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                         {
                             //var dtoEditar = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
 
@@ -356,7 +354,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         public void BloquearAto(string NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAtos(this.UfwCartNew))
+            using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
             {
                 var resultado = false; // appService.FinalizarAto(IdAto);
 
@@ -376,17 +374,6 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        public PartialViewResult PartialDadosAdicionais()
-        {
-            return PartialView();
-        }
-
-        public PartialViewResult PartialDadosPessoas(string listaPessoas)
-        {
-            var dados = JsonConvert.DeserializeObject<List<DadosPessoaViewModel>>(listaPessoas);
-            return PartialView(dados);
-        }
-
         /// <summary>
         /// Lista de Modelos (JSON) por IdTipo
         /// </summary>
@@ -400,7 +387,7 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
+                using (var appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     lista = appService.GetListaModelosDocx(IdTipoAto).ToList();
                     resp = true;
@@ -438,7 +425,7 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew))
+                using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     listaDtoDadosImovel = appServAtos.GetListImoveisPrenotacao(IdPrenotacao).ToList();
                     if (listaDtoDadosImovel != null)
@@ -480,7 +467,7 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     listaPes = appServiceAtos.GetListPessoasPrenotacao(IdPrenotacao);
                     resp = true;
@@ -490,7 +477,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 resp = false;
-                message = "Falha, GetPessoasPrenotacao [" + ex.Message + "]";
+                message = "Falha, GetListPessoasPrenotacao [" + ex.Message + "]";
                 //    Console.WriteLine(ex);
                 //    Response.StatusCode = 500;
                 //    Response.Status = "Erro ao buscar os dados das pessoas";
@@ -585,7 +572,7 @@ namespace Cartorio11RI.Controllers
 
 
         /// <summary>
-        /// GetTextoWordDocModelo
+        /// Retorn o texto de um modelo
         /// </summary>
         /// <param name="IdModeloDoc"></param>
         /// <returns></returns>
@@ -593,18 +580,16 @@ namespace Cartorio11RI.Controllers
         public JsonResult GetTextoWordDocModelo(long IdModeloDoc)
         {
             bool resp = false;
-            string texto = string.Empty;
+            StringBuilder texto = new StringBuilder();
             string message = string.Empty;
 
             try
             {
-                FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
-                string fileName = files.GetModeloDocFileName(IdModeloDoc);
-                string fullName = Server.MapPath("~" + fileName);
+                string serverPath = Server.MapPath("~");
 
-                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                using (AppServiceAtos appServ = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    texto = ""; //  appServiceAtos.GetTextoWordDocModelo(fullName).ToString();
+                    texto = appServ.GetTextoWordDocModelo(IdModeloDoc, serverPath);
                 }
 
 
@@ -644,25 +629,24 @@ namespace Cartorio11RI.Controllers
                     throw new NullReferenceException("Modelo de documento não definido!");
                 }
 
-                FilesConfig files = new FilesConfig(this.IdCtaAcessoSist);
-                string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
-                string fullName = Server.MapPath("~" + fileName);
+                //string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
+                //string serverPath= Server.MapPath("~");
 
-                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
-                {
-                    DtoInfAto dtoInfAto = new DtoInfAto {
-                        IdAto = dadosAtoViewModel.IdAto,
-                        IdCtaAcessoSist = this.IdCtaAcessoSist,
-                        IdTipoAto = dadosAtoViewModel.IdTipoAto,
-                        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
-                        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
-                        NumMatricula = dadosAtoViewModel.NumMatricula,
-                        ModeloPathName = fullName,
-                        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
-                    };
+                //using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                //{
+                //    DtoInfAto dtoInfAto = new DtoInfAto {
+                //        IdAto = dadosAtoViewModel.IdAto,
+                //        IdCtaAcessoSist = this.IdCtaAcessoSist,
+                //        IdTipoAto = dadosAtoViewModel.IdTipoAto,
+                //        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
+                //        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
+                //        NumMatricula = dadosAtoViewModel.NumMatricula,
+                //        ModeloPathName = fullName,
+                //        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
+                //    };
 
-                    texto = "";// appServiceAtos.GetTextoAto(dtoInfAto).ToString();
-                }
+                //    texto = "";// appServiceAtos.GetTextoAto(dtoInfAto).ToString();
+                //}
 
                 resp = true;
             }
@@ -690,10 +674,9 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew))
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     reservaImovel = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
-
                 }
 
                 resp = reservaImovel.Resposta;

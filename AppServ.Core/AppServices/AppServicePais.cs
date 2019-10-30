@@ -15,7 +15,7 @@ namespace AppServ.Core.AppServices
 {
     public class AppServicePais : AppServiceCartorio<DtoPais, Pais>, IAppServicePais
     {
-        public AppServicePais(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServicePais(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
             //
         }

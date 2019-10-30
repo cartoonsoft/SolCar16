@@ -1,28 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
-using System.Globalization;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
-using AppServ.Core.AppServices;
 using AppServices.Cartorio.Interfaces;
+using AppServCart11RI.Base;
+using AppServCart11RI.Cartorio;
 
 namespace AppServCart11RI.AppServices
 {
-    public class AppServiceModelosDoc : AppServiceCartorio<DtoModeloDoc, ModeloDoc>, IAppServiceModelosDoc
+    public class AppServiceModelosDoc : AppServiceCartorio11RI<DtoModeloDoc, ModeloDoc>, IAppServiceModelosDoc
     {
         //private List<CamposArquivoModeloDocx> listaCamposArquivoModeloDocx = null;
 
-        public AppServiceModelosDoc(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceModelosDoc(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
-            //
+            
         }
 
         public long? NovoModelo(DtoModeloDoc dtoModeloDoc, string IdUsuario)

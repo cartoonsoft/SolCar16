@@ -106,7 +106,7 @@ namespace Cartorio11RI.ViewModels
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
         [Display(Name = "Distância topo (cm)")]
-        [Range(0, 99.99, ErrorMessage = "Distância do topo (cm) é inválida!")]
+        [Range(0, 99, ErrorMessage = "Distância do topo (cm) é inválida!")]
         public decimal TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
         [ScaffoldColumn(false)]

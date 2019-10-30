@@ -12,7 +12,7 @@ namespace AppServ.Core.AppServices
 {
     public class AppServiceUf : AppServiceCartorio<DtoUf, Uf>, IAppServiceUf
     {
-        public AppServiceUf(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceUf(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
             //
         }

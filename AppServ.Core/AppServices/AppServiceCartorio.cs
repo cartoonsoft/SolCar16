@@ -14,14 +14,15 @@ namespace AppServ.Core.AppServices
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
         private readonly IDomainServicesFactoryCartNew _dsFactoryCartNew;
-
+        private long _idCtaAcessoSist;
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, IDomainServicesFactoryCartNew dsFactoryCartNew = null) : base(UfwCartNew, dsFactoryCartNew)
+        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null) : base(UfwCartNew, dsFactoryCartNew)
         {
             this._ufwCartNew = UfwCartNew;
+            this._idCtaAcessoSist = IdCtaAcessoSist;
             this._dsFactoryCartNew = dsFactoryCartNew;
 
             if (_dsFactoryCartNew == null)
@@ -69,6 +70,11 @@ namespace AppServ.Core.AppServices
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        public long IdCtaAcessoSist
+        {
+            get { return this._idCtaAcessoSist; }
+        }
 
         public virtual IUnitOfWorkDataBaseCartNew UfwCartNew
         {

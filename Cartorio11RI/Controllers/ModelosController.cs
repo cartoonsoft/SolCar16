@@ -44,7 +44,7 @@ namespace Cartorio11RI.Controllers
         {
             IEnumerable<ModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
             {
                 IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx(null).Where(a => a.Ativo == true);
                 listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
@@ -95,7 +95,7 @@ namespace Cartorio11RI.Controllers
                     string filePath = string.Empty;
                     modeloDocxViewModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
-                    using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
+                    using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
                         NovoId = appService.NovoModelo(
                             new DtoModeloDoc()
@@ -200,7 +200,7 @@ namespace Cartorio11RI.Controllers
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
-                    using (var appService = new AppServiceModelosDoc(this.UfwCartNew))
+                    using (var appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
                         appService.EditarModelo(new DtoModeloDoc()
                         {
@@ -259,7 +259,7 @@ namespace Cartorio11RI.Controllers
         {
             bool respDesativar;
 
-            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew))
+            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
             {
                 respDesativar = appService.Desativar(Convert.ToInt64(dadosPost.Id), this.UsuarioAtual.Id);
             }

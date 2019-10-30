@@ -19,7 +19,7 @@ class PessoaPrenotacao {
     constructor() {
         var _IdPessoa = 0;
         var _IdPrenotacao = 0;
-        var _TipoPessoaPrenotacao = 0;
+        var _TipoPessoa = 0;
         var _Selecionado = false;
         var _Nome = "";
         var _Endereco = "";
@@ -45,8 +45,8 @@ class PessoaPrenotacao {
         return this._Selecionado;
     }
 
-    get TipoPessoaPrenotacao() {
-        return this._TipoPessoaPrenotacao; /* 1- Outorgante 2-Outorgado*/
+    get TipoPessoa() {
+        return this._TipoPessoa; /* 1- Outorgante 2-Outorgado*/
     }
 
     get Nome() {
@@ -88,8 +88,8 @@ class PessoaPrenotacao {
         this._IdPrenotacao = value;
     }
 
-    set TipoPessoaPrenotacao(value) {
-        this._TipoPessoaPrenotacao = value; /* 1- Outorgante 2-Outorgado*/
+    set TipoPessoa(value) {
+        this._TipoPessoa = value; /* 1- Outorgante 2-Outorgado*/
     }
 
     set Selecionado(value) {
@@ -305,7 +305,7 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
  * @@param {any} dadosPrenotacao
  * @@param {any} url
  -----------------------------------------------------------------------------*/
-function GetPessoasPrenotacao(dadosPrenotacao, url) {
+function GetListPessoasPrenotacao(dadosPrenotacao, url) {
 
     $.ajax(url, {
         method: 'POST',
@@ -370,7 +370,7 @@ function ShowTblPessoasPrenotacao(listadados) {
 
         pessoa.IdPessoa = item.IdPessoa;
         pessoa.IdPrenotacao = item.IdPrenotacao;
-        pessoa.TipoPessoaPrenotacao = item.TipoPessoaPrenotacao;
+        pessoa.TipoPessoa = item.TipoPessoa;
         pessoa.Nome = item.Nome;
         pessoa.Relacao = item.Relacao;
         pessoa.Endereco = item.Endereco;
@@ -395,10 +395,10 @@ function ShowTblPessoasPrenotacao(listadados) {
 
 /** ----------------------------------------------------------------------------
  * 
- * @@param {any} tipoPessoaPrenotacao
+ * @@param {any} tipoPesso
 ----------------------------------------------------------------------------- */
-function GetDescTipoPessoaPrenotacao(tipoPessoaPrenotacao) {
-    return (tipoPessoaPrenotacao == 1) ? "Outorgante" : (tipoPessoaPrenotacao == 2) ? "Outorgado" : "Indefinido";
+function GetDescTipoPessoaPrenotacao(tipoPessoa) {
+    return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa  == 2) ? "Outorgado" : "Indefinido";
 }
 
 /** ----------------------------------------------------------------------------
@@ -418,7 +418,7 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array) {
     $("#tbl-selecao-pessoas tbody").append(
         '<tr>' +
         '<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" class="checkbox-selecao-pessoas" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
-        '<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoaPrenotacao) + '</td>' +
+        '<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
         '<td>' + doc + '</td>' +
         '<td>' + pessoa.Nome + '</td>' +
         '</tr>'
@@ -480,7 +480,7 @@ function PovoarSelecionados(numPrenotacao) {
 
             $("#tbl-pessoas-selecionadas tbody").append(
                 '<tr>' +
-                '<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoaPrenotacao) + '</td>' +
+                '<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
                 '<td>' + doc + '</td>' +
                 '<td>' + arrayPessoas[i].Nome + '</td>' +
                 '<td>' + arrayPessoas[i].Bairro + '</td>' +

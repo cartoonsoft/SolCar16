@@ -12,7 +12,7 @@ namespace AppServ.Core.AppServices
 {
     public class AppServiceMunicipio : AppServiceCartorio<DtoMunicipio, Municipio>, IAppServiceMunicipio
     {
-        public AppServiceMunicipio(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServiceMunicipio(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
             //
         }

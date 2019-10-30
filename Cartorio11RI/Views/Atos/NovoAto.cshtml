@@ -175,8 +175,8 @@
 
 		/* urls chamadas ajax ------------------------------------------------*/
 		var urlGetDadosImovel = '@Url.Action("GetListImoveisPrenotacao", "Atos")';
-		var urlGetPessoasPrenotacao = '@Url.Action("GetListPessoasPrenotacao", "Atos")';
-		var urlGetListaModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
+		var urlGetListPessoasPrenotacao= '@Url.Action("GetListPessoasPrenotacao", "Atos")';
+		var urlGetLisModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
 		var urlProcReservarMatImovel = '@Url.Action("ProcReservarMatImovel", "Atos")';
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
@@ -325,7 +325,7 @@
 					IdPrenotacao: numPrenotacao
 				};
 
-				GetPessoasPrenotacao(dadosPrenotacao, urlGetPessoasPrenotacao);
+				GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
 			}
 		});
 

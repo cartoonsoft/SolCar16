@@ -15,7 +15,7 @@ namespace AppServ.Core.AppServices
     {
         //private List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = null;
 
-        public AppServicePessoaNew(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AppServicePessoaNew(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
             //
 
@@ -55,10 +55,7 @@ namespace AppServ.Core.AppServices
             // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
         }
-
         #endregion
-
-
 
     }
 }
