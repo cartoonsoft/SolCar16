@@ -9,17 +9,22 @@ using System.Web.Mvc;
 using AutoMapper;
 using Newtonsoft.Json;
 using System.Reflection;
-using Domain.CartNew.Enumerations;
 using Domain.CartNew.Entities;
+using Domain.CartNew.Entities.Diversos;
+using Domain.CartNew.Enumerations;
 using Cartorio11RI.Controllers.Base;
 using Cartorio11RI.ViewModels;
 using AppServCart11RI.AppServices;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
-using Dto.CartNew.Entities.Cart_11RI;
 using LibFunctions.Functions.IOAdmCartorio;
-using Domain.CartNew.Entities.Diversos;
 using GemBox.Document;
+using Dto.CartNew.Base;
+using Dto.CartNew.Entities.Cart_11RI;
+using Infra.Cross.Identity.Models;
+using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using Infra.Cross.Identity.Configuration;
 
 namespace Cartorio11RI.Controllers
 {
@@ -31,6 +36,40 @@ namespace Cartorio11RI.Controllers
             //
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
         }
+
+        #region privates methods
+        private DtoExecProc InsertOrUpdateAto(DtoAto ato)
+        {
+            DtoExecProc execProc = new DtoExecProc();
+
+            try
+            {
+                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    //se id == null faz insert
+                    if (ato.Id == null)
+                    {
+                        execProc.Operacao = DataBaseOperacoes.insert;
+                        //appService.Add(ato);
+                        execProc.Msg = "Dados incluidos com sucesso con sucesso";
+                    } else {
+                        execProc.Operacao = DataBaseOperacoes.update;
+                        //appService.AtualizarAto(ato);
+                        execProc.Msg = "Dados Atualizados com sucesso con sucesso";
+                    }
+                    execProc.TipoMsg = TipoMsgResposta.ok;
+                    execProc.Resposta = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                execProc.TipoMsg = TipoMsgResposta.error;
+                execProc.Msg = "Falha na requisição! " + "[" + ex.Message + "]";
+            }
+
+            return null;
+        }
+        #endregion
 
         // GET: Ato
         public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
@@ -80,13 +119,21 @@ namespace Cartorio11RI.Controllers
         public ActionResult NovoAto()
         {
             var dados = new AtoViewModel();
+            dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
+            dados.Pessoas.Add(new PESSOAViewModel { 
+                IdPessoa = 1,
+                TipoPessoa = "Outorgante",
+                NOM = "João de Teste",
+                ENDER = "Rua XYZ, Nro. 123 Bairro Centro do Mundo"
+            });
+
             List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
             //povoar tree view
             List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
-            ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
+            ViewBag.listaTipoAto = listaTipoAto; 
 
-            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
             ViewBag.listaModelosDocx = new SelectList(
                 new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
                 "IdModeloDoc",
@@ -101,90 +148,49 @@ namespace Cartorio11RI.Controllers
         [ValidateInput(false)]
         public ActionResult NovoAto(AtoViewModel modelo)
         {
-            string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
-            bool respEscreverWord = false;
-            Ato ato;
-            try
+            DtoExecProc execProc = new DtoExecProc();
+            DtoAto ato = new DtoAto();
+            List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
+
+            //povoar tree view
+            List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+            ViewBag.listaTipoAto = listaTipoAto;
+
+            ViewBag.listaModelosDocx = new SelectList(
+                new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
+                "IdModeloDoc",
+                "NomeModelo"
+            );
+
+            if (ModelState.IsValid)
             {
-                //povoar tree view
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
-                ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
-
-                //throw new Exception("Teste Ronaldo");
-
-                if (modelo.Id == null)
-                {
-                    ViewBag.erro = "O Ato é obrigatório";
-                    return View(modelo);
-                }
-
-                //Ajusta a string de ato
-                //modelo.Id??0 = RemoveUltimaMarcacao("" /*modelo.Id.ToString()*/);  //todo: ronalod arrumar 
-
-                if (ModelState.IsValid)
-                {
-                    //Representa o documento e o numero de pagina
-                    //DtoCadastroDeAto modeloDto = Mapper.Map<AtoViewModel, DtoCadastroDeAto>(modelo);
-                    long? numSequenciaAto = null;
-
-                    if (modelo.NumSequenciaAto == 0 && modelo.IdTipoAto != (int)TipoAtoEnum.AtoInicial)
-                    {
-                        //todo: ronaldo revisar
-                        //numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(Convert.ToInt64(modelo.NumMatricula));
-                        numSequenciaAto = numSequenciaAto != null ? numSequenciaAto + 1 : 1;
-                    }
-                    else
-                    {
-                        numSequenciaAto = modelo.NumSequenciaAto;
-                    }
-
-                    //todo: ronaldo arrumar AppServiceCadastroDeAto
-                    //using (var appService = new AppServiceCadastroDeAto(this.UnitOfWorkDataBaseCartNew))
-                    //{
-                    //    respEscreverWord = appService.EscreverAtoNoWord(modeloDto, filePath, Convert.ToInt64(numSequenciaAto));
-                    //}
-
-                    if (respEscreverWord)
-                    {
-                        // Gravar no banco o array de bytes
-                        var arrayBytesNovo = System.IO.File.ReadAllBytes(filePath);
-
-                        // Gravar o ato e buscar o selo e gravar o selo
-                        ato = new Ato()
-                        {
-                            Ativo = true,
-                            IdPrenotacao = modelo.IdPrenotacao,
-                            IdTipoAto = modelo.IdTipoAto,
-                            //NomeArquivo = $"{ modelo.PREIMO.MATRI }.docx",
-                            Observacao = "Cadastro de teste",
-                            NumMatricula = modelo.NumMatricula,
-                            IdUsuarioCadastro = this.UsuarioAtual.Id,
-                            IdCtaAcessoSist = 1
-                            //NumSequencia = Convert.ToInt64(numSequenciaAto)
-                        };
-
-                        this.UfwCartNew.Repositories.GenericRepository<Ato>().Add(ato);
-                        this.UfwCartNew.SaveChanges();
-                    }
-                    else
-                    {
-                        //Teve algum erro ao escrever o documento no WORD
-                        return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                    }
-                    //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(BloquearAto), new { ato.Id });
-                }
-
-                ViewBag.erro = "Erro ao cadastrar o ato!";
-
-                return View(modelo);
+                execProc = this.InsertOrUpdateAto(ato);
             }
-            catch (Exception ex)
+
+            return View(modelo);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
+        public JsonResult InsertOrUpdateAtoAjax(AtoViewModel modelo)
+        {
+            DtoAto ato = new DtoAto();
+            DtoExecProc execProc = new DtoExecProc();
+            List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
+
+
+            execProc = this.InsertOrUpdateAto(ato);
+
+            var resultado = new
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
-            }
+                resposta = execProc.Resposta,
+                msg = execProc.Msg,
+                execute = execProc
+            };
+
+            return Json(resultado);
         }
         #endregion
 
@@ -428,15 +434,20 @@ namespace Cartorio11RI.Controllers
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     listaDtoDadosImovel = appServAtos.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+
                     if (listaDtoDadosImovel != null)
                     {
-                        message = "Dados retornados con sucesso";
-                    } else
-                    {
-                        message = "Número de Prenotação não encontrada na base de dados";
+                        if (listaDtoDadosImovel.Count() > 0)
+                        {
+                            message = ":) Dados retornados con sucesso.";
+                            resp = true;
+                        } else {
+                            message = "Número de Prenotação e/ou matrículas não encontradas na base de dados!";
+                        }
+                    } else {
+                        message = "Número de Prenotação Inválido!";
                     }
                 }
-                resp = true;
             }
             catch (Exception ex)
             {
@@ -570,7 +581,6 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-
         /// <summary>
         /// Retorn o texto de um modelo
         /// </summary>
@@ -592,7 +602,6 @@ namespace Cartorio11RI.Controllers
                     texto = appServ.GetTextoWordDocModelo(IdModeloDoc, serverPath);
                 }
 
-
                 resp = true;
             }
             catch (Exception ex)
@@ -604,7 +613,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                TextoHtml = texto
+                TextoHtml = texto.ToString()
             };
 
             return Json(resultado);
@@ -671,11 +680,13 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string message = string.Empty;
             DtoReservaImovel reservaImovel = new DtoReservaImovel();
+            List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
+                    appServiceAtos.ListaUsuariosSistema = listaUsrSist;
                     reservaImovel = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
                 }
 

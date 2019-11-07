@@ -5,19 +5,16 @@
         <div class="wizard" id="divWizardEdicaoAto">
             <ul class="steps">
                 <li data-target="#ato-step-1" class="active">
-                    <i class="fa fa-home txt-color-blue fa-lg"></i><span class="text Bold"> imóvel</span><span class="chevron"></span>
+                    <i class="fa fa-home txt-color-blue fa-lg"></i><strong>&emsp;1 - Prenotação/imóvel</strong><span class="chevron"></span>
                 </li>
                 <li data-target="#ato-step-2">
-                    <i class="fa fa-users txt-color-purple fa-lg"></i><span class="text Bold"> Pessoas</span> <span class="chevron"></span>
+                    <i class="fa fa-users txt-color-purple fa-lg"></i><strong>&emsp;2 - Outorgantes/Outorgados</strong> <span class="chevron"></span>
                 </li>
                 <li data-target="#ato-step-3">
-                    <i class="fa fa-magic txt-color-yellow fa-lg"></i><span class="text Bold"> Modelo</span><span class="chevron"></span>
+                    <i class="fa fa-magic txt-color-yellow fa-lg"></i><strong>&emsp;3 - Modelo</strong><span class="chevron"></span>
                 </li>
                 <li data-target="#ato-step-4">
-                    <i class="fa fa-file-word-o txt-color-blueDark fa-lg"></i><span class="text Bold"> Escrita</span><span class="chevron"></span>
-                </li>
-                <li data-target="#ato-step-5">
-                    <i class="fa fa-check-square-o txt-color-green fa-lg"></i><span class="text Bold"> Confirmação</span><span class="chevron"></span>
+                    <i class="fa fa-file-word-o txt-color-blueDark fa-lg"></i><strong>&emsp;4 - Escrita</strong><span class="chevron"></span>
                 </li>
             </ul>
             <div class="actions">
@@ -29,22 +26,23 @@
                 </button>
             </div>
         </div>
-        <div class="step-content">
-            <form id="frm-wizard-novo-ato" method="post" novalidate="novalidate">
+        <div class="step-content" id="div-ato-novoato">
+            @using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "frm-wizard-novo-ato", @name = "frm-wizard-novo-ato", @novalidate = "novalidate" }))
+            {
                 @Html.AntiForgeryToken()
                 @Html.ValidationBootstrap()
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.IdCtaAcessoSist)
                 @Html.HiddenFor(model => model.IdTipoAto)
                 @Html.HiddenFor(model => model.IpLocal)
-
-                @Html.Partial("_divWizardPasso1", Model)
-                @Html.Partial("_divWizardPasso2", Model)
-                @Html.Partial("_divWizardPasso3", Model)
-                @Html.Partial("_divWizardPasso4", Model)
-                @Html.Partial("_divWizardPasso5", Model)
-            </form>
+                @Html.HiddenFor(model => model.IdsPessoasSelecionadas)
+                <fieldset>
+                    @Html.Partial("_divWizardPasso1", Model)
+                    @Html.Partial("_divWizardPasso2", Model)
+                    @Html.Partial("_divWizardPasso3", Model)
+                    @Html.Partial("_divWizardPasso4", Model)
+                </fieldset>
+            }
         </div>
     </div>
 </div>
-

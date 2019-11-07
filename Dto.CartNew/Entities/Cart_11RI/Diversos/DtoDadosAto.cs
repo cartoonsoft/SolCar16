@@ -57,7 +57,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
-        public bool DocxGerado { get; set; }
+        public bool GeradoFicha { get; set; }
 
         public List<DtoCamposValor> ListaCamposValor { get; set; }
 

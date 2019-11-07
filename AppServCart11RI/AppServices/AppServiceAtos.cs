@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,11 +13,13 @@ using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using GemBox.Document;
+using Infra.Cross.Identity.Models;
 
 namespace AppServCart11RI.AppServices
 {
     public class AppServiceAtos : AppServiceCartorio11RI<DtoAto, Ato>, IAppServiceAtos
     {
+        private List<ApplicationUser> listaUsrSist = null;
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
 
         /// <summary>
@@ -31,12 +32,18 @@ namespace AppServCart11RI.AppServices
         }
 
         #region Private Methods
-        private List<DtoCamposValor> GetCampos(long? IdTipoAto, long? IdPrenotacao, long IdCtaAcessoSist, string NumMatricula) 
+        private List<DtoCamposValor> GetCampos(long? IdTipoAto, long? IdPrenotacao, long IdCtaAcessoSist, string NumMatricula)
         {
 
             return null;
         }
         #endregion
+
+        public List<ApplicationUser> ListaUsuariosSistema
+        { 
+            get { return listaUsrSist; }
+            set { listaUsrSist = value; }
+        }
 
         public void AtualizarAto(DtoAto Ato)
         {
@@ -223,88 +230,96 @@ namespace AppServCart11RI.AppServices
         public DtoReservaImovel ProcReservarMatImovel(TipoReservaMatImovel TipoReserva, long IdPrenotacao, string NumMatricula, string IdUsuario)
         {
             DtoReservaImovel reserva = new DtoReservaImovel();
-            DtoDadosImovel Imovel = this.GetDadosImovel(IdPrenotacao, NumMatricula);
-            PrenotacaoImovel PreImo;
+            DtoDadosImovel Imovel = null; 
+            PrenotacaoImovel PreImo = null;
 
             reserva.Resposta = true;
 
-            if (Imovel != null)
+            PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p =>
+                (p.IdPrenotacao == IdPrenotacao) &&
+                (p.NumMatricula == NumMatricula) &&
+                (p.IdUsuario != IdUsuario)).FirstOrDefault();
+
+            if (PreImo == null)
             {
-                reserva.Imovel = Imovel;
+                Imovel = this.GetDadosImovel(IdPrenotacao, NumMatricula);
 
-                switch (TipoReserva)
+                if (Imovel != null)
                 {
-                    case TipoReservaMatImovel.Reservar:
+                    reserva.Imovel = Imovel;
 
-                        PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p => 
-                            (p.IdPrenotacao == IdPrenotacao) && 
-                            (p.NumMatricula == NumMatricula) &&
-                            (p.IdUsuario != IdUsuario)).FirstOrDefault();
+                    switch (TipoReserva)
+                    {
+                        case TipoReservaMatImovel.Reservar:
 
-                        if (PreImo != null)
-                        {
-                            reserva.TipoMsg = TipoMsgResposta.error;
-                            reserva.Msg = "Imóvel já reservado por outro usuário!";
-                            reserva.Resposta = false;
-                        }
+                            if (reserva.Resposta)
+                            {
+                                PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p =>
+                                    (p.IdPrenotacao == IdPrenotacao) &&
+                                    (p.NumMatricula == NumMatricula) &&
+                                    (p.IdUsuario == IdUsuario)).FirstOrDefault();
 
-                        if (reserva.Resposta)
-                        {
-                            PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p => 
-                                (p.IdPrenotacao == IdPrenotacao) && 
-                                (p.NumMatricula == NumMatricula) && 
+                                if (PreImo != null)
+                                {
+                                    reserva.TipoMsg = TipoMsgResposta.warning;
+                                    reserva.Msg = string.Format("Você já tinha reservado a matrícula: {0}", PreImo.NumMatricula);
+                                    reserva.Resposta = true;
+                                } else
+                                {
+                                    PreImo = new PrenotacaoImovel();
+                                    PreImo.IdPrenotacao = IdPrenotacao;
+                                    PreImo.NumMatricula = NumMatricula;
+                                    PreImo.IdUsuario = IdUsuario;
+                                    reserva.Operacao = DataBaseOperacoes.insert;
+                                    this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().Add(PreImo);
+                                    this.UfwCartNew.SaveChanges();
+
+                                    reserva.TipoMsg = TipoMsgResposta.ok;
+                                    reserva.Msg = string.Format("Matrícula {0} reservada com sucesso!", NumMatricula);
+                                }
+                            }
+                            break;
+                        case TipoReservaMatImovel.Liberar:
+
+                            PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p =>
+                                (p.IdPrenotacao == IdPrenotacao) &&
+                                (p.NumMatricula == NumMatricula) &&
                                 (p.IdUsuario == IdUsuario)).FirstOrDefault();
 
-                            if (PreImo != null)
+                            if (PreImo == null)
                             {
                                 reserva.TipoMsg = TipoMsgResposta.warning;
-                                reserva.Msg = string.Format("Você já tinha reservado a matrícula: {0}", PreImo.NumMatricula);
-                                reserva.Resposta = true;
+                                reserva.Msg = string.Format("Matrícula {0} já está liberada!", PreImo.NumMatricula);
+                                reserva.Resposta = false;
                             } else
                             {
-                                PreImo = new PrenotacaoImovel();
-                                PreImo.IdPrenotacao = IdPrenotacao;
-                                PreImo.NumMatricula = NumMatricula;
-                                PreImo.IdUsuario = IdUsuario;
-                                reserva.Operacao = DataBaseOperacoes.insert;
-                                this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().Add(PreImo);
+                                this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().Remove(PreImo);
                                 this.UfwCartNew.SaveChanges();
-
+                                reserva.Operacao = DataBaseOperacoes.delete;
                                 reserva.TipoMsg = TipoMsgResposta.ok;
-                                reserva.Msg = string.Format("Matrícula {0} reservada com sucesso!", NumMatricula);
+                                reserva.Msg = string.Format("Matrícula {0} liberada com sucesso!", NumMatricula); ;
                             }
-                        }
-                        break;
-                    case TipoReservaMatImovel.Liberar:
-
-                        PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p => 
-                            (p.IdPrenotacao == IdPrenotacao) && 
-                            (p.NumMatricula == NumMatricula) && 
-                            (p.IdUsuario == IdUsuario)).FirstOrDefault();
-
-                        if (PreImo == null)
-                        {
-                            reserva.TipoMsg = TipoMsgResposta.warning;
-                            reserva.Msg = string.Format("Matrícula {0} já está liberada!", PreImo.NumMatricula);
-                            reserva.Resposta = false;
-                        } else
-                        {
-                            this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().Remove(PreImo);
-                            this.UfwCartNew.SaveChanges();
-                            reserva.Operacao = DataBaseOperacoes.delete;
-                            reserva.TipoMsg = TipoMsgResposta.ok;
-                            reserva.Msg = string.Format("Matrícula {0} liberada com sucesso!", NumMatricula); ;
-                        }
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
+                } else {
+                    reserva.Resposta = false;
+                    reserva.TipoMsg = TipoMsgResposta.error;
+                    reserva.Msg = "Imóvel não localizado";
                 }
             } else {
-                reserva.Resposta = false;
                 reserva.TipoMsg = TipoMsgResposta.error;
-                reserva.Msg = "Imóvel não localizado";
-            }
 
+                if (this.listaUsrSist != null)
+                {
+                    var usr = this.listaUsrSist.Where(u => u.IdUsuario == PreImo.IdUsuario).FirstOrDefault();
+                    reserva.Msg = string.Format("Imóvel já reservado pelo usuário: {0}!", "[" + usr.LoginName + "] " + usr.Nome);
+                } else {
+                    reserva.Msg = "Imóvel já reservado por outro usuário";
+                }
+                reserva.Resposta = false;
+            }
             return reserva;
         }
 

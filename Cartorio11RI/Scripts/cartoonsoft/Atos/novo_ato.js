@@ -53,6 +53,10 @@ class PessoaPrenotacao {
         return this._Nome;
     }
 
+    get Endereco() {
+        return this._Endereco;
+    }
+
     get TipoDoc() {
         return this._TipoDoc;
     }
@@ -101,6 +105,10 @@ class PessoaPrenotacao {
         this._Nome = value;
     }
 
+    set Endereco(value) {
+        this._Endereco = value;
+    }
+
     set TipoDoc(value) {
         this._TipoDoc = value;
     }
@@ -133,6 +141,7 @@ class PessoaPrenotacao {
 /** ----------------------------------------------------------------------------
  * Pesquisa por prenotação e busca dados do imovel
  * @@param {any} numPrenotacao
+ * @@param {any} selObj select que será povoado se retornar matriculas de imoveis
  * @@param {any} url
 ----------------------------------------------------------------------------- */
 function PesquisarPrenotacao(numPrenotacao, selObj, url) {
@@ -421,6 +430,7 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array) {
         '<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
         '<td>' + doc + '</td>' +
         '<td>' + pessoa.Nome + '</td>' +
+        '<td>' + pessoa.Endereco + '</td>' +
         '</tr>'
     );
 }
@@ -466,6 +476,7 @@ function ArrayPessoasIndexOfById(id) {
 function PovoarSelecionados(numPrenotacao) {
 
     var povoou = false;
+    var IdsSel = ""; 
 
     $("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
 
@@ -478,6 +489,8 @@ function PovoarSelecionados(numPrenotacao) {
                 doc = arrayPessoas[i].Numero2.trim();
             }
 
+            IdsSel += arrayPessoas[i].IdPessoa.toString() +";";
+            
             $("#tbl-pessoas-selecionadas tbody").append(
                 '<tr>' +
                 '<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
@@ -496,6 +509,7 @@ function PovoarSelecionados(numPrenotacao) {
         }
     }
 
+    $("#IdsPessoasSelecionadas").val(IdsSel.substring(0, IdsSel.length -1));
     $('#div-dlg-pessoas').modal('hide');
 
     return povoou;
@@ -605,7 +619,9 @@ function GetTextoAto(arrayPessoas, url) {
     var listIdsPessoas = [];
 
     arrayPessoas.forEach(item => {
-        listIdsPessoas.push(item.IdPessoa);
+        if (item.Selecionado) {
+            listIdsPessoas.push(item.IdPessoa);
+        }
     });
 
     var idAto = $("#Id").val().trim();
@@ -633,9 +649,7 @@ function GetTextoAto(arrayPessoas, url) {
     }).done(function (dataReturn) {
         //
         if (dataReturn.resposta) {
-
             CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
-
         } else {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
@@ -647,7 +661,7 @@ function GetTextoAto(arrayPessoas, url) {
         }
     }).fail(function (jq, textStatus, error) {
         //
-
+        HideProgressBar();
     }).always(function () {
         HideProgressBar();
     });
@@ -679,7 +693,6 @@ function PovoarDadosImovel(Imovel)
     $('#PREIMO_CONTRIB').val(Imovel.CONTRIB);
 }
 
-
 /**
  * Povoar dados do imovel
  * @@param {any} Imovel
@@ -702,5 +715,60 @@ function LimparDadosImovel() {
     $('#PREIMO_HIPO').val("");
     $('#PREIMO_RD').val("");
     $('#PREIMO_CONTRIB').val("");
+}
+
+/**
+ * *
+ * @@param {any} dados
+ * @@param {any} url
+ */
+function InsertOrUpdateAto(dados, url)
+{
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dados,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        //
+        if (dataReturn.resposta) {
+
+            var dadosValidos = !(typeof dataReturn.execute == 'undefined' || dataReturn.execute == null);
+
+            if (dadosValidos) {
+                $.smallBox({
+                    title: msg_title,
+                    content: dataReturn.msg,
+                    color: cor_smallBox_ok,
+                    icon: "fa fa-thumbs-up bounce animated",
+                    timeout: 4000
+                });
+            } else {
+                $.smallBox({
+                    title: "Dados não foram salvos!",
+                    content: dataReturn.msg,
+                    color: cor_smallBox_aviso,
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            }
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: cor_smallBox_erro,
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        //
+
+    }).always(function () {
+        HideProgressBar();
+    });
+
 }
 

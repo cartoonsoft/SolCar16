@@ -21,5 +21,6 @@ namespace Cartorio11RI
             //simple injector
             SimpleInjectorInitializer.InitializeContainer();
         }
+        
     }
 }

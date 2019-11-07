@@ -55,7 +55,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public bool DocxGerado { get; set; }
+        public bool GeradoFicha { get; set; }
 
         public List<DtoPessoaAto> ListaPessoasAto { get; set; }  //pessoas selecionadas para este ato, não é necessariamente, todas as pesoas da prenotação.
 

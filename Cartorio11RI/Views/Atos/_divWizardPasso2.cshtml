@@ -1,20 +1,22 @@
-﻿<!-- passo 2 --------------------------------------------------------------- -->
+﻿<!-- passo 2 Pessoas ------------------------------------------------------- -->
+@model Cartorio11RI.ViewModels.AtoViewModel
+
 <div class="step-pane" id="ato-step-2">
-    <h3><strong>Etapa 2 </strong> - Selecionar pessoas</h3>
+    <hr />
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <label>Selecionar outorgante(s)/outorgado(s)</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                 <span class="input-group-btn">
-                    <button type="button" class="btn btn-primary btn-lg" id="btn-pesq-pessoas">     selecionar     </button>
+                    <button type="button" class="btn btn-primary btn-lg" id="btn-pesq-pessoas" rel="tooltip" data-placement="top" data-original-title="Selecionar outorgantes/outorgados da prenotação.">     selecionar     </button>
                 </span>
             </div>
         </div>
     </div>
     <hr />
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <table id="tbl-pessoas-selecionadas" class="table table-condensed">
                 <thead>
                     <tr>
@@ -30,7 +32,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- APPEND JSON-->
                 </tbody>
             </table>
         </div>

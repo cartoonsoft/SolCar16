@@ -1,176 +1,223 @@
 ﻿@model Cartorio11RI.ViewModels.AtoViewModel
 
 @{
-	ViewBag.Title = "Atos";
-	ViewBag.SubTitle = "Novo ato";
+    ViewBag.Title = "Atos";
+    ViewBag.SubTitle = "Novo ato";
 }
 
 @section styles_especific {
-	<style>
-		#tbl-pessoas-selecionadas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
+    <style>
+        #tbl-pessoas-selecionadas {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
 
-		#tbl-selecao-pessoas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
+        #tbl-selecao-pessoas {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
 
-		/*-- tbl-pessoas-selecionadas ----------------------------------------*/
-		#tbl-pessoas-selecionadas tr td:nth-child(1) {
-			width: 3%;
-		}
+        /*-- tbl-pessoas-selecionadas ----------------------------------------*/
+        #tbl-pessoas-selecionadas tr td:nth-child(1) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(2) {
-			width: 15%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(2) {
+            width: 15%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(3) {
-			width: 15%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(3) {
+            width: 15%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(4) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(4) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(5) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(5) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(6) {
-			width: 10%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(6) {
+            width: 10%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(7) {
-			width: 10%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(7) {
+            width: 10%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(8) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(8) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(9) {
-			width: 4%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(9) {
+            width: 4%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(10) {
-			width: 5%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(10) {
+            width: 5%;
+        }
 
-		/*-- tbl-selecao-pessoas ---------------------------------------------*/
-		#tbl-selecao-pessoas tr td:nth-child(1) {
-			width: 3%;
-		}
+        /*-- tbl-selecao-pessoas ---------------------------------------------*/
+        #tbl-selecao-pessoas tr td:nth-child(1) {
+            width: 4%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(2) {
-			width: 10%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(2) {
+            width: 6%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(3) {
-			width: 20%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(3) {
+            width: 10%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(4) {
-			width: 67%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(4) {
+            width: 35%;
+        }
 
-		.checkbox-selecao-pessoas {
-			visibility: visible;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(5) {
+            width: 35%;
+        }
 
-		.div-container-scroll {
-			width: 580px;
-			height: 480px;
-			overflow-y: auto;
-			overflow-x: auto;
-		}
-	</style>
+        .checkbox-selecao-pessoas {
+            visibility: visible;
+        }
+
+        .div-container-scroll {
+            width: 580px;
+            height: 480px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        input[type=checkbox] {
+            vertical-align: middle;
+            position: relative;
+            cursor: pointer;
+        }
+
+        input[type=checkbox]:before {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 0;
+            left: 0;
+            border: 1px solid #555555;
+            border-radius: 3px;
+            background-color: lightsteelblue;
+        }
+
+        input[type=checkbox]:checked:after {
+            content: "";
+            display: block;
+            width: 5px;
+            height: 10px;
+            border: solid black;
+            border-width: 0 2px 2px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+            position: absolute;
+            top: 2px;
+            left: 6px;
+        }
+
+        .label-checkbox {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            bottom: -2px;
+        }
+
+    </style>
 }
 
 <div id="content">
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
 
-	<!-- widget grid -->
-	<section id="widget-grid" class="">
-		<div class="row">
-			<article class="col-sm-12 col-md-12 col-lg-12">
-				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-file-text-o fa-lg"></i> </span>
+                        <h2>Novo ato</h2>
+                    </header>
 
-					<header>
-						<span class="widget-icon"> <i class="fa fa-file-text-o fa-lg"></i> </span>
-						<h2>Novo ato</h2>
-					</header>
+                    <!-- widget div-->
+                    <div>
 
-					<!-- widget div-->
-					<div>
-
-						<!-- widget edit box -->
-						<div class="jarviswidget-editbox">
-							<!-- This area used as dropdown edit box -->
-						</div>
-						<!-- end widget edit box -->
-						<!-- div wizard ato -------------------------------- -->
-						@Html.Partial("_divWizardAto", Model)
-					</div>
-				</div>
-			</article>
-		</div>
-	</section>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            @Html.Partial("_divWizardAto", Model)
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
 
 <!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
 <div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
-	<div class="modal-dialog  modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					×
-				</button>
-				<h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<table class="table table-striped" id="tbl-selecao-pessoas">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Tipo</th>
-								<th>DOC</th>
-								<th>Nome</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr></tr>
-							<!-- APPEND JSON-->
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
-					<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
-				</button>
-				<button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
-					<i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-striped" id="tbl-selecao-pessoas">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tipo</th>
+                                <th>DOC</th>
+                                <th>Nome</th>
+                                <th>Endereço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
+                </button>
+                <button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
+                    <i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 
 @section pagespecific {
 
-	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-	<script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-	<script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
-	<script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
-	<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-	<script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
+    <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+    <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+    <script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
+    <script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/plugin/ckeditor/adapters/jquery.js"></script>
 
-	<script>
+    <script>
 	$(document).ready(function () {
 
 		/* urls chamadas ajax ------------------------------------------------*/
@@ -180,6 +227,7 @@
 		var urlProcReservarMatImovel = '@Url.Action("ProcReservarMatImovel", "Atos")';
 		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
 		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
+		var urlInsertOrUpdateAtoAjax = '@Url.Action("InsertOrUpdateAtoAjax", "Atos")';
 
 		/* obter ip local ----------------------------------------------------*/
 		var ipLocal = getUserIP(function (ip) {
@@ -200,7 +248,6 @@
 			e.stopPropagation();
 		});
 
-		var vetIdPessoasSel = [];
 		var id = $("#Id").val();
 		DesabilitarProximo();
 
@@ -208,16 +255,23 @@
 		var $frmWizardNovoAto = $("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
 			rules: {
+
+				IdCtaAcessoSist: {
+					required: true
+				},
 				IdLivro: {
+					required: true
+				},
+				IdTipoAto: {
+					required: true
+				},
+				IdModeloDoc: {
 					required: true
 				},
 				IdPrenotacao: {
 					required: true
 				},
 				NumMatricula: {
-					required: true
-				},
-				DescricaoTipoAto: {
 					required: true
 				},
 				DescricaoAto: {
@@ -229,14 +283,14 @@
 				IdLivro: {
 					required: "Selecione um livro"
 				},
+				IdTipoAto: {
+					required: "Selecione um Tipo"
+				},
 				IdPrenotacao: {
 					required: "Digite um número de prenotação"
 				},
 				NumMatricula: {
 					required: "Núm. de matrícula do imóvel inválida"
-				},
-				DescricaoTipoAto: {
-					required: "Selecione tipo de ato"
 				},
 				DescricaoAto: {
 					required: "Digite um descrição para oa ato"
@@ -340,13 +394,20 @@
 		/*-- ato_wizard on change ------------------------------------------- */
 		$(ato_wizard).on('change', function(e, data) {
 
-			
 			var $valid = $("#frm-wizard-novo-ato").valid();
 			if (!$valid) {
-				$validator.focusInvalid();
+					$.smallBox({
+						title: "Revise o preenchimento de dados!",
+						content: "Preencha todos os campos que sejam obrigatórios.",
+						color: cor_smallBox_aviso,
+						icon: "fa fa-exclamation bounce animated",
+						timeout: 4000
+					});
+
+				$frmWizardNovoAto.focusInvalid();
 				return false;
 			}
-			
+
 			var numPrenotacao = $("#IdPrenotacao").val().trim();
 
 			/*-- etapa 1 -----------------------------------------------------*/
@@ -359,8 +420,8 @@
 						color: cor_smallBox_aviso,
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
-					 });
-					return e.preventDefault();
+					});
+					return false;
 				}
 			}
 
@@ -375,7 +436,7 @@
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
 					 });
-					return e.preventDefault();
+					return false;
 				}
 			}
 
@@ -390,7 +451,7 @@
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
 					});
-					return e.preventDefault();
+					return false;
 				} else {
 					/*-- -----------------------------------------------------*/
 					if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
@@ -401,13 +462,14 @@
 							icon: "fa fa-exclamation bounce animated",
 							timeout: 4000
 						});
-						return e.preventDefault();
+						return false;
 					} else {
 						GetTextoAto(arrayPessoas, urlGetTextoAto);
 					}
 				}
 			}
 
+			return true;
 		});
 
 		/*-- ato_wizard on finished ------------------------------------------*/
@@ -448,7 +510,7 @@
 			removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 		});
 
-		/*-- ckeditor ckEditorPreviewModelo --------------------------------- */
+		/*-- ckeditor ckEditorAto ------------------------------------------- */
 		CKEDITOR.replace('ckEditorAto', {
 			width: '100%',
 			height: '200px',
@@ -499,23 +561,76 @@
 					dataType: 'json',
 					data: dados,
 					beforeSend: function () {
-					//ShowProgreessBar("Processando requisição...");
+						ShowProgreessBar("Processando requisição...");
 					}
 				}).done(function (dataReturn) {
 					if (dataReturn.resposta) {
-						//var dadosValidos = !(typeof dataReturn.IdPrenotacao === 'undefined' || dataReturn.IdPrenotacao == null);
-						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+						var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
+						if (dadosValidos) {
+							CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+						}
 						PodeAvancar3 = true;
 						//$("#editor2").val(dataReturn.TextoHtml);
 					}
 				}).fail(function (jq, textStatus, error) {
-					alert(textStatus);
+					alert("Erro: " +textStatus);
 				}).always(function () {
-					//
+					HideProgressBar();
 				});
 			}
 		});
 
+		/*-- gerar o texto do ato --------------------------------------------*/
+		$("#btn-ato-gerar").click(function (e) {
+			e.preventDefault();
+		});
+
+		/*-- salvar o ato ----------------------------------------------------*/
+		$("#btn-ato-salvar").click(function (e) {
+			e.preventDefault();
+
+			var form = $('#frm-wizard-novo-ato');
+			var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+			//$('#frm-wizard-novo-ato').submit();
+			/*
+			var dadosAto = {
+				__RequestVerificationToken: token,
+				Id: $("#IdCtaAcessoSist").val(),
+				IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
+				IdLivro: $("#IdLivro").val(),
+				IdTipoAto: $("#IdTipoAto").val(),
+				IdModeloDoc:  $("#IdModeloDoc").val(),
+				IdPrenotacao: $("#IdPrenotacao").val(),
+				NumMatricula: $("#NumMatricula").val(),
+				NumSequenciaAto: $("#NumSequenciaAto").val(),
+				DataAto: $("#DataAto").val(),
+				DescricaoAto: $("#DescricaoAto").val(),
+				DescricaoTipoAto: $("#DescricaoTipoAto").val(),
+				Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
+				Observacao: $("#Observacao").val(),
+				StatusAto: $("#StatusAto").val(),
+				Ativo: $("#Ativo").val(),
+				IpLocal: $("#IpLocal").val(),
+				NumFicha: $("#NumFicha").val(),
+				TextoDistanciaTopo: $("#TextoDistanciaTopo").val(),
+				GeradoFicha: $("#GeradoFicha").val(),
+			}
+			*/
+
+			var dadosAto = $("#frm-wizard-novo-ato").serialize();
+
+			InsertOrUpdateAto(dadosAto, urlInsertOrUpdateAtoAjax);
+		});
+
+		$('#frm-wizard-novo-ato').on('submit', function(event) {
+			// Prevent the page from reloading
+			event.preventDefault();
+			alert("deu submit");
+			// Set the text-output span to the value of the first input
+			//var $input = $(this).find('input');
+			//var input = $input.val();
+		});
 
 	});
 
@@ -542,5 +657,5 @@
 		}
 	}
 
-	</script>
+    </script>
 }

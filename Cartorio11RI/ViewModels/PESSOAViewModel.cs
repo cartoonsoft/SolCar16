@@ -8,6 +8,8 @@ namespace Cartorio11RI.ViewModels
 {
     public class PESSOAViewModel
     {
+        public long IdPessoa { get; set; }
+        public string TipoPessoa { get; set; }
         public long SEQPES { get; set; }
         public string NOM { get; set; }
         public string ENDER { get; set; }

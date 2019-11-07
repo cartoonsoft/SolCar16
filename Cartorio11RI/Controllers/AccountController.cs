@@ -36,6 +36,8 @@ namespace Cartorio11RI.Controllers
             _signInManager = signInManager;
             _ufwCartNew = UfwCartNew;
             this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
+
+            var a = _userManager.Users.ToList();
         }
 
         protected override void Dispose(bool disposing)
