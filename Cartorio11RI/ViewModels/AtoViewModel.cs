@@ -95,11 +95,11 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Status ato")]
         public string StatusAto { get; set; }
 
-        [Display(Name = "Impressão minuta", Description = "Minuta impressa corretamente")]
-        public bool ImpressoMinuta { get; set; } //Status AI   
+        [Display(Name = "Impressão ajustada", Description = "Minuta impressa corretamente e ajustada")]
+        public bool ImpressaoAjustada { get; set; } //Status AI se uusari confirmou que o ajuste de impressao está ok   
 
         [Display(Name = "Conferido", Description = "Conferido texto e Ajuste de impressão")]
-        public bool Conferido { get; set; } //Status CF   
+        public bool Conferido { get; set; } //Status CF   conferido ajuste impressoa e texto
 
         [Display(Name = "Gerado Ficha", Description = "Ficha já foi gerada (Docx)")]
         public bool GeradoFicha { get; set; }  //status GF (gerou docx)

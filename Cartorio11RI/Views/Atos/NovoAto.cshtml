@@ -144,14 +144,8 @@
                 <!-- Widget ID (each widget will need unique ID)-->
                 <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
 
-                    <header>
-                        <span class="widget-icon"> <i class="fa fa-file-text-o fa-lg"></i> </span>
-                        <h2>Novo ato</h2>
-                    </header>
-
                     <!-- widget div-->
                     <div>
-
                         <!-- widget edit box -->
                         <div class="jarviswidget-editbox">
                             <!-- This area used as dropdown edit box -->
@@ -513,7 +507,7 @@
 		/*-- ckeditor ckEditorAto ------------------------------------------- */
 		CKEDITOR.replace('ckEditorAto', {
 			width: '100%',
-			height: '200px',
+			height: '400px',
 			language: 'pt-br',
 			uiColor: '#052947',
 			font_defaultLabel: 'Times New Roman',
@@ -630,7 +624,24 @@
 			// Set the text-output span to the value of the first input
 			//var $input = $(this).find('input');
 			//var input = $input.val();
-		});
+        });
+
+        $("#btn-ato-show-data-ato-step-4").click(function (e) {
+            e.preventDefault();
+
+            var ele = $("#div-ato-dados-step-4");
+            var img = document.getElementById("img-ato-show-data-ato-step-4");
+
+            if (img != null) {
+                $(img).toggleClass("fa-chevron-down fa-chevron-up", 1000);
+            }
+
+            if ($(ele).is(':visible')) {
+                $(ele).hide("show");
+            } else {
+                $(ele).show("show");
+            }
+        });
 
 	});
 

@@ -1,113 +1,136 @@
 ﻿<!-- passo 4 --------------------------------------------------------------- -->
 @model Cartorio11RI.ViewModels.AtoViewModel
-    <div class="step-pane" id="ato-step-4">
+
+    <div class="step-pane active" id="ato-step-4">
         <br />
         <div class="row">
-            <div class="col-md-12">
-                <button type="button" class="btn btn-primary" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
-                    <i class="fa fa-cogs"></i> Gerar ato
-                </button>
-                <div class="btn-group btn-group-sm">
-                    <button type="button" class="btn btn-info" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Salvar o ato na base de dados.">
+            <div class="col-md-6">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" id="btn-ato-show-data-ato-step-4" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
+                        <i class="fa fa-chevron-up" id="img-ato-show-data-ato-step-4"></i>
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
+                        <i class="fa fa-cogs"></i> Gerar texto
+                    </button>
+                    <button type="button" class="btn btn-primary" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Salvar o ato na base de dados.">
                         <i class="fa fa-database"></i> Salvar
                     </button>
-                    <button type="button" class="btn btn-info" id="btn-ato-imprimir" rel="tooltip" data-placement="top" data-original-title="Imprimir minuta do ato, apra ajuestes de impressão.">
-                        <i class="fa fa-print"></i> Imprimir
-                    </button>
-                    <button type="button" class="btn btn-info" id="btn-ato-anular" rel="tooltip" data-placement="top" data-original-title="Anular o ato.">
-                        <i class="fa fa-ban"></i> Anular
+                    <button type="button" class="btn btn-danger" id="btn-ato-anular" rel="tooltip" data-placement="top" data-original-title="Cancelar o ato.">
+                        <i class="fa fa-ban"></i> Cancelar
                     </button>
                 </div>
             </div>
-        </div>
-        <br />
-        <div class="row">
-            <div class="col-md-10">
+            <div class="col-md-6">
                 <label class="checkbox-inline">
                     @Html.CheckBoxFor(model => model.Ativo, new { @value = Model.Ativo, @checked = Model.Ativo, @disabled = "disabled" })
                     @Html.LabelFor(model => model.Ativo, new { @class = "label-checkbox" })
                 </label>
                 <label class="checkbox-inline">
-                    @Html.CheckBoxFor(model => model.ImpressoMinuta, new { @value = Model.ImpressoMinuta, @checked = Model.ImpressoMinuta, @disabled = "disabled" })
-                    @Html.LabelFor(model => model.ImpressoMinuta, new { @class = "label-checkbox" })
+                    @Html.CheckBoxFor(model => model.ImpressaoAjustada, new { @value = Model.ImpressaoAjustada, @checked = Model.ImpressaoAjustada, @disabled = "disabled" })
+                    @Html.LabelFor(model => model.ImpressaoAjustada, new { @class = "label-checkbox" })
                 </label>
                 <label class="checkbox-inline">
                     @Html.CheckBoxFor(model => model.Conferido, new { @value = Model.Conferido, @checked = Model.Conferido, @disabled = "disabled" })
                     @Html.LabelFor(model => model.Conferido, new { @class = "label-checkbox" })
                 </label>
                 <label class="checkbox-inline">
-                    @Html.CheckBoxFor(model => model.GeradoFicha, new { @value = Model.GeradoFicha, @checked = Model.GeradoFicha })
+                    @Html.CheckBoxFor(model => model.GeradoFicha, new { @value = Model.GeradoFicha, @checked = Model.GeradoFicha, @disabled = "disabled" })
                     @Html.LabelFor(model => model.GeradoFicha, new { @class = "label-checkbox" })
                 </label>
                 <label class="checkbox-inline">
-                    @Html.CheckBoxFor(model => model.Finalizado, new { @value = Model.Finalizado, @checked = Model.Finalizado })
+                    @Html.CheckBoxFor(model => model.Finalizado, new { @value = Model.Finalizado, @checked = Model.Finalizado, @disabled = "disabled" })
                     @Html.LabelFor(model => model.Finalizado, new { @class = "label-checkbox" })
                 </label>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NumFicha, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control" } })
+        <div id="div-ato-dados-step-4">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.NumFicha, new { @class = "control-label somente-numero-sem-decimal" })
+                        @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-md-5">
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataCadastro, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly", @title = "colocar nome usuario" } })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataAlteracao, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.StatusAto, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.StatusAto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                    </div>
                 </div>
             </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.TextoDistanciaTopo, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.TextoDistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "29", @step = "1", @class = "form-control" } })
+            <div class="row">
+                <div class="col-md-10">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
+                        @Html.EditorFor(model => model.DataAto, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
                 </div>
             </div>
-            <div class="col-md-3">
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataCadastro, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataAlteracao, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.StatusAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.StatusAto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observacao, new { @class = "control-label" })
+                        @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 4 })
+                    </div>
                 </div>
             </div>
         </div>
+        <br/>
         <div class="row">
-            <div class="col-md-10">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DataAto, new { htmlAttributes = new { @class = "form-control" } })
+            <div class="col-md-12">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group mr-2" role="group">
+                        <button type="button" class="btn btn-primary" id="btn-ato-imp-minuta" rel="tooltip" data-placement="top" data-original-title="Imprime uma minuta do ato, para verificar ajuste na página.">
+                            <i class="fa fa-print"></i> Imprimir
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btn-ato-conf-ajuste" rel="tooltip" data-placement="top" data-original-title="Confirmar ajuses de impressão. Obs: ao confirmar, o texto não poderá ser mais alterado!">
+                            <i class="fa fa-check"></i> Ajuste ok
+                        </button>
+                    </div>
+                    <div class="btn-group mr-2" role="group">
+                        <button type="button" class="btn btn-primary" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Texto do ato foi conferido e está ok para gerar documento.">
+                            <i class="fa fa-check-square-o"></i> Conferido
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que confirmar ajuste de impressão novamente..">
+                            <i class="fa fa-edit"></i> Em edição
+                        </button>
+                    </div>
+                    <div class="btn-group" role="group">
+                        <button type="button" class="btn btn-primary" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (dosx).">
+                            <i class="fa fa-file-word-o"></i> Gerar Ficha
+                        </button>
+                        <button type="button" class="btn btn-primary" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
+                            <i class="fa fa-gears"></i> Finalizar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.Texto, new { @class = "control-label" })
-                    <textarea id="ckEditorAto" name="ckEditorAto" rows="15" cols="160" class="form-control"></textarea>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Observacao, new { @class = "control-label" })
-                    @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 5 })
+                    <textarea id="ckEditorAto" name="ckEditorAto" rows="20" cols="160" class="form-control"></textarea>
                 </div>
             </div>
         </div>
     </div>
-
