@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.CartNew.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace Cartorio11RI.ViewModels
         [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
 
-        [Display(Name = "Status ato")]
+        [Display(Name = "Status")]
         public string StatusAto { get; set; }
 
         [Display(Name = "Impressão ajustada", Description = "Minuta impressa corretamente e ajustada")]
@@ -114,13 +115,16 @@ namespace Cartorio11RI.ViewModels
         public string IpLocal { get; set; }
 
         [Required(ErrorMessage = "O campo Núm. Ficha é obrigatório", AllowEmptyStrings = false)]
-        [Display(Name = "Ficha número")]
+        [Display(Name = "Ficha")]
         [Range(1, 9999, ErrorMessage = "Número de Ficha inválid0!")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
         [Display(Name = "Distância topo (cm)")]
         [Range(0, 29, ErrorMessage = "Distância do topo (cm) é inválida!")]
-        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+        public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+
+        [Display(Name = "Frente/Verso")]
+        public TipoFolhaFicha FolhaFicha { get; set; }
 
         public string  IdsPessoasSelecionadas {get; set;} //string com ids das pessoas que forma seleconadas separadaos por ";"
 

@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Domain.CartNew.Enumerations
 {
-    public enum TipoFicha
+    public enum TipoFolhaFicha
     {
         [Description("Indefinido")]
-        Registro = 0,
+        Indefinido = 0,
         [Description("Frente")]
-        Averbacao = 1,
+        Frente = 1,
         [Description("Verso")]
-        AtoInicial = 2
+        Verso = 2
     }
 }

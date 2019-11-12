@@ -49,10 +49,22 @@
             <div class="col-md-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.NumFicha, new { @class = "control-label somente-numero-sem-decimal" })
-                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control" } })
+                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control", @title="Número da ficha." } })
                 </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FolhaFicha, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.EnumDropDownListFor(model => model.FolhaFicha, htmlAttributes: new { @class = "form-control", @title="Definir se a impressão do ato deve começar na frente ou verso da ficha." })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label somente-numero-sem-decimal" })
+                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "29", @step = "1", @class = "form-control", @title="Distância aproximada do início da impressao do topo da página." } })
+                </div>
+            </div>
+            <div class="col-md-1">
             </div>
             <div class="col-md-2">
                 <div class="form-group">

@@ -88,7 +88,7 @@
     <Compile Include="Entities\UsuarioAcao.cs" />
     <Compile Include="Entities\UsuarioIdentity.cs" />
     <Compile Include="Enumerations\DataBaseOperacoes.cs" />
-    <Compile Include="Enumerations\TipoFicha.cs" />
+    <Compile Include="Enumerations\TipoFolhaFicha.cs" />
     <Compile Include="Enumerations\TipoMsgResposta.cs" />
     <Compile Include="Enumerations\TipoReservaMatImovel.cs" />
     <Compile Include="Enumerations\GrupoUsuarioEnum.cs" />

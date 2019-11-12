@@ -120,6 +120,7 @@ namespace Cartorio11RI.Controllers
         {
             var dados = new AtoViewModel();
             dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
+            dados.FolhaFicha = TipoFolhaFicha.Indefinido;
             dados.Ativo = true;
             dados.Pessoas.Add(new PESSOAViewModel { 
                 IdPessoa = 1,
