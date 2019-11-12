@@ -99,17 +99,9 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Observacao, new { @class = "control-label" })
-                    @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 4 })
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group mr-2" role="group">
                     <button type="button" class="btn btn-primary btn-xs" id="btn-ato-conf-ajuste" rel="tooltip" data-placement="top" data-original-title="Confirmar ajuses de impressão. Obs: ao confirmar, o texto não poderá ser mais alterado!">
@@ -132,6 +124,9 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            Observações
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12">
@@ -139,10 +134,16 @@
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="form-group">
                 <textarea id="ckEditorAto" name="ckEditorAto" rows="20" cols="160" class="form-control"></textarea>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 23 })
+            </div>
+        </div>
+
     </div>
 </div>
