@@ -12180,7 +12180,7 @@ aside {
 
 /* ronaldo alterei*/
 #header > :first-child, aside {
-    width: 300px
+    width: 260px
 }
 
 #left-panel {
@@ -12192,7 +12192,7 @@ aside {
 }
 
 #main {
-    margin-left: 300px;
+    margin-left: 260px;
     padding: 0;
     padding-bottom: 52px;
     min-height: 500px;
@@ -16960,7 +16960,7 @@ label input[type=checkbox][disabled].checkbox + span, label input[type=checkbox]
 .page-footer {
     height: 52px;
     padding: 15px 13px 0;
-    padding-left: 233px;
+    padding-left: 260px;
     border-top: 1px solid #CECECE;
     background: #2a2725;
     width: 100%;

@@ -1,15 +1,15 @@
 ﻿<!-- passo 4 --------------------------------------------------------------- -->
 @model Cartorio11RI.ViewModels.AtoViewModel
 
-<div class="step-pane active" id="ato-step-4">
+<div class="step-pane" id="ato-step-4">
     <br />
     <div class="row">
         <div class="col-md-6">
             <div class="btn-group">
-                <button type="button" class="btn btn-primary" id="btn-ato-show-data-ato-step-4" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
+                <button type="button" class="btn btn-primary" id="btn-ato-show-data-ato-step-4" rel="tooltip" data-placement="top" data-original-title="Expande/colapsa formulário.">
                     <i class="fa fa-chevron-up" id="img-ato-show-data-ato-step-4"></i>
                 </button>
-                <button type="button" class="btn btn-primary" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
+                <button type="button" class="btn btn-primary" id="btn-ato-gerar-texto" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
                     <i class="fa fa-cogs"></i> Gerar texto
                 </button>
                 <button type="button" class="btn btn-primary" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Salvar o ato na base de dados.">
@@ -104,21 +104,24 @@
         <div class="col-md-8">
             <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group mr-2" role="group">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-imp-minuta" rel="tooltip" data-placement="top" data-original-title="Imprimir uma prévia do documento para verificar o ajueste de impressão!">
+                        <i class="fa fa-print"></i> Imprimir
+                    </button>
                     <button type="button" class="btn btn-primary btn-xs" id="btn-ato-conf-ajuste" rel="tooltip" data-placement="top" data-original-title="Confirmar ajuses de impressão. Obs: ao confirmar, o texto não poderá ser mais alterado!">
                         <i class="fa fa-check"></i> Ajuste ok
                     </button>
-                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Texto do ato foi conferido e está ok para gerar documento.">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-conf-imp" rel="tooltip" data-placement="top" data-original-title="Texto do ato foi conferido e está ok para gerar documento.">
                         <i class="fa fa-check-square-o"></i> Conferido
                     </button>
-                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que confirmar ajuste de impressão novamente..">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-colocar-edicao" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que confirmar ajuste de impressão novamente..">
                         <i class="fa fa-edit"></i> Em edição
                     </button>
                 </div>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-gerar" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (dosx).">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-gerar-docx" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (dosx).">
                         <i class="fa fa-file-word-o"></i> Gerar Ficha
                     </button>
-                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-salvar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
+                    <button type="button" class="btn btn-primary btn-xs" id="btn-ato-finalizar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
                         <i class="fa fa-gears"></i> Finalizar
                     </button>
                 </div>

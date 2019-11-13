@@ -1,213 +1,214 @@
 ﻿@model Cartorio11RI.ViewModels.AtoViewModel
 
 @{
-	ViewBag.Title = "Atos";
-	ViewBag.SubTitle = "Novo ato";
+    ViewBag.Title = "Atos";
+    ViewBag.SubTitle = "Novo ato";
 }
 
 @section styles_especific {
-	<style>
-		#tbl-pessoas-selecionadas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
+    <style>
+        #tbl-pessoas-selecionadas {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
 
-		#tbl-selecao-pessoas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
+        #tbl-selecao-pessoas {
+            /*border: 1px solid #808080; */
+            table-layout: auto;
+            width: 100%;
+        }
 
-		/*-- tbl-pessoas-selecionadas ----------------------------------------*/
-		#tbl-pessoas-selecionadas tr td:nth-child(1) {
-			width: 3%;
-		}
+        /*-- tbl-pessoas-selecionadas ----------------------------------------*/
+        #tbl-pessoas-selecionadas tr td:nth-child(1) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(2) {
-			width: 15%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(2) {
+            width: 15%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(3) {
-			width: 15%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(3) {
+            width: 15%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(4) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(4) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(5) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(5) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(6) {
-			width: 10%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(6) {
+            width: 10%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(7) {
-			width: 10%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(7) {
+            width: 10%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(8) {
-			width: 3%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(8) {
+            width: 3%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(9) {
-			width: 4%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(9) {
+            width: 4%;
+        }
 
-		#tbl-pessoas-selecionadas tr td:nth-child(10) {
-			width: 5%;
-		}
+        #tbl-pessoas-selecionadas tr td:nth-child(10) {
+            width: 5%;
+        }
 
-		/*-- tbl-selecao-pessoas ---------------------------------------------*/
-		#tbl-selecao-pessoas tr td:nth-child(1) {
-			width: 4%;
-		}
+        /*-- tbl-selecao-pessoas ---------------------------------------------*/
+        #tbl-selecao-pessoas tr td:nth-child(1) {
+            width: 4%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(2) {
-			width: 6%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(2) {
+            width: 6%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(3) {
-			width: 10%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(3) {
+            width: 10%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(4) {
-			width: 35%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(4) {
+            width: 35%;
+        }
 
-		#tbl-selecao-pessoas tr td:nth-child(5) {
-			width: 35%;
-		}
+        #tbl-selecao-pessoas tr td:nth-child(5) {
+            width: 35%;
+        }
 
-		.checkbox-selecao-pessoas {
-			visibility: visible;
-		}
+        .checkbox-selecao-pessoas {
+            visibility: visible;
+        }
 
-		.div-container-scroll {
-			width: 580px;
-			height: 480px;
-			overflow-y: auto;
-			overflow-x: auto;
-		}
+        .div-container-scroll {
+            width: 580px;
+            height: 480px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
 
-		input[type=checkbox] {
-			vertical-align: middle;
-			position: relative;
-			cursor: pointer;
-		}
+        input[type=checkbox] {
+            vertical-align: middle;
+            position: relative;
+            cursor: pointer;
+        }
 
-			input[type=checkbox]:before {
-				content: "";
-				display: block;
-				position: absolute;
-				width: 16px;
-				height: 16px;
-				top: 0;
-				left: 0;
-				border: 1px solid #555555;
-				border-radius: 3px;
-				background-color: lightsteelblue;
-			}
+            input[type=checkbox]:before {
+                content: "";
+                display: block;
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                top: 0;
+                left: 0;
+                border: 1px solid #555555;
+                border-radius: 3px;
+                background-color: lightsteelblue;
+            }
 
-			input[type=checkbox]:checked:after {
-				content: "";
-				display: block;
-				width: 5px;
-				height: 10px;
-				border: solid black;
-				border-width: 0 2px 2px 0;
-				-webkit-transform: rotate(45deg);
-				-ms-transform: rotate(45deg);
-				transform: rotate(45deg);
-				position: absolute;
-				top: 2px;
-				left: 6px;
-			}
+            input[type=checkbox]:checked:after {
+                content: "";
+                display: block;
+                width: 5px;
+                height: 10px;
+                border: solid black;
+                border-width: 0 2px 2px 0;
+                -webkit-transform: rotate(45deg);
+                -ms-transform: rotate(45deg);
+                transform: rotate(45deg);
+                position: absolute;
+                top: 2px;
+                left: 6px;
+            }
 
-		.label-checkbox {
-			position: relative;
-			display: inline-block;
-			vertical-align: middle;
-			bottom: -2px;
-		}
-	</style>
+        .label-checkbox {
+            position: relative;
+            display: inline-block;
+            vertical-align: middle;
+            bottom: -2px;
+        }
+    </style>
 }
 
 <div id="content">
-	<!-- widget grid -->
-	<section id="widget-grid" class="">
-		<div class="row">
-			<article class="col-sm-12 col-md-12 col-lg-12">
-				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
-					<!-- widget div-->
-					<div>
-						<!-- widget edit box -->
-						<div class="jarviswidget-editbox">
-							<!-- This area used as dropdown edit box -->
-						</div>
-						<!-- end widget edit box -->
-						<!-- widget content -->
-						<div class="widget-body">
-							@Html.Partial("_divWizardAto", Model)
-						</div>
-						<!-- end widget content -->
-					</div>
-				</div>
-			</article>
-		</div>
-	</section>
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget" id="wid-id-0" data-widget-colorbutton="false" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-collapsed="false">
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            @Html.Partial("_divWizardAto", Model)
+                        </div>
+                        <!-- end widget content -->
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>
 
 <!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
 <div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
-	<div class="modal-dialog  modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					×
-				</button>
-				<h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<table class="table table-striped" id="tbl-selecao-pessoas">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Tipo</th>
-								<th>DOC</th>
-								<th>Nome</th>
-								<th>Endereço</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
-					<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
-				</button>
-				<button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
-					<i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+    <div class="modal-dialog  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <table class="table table-striped" id="tbl-selecao-pessoas">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Tipo</th>
+                                <th>DOC</th>
+                                <th>Nome</th>
+                                <th>Endereço</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
+                </button>
+                <button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
+                    <i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div>
 
 @section pagespecific {
 
-	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-	<script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
-	<script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
-	<script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
-	<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-	<script>
+    <script src="~/scripts/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
+    <script src="~/scripts/plugin/fuelux/wizard/wizard.min.js"></script>
+    <script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+    <script src="~/Scripts/cartoonsoft/Atos/novo_ato.js"></script>
+
+    <script>
 	$(document).ready(function () {
 
 		/* urls chamadas ajax ------------------------------------------------*/
@@ -453,9 +454,7 @@
 							timeout: 4000
 						});
 						return false;
-					} else {
-						GetTextoAto(arrayPessoas, urlGetTextoAto);
-					}
+                    }
 				}
 			}
 
@@ -468,7 +467,7 @@
 			//console.log("submitted!");
 			$.smallBox({
 				title: "Finalizado!",
-				content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+				content: "<i class='fa fa-clock-o'></i> <i>1 Dizer algo</i>",
 				color: "#5F895F",
 				icon: "fa fa-thumbs-up bounce animated",
 				timeout: 4000
@@ -480,8 +479,8 @@
 			width: '100%',
 			height: '200px',
 			language: 'pt-br',
-			uiColor: '#052947',
-			startupFocus: true,
+			uiColor: '#1686E4',
+			//startupFocus: true,
 			toolbarGroups: [
 				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
@@ -505,10 +504,10 @@
 			width: '100%',
 			height: '360px',
 			language: 'pt-br',
-			uiColor: '#052947',
+			uiColor: '#1686E4',
 			font_defaultLabel: 'Times New Roman',
 			fontSize_defaultLabel: '14',
-			startupFocus: true,
+			//startupFocus: true,
 			toolbarGroups: [
 				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
@@ -571,8 +570,47 @@
 		});
 
 		/*-- gerar o texto do ato --------------------------------------------*/
-		$("#btn-ato-gerar").click(function (e) {
+		$("#btn-ato-gerar-texto").click(function (e) {
 			e.preventDefault();
+
+			var idAtoTmp = $("#Id").val();
+			var idTipoAtoTmp = $("#IdTipoAto").val();
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
+			var numMatriculaTmp = $("#NumMatricula").val();
+			var idModeloDocTmp = $("#IdModeloDoc").val();
+			var idsPessoasTmp = $("#IdsPessoasSelecionadas").val();
+
+			var dados = {
+				IdAto: idAtoTmp,
+				IdTipoAto: idTipoAtoTmp,
+				IdModeloDoc: idModeloDocTmp,
+				IdPrenotacao: numPrenotacao,
+				NumMatricula: numMatriculaTmp,
+				ListIdsPessoas : idsPessoasTmp
+			}
+
+			$.ajax(urlGetTextoAto, {
+				method: 'POST',
+				dataType: 'json',
+				data: dados,
+				beforeSend: function () {
+					ShowProgreessBar("Processando requisição...");
+				}
+			}).done(function (dataReturn) {
+				if (dataReturn.resposta) {
+					var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
+					if (dadosValidos) {
+						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+					}
+					PodeAvancar3 = true;
+					//$("#editor2").val(dataReturn.TextoHtml);
+				}
+			}).fail(function (jq, textStatus, error) {
+				alert("Erro: " +textStatus);
+			}).always(function () {
+				HideProgressBar();
+			});
+
 		});
 
 		/*-- salvar o ato ----------------------------------------------------*/
@@ -633,9 +671,9 @@
 			}
 
 			if ($(ele).is(':visible')) {
-				$(ele).hide("show");
+				$(ele).slideUp("slow");
 			} else {
-				$(ele).show("show");
+				$(ele).slideDown("slow");
 			}
 		});
 
@@ -664,6 +702,6 @@
 		}
 	}
 
-	</script>
+    </script>
 
 }
