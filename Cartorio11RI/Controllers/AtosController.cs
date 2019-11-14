@@ -640,24 +640,24 @@ namespace Cartorio11RI.Controllers
                     throw new NullReferenceException("Modelo de documento não definido!");
                 }
 
-                //string fileName = files.GetModeloDocFileName(dadosAtoViewModel.IdModeloDoc);
-                //string serverPath= Server.MapPath("~");
+                string serverPath = Server.MapPath("~");
 
-                //using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
-                //{
-                //    DtoInfAto dtoInfAto = new DtoInfAto {
-                //        IdAto = dadosAtoViewModel.IdAto,
-                //        IdCtaAcessoSist = this.IdCtaAcessoSist,
-                //        IdTipoAto = dadosAtoViewModel.IdTipoAto,
-                //        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
-                //        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
-                //        NumMatricula = dadosAtoViewModel.NumMatricula,
-                //        ModeloPathName = fullName,
-                //        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
-                //    };
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    DtoInfAto dtoInfAto = new DtoInfAto
+                    {
+                        IdAto = dadosAtoViewModel.IdAto,
+                        IdCtaAcessoSist = this.IdCtaAcessoSist,
+                        IdTipoAto = dadosAtoViewModel.IdTipoAto,
+                        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
+                        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
+                        NumMatricula = dadosAtoViewModel.NumMatricula,
+                        ServerPath = serverPath,
+                        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
+                    };
 
-                //    texto = "";// appServiceAtos.GetTextoAto(dtoInfAto).ToString();
-                //}
+                    texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
+                }
 
                 resp = true;
             }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -31,8 +32,78 @@ namespace AppServCart11RI.AppServices
             //
         }
 
+        /// <summary>
+        /// Get Lista de campos povoados com os valores 
+        /// </summary>
+        /// <param name="entidade"></param>
+        /// <param name="IdTipoAto"></param>
+        /// <returns></returns>
         #region Private Methods
-        private List<DtoCamposValor> GetCampos(long? IdTipoAto, long? IdPrenotacao, long IdCtaAcessoSist, string NumMatricula)
+        private List<DtoCamposValor> GetListCamposValores(string entidade, DtoInfAto infAto)
+        {
+            List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
+
+            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(infAto.IdTipoAto, infAto.IdCtaAcessoSist).Where(e => e.Entidade == entidade).ToList();
+
+            if (entidade.ToLower() == "ato")
+            {
+                listaCamposValor.Add(new DtoCamposValor
+                {
+                    Campo = "IdLivro",
+                    Valor = infAto.IdLivro.ToString()
+                });
+
+                listaCamposValor.Add(new DtoCamposValor
+                {
+                    Campo = "DataAto",
+                    Valor = infAto.DataAto.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
+                });
+            }
+
+            if (entidade.ToLower() == "prenotacao")
+            {
+
+
+            }
+
+            /*
+            List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
+
+            var listaCampos =
+                from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
+                join ac in _contextRepository.DbCampoTipoAto.Where(c => c.IdCtaAcessoSist == IdCtaAcessoSist) on ta.IdCampoTipoAto equals ac.Id
+                orderby ac.Entidade, ac.NomeCampo
+                select new
+                {
+                    Id = ac.Id,
+                    IdCtaAcessoSist = ac.IdCtaAcessoSist,
+                    NomeCampo = ac.NomeCampo,
+                    PlaceHolder = ac.PlaceHolder,
+                    Campo = ac.Campo,
+                    Entidade = ac.Entidade
+                };
+
+            foreach (var campo in listaCampos)
+            {
+                campoTipoAtos.Add(
+                    new CampoTipoAto
+                    {
+                        Id = campo.Id,
+                        IdCtaAcessoSist = campo.IdCtaAcessoSist,
+                        Campo = campo.Campo,
+                        NomeCampo = campo.NomeCampo,
+                        Entidade = campo.Entidade,
+                        PlaceHolder = campo.PlaceHolder
+                    }
+                );
+            }
+
+            return campoTipoAtos;
+
+            */
+            return null;
+        }
+        private List<DtoPessoaPesxPre> GetPessoas(long [] idsPessoas)
         {
 
             return null;
@@ -350,7 +421,6 @@ namespace AppServCart11RI.AppServices
         public StringBuilder GetTextoAto(DtoInfAto dtoInfAto)
         {
             StringBuilder textoDoc = new StringBuilder();
-
             DtoDadosAto dtoDadosAto = new DtoDadosAto();
             DtoDadosImovel dtoDadosImovel = new DtoDadosImovel();
 
@@ -360,10 +430,13 @@ namespace AppServCart11RI.AppServices
                 //todo: catregar do ato fazer 
             } else
             {
-                dtoDadosAto.ListaCamposValor = this.GetCampos(dtoInfAto.IdTipoAto, dtoInfAto.IdPrenotacao, dtoInfAto.IdCtaAcessoSist, dtoInfAto.NumMatricula);
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Ato", dtoInfAto));
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Prenotacao", dtoInfAto));
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Imovel", dtoInfAto));
+                dtoDadosAto.Pessoas.AddRange(this.GetPessoas(dtoInfAto.ListIdsPessoas));
 
                 //dtoDadosAto.Pessoas = this.GerarFichas
-                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ModeloPathName, dtoInfAto.IdCtaAcessoSist))
+                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ServerPath, dtoInfAto.IdCtaAcessoSist))
                 {
                     var sb = new StringBuilder();
 

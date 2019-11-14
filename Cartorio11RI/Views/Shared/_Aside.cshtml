@@ -3,6 +3,9 @@
 <!-- Left panel : Navigation area -->
 <!-- Note: This width of the aside area can be adjusted through LESS variables -->
 <aside id="left-panel">
+    <span class="minifyme" data-action="minifyMenu">
+        <i class="fa fa-arrow-circle-left hit"></i>
+    </span>
     <!-- User info -->
     @{ Html.RenderPartial("_CurrentUser"); }
     <!-- end user info -->
@@ -21,8 +24,5 @@
             @{Html.RenderAction("MontarMenuUsuario", "Account", new { IdUsuario = User.Identity.GetUserId() });}
         </ul>
     </nav>
-    <span class="minifyme" data-action="minifyMenu">
-        <i class="fa fa-arrow-circle-left hit"></i>
-    </span>
 </aside>
 <!-- END NAVIGATION -->

@@ -573,43 +573,35 @@
 		$("#btn-ato-gerar-texto").click(function (e) {
 			e.preventDefault();
 
-			var idAtoTmp = $("#Id").val();
-			var idTipoAtoTmp = $("#IdTipoAto").val();
-			var numPrenotacao = $("#IdPrenotacao").val().trim();
-			var numMatriculaTmp = $("#NumMatricula").val();
-			var idModeloDocTmp = $("#IdModeloDoc").val();
-			var idsPessoasTmp = $("#IdsPessoasSelecionadas").val();
 
-			var dados = {
-				IdAto: idAtoTmp,
-				IdTipoAto: idTipoAtoTmp,
-				IdModeloDoc: idModeloDocTmp,
-				IdPrenotacao: numPrenotacao,
-				NumMatricula: numMatriculaTmp,
-				ListIdsPessoas : idsPessoasTmp
-			}
+            var listIdsPessoas = [];
 
-			$.ajax(urlGetTextoAto, {
-				method: 'POST',
-				dataType: 'json',
-				data: dados,
-				beforeSend: function () {
-					ShowProgreessBar("Processando requisição...");
-				}
-			}).done(function (dataReturn) {
-				if (dataReturn.resposta) {
-					var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
-					if (dadosValidos) {
-						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
-					}
-					PodeAvancar3 = true;
-					//$("#editor2").val(dataReturn.TextoHtml);
-				}
-			}).fail(function (jq, textStatus, error) {
-				alert("Erro: " +textStatus);
-			}).always(function () {
-				HideProgressBar();
-			});
+            arrayPessoas.forEach(item => {
+                if (item.Selecionado) {
+                    listIdsPessoas.push(item.IdPessoa);
+                }
+            });
+
+            var idAto = $("#Id").val().trim();
+            var idTipoAto = $("#IdTipoAto").val().trim();
+            var idLivro = $("#IdLivro").val().trim();
+            var idModeloDoc = $("#IdModeloDoc").val().trim();
+            var idPrenotacao = $("#IdPrenotacao").val().trim();
+            var numMatricula = $("#NumMatricula").val().trim();
+            var dataAto = new Date($("#DataAto").val());
+
+            var dados = {
+                IdAto: idAto,
+                IdTipoAto: idTipoAto,
+                IdLivro: idLivro,
+                IdModeloDoc: idModeloDoc,
+                IdPrenotacao: idPrenotacao,
+                NumMatricula: numMatricula,
+                DataAto: dataAto,
+                ListIdsPessoas: listIdsPessoas
+            };
+
+            GetTextoAto(dados, urlGetTextoAto)
 
 		});
 

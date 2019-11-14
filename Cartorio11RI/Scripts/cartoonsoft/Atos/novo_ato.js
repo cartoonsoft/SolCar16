@@ -614,30 +614,7 @@ function PovoarSelModelos(selObj, listaModelos) {
  * @@param {any} arrayPessoas
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function GetTextoAto(arrayPessoas, url) {
-
-    var listIdsPessoas = [];
-
-    arrayPessoas.forEach(item => {
-        if (item.Selecionado) {
-            listIdsPessoas.push(item.IdPessoa);
-        }
-    });
-
-    var idAto = $("#Id").val().trim();
-    var idTipoAto = $("#IdTipoAto").val().trim();
-    var idModeloDoc = $("#IdModeloDoc").val().trim();
-    var idPrenotacao = $("#IdPrenotacao").val().trim();
-    var numMatricula = $("#NumMatricula").val().trim();
-
-    var dados = {
-        IdAto: idAto,
-        IdTipoAto: idTipoAto,
-        IdModeloDoc: idModeloDoc,
-        IdPrenotacao: idPrenotacao,
-        NumMatricula: numMatricula,
-        ListIdsPessoas: listIdsPessoas
-    };
+function GetTextoAto(dadosAto, url) {
 
     $.ajax(url, {
         method: 'POST',
@@ -649,7 +626,12 @@ function GetTextoAto(arrayPessoas, url) {
     }).done(function (dataReturn) {
         //
         if (dataReturn.resposta) {
-            CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+            var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
+
+            if (dadosValidos) {
+                CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+            }
+
         } else {
             $.smallBox({
                 title: "Não foi possivel processar sua requisição!",
