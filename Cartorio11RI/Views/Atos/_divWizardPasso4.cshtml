@@ -61,7 +61,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label somente-numero-sem-decimal" })
-                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "29", @step = "1", @class = "form-control", @title="Distância aproximada do início da impressao do topo da página." } })
+                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "29", @step = "1", @class = "form-control", @placeholder="Dist. topo",   @title="Distância aproximada do início da impressao do topo da página." } })
                 </div>
             </div>
             <div class="col-md-1">
@@ -89,7 +89,7 @@
             <div class="col-md-10">
                 <div class="form-group">
                     @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control", @placeholder = "Descrição do ato" } })
                 </div>
             </div>
             <div class="col-md-2">

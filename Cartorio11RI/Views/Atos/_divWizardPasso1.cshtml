@@ -12,7 +12,7 @@
             <div class="input-group">
                 <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
                 <div class="icon-addon addon-md">
-                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", placeholder = "Núm. prenotação" })
+                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", @placeholder = "Núm. prenotação" })
                     <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
                 </div>
                 <span class="input-group-btn">
@@ -26,7 +26,7 @@
         <div class="col-md-4">
             @Html.LabelFor(model => model.NumMatricula)
             <div class="input-group">
-                @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListImoveisPrenotacao", @class = "form-control" })
+                @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListImoveisPrenotacao", @class = "form-control", @placeholder="Num. matrícula"  })
                 <span class="input-group-btn">
                     <button type="button" class="btn btn-primary" id="btn-reserva-mat" disabled rel="tooltip" data-placement="top" data-original-title="Reservar matrícula para escrita do Ato."><i class="fa fa-lock"></i> Reservar</button>
                     <button type="button" class="btn btn-primary" id="btn-libera-mat" disabled rel="tooltip" data-placement="top" data-original-title="Liberar matrícula para escrita do Ato."><i class="fa fa-unlock"></i> Liberar</button>
@@ -36,7 +36,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 @Html.LabelFor(model => model.DataRegPrenotacao)
-                @Html.TextBoxFor(model => model.DataRegPrenotacao, "sdsdsds",  new { @class = "form-control", @readonly = "readonly" })
+                @Html.TextBoxFor(model => model.DataRegPrenotacao, Model.DataRegPrenotacao.HasValue? Model.DataRegPrenotacao.Value.ToString("dd/MM/yyyy"):"", new { @class = "form-control", @readonly = "readonly" })
             </div>
         </div>
     </div>

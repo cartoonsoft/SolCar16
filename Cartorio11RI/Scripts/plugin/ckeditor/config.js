@@ -6,8 +6,7 @@
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	config.language = 'pt-br';
-	config.uiColor = '#6EABDC';
-
+	config.uiColor = '#2A85CE';
     config.font_defaultLabel = 'Times New Roman';
     config.fontSize_defaultLabel = '14';
 };

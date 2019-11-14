@@ -68,7 +68,7 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Registrado em")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime DataRegPrenotacao{ get; set; }  //data registro "R" da prenotacao onzeri.premad
+        public DateTime? DataRegPrenotacao{ get; set; }  //data registro "R" da prenotacao onzeri.premad
 
         [Display(Name = "Nun. seq")]
         public short NumSequenciaAto { get; set; }
