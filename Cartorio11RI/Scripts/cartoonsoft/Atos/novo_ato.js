@@ -150,7 +150,7 @@ function PesquisarPrenotacao(numPrenotacao, selObj, url) {
         var dadosPrenotacao = {
             IdPrenotacao: numPrenotacao
         };
-        GetListImoveisPrenotacao(dadosPrenotacao, selObj, url);
+        GetDadosPorPrenotacao(dadosPrenotacao, selObj, url);
     } else {
         $.smallBox({
             title: "Entrada inválida!",
@@ -161,6 +161,67 @@ function PesquisarPrenotacao(numPrenotacao, selObj, url) {
         });
     }
 }
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} dadosPrenotacao
+ * @@param {any} selObj
+ * @@param {any} url
+ ---------------------------------------------------------------------------- */
+function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url) {
+
+    $('#btn-reserva-mat').prop('disabled', true);
+    $('#btn-libera-mat').prop('disabled', true);
+
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dadosPrenotacao,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        if (dataReturn.resposta) {
+
+            var dadosValidos = !(typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
+            $("#DataRegPrenotacao").val(dataReturn.DataRegPrenotacao);
+
+            if (dadosValidos) {
+                PovoarSelImoveis(selObj, dataReturn.listaDtoDadosImovel);
+                $('#btn-reserva-mat').prop('disabled', false);
+                $('#btn-libera-mat').prop('disabled', false);
+            } else {
+                $.smallBox({
+                    title: "Dados não encontrados!",
+                    content: dataReturn.msg,
+                    color: cor_smallBox_aviso,
+                    icon: "fa fa-exclamation bounce animated",
+                    timeout: 4000
+                });
+            }
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: cor_smallBox_erro,
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        HideProgressBar();
+        $.smallBox({
+            title: "Falha na sua requisição!",
+            content: textStatus + "[" + error + "]",
+            color: cor_smallBox_erro,
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 8000
+        });
+    }).always(function () {
+        HideProgressBar();
+    });
+}
+
 
 /** ----------------------------------------------------------------------------
  * Ajax busca dados dos imoveis por prenotacao

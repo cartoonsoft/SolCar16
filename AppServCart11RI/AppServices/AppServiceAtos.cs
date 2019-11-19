@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AppServCart11RI.Base;
 using AppServCart11RI.Cartorio;
@@ -39,70 +40,101 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
         #region Private Methods
-        private List<DtoCamposValor> GetListCamposValores(string entidade, DtoInfAto infAto)
+        private List<DtoCamposValor> GetListCamposValores(string entidade, DadosAto dadosAto )
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
 
-            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(infAto.IdTipoAto, infAto.IdCtaAcessoSist).Where(e => e.Entidade == entidade).ToList();
+            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(dadosAto.IdTipoAto, this.IdCtaAcessoSist).Where(e => e.Entidade.ToLower() == entidade.ToLower()).ToList();
 
-            if (entidade.ToLower() == "ato")
+            foreach (var CampoTmp in listacampos)
             {
-                listaCamposValor.Add(new DtoCamposValor
+                if (entidade.ToLower() == "ato")
                 {
-                    Campo = "IdLivro",
-                    Valor = infAto.IdLivro.ToString()
-                });
-
-                listaCamposValor.Add(new DtoCamposValor
-                {
-                    Campo = "DataAto",
-                    Valor = infAto.DataAto.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)
-                });
-            }
-
-            if (entidade.ToLower() == "prenotacao")
-            {
-
-
-            }
-
-            /*
-            List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
-
-            var listaCampos =
-                from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
-                join ac in _contextRepository.DbCampoTipoAto.Where(c => c.IdCtaAcessoSist == IdCtaAcessoSist) on ta.IdCampoTipoAto equals ac.Id
-                orderby ac.Entidade, ac.NomeCampo
-                select new
-                {
-                    Id = ac.Id,
-                    IdCtaAcessoSist = ac.IdCtaAcessoSist,
-                    NomeCampo = ac.NomeCampo,
-                    PlaceHolder = ac.PlaceHolder,
-                    Campo = ac.Campo,
-                    Entidade = ac.Entidade
-                };
-
-            foreach (var campo in listaCampos)
-            {
-                campoTipoAtos.Add(
-                    new CampoTipoAto
+                    if (CampoTmp.Campo.ToLower() == "idlivro")
                     {
-                        Id = campo.Id,
-                        IdCtaAcessoSist = campo.IdCtaAcessoSist,
-                        Campo = campo.Campo,
-                        NomeCampo = campo.NomeCampo,
-                        Entidade = campo.Entidade,
-                        PlaceHolder = campo.PlaceHolder
+                        listaCamposValor.Add(new DtoCamposValor
+                        {
+                            Campo = CampoTmp.NomeCampo,
+                            Valor = dadosAto.IdLivro.ToString()
+                        });
                     }
-                );
+
+                    if (CampoTmp.Campo.ToLower() == "dataato")
+                    {
+                        listaCamposValor.Add(new DtoCamposValor
+                        {
+                            Campo = CampoTmp.NomeCampo,
+                            Valor = dadosAto.DataAto.HasValue ? dadosAto.DataAto.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : ""
+                        });
+                    }
+                }
+
+                if (entidade.ToLower() == "ato")
+                {
+                    if (CampoTmp.Campo.ToLower() == "idprenotacao")
+                    {
+                        listaCamposValor.Add(new DtoCamposValor
+                        {
+                            Campo = CampoTmp.NomeCampo,
+                            Valor = dadosAto.IdPrenotacao.ToString()
+                        });
+                    }
+
+                    if (CampoTmp.Campo.ToLower() == "dataregprenotacao")
+                    {
+                        listaCamposValor.Add(new DtoCamposValor
+                        {
+                            Campo = CampoTmp.NomeCampo,
+                            Valor = dadosAto.DataRegPrenotacao.HasValue ? dadosAto.DataRegPrenotacao.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : ""
+                        });
+                    }
+                }
+
+                if (entidade.ToLower() == "imovel") 
+                {
+                    DtoDadosImovel imovel = this.GetDadosImovel(dadosAto.IdTipoAto, dadosAto.NumMatricula);
+                    Type imovelType = imovel.GetType();
+                    PropertyInfo[] propertyInfo = imovelType.GetProperties();
+
+                    foreach (PropertyInfo pInfo in propertyInfo)
+                    {
+                        if (pInfo.Name == CampoTmp.Campo) {
+                            var propValue = pInfo.GetValue(imovel);
+
+                            if (propValue != null)
+                            {
+                                listaCamposValor.Add(new DtoCamposValor
+                                {
+                                    Campo = CampoTmp.NomeCampo,
+                                    Valor = propValue.ToString()
+                                }); 
+                            }
+                        }
+                    }
+                }
             }
 
-            return campoTipoAtos;
+            return listaCamposValor;
+        }
 
-            */
+        private List<DtoCamposValor> GetListCamposValores(long IdTipoAto, long IdPessoa)
+        {
+            List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
+            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(IdTipoAto, this.IdCtaAcessoSist).Where(e => e.Entidade == "PESSOA").ToList();
+
+
+            this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPessoa
+
+            foreach (var CampoTmp in listacampos)
+            { 
+
+
+            
+            }
+
             return null;
         }
+        
         private List<DtoPessoaPesxPre> GetPessoas(long [] idsPessoas)
         {
 
@@ -166,17 +198,17 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto)
+        public IEnumerable<DtoCamposValor> GetListCamposValorAto(long IdAto)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula)
+        public IEnumerable<DtoCamposValor> GetListCamposValorImovel(string NumMatricula)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa)
+        public IEnumerable<DtoCamposValor> GetListCamposValorPessoa(long IdPessoa)
         {
             throw new NotImplementedException();
         }
@@ -184,6 +216,22 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {
             throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Data do registro da prenotacao na base onzeri
+        /// </summary>
+        public DateTime? DataRegPrenotacao(long IdPrenotacao) {
+
+            DateTime? dataTmp = null;
+            var Premad = this.UfwCartNew.Repositories.GenericRepository<PREMAD>().Get().Where(pp => (pp.SEQPRE == IdPrenotacao) && (pp.TIPODATA.Trim() == "R")).FirstOrDefault();
+
+            if (Premad != null) {
+                dataTmp = new DateTime(1800, 1, 2, 0, 0, 0);
+                dataTmp = dataTmp.Value.AddDays(Premad.DATA);
+            }
+
+            return dataTmp; 
         }
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
@@ -208,31 +256,7 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<DtoPessoaPesxPre> pessoasPrenotacao = new List<DtoPessoaPesxPre>();
-
-            var pessoas =
-                from pre in this.UfwCartNew.Repositories.GenericRepository<PESXPRE>().Get().Where(pp => pp.SEQPRE == IdPrenotacao)
-                join pes in this.UfwCartNew.Repositories.GenericRepository<PESSOAS>().Get() on pre.SEQPES equals pes.SEQPES
-                orderby pes.NOM
-                select new
-                {
-                    IdPessoa = pes.SEQPES,
-                    IdPrenotacao = IdPrenotacao,
-                    Bairro = pes.BAI,
-                    Cep = pes.CEP,
-                    Cidade = pes.CID,
-                    Endereco = pes.ENDER,
-                    Nome = pes.NOM,
-                    Numero1 = pes.NRO1,
-                    Numero2 = pes.NRO2,
-                    Relacao = pre.REL,
-                    Telefone = pes.TEL,
-                    TipoDoc1 = pes.TIPODOC1,
-                    TipoDoc2 = pes.TIPODOC2,
-                    Uf = pes.UF,
-                    TipoPessoa =
-                        pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
-                        pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
-                };
+            var pessoas = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
             foreach (var pessoa in pessoas)
             {
@@ -430,6 +454,7 @@ namespace AppServCart11RI.AppServices
                 //todo: catregar do ato fazer 
             } else
             {
+
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Ato", dtoInfAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Prenotacao", dtoInfAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Imovel", dtoInfAto));

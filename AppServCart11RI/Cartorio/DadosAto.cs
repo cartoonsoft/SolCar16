@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.CartNew.Entities.Cart_11RI.Diversos
+namespace AppServCart11RI.Cartorio
 {
-    public class DtoInfAto
+    public class DadosAto
     {
         public long? IdAto { get; set; }
-
-        public long IdCtaAcessoSist { get; set; }
 
         public long IdTipoAto { get; set; }
 
@@ -25,9 +23,5 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public DateTime? DataRegPrenotacao { get; set; }
 
         public DateTime? DataAto { get; set; }
-
-        public string ServerPath { get; set; }
-
-        public long[] ListIdsPessoas { get; set; }
     }
 }

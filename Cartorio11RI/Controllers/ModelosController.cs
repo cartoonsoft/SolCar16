@@ -16,6 +16,8 @@ using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
 using System.Net.Sockets;
 using Domain.CartNew.Entities.Diversos;
+using System.Reflection;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace Cartorio11RI.Controllers
 {
@@ -68,8 +70,11 @@ namespace Cartorio11RI.Controllers
 
                 return View(model);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
@@ -214,20 +219,19 @@ namespace Cartorio11RI.Controllers
                             UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                             Ativo = modeloDocxViewModel.Ativo
                         }, UsuarioAtual.Id);
-
                     }
 
                     //UploadArquivo(arquivoModeloDocxViewModel);
 
                     //ViewBag.resultado = "Arquivo salvo com sucesso!";
                     return RedirectToActionPermanent(nameof(IndexModelo));
-
                 }
                 return View(modeloDocxViewModel);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
             }
         }
@@ -300,7 +304,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 return null;
             }
         }

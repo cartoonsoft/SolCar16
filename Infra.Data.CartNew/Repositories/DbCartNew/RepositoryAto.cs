@@ -25,6 +25,44 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             _contextRepository = contextRepository;
         }
 
+        #region Private Methods
+        private IEnumerable<CampoTipoAto> GetListCamposIdTipoAto(long? IdTipoAto, long IdCtaAcessoSist)
+        {
+            List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
+
+            var listaCampos =
+                from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
+                join ac in _contextRepository.DbCampoTipoAto.Where(c => c.IdCtaAcessoSist == IdCtaAcessoSist) on ta.IdCampoTipoAto equals ac.Id
+                orderby ac.Entidade, ac.NomeCampo
+                select new
+                {
+                    Id = ac.Id,
+                    IdCtaAcessoSist = ac.IdCtaAcessoSist,
+                    NomeCampo = ac.NomeCampo,
+                    PlaceHolder = ac.PlaceHolder,
+                    Campo = ac.Campo,
+                    Entidade = ac.Entidade
+                };
+
+            foreach (var campo in listaCampos)
+            {
+                campoTipoAtos.Add(
+                    new CampoTipoAto
+                    {
+                        Id = campo.Id,
+                        IdCtaAcessoSist = campo.IdCtaAcessoSist,
+                        Campo = campo.Campo,
+                        NomeCampo = campo.NomeCampo,
+                        Entidade = campo.Entidade,
+                        PlaceHolder = campo.PlaceHolder
+                    }
+                );
+            }
+
+            return campoTipoAtos;
+        }
+        #endregion
+        
         public bool ExisteAtoCadastrado(string NumMatricula)
         {
             long quantidadeDeAtos = 0;

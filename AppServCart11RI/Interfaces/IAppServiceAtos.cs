@@ -43,6 +43,8 @@ namespace AppServices.Cartorio.Interfaces
 
         void DesativarAto(long IdAto);
 
+        DateTime? DataRegPrenotacao(long IdPrenotacao);
+
         IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
 
         IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
@@ -55,11 +57,11 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
 
-        IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto);
+        IEnumerable<DtoCamposValor> GetListCamposValorAto(long IdAto);
 
-        IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
+        IEnumerable<DtoCamposValor> GetListCamposValorImovel(string NumMatricula);  //num matricula vem da base onzeri
 
-        IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa);
+        IEnumerable<DtoCamposValor> GetListCamposValorPessoa(long IdPessoa);
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 

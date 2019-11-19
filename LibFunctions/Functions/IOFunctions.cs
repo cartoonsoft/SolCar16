@@ -17,10 +17,10 @@ namespace LibFunctions.Functions.IOAdmCartorio
             int cont = 0;
             string str;
             string path = HostingEnvironment.MapPath(@"~/App_Data/errolog.txt");
-            
-            using (var errorLog = new StreamWriter(path, true))
+
+            try
             {
-                try
+                using (var errorLog = new StreamWriter(path, true))
                 {
                     errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " Class/ Message ==>\"{0}\" \"{1}\" ", (t.Namespace + ": " + t.FullName), ex.Message);
                     ex2 = ex.InnerException;
@@ -34,10 +34,11 @@ namespace LibFunctions.Functions.IOAdmCartorio
 
                     errorLog.Close();
                 }
-                catch (Exception)
-                {
-                    //throw;
-                }
+            }
+            catch (Exception)
+            {
+                //faz nada
+                //throw;
             }
         }
     }

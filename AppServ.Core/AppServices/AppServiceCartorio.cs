@@ -14,7 +14,7 @@ namespace AppServ.Core.AppServices
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
         private readonly IDomainServicesFactoryCartNew _dsFactoryCartNew;
-        private long _idCtaAcessoSist;
+        private readonly long _idCtaAcessoSist;
         /// <summary>
         /// Método construtor
         /// </summary>

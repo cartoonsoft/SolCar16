@@ -25,7 +25,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public string Bairro { get; set; }
         public string Cidade { get; set; }
         public string Telefone { get; set; }
-        public int? Cep { get; set; }
+        public string Cep { get; set; }
         public string Uf { get; set; }
         public string TipoDoc1 { get; set; }
         public string Numero1 { get; set; }

@@ -80,7 +80,7 @@ function ShowDlgBoxCartorio(options) {
     var deferredObject = $.Deferred();
 
     var defaults = {
-        type: "alert", //alert, prompt,confirm 
+        type: "alert", //alert, prompt, confirm 
         modalSize: 'modal-sm', //modal-sm, modal-lg
         okButtonText: 'Ok',
         cancelButtonText: 'Cancela',

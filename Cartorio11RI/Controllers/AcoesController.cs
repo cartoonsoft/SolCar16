@@ -14,6 +14,8 @@ using Infra.Cross.Identity.Models;
 using Infra.Cross.Identity.Configuration;
 using Microsoft.AspNet.Identity;
 using System.Security.Claims;
+using System.Reflection;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace Cartorio11RI.Controllers
 {
@@ -31,74 +33,93 @@ namespace Cartorio11RI.Controllers
         private void AddListaAcao(AppServiceAcoesUsuarios appServAcoesUsuarios, List<ApplicationUser> listaUsrSist, List<Acao> listaTodasAcoes, List<AcaoViewModel> listaAcoes)
         {
             bool addUser;
-            foreach (var acao in listaTodasAcoes)
+
+            try
             {
-                List<UsuarioAcaoViewModel> listaUsrAcao = new List<UsuarioAcaoViewModel>();
-                var listaUsers = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => u.IdAcao == acao.Id).ToList();
-
-                foreach (var usuario in listaUsers)
+                foreach (var acao in listaTodasAcoes)
                 {
-                    addUser = true;
-                    var usrtmp = listaUsrSist.Find(u => u.Id == usuario.IdUsuario);
+                    List<UsuarioAcaoViewModel> listaUsrAcao = new List<UsuarioAcaoViewModel>();
+                    var listaUsers = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<UsuarioAcao>().GetWhere(u => u.IdAcao == acao.Id).ToList();
 
-                    if (acoesAdmin.Contains(acao.Id??0))
+                    foreach (var usuario in listaUsers)
                     {
-                        addUser = usrtmp.Claims.Where(c => (c.ClaimType == ClaimTypes.Role) && (c.ClaimValue == "Admin")).Count() > 0;
-                    }
+                        addUser = true;
+                        var usrtmp = listaUsrSist.Find(u => u.Id == usuario.IdUsuario);
 
-                    if ((usrtmp != null) && addUser)
-                    {
-                        listaUsrAcao.Add(new UsuarioAcaoViewModel
+                        if (acoesAdmin.Contains(acao.Id ?? 0))
                         {
-                            IdUsuario = usuario.IdUsuario,
-                            UserName = usrtmp.UserName,
-                            Email = usrtmp.Email,
-                            Nome = usrtmp.Nome
-                        });
+                            addUser = usrtmp.Claims.Where(c => (c.ClaimType == ClaimTypes.Role) && (c.ClaimValue == "Admin")).Count() > 0;
+                        }
+
+                        if ((usrtmp != null) && addUser)
+                        {
+                            listaUsrAcao.Add(new UsuarioAcaoViewModel
+                            {
+                                IdUsuario = usuario.IdUsuario,
+                                UserName = usrtmp.UserName,
+                                Email = usrtmp.Email,
+                                Nome = usrtmp.Nome
+                            });
+                        }
                     }
+
+                    listaAcoes.Add(new AcaoViewModel
+                    {
+                        Id = acao.Id,
+                        IdCtaAcessoSist = acao.IdCtaAcessoSist,
+                        SeqAcesso = acao.SeqAcesso,
+                        Programa = acao.Programa,
+                        Obs = acao.Obs,
+                        DescricaoPequeno = acao.DescricaoPequeno,
+                        DescricaoMedio = acao.DescricaoMedio,
+                        DescricaoGrande = acao.DescricaoGrande,
+                        DescricaoTip = acao.DescricaoTip,
+                        DescricaoBalao = acao.DescricaoBalao,
+                        Orientacao = acao.Orientacao,
+                        Action = acao.Action,
+                        Controller = acao.Controller,
+                        Parametros = acao.Parametros,
+                        IconeWeb = acao.IconeWeb,
+                        IconeMobile = acao.IconeMobile,
+                        Ativo = acao.Ativo,
+                        EmManutencao = acao.EmManutencao,
+                        ListaUsersAcao = listaUsrAcao
+                    });
                 }
 
-                listaAcoes.Add(new AcaoViewModel
-                {
-                    Id = acao.Id,
-                    IdCtaAcessoSist = acao.IdCtaAcessoSist,
-                    SeqAcesso = acao.SeqAcesso,
-                    Programa = acao.Programa,
-                    Obs = acao.Obs,
-                    DescricaoPequeno = acao.DescricaoPequeno,
-                    DescricaoMedio = acao.DescricaoMedio,
-                    DescricaoGrande = acao.DescricaoGrande,
-                    DescricaoTip = acao.DescricaoTip,
-                    DescricaoBalao = acao.DescricaoBalao,
-                    Orientacao = acao.Orientacao,
-                    Action = acao.Action,
-                    Controller = acao.Controller,
-                    Parametros = acao.Parametros,
-                    IconeWeb = acao.IconeWeb,
-                    IconeMobile = acao.IconeMobile,
-                    Ativo = acao.Ativo,
-                    EmManutencao = acao.EmManutencao,
-                    ListaUsersAcao = listaUsrAcao
-                });
+            }
+            catch (Exception ex)
+            {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
             }
         }
 
         // GET: Acoes
         public ActionResult IndexAcao()
         {
-            List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Ativo == true).OrderBy(u => u.UserName).ToList();
-            List<AcaoViewModel> listaAcoes  = new List<AcaoViewModel>();
-
-            using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCartNew, this.IdCtaAcessoSist))
+            List<AcaoViewModel> listaAcoes = new List<AcaoViewModel>();
+            try
             {
-                IEnumerable<Acao> listaTodasAcoes = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<Acao>().Get().OrderBy(a => a.DescricaoMedio).ToList();
+                List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.Where(u => u.Ativo == true).OrderBy(u => u.UserName).ToList();
 
-                AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso == null).ToList(), listaAcoes);
-                AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso != null).ToList(), listaAcoes);
-                //listAcessos = Mapper.Map<IEnumerable<DtoAcesso>, IEnumerable<ACESSOViewModel>>(null);
+                using (AppServiceAcoesUsuarios appServAcoesUsuarios = new AppServiceAcoesUsuarios(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    IEnumerable<Acao> listaTodasAcoes = appServAcoesUsuarios.UfwCartNew.Repositories.GenericRepository<Acao>().Get().OrderBy(a => a.DescricaoMedio).ToList();
+
+                    AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso == null).ToList(), listaAcoes);
+                    AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso != null).ToList(), listaAcoes);
+                    //listAcessos = Mapper.Map<IEnumerable<DtoAcesso>, IEnumerable<ACESSOViewModel>>(null);
+                }
+
+                ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");
+
             }
-
-            ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");
+            catch (Exception ex)
+            {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+            }
 
             return View(listaAcoes);
         }
@@ -154,6 +175,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 msg = "Erro na solicitação: " + ex.Message;
             }
 
@@ -199,6 +222,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 msg = "Erro na solicitação: " + ex.Message;
             }
             var resultado = new

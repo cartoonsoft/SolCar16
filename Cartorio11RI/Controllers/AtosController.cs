@@ -25,6 +25,7 @@ using Infra.Cross.Identity.Models;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using Infra.Cross.Identity.Configuration;
+using System.Globalization;
 
 namespace Cartorio11RI.Controllers
 {
@@ -63,6 +64,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+
                 execProc.TipoMsg = TipoMsgResposta.error;
                 execProc.Msg = "Falha na requisição! " + "[" + ex.Message + "]";
             }
@@ -301,15 +305,17 @@ namespace Cartorio11RI.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
-                    return RedirectToActionPermanent(nameof(BloquearAto), new { Id = modelo.Id });
+                    return RedirectToActionPermanent(nameof(BloquearAto), new { modelo.Id });
                 }
 
                 ViewBag.erro = "Erro ao cadastrar o ato!";
 
                 return View(nameof(EditarAto), modelo);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 throw;
             }
@@ -404,6 +410,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
@@ -415,7 +423,56 @@ namespace Cartorio11RI.Controllers
             };
 
             return Json(resultado);
+        }
 
+
+        public JsonResult GetDadosPorPrenotacao(long IdPrenotacao) 
+        {
+            bool resp = false;
+            string message = string.Empty;
+            DateTime? dataReg = null;
+
+            List<DtoDadosImovel> listaDtoDadosImovel = new List<DtoDadosImovel>();
+
+            try
+            {
+                using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    dataReg = appServAtos.DataRegPrenotacao(IdPrenotacao);
+                    listaDtoDadosImovel = appServAtos.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+
+                    if (listaDtoDadosImovel != null)
+                    {
+                        if (listaDtoDadosImovel.Count() > 0)
+                        {
+                            message = ":) Dados retornados con sucesso.";
+                            resp = true;
+                        } else
+                        {
+                            message = "Número de Prenotação e/ou matrículas não encontradas na base de dados!";
+                        }
+                    } else
+                    {
+                        message = "Número de Prenotação Inválido!";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+                message = "Falha ao obter dados! " + "[" + ex.Message + "]";
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"",
+                listaDtoDadosImovel
+            };
+
+            return Json(resultado);
         }
 
         /// <summary>
@@ -441,7 +498,7 @@ namespace Cartorio11RI.Controllers
                     {
                         if (listaDtoDadosImovel.Count() > 0)
                         {
-                            message = ":) Dados retornados con sucesso.";
+                            message = "Dados retornados con sucesso :)";
                             resp = true;
                         } else {
                             message = "Número de Prenotação e/ou matrículas não encontradas na base de dados!";
@@ -453,6 +510,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 message = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
@@ -460,7 +519,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                listaDtoDadosImovel = listaDtoDadosImovel
+                listaDtoDadosImovel
             };
 
             return Json(resultado);
@@ -478,6 +537,8 @@ namespace Cartorio11RI.Controllers
             string message = string.Empty;
             IEnumerable<DtoPessoaPesxPre> listaPes = new List<DtoPessoaPesxPre>();
 
+            string nomeMetodo = string.Format("{0}.{1}", MethodBase.GetCurrentMethod().DeclaringType.FullName, MethodBase.GetCurrentMethod().Name);
+
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
@@ -490,11 +551,12 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 resp = false;
-                message = "Falha, GetListPessoasPrenotacao [" + ex.Message + "]";
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+                message = "Falha em " + nomeMetodo + " [" + ex.Message + "]";
                 //    Console.WriteLine(ex);
                 //    Response.StatusCode = 500;
                 //    Response.Status = "Erro ao buscar os dados das pessoas";
-                //
             }
 
             //JsonConvert.SerializeObject()
@@ -524,7 +586,8 @@ namespace Cartorio11RI.Controllers
             catch (FileNotFoundException ex)
             {
                 Response.StatusCode = 200;
-                Console.Write(ex);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 return false;
             }
             catch (Exception ex)
@@ -552,7 +615,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+
                 Response.StatusCode = 500;
                 return null;
                 throw;
@@ -576,10 +641,10 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 Response.StatusCode = 500;
                 return null;
-                throw;
             }
         }
 
@@ -608,6 +673,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
                 message = "Falha GetTextoWordDocModelo[" + ex.Message + "]";
             }
 
@@ -663,6 +730,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+
                 resp = false;
                 message = "Falha, GetTextoAto [" + ex.Message + "]";
             }
@@ -697,6 +767,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
+                TypeInfo t = this.GetType().GetTypeInfo();
+                IOFunctions.GerarLogErro(t, ex);
+
                 resp = false;
                 message = "Falha, ProcReservarMatImovel [" + ex.Message + "]";
             }

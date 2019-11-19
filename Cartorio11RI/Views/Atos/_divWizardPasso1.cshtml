@@ -36,7 +36,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 @Html.LabelFor(model => model.DataRegPrenotacao)
-                @Html.TextBoxFor(model => model.DataRegPrenotacao, Model.DataRegPrenotacao.HasValue? Model.DataRegPrenotacao.Value.ToString("dd/MM/yyyy"):"", new { @class = "form-control", @readonly = "readonly" })
+                @Html.TextBoxFor(model => model.DataRegPrenotacao, new { @class = "form-control", @readonly = "readonly" })
             </div>
         </div>
     </div>
