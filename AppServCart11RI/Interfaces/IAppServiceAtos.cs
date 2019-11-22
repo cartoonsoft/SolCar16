@@ -51,7 +51,7 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
-        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao);
 
         DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 

@@ -106,9 +106,11 @@ namespace AppServCart11RI.AppServices
                 foreach (var campo in listaCamposImovel)
                 {
                     var prop = propertyInfo.Where(p => p.Name == campo.Campo).FirstOrDefault();
+
                     if (prop != null)
                     {
                         var propValue = prop.GetValue(imovel);
+
                         if (propValue != null)
                         {
                             listaCamposValor.Add(new DtoCamposValor
@@ -136,20 +138,19 @@ namespace AppServCart11RI.AppServices
 
             foreach (var campo in listaCamposPessoa)
             {
-                foreach (PropertyInfo pInfo in propertyInfo)
-                {
-                    if (pInfo.Name == campo.Campo)
-                    {
-                        var propValue = pInfo.GetValue(pessoa);
+                var prop = propertyInfo.Where(p => p.Name == campo.Campo).FirstOrDefault();
 
-                        if (propValue != null)
+                if (prop != null) 
+                {
+                    var propValue = prop.GetValue(pessoa);
+
+                    if (propValue != null) 
+                    {
+                        listaCamposValor.Add(new DtoCamposValor
                         {
-                            listaCamposValor.Add(new DtoCamposValor
-                            {
-                                Campo = campo.NomeCampo,
-                                Valor = propValue.ToString()
-                            });
-                        }
+                            Campo = campo.NomeCampo,
+                            Valor = propValue.ToString().Trim()
+                        });
                     }
                 }
             }
@@ -255,11 +256,18 @@ namespace AppServCart11RI.AppServices
             return pessoasPrenotacao;
         }
 
-        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao)
         {
             List<DtoPessoaPesxPre> dtoPessoaPesxPres = new List<DtoPessoaPesxPre>();
 
-            return DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao);
+            dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao).ToList();
+
+            foreach (var pessoa in dtoPessoaPesxPres)
+            {
+                pessoa.ListaCamposValor = this.GetListCamposPovoadosPessoa(idTipoAto, pessoa.IdPessoa, idPrenotacao);
+            }
+
+            return dtoPessoaPesxPres;
         }
 
         public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
@@ -463,7 +471,7 @@ namespace AppServCart11RI.AppServices
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
-                dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
+                dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
 
                 //dtoDadosAto.Pessoas = this.GerarFichas
                 using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ServerPath, dtoInfAto.IdCtaAcessoSist))
