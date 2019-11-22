@@ -680,7 +680,7 @@ function GetTextoAto(dadosAto, url) {
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
-        data: dados,
+        data: dadosAto,
         beforeSend: function () {
             ShowProgreessBar("Processando requisição...");
         }
@@ -717,7 +717,7 @@ function GetTextoAto(dadosAto, url) {
  */
 function PovoarDadosImovel(Imovel)
 {
-    $('#NumMatricula').val(Imovel.SEQPRE);
+    $('#NumMatricula').val(Imovel.MATRI);
     $('#PREIMO_SEQPRE').val(Imovel.SEQPRE);
     
     $('#PREIMO_ENDER').val(Imovel.ENDER);
@@ -740,7 +740,8 @@ function PovoarDadosImovel(Imovel)
  * Povoar dados do imovel
  * @@param {any} Imovel
  */
-function LimparDadosImovel() {
+function LimparDadosImovel()
+{
     $('#NumMatricula').val("");
     $('#PREIMO_SEQPRE').val("");
 

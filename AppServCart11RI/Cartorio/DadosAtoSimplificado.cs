@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AppServCart11RI.Cartorio
 {
-    public class DadosAto
+    public class DadosAtoSimplificado
     {
         public long? IdAto { get; set; }
 

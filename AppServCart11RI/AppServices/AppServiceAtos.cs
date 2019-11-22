@@ -40,7 +40,7 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
         #region Private Methods
-        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAto dadosAto )
+        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAtoSimplificado dadosAto )
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
 
@@ -105,20 +105,17 @@ namespace AppServCart11RI.AppServices
 
                 foreach (var campo in listaCamposImovel)
                 {
-                    foreach (PropertyInfo pInfo in propertyInfo)
+                    var prop = propertyInfo.Where(p => p.Name == campo.Campo).FirstOrDefault();
+                    if (prop != null)
                     {
-                        if (pInfo.Name == campo.Campo)
+                        var propValue = prop.GetValue(imovel);
+                        if (propValue != null)
                         {
-                            var propValue = pInfo.GetValue(imovel);
-
-                            if (propValue != null)
+                            listaCamposValor.Add(new DtoCamposValor
                             {
-                                listaCamposValor.Add(new DtoCamposValor
-                                {
-                                    Campo = campo.NomeCampo,
-                                    Valor = propValue.ToString()
-                                });
-                            }
+                                Campo = campo.NomeCampo,
+                                Valor = propValue.ToString().Trim()
+                            });
                         }
                     }
                 }
@@ -260,6 +257,8 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
         {
+            List<DtoPessoaPesxPre> dtoPessoaPesxPres = new List<DtoPessoaPesxPre>();
+
             return DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao);
         }
 
@@ -443,7 +442,7 @@ namespace AppServCart11RI.AppServices
                 DataAto = dtoInfAto.DataAto
             };
 
-            DadosAto dadosAto = new DadosAto
+            DadosAtoSimplificado dadosAto = new DadosAtoSimplificado
             {
                 IdAto = dtoInfAto.IdAto,
                 IdTipoAto = dtoInfAto.IdTipoAto,
@@ -455,7 +454,6 @@ namespace AppServCart11RI.AppServices
                 DataAto = dtoInfAto.DataAto
             };
 
-
             if (dtoInfAto.IdAto.HasValue && (dtoInfAto.IdAto > 0))
             {
                 //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
@@ -465,6 +463,7 @@ namespace AppServCart11RI.AppServices
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
+                dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
 
                 //dtoDadosAto.Pessoas = this.GerarFichas
                 using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ServerPath, dtoInfAto.IdCtaAcessoSist))
@@ -483,7 +482,7 @@ namespace AppServCart11RI.AppServices
                         string strAto = string.Empty;
                         string strBloco = string.Empty;
                         bool flagBloco = false;
-                         tipoPessoa = '0';
+                        char tipoPes = '0';
 
                         for (int i = 0; i < texto.Length; i++)
                         {

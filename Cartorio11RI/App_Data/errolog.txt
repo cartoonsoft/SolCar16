@@ -1,0 +1,24 @@
+>>>Log em, 22/11/2019 13:18:59 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "LINQ to Entities does not recognize the method 'Domain.CartNew.Enumerations.TipoPessoaPrenotacao GetTipoPessoa(System.String)' method, and this method cannot be translated into a store expression." 
+>>>Log em, 22/11/2019 14:37:54 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[Domain.CartNew.Entities.Diversos.PessoaPesxPre, Domain.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[Dto.CartNew.Entities.Cart_11RI.Diversos.DtoPessoaPesxPre, Dto.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" 
+ > InnerException: "Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[Domain.CartNew.Entities.Diversos.PessoaPesxPre, Domain.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[Dto.CartNew.Entities.Cart_11RI.Diversos.DtoPessoaPesxPre, Dto.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+>>>Log em, 22/11/2019 14:38:56 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[Domain.CartNew.Entities.Diversos.PessoaPesxPre, Domain.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[Dto.CartNew.Entities.Cart_11RI.Diversos.DtoPessoaPesxPre, Dto.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" 
+ > InnerException: "Error mapping types.
+
+Mapping types:
+List`1 -> List`1
+System.Collections.Generic.List`1[[Domain.CartNew.Entities.Diversos.PessoaPesxPre, Domain.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> System.Collections.Generic.List`1[[Dto.CartNew.Entities.Cart_11RI.Diversos.DtoPessoaPesxPre, Dto.CartNew, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]"
+>>>Log em, 22/11/2019 15:36:54 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "Referência de objeto não definida para uma instância de um objeto." 
+>>>Log em, 22/11/2019 15:59:01 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "Referência de objeto não definida para uma instância de um objeto." 
+>>>Log em, 22/11/2019 15:59:32 Class/ Message ==>"Cartorio11RI.Controllers: Cartorio11RI.Controllers.AtosController" "Referência de objeto não definida para uma instância de um objeto." 

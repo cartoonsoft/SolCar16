@@ -584,12 +584,12 @@
 				}
 			});
 
-			var idAto = $("#Id").val().trim();
-			var idTipoAto = $("#IdTipoAto").val().trim();
-			var idLivro = $("#IdLivro").val().trim();
-			var idModeloDoc = $("#IdModeloDoc").val().trim();
-			var idPrenotacao = $("#IdPrenotacao").val().trim();
-			var numMatricula = $("#NumMatricula").val().trim();
+			var idAto = $("#Id").val();
+			var idTipoAto = $("#IdTipoAto").val();
+			var idLivro = $("#ddListLivro option:selected").val();
+			var idModeloDoc = $("#IdModeloDoc").val();
+			var idPrenotacao = $("#IdPrenotacao").val();
+			var numMatricula = $("#NumMatricula").val();
 			var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
 			var dataAto = new Date($("#DataAto").val());
 

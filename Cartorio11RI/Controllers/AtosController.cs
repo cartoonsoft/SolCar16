@@ -124,6 +124,7 @@ namespace Cartorio11RI.Controllers
         {
             var dados = new AtoViewModel();
             dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
+            dados.IdLivro = 1;
             dados.FolhaFicha = TipoFolhaFicha.Indefinido;
             dados.Ativo = true;
             dados.Pessoas.Add(new PESSOAViewModel { 
@@ -716,6 +717,7 @@ namespace Cartorio11RI.Controllers
                         IdAto = dadosAtoViewModel.IdAto,
                         IdCtaAcessoSist = this.IdCtaAcessoSist,
                         IdTipoAto = dadosAtoViewModel.IdTipoAto,
+                        IdLivro = dadosAtoViewModel.IdLivro,
                         IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
                         IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
                         NumMatricula = dadosAtoViewModel.NumMatricula,

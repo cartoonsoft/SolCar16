@@ -11,6 +11,8 @@ namespace Cartorio11RI.ViewModels
 
         public long IdTipoAto { get; set; }
 
+        public long IdLivro { get; set; }
+
         public long IdModeloDoc { get; set; }
 
         public long IdPrenotacao { get; set; }

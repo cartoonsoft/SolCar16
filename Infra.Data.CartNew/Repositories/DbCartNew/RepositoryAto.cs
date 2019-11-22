@@ -362,6 +362,11 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaPessoas;
         }
 
+        /// <summary>
+        /// os métodos GetListPessoas, GetPessoa estão aqui pq se referem a pessoas da base onzeri, só são lidos para gerar o ato
+        /// </summary>
+        /// <param name="IdPrenotacao"></param>
+        /// <returns></returns>
         public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<PessoaPesxPre> listaPessoaPesxPre = new List<PessoaPesxPre>();
@@ -375,7 +380,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdPessoa = pes.SEQPES,
                     IdPrenotacao = IdPrenotacao,
                     Relacao = pre.REL,
-                    TipoPessoa = this.GetTipoPessoa(pre.REL), 
                     Nome = pes.NOM,
                     Endereco = pes.ENDER,
                     Bairro = pes.BAI,
@@ -396,7 +400,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdPessoa = pessoa.IdPessoa,
                     IdPrenotacao = pessoa.IdPrenotacao,
                     Relacao = pessoa.Relacao,
-                    TipoPessoa = pessoa.TipoPessoa,
+                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
                     Nome = pessoa.Nome,
                     Endereco = pessoa.Endereco,
                     Bairro = pessoa.Bairro,
@@ -427,7 +431,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPessoa = pes.SEQPES,
                     IdPrenotacao = idPrenotacao,
-                    TipoPessoa = this.GetTipoPessoa(pre.REL.Trim()),
                     Nome = pes.NOM,
                     Relacao = pre.REL,
                     Endereco = pes.ENDER,
@@ -520,26 +523,30 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
                 dadosImovel.IdPrenotacao = IdPrenotacao;
                 dadosImovel.NumMatricula = NumMatricula;
-                dadosImovel.APTO = imovel.APTO;
-                dadosImovel.BLOCO = imovel.BLOCO;
-                dadosImovel.CONTRIB = imovel.CONTRIB;
-                dadosImovel.EDIF = imovel.EDIF;
-                dadosImovel.ENDER = imovel.ENDER;
-                dadosImovel.HIPO = imovel.HIPO;
-                dadosImovel.INSCR = imovel.INSCR;
-                dadosImovel.LOTE = imovel.LOTE;
-                dadosImovel.MATRI = imovel.MATRI;
-                dadosImovel.NUM = imovel.NUM;
-                dadosImovel.OUTROS = imovel.OUTROS;
-                dadosImovel.QUADRA = imovel.QUADRA;
-                dadosImovel.RD = imovel.RD;
-                dadosImovel.SEQIMO = imovel.SEQIMO;
-                dadosImovel.SEQPRE = imovel.SEQPRE;
-                dadosImovel.SUBD = imovel.SUBD;
-                dadosImovel.TIPO = imovel.TIPO;
-                dadosImovel.TITULO = imovel.TITULO;
-                dadosImovel.TRANS = imovel.TRANS;
-                dadosImovel.VAGA = imovel.VAGA;
+
+                if (imovel != null)
+                {
+                    dadosImovel.APTO = imovel.APTO;
+                    dadosImovel.BLOCO = imovel.BLOCO;
+                    dadosImovel.CONTRIB = imovel.CONTRIB;
+                    dadosImovel.EDIF = imovel.EDIF;
+                    dadosImovel.ENDER = imovel.ENDER;
+                    dadosImovel.HIPO = imovel.HIPO;
+                    dadosImovel.INSCR = imovel.INSCR;
+                    dadosImovel.LOTE = imovel.LOTE;
+                    dadosImovel.MATRI = imovel.MATRI;
+                    dadosImovel.NUM = imovel.NUM;
+                    dadosImovel.OUTROS = imovel.OUTROS;
+                    dadosImovel.QUADRA = imovel.QUADRA;
+                    dadosImovel.RD = imovel.RD;
+                    dadosImovel.SEQIMO = imovel.SEQIMO;
+                    dadosImovel.SEQPRE = imovel.SEQPRE;
+                    dadosImovel.SUBD = imovel.SUBD;
+                    dadosImovel.TIPO = imovel.TIPO;
+                    dadosImovel.TITULO = imovel.TITULO;
+                    dadosImovel.TRANS = imovel.TRANS;
+                    dadosImovel.VAGA = imovel.VAGA;
+                }
             }
 
             return dadosImovel;
