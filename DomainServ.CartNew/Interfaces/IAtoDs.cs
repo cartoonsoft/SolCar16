@@ -17,25 +17,25 @@ namespace DomainServ.CartNew.Interfaces
 
         long? GetNumSequenciaAto(string NumMatricula);
 
+        short GetUltimoNumFicha(string NumMatricula);
+
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
 
         IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
+        
+        IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
 
         IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
-        IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
+        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+
+        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 
         IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
-
-        IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto);
-
-        IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
-
-        IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa);
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 

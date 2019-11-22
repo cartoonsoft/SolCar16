@@ -39,6 +39,8 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public short NumSequenciaAto { get; set; } //numeric(5,0)
 
+        public DateTime? DataRegPrenotacao { get; set; }  //data registro "R" da prenotacao onzeri.premad
+
         public DateTime? DataAto { get; set; }
 
         public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)

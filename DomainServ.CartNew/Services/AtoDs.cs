@@ -30,6 +30,11 @@ namespace DomainServ.CartNew.Services
             throw new NotImplementedException();
         }
 
+        public short GetUltimoNumFicha(string NumMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<DtoDocx> GerarFichas(DtoAto ato)
         {
             throw new NotImplementedException();
@@ -37,47 +42,20 @@ namespace DomainServ.CartNew.Services
 
         public IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula)
         {
-            List<DtoAto> dtoDocxList = new List<DtoAto>();
+            List<DtoAto> listaDtoAto = new List<DtoAto>();
+            List<Ato> listaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListAtosMatricula(NumMatricula).ToList();
+            listaDtoAto = Mapper.Map<List<Ato>, List<DtoAto>>(listaAto);
 
-            return dtoDocxList;
+            return listaDtoAto;
         }
 
         public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
         {
-            List<DtoAto> dtoDocxList = new List<DtoAto>();
+            List<DtoAto> listaDtoAto = new List<DtoAto>();
+            List<Ato> listaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListAtosPeriodo(DataIni, DataFim).ToList();
+            listaDtoAto = Mapper.Map<List<Ato>, List<DtoAto>>(listaAto);
 
-            return dtoDocxList;
-        }
-
-        public IEnumerable<DtoCamposValor> GetListCamposAto(long IdAto)
-        {
-            List<DtoCamposValor> dtoCampoValor = new List<DtoCamposValor>();
-
-            return dtoCampoValor;
-        }
-
-        public IEnumerable<DtoCamposValor> GetListCamposImovel(string NumMatricula)
-        {
-            List<DtoCamposValor> dtoCampoValor = new List<DtoCamposValor>();
-
-            return dtoCampoValor;
-        }
-
-        public IEnumerable<DtoCamposValor> GetListCamposPessoa(long IdPessoa)
-        {
-            List<DtoCamposValor> dtoCampoValor = new List<DtoCamposValor>();
-
-            return dtoCampoValor;
-        }
-
-        public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
-        {
-            List<DtoDocx> listaDtoDocx = new List<DtoDocx>();
-
-            var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListDocxAto(IdAto).ToList();
-            listaDtoDocx = Mapper.Map<List<Docx>, List<DtoDocx>>(lista);
-
-            return listaDtoDocx;
+            return listaDtoAto;
         }
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
@@ -92,7 +70,12 @@ namespace DomainServ.CartNew.Services
 
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
-            throw new NotImplementedException();
+            List<DtoPessoaAto> lista = new List<DtoPessoaAto>();
+
+            List<PessoaAto> listaPessoaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasAto(IdAto).ToList();
+            lista = Mapper.Map<List<PessoaAto>, List<DtoPessoaAto>>(listaPessoaAto);
+
+            return lista;
         }
 
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
@@ -104,6 +87,35 @@ namespace DomainServ.CartNew.Services
             return listaDtoPessoaPesxPre;
         }
 
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        {
+            List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = new List<DtoPessoaPesxPre>();
+            List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoas(idsPessoas, idPrenotacao).ToList();
+            listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
+
+            return listaDtoPessoaPesxPre;
+        }
+
+        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
+            PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
+
+            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
+
+            return dtoPessoaPesxPre;
+        }
+
+        public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
+        {
+            List<DtoDocx> listaDtoDocx = new List<DtoDocx>();
+
+            var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListDocxAto(IdAto).ToList();
+            listaDtoDocx = Mapper.Map<List<Docx>, List<DtoDocx>>(lista);
+
+            return listaDtoDocx;
+        }
+
         public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
         {
             DtoDadosImovel dtoImovel = new DtoDadosImovel(); 
@@ -112,7 +124,6 @@ namespace DomainServ.CartNew.Services
 
             return dtoImovel;
         }
-
 
     }
 }

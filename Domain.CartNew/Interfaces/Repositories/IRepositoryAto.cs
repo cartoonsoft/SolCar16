@@ -23,19 +23,26 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         IEnumerable<Ato> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
 
-        IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
-        
         IEnumerable<PessoaAto> GetListPessoasAto(long? IdAto);
+
+        IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
+
+        IEnumerable<PessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+
+        PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 
         IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<Docx> GetListDocxAto(long? IdAto);
+        DateTime? DataRegPrenotacao(long IdPrenotacao);
 
-        IEnumerable<CamposValor> GetListCamposAto(long IdAto);
+        IEnumerable<CampoTipoAto> GetListCamposAto(long IdTipoAto, long IdCtaAcessoSist);
 
-        IEnumerable<CamposValor> GetListCamposImovel(string NumMatricula);  //num matricula vem da base onzeri
+        IEnumerable<CampoTipoAto> GetListCamposPrenotacao(long IdTipoAto, long IdCtaAcessoSist);
+
+        IEnumerable<CampoTipoAto> GetListCamposImovel(long IdTipoAto, long IdCtaAcessoSist);  //só a lista de campos, ainda noa povoou
         
-        IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa);
+        IEnumerable<CampoTipoAto> GetListCamposPessoa(long IdTipoAto, long IdCtaAcessoSist);
 
         DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
     }

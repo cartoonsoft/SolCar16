@@ -40,74 +40,84 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
         #region Private Methods
-        private List<DtoCamposValor> GetListCamposValores(string entidade, DadosAto dadosAto )
+        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAto dadosAto )
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
 
-            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(dadosAto.IdTipoAto, this.IdCtaAcessoSist).Where(e => e.Entidade.ToLower() == entidade.ToLower()).ToList();
-
-            foreach (var CampoTmp in listacampos)
+            if (entidade.ToLower() == "ato")
             {
-                if (entidade.ToLower() == "ato")
+                var listaCamposAto = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposAto(dadosAto.IdTipoAto, this.IdCtaAcessoSist);
+                foreach (var campo in listaCamposAto)
                 {
-                    if (CampoTmp.Campo.ToLower() == "idlivro")
+                    if (campo.Campo.ToLower() == "idlivro")
                     {
                         listaCamposValor.Add(new DtoCamposValor
                         {
-                            Campo = CampoTmp.NomeCampo,
+                            Campo = campo.NomeCampo,
                             Valor = dadosAto.IdLivro.ToString()
                         });
                     }
 
-                    if (CampoTmp.Campo.ToLower() == "dataato")
+                    if (campo.Campo.ToLower() == "dataato")
                     {
                         listaCamposValor.Add(new DtoCamposValor
                         {
-                            Campo = CampoTmp.NomeCampo,
+                            Campo = campo.NomeCampo,
                             Valor = dadosAto.DataAto.HasValue ? dadosAto.DataAto.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : ""
                         });
                     }
                 }
+            }
 
-                if (entidade.ToLower() == "ato")
+            if (entidade.ToLower() == "prenotacao") 
+            {
+                var listaCamposPrenotacao = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPrenotacao(dadosAto.IdTipoAto, this.IdCtaAcessoSist);
+
+                foreach (var campo in listaCamposPrenotacao)
                 {
-                    if (CampoTmp.Campo.ToLower() == "idprenotacao")
+                    if (campo.Campo.ToLower() == "idprenotacao")
                     {
                         listaCamposValor.Add(new DtoCamposValor
                         {
-                            Campo = CampoTmp.NomeCampo,
+                            Campo = campo.NomeCampo,
                             Valor = dadosAto.IdPrenotacao.ToString()
                         });
                     }
 
-                    if (CampoTmp.Campo.ToLower() == "dataregprenotacao")
+                    if (campo.Campo.ToLower() == "dataregprenotacao")
                     {
                         listaCamposValor.Add(new DtoCamposValor
                         {
-                            Campo = CampoTmp.NomeCampo,
+                            Campo = campo.NomeCampo,
                             Valor = dadosAto.DataRegPrenotacao.HasValue ? dadosAto.DataRegPrenotacao.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) : ""
                         });
                     }
                 }
+            }
 
-                if (entidade.ToLower() == "imovel") 
+            if (entidade.ToLower() == "imovel") 
+            {
+                var listaCamposImovel = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposImovel(dadosAto.IdTipoAto, this.IdCtaAcessoSist);
+                DtoDadosImovel imovel = this.GetDadosImovel(dadosAto.IdPrenotacao, dadosAto.NumMatricula);
+
+                Type imovelType = imovel.GetType();
+                PropertyInfo[] propertyInfo = imovelType.GetProperties();
+
+                foreach (var campo in listaCamposImovel)
                 {
-                    DtoDadosImovel imovel = this.GetDadosImovel(dadosAto.IdTipoAto, dadosAto.NumMatricula);
-                    Type imovelType = imovel.GetType();
-                    PropertyInfo[] propertyInfo = imovelType.GetProperties();
-
                     foreach (PropertyInfo pInfo in propertyInfo)
                     {
-                        if (pInfo.Name == CampoTmp.Campo) {
+                        if (pInfo.Name == campo.Campo)
+                        {
                             var propValue = pInfo.GetValue(imovel);
 
                             if (propValue != null)
                             {
                                 listaCamposValor.Add(new DtoCamposValor
                                 {
-                                    Campo = CampoTmp.NomeCampo,
+                                    Campo = campo.NomeCampo,
                                     Valor = propValue.ToString()
-                                }); 
+                                });
                             }
                         }
                     }
@@ -117,28 +127,37 @@ namespace AppServCart11RI.AppServices
             return listaCamposValor;
         }
 
-        private List<DtoCamposValor> GetListCamposValores(long IdTipoAto, long IdPessoa)
+        private List<DtoCamposValor> GetListCamposPovoadosPessoa(long idTipoAto, long idPessoa, long? idPrenotacao) 
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
-            var listacampos = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListCamposIdTipoAto(IdTipoAto, this.IdCtaAcessoSist).Where(e => e.Entidade == "PESSOA").ToList();
 
+            var listaCamposPessoa = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPessoa(idTipoAto, this.IdCtaAcessoSist);
+            DtoPessoaPesxPre pessoa = this.DsFactoryCartNew.AtoDs.GetPessoa(idPessoa, idPrenotacao);
 
-            this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPessoa
+            Type pessoaType = pessoa.GetType();
+            PropertyInfo[] propertyInfo = pessoaType.GetProperties();
 
-            foreach (var CampoTmp in listacampos)
-            { 
+            foreach (var campo in listaCamposPessoa)
+            {
+                foreach (PropertyInfo pInfo in propertyInfo)
+                {
+                    if (pInfo.Name == campo.Campo)
+                    {
+                        var propValue = pInfo.GetValue(pessoa);
 
-
-            
+                        if (propValue != null)
+                        {
+                            listaCamposValor.Add(new DtoCamposValor
+                            {
+                                Campo = campo.NomeCampo,
+                                Valor = propValue.ToString()
+                            });
+                        }
+                    }
+                }
             }
 
-            return null;
-        }
-        
-        private List<DtoPessoaPesxPre> GetPessoas(long [] idsPessoas)
-        {
-
-            return null;
+            return listaCamposValor;
         }
         #endregion
 
@@ -198,21 +217,6 @@ namespace AppServCart11RI.AppServices
             throw new NotImplementedException();
         }
 
-        public IEnumerable<DtoCamposValor> GetListCamposValorAto(long IdAto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DtoCamposValor> GetListCamposValorImovel(string NumMatricula)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<DtoCamposValor> GetListCamposValorPessoa(long IdPessoa)
-        {
-            throw new NotImplementedException();
-        }
-
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {
             throw new NotImplementedException();
@@ -221,17 +225,9 @@ namespace AppServCart11RI.AppServices
         /// <summary>
         /// Data do registro da prenotacao na base onzeri
         /// </summary>
-        public DateTime? DataRegPrenotacao(long IdPrenotacao) {
-
-            DateTime? dataTmp = null;
-            var Premad = this.UfwCartNew.Repositories.GenericRepository<PREMAD>().Get().Where(pp => (pp.SEQPRE == IdPrenotacao) && (pp.TIPODATA.Trim() == "R")).FirstOrDefault();
-
-            if (Premad != null) {
-                dataTmp = new DateTime(1800, 1, 2, 0, 0, 0);
-                dataTmp = dataTmp.Value.AddDays(Premad.DATA);
-            }
-
-            return dataTmp; 
+        public DateTime? DataRegPrenotacao(long IdPrenotacao) 
+        {
+            return this.UfwCartNew.Repositories.RepositoryAto.DataRegPrenotacao(IdPrenotacao);
         }
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
@@ -256,30 +252,20 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<DtoPessoaPesxPre> pessoasPrenotacao = new List<DtoPessoaPesxPre>();
-            var pessoas = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
-            foreach (var pessoa in pessoas)
-            {
-                pessoasPrenotacao.Add( new DtoPessoaPesxPre {
-                    IdPrenotacao = pessoa.IdPrenotacao,
-                    IdPessoa = pessoa.IdPessoa,
-                    Bairro = pessoa.Bairro,
-                    Cep = pessoa.Cep,
-                    Cidade = pessoa.Cidade,
-                    Endereco = pessoa.Endereco,
-                    Nome = pessoa.Nome,
-                    Numero1 = pessoa.Numero1,
-                    Numero2 = pessoa.Numero2,
-                    Relacao = pessoa.Relacao,
-                    Telefone = pessoa.Telefone,
-                    TipoDoc1 = pessoa.TipoDoc1.ToString(),
-                    TipoDoc2 = pessoa.TipoDoc2,
-                    TipoPessoa = pessoa.TipoPessoa,
-                    Uf = pessoa.Uf
-                });
-            }
+            pessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
             return pessoasPrenotacao;
+        }
+
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        {
+            return DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao);
+        }
+
+        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            return DsFactoryCartNew.AtoDs.GetPessoa(idPessoa, idPrenotacao);
         }
 
         public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
@@ -445,39 +431,59 @@ namespace AppServCart11RI.AppServices
         public StringBuilder GetTextoAto(DtoInfAto dtoInfAto)
         {
             StringBuilder textoDoc = new StringBuilder();
-            DtoDadosAto dtoDadosAto = new DtoDadosAto();
-            DtoDadosImovel dtoDadosImovel = new DtoDadosImovel();
 
-            if (dtoInfAto.IdAto > 0)
+            DtoDadosAto dtoDadosAto = new DtoDadosAto {
+                Id = dtoInfAto.IdAto,
+                IdTipoAto = dtoInfAto.IdTipoAto,
+                IdLivro = dtoInfAto.IdLivro,
+                IdModeloDoc = dtoInfAto.IdModeloDoc,
+                IdPrenotacao = dtoInfAto.IdPrenotacao,
+                NumMatricula = dtoInfAto.NumMatricula,
+                DataRegPrenotacao = dtoInfAto.DataRegPrenotacao,
+                DataAto = dtoInfAto.DataAto
+            };
+
+            DadosAto dadosAto = new DadosAto
+            {
+                IdAto = dtoInfAto.IdAto,
+                IdTipoAto = dtoInfAto.IdTipoAto,
+                IdLivro = dtoInfAto.IdLivro,
+                IdModeloDoc = dtoInfAto.IdModeloDoc,
+                IdPrenotacao = dtoInfAto.IdPrenotacao,
+                NumMatricula = dtoInfAto.NumMatricula,
+                DataRegPrenotacao = dtoInfAto.DataRegPrenotacao,
+                DataAto = dtoInfAto.DataAto
+            };
+
+
+            if (dtoInfAto.IdAto.HasValue && (dtoInfAto.IdAto > 0))
             {
                 //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
                 //todo: catregar do ato fazer 
-            } else
-            {
+            } else {
 
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Ato", dtoInfAto));
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Prenotacao", dtoInfAto));
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposValores("Imovel", dtoInfAto));
-                dtoDadosAto.Pessoas.AddRange(this.GetPessoas(dtoInfAto.ListIdsPessoas));
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dadosAto));
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dadosAto));
+                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
 
                 //dtoDadosAto.Pessoas = this.GerarFichas
                 using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ServerPath, dtoInfAto.IdCtaAcessoSist))
                 {
-                    var sb = new StringBuilder();
+                    StringBuilder textoTmp = new StringBuilder();
 
                     // Get content from each paragraph
                     foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))
                     {
-                        textoDoc.Append(paragraph.Content.ToString());
+                        textoTmp.Append(paragraph.Content.ToString());
                     }
-                    /*
-                    string texto = sb.ToString();
+
+                    string texto = textoTmp.ToString();
                     if (texto != "")
                     {
                         string strAto = string.Empty;
                         string strBloco = string.Empty;
                         bool flagBloco = false;
-                        char tipoPes = '0';
+                         tipoPessoa = '0';
 
                         for (int i = 0; i < texto.Length; i++)
                         {
@@ -555,7 +561,7 @@ namespace AppServCart11RI.AppServices
                         // Populando campo de retorno
                         textoDoc.Append($"<p>{strAto}</p>");
                     }
-                    */
+                    
                 }
             }
 

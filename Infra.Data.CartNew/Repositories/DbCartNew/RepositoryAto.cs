@@ -26,13 +26,13 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         }
 
         #region Private Methods
-        private IEnumerable<CampoTipoAto> GetListCamposIdTipoAto(long? IdTipoAto, long IdCtaAcessoSist)
+        private IEnumerable<CampoTipoAto> GetListCampos(long? IdTipoAto, long IdCtaAcessoSist, string entidade)
         {
             List<CampoTipoAto> campoTipoAtos = new List<CampoTipoAto>();
 
             var listaCampos =
                 from ta in _contextRepository.DbTipoAtoCampo.Where(a => a.IdTipoAto == IdTipoAto)
-                join ac in _contextRepository.DbCampoTipoAto.Where(c => c.IdCtaAcessoSist == IdCtaAcessoSist) on ta.IdCampoTipoAto equals ac.Id
+                join ac in _contextRepository.DbCampoTipoAto.Where(c => (c.IdCtaAcessoSist == IdCtaAcessoSist) && (c.Entidade.ToLower() == entidade.ToLower())) on ta.IdCampoTipoAto equals ac.Id
                 orderby ac.Entidade, ac.NomeCampo
                 select new
                 {
@@ -61,8 +61,16 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             return campoTipoAtos;
         }
+
+        private TipoPessoaPrenotacao GetTipoPessoa(string relacao)
+        {
+            return 
+                relacao == "E" ? TipoPessoaPrenotacao.outorgado :
+                relacao == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido;
+
+        }
         #endregion
-        
+
         public bool ExisteAtoCadastrado(string NumMatricula)
         {
             long quantidadeDeAtos = 0;
@@ -150,19 +158,24 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaAtos;
         }
 
-        public IEnumerable<CamposValor> GetListCamposAto(long IdAto)
+        //qd nao sanvou o ato, para gerar o docx
+        public IEnumerable<CampoTipoAto> GetListCamposAto(long IdTipoAto, long IdCtaAcessoSist)
         {
-            throw new NotImplementedException();
+            return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "ATO");
+        }
+        public IEnumerable<CampoTipoAto> GetListCamposPrenotacao(long IdTipoAto, long IdCtaAcessoSist) 
+        {
+            return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "PRENOTACAO");
         }
 
-        public IEnumerable<CamposValor> GetListCamposImovel(string NumMatricula)
+        public IEnumerable<CampoTipoAto> GetListCamposImovel(long IdTipoAto, long IdCtaAcessoSist)
         {
-            throw new NotImplementedException();
+            return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "IMOVEL");
         }
 
-        public IEnumerable<CamposValor> GetListCamposPessoa(long IdPessoa)
+        public IEnumerable<CampoTipoAto> GetListCamposPessoa(long IdTipoAto, long IdCtaAcessoSist)
         {
-            throw new NotImplementedException();
+            return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "PESSOA");
         }
 
         public IEnumerable<Docx> GetListDocxAto(long? IdAto)
@@ -206,6 +219,21 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             }
             return lista;
         }
+
+        public DateTime? DataRegPrenotacao(long IdPrenotacao)
+        {
+            DateTime? dataTmp = null;
+            var Premad = this._contextRepository.DbPREMAD.Where(pp => (pp.SEQPRE == IdPrenotacao) && (pp.TIPODATA.Trim() == "R")).FirstOrDefault();
+
+            if (Premad != null)
+            {
+                dataTmp = new DateTime(1800, 1, 2, 0, 0, 0);
+                dataTmp = dataTmp.Value.AddDays(Premad.DATA);
+            }
+
+            return dataTmp;
+        }
+
 
         public IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
@@ -336,7 +364,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
         public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
-            List<PessoaPesxPre> listaDtoPessoaPesxPres = new List<PessoaPesxPre>();
+            List<PessoaPesxPre> listaPessoaPesxPre = new List<PessoaPesxPre>();
 
             var listaPessoasPrenotacao =
                 from pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == IdPrenotacao) && (PapelPessoaAto.Contains(pr.REL)))
@@ -346,11 +374,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPessoa = pes.SEQPES,
                     IdPrenotacao = IdPrenotacao,
-                    TipoPessoa =
-                        pre.REL == "E" ? TipoPessoaPrenotacao.outorgado :
-                        pre.REL == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido,
-                    Nome = pes.NOM,
                     Relacao = pre.REL,
+                    TipoPessoa = this.GetTipoPessoa(pre.REL), 
+                    Nome = pes.NOM,
                     Endereco = pes.ENDER,
                     Bairro = pes.BAI,
                     Cidade = pes.CID,
@@ -365,13 +391,13 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             foreach (var pessoa in listaPessoasPrenotacao)
             {
-                listaDtoPessoaPesxPres.Add(new PessoaPesxPre
+                listaPessoaPesxPre.Add(new PessoaPesxPre
                 {
                     IdPessoa = pessoa.IdPessoa,
                     IdPrenotacao = pessoa.IdPrenotacao,
+                    Relacao = pessoa.Relacao,
                     TipoPessoa = pessoa.TipoPessoa,
                     Nome = pessoa.Nome,
-                    Relacao = pessoa.Relacao,
                     Endereco = pessoa.Endereco,
                     Bairro = pessoa.Bairro,
                     Cidade = pessoa.Cidade,
@@ -385,7 +411,97 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 });
             }
 
-            return null;
+            return listaPessoaPesxPre;
+        }
+
+        public IEnumerable<PessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        {
+            List<PessoaPesxPre> listaPessoaCart11RI = new List<PessoaPesxPre>();
+
+            var listaPessoas =
+                from  pes in this._contextRepository.DbPESSOAS.Where(p => idsPessoas.Contains(p.SEQPES))
+                join  pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (PapelPessoaAto.Contains(pr.REL))) on pes.SEQPES equals pre.SEQPES into _pre
+                from pre in _pre.DefaultIfEmpty()
+                orderby pre.REL, pes.NOM
+                select new
+                {
+                    IdPessoa = pes.SEQPES,
+                    IdPrenotacao = idPrenotacao,
+                    TipoPessoa = this.GetTipoPessoa(pre.REL.Trim()),
+                    Nome = pes.NOM,
+                    Relacao = pre.REL,
+                    Endereco = pes.ENDER,
+                    Bairro = pes.BAI,
+                    Cidade = pes.CID,
+                    Telefone = pes.TEL,
+                    Cep = pes.CEP,
+                    Uf = pes.UF,
+                    TipoDoc1 = pes.TIPODOC1,
+                    Numero1 = pes.NRO1,
+                    TipoDoc2 = pes.TIPODOC2,
+                    Numero2 = pes.NRO2
+                };
+
+            foreach (var pessoa in listaPessoas)
+            {
+                listaPessoaCart11RI.Add(new PessoaPesxPre
+                {
+                    IdPessoa = pessoa.IdPessoa,
+                    IdPrenotacao = idPrenotacao??0,
+                    Relacao = pessoa.Relacao,
+                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
+                    Nome = pessoa.Nome,
+                    Endereco = pessoa.Endereco,
+                    Bairro = pessoa.Bairro,
+                    Cidade = pessoa.Cidade,
+                    Uf = pessoa.Uf,
+                    Cep = pessoa.Cep.ToString(),
+                    Telefone = pessoa.Telefone,
+                    TipoDoc1 = pessoa.TipoDoc1.ToString(),
+                    Numero1 = pessoa.Numero1,
+                    TipoDoc2 = pessoa.TipoDoc2,
+                    Numero2 = pessoa.Numero2
+                });
+            }
+
+            return listaPessoaCart11RI;
+        }
+
+        public PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            string relacao = string.Empty;
+            var pessoa = this._contextRepository.DbPESSOAS.Where(p => p.SEQPES == idPessoa).FirstOrDefault();
+
+            if (idPrenotacao.HasValue && (idPrenotacao.Value > 0))
+            {
+                var pesPrenotacao = this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (pr.SEQPES == idPessoa) && (PapelPessoaAto.Contains(pr.REL))).FirstOrDefault();
+
+                if (pesPrenotacao != null)
+                {
+                    relacao = pesPrenotacao.REL;
+                }
+            }
+
+            PessoaPesxPre pessoaPesxPre = new PessoaPesxPre
+            {
+                IdPessoa = pessoa.SEQPES,
+                IdPrenotacao = idPrenotacao??0,
+                Relacao = relacao,
+                TipoPessoa = this.GetTipoPessoa(relacao),
+                Nome = pessoa.NOM,
+                Endereco = pessoa.ENDER,
+                Bairro = pessoa.BAI,
+                Cidade = pessoa.CID,
+                Uf = pessoa.UF,
+                Cep = pessoa.CEP.ToString(),
+                Telefone = pessoa.TEL,
+                TipoDoc1 = pessoa.TIPODOC1.ToString(),
+                Numero1 = pessoa.NRO1,
+                TipoDoc2 = pessoa.TIPODOC2,
+                Numero2 = pessoa.NRO2
+            };
+
+            return pessoaPesxPre;
         }
 
         public short GetUltimoNumFicha(string NumMatricula)

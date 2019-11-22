@@ -51,17 +51,15 @@ namespace AppServices.Cartorio.Interfaces
 
         IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
+        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+
+        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
+
         IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
 
         IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
-
-        IEnumerable<DtoCamposValor> GetListCamposValorAto(long IdAto);
-
-        IEnumerable<DtoCamposValor> GetListCamposValorImovel(string NumMatricula);  //num matricula vem da base onzeri
-
-        IEnumerable<DtoCamposValor> GetListCamposValorPessoa(long IdPessoa);
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 
