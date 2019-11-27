@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -41,7 +42,7 @@ namespace AppServCart11RI.Cartorio
             
         public string GetModeloDocFileName(long IdModeloDoc)
         {
-            return this.FilePathModeloDoc + "modelo_" + IdModeloDoc + ".docx";
+            return Path.Combine(this.FilePathModeloDoc,  "modelo_" + IdModeloDoc + ".docx");
         }
     }
 }

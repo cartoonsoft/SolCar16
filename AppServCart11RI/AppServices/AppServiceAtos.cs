@@ -415,14 +415,14 @@ namespace AppServCart11RI.AppServices
         {
             StringBuilder textoDoc = new StringBuilder();
             FilesConfig fileConfig = new FilesConfig();
-            string fileName = ServerPath + fileConfig.GetModeloDocFileName(IdModeloDoc);
+            string fileName = Path.Combine(ServerPath, fileConfig.GetModeloDocFileName(IdModeloDoc));
 
             using (var stream = new MemoryStream())
             {
                 // Convert input file to RTF stream.
                 stream.Position = 0;
 
-                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, fileName, this.IdCtaAcessoSist))
+                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, this.IdCtaAcessoSist, fileName))
                 {
                     atoWordDocx.WordDocument.Save(stream, SaveOptions.HtmlDefault);
                     using (var reader = new StreamReader(stream))
@@ -438,6 +438,7 @@ namespace AppServCart11RI.AppServices
         public StringBuilder GetTextoAto(DtoInfAto dtoInfAto)
         {
             StringBuilder textoDoc = new StringBuilder();
+            FilesConfig fileConfig = new FilesConfig();
 
             DtoDadosAto dtoDadosAto = new DtoDadosAto {
                 Id = dtoInfAto.IdAto,
@@ -473,8 +474,11 @@ namespace AppServCart11RI.AppServices
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
                 dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
 
+                //obter filename
+                string fileName = Path.Combine(dtoInfAto.ServerPath, fileConfig.GetModeloDocFileName(dtoInfAto.IdModeloDoc));
+
                 //dtoDadosAto.Pessoas = this.GerarFichas
-                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.ServerPath, dtoInfAto.IdCtaAcessoSist))
+                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.IdCtaAcessoSist, fileName))
                 {
                     StringBuilder textoTmp = new StringBuilder();
 
@@ -538,7 +542,6 @@ namespace AppServCart11RI.AppServices
                                     }
                                 }
                                 i++;
-
 
                                 if (flagBloco)
                                 {

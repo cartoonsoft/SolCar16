@@ -28,7 +28,7 @@ namespace GemboxLib.Base
         /// Constructor
         /// </summary>
         /// <param name="filePathName">Path e mome do arquivo</param>
-        public WordGembox(string filePathName, long IdCtaAcessoSist) : base(filePathName)
+        public WordGembox(long IdCtaAcessoSist, string filePathName) : base(filePathName)
         {
             _idCtaAcessoSist = IdCtaAcessoSist;
             this.GetLicense();

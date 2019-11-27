@@ -13,7 +13,6 @@ namespace AppServCart11RI.Cartorio
 {
     public class AtoWordDocx : WordGembox
     {
-        private readonly long _idCtaAcessoSist;
         private readonly IAppServiceAtos _appServiceAtos;
 
         /// <summary>
@@ -22,7 +21,6 @@ namespace AppServCart11RI.Cartorio
         /// <param name="layoutPagina">pode ser A4, B4</param>
         public AtoWordDocx(IAppServiceAtos appServiceAtos, long IdCtaAcessoSist) : base(IdCtaAcessoSist)
         {
-            this._idCtaAcessoSist = IdCtaAcessoSist;
             this._appServiceAtos = appServiceAtos;
         }
 
@@ -30,9 +28,9 @@ namespace AppServCart11RI.Cartorio
         /// Construtor
         /// </summary>
         /// <param name="filePathName">Nome do arquivo</param>
-        public AtoWordDocx(IAppServiceAtos appServiceAtos, string filePathName, long IdCtaAcessoSist) : base(filePathName, IdCtaAcessoSist)
+        public AtoWordDocx(IAppServiceAtos appServiceAtos, long IdCtaAcessoSist, string filePathName) : base(IdCtaAcessoSist, filePathName)
         {
-
+            this._appServiceAtos = appServiceAtos;
         }
 
         #region IDisposable Support
