@@ -16,6 +16,7 @@ using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using GemBox.Document;
 using Infra.Cross.Identity.Models;
+using LibFunctions.Functions.StringsFunc;
 
 namespace AppServCart11RI.AppServices
 {
@@ -156,6 +157,56 @@ namespace AppServCart11RI.AppServices
             }
 
             return listaCamposValor;
+        }
+
+        private string GetTextoBloco(TipoPessoaPrenotacao tipoPes, List<DtoPessoaPesxPre> Pessoas, string strBloco)
+        {
+            string texto = string.Empty;
+
+            foreach (var pessoa in Pessoas)
+            {
+                string textoTmp = string.Empty;
+
+                for (int i = 0; i < strBloco.Length; i++)
+                {
+                    if (strBloco[i] == '[')
+                    {
+                        i++;
+                        string nomeCampo = string.Empty;
+                        string resultadoQuery = string.Empty;
+                        while (strBloco[i] != ']')
+                        {
+                            nomeCampo += strBloco[i].ToString().Trim();
+                            i++;
+                            if (i >= strBloco.Length || strBloco[i] == '[')
+                            {
+                                throw new FormatException("Arquivo com campos corrompidos, verifique o modelo");
+                            }
+                        }
+
+                        var CampoValor = pessoa.ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
+
+                        if (CampoValor != null)
+                        {
+                            resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
+                        } 
+
+                        if (!string.IsNullOrEmpty(resultadoQuery))
+                        {
+                            textoTmp += resultadoQuery;
+                        } else
+                        {
+                            textoTmp += "[" + nomeCampo + "]";
+                        }
+                    } else {
+                        textoTmp += strBloco[i].ToString();
+                    }
+                }
+
+                texto += textoTmp;
+            }
+
+            return texto;
         }
         #endregion
 
@@ -417,18 +468,12 @@ namespace AppServCart11RI.AppServices
             FilesConfig fileConfig = new FilesConfig();
             string fileName = Path.Combine(ServerPath, fileConfig.GetModeloDocFileName(IdModeloDoc));
 
-            using (var stream = new MemoryStream())
+            using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, this.IdCtaAcessoSist, fileName))
             {
-                // Convert input file to RTF stream.
-                stream.Position = 0;
-
-                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, this.IdCtaAcessoSist, fileName))
+                //textoDoc.Append(atoWordDocx.WordDocument.Content.ToString());
+                foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))
                 {
-                    atoWordDocx.WordDocument.Save(stream, SaveOptions.HtmlDefault);
-                    using (var reader = new StreamReader(stream))
-                    {
-                        textoDoc.AppendFormat(reader.ReadToEnd());
-                    }
+                    textoDoc.Append(paragraph.Content.ToString());
                 }
             }
 
@@ -472,6 +517,7 @@ namespace AppServCart11RI.AppServices
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dadosAto));
                 dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
+
                 dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
 
                 //obter filename
@@ -494,7 +540,7 @@ namespace AppServCart11RI.AppServices
                         string strAto = string.Empty;
                         string strBloco = string.Empty;
                         bool flagBloco = false;
-                        char tipoPes = '0';
+                        TipoPessoaPrenotacao  tipoPes = TipoPessoaPrenotacao.indefinido;
 
                         for (int i = 0; i < texto.Length; i++)
                         {
@@ -512,19 +558,39 @@ namespace AppServCart11RI.AppServices
                                         throw new FormatException("Arquivo com campos corrompidos, verifique o modelo");
                                     }
                                 }
+
                                 //Buscar dado da pessoa aqui
                                 //resultadoQuery = "teste query";
-
                                 var CampoValor = dtoDadosAto.ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
+
                                 if (CampoValor != null)
                                 {
-                                    resultadoQuery = CampoValor.Valor;
+                                    resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
+                                } else {
+                                    var CampoOutorgado = dtoDadosAto.Pessoas
+                                        .Where(p => p.TipoPessoa == TipoPessoaPrenotacao.outorgado).FirstOrDefault().ListaCamposValor
+                                        .Where(c => c.Campo == nomeCampo).FirstOrDefault();
+
+                                    if (CampoOutorgado != null) 
+                                    {
+                                        resultadoQuery = StringFunctions.Capitalize(CampoOutorgado.Valor);
+                                    } else {
+                                        var CampoOutorgante  = dtoDadosAto.Pessoas
+                                            .Where(p => p.TipoPessoa == TipoPessoaPrenotacao.outorgante).FirstOrDefault().ListaCamposValor
+                                            .Where(c => c.Campo == nomeCampo).FirstOrDefault();
+
+                                        if (CampoOutorgante != null) 
+                                        {
+                                            resultadoQuery = StringFunctions.Capitalize(CampoOutorgante.Valor);
+                                        }
+                                    }
                                 }
 
                                 if (!string.IsNullOrEmpty(resultadoQuery))
                                 {
-                                    //atualiza o textoo formatado
-                                    textoDoc.Append(resultadoQuery);
+                                    strAto += resultadoQuery;
+                                } else {
+                                    strAto += "["+nomeCampo+"]";
                                 }
                             }
                             else if (texto[i] == '<')
@@ -541,20 +607,21 @@ namespace AppServCart11RI.AppServices
                                         throw new FormatException("Tags de repetição corrompidas, verifique o modelo");
                                     }
                                 }
+
                                 i++;
 
                                 if (flagBloco)
                                 {
-                                    //strAto += GetTextoBloco(strBloco, tipoPes, )
+                                    strAto += GetTextoBloco(tipoPes, dtoDadosAto.Pessoas, strBloco);
                                 }
 
                                 if (tipoTag.ToLower().Equals("outorgantes"))
                                 {
-                                    tipoPes = '1';
+                                    tipoPes = TipoPessoaPrenotacao.outorgante;
                                 }
                                 else if (tipoTag.Equals("outorgados"))
                                 {
-                                    tipoPes = '2';
+                                    tipoPes = TipoPessoaPrenotacao.outorgado;
                                 }
 
                                 strBloco = string.Empty;
@@ -568,10 +635,10 @@ namespace AppServCart11RI.AppServices
 
                             strBloco += texto[i].ToString();
                         }
+
                         // Populando campo de retorno
                         textoDoc.Append($"<p>{strAto}</p>");
                     }
-                    
                 }
             }
 

@@ -35,13 +35,16 @@ namespace LibFunctions.Functions.StringsFunc
                     result[i] = char.ToUpper(result[i]);
             }
 
+            result = result.Replace(" A ", " a ");
+            result = result.Replace(" E ", " e ");
+            result = result.Replace(" I ", " i ");
+            result = result.Replace(" O ", " o ");
             result = result.Replace(" Da ", " da ");
             result = result.Replace(" Das ", " das ");
             result = result.Replace(" De ", " de ");
             result = result.Replace(" De, ", " de, ");
             result = result.Replace(" Do ", " do ");
             result = result.Replace(" Dos ", " dos ");
-            result = result.Replace(" E ", " e ");
             result = result.Replace(" Ao ", " ao ");
 
             return result.ToString();

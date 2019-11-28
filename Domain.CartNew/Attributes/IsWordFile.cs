@@ -12,14 +12,22 @@ namespace Domain.CartNew.Attributes
         {
             bool resposta = value != null;
 
-            if (resposta)
+            try
             {
-                List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
-                foreach (var item in arq)
+                if (resposta)
                 {
-                    resposta = Path.GetExtension(item?.FileName) == ".docx";
+                    List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
+                    foreach (var item in arq)
+                    {
+                        resposta = Path.GetExtension(item?.FileName) == ".docx";
+                    }
                 }
             }
+            catch (Exception)
+            {
+                //
+            }
+
 
             return resposta; 
         }

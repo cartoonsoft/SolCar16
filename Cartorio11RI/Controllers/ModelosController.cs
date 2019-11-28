@@ -83,7 +83,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult NovoModelo([Bind(Include = "Id,IdCtaAcessoSist,IdTipoAto,IdUsuarioCadastro,IdUsuarioAlteracao,DataCadastro,DataAlteracao,DescricaoModelo," +
-            "DescricaoTipoAto,Files,CaminhoEArquivo,IpLocal,Ativo")] ModeloDocxViewModel modeloDocxViewModel)
+            "DescricaoTipoAto,ArquivoDocxModelo,CaminhoEArquivo,Ativo,IpLocal")] ModeloDocxViewModel modeloDocxViewModel)
         {
             bool ControllerModelValid = ModelState.IsValid;
             bool success = false;

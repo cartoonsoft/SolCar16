@@ -15,17 +15,25 @@ namespace Domain.CartNew.Attributes
         {
             bool resposta = value != null;
 
-            if (resposta)
+            try
             {
-                List<HttpPostedFileBase> arq = value as List<HttpPostedFileBase>;
-                foreach (var item in arq)
+                if (resposta)
                 {
-                    if (item?.ContentLength <= 0 || item == null)
+                    List<HttpPostedFileBase> arquivos = value as List<HttpPostedFileBase>;
+                    foreach (var item in arquivos)
                     {
-                        resposta = false;
+                        if (item?.ContentLength <= 0 || item == null)
+                        {
+                            resposta = false;
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+                //
+            }
+
 
             return resposta;
         }
