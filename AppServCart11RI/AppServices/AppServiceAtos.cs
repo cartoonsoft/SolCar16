@@ -584,7 +584,7 @@ namespace AppServCart11RI.AppServices
                                             .ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
                                         if (CampoValorOutorgante != null)
                                         {
-                                            resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
+                                            resultadoQuery = StringFunctions.Capitalize(CampoValorOutorgante.Valor);
                                         }
                                     }
 
@@ -594,7 +594,7 @@ namespace AppServCart11RI.AppServices
                                             .ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
                                         if (CampoValorOutorgado != null)
                                         {
-                                            resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
+                                            resultadoQuery = StringFunctions.Capitalize(CampoValorOutorgado.Valor);
                                         }
                                     }
                                 }
