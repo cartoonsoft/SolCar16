@@ -221,7 +221,6 @@
 		var urlInsertOrUpdateAtoAjax = '@Url.Action("InsertOrUpdateAtoAjax", "Atos")';
 		var urlGetDadosPorPrenotacao = '@Url.Action("GetDadosPorPrenotacao", "Atos")';
 
-
 		/* obter ip local ----------------------------------------------------*/
 		var ipLocal = getUserIP(function (ip) {
 			var t = navigator.product;
@@ -618,8 +617,6 @@
 			var form = $('#frm-wizard-novo-ato');
 			var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-			//$('#frm-wizard-novo-ato').submit();
-			/*
 			var dadosAto = {
 				__RequestVerificationToken: token,
 				Id: $("#IdCtaAcessoSist").val(),
@@ -642,7 +639,6 @@
 				TextoDistanciaTopo: $("#TextoDistanciaTopo").val(),
 				GeradoFicha: $("#GeradoFicha").val(),
 			}
-			*/
 
 			var dadosAto = $("#frm-wizard-novo-ato").serialize();
 

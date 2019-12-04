@@ -110,6 +110,9 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Gerado Ficha", Description = "Ficha já foi gerada (Docx)")]
         public bool GeradoFicha { get; set; }  //status GF (gerou docx)
 
+        [Display(Name = "Salvo")]
+        public bool Salvo { get; set; }  // CL (ato foi salvo)
+
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }  // CL (ao cancelar o Ativo = false)
 

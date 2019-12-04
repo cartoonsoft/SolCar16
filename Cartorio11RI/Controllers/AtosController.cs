@@ -126,13 +126,15 @@ namespace Cartorio11RI.Controllers
             dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
             dados.IdLivro = 1;
             dados.FolhaFicha = TipoFolhaFicha.Indefinido;
+            dados.Salvo = false;
             dados.Ativo = true;
-            dados.Pessoas.Add(new PESSOAViewModel { 
-                IdPessoa = 1,
-                TipoPessoa = "Outorgante",
-                NOM = "João de Teste",
-                ENDER = "Rua XYZ, Nro. 123 Bairro Centro do Mundo"
-            });
+
+            //dados.Pessoas.Add(new PESSOAViewModel { 
+            //    IdPessoa = 1,
+            //    TipoPessoa = "Outorgante",
+            //    NOM = "João de Teste",
+            //    ENDER = "Rua XYZ, Nro. 123 Bairro Centro do Mundo"
+            //});
 
             List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
             ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
@@ -153,7 +155,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult NovoAto(AtoViewModel modelo)
+        public ActionResult SalvarAto(AtoViewModel modelo)
         {
             DtoExecProc execProc = new DtoExecProc();
             DtoAto ato = new DtoAto();

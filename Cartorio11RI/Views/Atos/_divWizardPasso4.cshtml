@@ -22,6 +22,10 @@
         </div>
         <div class="col-md-6">
             <label class="checkbox-inline">
+                @Html.CheckBoxFor(model => model.Salvo, new { @value = Model.Ativo, @checked = Model.Ativo, @disabled = "disabled" })
+                @Html.LabelFor(model => model.Salvo, new { @class = "label-checkbox" })
+            </label>
+            <label class="checkbox-inline">
                 @Html.CheckBoxFor(model => model.Ativo, new { @value = Model.Ativo, @checked = Model.Ativo, @disabled = "disabled" })
                 @Html.LabelFor(model => model.Ativo, new { @class = "label-checkbox" })
             </label>
