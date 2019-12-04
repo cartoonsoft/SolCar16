@@ -57,7 +57,7 @@ function ShowMessageUser() {
     var timeout = 8000;
     var icone = "fa fa-lock swing animated";
 
-    Aviso(tit, msg, cor, timeout, icone)
+    AvisoSmallBox(tit, msg, cor, timeout, icone)
 }
 
 /** ----------------------------------------------------------------------------
