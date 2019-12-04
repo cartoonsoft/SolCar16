@@ -766,7 +766,7 @@ function LimparDadosImovel()
  * @@param {any} dados
  * @@param {any} url
  */
-function InsertOrUpdateAto(dados, url)
+function InsertOrUpdateAtoAjax(dados, url)
 {
     $.ajax(url, {
         method: 'POST',

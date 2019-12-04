@@ -51,11 +51,11 @@ namespace Cartorio11RI.Controllers
                     if (ato.Id == null)
                     {
                         execProc.Operacao = DataBaseOperacoes.insert;
-                        //appService.Add(ato);
+                        appService.Add(ato);
                         execProc.Msg = "Dados incluidos com sucesso con sucesso";
                     } else {
                         execProc.Operacao = DataBaseOperacoes.update;
-                        //appService.AtualizarAto(ato);
+                        appService.AtualizarAto(ato);
                         execProc.Msg = "Dados Atualizados com sucesso con sucesso";
                     }
                     execProc.TipoMsg = TipoMsgResposta.ok;
@@ -155,7 +155,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult SalvarAto(AtoViewModel modelo)
+        public ActionResult NovoAtoAto(AtoViewModel atoView)
         {
             DtoExecProc execProc = new DtoExecProc();
             DtoAto ato = new DtoAto();
@@ -175,9 +175,11 @@ namespace Cartorio11RI.Controllers
             if (ModelState.IsValid)
             {
                 execProc = this.InsertOrUpdateAto(ato);
+                atoView.Salvo = execProc.Resposta;
+
             }
 
-            return View(modelo);
+            return View(atoView);
         }
 
         [HttpPost]
@@ -188,7 +190,6 @@ namespace Cartorio11RI.Controllers
             DtoAto ato = new DtoAto();
             DtoExecProc execProc = new DtoExecProc();
             List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
-
 
             execProc = this.InsertOrUpdateAto(ato);
 

@@ -241,10 +241,12 @@
 		});
 
 		var id = $("#Id").val();
-		DesabilitarProximo();
+        DesabilitarProximo();
+
+        var form_para_validar = $("#frm-wizard-novo-ato");
 
 		/*-- validate --------------------------------------------------------*/
-		var $frmWizardNovoAto = $("#frm-wizard-novo-ato").validate({
+		$("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
 			rules: {
 
@@ -385,20 +387,6 @@
 
 		/*-- ato_wizard on change ------------------------------------------- */
 		$(ato_wizard).on('change', function(e, data) {
-
-			var $valid = $("#frm-wizard-novo-ato").valid();
-			if (!$valid) {
-					$.smallBox({
-						title: "Revise o preenchimento de dados!",
-						content: "Preencha todos os campos que sejam obrigatórios.",
-						color: cor_smallBox_aviso,
-						icon: "fa fa-exclamation bounce animated",
-						timeout: 4000
-					});
-
-				$frmWizardNovoAto.focusInvalid();
-				return false;
-			}
 
 			var numPrenotacao = $("#IdPrenotacao").val().trim();
 
@@ -612,37 +600,50 @@
 
 		/*-- salvar o ato ----------------------------------------------------*/
 		$("#btn-ato-salvar").click(function (e) {
-			e.preventDefault();
+            e.preventDefault();
 
-			var form = $('#frm-wizard-novo-ato');
-			var token = $('input[name="__RequestVerificationToken"]', form).val();
+            var frm_valid = form_para_validar.valid();
 
-			var dadosAto = {
-				__RequestVerificationToken: token,
-				Id: $("#IdCtaAcessoSist").val(),
-				IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
-				IdLivro: $("#IdLivro").val(),
-				IdTipoAto: $("#IdTipoAto").val(),
-				IdModeloDoc:  $("#IdModeloDoc").val(),
-				IdPrenotacao: $("#IdPrenotacao").val(),
-				NumMatricula: $("#NumMatricula").val(),
-				NumSequenciaAto: $("#NumSequenciaAto").val(),
-				DataAto: $("#DataAto").val(),
-				DescricaoAto: $("#DescricaoAto").val(),
-				DescricaoTipoAto: $("#DescricaoTipoAto").val(),
-				Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
-				Observacao: $("#Observacao").val(),
-				StatusAto: $("#StatusAto").val(),
-				Ativo: $("#Ativo").val(),
-				IpLocal: $("#IpLocal").val(),
-				NumFicha: $("#NumFicha").val(),
-				TextoDistanciaTopo: $("#TextoDistanciaTopo").val(),
-				GeradoFicha: $("#GeradoFicha").val(),
-			}
+            if (frm_valid) {
 
-			var dadosAto = $("#frm-wizard-novo-ato").serialize();
+                var form = $('#frm-wizard-novo-ato');
+                var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-			InsertOrUpdateAto(dadosAto, urlInsertOrUpdateAtoAjax);
+                var dadosAto = {
+                    __RequestVerificationToken: token,
+                    Id: $("#IdCtaAcessoSist").val(),
+                    IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
+                    IdLivro: $("#IdLivro").val(),
+                    IdTipoAto: $("#IdTipoAto").val(),
+                    IdModeloDoc: $("#IdModeloDoc").val(),
+                    IdPrenotacao: $("#IdPrenotacao").val(),
+                    NumMatricula: $("#NumMatricula").val(),
+                    NumSequenciaAto: $("#NumSequenciaAto").val(),
+                    DataAto: $("#DataAto").val(),
+                    DescricaoAto: $("#DescricaoAto").val(),
+                    DescricaoTipoAto: $("#DescricaoTipoAto").val(),
+                    Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
+                    Observacao: $("#Observacao").val(),
+                    StatusAto: $("#StatusAto").val(),
+                    Ativo: $("#Ativo").val(),
+                    IpLocal: $("#IpLocal").val(),
+                    NumFicha: $("#NumFicha").val(),
+                    TextoDistanciaTopo: $("#TextoDistanciaTopo").val(),
+                    GeradoFicha: $("#GeradoFicha").val(),
+                }
+
+                //InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
+
+            } else {
+				$.smallBox({
+					title: "Revise o preenchimento de dados!",
+					content: "Preencha todos os campos que sejam obrigatórios.",
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+            }
+
 		});
 
 		$('#frm-wizard-novo-ato').on('submit', function(event) {
