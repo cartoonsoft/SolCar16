@@ -133,10 +133,6 @@
 			bottom: -2px;
 		}
 
-		.invalid {
-            color: #a94442;
-		}
-
 	</style>
 }
 
@@ -250,8 +246,13 @@
 
         var form_para_validar = $("#frm-wizard-novo-ato");
 
+        $.validator.addMethod("valueNotEquals", function (value, element, arg) {
+            return arg !== value;
+        }, "Value must not equal arg.");
+
+
 		/*-- validate --------------------------------------------------------*/
-		$("#frm-wizard-novo-ato").validate({
+        $("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
             rules: {
 				IdPrenotacao: {
@@ -278,7 +279,8 @@
                     number: true
                 },
                 FolhaFicha: {
-                    required: true
+                    required: true,
+                    valueNotEquals: "0"
                 },
                 DistanciaTopo: {
                     required: true,
@@ -292,13 +294,13 @@
 			// Messages for form validation
 			messages: {
 				IdPrenotacao: {
-					required: "Digite um número de prenotação"
+					required: "Entre com um número de prenotação"
 				},
 				IdTipoAto: {
 					required: "Selecione um Tipo"
 				},
 				NumMatricula: {
-					required: "Núm. de matrícula do imóvel inválida"
+					required: "Núm. de matrícula inválida"
                 },
 				IdModeloDoc: {
 					required: "Selecione um modelo de documento"
@@ -307,12 +309,13 @@
                     required: "Selecione um livro"
 				},
 				NumFicha: {
-                    required: "Digige um número de ficha",
+                    required: "Preencha o número da ficha",
                     min: "Número de ficha não pode ser zero",
                     number: "Deve ser valor numérico"
                 },
                 FolhaFicha: {
-                    required: "Preencha se é frente ou verso"
+                    required: "Preencha se é frente ou verso",
+                    valueNotEquals: "Selecione frente ou verso"
                 },
                 DistanciaTopo: {
                     required: "Preencha o ajuste superior",
@@ -322,10 +325,23 @@
 				DescricaoAto: {
 					required: "Digite um descrição para o ato"
 				}
-			},
+            },
+
 			// Do not change code below
+			highlight: function (element) {
+				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+			},
+			unhighlight: function (element) {
+				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+			},
+			errorElement: 'span',
+			errorClass: 'help-block',
 			errorPlacement: function (error, element) {
-				error.insertAfter(element.parent());
+				if (element.parent('.input-group').length) {
+					error.insertAfter(element.parent());
+				} else {
+					error.insertAfter(element);
+				}
 			}
 		});
 
@@ -682,7 +698,7 @@
 		$('#frm-wizard-novo-ato').on('submit', function(event) {
 			// Prevent the page from reloading
 			event.preventDefault();
-			alert("deu submit");
+			//alert("deu submit");
 			// Set the text-output span to the value of the first input
 			//var $input = $(this).find('input');
 			//var input = $input.val();
