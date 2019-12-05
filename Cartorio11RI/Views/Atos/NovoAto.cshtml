@@ -132,6 +132,11 @@
 			vertical-align: middle;
 			bottom: -2px;
 		}
+
+		.invalid {
+            color: #a94442;
+		}
+
 	</style>
 }
 
@@ -248,46 +253,74 @@
 		/*-- validate --------------------------------------------------------*/
 		$("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
-			rules: {
-
+            rules: {
+				IdPrenotacao: {
+					required: true
+				},
 				IdCtaAcessoSist: {
 					required: true
-				},
-				IdLivro: {
-					required: true
-				},
+                },
 				IdTipoAto: {
+					required: true
+                },
+				NumMatricula: {
 					required: true
 				},
 				IdModeloDoc: {
 					required: true
 				},
-				IdPrenotacao: {
-					required: true
-				},
-				NumMatricula: {
-					required: true
-				},
+				IdLivro: {
+                    required: true
+                },
+				NumFicha: {
+                    required: true,
+                    min: 1,
+                    number: true
+                },
+                FolhaFicha: {
+                    required: true
+                },
+                DistanciaTopo: {
+                    required: true,
+                    min: 1,
+                    number: true
+                },
 				DescricaoAto: {
 					required: true
 				}
 			},
 			// Messages for form validation
 			messages: {
-				IdLivro: {
-					required: "Selecione um livro"
+				IdPrenotacao: {
+					required: "Digite um número de prenotação"
 				},
 				IdTipoAto: {
 					required: "Selecione um Tipo"
 				},
-				IdPrenotacao: {
-					required: "Digite um número de prenotação"
-				},
 				NumMatricula: {
 					required: "Núm. de matrícula do imóvel inválida"
+                },
+				IdModeloDoc: {
+					required: "Selecione um modelo de documento"
 				},
+				IdLivro: {
+                    required: "Selecione um livro"
+				},
+				NumFicha: {
+                    required: "Digige um número de ficha",
+                    min: "Número de ficha não pode ser zero",
+                    number: "Deve ser valor numérico"
+                },
+                FolhaFicha: {
+                    required: "Preencha se é frente ou verso"
+                },
+                DistanciaTopo: {
+                    required: "Preencha o ajuste superior",
+                    min: "Ajuste não pode ser zero",
+                    number: "Deve ser um valor numérico"
+                },
 				DescricaoAto: {
-					required: "Digite um descrição para oa ato"
+					required: "Digite um descrição para o ato"
 				}
 			},
 			// Do not change code below
@@ -628,7 +661,7 @@
                     Ativo: $("#Ativo").val(),
                     IpLocal: $("#IpLocal").val(),
                     NumFicha: $("#NumFicha").val(),
-                    TextoDistanciaTopo: $("#TextoDistanciaTopo").val(),
+                    TextoDistanciaTopo: $("#DistanciaTopo").val(),
                     GeradoFicha: $("#GeradoFicha").val(),
                 }
 
