@@ -4,12 +4,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain.Core.Entities.Base;
 using Domain.Core.Interfaces.UnitOfWork;
 using Domain.Core.Interfaces.Repositories;
 using Domain.Core.Interfaces.DomainServices;
 using AppServ.Core.Interfaces;
-using AutoMapper;
 
 namespace AppServ.Core.AppServices
 {
@@ -71,7 +71,7 @@ namespace AppServ.Core.AppServices
         {
             //var config = new MapperConfiguration(cfg => cfg.CreateMap<TDtoEntityModel, TEntity>());
             TEntity entityTmp = Mapper.Map<TDtoEntityModel, TEntity>(dtoItem);
-            this._dsFactoryBase.GenericDs<TEntity>().Add(entityTmp);
+            entityTmp = this._dsFactoryBase.GenericDs<TEntity>().Add(entityTmp);
         }
 
         public virtual void AddRange(IEnumerable<TDtoEntityModel> dtoItens)

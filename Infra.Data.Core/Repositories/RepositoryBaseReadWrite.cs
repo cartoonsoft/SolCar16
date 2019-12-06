@@ -26,6 +26,7 @@ namespace Infra.Data.Core.Repositories
 {
     public class RepositoryBaseReadWrite<TEntity> : RepositoryBaseRead<TEntity>, IRepositoryBaseReadWrite<TEntity> where TEntity : class
     {
+
         public RepositoryBaseReadWrite(IContextCore context): base(context)
         {
             //
@@ -53,18 +54,27 @@ namespace Infra.Data.Core.Repositories
         }
         #endregion
 
-        public void Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             //todo: ronaldo incrementar Id
-            this.DbSet.Add(entity);
+            return this.DbSet.Add(entity);
         }
 
-        public void AddRange(IEnumerable<TEntity> itens)
+        public virtual void AddRange(IEnumerable<TEntity> itens)
         {
             (this.DbSet as DbSet).AddRange(itens);
         }
 
-        public void Remove(long id)
+        public virtual void Update(TEntity item)
+        {
+            if (item != null)
+            {
+                this.DbSet.Attach(item);
+                this.Context.Entry(item).State = EntityState.Modified;
+            }
+        }
+
+        public virtual void Remove(long id)
         {
             var item = this.DbSet.Find(id);
             if (item != null)
@@ -73,31 +83,22 @@ namespace Infra.Data.Core.Repositories
             }
         }
 
-        public void Remove(TEntity item)
+        public virtual void Remove(TEntity item)
         {
             this.DbSet.Remove(item);
 
         }
 
-        public void RemoveRange(IEnumerable<TEntity> itens)
+        public virtual void RemoveRange(IEnumerable<TEntity> itens)
         {
             (this.DbSet as DbSet).RemoveRange(itens);
         }
 
-        public int SaveChanges()
+        public virtual int SaveChanges()
         {
             int resposta =  this.Context.SaveChanges();
 
             return resposta;
-        }
-
-        public void Update(TEntity item)
-        {
-            if (item != null)
-            {
-                this.DbSet.Attach(item);
-                this.Context.Entry(item).State = EntityState.Modified;
-            }
         }
 
         /// <summary>
@@ -108,28 +109,37 @@ namespace Infra.Data.Core.Repositories
         public long? GetNextValFromOracleSequence(string SequenceName)
         {
             long? SeqTmp = null;
-            ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
-            var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
 
-            using (OracleConnection conn = new OracleConnection(connStr))
+            try
             {
-                conn.Open();
-                using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
+                ConnectionStringsSection connectionStringsSection = WebConfigurationManager.GetSection("connectionStrings") as ConnectionStringsSection;
+                var connStr = connectionStringsSection.ConnectionStrings[this.Context.ContextName].ConnectionString;
+
+                using (OracleConnection conn = new OracleConnection(connStr))
                 {
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.BindByName = true;
-                    using (OracleDataReader row = command.ExecuteReader())
+                    conn.Open();
+                    using (OracleCommand command = new OracleCommand(string.Format("select {0}.NEXTVAL from dual ", SequenceName), conn))
                     {
-                        while (row.Read())
+                        command.CommandType = System.Data.CommandType.Text;
+                        command.BindByName = true;
+                        using (OracleDataReader row = command.ExecuteReader())
                         {
-                            SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                            while (row.Read())
+                            {
+                                SeqTmp = row.GetOracleDecimal(0).ToInt64();
+                            }
                         }
                     }
+                    conn.Close();
                 }
-                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                throw new NullReferenceException(string.Format("Erro ao gerar sequence {0} cód. erro [{1}]", SequenceName, ex.Message));
             }
 
             return SeqTmp;
         }
+
     }
 }

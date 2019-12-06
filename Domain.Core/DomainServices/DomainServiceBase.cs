@@ -63,72 +63,72 @@ namespace Domain.Core.DomainServices
         }
         #endregion
 
-        public void Add(TEntity item)
+        public virtual TEntity Add(TEntity item)
         {
-            _unitOfWork.Repositories.GenericRepository<TEntity>().Add(item);
+            return _unitOfWork.Repositories.GenericRepository<TEntity>().Add(item);
         }
 
-        public void AddRange(IEnumerable<TEntity> itens)
+        public virtual void AddRange(IEnumerable<TEntity> itens)
         {
             _unitOfWork.Repositories.GenericRepository<TEntity>().AddRange(itens);
         }
 
-        public TEntity GetById(long id)
+        public virtual TEntity GetById(long id)
         {
             return _unitOfWork.Repositories.GenericRepository<TEntity>().GetById(id);
         }
 
-        public TEntity GetById(params object[] keyValues)
+        public virtual TEntity GetById(params object[] keyValues)
         {
             return _unitOfWork.Repositories.GenericRepository<TEntity>().GetById(keyValues);
         }
 
-        public IEnumerable<TEntity> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             //todo: ronaldo verificar 
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetAll();
             return listEntity;
         }
 
-        public void Update(TEntity item)
+        public virtual void Update(TEntity item)
         {
             _unitOfWork.Repositories.GenericRepository<TEntity>().Update(item);
         }
 
-        public void Remove(long id)
+        public virtual void Remove(long id)
         {
             _unitOfWork.Repositories.GenericRepository<TEntity>().Remove(id);
         }
 
-        public void Remove(TEntity item)
+        public virtual void Remove(TEntity item)
         {
             _unitOfWork.Repositories.GenericRepository<TEntity>().Remove(item);
         }
 
-        public void RemoveRange(IEnumerable<TEntity> itens)
+        public virtual void RemoveRange(IEnumerable<TEntity> itens)
         {
             _unitOfWork.Repositories.GenericRepository<TEntity>().RemoveRange(itens);
         }
 
-        public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
+        public virtual IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> expression)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhere(expression);
             return listEntity;
         }
 
-        public IEnumerable<TEntity> GetWhere(Interfaces.Repositories.ISpecification<TEntity> specification)
+        public virtual IEnumerable<TEntity> GetWhere(Interfaces.Repositories.ISpecification<TEntity> specification)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhere(specification);
             return listEntity;
         }
 
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending= true)
+        public virtual IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Expression<Func<TEntity, bool>> expression, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending= true)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderBy(expression, orderByExpression, ascending);
             return listEntity;
         }
 
-        public IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Interfaces.Repositories.ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
+        public virtual IEnumerable<TEntity> GetWhereOrderBy<KProperty>(Interfaces.Repositories.ISpecification<TEntity> specification, Expression<Func<TEntity, KProperty>> orderByExpression, bool ascending = true)
         {
             IEnumerable<TEntity> listEntity = _unitOfWork.Repositories.GenericRepository<TEntity>().GetWhereOrderBy(specification, orderByExpression, ascending = true);
             return listEntity;

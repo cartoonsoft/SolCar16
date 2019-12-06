@@ -19,7 +19,6 @@ namespace AppServices.Cartorio.Interfaces
 
         void NovoAto(DtoAto Ato);
 
-        void AtualizarAto(DtoAto Ato);
 
         void ImprimirMinutaAto(long IdAto);
 

@@ -278,6 +278,11 @@
                     min: 1,
                     number: true
                 },
+				NumSequenciaAto: {
+                    required: true,
+                    min: 1,
+                    number: true
+                },
                 FolhaFicha: {
                     required: true,
                     valueNotEquals: "0"
@@ -310,7 +315,12 @@
 				},
 				NumFicha: {
                     required: "Preencha o número da ficha",
-                    min: "Número de ficha não pode ser zero",
+                    min: "Número não pode ser zero",
+                    number: "Deve ser valor numérico"
+                },
+				NumSequenciaAto: {
+                    required: "Preencha o número de seqência",
+                    min: "Número não pode ser zero",
                     number: "Deve ser valor numérico"
                 },
                 FolhaFicha: {

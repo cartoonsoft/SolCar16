@@ -21,6 +21,18 @@ namespace DomainServ.CartNew.Services
             //
         }
 
+        public override Ato Add(Ato item)
+        {
+            //base.Add(item);
+
+            return null;
+        }
+
+        public override void Update(Ato item)
+        {
+            //base.Update(item);
+        }
+
         public bool ExisteAtoCadastrado(string NumMatricula)
         {
             throw new NotImplementedException();

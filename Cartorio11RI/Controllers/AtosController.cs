@@ -5,27 +5,27 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
+using System.Globalization;
 using AutoMapper;
 using Newtonsoft.Json;
 using System.Reflection;
+using Microsoft.AspNet.Identity.Owin;
+using LibFunctions.Functions.IOAdmCartorio;
+using GemBox.Document;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
 using Domain.CartNew.Enumerations;
-using Cartorio11RI.Controllers.Base;
-using Cartorio11RI.ViewModels;
-using AppServCart11RI.AppServices;
 using Domain.CartNew.Interfaces.UnitOfWork;
+using Infra.Cross.Identity.Models;
+using Infra.Cross.Identity.Configuration;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
-using LibFunctions.Functions.IOAdmCartorio;
-using GemBox.Document;
 using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
-using Infra.Cross.Identity.Models;
-using System.Web;
-using Microsoft.AspNet.Identity.Owin;
-using Infra.Cross.Identity.Configuration;
-using System.Globalization;
+using AppServCart11RI.AppServices;
+using Cartorio11RI.Controllers.Base;
+using Cartorio11RI.ViewModels;
 
 namespace Cartorio11RI.Controllers
 {
@@ -55,7 +55,7 @@ namespace Cartorio11RI.Controllers
                         execProc.Msg = "Dados incluidos com sucesso con sucesso";
                     } else {
                         execProc.Operacao = DataBaseOperacoes.update;
-                        appService.AtualizarAto(ato);
+                        appService.Update(ato);
                         execProc.Msg = "Dados Atualizados com sucesso con sucesso";
                     }
                     execProc.TipoMsg = TipoMsgResposta.ok;
@@ -187,16 +187,29 @@ namespace Cartorio11RI.Controllers
         [ValidateInput(false)]
         public JsonResult InsertOrUpdateAtoAjax(AtoViewModel modelo)
         {
-            DtoAto ato = new DtoAto();
-            DtoExecProc execProc = new DtoExecProc();
-            List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
+            bool resp = false;
+            string msg = string.Empty;
 
-            execProc = this.InsertOrUpdateAto(ato);
+            DtoAto ato = new DtoAto();
+            ato = Mapper.Map<AtoViewModel, DtoAto>(modelo);
+
+            DtoExecProc execProc = new DtoExecProc();
+
+            try
+            {
+                execProc = this.InsertOrUpdateAto(ato);
+                resp = execProc.Resposta;
+                msg = execProc.Msg;
+            }
+            catch (Exception ex)
+            {
+                msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
+            }
 
             var resultado = new
             {
-                resposta = execProc.Resposta,
-                msg = execProc.Msg,
+                resposta = resp,
+                msg = msg,
                 execute = execProc
             };
 

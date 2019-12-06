@@ -14,7 +14,6 @@ namespace AppServ.Core.Interfaces
         //ronaldo arrumar
         void Add(TDtoEntityModel dtoItem);
         void AddRange(IEnumerable<TDtoEntityModel> dtoItens);
-
         void Update(TDtoEntityModel dtoItem);
 
         void Remove(long id);

@@ -20,7 +20,7 @@ namespace Domain.Core.Interfaces.DomainServices
 {
     public interface IDomainServiceBase<TEntity>: IDisposable where TEntity : class
     {
-        void Add(TEntity item);
+        TEntity Add(TEntity item);
         void AddRange(IEnumerable<TEntity> itens);
 
         void Update(TEntity item);

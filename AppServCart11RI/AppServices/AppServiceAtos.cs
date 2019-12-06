@@ -5,18 +5,18 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using AppServCart11RI.Base;
-using AppServCart11RI.Cartorio;
-using AppServices.Cartorio.Interfaces;
+using GemBox.Document;
+using Infra.Cross.Identity.Models;
+using LibFunctions.Functions.StringsFunc;
 using Domain.Cart11RI.Entities;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
-using GemBox.Document;
-using Infra.Cross.Identity.Models;
-using LibFunctions.Functions.StringsFunc;
+using AppServCart11RI.Base;
+using AppServCart11RI.Cartorio;
+using AppServices.Cartorio.Interfaces;
 
 namespace AppServCart11RI.AppServices
 {
@@ -223,16 +223,24 @@ namespace AppServCart11RI.AppServices
         }
         #endregion
 
+        public override void Add(DtoAto dtoItem)
+        {
+
+
+            //base.Add(dtoItem);
+        }
+
+        public override void Update(DtoAto dtoItem)
+        {
+            //base.Update(dtoItem);
+        }
+
         public List<ApplicationUser> ListaUsuariosSistema
         { 
             get { return listaUsrSist; }
             set { listaUsrSist = value; }
         }
 
-        public void AtualizarAto(DtoAto Ato)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool BloquearAto(long IdAto)
         {

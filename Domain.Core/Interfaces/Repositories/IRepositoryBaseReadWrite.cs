@@ -17,7 +17,8 @@ namespace Domain.Core.Interfaces.Repositories
 {
     public interface IRepositoryBaseReadWrite<TEntity> : IRepositoryBaseRead<TEntity> where TEntity : class
     {
-        void Add(TEntity item);
+        TEntity Add(TEntity item);
+
         void AddRange(IEnumerable<TEntity> itens);
 
         void Update(TEntity item);
