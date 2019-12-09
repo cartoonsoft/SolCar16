@@ -46,6 +46,7 @@ namespace Infra.Data.CartNew.Context
         public DbSet<LogModeloDoc> DbLogModeloDoc { get; set; }
 
         public DbSet<Ato> DbAto { get; set; }
+        public DbSet<AtoEvento> DbAtoEvento { get; set; }
         public DbSet<AtoDocx> DbAtoDocx { get; set; }
         public DbSet<Docx> DbDocx { get; set; }
         public DbSet<AtoPessoa> DbAtoPessoa { get; set; }

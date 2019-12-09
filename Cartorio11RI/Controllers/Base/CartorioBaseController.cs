@@ -15,6 +15,8 @@ namespace Cartorio11RI.Controllers.Base
 {
     public class CartorioBaseController : CartoonSoftBaseController
     {
+        private readonly string _ErrorPath = @"/App_Data/";
+
         public CartorioBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew): base(UfwCartNew)
         {
             //string x = System.Web.HttpContext.Current.User.Identity.GetUserId();
@@ -56,6 +58,11 @@ namespace Cartorio11RI.Controllers.Base
             // GC.SuppressFinalize(this);
         }
         #endregion
+
+        protected string ErrorPath
+        {
+            get { return this._ErrorPath; }
+        }
 
         protected ApplicationUser UsuarioAtual {
             get {

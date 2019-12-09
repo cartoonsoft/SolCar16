@@ -52,6 +52,7 @@
     <Compile Include="Attributes\IsWordFile.cs" />
     <Compile Include="Attributes\RequiredHttpPostedFileBase.cs" />
     <Compile Include="Entities\Acao.cs" />
+    <Compile Include="Entities\AtoEvento.cs" />
     <Compile Include="Entities\AtoPessoa.cs" />
     <Compile Include="Entities\Diversos\MenuAcaoList.cs" />
     <Compile Include="Entities\Diversos\DadosImovel.cs" />

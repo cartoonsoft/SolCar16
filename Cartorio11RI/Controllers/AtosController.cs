@@ -45,30 +45,17 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                string serverPath = System.IO.Path.Combine(Server.MapPath("~"), this.ErrorPath);
+
+                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist, serverPath))
                 {
-                    //se id == null faz insert
-                    if (ato.Id == null)
-                    {
-                        execProc.Operacao = DataBaseOperacoes.insert;
-                        appService.Add(ato);
-                        execProc.Msg = "Dados incluidos com sucesso con sucesso";
-                    } else {
-                        execProc.Operacao = DataBaseOperacoes.update;
-                        appService.Update(ato);
-                        execProc.Msg = "Dados Atualizados com sucesso con sucesso";
-                    }
-                    execProc.TipoMsg = TipoMsgResposta.ok;
-                    execProc.Resposta = true;
+                    execProc = appService.InsertOrUpdateAto(ato, this.UsuarioAtual.Id);
                 }
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-
                 execProc.TipoMsg = TipoMsgResposta.error;
-                execProc.Msg = "Falha na requisição! " + "[" + ex.Message + "]";
+                execProc.Msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
             }
 
             return null;
@@ -185,13 +172,13 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public JsonResult InsertOrUpdateAtoAjax(AtoViewModel modelo)
+        public JsonResult InsertOrUpdateAtoAjax(AtoViewModel atoView)
         {
             bool resp = false;
             string msg = string.Empty;
 
             DtoAto ato = new DtoAto();
-            ato = Mapper.Map<AtoViewModel, DtoAto>(modelo);
+            ato = Mapper.Map<AtoViewModel, DtoAto>(atoView);
 
             DtoExecProc execProc = new DtoExecProc();
 
@@ -441,7 +428,6 @@ namespace Cartorio11RI.Controllers
 
             return Json(resultado);
         }
-
 
         public JsonResult GetDadosPorPrenotacao(long IdPrenotacao) 
         {

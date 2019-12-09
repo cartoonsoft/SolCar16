@@ -13,8 +13,10 @@ namespace Dto.CartNew.Base
         {
             this.Id = Guid.NewGuid();
             this.IdEntidade = null;
+
             this.Operacao = DataBaseOperacoes.undefined;
             this.TipoMsg = TipoMsgResposta.undefined;
+
             this.Resposta = false;
             this.Msg = "";
         }

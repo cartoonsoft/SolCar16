@@ -14,6 +14,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         {
             this.ListaPessoasAto = new List<DtoPessoaAto>();
             this.ListaDocxsAto = new List<DtoDocx>();
+            this.StatusAto = string.Empty;
         }
 
         [Key]

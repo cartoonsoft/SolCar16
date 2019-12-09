@@ -10,11 +10,9 @@ namespace AppServCart11RI.Base
 {
     public class AppServiceCartorio11RI<TDtoEntityModel, TEntity> : AppServiceCartorio<TDtoEntityModel, TEntity> where TDtoEntityModel : class where TEntity : class
     {
-
         public AppServiceCartorio11RI(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist) : base(UfwCartNew, IdCtaAcessoSist)
         {
 
         }
-
     }
 }

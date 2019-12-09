@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AppServ.Core.Interfaces;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Enumerations;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
@@ -67,5 +68,7 @@ namespace AppServices.Cartorio.Interfaces
         StringBuilder GetTextoWordDocModelo(long IdModeloDoc, string ServerPath);
 
         StringBuilder GetTextoAto(DtoInfAto dtoInfAto);
+
+        DtoExecProc InsertOrUpdateAto(DtoAto dtoItem);
     }
 }
