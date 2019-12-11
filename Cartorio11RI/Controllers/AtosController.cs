@@ -47,7 +47,7 @@ namespace Cartorio11RI.Controllers
             {
                 string serverPath = System.IO.Path.Combine(Server.MapPath("~"), this.ErrorPath);
 
-                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist, serverPath))
+                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist, null, serverPath))
                 {
                     execProc = appService.InsertOrUpdateAto(ato, this.UsuarioAtual.Id);
                 }
@@ -123,18 +123,27 @@ namespace Cartorio11RI.Controllers
             //    ENDER = "Rua XYZ, Nro. 123 Bairro Centro do Mundo"
             //});
 
-            List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
-            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
+            try
+            {
+                List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+                ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
-            //povoar tree view
-            List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
-            ViewBag.listaTipoAto = listaTipoAto; 
+                //povoar tree view
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                ViewBag.listaTipoAto = listaTipoAto;
 
-            ViewBag.listaModelosDocx = new SelectList(
-                new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
-                "IdModeloDoc",
-                "NomeModelo"
-            );
+                ViewBag.listaModelosDocx = new SelectList(
+                    new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
+                    "IdModeloDoc",
+                    "NomeModelo"
+                );
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
+            }
 
             return View(dados);
         }
@@ -146,24 +155,34 @@ namespace Cartorio11RI.Controllers
         {
             DtoExecProc execProc = new DtoExecProc();
             DtoAto ato = new DtoAto();
-            List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
-            ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
-            //povoar tree view
-            List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
-            ViewBag.listaTipoAto = listaTipoAto;
-
-            ViewBag.listaModelosDocx = new SelectList(
-                new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
-                "IdModeloDoc",
-                "NomeModelo"
-            );
-
-            if (ModelState.IsValid)
+            try
             {
-                execProc = this.InsertOrUpdateAto(ato);
-                atoView.Salvo = execProc.Resposta;
+                List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+                ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
+                //povoar tree view
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                ViewBag.listaTipoAto = listaTipoAto;
+
+                ViewBag.listaModelosDocx = new SelectList(
+                    new[] { new { IdModeloDoc = "0", NomeModelo = "Selecione um modelo" } },
+                    "IdModeloDoc",
+                    "NomeModelo"
+                );
+
+                if (ModelState.IsValid)
+                {
+                    execProc = this.InsertOrUpdateAto(ato);
+                    atoView.Salvo = execProc.Resposta;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
             return View(atoView);
@@ -235,9 +254,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
 
@@ -247,6 +266,7 @@ namespace Cartorio11RI.Controllers
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
+
             try
             {
                 if (modelo.Id == null)
@@ -308,6 +328,7 @@ namespace Cartorio11RI.Controllers
                         //Teve algum erro ao escrever o documento no WORD
                         return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                     }
+
                     //ViewBag.sucesso = "Ato cadastrado com sucesso!";
                     return RedirectToActionPermanent(nameof(BloquearAto), new { modelo.Id });
                 }
@@ -318,10 +339,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                throw;
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
         #endregion
@@ -363,32 +383,39 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
 
         [HttpPost]
         public void BloquearAto(string NumMatricula, long IdAto)
         {
-            using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+            try
             {
-                var resultado = false; // appService.FinalizarAto(IdAto);
+                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    var resultado = false; // appService.FinalizarAto(IdAto);
 
-                if (resultado)
-                {
-                    this.UfwCartNew.SaveChanges();
-                    //todo: ronaldo fazer 
-                    //WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
-                    Response.StatusCode = 200;
-                    Response.Status = "Ato Bloqueado com sucesso!";
+                    if (resultado)
+                    {
+                        this.UfwCartNew.SaveChanges();
+                        //todo: ronaldo fazer 
+                        //WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
+                        Response.StatusCode = 200;
+                        Response.Status = "Ato Bloqueado com sucesso!";
+                    } else {
+                        Response.StatusCode = 500;
+                        Response.Status = "Erro ao atualizar o ato!";
+                    }
                 }
-                else
-                {
-                    Response.StatusCode = 500;
-                    Response.Status = "Erro ao atualizar o ato!";
-                }
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
 
@@ -414,8 +441,6 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
                 mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
@@ -462,8 +487,6 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
                 message = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
@@ -513,8 +536,6 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
                 message = "Falha ao obter dados! " + "[" + ex.Message + "]";
             }
 
@@ -540,8 +561,6 @@ namespace Cartorio11RI.Controllers
             string message = string.Empty;
             IEnumerable<DtoPessoaPesxPre> listaPes = new List<DtoPessoaPesxPre>();
 
-            string nomeMetodo = string.Format("{0}.{1}", MethodBase.GetCurrentMethod().DeclaringType.FullName, MethodBase.GetCurrentMethod().Name);
-
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
@@ -554,9 +573,8 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 resp = false;
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                message = "Falha em " + nomeMetodo + " [" + ex.Message + "]";
+                message = string.Format("{0}.{1} [{2} => {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+
                 //    Console.WriteLine(ex);
                 //    Response.StatusCode = 500;
                 //    Response.Status = "Erro ao buscar os dados das pessoas";
@@ -589,14 +607,13 @@ namespace Cartorio11RI.Controllers
             catch (FileNotFoundException ex)
             {
                 Response.StatusCode = 200;
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
+                Response.Write(ex.Message);
                 return false;
             }
             catch (Exception ex)
             {
                 Response.StatusCode = 500;
-                Console.Write(ex);
+                Response.Write(ex.Message);
                 return false;
             }
         }
@@ -610,6 +627,7 @@ namespace Cartorio11RI.Controllers
         {
             string fileName = Id.ToString();
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{Id}_pendente.docx");
+
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
@@ -618,12 +636,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-
                 Response.StatusCode = 500;
+                Response.Write(ex.Message);
                 return null;
-                throw;
             }
         }
 
@@ -644,9 +659,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
                 Response.StatusCode = 500;
+                Response.Write(ex.Message);
                 return null;
             }
         }
@@ -676,9 +690,7 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                message = "Falha GetTextoWordDocModelo[" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
@@ -734,11 +746,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-
                 resp = false;
-                message = "Falha, GetTextoAto [" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
@@ -771,11 +780,8 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-
                 resp = false;
-                message = "Falha, ProcReservarMatImovel [" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new

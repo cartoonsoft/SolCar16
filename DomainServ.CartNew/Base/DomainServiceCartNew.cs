@@ -13,7 +13,11 @@ namespace DomainServ.CartNew.Base
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
 
-        public DomainServiceCartNew(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        //caminh do arquivo: errolog.txt
+        private readonly string _pathErroLog = string.Empty;
+
+
+        public DomainServiceCartNew(IUnitOfWorkDataBaseCartNew UfwCartNew, string pathErroLog = null) : base(UfwCartNew)
         {
             _ufwCartNew = UfwCartNew;
         }
@@ -52,6 +56,11 @@ namespace DomainServ.CartNew.Base
         public IUnitOfWorkDataBaseCartNew UfwCartNew
         {
             get { return _ufwCartNew; }
+        }
+
+        protected string PathErroLog
+        {
+            get { return this._pathErroLog; }
         }
 
     }

@@ -15,15 +15,20 @@ namespace AppServ.Core.AppServices
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
         private readonly IDomainServicesFactoryCartNew _dsFactoryCartNew;
         private readonly long _idCtaAcessoSist;
+
+        //caminh do arquivo: errolog.txt
+        private readonly string _pathErroLog;
+
         /// <summary>
         /// Método construtor
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null) : base(UfwCartNew, dsFactoryCartNew)
+        public AppServiceCartorio(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null, string pathErroLog = null) : base(UfwCartNew, dsFactoryCartNew)
         {
             this._ufwCartNew = UfwCartNew;
             this._idCtaAcessoSist = IdCtaAcessoSist;
             this._dsFactoryCartNew = dsFactoryCartNew;
+            this._pathErroLog = _pathErroLog;
 
             if (_dsFactoryCartNew == null)
             {
@@ -84,6 +89,11 @@ namespace AppServ.Core.AppServices
         public virtual IDomainServicesFactoryCartNew DsFactoryCartNew
         {
             get { return this._dsFactoryCartNew; }
+        }
+
+        protected string PathErroLog
+        {
+            get { return this._pathErroLog;}
         }
 
     }

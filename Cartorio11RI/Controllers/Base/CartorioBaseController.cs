@@ -15,10 +15,15 @@ namespace Cartorio11RI.Controllers.Base
 {
     public class CartorioBaseController : CartoonSoftBaseController
     {
-        private readonly string _ErrorPath = @"/App_Data/";
+        private readonly string _ErrorPath = @"/App_Data/logs/";
 
         public CartorioBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew): base(UfwCartNew)
         {
+            if (UfwCartNew != null)
+            {
+                UfwCartNew.ErrorPath = this.ErrorPath;
+            }
+            
             //string x = System.Web.HttpContext.Current.User.Identity.GetUserId();
             //Cartorio11RI.Settings.Company
             //this._usuarioAtual = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());

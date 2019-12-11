@@ -46,10 +46,19 @@ namespace Cartorio11RI.Controllers
         {
             IEnumerable<ModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
 
-            using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
+            try
             {
-                IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx(null).Where(a => a.Ativo == true);
-                listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
+                using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx(null).Where(a => a.Ativo == true);
+                    listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
             return View(listaArquivoModeloDocxListViewModel);
@@ -58,25 +67,25 @@ namespace Cartorio11RI.Controllers
         // GET: Modelo/Novo
         public ActionResult NovoModelo()
         {
+            ModeloDocxViewModel model = new ModeloDocxViewModel();
+
             try
             {
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
-                ModeloDocxViewModel model = new ModeloDocxViewModel();
                 model.IdCtaAcessoSist = this.IdCtaAcessoSist;
                 model.IdUsuarioCadastro = this.UsuarioAtual.Id;
                 model.DescricaoTipoAto = "";
-
-                return View(model);
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
+
+            return View(model);
         }
 
         // POST: Modelo/Novo
@@ -92,6 +101,8 @@ namespace Cartorio11RI.Controllers
 
             try
             {
+                //throw new Exception("Deu errro :(");
+
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
@@ -138,11 +149,15 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                msg = "Não foi possível salvar! [" + ex.Message + "]";
-                ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
                 //System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
                 //return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
+
+                msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
+                TempData["error"] = ex;
+
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
             //var resultado = new
@@ -181,14 +196,16 @@ namespace Cartorio11RI.Controllers
 
                     return View(modeloDocxViewModel);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //System.Diagnostics.Debug.WriteLine(ex.Message);
-                    return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                    //ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
+                    string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                    TempData["error"] = ex;
+                    return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
                 }
-            }
-            else
-            {
+            } else {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
         }
@@ -230,9 +247,10 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
 
@@ -299,13 +317,11 @@ namespace Cartorio11RI.Controllers
 
                 //Cadastro de LOG
                 CadastrarLogDownload(ipAddress, dadosPost.Id);
-
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
+                //return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
                 return null;
             }
         }

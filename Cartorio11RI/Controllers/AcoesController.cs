@@ -86,12 +86,10 @@ namespace Cartorio11RI.Controllers
                         ListaUsersAcao = listaUsrAcao
                     });
                 }
-
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
+                TempData["error"] = ex;
             }
         }
 
@@ -113,12 +111,12 @@ namespace Cartorio11RI.Controllers
                 }
 
                 ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");
-
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
+                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                TempData["error"] = ex;
+                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
             return View(listaAcoes);
@@ -175,9 +173,7 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                msg = "Erro na solicitação: " + ex.Message;
+                msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
             }
 
             var resultado = new
@@ -222,10 +218,9 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(t, ex);
-                msg = "Erro na solicitação: " + ex.Message;
+                msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
             }
+
             var resultado = new
             {
                 resposta = resposta,

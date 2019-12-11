@@ -8,17 +8,17 @@ using System.Text;
 using GemBox.Document;
 using Infra.Cross.Identity.Models;
 using LibFunctions.Functions.StringsFunc;
-using Domain.Cart11RI.Entities;
+using LibFunctions.Functions.IOAdmCartorio;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.UnitOfWork;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using AppServCart11RI.Base;
 using AppServCart11RI.Cartorio;
 using AppServices.Cartorio.Interfaces;
-using Dto.CartNew.Base;
-using LibFunctions.Functions.IOAdmCartorio;
+using DomainServ.CartNew.Interfaces.Factory;
 
 namespace AppServCart11RI.AppServices
 {
@@ -26,15 +26,14 @@ namespace AppServCart11RI.AppServices
     {
         private List<ApplicationUser> listaUsrSist;
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
-        private readonly string _path = string.Empty;
 
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="UfwCartNew"></param>
-        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, string path = null) : base(UfwCartNew, IdCtaAcessoSist)
+        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null, string pathErroLog = null): base(UfwCartNew, IdCtaAcessoSist, dsFactoryCartNew, pathErroLog)
         {
-            this._path = path;
+            //
         }
 
         /// <summary>
@@ -230,8 +229,6 @@ namespace AppServCart11RI.AppServices
         #region Add, update, InsertOrUpdateAto
         public override void Add(DtoAto dtoItem)
         {
-
-
             //base.Add(dtoItem);
         }
 
@@ -242,86 +239,7 @@ namespace AppServCart11RI.AppServices
 
         public DtoExecProc InsertOrUpdateAto(DtoAto ato, string idUsuario)
         {
-            string StatusAnt = ato.StatusAto;
-            /*-- status ato ----------------------------------------------------
-            AC1	Ato Criado
-            AC2	Ato Criado
-            AE	Ato em Escrita
-            AI	Confirmado ajuste impressão
-            CF	Ato conferido
-            CL	Ato cancelado
-            GF	Gerado Ficha
-            AF	Ato Finalizado
-            ----------------------------------------------------------------- */
-
-            DtoExecProc execProc = new DtoExecProc();
-
-            try
-            {
-                this.UfwCartNew.BeginTransaction();
-                if (ato.Id == null)
-                {
-                    execProc.IdEntidade = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
-                    execProc.Operacao = DataBaseOperacoes.insert;
-                    ato.Id = execProc.IdEntidade;
-                    ato.StatusAto = "AC1";
-                    this.Add(ato);
-
-                    //insert pessoas
-                    foreach (var pessoa in ato.ListaPessoasAto)
-                    {
-                        this.UfwCartNew.Repositories.GenericRepository<AtoPessoa>().Add(
-                            new AtoPessoa
-                            {
-                                IdAto = ato.Id??0,
-                                Relacao = pessoa.Relacao,
-                                SeqPes = pessoa.IdPessoa,
-                                TipoPessoa = pessoa.TipoPessoa
-                            }
-                        );
-                    }
-
-                    execProc.Msg = "Dados incluidos com sucesso con sucesso";
-                } else {
-                    execProc.Operacao = DataBaseOperacoes.update;
-                    this.Update(ato);
-                    execProc.Msg = "Dados Atualizados com sucesso con sucesso";
-                }
-
-                //ato evento
-                this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
-                    new AtoEvento
-                    {
-                        Id = null,
-                        IdAto = ato.Id ?? 0,
-                        IdUsuario = idUsuario,
-                        TipoEvento = execProc.Operacao,
-                        Observacoes = "",
-                        Status = ato.StatusAto,
-                        StatusAnterior = StatusAnt,
-                        DataEvento = DateTime.Now,
-                        Descricao = "",
-                    }
-                );
-
-
-                this.UfwCartNew.SaveChanges();
-
-                this.UfwCartNew.CommitTransaction();
-
-                execProc.TipoMsg = TipoMsgResposta.ok;
-                execProc.Resposta = true;
-            }
-            catch (Exception ex)
-            {
-                this.UfwCartNew.RollBackTransaction();
-                execProc.Msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
-
-                TypeInfo t = this.GetType().GetTypeInfo();
-                IOFunctions.GerarLogErro(this._path, t, ex);
-            }
-
-            return execProc;
+            return this.DsFactoryCartNew.AtoDs.InsertOrUpdateAto(ato, idUsuario);
         }
         #endregion
 

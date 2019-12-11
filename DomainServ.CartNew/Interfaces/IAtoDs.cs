@@ -8,6 +8,7 @@ using Domain.CartNew.Entities;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 using Dto.CartNew.Entities.Cart_11RI;
 using Domain.CartNew.Entities.Diversos;
+using Dto.CartNew.Base;
 
 namespace DomainServ.CartNew.Interfaces
 {
@@ -39,5 +40,6 @@ namespace DomainServ.CartNew.Interfaces
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 
+        DtoExecProc InsertOrUpdateAto(DtoAto ato, string idUsuario);
     }
 }

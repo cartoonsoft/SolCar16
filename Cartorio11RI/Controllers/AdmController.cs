@@ -15,12 +15,16 @@ namespace Cartorio11RI.Controllers
             return View();
         }
 
-        public ActionResult InternalServerError(Exception excecao)
+        public ActionResult InternalServerError(string descricao)
         {
-            InternalServerErrorViewModel internalServerErrorViewModel = new InternalServerErrorViewModel();
-            internalServerErrorViewModel.Excecao = excecao;
+            Exception ex = TempData["error"] as Exception;
 
-            return View(internalServerErrorViewModel);
+            InternalServerErrorViewModel internalServerError = new InternalServerErrorViewModel();
+            internalServerError.Data = DateTime.Now;
+            internalServerError.Descricao = descricao;
+            internalServerError.Excecao = ex;
+
+            return View(internalServerError);
         }
 
     }

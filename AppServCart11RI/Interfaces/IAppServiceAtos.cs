@@ -20,7 +20,6 @@ namespace AppServices.Cartorio.Interfaces
 
         void NovoAto(DtoAto Ato);
 
-
         void ImprimirMinutaAto(long IdAto);
 
         IEnumerable<DtoDocx> GerarFichas(long IdAto); //qd cria coisas no banco nome no infinitivo: ex Gerar
@@ -69,6 +68,6 @@ namespace AppServices.Cartorio.Interfaces
 
         StringBuilder GetTextoAto(DtoInfAto dtoInfAto);
 
-        DtoExecProc InsertOrUpdateAto(DtoAto dtoItem);
+        DtoExecProc InsertOrUpdateAto(DtoAto ato, string idUsuario);
     }
 }

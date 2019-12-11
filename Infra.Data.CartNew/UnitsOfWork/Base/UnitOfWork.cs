@@ -26,6 +26,8 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
     public class UnitOfWork : IUnitOfWork
     {
         private IContextCore contextCore;
+        private string errorPath = string.Empty;
+
         protected DbContextTransaction transaction = null;
 
         /// <summary>
@@ -91,6 +93,12 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
         /// </summary>
         public virtual IRepositoriesFactoryBase Repositories { get; set; }
 
+        public string ErrorPath
+        {
+            get { return this.errorPath; }
+            set { this.errorPath = value; }
+        }
+
         /// <summary>
         /// BeginTransaction
         /// </summary>
@@ -124,12 +132,12 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
             }
             catch (DbUpdateException exUpdate)
             {
-                this.SaveLog(exUpdate);
+                this.SaveLog(errorPath, exUpdate);
                 throw exUpdate;
             }
             catch (Exception exGeneirc)
             {
-                this.SaveLog(exGeneirc);
+                this.SaveLog(errorPath, exGeneirc);
                 throw exGeneirc;
             }
 
@@ -148,21 +156,21 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
             catch (OracleException exOracle)
             {
                 this.Rollback();
-                this.SaveLog(exOracle);
+                this.SaveLog(errorPath, exOracle);
 
                 throw exOracle;
             }
             catch (DbUpdateException exUpdate)
             {
                 this.Rollback();
-                this.SaveLog(exUpdate);
+                this.SaveLog(errorPath, exUpdate);
 
                 throw exUpdate;
             }
             catch (Exception exGeneirc)
             {
                 this.Rollback();
-                this.SaveLog(exGeneirc);
+                this.SaveLog(errorPath, exGeneirc);
 
                 throw exGeneirc;
             }
@@ -200,10 +208,10 @@ namespace Infra.Data.Cartorio.UnitsOfWork.Base
             //throw new NotImplementedException("Voce deve implementar o metódo SaveLog!");
         }
 
-        protected virtual void SaveLog(Exception ex)
+        protected virtual void SaveLog(string path, Exception ex)
         {
             TypeInfo t = this.GetType().GetTypeInfo();
-            IOFunctions.GerarLogErro(t, ex);
+            IOFunctions.GerarLogErro(path, t, ex);
         }
 
     }

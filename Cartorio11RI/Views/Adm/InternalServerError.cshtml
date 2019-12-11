@@ -1,0 +1,89 @@
+﻿@model Cartorio11RI.ViewModels.InternalServerErrorViewModel
+
+@{
+    ViewBag.Title = "InternalServerError";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+    <!-- row -->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="text-center error-box">
+                        <h1 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Error 500</h1>
+                        <h2 class="font-xl"><strong>Não foi possível realizar a operação.</strong></h2>
+                        <br />
+                        <div>
+                            <hr />
+                            <a href='@Url.Action("Index", "Home")' class="btn btn-primary btn-lg">
+                                <i class="fa fa-arrow-left animated fadeInRightBig"></i> Voltar
+                            </a>
+                            <hr />
+                            <dl class="dl-horizontal bordered">
+                                <dt>
+                                    @Html.DisplayNameFor(model => model.Data)
+                                </dt>
+                                <dd>
+                                    @Html.DisplayFor(model => model.Data)
+                                </dd>
+                            </dl>
+                            <hr />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td align="left">@Html.DisplayNameFor(model => model.Descricao)</td>
+                                        <td align="left">@Html.DisplayFor(model => model.Descricao)</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left">@Html.DisplayNameFor(model => model.Excecao)</td>
+                                        <td align="left">@Html.DisplayFor(model => model.Excecao.Message)</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="left">Detalhamento</td>
+                                        <td align="left">
+                                            @{
+                                                if (Model.Excecao != null)
+                                                {
+                                                    var ex = Model.Excecao.InnerException;
+                                                    while (ex != null)
+                                                    {
+                                                        <p>
+                                                            @Html.Display(ex.Message)
+                                                        </p>
+                                                        <br />
+                                                        ex = ex.InnerException;
+                                                    }
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <hr />
+                        </div>
+                        <p class="lead semi-bold">
+                            <strong>Houve uma falha técnica com nossos servidores. Nós pedimos desculpas.</strong>
+                            <br>
+                            <small>
+                                Por gentileza, tente novamente mais tarde, em caso de persistir o problema contate nosso suporte técnico e solicite abertura de chamado para as devidas correções.
+                            </small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end row -->
+</div>
+<!-- END MAIN CONTENT -->

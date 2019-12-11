@@ -31,5 +31,11 @@ namespace Domain.Core.Interfaces.UnitOfWork
         void CommitTransaction();
         void RollBackTransaction();
 
+        string ErrorPath 
+        {
+            get;
+            set;
+        }
+
     }
 }

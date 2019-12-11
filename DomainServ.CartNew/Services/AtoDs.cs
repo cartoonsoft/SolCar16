@@ -1,26 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
+using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
+using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using LibFunctions.Functions.IOAdmCartorio;
 
 namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
-        public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
+        public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew, string pathErroLog = null) : base(UfwCartNew, pathErroLog)
         {
             //
         }
 
+        /*--------------------------------------------------------------------*/
+        #region add, Update, InsertOrUpdateAto 
         public override Ato Add(Ato item)
         {
             //base.Add(item);
@@ -32,6 +38,97 @@ namespace DomainServ.CartNew.Services
         {
             //base.Update(item);
         }
+
+        public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, string idUsuario)
+        {
+            string nullMsg = "AtoDTO é nulo!";
+
+            if (atoDto == null)
+            {
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, nullMsg);
+            }
+
+            string StatusAnt = atoDto.StatusAto;
+            DtoExecProc execProc = new DtoExecProc();
+
+            /*-- status ato ----------------------------------------------------
+            AC1	Ato Criado
+            AC2	Ato Criado
+            AE	Ato em Escrita
+            AI	Confirmado ajuste impressão
+            CF	Ato conferido
+            CL	Ato cancelado
+            GF	Gerado Ficha
+            AF	Ato Finalizado
+            ----------------------------------------------------------------- */
+
+            try
+            {
+                this.UfwCartNew.BeginTransaction();
+                var ato = Mapper.Map<DtoAto, Ato>(atoDto);
+
+                if (atoDto.Id == null)
+                {
+                    execProc.IdEntidade = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
+                    execProc.Operacao = DataBaseOperacoes.insert;
+                    atoDto.Id = execProc.IdEntidade;
+                    atoDto.StatusAto = "AC1";
+
+                    this.Add(ato);
+
+                    //insert pessoas
+                    foreach (var pessoa in atoDto.ListaPessoasAto)
+                    {
+                        this.UfwCartNew.Repositories.GenericRepository<AtoPessoa>().Add(
+                            new AtoPessoa
+                            {
+                                IdAto = ato.Id ?? 0,
+                                Relacao = pessoa.Relacao,
+                                SeqPes = pessoa.IdPessoa,
+                                TipoPessoa = pessoa.TipoPessoa
+                            }
+                        );
+                    }
+
+                    execProc.Msg = "Dados incluidos com sucesso con sucesso";
+                } else
+                {
+                    execProc.Operacao = DataBaseOperacoes.update;
+                    this.Update(ato);
+                    execProc.Msg = "Dados Atualizados com sucesso con sucesso";
+                }
+
+                //ato evento
+                this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
+                    new AtoEvento
+                    {
+                        Id = null,
+                        IdAto = ato.Id ?? 0,
+                        IdUsuario = idUsuario,
+                        TipoEvento = execProc.Operacao,
+                        Observacoes = "",
+                        Status = ato.StatusAto,
+                        StatusAnterior = StatusAnt,
+                        DataEvento = DateTime.Now,
+                        Descricao = "",
+                    }
+                );
+
+                this.UfwCartNew.SaveChanges();
+                this.UfwCartNew.CommitTransaction();
+
+                execProc.TipoMsg = TipoMsgResposta.ok;
+                execProc.Resposta = true;
+            }
+            catch (Exception ex)
+            {
+                this.UfwCartNew.RollBackTransaction();
+                execProc.Msg = string.Format("{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+            }
+
+            return null;
+        }
+        #endregion
 
         public bool ExisteAtoCadastrado(string NumMatricula)
         {
@@ -130,7 +227,7 @@ namespace DomainServ.CartNew.Services
 
         public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
         {
-            DtoDadosImovel dtoImovel = new DtoDadosImovel(); 
+            DtoDadosImovel dtoImovel = new DtoDadosImovel();
             DadosImovel imovel = this.UfwCartNew.Repositories.RepositoryAto.GetDadosImovel(IdPrenotacao, NumMatricula);
             dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
 
