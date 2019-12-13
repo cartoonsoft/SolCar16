@@ -12,7 +12,6 @@ using AutoMapper;
 using Newtonsoft.Json;
 using System.Reflection;
 using Microsoft.AspNet.Identity.Owin;
-using LibFunctions.Functions.IOAdmCartorio;
 using GemBox.Document;
 using Domain.CartNew.Entities;
 using Domain.CartNew.Entities.Diversos;
@@ -45,11 +44,9 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                string serverPath = System.IO.Path.Combine(Server.MapPath("~"), this.ErrorPath);
-
-                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist, null, serverPath))
+                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist, null))
                 {
-                    execProc = appService.InsertOrUpdateAto(ato, this.UsuarioAtual.Id);
+                    execProc = appService.InsertOrUpdateAto(ato, this.UsuarioAtual);
                 }
             }
             catch (Exception ex)

@@ -14,13 +14,14 @@ using DomainServ.CartNew.Interfaces;
 using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Infra.Cross.Identity.Models;
 using LibFunctions.Functions.IOAdmCartorio;
 
 namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
-        public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew, string pathErroLog = null) : base(UfwCartNew, pathErroLog)
+        public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
@@ -29,19 +30,19 @@ namespace DomainServ.CartNew.Services
         #region add, Update, InsertOrUpdateAto 
         public override Ato Add(Ato item)
         {
-            //base.Add(item);
-
-            return null;
+            return base.Add(item);
         }
 
         public override void Update(Ato item)
         {
-            //base.Update(item);
+            base.Update(item);
         }
 
-        public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, string idUsuario)
+        public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
         {
             string nullMsg = "AtoDTO é nulo!";
+            string msg = string.Empty;
+            string descEvento = string.Empty;
 
             if (atoDto == null)
             {
@@ -67,12 +68,14 @@ namespace DomainServ.CartNew.Services
                 this.UfwCartNew.BeginTransaction();
                 var ato = Mapper.Map<DtoAto, Ato>(atoDto);
 
-                if (atoDto.Id == null)
+                if (ato.Id == null)
                 {
                     execProc.IdEntidade = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
                     execProc.Operacao = DataBaseOperacoes.insert;
-                    atoDto.Id = execProc.IdEntidade;
-                    atoDto.StatusAto = "AC1";
+                    ato.Id = execProc.IdEntidade;
+                    ato.StatusAto = "AC1";
+                    ato.DataCadastro = DateTime.Now;
+                    ato.IdUsuarioCadastro = usuario.IdUsuario;
 
                     this.Add(ato);
 
@@ -89,34 +92,47 @@ namespace DomainServ.CartNew.Services
                             }
                         );
                     }
-
-                    execProc.Msg = "Dados incluidos com sucesso con sucesso";
                 } else
                 {
                     execProc.Operacao = DataBaseOperacoes.update;
+                    ato.DataAlteracao = DateTime.Now;
+                    ato.IdUsuarioAlteracao = usuario.IdUsuario;
+
                     this.Update(ato);
-                    execProc.Msg = "Dados Atualizados com sucesso con sucesso";
+                }
+
+                switch (execProc.Operacao)
+                {
+                    case DataBaseOperacoes.insert:
+                        msg = "Ato inserido com sucesso";
+                        descEvento = string.Format("Ato Inserido. usuario {0} em {1}", usuario.Nome, DateTime.Now.ToString());
+                        break;
+                    case DataBaseOperacoes.update:
+                        msg = "Ato Editado com sucesso";
+                        descEvento = string.Format("Ato Editado, usuário {0} em {1}", usuario.Nome, DateTime.Now.ToString());
+                        break;
                 }
 
                 //ato evento
                 this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
                     new AtoEvento
                     {
-                        Id = null,
+                        Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
                         IdAto = ato.Id ?? 0,
-                        IdUsuario = idUsuario,
+                        IdUsuario = usuario.IdUsuario,
                         TipoEvento = execProc.Operacao,
-                        Observacoes = "",
+                        DataEvento = DateTime.Now,
+                        Descricao = descEvento,
                         Status = ato.StatusAto,
                         StatusAnterior = StatusAnt,
-                        DataEvento = DateTime.Now,
-                        Descricao = "",
+                        Observacoes = ""
                     }
                 );
 
                 this.UfwCartNew.SaveChanges();
                 this.UfwCartNew.CommitTransaction();
 
+                execProc.Msg = msg;
                 execProc.TipoMsg = TipoMsgResposta.ok;
                 execProc.Resposta = true;
             }

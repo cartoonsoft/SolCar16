@@ -31,7 +31,7 @@ namespace AppServCart11RI.AppServices
         /// Construtor
         /// </summary>
         /// <param name="UfwCartNew"></param>
-        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null, string pathErroLog = null): base(UfwCartNew, IdCtaAcessoSist, dsFactoryCartNew, pathErroLog)
+        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null): base(UfwCartNew, IdCtaAcessoSist, dsFactoryCartNew)
         {
             //
         }
@@ -225,21 +225,21 @@ namespace AppServCart11RI.AppServices
         }
         #endregion
 
-
+        /*--------------------------------------------------------------------*/
         #region Add, update, InsertOrUpdateAto
         public override void Add(DtoAto dtoItem)
         {
-            //base.Add(dtoItem);
+            base.Add(dtoItem);
         }
 
         public override void Update(DtoAto dtoItem)
         {
-            //base.Update(dtoItem);
+            base.Update(dtoItem);
         }
 
-        public DtoExecProc InsertOrUpdateAto(DtoAto ato, string idUsuario)
+        public DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario)
         {
-            return this.DsFactoryCartNew.AtoDs.InsertOrUpdateAto(ato, idUsuario);
+            return this.DsFactoryCartNew.AtoDs.InsertOrUpdateAto(ato, usuario);
         }
         #endregion
 
@@ -248,7 +248,6 @@ namespace AppServCart11RI.AppServices
             get { return listaUsrSist; }
             set { listaUsrSist = value; }
         }
-
 
         public bool BloquearAto(long IdAto)
         {

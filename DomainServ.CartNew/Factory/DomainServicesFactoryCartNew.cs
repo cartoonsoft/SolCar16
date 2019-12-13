@@ -16,7 +16,7 @@ namespace DomainServ.CartNew.Factory
     public class DomainServicesFactoryCartNew : DomainServicesFactoryBase, IDomainServicesFactoryCartNew
     {
         private readonly IUnitOfWorkDataBaseCartNew _ufwCartNew;
-        private Dictionary<Type, object> _domainServices; 
+        private Dictionary<Type, object> _domainServices;
 
         /// <summary>
         /// Método construtor
@@ -96,7 +96,7 @@ namespace DomainServ.CartNew.Factory
                     }
                     if (typeof(T).Equals(typeof(PessoaCartNew)))
                     {
-                        domainService = new PessoaCartNewDs(this._ufwCartNew );
+                        domainService = new PessoaCartNewDs(this._ufwCartNew);
                     }
                     if (typeof(T).Equals(typeof(ModeloDoc)))
                     {

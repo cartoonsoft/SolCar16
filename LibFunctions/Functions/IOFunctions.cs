@@ -23,7 +23,7 @@ namespace LibFunctions.Functions.IOAdmCartorio
 
                 try
                 {
-                    using (var errorLog = new StreamWriter(path, true))
+                    using (var errorLog = new StreamWriter(pathFileName, true))
                     {
                         errorLog.WriteLine(">>>Log em, " + DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss") + " Class/ Message ==>\"{0}\" \"{1}\" ", (t.Namespace + ": " + t.FullName), ex.Message);
                         ex2 = ex.InnerException;
@@ -31,7 +31,7 @@ namespace LibFunctions.Functions.IOAdmCartorio
                         {
                             cont++;
                             str = string.Concat(Enumerable.Repeat(">", cont));
-                            errorLog.WriteLine(string.Concat(Enumerable.Repeat(" ", cont)) + str + " InnerException: \"{0}\"", ex.Message);
+                            errorLog.WriteLine(string.Concat(Enumerable.Repeat(" ", cont)) + str + " InnerException: \"{0}\"", ex2.Message);
                             ex2 = ex2.InnerException;
                         }
 

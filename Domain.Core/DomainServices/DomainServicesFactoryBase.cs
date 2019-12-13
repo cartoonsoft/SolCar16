@@ -100,6 +100,5 @@ namespace Domain.Core.DomainServices
                 throw new ArgumentNullException("unit of work é nulo. verificar!");
             }
         }
-
     }
 }

@@ -9,6 +9,7 @@ using Domain.CartNew.Enumerations;
 using Dto.CartNew.Base;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Infra.Cross.Identity.Models;
 
 namespace AppServices.Cartorio.Interfaces
 {
@@ -68,6 +69,6 @@ namespace AppServices.Cartorio.Interfaces
 
         StringBuilder GetTextoAto(DtoInfAto dtoInfAto);
 
-        DtoExecProc InsertOrUpdateAto(DtoAto ato, string idUsuario);
+        DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario);
     }
 }

@@ -15,15 +15,10 @@ namespace Cartorio11RI.Controllers.Base
 {
     public class CartorioBaseController : CartoonSoftBaseController
     {
-        private readonly string _ErrorPath = @"/App_Data/logs/";
+        private readonly string _errorPath = @"\App_Data\logs\";
 
         public CartorioBaseController(IUnitOfWorkDataBaseCartNew UfwCartNew): base(UfwCartNew)
         {
-            if (UfwCartNew != null)
-            {
-                UfwCartNew.ErrorPath = this.ErrorPath;
-            }
-            
             //string x = System.Web.HttpContext.Current.User.Identity.GetUserId();
             //Cartorio11RI.Settings.Company
             //this._usuarioAtual = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(System.Web.HttpContext.Current.User.Identity.GetUserId());
@@ -64,14 +59,8 @@ namespace Cartorio11RI.Controllers.Base
         }
         #endregion
 
-        protected string ErrorPath
-        {
-            get { return this._ErrorPath; }
-        }
-
         protected ApplicationUser UsuarioAtual {
             get {
-
                 ApplicationUser usrTmp = null;
 
                 if ((User.Identity != null) && (User.Identity.IsAuthenticated))
@@ -82,7 +71,24 @@ namespace Cartorio11RI.Controllers.Base
 
                 return usrTmp;
             }
-        } 
+        }
 
+        protected override void OnAuthorization(AuthorizationContext filterContext)
+        {
+            if (UfwCartNew != null)
+            {
+                if (Server != null)
+                {
+                    UfwCartNew.ErrorPath = Server.MapPath(this.ErrorPath);
+                }
+            }
+
+            base.OnAuthorization(filterContext);
+        }
+
+        protected string ErrorPath
+        {
+            get { return this._errorPath; }
+        }
     }
 }

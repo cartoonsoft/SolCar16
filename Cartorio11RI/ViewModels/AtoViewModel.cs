@@ -70,9 +70,6 @@ namespace Cartorio11RI.ViewModels
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? DataRegPrenotacao{ get; set; }  //data registro "R" da prenotacao onzeri.premad
 
-        [Display(Name = "Nun. seq")]
-        public short NumSequenciaAto { get; set; }
-
         [Display(Name = "Data do ato")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
@@ -127,8 +124,12 @@ namespace Cartorio11RI.ViewModels
         [Range(1, 9999, ErrorMessage = "Número de Ficha inválid0!")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
+        [Display(Name = "Nun. seq")]
+        [Range(0, 9999, ErrorMessage = "Número de seqüência é inválido!")]
+        public short NumSequenciaAto { get; set; }
+
         [Display(Name = "Distância topo (cm)")]
-        [Range(0, 29, ErrorMessage = "Distância do topo (cm) é inválida!")]
+        [Range(0, 99, ErrorMessage = "Distância do topo (cm) é inválida!")]
         public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
         [Display(Name = "Frente/Verso")]

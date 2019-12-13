@@ -670,12 +670,13 @@
 
                 var dadosAto = {
                     __RequestVerificationToken: token,
-                    Id: $("#IdCtaAcessoSist").val(),
+                    Id: $("#Id").val(),
                     IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
-                    IdLivro: $("#IdLivro").val(),
+                    IdLivro: $("#ddListLivro option:selected").val(),
                     IdTipoAto: $("#IdTipoAto").val(),
                     IdModeloDoc: $("#IdModeloDoc").val(),
                     IdPrenotacao: $("#IdPrenotacao").val(),
+                    IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
                     NumMatricula: $("#NumMatricula").val(),
                     NumSequenciaAto: $("#NumSequenciaAto").val(),
                     DataAto: $("#DataAto").val(),
