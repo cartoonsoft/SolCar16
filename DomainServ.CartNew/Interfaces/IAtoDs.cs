@@ -42,5 +42,7 @@ namespace DomainServ.CartNew.Interfaces
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 
         DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario);
+
+        bool AtoJaCadastrado(long idPrenotacao, string numMatricula);
     }
 }

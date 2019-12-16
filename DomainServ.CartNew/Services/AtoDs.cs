@@ -40,6 +40,8 @@ namespace DomainServ.CartNew.Services
 
         public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
         {
+            DtoExecProc execProc = new DtoExecProc();
+
             string nullMsg = "AtoDTO é nulo!";
             string msg = string.Empty;
             string descEvento = string.Empty;
@@ -50,7 +52,6 @@ namespace DomainServ.CartNew.Services
             }
 
             string StatusAnt = atoDto.StatusAto;
-            DtoExecProc execProc = new DtoExecProc();
 
             /*-- status ato ----------------------------------------------------
             AC1	Ato Criado
@@ -70,6 +71,12 @@ namespace DomainServ.CartNew.Services
 
                 if (ato.Id == null)
                 {
+                    //verificar se prenotacao e matricula já fora salvos
+                    if (this.AtoJaCadastrado(ato.IdPrenotacao, ato.NumMatricula))
+                    {
+                        throw new Exception("Já foi gerado um ato para esta Prenotação e matricula de imóvel!");
+                    }
+
                     execProc.IdEntidade = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
                     execProc.Operacao = DataBaseOperacoes.insert;
                     ato.Id = execProc.IdEntidade;
@@ -139,12 +146,20 @@ namespace DomainServ.CartNew.Services
             catch (Exception ex)
             {
                 this.UfwCartNew.RollBackTransaction();
+                execProc.TipoMsg = TipoMsgResposta.error;
                 execProc.Msg = string.Format("{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
             }
 
-            return null;
+            return execProc;
         }
         #endregion
+
+        public bool AtoJaCadastrado(long idPrenotacao, string numMatricula) 
+        {
+            var atoTmp = this.GetWhere(a => (a.IdPrenotacao == idPrenotacao) && (a.NumMatricula == numMatricula)).FirstOrDefault();
+
+            return atoTmp != null;
+        }
 
         public bool ExisteAtoCadastrado(string NumMatricula)
         {

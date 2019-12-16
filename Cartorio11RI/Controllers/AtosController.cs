@@ -55,7 +55,7 @@ namespace Cartorio11RI.Controllers
                 execProc.Msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
             }
 
-            return null;
+            return execProc;
         }
         #endregion
 

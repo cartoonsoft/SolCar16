@@ -783,7 +783,7 @@ function InsertOrUpdateAtoAjax(dados, url)
 
             if (dadosValidos) {
                 $.smallBox({
-                    title: msg_title,
+                    title: "Ato salvo com sucesso!",
                     content: dataReturn.msg,
                     color: cor_smallBox_ok,
                     icon: "fa fa-thumbs-up bounce animated",
