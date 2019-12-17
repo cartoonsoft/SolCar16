@@ -63,7 +63,7 @@ namespace Cartorio11RI.Controllers
         public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             bool FlagErro = false;
-            IEnumerable<AtoListViewModel> listaAtoListViewModel = new List<AtoListViewModel>();
+            IEnumerable<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
 
             if ((DataIni != null) && (DataFim != null))
             {
@@ -89,18 +89,15 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    IEnumerable<DtoAtoList> listaDto = null; // appService.GetListaAtos((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
-                    if (listaDto != null)
-                    {
-                        listaAtoListViewModel = Mapper.Map<IEnumerable<DtoAtoList>, IEnumerable<AtoListViewModel>>(listaDto);
-                    }
+                    var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
+                    listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista);
                 }
             }
 
             ViewBag.DataIni = DataIni;
             ViewBag.DataFim = DataFim;
 
-            return View(listaAtoListViewModel);
+            return View(listaAtoViewModel);
         }
 
         #region |NovoAto|
@@ -362,7 +359,6 @@ namespace Cartorio11RI.Controllers
                         Id = Ato.Id,
                         Ativo = Ato.Ativo,
                         //NumSequencia = Ato.NumSequencia,
-                        Codigo = "",
                         DataAlteracao = Ato.DataAlteracao,
                         DataCadastro = Ato.DataCadastro,
                         //NomeArquivo = Ato.NomeArquivo,

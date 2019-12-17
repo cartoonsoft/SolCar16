@@ -44,6 +44,9 @@ namespace Domain.CartNew.Entities
         [Column("DT_ALTER")]
         public DateTime? DataAlteracao { get; set; }
 
+        [Column("SIGLA_SEQ_ATO")]
+        public string SiglaSeqAto { get; set; }
+
         [Column("NUM_SEQ_ATO")] //numeric(5,0)
         public short NumSequenciaAto { get; set; }
 

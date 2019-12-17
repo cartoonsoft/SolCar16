@@ -40,7 +40,6 @@
         #tbl-list-atos tr td:nth-child(6) {
             width: 25%;
         }
-
     </style>
 }
 
@@ -174,13 +173,13 @@
                                     {
                                         <tr id="@item.Id">
                                             <td colspan="1">
-                                                @Html.DisplayFor(modelItem => item.Codigo)
+                                                @Html.DisplayFor(modelItem => item..Codigo)
                                             </td>
                                             <td colspan="1">
                                                 @Html.DisplayFor(modelItem => item.IdPrenotacao)
                                             </td>
                                             <td colspan="1">
-                                                @Html.DisplayFor(modelItem => item.DescricaoTipoAto)
+                                                @Html.DisplayFor(modelItem => item.descr)
                                             </td>
                                             <td colspan="1">
                                                 @Html.DisplayFor(modelItem => item.DataCadastro)

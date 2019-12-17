@@ -291,7 +291,7 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
         {
-            throw new NotImplementedException();
+            return this.DsFactoryCartNew.AtoDs.GetListAtosPeriodo(DataIni, DataFim);
         }
 
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)

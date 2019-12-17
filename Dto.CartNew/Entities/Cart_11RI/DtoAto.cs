@@ -38,6 +38,13 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public DateTime? DataAlteracao { get; set; }
 
+        public string Codigo
+        {
+            get { return this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
+        }
+
+        public string SiglaSeqAto { get; set; }
+
         public short NumSequenciaAto { get; set; } //numeric(5,0)
 
         public DateTime? DataAto { get; set; }

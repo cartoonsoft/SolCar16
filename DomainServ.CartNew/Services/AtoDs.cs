@@ -197,7 +197,7 @@ namespace DomainServ.CartNew.Services
         public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
         {
             List<DtoAto> listaDtoAto = new List<DtoAto>();
-            List<Ato> listaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListAtosPeriodo(DataIni, DataFim).ToList();
+            List<Ato> listaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListAtosPeriodo(DataIni, DataFim).Where(a => a.Ativo == true).ToList();
             listaDtoAto = Mapper.Map<List<Ato>, List<DtoAto>>(listaAto);
 
             return listaDtoAto;
@@ -250,6 +250,8 @@ namespace DomainServ.CartNew.Services
 
             return dtoPessoaPesxPre;
         }
+
+
 
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {

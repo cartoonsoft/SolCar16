@@ -1,10 +1,10 @@
-﻿using Domain.CartNew.Enumerations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Domain.CartNew.Enumerations;
 
 namespace Cartorio11RI.ViewModels
 {
@@ -20,6 +20,7 @@ namespace Cartorio11RI.ViewModels
             this.PREIMO = new PREIMOViewModel();
         }
 
+        [Key]
         [Display(Name = "Código")]
         public long? Id { get; set; }
 

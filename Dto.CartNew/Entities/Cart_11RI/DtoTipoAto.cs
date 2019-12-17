@@ -20,5 +20,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
         public string Descricao { get; set; }
 
         public string Orientacao { get; set; }
+
+        public string SiglaSeqAto { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
         public DtoToViewModelMappingProfileAdminCartorio()
         {
             CreateMap<DtoModeloDocxList, ModeloDocxListViewModel>();
-            CreateMap<DtoAtoList, AtoListViewModel>();
+            CreateMap<DtoAto, AtoListViewModel>();
             CreateMap<DtoAcao, AcaoViewModel>();
             CreateMap<DtoAto, AtoViewModel>();
         }
