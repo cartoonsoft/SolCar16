@@ -782,6 +782,20 @@ function InsertOrUpdateAtoAjax(dados, url)
             var dadosValidos = !(typeof dataReturn.execute == 'undefined' || dataReturn.execute == null);
 
             if (dadosValidos) {
+
+                if (!((typeof dataReturn.execute.Entidade == 'undefined') || (dataReturn.execute.Entidade == null)))
+                {
+                    alert("Id ===> " + dataReturn.execute.Entidade.Id);
+                    $("#Id").val(dataReturn.execute.Entidade.Id);
+
+                    $("#IdUsuarioCadastro").val(dataReturn.execute.Entidade.IdUsuarioCadastro);
+                    $("#DataCadastro").val(dataReturn.execute.Entidade.DataCadastro);
+
+                    $("#IdUsuarioAlteracao").val(dataReturn.execute.Entidade.IdUsuarioAlteracao);
+                    $("#DataAlteracao").val(dataReturn.execute.Entidade.DataAlteracao);
+                    $("#StatusAto").val(dataReturn.execute.Entidade.StatusAto);
+                }
+
                 $.smallBox({
                     title: "Ato salvo com sucesso!",
                     content: dataReturn.msg,

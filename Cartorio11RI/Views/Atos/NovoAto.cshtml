@@ -676,6 +676,10 @@
                     IdTipoAto: $("#IdTipoAto").val(),
                     IdModeloDoc: $("#IdModeloDoc").val(),
                     IdPrenotacao: $("#IdPrenotacao").val(),
+                    IdUsuarioCadastro: $("#IdUsuarioCadastro").val(),
+                    DataCadastro: $("DataCadastro").val(),
+                    IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
+					DataAlteracao: $("#DataAlteracao").val(),
                     IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
                     NumMatricula: $("#NumMatricula").val(),
                     NumSequenciaAto: $("#NumSequenciaAto").val(),
@@ -690,6 +694,7 @@
                     NumFicha: $("#NumFicha").val(),
                     TextoDistanciaTopo: $("#DistanciaTopo").val(),
                     GeradoFicha: $("#GeradoFicha").val(),
+					StatusAto: $("#StatusAto").val()
                 }
 
                 InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);

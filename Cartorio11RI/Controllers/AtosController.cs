@@ -193,10 +193,9 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string msg = string.Empty;
 
+            DtoExecProc execProc = new DtoExecProc();
             DtoAto ato = new DtoAto();
             ato = Mapper.Map<AtoViewModel, DtoAto>(atoView);
-
-            DtoExecProc execProc = new DtoExecProc();
 
             try
             {

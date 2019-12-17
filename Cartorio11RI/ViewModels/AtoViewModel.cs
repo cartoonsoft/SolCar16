@@ -13,7 +13,7 @@ namespace Cartorio11RI.ViewModels
         public AtoViewModel()
         {
             this.Id = null;
-            this.DataCadastro = DateTime.Today;
+            this.DataCadastro = DateTime.Now;
             this.DataAto = DateTime.Today;
             this.GeradoFicha = false;
             this.Pessoas = new List<PESSOAViewModel>();
@@ -50,13 +50,13 @@ namespace Cartorio11RI.ViewModels
         public string IdUsuarioAlteracao { get; set; }
 
         [Display(Name = "Cadastrado em")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime DataCadastro { get; set; }
 
         [Display(Name = "Última alteração")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime? DataAlteracao { get; set; }
 
         [Required(ErrorMessage = "Número de matrícula é obrigatório", AllowEmptyStrings = false)]

@@ -41,14 +41,17 @@ namespace DomainServ.CartNew.Services
         public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
         {
             DtoExecProc execProc = new DtoExecProc();
-
-            string nullMsg = "AtoDTO é nulo!";
             string msg = string.Empty;
             string descEvento = string.Empty;
 
             if (atoDto == null)
             {
-                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, nullMsg);
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "AtoDTO é nulo. Verifique!");
+            }
+
+            if (usuario == null)
+            {
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
             }
 
             string StatusAnt = atoDto.StatusAto;
@@ -77,12 +80,11 @@ namespace DomainServ.CartNew.Services
                         throw new Exception("Já foi gerado um ato para esta Prenotação e matricula de imóvel!");
                     }
 
-                    execProc.IdEntidade = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
-                    execProc.Operacao = DataBaseOperacoes.insert;
-                    ato.Id = execProc.IdEntidade;
+                    ato.Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
                     ato.StatusAto = "AC1";
                     ato.DataCadastro = DateTime.Now;
                     ato.IdUsuarioCadastro = usuario.IdUsuario;
+                    execProc.Operacao = DataBaseOperacoes.insert;
 
                     this.Add(ato);
 
@@ -99,11 +101,13 @@ namespace DomainServ.CartNew.Services
                             }
                         );
                     }
-                } else
-                {
+                } else {
                     execProc.Operacao = DataBaseOperacoes.update;
                     ato.DataAlteracao = DateTime.Now;
                     ato.IdUsuarioAlteracao = usuario.IdUsuario;
+                    
+                    //regra para mudar o status do ato
+                    ato.StatusAto = "AE";
 
                     this.Update(ato);
                 }
@@ -139,6 +143,7 @@ namespace DomainServ.CartNew.Services
                 this.UfwCartNew.SaveChanges();
                 this.UfwCartNew.CommitTransaction();
 
+                execProc.Entidade = ato;
                 execProc.Msg = msg;
                 execProc.TipoMsg = TipoMsgResposta.ok;
                 execProc.Resposta = true;
