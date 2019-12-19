@@ -71,7 +71,7 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
                 model.IdCtaAcessoSist = this.IdCtaAcessoSist;
@@ -103,7 +103,7 @@ namespace Cartorio11RI.Controllers
             {
                 //throw new Exception("Deu errro :(");
 
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
                 if (ControllerModelValid)
@@ -182,7 +182,7 @@ namespace Cartorio11RI.Controllers
                 try
                 {
                     ///povoar tree view
-                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                     ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
                     ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
@@ -216,7 +216,7 @@ namespace Cartorio11RI.Controllers
         {
             try
             {
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
 
                 if (ModelState.IsValid)

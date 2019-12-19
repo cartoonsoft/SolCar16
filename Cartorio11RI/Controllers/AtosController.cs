@@ -57,13 +57,11 @@ namespace Cartorio11RI.Controllers
 
             return execProc;
         }
-        #endregion
 
-        // GET: Ato
-        public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
+        private List<AtoListViewModel> GetListAtos(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             bool FlagErro = false;
-            IEnumerable<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
+            List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
 
             if ((DataIni != null) && (DataFim != null))
             {
@@ -89,15 +87,56 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
+                    ViewBag.StatusEditaveis = appService.StatusEditaveis;
+                    ViewBag.StatusCamposReadOnly = appService.StatusCamposReadOnly;
+
                     var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
-                    listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista);
+                    listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista).ToList();
                 }
             }
 
             ViewBag.DataIni = DataIni;
             ViewBag.DataFim = DataFim;
 
+            return listaAtoViewModel;
+        }
+
+        #endregion
+
+        // GET: Ato
+        public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
+        {
+            List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
+            listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
+
             return View(listaAtoViewModel);
+        }
+        
+        public JsonResult IndexAtoAjax(DateTime? DataIni = null, DateTime? DataFim = null)
+        {
+            bool resp = false;
+            string mesage = string.Empty;
+            List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
+
+            try
+            {
+                listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
+                resp = true;
+                mesage = "Dados retornados con sucesso";
+            }
+            catch (Exception ex)
+            {
+                mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = mesage,
+                ListaAtoViewModel = listaAtoViewModel
+            };
+
+            return Json(resultado);
         }
 
         #region |NovoAto|
@@ -123,7 +162,7 @@ namespace Cartorio11RI.Controllers
                 ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
                 //povoar tree view
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
                 ViewBag.listaModelosDocx = new SelectList(
@@ -156,7 +195,7 @@ namespace Cartorio11RI.Controllers
                 ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
                 //povoar tree view
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(null).ToList();
+                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
                 ViewBag.listaModelosDocx = new SelectList(

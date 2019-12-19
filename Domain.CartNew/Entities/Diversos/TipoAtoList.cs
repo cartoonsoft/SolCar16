@@ -25,6 +25,8 @@ namespace Domain.CartNew.Entities.Diversos
 
         public string Orientacao { get; set; }
 
+        public string SiglaSeqAto { get; set; }
+
         public List<TipoAtoList> ListaTipoAtosFihos { get; set; }
     }
 }

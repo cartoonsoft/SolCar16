@@ -11,6 +11,6 @@ namespace Domain.CartNew.Interfaces.Repositories
 {
     public interface IRepositoryTipoAto : IRepositoryBaseReadWrite<TipoAto>
     {
-        IEnumerable<TipoAtoList> ListaTipoAtos(long? idTipoAtoPai);
+        IEnumerable<TipoAtoList> GetListTipoAtos(long? idTipoAtoPai);
     }
 }

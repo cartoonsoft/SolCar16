@@ -58,14 +58,14 @@
             </div>
             <div class="col-md-1">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NumFicha, new { @class = "control-label somente-numero-sem-decimal" })
-                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control", @title = "Número da ficha." } })
+                    @Html.LabelFor(model => model.NumFicha, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número da ficha." } })
                 </div>
             </div>
             <div class="col-md-1">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NumSequenciaAto, new { @class = "control-label somente-numero-sem-decimal" })
-                    @Html.EditorFor(model => model.NumSequenciaAto, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control", @title = "Número de sequência do ato." } })
+                    @Html.LabelFor(model => model.NumSequenciaAto, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NumSequenciaAto, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número de sequência do ato." } })
                 </div>
             </div>
             <div class="col-md-2">
@@ -76,8 +76,8 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label somente-numero-sem-decimal" })
-                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "99", @step = "1", @class = "form-control", @title = "Distância aproximada do início da impressao do topo da página." } })
+                    @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "99", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Distância aproximada do início da impressao do topo da página." } })
                 </div>
             </div>
             <div class="col-md-2">

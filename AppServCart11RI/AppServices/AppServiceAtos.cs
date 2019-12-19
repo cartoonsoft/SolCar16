@@ -27,11 +27,27 @@ namespace AppServCart11RI.AppServices
         private List<ApplicationUser> listaUsrSist;
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
 
+        /*-- status ato --------------------------------------------------------
+        AC1	Ato Criado
+        AC2	Ato Criado
+        AE	Ato em Escrita
+        AI	Confirmado ajuste impressão
+        CF	Ato conferido
+        CL	Ato cancelado
+        GF	Gerado Ficha
+        AF	Ato Finalizado
+        --------------------------------------------------------------------- */
+        //status que podem mostrar tela de edição
+        private readonly string[] _statusEditaveis = { "AC1", "AC2", "AE", "AI", "CF" };
+
+        //status que os campos ficam readony na edição
+        private readonly string[] _statusCamposReadOnly = { "AI", "CF", "CL", "GF", "AF" };
+
         /// <summary>
         /// Construtor
         /// </summary>
         /// <param name="UfwCartNew"></param>
-        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null): base(UfwCartNew, IdCtaAcessoSist, dsFactoryCartNew)
+        public AppServiceAtos(IUnitOfWorkDataBaseCartNew UfwCartNew, long IdCtaAcessoSist, IDomainServicesFactoryCartNew dsFactoryCartNew = null) : base(UfwCartNew, IdCtaAcessoSist, dsFactoryCartNew)
         {
             //
         }
@@ -43,7 +59,7 @@ namespace AppServCart11RI.AppServices
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
         #region Private Methods
-        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAtoSimplificado dadosAto )
+        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAtoSimplificado dadosAto)
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
 
@@ -72,7 +88,7 @@ namespace AppServCart11RI.AppServices
                 }
             }
 
-            if (entidade.ToLower() == "prenotacao") 
+            if (entidade.ToLower() == "prenotacao")
             {
                 var listaCamposPrenotacao = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPrenotacao(dadosAto.IdTipoAto, this.IdCtaAcessoSist);
 
@@ -98,7 +114,7 @@ namespace AppServCart11RI.AppServices
                 }
             }
 
-            if (entidade.ToLower() == "imovel") 
+            if (entidade.ToLower() == "imovel")
             {
                 var listaCamposImovel = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposImovel(dadosAto.IdTipoAto, this.IdCtaAcessoSist);
                 DtoDadosImovel imovel = this.GetDadosImovel(dadosAto.IdPrenotacao, dadosAto.NumMatricula);
@@ -129,7 +145,7 @@ namespace AppServCart11RI.AppServices
             return listaCamposValor;
         }
 
-        private List<DtoCamposValor> GetListCamposPovoadosPessoa(long idTipoAto, DtoPessoaPesxPre pessoa, long? idPrenotacao) 
+        private List<DtoCamposValor> GetListCamposPovoadosPessoa(long idTipoAto, DtoPessoaPesxPre pessoa, long? idPrenotacao)
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
             List<CampoTipoAto> listaCamposPessoa = null;
@@ -138,7 +154,7 @@ namespace AppServCart11RI.AppServices
 
             listaCamposPessoa = this.UfwCartNew.Repositories.RepositoryAto.GetListCamposPessoa(idTipoAto, this.IdCtaAcessoSist)
                 .Where(p => p.NomeCampo.Substring(0, nomeCampo.Length) == nomeCampo).ToList();
-            
+
             //DtoPessoaPesxPre pessoa = this.DsFactoryCartNew.AtoDs.GetPessoa(idPessoa, idPrenotacao);
 
             if (listaCamposPessoa != null)
@@ -169,7 +185,7 @@ namespace AppServCart11RI.AppServices
             return listaCamposValor;
         }
 
-        private string  GetTextoBloco(string strBloco, List<DtoPessoaPesxPre> listaPessoas)
+        private string GetTextoBloco(string strBloco, List<DtoPessoaPesxPre> listaPessoas)
         {
             string resp = string.Empty;
 
@@ -203,14 +219,14 @@ namespace AppServCart11RI.AppServices
                             if (CampoValor != null)
                             {
                                 resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
-                            } 
+                            }
 
                             if (!string.IsNullOrEmpty(resultadoQuery))
                             {
                                 //atualiza o textoo formatado
                                 strAto += resultadoQuery;
                             }
-                        }  else {
+                        } else {
                             //caso não seja um campo somente adiciona o caractere
                             strAto += texto[i].ToString();
                         }
@@ -224,6 +240,17 @@ namespace AppServCart11RI.AppServices
             return resp;
         }
         #endregion
+
+
+        public string[] StatusEditaveis
+        {
+            get { return this._statusEditaveis; }
+        }
+
+        public string[] StatusCamposReadOnly
+        {
+            get { return this._statusCamposReadOnly; }
+        }
 
         /*--------------------------------------------------------------------*/
         #region Add, update, InsertOrUpdateAto
@@ -291,7 +318,8 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
         {
-            return this.DsFactoryCartNew.AtoDs.GetListAtosPeriodo(DataIni, DataFim);
+            IEnumerable<DtoAto> lista = this.DsFactoryCartNew.AtoDs.GetListAtosPeriodo(DataIni, DataFim);
+            return lista;
         }
 
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)

@@ -125,6 +125,12 @@ namespace Cartorio11RI.ViewModels
         [Range(1, 9999, ErrorMessage = "Número de Ficha inválid0!")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
+        [Required(ErrorMessage = "O campo Sigla do ato é obrigatório", AllowEmptyStrings = false)]
+        [MaxLength(3)]
+        [StringLength(3, ErrorMessage = "Máximo de {0} caracteres.")]
+        [Display(Name = "Sigla")]
+        public string SiglaSeqAto { get; set; }
+
         [Display(Name = "Nun. seq")]
         [Range(0, 9999, ErrorMessage = "Número de seqüência é inválido!")]
         public short NumSequenciaAto { get; set; }

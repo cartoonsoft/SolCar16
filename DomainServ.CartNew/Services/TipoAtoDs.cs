@@ -27,7 +27,7 @@ namespace DomainServ.CartNew.Services
         public IEnumerable<DtoTipoAtoList> GetListTiposAto(long? idTipoAtoPai)
         {
             List<DtoTipoAtoList> listaDtoTipoAtoList = new List<DtoTipoAtoList>();
-            List<TipoAtoList> lista = this.UfwCartNew.Repositories.RepositoryTipoAto.ListaTipoAtos(idTipoAtoPai).ToList();
+            List<TipoAtoList> lista = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(idTipoAtoPai).ToList();
 
             foreach (var item in lista)
             {

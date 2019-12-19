@@ -21,7 +21,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             _contextRepository = contextRepository;
         }
 
-        public IEnumerable<TipoAtoList> ListaTipoAtos(long? idTipoAtoPai)
+        public IEnumerable<TipoAtoList> GetListTipoAtos(long? idTipoAtoPai)
         {
             List<TipoAtoList> listaDtoTipoAtoList = new List<TipoAtoList>();
             
@@ -34,7 +34,9 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdCtaAcessoSist = T.IdCtaAcessoSist,
                     IdTipoAtoPai = T.IdTipoAtoPai,
                     Descricao = T.Descricao,
-                    Orientacao = T.Orientacao
+                    Orientacao = T.Orientacao,
+                    SiglaSeqAto = T.SiglaSeqAto
+
                 };
 
             foreach (var item in lista)
@@ -46,7 +48,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdTipoAtoPai = item.IdTipoAtoPai,
                     Descricao = item.Descricao,
                     Orientacao = item.Orientacao,
-                    ListaTipoAtosFihos = ListaTipoAtos(item.Id).ToList()
+                    SiglaSeqAto = item.SiglaSeqAto,
+                    ListaTipoAtosFihos = GetListTipoAtos(item.Id).ToList()
                 });
             }
 

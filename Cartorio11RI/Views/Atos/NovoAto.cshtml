@@ -682,6 +682,7 @@
 					DataAlteracao: $("#DataAlteracao").val(),
                     IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
                     NumMatricula: $("#NumMatricula").val(),
+					SiglaSeqAto: $("#SiglaSeqAto").val(),
                     NumSequenciaAto: $("#NumSequenciaAto").val(),
                     DataAto: $("#DataAto").val(),
                     DescricaoAto: $("#DescricaoAto").val(),
@@ -744,7 +745,7 @@
 	 * @@param btnObj
 	 * @@param idTipoAto
 	------------------------------------------------------------------------- */
-	function SelecionarTipoAto(btnObj, idTipoAto)
+	function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 	{
 		var btn = btnObj;
 		var idTmp = idTipoAto;
@@ -752,8 +753,8 @@
 		if (typeof btn != 'undefined' || btn != null) {
 			var txtTipoAto = btn.innerText.trim();
 			$("#IdTipoAto").val(idTipoAto);
-			$("#DescricaoTipoAto").val(txtTipoAto);
-
+            $("#DescricaoTipoAto").val(txtTipoAto);
+            $("#SiglaSeqAto").val(SiglaSeqAto);
 			$(".btn-tree-tipo-ato").removeClass("btn-danger");
 			$(btn).addClass("btn-danger");
 			var sel = $("#IdModeloDoc");
