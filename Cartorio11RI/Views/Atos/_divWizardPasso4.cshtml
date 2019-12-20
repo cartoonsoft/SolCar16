@@ -52,32 +52,20 @@
         <div class="row">
             <div class="col-md-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.IdLivro)
-                    @Html.DropDownListFor(model => model.IdLivro, (ViewBag.listaLivro as SelectList), new { @id = "ddListLivro", @class = "form-control" })
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NumFicha, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número da ficha." } })
-                </div>
-            </div>
-            <div class="col-md-1">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NumSequenciaAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.NumSequenciaAto, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número de sequência do ato." } })
+                    @Html.LabelFor(model => model.IdPrenotacao, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control", @disabled = "disabled" })
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.FolhaFicha, htmlAttributes: new { @class = "control-label col-md-2" })
-                    @Html.EnumDropDownListFor(model => model.FolhaFicha, htmlAttributes: new { @class = "form-control", @title = "Definir se a impressão do ato deve começar na frente ou verso da ficha." })
+                    @Html.LabelFor(model => model.NumMatricula, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.NumMatricula, new { @class = "form-control", @readonly = "readonly" })
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "99", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Distância aproximada do início da impressao do topo da página." } })
+                    @Html.LabelFor(model => model.SiglaSeqAto, new { @class = "control-label" })
+                    @Html.TextBoxFor(model => model.SiglaSeqAto, new { @class = "form-control", @readonly = "readonly" })
                 </div>
             </div>
             <div class="col-md-2">
@@ -92,20 +80,6 @@
                     @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @type = "text", @class = "form-control", @readonly = "readonly" } })
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control", @placeholder = "Descrição do ato" } })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
-                    @Html.EditorFor(model => model.DataAto, new { htmlAttributes = new { @class = "form-control" } })
-                </div>
-            </div>
             <div class="col-md-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.StatusAto, new { @class = "control-label" })
@@ -114,52 +88,98 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
-                <div class="btn-toolbar" role="toolbar">
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-info" id="btn-ato-conf-ajuste" rel="tooltip" data-placement="top" data-original-title="Confirmar ajuses de impressão. Obs: ao confirmar, o texto não poderá ser mais alterado!">
-                            <i class="glyphicon glyphicon-resize-vertical"></i> Ajuste ok
-                        </button>
-                        <button type="button" class="btn btn-info" id="btn-ato-imp-minuta" rel="tooltip" data-placement="top" data-original-title="Imprimir uma prévia do documento para verificar o ajueste de impressão!">
-                            <i class="glyphicon glyphicon-print"></i> Imprimir
-                        </button>
-                        <button type="button" class="btn btn-info" id="btn-ato-conf-imp" rel="tooltip" data-placement="top" data-original-title="Texto do ato foi conferido e está ok para gerar documento.">
-                            <i class="glyphicon glyphicon-ok"></i> Conferido
-                        </button>
-                        <button type="button" class="btn btn-info" id="btn-ato-colocar-edicao" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que confirmar ajuste de impressão novamente..">
-                            <i class="fa fa-edit"></i> Em edição
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-success" id="btn-ato-gerar-docx" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (docx).">
-                            <i class="fa fa-file-word-o"></i> Gerar Ficha
-                        </button>
-                    </div>
-                    <div class="btn-group" role="group">
-                        <button type="button" class="btn btn-primary" id="btn-ato-finalizar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
-                            <i class="glyphicon glyphicon-import"></i> Finalizar
-                        </button>
-                    </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.IdLivro)
+                    @Html.DropDownListFor(model => model.IdLivro, (ViewBag.listaLivro as SelectList), new { @id = "ddListLivro", @class = "form-control" })
                 </div>
             </div>
-            <div class="col-md-4">
-                Observações
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NumFicha, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NumFicha, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número da ficha." } })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NumSequenciaAto, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.NumSequenciaAto, new { htmlAttributes = new { @type = "number", @min = "0", @max = "9999", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Número de sequência do ato." } })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FolhaFicha, htmlAttributes: new { @class = "control-label" })
+                    @Html.EnumDropDownListFor(model => model.FolhaFicha, htmlAttributes: new { @class = "form-control", @title = "Definir se a impressão do ato deve começar na frente ou verso da ficha." })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DistanciaTopo, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DistanciaTopo, new { htmlAttributes = new { @type = "number", @min = "0", @max = "99", @step = "1", @class = "form-control somente-numero-sem-decimal", @title = "Distância (em cm) aproximada do início da impressao do topo da página." } })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DataAto, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DataAto, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DescricaoAto, new { @class = "control-label" })
+                    @Html.EditorFor(model => model.DescricaoAto, new { htmlAttributes = new { @class = "form-control", @placeholder = "Descrição do ato" } })
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-8">
-                <div class="form-group">
-                    <textarea id="ckEditorAto" name="ckEditorAto" rows="20" cols="160" class="form-control"></textarea>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-info" id="btn-ato-conf-ajuste" rel="tooltip" data-placement="top" data-original-title="Confirmar ajuses de impressão. Obs: ao confirmar, o texto não poderá ser mais alterado!">
+                        <i class="glyphicon glyphicon-resize-vertical"></i> Ajuste ok
+                    </button>
+                    <button type="button" class="btn btn-info" id="btn-ato-imp-minuta" rel="tooltip" data-placement="top" data-original-title="Imprimir uma prévia do documento para verificar o ajueste de impressão!">
+                        <i class="glyphicon glyphicon-print"></i> Imprimir
+                    </button>
+                    <button type="button" class="btn btn-info" id="btn-ato-conf-imp" rel="tooltip" data-placement="top" data-original-title="Texto do ato foi conferido e está ok para gerar documento.">
+                        <i class="glyphicon glyphicon-ok"></i> Conferido
+                    </button>
+                    <button type="button" class="btn btn-info" id="btn-ato-colocar-edicao" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que confirmar ajuste de impressão novamente..">
+                        <i class="fa fa-edit"></i> Em edição
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-success" id="btn-ato-gerar-docx" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (docx).">
+                        <i class="fa fa-file-word-o"></i> Gerar Ficha
+                    </button>
+                </div>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary" id="btn-ato-finalizar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
+                        <i class="glyphicon glyphicon-import"></i> Finalizar
+                    </button>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 23 })
-                </div>
+        </div>
+        <div class="col-md-4">
+            Observações
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                <textarea id="ckEditorAto" name="ckEditorAto" rows="20" cols="160" class="form-control"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.TextAreaFor(model => model.Observacao, new { @class = "form-control", @cols = 160, @rows = 23 })
             </div>
         </div>
     </div>

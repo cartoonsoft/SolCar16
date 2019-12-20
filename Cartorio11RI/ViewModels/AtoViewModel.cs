@@ -135,7 +135,7 @@ namespace Cartorio11RI.ViewModels
         [Range(0, 9999, ErrorMessage = "Número de seqüência é inválido!")]
         public short NumSequenciaAto { get; set; }
 
-        [Display(Name = "Distância topo (cm)")]
+        [Display(Name = "Distância")]
         [Range(0, 99, ErrorMessage = "Distância do topo (cm) é inválida!")]
         public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 

@@ -236,14 +236,18 @@
                     monstrarMensagem("Erro ao remover",false);
                 }
             });
-
-
         }
     }
 
     function monstrarMensagem(mensagem, statusMensagem) {
-        if (statusMensagem == true) { $('#divMensagem').attr("class", "alert alert-success"); }
-        else { $('#divMensagem').attr("class", "alert alert-danger"); }
+
+        if (statusMensagem == true)
+        {
+            $('#divMensagem').attr("class", "alert alert-success");
+        } else {
+            $('#divMensagem').attr("class", "alert alert-danger");
+        }
+
         $('#labelMensagem').text(mensagem);
         $('#divMensagem').removeAttr("hidden");
     }
