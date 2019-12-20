@@ -905,6 +905,8 @@
     <Content Include="Views\Atos\_divWizardPasso2.cshtml" />
     <Content Include="Views\Atos\_divWizardPasso4.cshtml" />
     <Content Include="Views\Adm\InternalServerError.cshtml" />
+    <Content Include="Views\Misc\Blank2.cshtml" />
+    <Content Include="Views\Atos\EditAto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

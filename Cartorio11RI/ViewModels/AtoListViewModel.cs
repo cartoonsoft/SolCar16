@@ -11,7 +11,7 @@ namespace Cartorio11RI.ViewModels
     public class AtoListViewModel
     {
         [Key]
-        [Display(Name = "Código")]
+        [Display(Name = "Id")]
         public long? Id { get; set; }
 
         [Required]
@@ -108,9 +108,10 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Ficha")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
+        [Display(Name = "Mat./Cód.")]
         public string Codigo
         {
-            get { return this.SiglaSeqAto +"/" + this.NumSequenciaAto.ToString(); }
+            get { return this.NumMatricula.PadLeft(8, '0') + " - " + this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
         }
 
         public string SiglaSeqAto { get; set; }

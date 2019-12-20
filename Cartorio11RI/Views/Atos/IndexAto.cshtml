@@ -61,19 +61,19 @@
                         <div class="panel-body no-padding">
                             <fieldset>
                                 <div class="row">
-                                    <section class="col col-4">
+                                    <section class="col col-3">
                                         <label class="input">
                                             <i class="icon-prepend fa fa-calendar"></i>
                                             <input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
                                         </label>
                                     </section>
-                                    <section class="col col-4">
+                                    <section class="col col-3">
                                         <label class="input">
                                             <i class="icon-prepend fa fa-calendar"></i>
                                             <input type="text" name="dataFim" id="dataFim" placeholder="Data final">
                                         </label>
                                     </section>
-                                    <section class="col col-4">
+                                    <section class="col col-3">
                                         <button type="submit" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
                                     </section>
                                 </div>
@@ -85,13 +85,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="row"><br /></div>
-            <table id="tbl-index-ato" class="table table-bordered table-striped table">
+            <table id="tbl-index-ato" class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
-                            Ato
+                            Mat./Cód.
                         </th>
                         <th>
                             Prenotação
@@ -114,7 +113,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr id="@item.Id">
+                        <tr id="tbl-row-@item.Id">
                             <td>
                                 @Html.DisplayFor(modelItem => item.Codigo)
                             </td>
@@ -134,9 +133,18 @@
                                 @Html.DisplayFor(modelItem => item.StatusAto)
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao" title="Editar.">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </button>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary btn-sm" href="javascript:void(0);" title="Editar ato"><i class="fa fa-pencil"></i></a>
+                                    <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0);" title="Detalhes do ato"><i class="fa fa-cogs"></i> Detalhes</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </td>
                         </tr>
                     }
