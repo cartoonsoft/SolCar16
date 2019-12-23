@@ -12,6 +12,15 @@ namespace Cartorio11RI
         {
             bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css"));
 
+            bundles.Add(new StyleBundle("~/content/datatables").Include(
+                "~/Content/DataTables/css/buttons.bootstrap.min.css",
+                "~/Content/DataTables/css/buttons.dataTables.min.css",
+                "~/Content/DataTables/css/dataTables.bootstrap.min.css",
+                "~/Content/DataTables/css/jquery.dataTables.min.css",
+                "~/Content/DataTables/css/responsive.bootstrap.min.css",
+                "~/Content/DataTables/css/scroller.bootstrap.min.css"
+            ));
+
             bundles.Add(new ScriptBundle("~/scripts/smartadmin").Include(
                 "~/scripts/app.config.seed.min.js",
                 "~/scripts/bootstrap/bootstrap.min.js",
@@ -52,11 +61,16 @@ namespace Cartorio11RI
             ));
 
             bundles.Add(new ScriptBundle("~/scripts/datatables").Include(
-                "~/scripts/plugin/datatables/jquery.dataTables.min.js",
-                "~/scripts/plugin/datatables/dataTables.colVis.min.js",
-                "~/scripts/plugin/datatables/dataTables.tableTools.min.js",
-                "~/scripts/plugin/datatables/dataTables.bootstrap.min.js",
-                "~/scripts/plugin/datatable-responsive/datatables.responsive.min.js"
+                "~/scripts/datatables/jquery.dataTables.min.js",
+                "~/scripts/datatables/dataTables.bootstrap.min.js",
+                "~/scripts/datatables/dataTables.buttons.min.js",
+                "~/scripts/datatables/dataTables.colReorder.min.js",
+                "~/scripts/datatables/dataTables.rowReorder.min.js",
+                "~/scripts/datatables/dataTables.scroller.min.js",
+                "~/scripts/datatables/dataTables.colVis.min.js",
+                "~/scripts/datatables/datatables.responsive.min.js",
+                "~/scripts/datatables/buttons.bootstrap.min.js",
+                "~/scripts/datatables/buttons.colVis.js"
             ));
 
             bundles.Add(new ScriptBundle("~/scripts/jq-grid").Include(
