@@ -17,7 +17,6 @@
             table-layout: auto;
             width: 100%;
         }
-
     </style>
 }
 
@@ -127,7 +126,7 @@
                                 @Html.DisplayFor(modelItem => item.Observacao)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.StatusAto)
+                                @Html.DisplayFor(modelItem => item.StatusAto) 
                             </td>
                             <td>
                                 <div class="btn-group">
@@ -154,6 +153,11 @@
 <!-- END MAIN CONTENT -->
 <!-- scripts pagespecific -------------------------------------------------- -->
 @section pagespecific {
+
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
 
@@ -225,41 +229,55 @@
                     decimal: ",",
                     thousands: "."
                 },
-                dom: 'Bfrtip',
+
+                "autoWidth": true,
+                columnDefs: [{ targets: [6], orderable: false, searchable: false }],
+                "processing": true, // mostrar a progress bar
+                //"serverSide": true, // processamento no servidor
+                "filter": false, // habilita o filtro(search box)
                 lengthMenu: [
                     [ 10, 25, 50, -1 ],
                     [ '10 linhas', '25 linhas', '50 linhas', 'Todos' ]
                 ],
-                //"pageLength": 20, // define o tamanho da página
-                "autoWidth": true,
+                "pageLength": 10, // define o tamanho da página
 
+                dom: 'Bfrtip',
                 buttons: [
                     {
                         extend: 'pageLength',
-                        text:      '<i class="fa fa-table"></i>',
+                        text: '<i class="fa fa-table"></i> Paginação &nbsp;',
                         titleAttr: 'Paginação'
-
                     },
                     {
-                        extend:    'excelHtml5',
-                        text:      '<i class="fa fa-file-excel-o"></i>',
-                        titleAttr: 'exportar para Excel'
+                        extend: 'excelHtml5',
+                        text: '&nbsp;<i class="fa fa-file-excel-o"></i> Excel &nbsp;',
+                        titleAttr: 'exportar para Excel',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
                     },
                     {
-                        extend:    'pdfHtml5',
-                        text:      '<i class="fa fa-file-pdf-o"></i>',
-                        titleAttr: 'exportar para PDF'
+                        extend: 'pdfHtml5',
+                        text: '&nbsp;<i class="fa fa-file-pdf-o"></i> Pdf &nbsp;',
+                        orientation: 'landscape',
+                        pageSize: 'A4',
+                        title: '',
+                        titleAttr: 'exportar para PDF',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: '&nbsp;<i class="fa fa-print"></i> Imprimir &nbsp;',
+                        titleAttr: 'Imprimir',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4]
+                        }
                     }
-
-                ],
-                columnDefs: [{ targets: [6], orderable: false, searchable: false }],
-
-                "processing": true, // mostrar a progress bar
-                //"serverSide": true, // processamento no servidor
-                "filter": false, // habilita o filtro(search box)
+                ]
 
                 //"rowCallback": function (row, data, index) {
-
                 //    if (data[5] == 'AC1') {
                 //        $(row).css('background-color', '#C4E4EF');
                 //    } else if (data[5] == 'AE') {

@@ -12,7 +12,7 @@ namespace Cartorio11RI
         {
             bundles.Add(new StyleBundle("~/content/smartadmin").IncludeDirectory("~/content/css", "*.min.css"));
 
-            bundles.Add(new StyleBundle("~/content/datatables").Include(
+            bundles.Add(new StyleBundle("~/content/datatablesCss").Include(
                 "~/Content/DataTables/css/buttons.bootstrap.min.css",
                 "~/Content/DataTables/css/buttons.dataTables.min.css",
                 "~/Content/DataTables/css/dataTables.bootstrap.min.css",
@@ -60,7 +60,7 @@ namespace Cartorio11RI
                 "~/scripts/plugin/highchartTable/jquery.highchartTable.min.js"
             ));
 
-            bundles.Add(new ScriptBundle("~/scripts/datatables").Include(
+            bundles.Add(new ScriptBundle("~/scripts/datatablesJs").Include(
                 "~/scripts/datatables/jquery.dataTables.min.js",
                 "~/scripts/datatables/dataTables.bootstrap.min.js",
                 "~/scripts/datatables/dataTables.buttons.min.js",
@@ -70,7 +70,11 @@ namespace Cartorio11RI
                 "~/scripts/datatables/dataTables.colVis.min.js",
                 "~/scripts/datatables/datatables.responsive.min.js",
                 "~/scripts/datatables/buttons.bootstrap.min.js",
-                "~/scripts/datatables/buttons.colVis.js"
+                "~/scripts/datatables/buttons.colVis.min.js",
+                "~/scripts/datatables/buttons.flash.min.js",
+                "~/scripts/datatables/buttons.html5.min.js",
+                "~/scripts/datatables/buttons.print.min.js",
+                "~/scripts/datatables/responsive.bootstrap.min.js"
             ));
 
             bundles.Add(new ScriptBundle("~/scripts/jq-grid").Include(
