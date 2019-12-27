@@ -150,7 +150,6 @@
         $(document).ready(function () {
 
             //coloque aqui seu codigo jquery
-
             $('#tbl-modelosdocx').dataTable({
                 columnDefs: [{ orderable: false, targets: [3] }],
                 "language": {
@@ -178,6 +177,10 @@
                     decimal: ",",
                     thousands: "."
                 },
+                "processing": true,
+                //"serverSide": true, 
+                "filter": false,
+                "autoWidth": true
             });
 
         });

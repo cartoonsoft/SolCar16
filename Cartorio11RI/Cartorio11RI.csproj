@@ -1134,7 +1134,9 @@
     <Content Include="Views\Atos\_divWizardPasso4.cshtml" />
     <Content Include="Views\Adm\InternalServerError.cshtml" />
     <Content Include="Views\Misc\Blank2.cshtml" />
-    <Content Include="Views\Atos\EditAto.cshtml" />
+    <Content Include="Views\Atos\EditarAto.cshtml" />
+    <Content Include="Views\Adm\Error404.cshtml" />
+    <Content Include="Views\Adm\BusinessError.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1151,7 +1153,7 @@
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
     <Compile Include="App_Start\AutoMapper\AutoMapperConfigCartorio11RI.cs" />
-    <Compile Include="App_Start\AutoMapper\DomainToModelMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DomainToDtoModelMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DtoModelToDomainMappingProfile.cs" />
     <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />
@@ -1189,6 +1191,8 @@
     <Compile Include="ViewModels\InfAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
     <Compile Include="ViewModels\DadosPostModeloDocxDownload.cs" />
+    <Compile Include="ViewModels\BaseErrorViewModel.cs" />
+    <Compile Include="ViewModels\BusinessErrorViewModel.cs" />
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
     <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />

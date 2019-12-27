@@ -130,7 +130,12 @@
                             </td>
                             <td>
                                 <div class="btn-group">
-                                    <a class="btn btn-primary btn-sm" href="javascript:void(0);" title="Editar ato"><i class="fa fa-pencil"></i></a>
+                                    @{
+                                        if (statusEditaveis.Contains(item.StatusAto))
+                                        {
+                                            <a href="@Url.Action("EditarAto", "Atos", new { Id = item.Id})" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>
+                                        }
+                                    }
                                     <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
@@ -151,6 +156,7 @@
     <!-- end widget grid -->
 </div>
 <!-- END MAIN CONTENT -->
+
 <!-- scripts pagespecific -------------------------------------------------- -->
 @section pagespecific {
 
@@ -160,11 +166,6 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var responsiveHelper_dt_basic = undefined;
-            var breakpointDefinition = {
-                Id: 1
-            };
 
             $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
             $("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
@@ -253,7 +254,7 @@
                         text: '&nbsp;<i class="fa fa-file-excel-o"></i> Excel &nbsp;',
                         titleAttr: 'exportar para Excel',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
@@ -264,7 +265,7 @@
                         title: '',
                         titleAttr: 'exportar para PDF',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     },
                     {
@@ -272,7 +273,7 @@
                         text: '&nbsp;<i class="fa fa-print"></i> Imprimir &nbsp;',
                         titleAttr: 'Imprimir',
                         exportOptions: {
-                            columns: [0, 1, 2, 3, 4]
+                            columns: [0, 1, 2, 3, 4, 5]
                         }
                     }
                 ]
@@ -286,6 +287,5 @@
                 //}
             });
         });
-
     </script>
 }

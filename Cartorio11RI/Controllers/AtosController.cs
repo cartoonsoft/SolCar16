@@ -184,7 +184,7 @@ namespace Cartorio11RI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult NovoAtoAto(AtoViewModel atoView)
+        public ActionResult NovoAto(AtoViewModel atoView)
         {
             DtoExecProc execProc = new DtoExecProc();
             DtoAto ato = new DtoAto();
@@ -258,30 +258,57 @@ namespace Cartorio11RI.Controllers
         #region |EditarAto|
         public ActionResult EditarAto(long? Id)
         {
+            AtoViewModel atoViewModel = new AtoViewModel();
+            BusinessErrorViewModel businessError = new BusinessErrorViewModel();
+
             try
             {
                 if (Id.HasValue)
                 {
-                    Ato Ato = this.UfwCartNew.Repositories.GenericRepository<Ato>().GetById(Id);
-                    if (Ato == null)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-                    }
-                    //else if (Ato.Bloqueado == true)
-                    //{
-                    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível editar um ato já bloqueado.");
-                    //}
-                    AtoViewModel atoViewModel = new AtoViewModel()
-                    {
-                        Id = Id,
-                        NumSequenciaAto = Ato.NumSequenciaAto
-                    };
+                    List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+                    ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
-                    return View(atoViewModel);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    //povoar tree view
+                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
+                    ViewBag.listaTipoAto = listaTipoAto;
+
+                    using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                    {
+                        string[] statusEditaveis = appService.StatusEditaveis;
+                        string[] statusCamposReadOnly = appService.StatusCamposReadOnly;
+
+                        ViewBag.StatusEditaveis = statusEditaveis;
+                        ViewBag.StatusCamposReadOnly = statusCamposReadOnly;
+
+                        DtoAto ato = appService.GetById(Id);
+
+                         
+                        if (ato == null)
+                        {
+                            return RedirectToAction("Error404", "Adm");
+                        }
+
+                        //se não for permitido editar
+                        if (statusEditaveis.Contains(ato.StatusAto))
+                        {
+                            businessError.ListErros.Add("Edição não é permitida!");
+                        }
+
+                        if (businessError.ListErros.Count >= 1)
+                        {
+                            TempData["businessError"] = businessError;
+                            return RedirectToAction("BusinessError", "Adm");
+                        }
+
+
+
+                        atoViewModel = Mapper.Map<DtoAto, AtoViewModel>(ato);
+                        
+
+                    }
+                } else {
+                    //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                    return RedirectToAction("Error404", "Adm");
                 }
             }
             catch (Exception ex)
@@ -290,6 +317,8 @@ namespace Cartorio11RI.Controllers
                 TempData["error"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
+            
+            return View(atoViewModel);
         }
 
         [HttpPost]
@@ -298,7 +327,10 @@ namespace Cartorio11RI.Controllers
         {
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
+            
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
 
+            /*
             try
             {
                 if (modelo.Id == null)
@@ -321,9 +353,7 @@ namespace Cartorio11RI.Controllers
                     {
                         numSequenciaAto = this.UfwCartNew.Repositories.RepositoryAto.GetNumSequenciaAto(modelo.NumMatricula);
                         numSequenciaAto = numSequenciaAto != null ? numSequenciaAto : 1;
-                    }
-                    else
-                    {
+                    } else {
                         numSequenciaAto = modelo.NumSequenciaAto;
                     }
 
@@ -375,6 +405,8 @@ namespace Cartorio11RI.Controllers
                 TempData["error"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
+            */
+
         }
         #endregion
 

@@ -27,5 +27,20 @@ namespace Cartorio11RI.Controllers
             return View(internalServerError);
         }
 
+
+        public ActionResult BusinessError(string descricao)
+        {
+            //Exception ex = TempData["error"] as Exception;
+            BusinessErrorViewModel businessError = TempData["businessError"] as BusinessErrorViewModel;
+
+            return View(businessError);
+        }
+
+        public ActionResult Error404()
+        {
+
+            return View();
+        }
+
     }
 }

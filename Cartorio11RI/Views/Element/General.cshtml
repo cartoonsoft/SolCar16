@@ -670,7 +670,7 @@
 							<div class="tabs-left">
 								<ul class="nav nav-tabs tabs-left" id="demo-pill-nav">
 									<li class="active">
-										<a href="#tab-r1" data-toggle="tab"><span class="badge bg-color-blue txt-color-white">12</span> Item 1 </a>
+										<a href="#tab-r1" data-toggle="tab" class="btn btn-default"><span class="badge bg-color-blue txt-color-white">12</span> Item 1 </a>
 									</li>
 									<li>
 										<a href="#tab-r2" data-toggle="tab"><span class="badge bg-color-blueDark txt-color-white">3</span> Item 2</a>
@@ -2644,10 +2644,9 @@
 </div>
 <!-- END MAIN CONTENT -->
 @section pagespecific {
-		<!-- PAGE RELATED PLUGIN(S) -->
+
+<!-- PAGE RELATED PLUGIN(S) -->
 <script src="/scripts/plugin/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-
-
 
 <script type="text/javascript">
 
@@ -2662,6 +2661,7 @@
 			interval: 3000,
 			cycle: true
 		});
+
 		$('.carousel.fade').carousel({
 			interval: 3000,
 			cycle: true
@@ -2691,7 +2691,7 @@
 
 			e.preventDefault();
 
-		})
+		});
 
 		$('#eg2').click(function (e) {
 
@@ -2719,8 +2719,7 @@
 			});
 
 			e.preventDefault();
-
-		})
+		});
 
 		$('#eg4').click(function (e) {
 
@@ -2736,10 +2735,7 @@
 			});
 
 			e.preventDefault();
-
-		})
-
-
+		});
 
 		$('#eg5').click(function () {
 
@@ -2753,8 +2749,6 @@
 
 		});
 
-
-
 		$('#eg6').click(function () {
 
 			$.smallBox({
@@ -2765,7 +2759,7 @@
 				icon: "fa fa-bell"
 			});
 
-		})
+		});
 
 		$('#eg7').click(function () {
 
@@ -2777,7 +2771,7 @@
 				timeout: 4000
 			});
 
-		})
+		});
 
 		function closedthis() {
 			$.smallBox({
@@ -2821,7 +2815,8 @@
 
 			});
 			e.preventDefault();
-		})
+		});
+
 		// With Input
 		$("#smart-mod-eg2").click(function (e) {
 
@@ -2836,7 +2831,8 @@
 			});
 
 			e.preventDefault();
-		})
+		});
+
 		// With Buttons
 		$("#smart-mod-eg3").click(function (e) {
 
@@ -2847,7 +2843,8 @@
 			});
 
 			e.preventDefault();
-		})
+		});
+
 		// With Select
 		$("#smart-mod-eg4").click(function (e) {
 
@@ -2895,8 +2892,7 @@
 			e.preventDefault();
 		});
 
-
-	})
+	});
 
 </script>
 }

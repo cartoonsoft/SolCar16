@@ -242,28 +242,28 @@
 		});
 
 		var id = $("#Id").val();
-        DesabilitarProximo();
+		DesabilitarProximo();
 
-        var form_para_validar = $("#frm-wizard-novo-ato");
+		var form_para_validar = $("#frm-wizard-novo-ato");
 
-        $.validator.addMethod("valueNotEquals", function (value, element, arg) {
-            return arg !== value;
-        }, "Value must not equal arg.");
+		$.validator.addMethod("valueNotEquals", function (value, element, arg) {
+			return arg !== value;
+		}, "Value must not equal arg.");
 
 
 		/*-- validate --------------------------------------------------------*/
-        $("#frm-wizard-novo-ato").validate({
+		$("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
-            rules: {
+			rules: {
 				IdPrenotacao: {
 					required: true
 				},
 				IdCtaAcessoSist: {
 					required: true
-                },
+				},
 				IdTipoAto: {
 					required: true
-                },
+				},
 				NumMatricula: {
 					required: true
 				},
@@ -271,27 +271,27 @@
 					required: true
 				},
 				IdLivro: {
-                    required: true
-                },
+					required: true
+				},
 				NumFicha: {
-                    required: true,
-                    min: 1,
-                    number: true
-                },
+					required: true,
+					min: 1,
+					number: true
+				},
 				NumSequenciaAto: {
-                    required: true,
-                    min: 1,
-                    number: true
-                },
-                FolhaFicha: {
-                    required: true,
-                    valueNotEquals: "0"
-                },
-                DistanciaTopo: {
-                    required: true,
-                    min: 1,
-                    number: true
-                },
+					required: true,
+					min: 1,
+					number: true
+				},
+				FolhaFicha: {
+					required: true,
+					valueNotEquals: "0"
+				},
+				DistanciaTopo: {
+					required: true,
+					min: 1,
+					number: true
+				},
 				DescricaoAto: {
 					required: true
 				}
@@ -306,36 +306,36 @@
 				},
 				NumMatricula: {
 					required: "Núm. de matrícula inválida"
-                },
+				},
 				IdModeloDoc: {
 					required: "Selecione um modelo de documento"
 				},
 				IdLivro: {
-                    required: "Selecione um livro"
+					required: "Selecione um livro"
 				},
 				NumFicha: {
-                    required: "Preencha o número da ficha",
-                    min: "Número não pode ser zero",
-                    number: "Deve ser valor numérico"
-                },
+					required: "Preencha o número da ficha",
+					min: "Número não pode ser zero",
+					number: "Deve ser valor numérico"
+				},
 				NumSequenciaAto: {
-                    required: "Preencha o número de seqência",
-                    min: "Número não pode ser zero",
-                    number: "Deve ser valor numérico"
-                },
-                FolhaFicha: {
-                    required: "Preencha se é frente ou verso",
-                    valueNotEquals: "Selecione frente ou verso"
-                },
-                DistanciaTopo: {
-                    required: "Preencha o ajuste superior",
-                    min: "Ajuste não pode ser zero",
-                    number: "Deve ser um valor numérico"
-                },
+					required: "Preencha o número de seqência",
+					min: "Número não pode ser zero",
+					number: "Deve ser valor numérico"
+				},
+				FolhaFicha: {
+					required: "Preencha se é frente ou verso",
+					valueNotEquals: "Selecione frente ou verso"
+				},
+				DistanciaTopo: {
+					required: "Preencha o ajuste superior",
+					min: "Ajuste não pode ser zero",
+					number: "Deve ser um valor numérico"
+				},
 				DescricaoAto: {
 					required: "Digite um descrição para o ato"
 				}
-            },
+			},
 
 			// Do not change code below
 			highlight: function (element) {
@@ -659,48 +659,48 @@
 
 		/*-- salvar o ato ----------------------------------------------------*/
 		$("#btn-ato-salvar").click(function (e) {
-            e.preventDefault();
+			e.preventDefault();
 
-            var frm_valid = form_para_validar.valid();
+			var frm_valid = form_para_validar.valid();
 
-            if (frm_valid) {
+			if (frm_valid) {
 
-                var form = $('#frm-wizard-novo-ato');
-                var token = $('input[name="__RequestVerificationToken"]', form).val();
+				var form = $('#frm-wizard-novo-ato');
+				var token = $('input[name="__RequestVerificationToken"]', form).val();
 
-                var dadosAto = {
-                    __RequestVerificationToken: token,
-                    Id: $("#Id").val(),
-                    IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
-                    IdLivro: $("#ddListLivro option:selected").val(),
-                    IdTipoAto: $("#IdTipoAto").val(),
-                    IdModeloDoc: $("#IdModeloDoc").val(),
-                    IdPrenotacao: $("#IdPrenotacao").val(),
-                    IdUsuarioCadastro: $("#IdUsuarioCadastro").val(),
-                    DataCadastro: $("DataCadastro").val(),
-                    IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
+				var dadosAto = {
+					__RequestVerificationToken: token,
+					Id: $("#Id").val(),
+					IdCtaAcessoSist: $("#IdCtaAcessoSist").val(),
+					IdLivro: $("#ddListLivro option:selected").val(),
+					IdTipoAto: $("#IdTipoAto").val(),
+					IdModeloDoc: $("#IdModeloDoc").val(),
+					IdPrenotacao: $("#IdPrenotacao").val(),
+					IdUsuarioCadastro: $("#IdUsuarioCadastro").val(),
+					DataCadastro: $("DataCadastro").val(),
+					IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
 					DataAlteracao: $("#DataAlteracao").val(),
-                    IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
-                    NumMatricula: $("#NumMatricula").val(),
+					IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
+					NumMatricula: $("#NumMatricula").val(),
 					SiglaSeqAto: $("#SiglaSeqAto").val(),
-                    NumSequenciaAto: $("#NumSequenciaAto").val(),
-                    DataAto: $("#DataAto").val(),
-                    DescricaoAto: $("#DescricaoAto").val(),
-                    DescricaoTipoAto: $("#DescricaoTipoAto").val(),
-                    Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
-                    Observacao: $("#Observacao").val(),
-                    StatusAto: $("#StatusAto").val(),
-                    Ativo: $("#Ativo").val(),
-                    IpLocal: $("#IpLocal").val(),
-                    NumFicha: $("#NumFicha").val(),
-                    TextoDistanciaTopo: $("#DistanciaTopo").val(),
-                    GeradoFicha: $("#GeradoFicha").val(),
+					NumSequenciaAto: $("#NumSequenciaAto").val(),
+					DataAto: $("#DataAto").val(),
+					DescricaoAto: $("#DescricaoAto").val(),
+					DescricaoTipoAto: $("#DescricaoTipoAto").val(),
+					Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
+					Observacao: $("#Observacao").val(),
+					StatusAto: $("#StatusAto").val(),
+					Ativo: $("#Ativo").val(),
+					IpLocal: $("#IpLocal").val(),
+					NumFicha: $("#NumFicha").val(),
+					TextoDistanciaTopo: $("#DistanciaTopo").val(),
+					GeradoFicha: $("#GeradoFicha").val(),
 					StatusAto: $("#StatusAto").val()
-                }
+				}
 
-                InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
+				InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
 
-            } else {
+			} else {
 				$.smallBox({
 					title: "Revise o preenchimento de dados!",
 					content: "Preencha todos os campos que sejam obrigatórios.",
@@ -708,7 +708,7 @@
 					icon: "fa fa-exclamation bounce animated",
 					timeout: 4000
 				});
-            }
+			}
 
 		});
 
@@ -753,8 +753,8 @@
 		if (typeof btn != 'undefined' || btn != null) {
 			var txtTipoAto = btn.innerText.trim();
 			$("#IdTipoAto").val(idTipoAto);
-            $("#DescricaoTipoAto").val(txtTipoAto);
-            $("#SiglaSeqAto").val(SiglaSeqAto);
+			$("#DescricaoTipoAto").val(txtTipoAto);
+			$("#SiglaSeqAto").val(SiglaSeqAto);
 			$(".btn-tree-tipo-ato").removeClass("btn-danger");
 			$(btn).addClass("btn-danger");
 			var sel = $("#IdModeloDoc");

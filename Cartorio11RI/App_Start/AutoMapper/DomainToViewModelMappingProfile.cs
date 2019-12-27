@@ -11,9 +11,9 @@ using Cartorio11RI.ViewModels;
 
 namespace Cartorio11RI.App_Start.AutoMapper
 {
-    public class DomainToModelMappingProfile : Profile
+    public class DomainToViewModelMappingProfile : Profile
     {
-        public DomainToModelMappingProfile()
+        public DomainToViewModelMappingProfile()
         {
             //CreateMap<Pais, PaisViewModel>();
             //CreateMap<Uf, UfViewModel>();
@@ -21,6 +21,8 @@ namespace Cartorio11RI.App_Start.AutoMapper
             CreateMap<ModeloDoc, ModeloDocxViewModel>();
             CreateMap<ModeloDocxList, ModeloDocxListViewModel>();
             CreateMap<Acao, AcaoViewModel>();
+            CreateMap<Ato, AtoViewModel>();
+
         }
     }
 }

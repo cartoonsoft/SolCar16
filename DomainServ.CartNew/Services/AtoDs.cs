@@ -251,8 +251,6 @@ namespace DomainServ.CartNew.Services
             return dtoPessoaPesxPre;
         }
 
-
-
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {
             List<DtoDocx> listaDtoDocx = new List<DtoDocx>();

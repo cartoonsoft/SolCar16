@@ -13,7 +13,7 @@ namespace Cartorio11RI.App_Start.AutoMapper
             Mapper.Initialize(x =>
             {
                 x.AddProfile<DomainToDtoModelMappingProfile>();
-                x.AddProfile<DomainToModelMappingProfile>();
+                x.AddProfile<DomainToViewModelMappingProfile>();
                 x.AddProfile<DtoModelToDomainMappingProfile>();
                 x.AddProfile<DtoToViewModelMappingProfileAdminCartorio>();
                 x.AddProfile<ViewModelToDtoMappingProfileAdminCartorio>();
