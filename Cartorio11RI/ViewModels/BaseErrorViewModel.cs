@@ -8,6 +8,12 @@ namespace Cartorio11RI.ViewModels
 {
     public class BaseErrorViewModel
     {
+        public BaseErrorViewModel()
+        {
+            this.Excecao = null;
+            this.Data = DateTime.Now;
+        }
+
         public long Id { get; set; }
 
         [Display(Name = "Descrição")]

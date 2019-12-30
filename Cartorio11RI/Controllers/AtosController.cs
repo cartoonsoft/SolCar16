@@ -174,7 +174,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
@@ -214,7 +214,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
@@ -260,17 +260,12 @@ namespace Cartorio11RI.Controllers
         {
             AtoViewModel atoViewModel = new AtoViewModel();
             BusinessErrorViewModel businessError = new BusinessErrorViewModel();
+            string descMsg = string.Empty;
 
             try
             {
                 if (Id.HasValue)
                 {
-                    List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
-                    ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
-
-                    //povoar tree view
-                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
-                    ViewBag.listaTipoAto = listaTipoAto;
 
                     using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
@@ -281,7 +276,6 @@ namespace Cartorio11RI.Controllers
                         ViewBag.StatusCamposReadOnly = statusCamposReadOnly;
 
                         DtoAto ato = appService.GetById(Id);
-
                          
                         if (ato == null)
                         {
@@ -289,22 +283,26 @@ namespace Cartorio11RI.Controllers
                         }
 
                         //se não for permitido editar
-                        if (statusEditaveis.Contains(ato.StatusAto))
+                        if (!statusEditaveis.Contains(ato.StatusAto))
                         {
-                            businessError.ListErros.Add("Edição não é permitida!");
+                            businessError.ListErros.Add("Edição não é permitida para o status atual do ato!");
                         }
 
                         if (businessError.ListErros.Count >= 1)
                         {
+                            descMsg = "Ação não está em conformidade com regras de negócio do sistema. Verifique!";
                             TempData["businessError"] = businessError;
-                            return RedirectToAction("BusinessError", "Adm");
+                            return RedirectToAction("BusinessError", "Adm", new { descricao = descMsg });
                         }
 
+                        List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
+                        ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
+                        //povoar tree view
+                        List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
+                        ViewBag.listaTipoAto = listaTipoAto;
 
                         atoViewModel = Mapper.Map<DtoAto, AtoViewModel>(ato);
-                        
-
                     }
                 } else {
                     //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -314,7 +312,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
             
@@ -402,7 +400,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
             */
@@ -447,7 +445,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }
@@ -477,7 +475,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
         }

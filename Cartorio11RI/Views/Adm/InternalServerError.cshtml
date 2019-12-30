@@ -14,12 +14,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text-center error-box">
-                        <h1 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Error 500</h1>
-                        <h2 class="font-xl"><strong>Não foi possível realizar a operação.</strong></h2>
+                        <h2 class="error-text tada animated"><i class="fa fa-times-circle text-danger error-icon-shadow"></i> Error 500</h2>
+                        <h3 class="font-xl"><strong>Não foi possível realizar a operação.</strong></h3>
                         <br />
                         <div>
                             <hr />
-                            <a href='@Url.Action("Index", "Home")' class="btn btn-primary btn-lg">
+                            <a href='#' class="btn btn-primary btn-lg" onclick="history.go(-1); return false;">
                                 <i class="fa fa-arrow-left animated fadeInRightBig"></i> Voltar
                             </a>
                             <hr />
@@ -44,29 +44,31 @@
                                         <td align="left">@Html.DisplayNameFor(model => model.Descricao)</td>
                                         <td align="left">@Html.DisplayFor(model => model.Descricao)</td>
                                     </tr>
-                                    <tr>
-                                        <td align="left">@Html.DisplayNameFor(model => model.Excecao)</td>
-                                        <td align="left">@Html.DisplayFor(model => model.Excecao.Message)</td>
-                                    </tr>
-                                    <tr>
-                                        <td align="left">Detalhamento</td>
-                                        <td align="left">
-                                            @{
-                                                if (Model.Excecao != null)
-                                                {
-                                                    var ex = Model.Excecao.InnerException;
-                                                    while (ex != null)
-                                                    {
-                                                        <p>
-                                                            @Html.Display(ex.Message)
-                                                        </p>
-                                                        <br />
-                                                        ex = ex.InnerException;
+                                    @{
+                                        if (Model.Excecao != null)
+                                        {
+                                            var ex = Model.Excecao.InnerException;
+                                            <tr>
+                                                <td align="left">@Html.DisplayNameFor(model => model.Excecao)</td>
+                                                <td align="left">@Html.DisplayFor(model => model.Excecao.Message)</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="left">Detalhamento</td>
+                                                <td align="left">
+                                                    @{
+                                                        while (ex != null)
+                                                        {
+                                                            <p>
+                                                                @Html.Display(ex.Message)
+                                                            </p>
+                                                            <br />
+                                                            ex = ex.InnerException;
+                                                        }
                                                     }
-                                                }
-                                            }
-                                        </td>
-                                    </tr>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                             </table>
 

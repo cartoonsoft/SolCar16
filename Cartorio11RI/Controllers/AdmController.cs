@@ -17,10 +17,9 @@ namespace Cartorio11RI.Controllers
 
         public ActionResult InternalServerError(string descricao)
         {
-            Exception ex = TempData["error"] as Exception;
+            Exception ex = TempData["excecaoGerada"] as Exception;
 
             InternalServerErrorViewModel internalServerError = new InternalServerErrorViewModel();
-            internalServerError.Data = DateTime.Now;
             internalServerError.Descricao = descricao;
             internalServerError.Excecao = ex;
 
@@ -30,8 +29,10 @@ namespace Cartorio11RI.Controllers
 
         public ActionResult BusinessError(string descricao)
         {
-            //Exception ex = TempData["error"] as Exception;
             BusinessErrorViewModel businessError = TempData["businessError"] as BusinessErrorViewModel;
+            Exception ex = TempData["excecaoGerada"] as Exception;
+            businessError.Descricao = descricao;
+            businessError.Excecao = ex;
 
             return View(businessError);
         }

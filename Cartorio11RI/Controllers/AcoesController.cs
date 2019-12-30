@@ -89,7 +89,7 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
             }
         }
 
@@ -115,7 +115,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["error"] = ex;
+                TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 

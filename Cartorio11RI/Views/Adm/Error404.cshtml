@@ -7,50 +7,57 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="text-center error-box">
-                        <h1 class="error-text-2 bounceInDown animated">
+                        <h2 class="error-text-2 bounceInDown animated">
                             Error 404 <span class="particle particle--c"></span><span class="particle particle--a"></span><span class="particle particle--b"></span>
-                        </h1>
-                        <h2 class="font-xl">
-                            <strong>
-                                <i class="fa fa-fw fa-warning fa-lg text-warning"></i> Página e/ou registro <u>Não </u> Encontrado
-                            </strong>
                         </h2>
+                        <h3 class="font-xl">
+                            <strong>
+                                <i class="fa fa-fw fa-warning fa-lg text-warning"></i> Página e/ou registro <u>Não</u> Encontrado.
+                            </strong>
+                        </h3>
+                        <p>
+                            Não foi possível encontrar a página solicitada, entre em contato com o webmaster ou tente novamente mais tarde.
+                        </p>
                         <br />
                         <p class="lead">
-                            Não foi possível encontrar a página solicitada, entre em contato com o webmaster ou tente novamente. Voce pode clicar no botão <b>Voltar</b> do seu navegador para retornar à página que chamou o este link.
+                            <a href='#' class="btn btn-primary btn-lg" onclick="history.go(-1); return false;">
+                                <i class="fa fa-arrow-left animated fadeInRightBig"></i> Voltar
+                            </a>
                         </p>
                         <p class="font-md">
                             <b>... Descupe-nos pelo incoveniente!</b>
                         </p>
                         <br>
-                        <div class="error-search well well-lg padding-10">
-                            <div class="input-group">
-                                <input class="form-control input-lg" type="text" placeholder="Tentar novamente" id="search-error">
-                                <span class="input-group-addon"><i class="fa fa-fw fa-lg fa-search"></i></span>
-                            </div>
-                        </div>
-
+                        <hr />
                         <div class="row">
                             <div class="col-sm-12">
                                 <ul class="list-inline">
                                     <li>
-                                        &nbsp;<a href="javascript:void(0);">Index</a>&nbsp;
+                                        &nbsp;
+                                        <a href="#" class="btn btn-link" onclick="history.go(-1); return false;">
+                                            <i class="fa fa-arrow-left animated fadeInRightBig"></i> Voltar
+                                        </a>
+                                        &nbsp;
+                                    </li>
+                                    <li>
+                                        &nbsp;
+                                        <a href="@Url.Action("Index", "Home")" class="btn btn-link">
+                                            <i class="fa fa-home animated fadeInRightBig"></i> Home
+                                        </a>&nbsp;
                                     </li>
                                     <li>
                                         .
                                     </li>
                                     <li>
-                                        &nbsp;<a href="javascript:void(0);">Inof</a>&nbsp;
-                                    </li>
-                                    <li>
-                                        .
-                                    </li>
-                                    <li>
-                                        &nbsp;<a href="javascript:void(0);">Home</a>&nbsp;
+                                        &nbsp;
+                                        <a href="javascript:void(0);" class="btn btn-link">
+                                            <i class="fa fa-info animated fadeInRightBig"></i> Sobre
+                                        </a>&nbsp;
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <hr />
                     </div>
                 </div>
             </div>
