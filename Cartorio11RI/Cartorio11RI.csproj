@@ -528,6 +528,7 @@
       <DependentUpon>app.seed.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\cartoonsoft\Atos\editar_ato.js" />
     <Content Include="Scripts\cartoonsoft\Atos\novo_ato.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_libs.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_validation_lib.js" />

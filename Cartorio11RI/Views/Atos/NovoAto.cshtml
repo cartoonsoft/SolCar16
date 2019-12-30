@@ -250,7 +250,6 @@
 			return arg !== value;
 		}, "Value must not equal arg.");
 
-
 		/*-- validate --------------------------------------------------------*/
 		$("#frm-wizard-novo-ato").validate({
 			// Rules for form validation
@@ -363,7 +362,7 @@
 			}
 		});
 
-		/*-- pesqusar por prenotacao ---------------------------------------- */
+		/*-- pesqusar por prenotacao Tecla enter ---------------------------- */
 		$("#IdPrenotacao").keydown(function (e) {
 			if (e.keyCode == 13) {
 				$("#btn-pesq-prenotacao").click();
@@ -402,7 +401,7 @@
 			ProcReservarMatImovel(1, numPrenotacao, numMat, urlProcReservarMatImovel);
 		});
 
-		/*-- btn-libera-mat ------------------------------------------------ */
+		/*-- btn-libera-mat ------------------------------------------------- */
 		$("#btn-libera-mat").click(function (e) {
 			e.preventDefault();
 
