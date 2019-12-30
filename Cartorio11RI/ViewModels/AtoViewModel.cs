@@ -86,7 +86,7 @@ namespace Cartorio11RI.ViewModels
         public string DescricaoAto { get; set; }
 
         [Display(Name = "Texto")]
-        [DataType(DataType.Text)]
+        [DataType(DataType.MultilineText)]
         [AllowHtml]
         public string Texto { get; set; }
 

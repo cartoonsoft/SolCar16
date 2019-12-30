@@ -1,10 +1,12 @@
-﻿using Dto.CartNew.Base;
+﻿using Domain.CartNew.Enumerations;
+using Dto.CartNew.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
@@ -13,7 +15,6 @@ namespace Dto.CartNew.Entities.Cart_11RI
         public DtoAto()
         {
             this.ListaPessoasAto = new List<DtoPessoaAto>();
-            this.ListaDocxsAto = new List<DtoDocx>();
             this.StatusAto = string.Empty;
         }
 
@@ -34,8 +35,10 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public string IdUsuarioAlteracao { get; set; }
 
+        [DataType(DataType.DateTime)]
         public DateTime DataCadastro { get; set; }
 
+        [DataType(DataType.DateTime)]
         public DateTime? DataAlteracao { get; set; }
 
         public string Codigo
@@ -43,31 +46,39 @@ namespace Dto.CartNew.Entities.Cart_11RI
             get { return this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
         }
 
-        public string SiglaSeqAto { get; set; }
-
-        public short NumSequenciaAto { get; set; } //numeric(5,0)
-
+        [DataType(DataType.Date)]
         public DateTime? DataAto { get; set; }
 
         public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
 
         public string DescricaoAto { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
         public string Texto { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Observacao { get; set; } // VARCHAR2(512)
 
         public string StatusAto { get; set; }
 
         public bool Ativo { get; set; }
 
-        public string Observacao { get; set; } // VARCHAR2(512)
-
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public bool GeradoFicha { get; set; }
+        public string SiglaSeqAto { get; set; }
 
-        public List<DtoPessoaAto> ListaPessoasAto { get; set; }  //pessoas selecionadas para este ato, não é necessariamente, todas as pesoas da prenotação.
+        public short NumSequenciaAto { get; set; }
 
-        public List<DtoDocx> ListaDocxsAto { get; set; }  //Lista de docx (Fichas) gerados para o ato
+        public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+
+        public TipoFolhaFicha FolhaFicha { get; set; }
+
+        public string IdsPessoasSelecionadas { get; set; } //string com ids das pessoas que forma seleconadas separadaos por ";"
+
+        public List<DtoPessoaAto> ListaPessoasAto { get; set; }
+
+        public DtoPREIMO PREIMO { get; set; }
 
     }
 }

@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using Domain.CartNew.Enumerations;
 using Domain.Core.Entities.Base;
 
 namespace Domain.CartNew.Entities
@@ -56,10 +58,21 @@ namespace Domain.CartNew.Entities
         [Column("NRO_MATRICULA")]   //NRO_MATRICULA        VARCHAR2(20),
         public string NumMatricula { get; set; }
 
+        [Column("NUM_FICHA")]
+        public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
+
+        [Column("DIST_TOPO")]
+        public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+
+        [Column("FOLHA_FICHA")]
+        public TipoFolhaFicha FolhaFicha { get; set; }
+
         [Column("DESCRICAO")]
         public string DescricaoAto { get; set; }
 
         [Column("TEXTO")]
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
         public string Texto{ get; set; }
 
         [Column("STATUS_ATO")]
@@ -69,6 +82,7 @@ namespace Domain.CartNew.Entities
         public bool Ativo { get; set; }
 
         [Column("OBSERCACAO")] // VARCHAR2(512),
+        [DataType(DataType.MultilineText)]
         public string Observacao { get; set; }
     }
 }

@@ -266,7 +266,6 @@ namespace Cartorio11RI.Controllers
             {
                 if (Id.HasValue)
                 {
-
                     using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
                         string[] statusEditaveis = appService.StatusEditaveis;
