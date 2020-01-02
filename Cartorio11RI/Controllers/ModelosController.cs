@@ -50,7 +50,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListaModelosDocx(null).Where(a => a.Ativo == true);
+                    IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListModelosDocx(null).Where(a => a.Ativo == true);
                     listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
                 }
             }

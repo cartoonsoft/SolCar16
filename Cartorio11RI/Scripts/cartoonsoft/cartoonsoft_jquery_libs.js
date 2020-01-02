@@ -14,7 +14,6 @@ $(document).ready(function () {
 		$("#IpLocal").val(ip); //vc deve criar um input hide com id = IpLocal
 	});
 
-
 	$.validator.addMethod("valueNotEquals", function (value, element, arg) {
 		return arg !== value;
 	}, "Value must not equal arg.");
@@ -26,6 +25,5 @@ $(document).ready(function () {
 			event.preventDefault();
 		}
 	});
-
 
 });

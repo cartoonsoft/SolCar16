@@ -1141,6 +1141,11 @@
     <Content Include="Views\Atos\EditarAto.cshtml" />
     <Content Include="Views\Adm\Error404.cshtml" />
     <Content Include="Views\Adm\BusinessError.cshtml" />
+    <Content Include="Views\Atos\_edtAtoTab1.cshtml" />
+    <Content Include="Views\Atos\_edtAtoTab3.cshtml" />
+    <Content Include="Views\Atos\_edtAtoTab2.cshtml" />
+    <Content Include="Views\Atos\_edtAtoTab4.cshtml" />
+    <Content Include="Views\Atos\_crudAto.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

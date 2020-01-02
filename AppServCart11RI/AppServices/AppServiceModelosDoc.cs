@@ -117,7 +117,7 @@ namespace AppServCart11RI.AppServices
             return resposta;
         }
         
-        public IEnumerable<DtoModeloDocxList> GetListaModelosDocx(long? IdTipoAto = null)
+        public IEnumerable<DtoModeloDocxList> GetListModelosDocx(long? IdTipoAto = null)
         {
             IEnumerable<DtoModeloDocxList> listaDs = this.DsFactoryCartNew.ModeloDocxDs.GetListModelosDocx(IdTipoAto);
             return listaDs;

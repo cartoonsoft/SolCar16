@@ -1,108 +1,109 @@
-﻿<!-- passo 1 Prenotação ---------------------------------------------------- -->
+﻿<!-- _divWizardPasso1 Prenotação  ------------------------------------------ -->
 @model Cartorio11RI.ViewModels.AtoViewModel
-    <div class="step-pane active" a id="ato-step-1">
-        <br />
-        <br />
-        <hr class="simple" />
-        <div class="row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.IdPrenotacao)
-                <div class="input-group">
-                    <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
-                    <div class="icon-addon addon-md">
-                        @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", @placeholder = "Núm. prenotação" })
-                        <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
-                    </div>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao" rel="tooltip" data-placement="top" data-original-title="Pesquisar por número de prenotação."><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
-                    </span>
+
+<div class="step-pane active" a id="ato-step-1">
+    <br />
+    <br />
+    <hr class="simple" />
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.IdPrenotacao)
+            <div class="input-group">
+                <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
+                <div class="icon-addon addon-md">
+                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", @placeholder = "Núm. prenotação" })
+                    <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
                 </div>
-            </div>
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.NumMatricula)
-                <div class="input-group">
-                    @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListImoveisPrenotacao", @class = "form-control", @placeholder = "Num. matrícula" })
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="btn-reserva-mat" disabled rel="tooltip" data-placement="top" data-original-title="Reservar matrícula para escrita do Ato."><i class="fa fa-lock"></i> Reservar</button>
-                        <button type="button" class="btn btn-primary" id="btn-libera-mat" disabled rel="tooltip" data-placement="top" data-original-title="Liberar matrícula para escrita do Ato."><i class="fa fa-unlock"></i> Liberar</button>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataRegPrenotacao)
-                    @Html.TextBoxFor(model => model.DataRegPrenotacao, new { @class = "form-control", @readonly = "readonly" })
-                </div>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao" rel="tooltip" data-placement="top" data-original-title="Pesquisar por número de prenotação."><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                </span>
             </div>
         </div>
-        <hr class="simple" />
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.NumMatricula)
-                    @Html.TextBoxFor(model => model.NumMatricula, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.ENDER)
-                    @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.NUM)
-                    @Html.TextBoxFor(model => model.PREIMO.NUM, new { @class = "form-control", @readonly = "readonly" })
-                </div>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.NumMatricula)
+            <div class="input-group">
+                @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListImoveisPrenotacao", @class = "form-control", @placeholder = "Num. matrícula" })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="btn-reserva-mat" disabled rel="tooltip" data-placement="top" data-original-title="Reservar matrícula para escrita do Ato."><i class="fa fa-lock"></i> Reservar</button>
+                    <button type="button" class="btn btn-primary" id="btn-libera-mat" disabled rel="tooltip" data-placement="top" data-original-title="Liberar matrícula para escrita do Ato."><i class="fa fa-unlock"></i> Liberar</button>
+                </span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.APTO)
-                    @Html.TextBoxFor(model => model.PREIMO.APTO, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.BLOCO)
-                    @Html.TextBoxFor(model => model.PREIMO.BLOCO, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.EDIF)
-                    @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.LOTE)
-                    @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.QUADRA)
-                    @Html.TextBoxFor(model => model.PREIMO.QUADRA, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.OUTROS)
-                    @Html.TextBoxFor(model => model.PREIMO.OUTROS, new { @class = "form-control", @readonly = "readonly" })
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.PREIMO.VAGA)
-                    @Html.TextBoxFor(model => model.PREIMO.VAGA, new { @class = "form-control", @readonly = "readonly" })
-                </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataRegPrenotacao)
+                @Html.TextBoxFor(model => model.DataRegPrenotacao, new { @class = "form-control", @readonly = "readonly" })
             </div>
         </div>
     </div>
+    <hr class="simple" />
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.NumMatricula)
+                @Html.TextBoxFor(model => model.NumMatricula, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.ENDER)
+                @Html.TextBoxFor(model => model.PREIMO.ENDER, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.NUM)
+                @Html.TextBoxFor(model => model.PREIMO.NUM, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.APTO)
+                @Html.TextBoxFor(model => model.PREIMO.APTO, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.BLOCO)
+                @Html.TextBoxFor(model => model.PREIMO.BLOCO, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.EDIF)
+                @Html.TextBoxFor(model => model.PREIMO.EDIF, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.LOTE)
+                @Html.TextBoxFor(model => model.PREIMO.LOTE, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.QUADRA)
+                @Html.TextBoxFor(model => model.PREIMO.QUADRA, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.OUTROS)
+                @Html.TextBoxFor(model => model.PREIMO.OUTROS, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PREIMO.VAGA)
+                @Html.TextBoxFor(model => model.PREIMO.VAGA, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

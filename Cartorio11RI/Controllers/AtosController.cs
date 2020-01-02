@@ -484,7 +484,7 @@ namespace Cartorio11RI.Controllers
         /// </summary>
         /// <returns>Lista de arquivos</returns>
         [HttpPost]
-        public JsonResult GetListaModelosDocx(long? IdTipoAto)
+        public JsonResult GetListModelosDocx(long? IdTipoAto)
         {
             bool resp = false;
             string mesage = string.Empty;
@@ -494,7 +494,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (var appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    lista = appService.GetListaModelosDocx(IdTipoAto).ToList();
+                    lista = appService.GetListModelosDocx(IdTipoAto).ToList();
                     resp = true;
                     mesage = "Dados retornados con sucesso";
                 }

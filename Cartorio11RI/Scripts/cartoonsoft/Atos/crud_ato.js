@@ -6,21 +6,23 @@ Cartoonsoft: Atos.*
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
+/* urls chamadas ajax --------------------------------------------------------*/
+var urlGetDadosImovel = '/Atos/GetListImoveisPrenotacao';
+var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
+var urlGetLisModelosDocx = '/Atos/GetLisModelosDocx';
+var urlProcReservarMatImovel = '/Atos/ProcReservarMatImovel';
+var urlGetTextoAto = '/Atos/GetTextoAto';
+var urlGetTextoWordDocModelo = '/Atos/GetTextoWordDocModelo';
+var urlInsertOrUpdateAtoAjax = '/Atos/InsertOrUpdateAtoAjax';
+var urlGetDadosPorPrenotacao = '/Atos/GetDadosPorPrenotacao';
+
+var form_para_validar = null;
+
 $(document).ready(function () {
 
-	/* urls chamadas ajax ------------------------------------------------*/
-	var urlGetDadosImovel = '@Url.Action("GetListImoveisPrenotacao", "Atos")';
-	var urlGetListPessoasPrenotacao = '@Url.Action("GetListPessoasPrenotacao", "Atos")';
-	var urlGetLisModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
-	var urlProcReservarMatImovel = '@Url.Action("ProcReservarMatImovel", "Atos")';
-	var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
-	var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
-	var urlInsertOrUpdateAtoAjax = '@Url.Action("InsertOrUpdateAtoAjax", "Atos")';
-	var urlGetDadosPorPrenotacao = '@Url.Action("GetDadosPorPrenotacao", "Atos")';
+	form_para_validar = $("#frm-cadastro-ato");
 
-	var form_para_validar = $("#frm-cadastro-ato");
-
-	/*-- validate --------------------------------------------------------*/
+	/*-- validate ------------------------------------------------------------*/
 	$("#frm-cadastro-ato").validate({
 		// Rules for form validation
 		rules: {
@@ -125,7 +127,6 @@ $(document).ready(function () {
 	});
 
 	/*-- ckeditor ckEditorPreviewModelo --------------------------------- */
-	/*
 	CKEDITOR.replace('ckEditorPreviewModelo', {
 		width: '100%',
 		height: '200px',
@@ -152,7 +153,6 @@ $(document).ready(function () {
 		],
 		removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
-	*/
 
 	/*-- ckeditor ckEditorAto ------------------------------------------- */
 	CKEDITOR.replace('ckEditorAto', {
@@ -363,7 +363,7 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 		$(btn).addClass("btn-danger");
 		var sel = $("#IdModeloDoc");
 		CKEDITOR.instances.ckEditorPreviewModelo.setData("");
-		BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
+		BuscarListaModelos(idTmp, sel, '/Atos/GetListModelosDocx');
 	}
 }
 

@@ -1,0 +1,22 @@
+﻿<!-- _edtStoTab4  ---------------------------------------------------------- -->
+@model Cartorio11RI.ViewModels.AtoViewModel
+
+<div class="tab-pane fade" id="tab-edt-tab4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel-group">
+                <div class="panel-default">
+                    <label class="control-label">Selecione um modelo de documento</label>
+                    @Html.DropDownListFor(model => model.IdModeloDoc, new SelectList(new List<SelectListItem>()), new { @class = "form-control custom-scroll", @title = "Selecione um modelo de documento", @size = "6" })
+                </div>
+            </div>
+            <div class="panel-group">
+                <div class="panel-blue">
+                    <label class="control-label">PreView do Modelo selecionado</label>
+                    <textarea cols="80" id="ckEditorPreviewModelo" name="ckEditorPreviewModelo" rows="10" disabled>
+                    </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
