@@ -15,7 +15,8 @@ var cor_smallBox_confima = "#2A881A";
  * Mostrar o progresbar
  * param {any} menssagem
 ----------------------------------------------------------------------------* */
-function ShowProgreessBar(menssagem) {
+function ShowProgreessBar(menssagem)
+{
     $('#frmProgreessBarModal').modal("show");
     $('#messageProgreessBarModal').html(menssagem);
 }
@@ -23,7 +24,8 @@ function ShowProgreessBar(menssagem) {
 /** ----------------------------------------------------------------------------
  * Esconder progressbar
 ----------------------------------------------------------------------------* */
-function HideProgressBar() {
+function HideProgressBar()
+{
     $('#frmProgreessBarModal').modal("hide");
 }
 
@@ -35,8 +37,8 @@ function HideProgressBar() {
  * @param {any} timeout
  * @param {any} icone
 ----------------------------------------------------------------------------- */
-function AvisoSmallBox(titulo, msg, cor, timeout, icone) {
-    //
+function AvisoSmallBox(titulo, msg, cor, timeout, icone)
+{
     $.smallBox({
         title:   titulo,
         content: msg,
@@ -49,8 +51,8 @@ function AvisoSmallBox(titulo, msg, cor, timeout, icone) {
 /** ----------------------------------------------------------------------------
  * Mostrar Menssagem: Usuariu não tem permissão de acesso
  ---------------------------------------------------------------------------* */
-function ShowMessageUser() {
-
+function ShowMessageUser()
+{
     var tit = "Ação não permitida";
     var msg = "Usuário não tem permissão para esta funcionalidade <br/> Para maiores informações, contate o administrador.";
     var cor = "#B66246";
@@ -64,7 +66,8 @@ function ShowMessageUser() {
  * 
  * @param {any} obj
 ----------------------------------------------------------------------------* */
-function VerifyActiveClass(obj) {
+function VerifyActiveClass(obj)
+{
     var  objTmp = obj;
 
     if (!$(objTmp).closest("li").hasClass("active")) {
@@ -76,7 +79,8 @@ function VerifyActiveClass(obj) {
  * ShowDlgBoxCartorio
  * @param {any} options
 ----------------------------------------------------------------------------* */
-function ShowDlgBoxCartorio(options) {
+function ShowDlgBoxCartorio(options)
+{
     var deferredObject = $.Deferred();
 
     var defaults = {

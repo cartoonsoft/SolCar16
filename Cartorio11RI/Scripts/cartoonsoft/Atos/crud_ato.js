@@ -199,7 +199,6 @@ $(document).ready(function () {
 		}
 	});
 
-
 	/*-- IdModeloDoc ---------------------------------------------------- */
 	$("#IdModeloDoc").click(function (e) {
 		e.preventDefault();
@@ -340,17 +339,18 @@ $(document).ready(function () {
  * 
  * @@param {any} tipoPesso
 ----------------------------------------------------------------------------- */
-function GetDescTipoPessoaPrenotacao(tipoPessoa) {
+function GetDescTipoPessoaPrenotacao(tipoPessoa)
+{
 	return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
 }
-
 
 /**-------------------------------------------------------------------------
  *
  * @@param btnObj
  * @@param idTipoAto
 ------------------------------------------------------------------------- */
-function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto) {
+function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
+{
 	var btn = btnObj;
 	var idTmp = idTipoAto;
 
@@ -372,7 +372,8 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto) {
  * @@param {any} dados
  * @@param {any} url
  */
-function InsertOrUpdateAtoAjax(dados, url) {
+function InsertOrUpdateAtoAjax(dados, url)
+{
 	$.ajax(url, {
 		method: 'POST',
 		dataType: 'json',
@@ -431,5 +432,4 @@ function InsertOrUpdateAtoAjax(dados, url) {
 	}).always(function () {
 		HideProgressBar();
 	});
-
 }

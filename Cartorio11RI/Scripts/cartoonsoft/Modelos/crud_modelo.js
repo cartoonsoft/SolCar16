@@ -74,13 +74,13 @@ $(document).ready(function () {
 
 });
 
-
 /**
  * /
  * @@param btnObj
  * @@param idTipoAto
  */
-function SelecionarTipoAto(btnObj, idTipoAto) {
+function SelecionarTipoAto(btnObj, idTipoAto)
+{
 	var btn = btnObj;
 	var idTmp = idTipoAto;
 

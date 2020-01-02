@@ -7,12 +7,13 @@ by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
 /** ----------------------------------------------------------------------------
- * /
- * IP local
+ * onNewIp - your listener function for new IPs
+ * compatibility for firefox and chrome
+ * 
  * param {any} onNewIP
  -----------------------------------------------------------------------------*/
-function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
-    //compatibility for firefox and chrome
+function getUserIP(onNewIP)
+{
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
     var pc = new myPeerConnection({
         iceServers: []
@@ -57,7 +58,8 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
  * param {any} link
  * param {any} success
  -----------------------------------------------------------------------------*/
-function ShowMessageCrud(objHtml, titleMsg, message, success = false) {
+function ShowMessageCrud(objHtml, titleMsg, message, success = false)
+{
     var div = objHtml;
     var div_ok    = '<div class="alert alert-success fade in"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">' + titleMsg + '</h4><label">' + message + '</label></div>';
     var div_error = '<div class="alert alert-danger  fade in"><a class="close" data-dismiss="alert" href="#">x</a><h4 class="alert-heading">' + titleMsg + '</h4><label">' + message + '</label></div>';
@@ -75,9 +77,11 @@ function ShowMessageCrud(objHtml, titleMsg, message, success = false) {
  * 
  * @param {any} value
  */
-function ToJavaScriptDate(value) {
+function ToJavaScriptDate(value)
+{
     var pattern = /Date\(([^)]+)\)/;
     var results = pattern.exec(value);
     var dt = new Date(parseFloat(results[1]));
+
     return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes();
 }
