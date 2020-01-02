@@ -406,28 +406,5 @@
 
 	});
 
-	/**-------------------------------------------------------------------------
-	 *
-	 * @@param btnObj
-	 * @@param idTipoAto
-	------------------------------------------------------------------------- */
-	function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
-	{
-		var btn = btnObj;
-		var idTmp = idTipoAto;
-
-		if (typeof btn != 'undefined' || btn != null) {
-			var txtTipoAto = btn.innerText.trim();
-			$("#IdTipoAto").val(idTipoAto);
-			$("#DescricaoTipoAto").val(txtTipoAto);
-			$("#SiglaSeqAto").val(SiglaSeqAto);
-			$(".btn-tree-tipo-ato").removeClass("btn-danger");
-			$(btn).addClass("btn-danger");
-			var sel = $("#IdModeloDoc");
-			CKEDITOR.instances.ckEditorPreviewModelo.setData("");
-			BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
-		}
-	}
-
 	</script>
 }

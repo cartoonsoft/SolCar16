@@ -334,5 +334,102 @@ $(document).ready(function () {
 
 	});
 
-
 });
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} tipoPesso
+----------------------------------------------------------------------------- */
+function GetDescTipoPessoaPrenotacao(tipoPessoa) {
+	return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
+}
+
+
+/**-------------------------------------------------------------------------
+ *
+ * @@param btnObj
+ * @@param idTipoAto
+------------------------------------------------------------------------- */
+function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto) {
+	var btn = btnObj;
+	var idTmp = idTipoAto;
+
+	if (typeof btn != 'undefined' || btn != null) {
+		var txtTipoAto = btn.innerText.trim();
+		$("#IdTipoAto").val(idTipoAto);
+		$("#DescricaoTipoAto").val(txtTipoAto);
+		$("#SiglaSeqAto").val(SiglaSeqAto);
+		$(".btn-tree-tipo-ato").removeClass("btn-danger");
+		$(btn).addClass("btn-danger");
+		var sel = $("#IdModeloDoc");
+		CKEDITOR.instances.ckEditorPreviewModelo.setData("");
+		BuscarListaModelos(idTmp, sel, '@Url.Action("GetListaModelosDocx", "Atos")');
+	}
+}
+
+/**
+ * *
+ * @@param {any} dados
+ * @@param {any} url
+ */
+function InsertOrUpdateAtoAjax(dados, url) {
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dados,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+
+			var dadosValidos = !(typeof dataReturn.execute == 'undefined' || dataReturn.execute == null);
+
+			if (dadosValidos) {
+
+				if (!((typeof dataReturn.execute.Entidade == 'undefined') || (dataReturn.execute.Entidade == null))) {
+					//alert("Id ===> " + dataReturn.execute.Entidade.Id);
+					$("#Id").val(dataReturn.execute.Entidade.Id);
+
+					$("#IdUsuarioCadastro").val(dataReturn.execute.Entidade.IdUsuarioCadastro);
+					$("#DataCadastro").val(dataReturn.execute.Entidade.DataCadastro != null ? ToJavaScriptDate(dataReturn.execute.Entidade.DataCadastro) : "");
+
+					$("#IdUsuarioAlteracao").val(dataReturn.execute.Entidade.IdUsuarioAlteracao);
+					$("#DataAlteracao").val(dataReturn.execute.Entidade.DataAlteracao != null ? ToJavaScriptDate(dataReturn.execute.Entidade.DataAlteracao) : "");
+					$("#StatusAto").val(dataReturn.execute.Entidade.StatusAto);
+				}
+
+				$.smallBox({
+					title: "Ato salvo com sucesso!",
+					content: dataReturn.msg,
+					color: cor_smallBox_ok,
+					icon: "fa fa-thumbs-up bounce animated",
+					timeout: 4000
+				});
+			} else {
+				$.smallBox({
+					title: "Dados não foram salvos!",
+					content: dataReturn.msg,
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+
+	}).always(function () {
+		HideProgressBar();
+	});
+
+}

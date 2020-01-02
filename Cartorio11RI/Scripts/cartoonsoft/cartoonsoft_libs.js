@@ -71,5 +71,13 @@ function ShowMessageCrud(objHtml, titleMsg, message, success = false) {
     }
 }
 
-
-
+/**
+ * 
+ * @param {any} value
+ */
+function ToJavaScriptDate(value) {
+    var pattern = /Date\(([^)]+)\)/;
+    var results = pattern.exec(value);
+    var dt = new Date(parseFloat(results[1]));
+    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes();
+}

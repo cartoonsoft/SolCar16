@@ -14,8 +14,8 @@ var PodeAvancar3 = false;
 var arrayPessoas = [];
 
 /*----------------------------------------------------------------------------*/
-class PessoaPrenotacao {
-
+class PessoaPrenotacao
+{
     constructor() {
         var _IdPessoa = 0;
         var _IdPrenotacao = 0;
@@ -144,8 +144,8 @@ class PessoaPrenotacao {
  * @@param {any} selObj select que será povoado se retornar matriculas de imoveis
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function PesquisarPrenotacao(numPrenotacao, selObj, url) {
-
+function PesquisarPrenotacao(numPrenotacao, selObj, url)
+{
     if (!isNaN(numPrenotacao)) {
         var dadosPrenotacao = {
             IdPrenotacao: numPrenotacao
@@ -168,8 +168,8 @@ function PesquisarPrenotacao(numPrenotacao, selObj, url) {
  * @@param {any} selObj
  * @@param {any} url
  ---------------------------------------------------------------------------- */
-function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url) {
-
+function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url)
+{
     $('#btn-reserva-mat').prop('disabled', true);
     $('#btn-libera-mat').prop('disabled', true);
 
@@ -222,15 +222,14 @@ function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url) {
     });
 }
 
-
 /** ----------------------------------------------------------------------------
  * Ajax busca dados dos imoveis por prenotacao
  * @@param {any} dadosPrenotacao
  * @@param {any} selObj
  * @@param {any} url
  -----------------------------------------------------------------------------*/
-function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url) {
-
+function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url)
+{
     $('#btn-reserva-mat').prop('disabled', true);
     $('#btn-libera-mat').prop('disabled', true);
 
@@ -280,7 +279,6 @@ function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url) {
     }).always(function () {
         HideProgressBar();
     });
-
 }
 
 /** ----------------------------------------------------------------------------
@@ -292,12 +290,12 @@ function GetListImoveisPrenotacao(dadosPrenotacao, selObj, url) {
 function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
 {
     var msg_title = "";
+
     var dadosReserva = {
         TipoReserva:  tipoReserva,
         IdPrenotacao: numPrenotacao,
         NumMatricula: numMatricula
     };
-
 
     if (tipoReserva == 1) {
         msg_title = "Matrícula reservada!"
@@ -367,7 +365,6 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
     }).always(function () {
         HideProgressBar();
     });
-
 }
 
 /** ----------------------------------------------------------------------------
@@ -375,8 +372,8 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url)
  * @@param {any} dadosPrenotacao
  * @@param {any} url
  -----------------------------------------------------------------------------*/
-function GetListPessoasPrenotacao(dadosPrenotacao, url) {
-
+function GetListPessoasPrenotacao(dadosPrenotacao, url)
+{
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
@@ -428,14 +425,13 @@ function GetListPessoasPrenotacao(dadosPrenotacao, url) {
  * ShowTblPessoasPrenotacao
  * @@param listadados
  -----------------------------------------------------------------------------*/
-function ShowTblPessoasPrenotacao(listadados) {
-
+function ShowTblPessoasPrenotacao(listadados)
+{
     arrayPessoas = [];
-
     $("#tbl-selecao-pessoas").find("tr:gt(0)").remove();
 
-    $.each(listadados, function (index, item) {
-
+    $.each(listadados, function (index, item)
+    {
         var pessoa = new PessoaPrenotacao();
 
         pessoa.IdPessoa = item.IdPessoa;
@@ -453,8 +449,8 @@ function ShowTblPessoasPrenotacao(listadados) {
         pessoa.Numero1 = item.Numero1;
         pessoa.TipoDoc2 = item.TipoDoc2;
         pessoa.Numero2 = item.Numero2;
-        arrayPessoas.push(pessoa)
 
+        arrayPessoas.push(pessoa)
     });
 
     arrayPessoas.forEach(InserirLinhasSelecaoPessoas);
@@ -465,20 +461,12 @@ function ShowTblPessoasPrenotacao(listadados) {
 
 /** ----------------------------------------------------------------------------
  * 
- * @@param {any} tipoPesso
------------------------------------------------------------------------------ */
-function GetDescTipoPessoaPrenotacao(tipoPessoa) {
-    return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa  == 2) ? "Outorgado" : "Indefinido";
-}
-
-/** ----------------------------------------------------------------------------
- * 
  * @@param {any} pessoa
  * @@param {any} index
  * @@param {any} array
 ----------------------------------------------------------------------------- */
-function InserirLinhasSelecaoPessoas(pessoa, index, array) {
-
+function InserirLinhasSelecaoPessoas(pessoa, index, array)
+{
     var doc = pessoa.Numero1.trim();
 
     if (doc == "") {
@@ -500,7 +488,8 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array) {
  * 
  * @@param {any} chkObj
 ----------------------------------------------------------------------------- */
-function MarcarDesmarcarPessoa(chkObj) {
+function MarcarDesmarcarPessoa(chkObj)
+{
     var chkTmp = chkObj;
     var idTmp = chkObj.value;
     var idxTmp = ArrayPessoasIndexOfById(idTmp);
@@ -518,7 +507,8 @@ function MarcarDesmarcarPessoa(chkObj) {
  * 
  * @@param {any} id
 ----------------------------------------------------------------------------- */
-function ArrayPessoasIndexOfById(id) {
+function ArrayPessoasIndexOfById(id)
+{
     var idx = -1;
 
     for (var i = 0, len = arrayPessoas.length; i < len; i++) {
@@ -534,8 +524,8 @@ function ArrayPessoasIndexOfById(id) {
 /** ----------------------------------------------------------------------------
  * idPrenotacao (IdPrenotacao)
  ---------------------------------------------------------------------------- */
-function PovoarSelecionados(numPrenotacao) {
-
+function PovoarSelecionados(numPrenotacao)
+{
     var povoou = false;
     var IdsSel = ""; 
 
@@ -576,24 +566,45 @@ function PovoarSelecionados(numPrenotacao) {
     return povoou;
 }
 
-function DesabilitarProximo() {
+function DesabilitarProximo()
+{
     $('#btn-proximo').attr('disabled', 'disabled');
     $('#btn-proximo').removeClass('active');
 }
 
-function HabilitarProximo() {
+function HabilitarProximo()
+{
     $('#btn-proximo').removeAttr('disabled');
     $('#btn-proximo').addClass('active');
 }
 
 /** ----------------------------------------------------------------------------
- * Povoar select selModelosDocx
+ * PovoarSelImoveis
+ * @@param {any} selObj
+ * @@param {any} listaModelos
+----------------------------------------------------------------------------- */
+function PovoarSelImoveis(selObj, listaImoveis)
+{
+    var sel = selObj;
+
+    if (!(typeof sel == 'undefined' || sel == null)) {
+        $(sel).empty();
+
+        $.each(listaImoveis, function (index, item) {
+
+            $(sel).append('<option value="' + item.NumMatricula + '" >' + item.NumMatricula + '</option>');
+        });
+    }
+}
+
+/** ----------------------------------------------------------------------------
+ * BuscarListaModelos
  * @param {any} IdTipoAto
  * @param {any} selObj
  * @param {any} url
 ----------------------------------------------------------------------------- */
-function BuscarListaModelos(IdTipoAto, selObj, url) {
-
+function BuscarListaModelos(IdTipoAto, selObj, url)
+{
     var dados = {
         IdTipoAto: IdTipoAto
     };
@@ -640,28 +651,12 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
 }
 
 /** ----------------------------------------------------------------------------
- * 
+ * PovoarSelModelos
  * @@param {any} selObj
  * @@param {any} listaModelos
 ----------------------------------------------------------------------------- */
-function PovoarSelImoveis(selObj, listaImoveis) {
-
-    var sel = selObj;
-    $(sel).empty();
-
-    $.each(listaImoveis, function (index, item) {
-
-        $(sel).append('<option value="' + item.NumMatricula + '" >' + item.NumMatricula + '</option>');
-    });
-}
-
-/** ----------------------------------------------------------------------------
- * 
- * @@param {any} selObj
- * @@param {any} listaModelos
------------------------------------------------------------------------------ */
-function PovoarSelModelos(selObj, listaModelos) {
-
+function PovoarSelModelos(selObj, listaModelos)
+{
     var sel = selObj;
     $(sel).empty();
 
@@ -672,11 +667,11 @@ function PovoarSelModelos(selObj, listaModelos) {
 
 /** ----------------------------------------------------------------------------
  * GerarTextoAto
- * @@param {any} arrayPessoas
+ * @@param {any} dadosAto
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function GetTextoAto(dadosAto, url) {
-
+function GetTextoAto(dadosAto, url)
+{
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',
@@ -708,7 +703,6 @@ function GetTextoAto(dadosAto, url) {
     }).always(function () {
         HideProgressBar();
     });
-
 }
 
 /**
@@ -737,7 +731,7 @@ function PovoarDadosImovel(Imovel)
 }
 
 /**
- * Povoar dados do imovel
+ * limpar dados do imovel
  * @@param {any} Imovel
  */
 function LimparDadosImovel()
@@ -760,87 +754,6 @@ function LimparDadosImovel()
     $('#PREIMO_RD').val("");
     $('#PREIMO_CONTRIB').val("");
 }
-
-/**
- * 
- * @param {any} value
- */
-function ToJavaScriptDate(value) {
-    var pattern = /Date\(([^)]+)\)/;
-    var results = pattern.exec(value);
-    var dt = new Date(parseFloat(results[1]));
-    return (dt.getMonth() + 1) + "/" + dt.getDate() + "/" + dt.getFullYear() + " " + dt.getHours() + ":" + dt.getMinutes();
-}
-
-/**
- * *
- * @@param {any} dados
- * @@param {any} url
- */
-function InsertOrUpdateAtoAjax(dados, url)
-{
-    $.ajax(url, {
-        method: 'POST',
-        dataType: 'json',
-        data: dados,
-        beforeSend: function () {
-            ShowProgreessBar("Processando requisição...");
-        }
-    }).done(function (dataReturn) {
-        //
-        if (dataReturn.resposta) {
-
-            var dadosValidos = !(typeof dataReturn.execute == 'undefined' || dataReturn.execute == null);
-
-            if (dadosValidos) {
-
-                if (!((typeof dataReturn.execute.Entidade == 'undefined') || (dataReturn.execute.Entidade == null)))
-                {
-                    //alert("Id ===> " + dataReturn.execute.Entidade.Id);
-                    $("#Id").val(dataReturn.execute.Entidade.Id);
-
-                    $("#IdUsuarioCadastro").val(dataReturn.execute.Entidade.IdUsuarioCadastro);
-                    $("#DataCadastro").val(dataReturn.execute.Entidade.DataCadastro != null ? ToJavaScriptDate(dataReturn.execute.Entidade.DataCadastro) : "");
-
-                    $("#IdUsuarioAlteracao").val(dataReturn.execute.Entidade.IdUsuarioAlteracao);
-                    $("#DataAlteracao").val(dataReturn.execute.Entidade.DataAlteracao != null ? ToJavaScriptDate(dataReturn.execute.Entidade.DataAlteracao) : "");
-                    $("#StatusAto").val(dataReturn.execute.Entidade.StatusAto);
-                }
-
-                $.smallBox({
-                    title: "Ato salvo com sucesso!",
-                    content: dataReturn.msg,
-                    color: cor_smallBox_ok,
-                    icon: "fa fa-thumbs-up bounce animated",
-                    timeout: 4000
-                });
-            } else {
-                $.smallBox({
-                    title: "Dados não foram salvos!",
-                    content: dataReturn.msg,
-                    color: cor_smallBox_aviso,
-                    icon: "fa fa-exclamation bounce animated",
-                    timeout: 4000
-                });
-            }
-        } else {
-            $.smallBox({
-                title: "Não foi possivel processar sua requisição!",
-                content: dataReturn.msg,
-                color: cor_smallBox_erro,
-                icon: "fa fa-thumbs-down bounce animated",
-                timeout: 8000
-            });
-        }
-    }).fail(function (jq, textStatus, error) {
-        //
-
-    }).always(function () {
-        HideProgressBar();
-    });
-
-}
-
 
 
 
