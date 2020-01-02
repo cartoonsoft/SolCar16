@@ -2,10 +2,13 @@
 
 @{
 	ViewBag.Title = ViewContext.RouteData.Values["controller"];
-	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
+	ViewBag.SubTitle = "Editar"; //ViewContext.RouteData.Values["action"];
 }
 
 @section styles_especific {
+
+	<link href="~/Scripts/plugin/ckeditor/skins/moono/dialog.css" rel="stylesheet" />
+	<link href="~/Scripts/plugin/ckeditor/skins/moono/editor.css" rel="stylesheet" />
 	<style>
 		/*-- coloque aqui seu codigo css ---------------------------------------- */
 
@@ -74,8 +77,8 @@
 										<div class="row">
 											<div class="col-md-4">
 												<div class="btn-group">
-													<button type="button" class="btn btn-primary" id="btn-ato-show-data-ato-step-4" rel="tooltip" data-placement="top" data-original-title="Expande/colapsa formulário.">
-														<i class="fa fa-chevron-up" id="img-ato-show-data-ato-step-4"></i>
+													<button type="button" class="btn btn-primary" id="btn-ato-show-hide-frm-data-ato" rel="tooltip" data-placement="top" data-original-title="Expande/colapsa formulário.">
+														<i class="fa fa-chevron-up" id="img-ato-show-hide-frm-data-ato"></i>
 													</button>
 													<button type="button" class="btn btn-success" id="btn-ato-gerar-texto" rel="tooltip" data-placement="top" data-original-title="Gerar texto do ato, a partir do modelo.">
 														<i class="fa fa-cogs"></i> Gerar texto
@@ -116,7 +119,7 @@
 											</div>
 										</div>
 										<hr />
-										<div id="div-edt-ato-dados-form">
+										<div id="div-ato-frm-dados-ato">
 											<div class="row">
 												<div class="col-md-2">
 													<div class="form-group">
@@ -284,173 +287,16 @@
 @section pagespecific {
 
 	<script src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+	<script src="~/Scripts/plugin/ckeditor/styles.js"></script>
 	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+	<script src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
+	<script src="~/Scripts/cartoonsoft/Atos/crud_ato.js"></script>
 	<script src="~/Scripts/cartoonsoft/Atos/editar_ato.js"></script>
 
 	<script>
 	$(document).ready(function () {
 
-		/* urls chamadas ajax ------------------------------------------------*/
-		var urlGetDadosImovel = '@Url.Action("GetListImoveisPrenotacao", "Atos")';
-		var urlGetListPessoasPrenotacao= '@Url.Action("GetListPessoasPrenotacao", "Atos")';
-		var urlGetLisModelosDocx = '@Url.Action("GetLisModelosDocx", "Atos")';
-		var urlProcReservarMatImovel = '@Url.Action("ProcReservarMatImovel", "Atos")';
-		var urlGetTextoAto = '@Url.Action("GetTextoAto", "Atos")';
-		var urlGetTextoWordDocModelo = '@Url.Action("GetTextoWordDocModelo", "Atos")';
-		var urlInsertOrUpdateAtoAjax = '@Url.Action("InsertOrUpdateAtoAjax", "Atos")';
-		var urlGetDadosPorPrenotacao = '@Url.Action("GetDadosPorPrenotacao", "Atos")';
-
-		/* obter ip local ----------------------------------------------------*/
-		var ipLocal = getUserIP(function (ip) {
-			var t = navigator.product;
-			$("#IpLocal").val(ip);
-		});
-
-		$.validator.addMethod("valueNotEquals", function (value, element, arg) {
-			return arg !== value;
-		}, "Value must not equal arg.");
-
-		/*-- validate --------------------------------------------------------*/
-		$("#frm-wizard-novo-ato").validate({
-			// Rules for form validation
-			rules: {
-				IdPrenotacao: {
-					required: true
-				},
-				IdCtaAcessoSist: {
-					required: true
-				},
-				IdTipoAto: {
-					required: true
-				},
-				NumMatricula: {
-					required: true
-				},
-				IdModeloDoc: {
-					required: true
-				},
-				IdLivro: {
-					required: true
-				},
-				NumFicha: {
-					required: true,
-					min: 1,
-					number: true
-				},
-				NumSequenciaAto: {
-					required: true,
-					min: 1,
-					number: true
-				},
-				FolhaFicha: {
-					required: true,
-					valueNotEquals: "0"
-				},
-				DistanciaTopo: {
-					required: true,
-					min: 1,
-					number: true
-				},
-				DescricaoAto: {
-					required: true
-				}
-			},
-			// Messages for form validation
-			messages: {
-				IdPrenotacao: {
-					required: "Entre com um número de prenotação"
-				},
-				IdTipoAto: {
-					required: "Selecione um Tipo"
-				},
-				NumMatricula: {
-					required: "Núm. de matrícula inválida"
-				},
-				IdModeloDoc: {
-					required: "Selecione um modelo de documento"
-				},
-				IdLivro: {
-					required: "Selecione um livro"
-				},
-				NumFicha: {
-					required: "Preencha o número da ficha",
-					min: "Número não pode ser zero",
-					number: "Deve ser valor numérico"
-				},
-				NumSequenciaAto: {
-					required: "Preencha o número de seqência",
-					min: "Número não pode ser zero",
-					number: "Deve ser valor numérico"
-				},
-				FolhaFicha: {
-					required: "Preencha se é frente ou verso",
-					valueNotEquals: "Selecione frente ou verso"
-				},
-				DistanciaTopo: {
-					required: "Preencha o ajuste superior",
-					min: "Ajuste não pode ser zero",
-					number: "Deve ser um valor numérico"
-				},
-				DescricaoAto: {
-					required: "Digite um descrição para o ato"
-				}
-			},
-
-			// Do not change code below
-			highlight: function (element) {
-				$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-			},
-			unhighlight: function (element) {
-				$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-			},
-			errorElement: 'span',
-			errorClass: 'help-block',
-			errorPlacement: function (error, element) {
-				if (element.parent('.input-group').length) {
-					error.insertAfter(element.parent());
-				} else {
-					error.insertAfter(element);
-				}
-			}
-		});
-
-		/*-- somente-numero-sem-decimal ------------------------------------- */
-		$(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {
-			$(this).val($(this).val().replace(/[^\d].+/, ""));
-			if ((event.which < 48 || event.which > 57)) {
-				event.preventDefault();
-			}
-		});
-
-		/*-- ckeditor ckEditorAto ------------------------------------------- */
-		CKEDITOR.replace('ckEditorAto', {
-			width: '100%',
-			height: '360px',
-			language: 'pt-br',
-			uiColor: '#1686E4',
-			contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
-			font_defaultLabel: 'Times New Roman',
-			fontSize_defaultLabel: '14',
-			//startupFocus: true,
-			toolbarGroups: [
-				{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
-				{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
-				{ name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
-				{ name: 'forms', groups: [ 'forms' ] },
-				{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-				{ name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
-				{ name: 'links', groups: [ 'links' ] },
-				{ name: 'insert', groups: [ 'insert' ] },
-				{ name: 'styles', groups: [ 'styles' ] },
-				{ name: 'colors', groups: [ 'colors' ] },
-				{ name: 'tools', groups: [ 'tools' ] },
-				{ name: 'others', groups: [ 'others' ] },
-				{ name: 'about', groups: [ 'about' ] }
-			],
-			removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,PasteFromWord,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
-		});
-
-
+		//
 
 	});
 	</script>

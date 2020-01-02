@@ -528,10 +528,13 @@
       <DependentUpon>app.seed.js</DependentUpon>
     </Content>
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\cartoonsoft\Atos\crud_ato.js" />
     <Content Include="Scripts\cartoonsoft\Atos\editar_ato.js" />
     <Content Include="Scripts\cartoonsoft\Atos\novo_ato.js" />
+    <Content Include="Scripts\cartoonsoft\cartoonsoft_jquery_libs.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_libs.js" />
     <Content Include="Scripts\cartoonsoft\cartoonsoft_validation_lib.js" />
+    <Content Include="Scripts\cartoonsoft\Modelos\crud_modelo.js" />
     <Content Include="Scripts\cartoonsoft\_layout.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />

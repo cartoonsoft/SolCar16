@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="step-content" id="div-ato-novoato">
-            @using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "frm-wizard-novo-ato", @name = "frm-wizard-novo-ato", @novalidate = "novalidate" }))
+            @using (Html.BeginForm("", "", FormMethod.Post, new { @enctype = "multipart/form-data", @id = "frm-cadastro-ato", @name = "frm-cadastro-ato", @novalidate = "novalidate" }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationBootstrap()
