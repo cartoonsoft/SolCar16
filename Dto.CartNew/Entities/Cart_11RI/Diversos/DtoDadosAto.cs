@@ -1,68 +1,85 @@
-﻿using Dto.CartNew.Base;
+﻿using Domain.CartNew.Enumerations;
+using Dto.CartNew.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 {
-    public class DtoDadosAto: DtoEntityBaseModel
-    {
-        public DtoDadosAto()
-        {
-            Pessoas = new List<DtoPessoaPesxPre>();
-            ListaCamposValor = new List<DtoCamposValor>();
-        }
+	public class DtoDadosAto: DtoEntityBaseModel
+	{
+		public DtoDadosAto()
+		{
+			Pessoas = new List<DtoPessoaPesxPre>();
+			ListaCamposValor = new List<DtoCamposValor>();
+		}
 
-        [Key]
-        public override long? Id { get; set; }  
-                
-        public long IdCtaAcessoSist { get; private set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
+		[Key]
+		public override long? Id { get; set; }
 
-        public long IdLivro { get; set; }
+		public long IdCtaAcessoSist { get; set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
 
-        public long IdTipoAto { get; set; }
+		public long IdLivro { get; set; }
 
-        public long IdPrenotacao { get; set; }
+		public long IdTipoAto { get; set; }
 
-        public long IdModeloDoc { get; set; }
+		public long IdPrenotacao { get; set; }
 
-        public string IdUsuarioCadastro { get; set; }
+		public long IdModeloDoc { get; set; }
 
-        public string IdUsuarioAlteracao { get; set; }
+		public string IdUsuarioCadastro { get; set; }
 
-        public DateTime DataCadastro { get; set; }
+		public string IdUsuarioAlteracao { get; set; }
 
-        public DateTime? DataAlteracao { get; set; }
+		[DataType(DataType.DateTime)]
+		public DateTime DataCadastro { get; set; }
 
-        public short NumSequenciaAto { get; set; } //numeric(5,0)
+		[DataType(DataType.DateTime)]
+		public DateTime? DataAlteracao { get; set; }
 
-        public DateTime? DataRegPrenotacao { get; set; }  //data registro "R" da prenotacao onzeri.premad
+		public string SiglaSeqAto { get; set; }
 
-        public DateTime? DataAto { get; set; }
+		public short NumSequenciaAto { get; set; }
 
-        public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
+		public string Codigo
+		{
+			get { return this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
+		}
 
-        public string DescricaoAto { get; set; }
+		[DataType(DataType.Date)]
+		public DateTime? DataAto { get; set; }
 
-        public string Texto { get; set; }
+		public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
 
-        public string StatusAto { get; set; }
+		public string DescricaoAto { get; set; }
 
-        public bool Ativo { get; set; }
+		[DataType(DataType.MultilineText)]
+		[AllowHtml]
+		public string Texto { get; set; }
 
-        public string Observacao { get; set; } // VARCHAR2(512)
+		public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
+		public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
-        public short TextoDistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+		public TipoFolhaFicha FolhaFicha { get; set; }
 
-        public bool GeradoFicha { get; set; }
+		public string StatusAto { get; set; }
 
-        public List<DtoCamposValor> ListaCamposValor { get; set; }
+		public bool ConfTexto { get; set; }
 
-        public List<DtoPessoaPesxPre> Pessoas { get; set; }
-    }
+		public bool ConfDocx { get; set; }
+
+		public bool Ativo { get; set; }
+
+		[DataType(DataType.MultilineText)]
+		public string Observacao { get; set; } // VARCHAR2(512)
+
+		public List<DtoCamposValor> ListaCamposValor { get; set; }
+
+		public List<DtoPessoaPesxPre> Pessoas { get; set; }
+	}
 }

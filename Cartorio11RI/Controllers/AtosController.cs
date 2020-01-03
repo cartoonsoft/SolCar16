@@ -146,7 +146,14 @@ namespace Cartorio11RI.Controllers
             dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
             dados.IdLivro = 1;
             dados.FolhaFicha = TipoFolhaFicha.Indefinido;
+
+            dados.ConfTexto = false;
+            dados.ConfDocx = false;
+            dados.GeradoFicha = false;
             dados.Salvo = false;
+            dados.PodeEditar = true;
+            dados.Finalizado = false;
+            dados.InsertMode = true;
             dados.Ativo = true;
 
             //dados.Pessoas.Add(new PESSOAViewModel { 

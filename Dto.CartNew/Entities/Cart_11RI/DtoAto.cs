@@ -10,75 +10,78 @@ using System.Web.Mvc;
 
 namespace Dto.CartNew.Entities.Cart_11RI
 {
-    public class DtoAto : DtoEntityBaseModel
-    {
-        public DtoAto()
-        {
-            this.ListaPessoasAto = new List<DtoPessoaAto>();
-            this.StatusAto = string.Empty;
-        }
+	public class DtoAto : DtoEntityBaseModel
+	{
+		public DtoAto()
+		{
+			this.ListaPessoasAto = new List<DtoPessoaAto>();
+			this.StatusAto = string.Empty;
+		}
 
-        [Key]
-        public override long? Id { get; set; }
+		[Key]
+		public override long? Id { get; set; }
 
-        public long IdCtaAcessoSist { get; set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
+		public long IdCtaAcessoSist { get; set; } //ID_CTA_ACESSO_SIST NUMERIC(38, 0)       not null,
 
-        public long IdLivro { get; set; }
+		public long IdLivro { get; set; }
 
-        public long IdTipoAto { get; set; }
+		public long IdTipoAto { get; set; }
 
-        public long IdPrenotacao { get; set; }
+		public long IdPrenotacao { get; set; }
 
-        public long IdModeloDoc { get; set; }
+		public long IdModeloDoc { get; set; }
 
-        public string IdUsuarioCadastro { get; set; }
+		public string IdUsuarioCadastro { get; set; }
 
-        public string IdUsuarioAlteracao { get; set; }
+		public string IdUsuarioAlteracao { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime DataCadastro { get; set; }
+		[DataType(DataType.DateTime)]
+		public DateTime DataCadastro { get; set; }
 
-        [DataType(DataType.DateTime)]
-        public DateTime? DataAlteracao { get; set; }
+		[DataType(DataType.DateTime)]
+		public DateTime? DataAlteracao { get; set; }
+		
+		public string SiglaSeqAto { get; set; }
 
-        public string Codigo
-        {
-            get { return this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
-        }
+		public short NumSequenciaAto { get; set; }
 
-        [DataType(DataType.Date)]
-        public DateTime? DataAto { get; set; }
+		public string Codigo
+		{
+			get { return this.SiglaSeqAto + "/" + this.NumSequenciaAto.ToString(); }
+		}
 
-        public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
+		[DataType(DataType.Date)]
+		public DateTime? DataAto { get; set; }
 
-        public string DescricaoAto { get; set; }
+		public string NumMatricula { get; set; } //NRO_MATRICULA        VARCHAR2(20)
 
-        [DataType(DataType.MultilineText)]
-        [AllowHtml]
-        public string Texto { get; set; }
+		public string DescricaoAto { get; set; }
 
-        [DataType(DataType.MultilineText)]
-        public string Observacao { get; set; } // VARCHAR2(512)
+		[DataType(DataType.MultilineText)]
+		[AllowHtml]
+		public string Texto { get; set; }
 
-        public string StatusAto { get; set; }
+		public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
-        public bool Ativo { get; set; }
+		public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
 
-        public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
+		public TipoFolhaFicha FolhaFicha { get; set; }
 
-        public string SiglaSeqAto { get; set; }
+		public string StatusAto { get; set; }
 
-        public short NumSequenciaAto { get; set; }
+		public bool ConfTexto { get; set; }
 
-        public short DistanciaTopo { get; set; } //distancia do inicio di texto do topa da pagina (cm)
+		public bool ConfDocx { get; set; }
 
-        public TipoFolhaFicha FolhaFicha { get; set; }
+		public bool Ativo { get; set; }
 
-        public string IdsPessoasSelecionadas { get; set; } //string com ids das pessoas que forma seleconadas separadaos por ";"
+		[DataType(DataType.MultilineText)]
+		public string Observacao { get; set; } // VARCHAR2(512)
 
-        public List<DtoPessoaAto> ListaPessoasAto { get; set; }
+		public string IdsPessoasSelecionadas { get; set; } //string com ids das pessoas que forma seleconadas separadaos por ";"
 
-        public DtoPREIMO PREIMO { get; set; }
+		public List<DtoPessoaAto> ListaPessoasAto { get; set; }
 
-    }
+		public DtoPREIMO PREIMO { get; set; }
+	}
 }

@@ -15,14 +15,6 @@ namespace Cartorio11RI.ViewModels
             this.Id = null;
             this.DataCadastro = DateTime.Now;
             this.DataAto = DateTime.Today;
-            this.ConfTexto = false;
-            this.ConfDocx = false;
-            this.GeradoFicha = false;
-            this.Salvo = false;
-            this.PodeEditar = true;
-            this.Finalizado = false;
-            this.InsertMode = false;
-            this.Ativo = true;
             this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
         }

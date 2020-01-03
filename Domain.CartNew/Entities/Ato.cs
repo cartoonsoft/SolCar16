@@ -58,6 +58,14 @@ namespace Domain.CartNew.Entities
         [Column("NRO_MATRICULA")]   //NRO_MATRICULA        VARCHAR2(20),
         public string NumMatricula { get; set; }
 
+        [Column("DESCRICAO")]
+        public string DescricaoAto { get; set; }
+
+        [Column("TEXTO")]
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string Texto { get; set; }
+
         [Column("NUM_FICHA")]
         public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
 
@@ -66,14 +74,6 @@ namespace Domain.CartNew.Entities
 
         [Column("FOLHA_FICHA")]
         public TipoFolhaFicha FolhaFicha { get; set; }
-
-        [Column("DESCRICAO")]
-        public string DescricaoAto { get; set; }
-
-        [Column("TEXTO")]
-        [DataType(DataType.MultilineText)]
-        [AllowHtml]
-        public string Texto{ get; set; }
 
         [Column("STATUS_ATO")]
         public string StatusAto { get; set; }
