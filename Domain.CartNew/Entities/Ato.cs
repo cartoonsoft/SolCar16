@@ -78,6 +78,12 @@ namespace Domain.CartNew.Entities
         [Column("STATUS_ATO")]
         public string StatusAto { get; set; }
 
+        [Column("TEXTO_CONF")] //NUMERIC(1,0)         default 0,
+        public bool ConfTexto { get; set; }
+
+        [Column("DOC_CONF")] //NUMERIC(1,0)         default 0,
+        public bool ConfDocx { get; set; }
+
         [Column("ATIVO")] //NUMERIC(1,0)         default 0,
         public bool Ativo { get; set; }
 

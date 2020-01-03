@@ -28,11 +28,12 @@ namespace AppServCart11RI.AppServices
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
 
         /*-- status ato --------------------------------------------------------
-        AC1	Ato Criado
-        AC2	Ato Criado
+        AC1	Ato Criado sistema 
+        AC2	Ato Criado importacao
         AE	Ato em Escrita
         AI	Confirmado ajuste impressão
-        CF	Ato conferido
+        CFT	Ato conferido texto ato
+        CFD	Ato conferido docx
         CL	Ato cancelado
         GF	Gerado Ficha
         AF	Ato Finalizado

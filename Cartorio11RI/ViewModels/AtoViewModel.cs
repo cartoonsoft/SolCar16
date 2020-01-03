@@ -15,7 +15,14 @@ namespace Cartorio11RI.ViewModels
             this.Id = null;
             this.DataCadastro = DateTime.Now;
             this.DataAto = DateTime.Today;
+            this.ConfTexto = false;
+            this.ConfDocx = false;
             this.GeradoFicha = false;
+            this.Salvo = false;
+            this.PodeEditar = true;
+            this.Finalizado = false;
+            this.InsertMode = false;
+            this.Ativo = true;
             this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
         }
@@ -99,23 +106,28 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Status")]
         public string StatusAto { get; set; }
 
-        [Display(Name = "Impressão ajustada", Description = "Minuta impressa corretamente e ajustada")]
-        public bool ImpressaoAjustada { get; set; } //Status AI se uusari confirmou que o ajuste de impressao está ok   
+        [Display(Name = "Conferido Texto", Description = "Conferido texto do ato")]
+        public bool ConfTexto { get; set; } //muda para Status CFT, fica readonly o texto, marcar como conferido o texto do ato, nomes, documentos, números,  gramatica e concordância.
 
-        [Display(Name = "Conferido", Description = "Conferido texto e Ajuste de impressão")]
-        public bool Conferido { get; set; } //Status CF   conferido ajuste impressoa e texto
+        [Display(Name = "Conferido Docx", Description = "Conferido texto do ato")]
+        public bool ConfDocx { get; set; } //muda para Status CFD, docx fica readonly, marcar como conferido o documneto (docx) gerado, alinhamento, fonte, texto, dist, topo, num. ficha, etc.
 
         [Display(Name = "Gerado Ficha", Description = "Ficha já foi gerada (Docx)")]
         public bool GeradoFicha { get; set; }  //status GF (gerou docx)
 
         [Display(Name = "Salvo")]
-        public bool Salvo { get; set; }  // CL (ato foi salvo)
+        public bool Salvo { get; set; }  // (ato foi salvo)
+        
+        [Display(Name = "Modo edição")]
+        public bool PodeEditar { get; set; }  // campo que define se controles ckeditor e outros vão ficar readonly
+
+        [Display(Name = "Finalizado", Description = "Ficha impressa e conferida novamente (Docx)")]
+        public bool Finalizado { get; set; }  //status AF (antes deve: conferir texto, gerar docx e conferir docx)
 
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }  // CL (ao cancelar o Ativo = false)
 
-        [Display(Name = "Finalizado", Description = "Ficha impressa e conferida novamente (Docx)")]
-        public bool Finalizado { get; set; }  //status AF (gerou docx)
+        public bool InsertMode { get; set; }
 
         [ScaffoldColumn(false)]
         public string IpLocal { get; set; }

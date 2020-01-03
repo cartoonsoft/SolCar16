@@ -126,7 +126,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/*-- ckeditor ckEditorPreviewModelo --------------------------------- */
+	/*-- ckeditor ckEditorPreviewModelo ------------------------------------- */
 	CKEDITOR.replace('ckEditorPreviewModelo', {
 		width: '100%',
 		height: '200px',
@@ -154,7 +154,7 @@ $(document).ready(function () {
 		removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
-	/*-- ckeditor ckEditorAto ------------------------------------------- */
+	/*-- ckeditor ckEditorAto ----------------------------------------------- */
 	CKEDITOR.replace('ckEditorAto', {
 		width: '100%',
 		height: '360px',
@@ -182,6 +182,7 @@ $(document).ready(function () {
 		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,PasteFromWord,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
+	/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */
 	$("#btn-ato-show-hide-frm-data-ato").click(function (e) {
 		e.preventDefault();
 
@@ -199,7 +200,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/*-- IdModeloDoc ---------------------------------------------------- */
+	/*-- IdModeloDoc -------------------------------------------------------- */
 	$("#IdModeloDoc").click(function (e) {
 		e.preventDefault();
 
@@ -242,7 +243,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/*-- gerar o texto do ato --------------------------------------------*/
+	/*-- gerar o texto do ato ------------------------------------------------*/
 	$("#btn-ato-gerar-texto").click(function (e) {
 		e.preventDefault();
 
@@ -278,7 +279,7 @@ $(document).ready(function () {
 		GetTextoAto(dados, urlGetTextoAto)
 	});
 
-	/*-- salvar o ato ----------------------------------------------------*/
+	/*-- salvar o ato ------------------------------------------------------- */
 	$("#btn-ato-salvar").click(function (e) {
 		e.preventDefault();
 
@@ -344,11 +345,11 @@ function GetDescTipoPessoaPrenotacao(tipoPessoa)
 	return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
 }
 
-/**-------------------------------------------------------------------------
+/**-----------------------------------------------------------------------------
  *
  * @@param btnObj
  * @@param idTipoAto
-------------------------------------------------------------------------- */
+----------------------------------------------------------------------------- */
 function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 {
 	var btn = btnObj;
@@ -367,11 +368,11 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 	}
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * *
  * @@param {any} dados
  * @@param {any} url
- */
+ ---------------------------------------------------------------------------- */
 function InsertOrUpdateAtoAjax(dados, url)
 {
 	$.ajax(url, {

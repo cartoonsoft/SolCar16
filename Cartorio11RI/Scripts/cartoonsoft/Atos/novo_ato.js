@@ -705,10 +705,10 @@ function GetTextoAto(dadosAto, url)
     });
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * Povoar dados do imovel
  * @@param {any} Imovel
- */
+ ---------------------------------------------------------------------------- */
 function PovoarDadosImovel(Imovel)
 {
     $('#NumMatricula').val(Imovel.MATRI);
@@ -730,10 +730,10 @@ function PovoarDadosImovel(Imovel)
     $('#PREIMO_CONTRIB').val(Imovel.CONTRIB);
 }
 
-/**
+/** ----------------------------------------------------------------------------
  * limpar dados do imovel
  * @@param {any} Imovel
- */
+ ---------------------------------------------------------------------------- */
 function LimparDadosImovel()
 {
     $('#NumMatricula').val("");
