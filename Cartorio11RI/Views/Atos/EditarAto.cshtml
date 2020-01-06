@@ -12,7 +12,9 @@
 	<link href="~/Scripts/plugin/ckeditor/skins/moono/editor.css" rel="stylesheet" />
 	<style>
 		/*-- coloque aqui seu codigo css ---------------------------------------- */
-
+		.btn-width-80px{
+			width: 80px;
+		}
 	</style>
 }
 
@@ -60,16 +62,16 @@
 
 								<ul id="tab-edt-ato" class="nav nav-tabs bordered">
 									<li class="active">
-										<a href="#tab-edt-tab1" data-toggle="tab"><i class="fa fa-fw fa-lg fa-file-word-o"></i><span class="badge bg-color-blue txt-color-white"> Ato</span></a>
+										<a href="#tab-edt-tab1" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-file-word-o"></i> Ato</span></a>
 									</li>
 									<li>
-										<a href="#tab-edt-tab2" data-toggle="tab"><i class="fa fa-fw fa-lg fa-users"></i><span class="badge bg-color-blue txt-color-white"> Pessoas</span></a>
+										<a href="#tab-edt-tab2" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-users"></i> Pessoas</span></a>
 									</li>
 									<li>
-										<a href="#tab-edt-tab3" data-toggle="tab"><i class="fa fa-fw fa-lg fa-home"></i><span class="badge bg-color-blue txt-color-white"> Imóvel</span></a>
+										<a href="#tab-edt-tab3" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-home"></i> Imóvel</span></a>
 									</li>
 									<li>
-										<a href="#tab-edt-tab4" data-toggle="tab"><i class="fa fa-fw fa-lg fa-file-text-o"></i><span class="badge bg-color-blue txt-color-white"> Modelo</span></a>
+										<a href="#tab-edt-tab4" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-file-text-o"></i> Modelo</span></a>
 									</li>
 									<li class="pull-right">
 										<a href="javascript:void(0);">
@@ -79,7 +81,7 @@
 										</a>
 									</li>
 								</ul>
-								<div id="tab-edt-ato-content" class="tab-content padding-10">
+								<div id="tab-edt-ato-content" class="tab-content bg-color-white padding-10">
 									@Html.Partial("_edtAtoTab1", Model)
 									@Html.Partial("_edtAtoTab2", Model)
 									@Html.Partial("_edtAtoTab3", Model)

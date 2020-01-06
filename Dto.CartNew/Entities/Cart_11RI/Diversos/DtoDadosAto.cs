@@ -41,6 +41,9 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 		[DataType(DataType.DateTime)]
 		public DateTime? DataAlteracao { get; set; }
 
+		[DataType(DataType.DateTime)]
+		public DateTime? DataRegPrenotacao { get; set; }  //data registro "R" da prenotacao onzeri.premad
+
 		public string SiglaSeqAto { get; set; }
 
 		public short NumSequenciaAto { get; set; }

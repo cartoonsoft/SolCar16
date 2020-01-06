@@ -200,6 +200,27 @@ $(document).ready(function () {
 		}
 	});
 
+/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */
+	$("#btn-ato-show-hide-historico").click(function (e) {
+		e.preventDefault();
+
+		var btn = $(this);
+		var ele1 = $("#div-edicao-ato");
+		var ele2 = $("#div-historico-ato");
+
+		if ($(ele1).is(':visible')) {
+
+			$(ele1).hide("slow");
+			$(ele2).show("slow");
+			btn.text("Texto");
+
+		} else {
+			$(ele1).show("slow");
+			$(ele2).hide("slow");
+			btn.text("Histórico");
+		}
+	});
+
 	/*-- IdModeloDoc -------------------------------------------------------- */
 	$("#IdModeloDoc").click(function (e) {
 		e.preventDefault();
@@ -334,6 +355,8 @@ $(document).ready(function () {
 
 	});
 
+
+
 });
 
 /** ----------------------------------------------------------------------------
@@ -432,5 +455,110 @@ function InsertOrUpdateAtoAjax(dados, url)
 
 	}).always(function () {
 		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * GerarTextoAto
+ * @@param {any} dadosAto
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function GetTextoAto(dadosAto, url) {
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosAto,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+			var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
+
+			if (dadosValidos) {
+				CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+			}
+
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+		HideProgressBar();
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * BuscarListaModelos
+ * @param {any} IdTipoAto
+ * @param {any} selObj
+ * @param {any} url
+----------------------------------------------------------------------------- */
+function BuscarListaModelos(IdTipoAto, selObj, url) {
+	var dados = {
+		IdTipoAto: IdTipoAto
+	};
+
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dados,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+
+			var dadosValidos = !(typeof dataReturn.ListaModelosDocx == 'undefined' || dataReturn.ListaModelosDocx == null);
+
+			if (dadosValidos) {
+				PovoarSelModelos(selObj, dataReturn.ListaModelosDocx);
+			} else {
+				$.smallBox({
+					title: "Dados não encontrados!",
+					content: "Lista inválida.",
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * PovoarSelModelos
+ * @@param {any} selObj
+ * @@param {any} listaModelos
+----------------------------------------------------------------------------- */
+function PovoarSelModelos(selObj, listaModelos) {
+	var sel = selObj;
+	$(sel).empty();
+
+	$.each(listaModelos, function (index, item) {
+		$(sel).append('<option value="' + item.Id + '" >' + item.DescricaoModelo + '</option>');
 	});
 }
