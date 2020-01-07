@@ -422,7 +422,7 @@ function GetListPessoasPrenotacao(dadosPrenotacao, url)
 }
 
 /** ----------------------------------------------------------------------------
- * ShowTblPessoasPrenotacao
+ * Mostra dialogo modal: ShowTblPessoasPrenotacao
  * @@param listadados
  -----------------------------------------------------------------------------*/
 function ShowTblPessoasPrenotacao(listadados)
@@ -595,6 +595,45 @@ function PovoarSelImoveis(selObj, listaImoveis)
             $(sel).append('<option value="' + item.NumMatricula + '" >' + item.NumMatricula + '</option>');
         });
     }
+}
+
+/** ----------------------------------------------------------------------------
+ * GerarTextoAto
+ * @@param {any} dadosAto
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function GetTextoAto(dadosAto, url) {
+    $.ajax(url, {
+        method: 'POST',
+        dataType: 'json',
+        data: dadosAto,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        //
+        if (dataReturn.resposta) {
+            var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
+
+            if (dadosValidos) {
+                CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+            }
+
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: cor_smallBox_erro,
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        //
+        HideProgressBar();
+    }).always(function () {
+        HideProgressBar();
+    });
 }
 
 /** ----------------------------------------------------------------------------

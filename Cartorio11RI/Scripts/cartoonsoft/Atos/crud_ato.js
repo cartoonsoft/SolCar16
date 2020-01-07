@@ -459,51 +459,13 @@ function InsertOrUpdateAtoAjax(dados, url)
 }
 
 /** ----------------------------------------------------------------------------
- * GerarTextoAto
- * @@param {any} dadosAto
- * @@param {any} url
------------------------------------------------------------------------------ */
-function GetTextoAto(dadosAto, url) {
-	$.ajax(url, {
-		method: 'POST',
-		dataType: 'json',
-		data: dadosAto,
-		beforeSend: function () {
-			ShowProgreessBar("Processando requisição...");
-		}
-	}).done(function (dataReturn) {
-		//
-		if (dataReturn.resposta) {
-			var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
-
-			if (dadosValidos) {
-				CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
-			}
-
-		} else {
-			$.smallBox({
-				title: "Não foi possivel processar sua requisição!",
-				content: dataReturn.msg,
-				color: cor_smallBox_erro,
-				icon: "fa fa-thumbs-down bounce animated",
-				timeout: 8000
-			});
-		}
-	}).fail(function (jq, textStatus, error) {
-		//
-		HideProgressBar();
-	}).always(function () {
-		HideProgressBar();
-	});
-}
-
-/** ----------------------------------------------------------------------------
  * BuscarListaModelos
  * @param {any} IdTipoAto
  * @param {any} selObj
  * @param {any} url
 ----------------------------------------------------------------------------- */
-function BuscarListaModelos(IdTipoAto, selObj, url) {
+function BuscarListaModelos(IdTipoAto, selObj, url)
+{
 	var dados = {
 		IdTipoAto: IdTipoAto
 	};
@@ -554,7 +516,8 @@ function BuscarListaModelos(IdTipoAto, selObj, url) {
  * @@param {any} selObj
  * @@param {any} listaModelos
 ----------------------------------------------------------------------------- */
-function PovoarSelModelos(selObj, listaModelos) {
+function PovoarSelModelos(selObj, listaModelos)
+{
 	var sel = selObj;
 	$(sel).empty();
 
@@ -562,3 +525,4 @@ function PovoarSelModelos(selObj, listaModelos) {
 		$(sel).append('<option value="' + item.Id + '" >' + item.DescricaoModelo + '</option>');
 	});
 }
+

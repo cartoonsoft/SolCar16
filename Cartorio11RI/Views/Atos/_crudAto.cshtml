@@ -185,7 +185,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
-                    <textarea id="ckEditorAto" name="ckEditorAto" rows="20" cols="160" class="form-control"></textarea>
+                    @Html.TextAreaFor(model => model.Texto, new { @id = "ckEditorAto", @name = "ckEditorAto", @class = "form-control", @cols = 160, @rows = 20 })
                 </div>
             </div>
             <div class="col-md-4">
