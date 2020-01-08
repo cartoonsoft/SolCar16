@@ -27,23 +27,6 @@ namespace AppServCart11RI.AppServices
         private List<ApplicationUser> listaUsrSist;
         private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
 
-        /*-- status ato --------------------------------------------------------
-        AC1	Ato Criado sistema 
-        AC2	Ato Criado importacao
-        AE	Ato em Escrita
-        AI	Confirmado ajuste impressão
-        CFT	Ato conferido texto ato
-        CFD	Ato conferido docx
-        CL	Ato cancelado
-        GF	Gerado Ficha
-        AF	Ato Finalizado
-        --------------------------------------------------------------------- */
-        //status que podem mostrar tela de edição
-        private readonly string[] _statusEditaveis = { "AC1", "AC2", "AE", "AI", "CF" };
-
-        //status que os campos ficam readony na edição
-        private readonly string[] _statusCamposReadOnly = { "AI", "CF", "CL", "GF", "AF" };
-
         /// <summary>
         /// Construtor
         /// </summary>
@@ -243,9 +226,9 @@ namespace AppServCart11RI.AppServices
         #endregion
 
 
-        public string[] StatusEditaveis
+        public string[] StatusNaoEditaveis
         {
-            get { return this._statusEditaveis; }
+            get { return this._statusNaoEditaveis; }
         }
 
         public string[] StatusCamposReadOnly

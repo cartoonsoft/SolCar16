@@ -38,6 +38,9 @@ namespace Domain.CartNew.Entities
         [Column("ID_USUARIO")]
         public string IdUsuario{ get; set; }
 
+        [Column("IP")]
+        public string IP { get; set; }
+
         [Column("OBSERVACAO")]
         public string Observacoes { get; set; }
 

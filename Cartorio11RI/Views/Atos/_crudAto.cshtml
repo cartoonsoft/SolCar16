@@ -68,7 +68,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     @Html.LabelFor(model => model.NumMatricula, new { @class = "control-label" })
-                    @Html.TextBoxFor(model => model.NumMatricula, new { @id = "NumMatricula_2", @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBoxFor(model => model.NumMatricula, new { @id = "NumMatricula_2", name = "NumMatricula_2", @class = "form-control", @readonly = "readonly" })
                 </div>
             </div>
             <div class="col-md-2">
@@ -212,7 +212,6 @@
                         <!-- widget edit box -->
                         <div class="jarviswidget-editbox">
                             <!-- This area used as dropdown edit box -->
-
                         </div>
                         <!-- end widget edit box -->
 

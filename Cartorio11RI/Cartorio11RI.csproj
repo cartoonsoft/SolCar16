@@ -1146,6 +1146,8 @@
     <Content Include="Views\Atos\_edtAtoTab2.cshtml" />
     <Content Include="Views\Atos\_edtAtoTab4.cshtml" />
     <Content Include="Views\Atos\_crudAto.cshtml" />
+    <Content Include="Views\Atos\_divImovel.cshtml" />
+    <Content Include="Views\Atos\_divPessoas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

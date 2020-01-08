@@ -49,7 +49,7 @@
 						<!-- end widget edit box -->
 						<!-- widget content -->
 						<div class="widget-body">
-							@using (Html.BeginForm("EditarAto", "Atos", FormMethod.Post, new { id = "frm-editar-ato", enctype = "multipart/form-data" }))
+							@using (Html.BeginForm("EditarAto", "Atos", FormMethod.Post, new { id = "frm-cadastro-ato", enctype = "multipart/form-data" }))
 							{
 								@Html.AntiForgeryToken()
 								@Html.ValidationBootstrap()

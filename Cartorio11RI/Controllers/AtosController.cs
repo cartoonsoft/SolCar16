@@ -332,7 +332,7 @@ namespace Cartorio11RI.Controllers
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{modelo.NumMatricula}_pendente.docx");
             bool respEscreverWord = false;
             
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível!");
 
             /*
             try
@@ -540,7 +540,7 @@ namespace Cartorio11RI.Controllers
                     {
                         if (listaDtoDadosImovel.Count() > 0)
                         {
-                            message = ":) Dados retornados con sucesso.";
+                            message = "Dados retornados con sucesso!";
                             resp = true;
                         } else
                         {
@@ -591,7 +591,7 @@ namespace Cartorio11RI.Controllers
                     {
                         if (listaDtoDadosImovel.Count() > 0)
                         {
-                            message = "Dados retornados con sucesso :)";
+                            message = "Dados retornados com sucesso! :)";
                             resp = true;
                         } else {
                             message = "Número de Prenotação e/ou matrículas não encontradas na base de dados!";

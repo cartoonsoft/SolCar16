@@ -322,27 +322,29 @@ $(document).ready(function () {
 				IdUsuarioCadastro: $("#IdUsuarioCadastro").val(),
 				DataCadastro: $("DataCadastro").val(),
 				IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
+				NumMatricula: $("#NumMatricula").val(),
 				DataAlteracao: $("#DataAlteracao").val(),
 				IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
-				NumMatricula: $("#NumMatricula").val(),
+				NumFicha: $("#NumFicha").val(),
 				SiglaSeqAto: $("#SiglaSeqAto").val(),
 				NumSequenciaAto: $("#NumSequenciaAto").val(),
+				FolhaFicha: $("#FolhaFicha option:selected").val(),
+				DistanciaTopo: $("#DistanciaTopo").val(),
 				DataAto: $("#DataAto").val(),
 				DescricaoAto: $("#DescricaoAto").val(),
-				DescricaoTipoAto: $("#DescricaoTipoAto").val(),
 				Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
 				Observacao: $("#Observacao").val(),
 				StatusAto: $("#StatusAto").val(),
+				Salvo: $("#Salvo").val(),
+				ConfTexto: $("#ConfTexto").val(),
+				ConfDocx: $("#ConfDocx").val(),
+				GeradoFicha: $("#GeradoFicha").val(),
+				Finalizado: $("#Finalizado").val(),
 				Ativo: $("#Ativo").val(),
 				IpLocal: $("#IpLocal").val(),
-				NumFicha: $("#NumFicha").val(),
-				TextoDistanciaTopo: $("#DistanciaTopo").val(),
-				GeradoFicha: $("#GeradoFicha").val(),
 				StatusAto: $("#StatusAto").val()
 			}
-
 			InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
-
 		} else {
 			$.smallBox({
 				title: "Revise o preenchimento de dados!",
@@ -352,10 +354,7 @@ $(document).ready(function () {
 				timeout: 4000
 			});
 		}
-
 	});
-
-
 
 });
 

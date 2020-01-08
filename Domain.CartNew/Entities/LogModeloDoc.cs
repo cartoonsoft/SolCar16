@@ -24,7 +24,7 @@ namespace Domain.CartNew.Entities
         [Column("ID_USUARIO")]
         public string IdUsuario { get; set; }
 
-        [Column("IP_USUARIO")]
+        [Column("IP")]
         public string IP { get; set; }
 
         [Column("TP_LOG_ARQ_MOD_DOCX")]

@@ -21,6 +21,12 @@ namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
+        //status que nao podem mostrar tela de edição
+        private readonly string[] _statusNaoEditaveis = { "AC1", "AC2", "AE", "AI", "CF" };
+
+        //status que os campos ficam readony na edição
+        private readonly string[] _statusCamposReadOnly = { "AI", "CF", "CL", "GF", "AF" };
+
         public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
@@ -54,16 +60,20 @@ namespace DomainServ.CartNew.Services
                 throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
             }
 
+
+
+
             string StatusAnt = atoDto.StatusAto;
 
             /*-- status ato ----------------------------------------------------
             AC1	Ato Criado
-            AC2	Ato Criado
-            AE	Ato em Escrita
-            AI	Confirmado ajuste impressão
-            CF	Ato conferido
-            CL	Ato cancelado
+            AC2	Ato Criado importacao
+            AE	Ato foi editado e está em Escrita
+            AR	Ato em Escrita - colocado em reedicao na confereincia (achou algum erro de escrita).
+            CT  Ato conferido texto
             GF	Gerado Ficha
+            CI	Ato conferido Impressão (docx)
+            CL	Ato cancelado
             AF	Ato Finalizado
             ----------------------------------------------------------------- */
 
@@ -105,9 +115,6 @@ namespace DomainServ.CartNew.Services
                     execProc.Operacao = DataBaseOperacoes.update;
                     ato.DataAlteracao = DateTime.Now;
                     ato.IdUsuarioAlteracao = usuario.IdUsuario;
-                    
-                    //regra para mudar o status do ato
-                    ato.StatusAto = "AE";
 
                     this.Update(ato);
                 }
