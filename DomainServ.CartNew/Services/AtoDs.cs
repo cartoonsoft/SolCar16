@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -21,27 +22,73 @@ namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
-        //status que nao podem mostrar tela de edição
-        private readonly string[] _statusNaoEditaveis = { "AC1", "AC2", "AE", "AI", "CF" };
+        //status que permitem a edição do texto do ato, data ato 
+        private readonly string[] _statusEdtTexto = { "AC1", "AC2", "AE", "AR" };
 
-        //status que os campos ficam readony na edição
-        private readonly string[] _statusCamposReadOnly = { "AI", "CF", "CL", "GF", "AF" };
+        //status que permitem a edição doos campos: Livro, ficha, num seq., frente/verso, distancia topo, descrição e observaçoes  
+        private readonly string[] _statusEdtDadosImp = { "CT", "GF" };
+
+        //status finais
+        private readonly string[] _statusAtoFinalizado = { "CL", "AF" };
 
         public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
         }
 
-        /*--------------------------------------------------------------------*/
+        public string[] StatusEdtTexto()
+        {
+            return _statusEdtTexto;
+        }
+        public string[] StatusEdtDadosImp()
+        {
+            return _statusEdtDadosImp;
+        }
+        public string[] StatusAtoFinalizado()
+        {
+            return _statusAtoFinalizado;
+        }
+
         #region add, Update, InsertOrUpdateAto 
         public override Ato Add(Ato item)
         {
+            //todo: Verificar se existe ato em andamento para matricula.
+            Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula)  &&(_statusAtoFinalizado.Contains(a.StatusAto))).FirstOrDefault();
+
+            if (atoTmp != null)
+            {
+                string msg = string.Format(CultureInfo.CurrentCulture, "O Ato {0} para a matricula {1} está em andamento, e deve ser finalizado para que se possa incluir um novo ato para o imóvel!", atoTmp.Id.ToString(), atoTmp.NumMatricula);
+                throw new ArgumentException(msg); 
+            }
+
             return base.Add(item);
         }
 
         public override void Update(Ato item)
         {
-            base.Update(item);
+            Ato atoTmp = null;
+
+            if (item != null)
+            {     
+                if (_statusEdtTexto.Contains(item.StatusAto))
+                {
+                    atoTmp = item;
+                } else if (_statusEdtDadosImp.Contains(item.StatusAto)) {
+                    atoTmp = this.GetById(item.Id);
+                    atoTmp.StatusAto = item.StatusAto;
+                    atoTmp.IdLivro = item.IdLivro;
+                    atoTmp.NumFicha = item.NumFicha;
+                    atoTmp.NumSequenciaAto = item.NumSequenciaAto;
+                    atoTmp.FolhaFicha = item.FolhaFicha;
+                    atoTmp.DistanciaTopo = item.DistanciaTopo;
+                    atoTmp.DescricaoAto = item.DescricaoAto;
+                    atoTmp.Observacao = item.Observacao;
+                } else {
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "O Ato {0} no status {1} não pode ser atualizado!", atoTmp.Id.ToString(), atoTmp.StatusAto));
+                }
+            }
+
+            base.Update(atoTmp);
         }
 
         public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
@@ -59,9 +106,6 @@ namespace DomainServ.CartNew.Services
             {
                 throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
             }
-
-
-
 
             string StatusAnt = atoDto.StatusAto;
 
@@ -123,11 +167,11 @@ namespace DomainServ.CartNew.Services
                 {
                     case DataBaseOperacoes.insert:
                         msg = "Ato inserido com sucesso";
-                        descEvento = string.Format("Ato Inserido. usuario {0} em {1}", usuario.Nome, DateTime.Now.ToString());
+                        descEvento = string.Format(CultureInfo.CurrentCulture, "Ato Inserido. usuario {0} em {1}", usuario.Nome, DateTime.Now.ToString(CultureInfo.CurrentCulture));
                         break;
                     case DataBaseOperacoes.update:
                         msg = "Ato Editado com sucesso";
-                        descEvento = string.Format("Ato Editado, usuário {0} em {1}", usuario.Nome, DateTime.Now.ToString());
+                        descEvento = string.Format(CultureInfo.CurrentCulture, "Ato Editado, usuário {0} em {1}", usuario.Nome, DateTime.Now.ToString(CultureInfo.CurrentCulture));
                         break;
                 }
 
@@ -159,7 +203,7 @@ namespace DomainServ.CartNew.Services
             {
                 this.UfwCartNew.RollBackTransaction();
                 execProc.TipoMsg = TipoMsgResposta.error;
-                execProc.Msg = string.Format("{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+                execProc.Msg = string.Format(CultureInfo.CurrentCulture, "{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
             }
 
             return execProc;

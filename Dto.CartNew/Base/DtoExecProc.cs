@@ -19,7 +19,8 @@ namespace Dto.CartNew.Base
             this.TipoMsg = TipoMsgResposta.undefined;
 
             this.Resposta = false;
-            this.Msg = "";
+            this.Msg = string.Empty;
+            this.MsgDetalhe = string.Empty;
         }
 
         public Guid Id { get; private set; } //id do processo
@@ -28,6 +29,8 @@ namespace Dto.CartNew.Base
         public DataBaseOperacoes Operacao { get; set; }
         public TipoMsgResposta TipoMsg { get; set; }
         public bool Resposta { get; set; }
-        public string Msg { get; set; }   
+        public string Msg { get; set; }
+        public string MsgDetalhe { get; set; }
+
     }
 }

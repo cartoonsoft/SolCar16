@@ -36,13 +36,13 @@ namespace AppServCart11RI.AppServices
             //
         }
 
+        #region Private Methods
         /// <summary>
         /// Get Lista de campos povoados com os valores 
         /// </summary>
         /// <param name="entidade"></param>
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
-        #region Private Methods
         private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAtoSimplificado dadosAto)
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
@@ -225,18 +225,19 @@ namespace AppServCart11RI.AppServices
         }
         #endregion
 
-
-        public string[] StatusNaoEditaveis
+        public string[] StatusEdtTexto()
         {
-            get { return this._statusNaoEditaveis; }
+            return this.DsFactoryCartNew.AtoDs.StatusEdtTexto();
+        }
+        public string[] StatusEdtDadosImp()
+        {
+            return this.DsFactoryCartNew.AtoDs.StatusEdtDadosImp();
+        }
+        public string[] StatusAtoFinalizado()
+        {
+            return this.DsFactoryCartNew.AtoDs.StatusAtoFinalizado();
         }
 
-        public string[] StatusCamposReadOnly
-        {
-            get { return this._statusCamposReadOnly; }
-        }
-
-        /*--------------------------------------------------------------------*/
         #region Add, update, InsertOrUpdateAto
         public override void Add(DtoAto dtoItem)
         {
@@ -387,16 +388,6 @@ namespace AppServCart11RI.AppServices
         }
 
         public void ImprimirMinutaAto(long IdAto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void NovoAto(DtoAto Ato)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ReabrirAto(long IdAto)
         {
             throw new NotImplementedException();
         }

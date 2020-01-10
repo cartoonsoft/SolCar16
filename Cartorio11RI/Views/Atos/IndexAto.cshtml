@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Atos";
     ViewBag.SubTitle = "Index";
-    string[] statusEditaveis = ViewBag.StatusEditaveis;
+    string[] StatusAtoFinalizado = ViewBag.StatusAtoFinalizado;
 }
 
 @section styles_especific {
@@ -131,7 +131,7 @@
                             <td>
                                 <div class="btn-group">
                                     @{
-                                        if (statusEditaveis.Contains(item.StatusAto))
+                                        if (!StatusAtoFinalizado.Contains(item.StatusAto))
                                         {
                                             <a href="@Url.Action("EditarAto", "Atos", new { Id = item.Id})" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>
                                         }
@@ -139,7 +139,7 @@
                                     <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir</a>
+                                            <a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir Minuta</a>
                                         </li>
                                         <li>
                                             <a href="javascript:void(0);" title="Detalhes do ato"><i class="fa fa-cogs"></i> Detalhes</a>

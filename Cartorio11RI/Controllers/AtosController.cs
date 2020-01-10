@@ -52,7 +52,8 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 execProc.TipoMsg = TipoMsgResposta.error;
-                execProc.Msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
+                execProc.Msg = ex.Message;
+                execProc.MsgDetalhe = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             return execProc;
@@ -87,11 +88,9 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    ViewBag.StatusEditaveis = appService.StatusEditaveis;
-                    ViewBag.StatusCamposReadOnly = appService.StatusCamposReadOnly;
-
                     var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
                     listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista).ToList();
+                    ViewBag.StatusAtoFinalizado = appService.StatusAtoFinalizado();
                 }
             }
 
@@ -215,12 +214,16 @@ namespace Cartorio11RI.Controllers
                 {
                     execProc = this.InsertOrUpdateAto(ato);
                     atoView.Salvo = execProc.Resposta;
-
                 }
             }
             catch (Exception ex)
             {
                 string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                if (!string.IsNullOrEmpty(execProc.Msg)) 
+                {
+                    msg = execProc.Msg + Environment.NewLine + execProc.MsgDetalhe + Environment.NewLine + msg; 
+                }
+
                 TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
@@ -248,7 +251,11 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                msg = string.Format("{0}.{1} [{2}]", this.GetType().FullName, System.Reflection.MethodBase.GetCurrentMethod().Name, ex.Message);
+                msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                if (!string.IsNullOrEmpty(execProc.Msg))
+                {
+                    msg = execProc.Msg + Environment.NewLine + execProc.MsgDetalhe + Environment.NewLine + msg;
+                }
             }
 
             var resultado = new

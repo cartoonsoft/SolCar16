@@ -19,8 +19,6 @@ namespace AppServices.Cartorio.Interfaces
 
         long? GetNumSequenciaTipoAto(string NumMatricula, long IdTipoAto);
 
-        void NovoAto(DtoAto Ato);
-
         void ImprimirMinutaAto(long IdAto);
 
         IEnumerable<DtoDocx> GerarFichas(long IdAto); //qd cria coisas no banco nome no infinitivo: ex Gerar
@@ -35,7 +33,6 @@ namespace AppServices.Cartorio.Interfaces
 
         bool ConfirmarFicha(long IdDocx);  //confirmar que ficha foi gerada corretamente
 
-        bool ReabrirAto(long IdAto); //estudar esta caso, deve ser o ultimo ato, coidar quebra de pagina
 
         bool BloquearMatricula(string NumMatricula);
 

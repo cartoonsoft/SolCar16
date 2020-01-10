@@ -21,6 +21,12 @@ namespace DomainServ.CartNew.Interfaces
 
         short GetUltimoNumFicha(string NumMatricula);
 
+        string[] StatusEdtTexto();
+
+        string[] StatusEdtDadosImp();
+
+        string[] StatusAtoFinalizado();
+
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
