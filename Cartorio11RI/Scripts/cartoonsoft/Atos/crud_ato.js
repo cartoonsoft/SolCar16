@@ -186,33 +186,33 @@ $(document).ready(function () {
 	$("#btn-ato-show-hide-frm-data-ato").click(function (e) {
 		e.preventDefault();
 
-		var ele = $("#div-ato-frm-dados-ato");
+		var ele1 = $("#div-ato-form-hist");
 		var img = document.getElementById("img-ato-show-hide-frm-data-ato");
 
 		if (img != null) {
 			$(img).toggleClass("fa-chevron-down fa-chevron-up", 1000);
 		}
 
-		if ($(ele).is(':visible')) {
-			$(ele).slideUp("slow");
+		if ($(ele1).is(':visible')) {
+			$(ele1).slideUp("slow");
 		} else {
-			$(ele).slideDown("slow");
+			$(ele1).slideDown("slow");
 		}
 	});
 
-/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */
+	/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */
 	$("#btn-ato-show-hide-historico").click(function (e) {
 		e.preventDefault();
 
 		var btn = $(this);
-		var ele1 = $("#div-edicao-ato");
+		var ele1 = $("#div-ato-frm-dados-ato");
 		var ele2 = $("#div-historico-ato");
 
 		if ($(ele1).is(':visible')) {
 
 			$(ele1).hide("slow");
 			$(ele2).show("slow");
-			btn.text("Texto");
+			btn.text("Dados");
 
 		} else {
 			$(ele1).show("slow");
@@ -332,6 +332,7 @@ $(document).ready(function () {
 				DistanciaTopo: $("#DistanciaTopo").val(),
 				DataAto: $("#DataAto").val(),
 				DescricaoAto: $("#DescricaoAto").val(),
+				TextoAnterior: $("#TextoAnterior").val(),  
 				Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
 				Observacao: $("#Observacao").val(),
 				StatusAto: $("#StatusAto").val(),
@@ -355,6 +356,16 @@ $(document).ready(function () {
 			});
 		}
 	});
+
+	/*-- ---------------------------------------------------------------------*/
+	$("#btn-ato-conf-texto").click(function (e) {
+		e.preventDefault();
+
+
+
+	});
+
+
 
 });
 

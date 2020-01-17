@@ -33,7 +33,7 @@ namespace Cartorio11RI.Controllers
         private void AddListaAcao(AppServiceAcoesUsuarios appServAcoesUsuarios, List<ApplicationUser> listaUsrSist, List<Acao> listaTodasAcoes, List<AcaoViewModel> listaAcoes)
         {
             bool addUser;
-
+            
             try
             {
                 foreach (var acao in listaTodasAcoes)
@@ -107,7 +107,6 @@ namespace Cartorio11RI.Controllers
 
                     AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso == null).ToList(), listaAcoes);
                     AddListaAcao(appServAcoesUsuarios, listaUsrSist, listaTodasAcoes.Where(a => a.SeqAcesso != null).ToList(), listaAcoes);
-                    //listAcessos = Mapper.Map<IEnumerable<DtoAcesso>, IEnumerable<ACESSOViewModel>>(null);
                 }
 
                 ViewBag.listaUsuarios = new SelectList(listaUsrSist, "Id", "Nome");

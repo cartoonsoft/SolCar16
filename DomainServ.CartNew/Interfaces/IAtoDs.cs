@@ -39,11 +39,13 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
 
-        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
-
         IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
+
+        IEnumerable<DtoAtoEvento> GetListHistoricoAto(long? IdAto);
+
+        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 

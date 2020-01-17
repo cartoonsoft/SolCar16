@@ -1,5 +1,8 @@
 ﻿#region Using
 
+using AppServCart11RI.AppServices;
+using Cartorio11RI.ViewModels;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 #endregion
@@ -56,5 +59,12 @@ namespace Cartorio11RI.Controllers
         {
             return View();
         }
+
+        public ActionResult ExemplosCartoonSoft()
+        {
+
+            return View();
+        }
+
     }
 }

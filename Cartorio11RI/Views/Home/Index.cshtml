@@ -1,27 +1,35 @@
 ﻿@{
-    ViewBag.PageId = "home-page";
-    ViewBag.Title = "Home";
-    ViewBag.SubTitle = "Index";
+	ViewBag.Title = ViewContext.RouteData.Values["controller"];
+	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
 }
 
-<!--css styles -->
 @section styles_especific {
-<style>
-    /* coloque seu codigo css aqui*/
+	<style>
+		/*-- coloque aqui seu código css ------------------------------------ */
 
-</style>
+	</style>
 }
 
 <!-- MAIN CONTENT -->
 <div id="content">
-    <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-
-    </div>
+	<!-- row -->
+	<div class="row">
+		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+			<h1 class="page-title txt-color-blueDark">
+				<i class="fa-fw fa fa-home"></i>
+				@ViewBag.Title
+				<span>
+					<i class="fa fa-home"></i>@ViewBag.SubTitle
+				</span>
+			</h1>
+		</div>
+	</div>
+	<!-- end row -->
 </div>
 
 <!-- END MAIN CONTENT -->
 @section pagespecific {
-    <script>
-        /*coloque ser codigo javascript aqui*/
-    </script>
+	<script>
+		/*coloque aqui seu código javascript ---------------------------------*/
+	</script>
 }

@@ -33,11 +33,6 @@ namespace AppServices.Cartorio.Interfaces
 
         bool ConfirmarFicha(long IdDocx);  //confirmar que ficha foi gerada corretamente
 
-
-        bool BloquearMatricula(string NumMatricula);
-
-        bool BloquearAto(long IdAto);
-
         void DesativarAto(long IdAto);
 
         DateTime? DataRegPrenotacao(long IdPrenotacao);

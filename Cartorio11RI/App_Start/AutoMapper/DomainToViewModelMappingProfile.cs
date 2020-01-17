@@ -22,7 +22,6 @@ namespace Cartorio11RI.App_Start.AutoMapper
             CreateMap<ModeloDocxList, ModeloDocxListViewModel>();
             CreateMap<Acao, AcaoViewModel>();
             CreateMap<Ato, AtoViewModel>();
-
         }
     }
 }

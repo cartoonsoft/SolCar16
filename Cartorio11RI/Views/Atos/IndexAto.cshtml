@@ -1,291 +1,316 @@
 ﻿@model IEnumerable<Cartorio11RI.ViewModels.AtoListViewModel>
 
 @{
-    ViewBag.Title = "Atos";
-    ViewBag.SubTitle = "Index";
-    string[] StatusAtoFinalizado = ViewBag.StatusAtoFinalizado;
+	ViewBag.Title = "Atos";
+	ViewBag.SubTitle = "Index";
+	string[] StatusAtoFinalizado = ViewBag.StatusAtoFinalizado;
 }
 
 @section styles_especific {
-    <style>
+	<style>
 
-        /*------------------------------------------------------------------------------
-        tbl-list-atos
-        ------------------------------------------------------------------------------*/
-        #tbl-index-ato {
-            /*border: 1px solid #808080; */
-            table-layout: auto;
-            width: 100%;
-        }
-    </style>
+		/*------------------------------------------------------------------------------
+		tbl-list-atos
+		------------------------------------------------------------------------------*/
+		#tbl-index-ato {
+			/*border: 1px solid #808080; */
+			table-layout: auto;
+			width: 100%;
+		}
+
+		#tbl-index-ato tr td:nth-child(1) {
+			width: 10%;
+		}
+		#tbl-index-ato tr td:nth-child(2) {
+			width: 5%;
+		}
+		#tbl-index-ato tr td:nth-child(3) {
+			width: 30%;
+		}
+		#tbl-index-ato tr td:nth-child(4) {
+			width: 10%;
+		}
+		#tbl-index-ato tr td:nth-child(5) {
+			width: 30%;
+		}
+		#tbl-index-ato tr td:nth-child(6) {
+			width: 5%;
+		}
+		#tbl-index-ato tr td:nth-child(7) {
+			width: 10%;
+			text-align: right;
+		}
+
+	</style>
 }
 
 <!-- MAIN CONTENT -->
 <div id="content">
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-            <h1 class="page-title txt-color-blueDark">
-                <i class="fa fa-pencil-square-o fa-fw "></i>
-                @ViewBag.Title
-                <span>
-                    >
-                    @ViewBag.SubTitle
-                </span>
-            </h1>
-        </div>
-    </div>
+	<div class="row">
+		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+			<h1 class="page-title txt-color-blueDark">
+				<i class="fa fa-pencil-square-o fa-fw "></i>
+				@ViewBag.Title
+				<span>
+					>
+					@ViewBag.SubTitle
+				</span>
+			</h1>
+		</div>
+	</div>
 
-    <!-- widget grid -->
-    <section id="widget-grid" class="">
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
 
-        @using (Html.BeginForm("IndexAto", "Atos", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-index-ato", @name = "frm-index-ato", @novalidate = "novalidate" }))
-        {
-            @Html.AntiForgeryToken()
-            <div class="panel-group smart-accordion-default" id="accordion">
-                <div class="panel panel-default">
+		@using (Html.BeginForm("IndexAto", "Atos", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-index-ato", @name = "frm-index-ato", @novalidate = "novalidate" }))
+		{
+			@Html.AntiForgeryToken()
+			<div class="panel-group smart-accordion-default" id="accordion">
+				<div class="panel panel-default">
 
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-                                <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-                                <span id="SpanTitFormPesquisa"></span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body no-padding">
-                            <fieldset>
-                                <div class="row">
-                                    <section class="col col-3">
-                                        <label class="input">
-                                            <i class="icon-prepend fa fa-calendar"></i>
-                                            <input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <label class="input">
-                                            <i class="icon-prepend fa fa-calendar"></i>
-                                            <input type="text" name="dataFim" id="dataFim" placeholder="Data final">
-                                        </label>
-                                    </section>
-                                    <section class="col col-3">
-                                        <button type="submit" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
-                                    </section>
-                                </div>
-                                <div class="row">
-                                    @Html.ValidationBootstrap()
-                                </div>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row"><br /></div>
-            <table id="tbl-index-ato" class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            Mat./Cód.
-                        </th>
-                        <th>
-                            Prenotação
-                        </th>
-                        <th>
-                            Descrição
-                        </th>
-                        <th>
-                            Data
-                        </th>
-                        <th>
-                            Observação
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr id="tbl-row-@item.Id">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Codigo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdPrenotacao)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DescricaoAto)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DataCadastro)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Observacao)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.StatusAto) 
-                            </td>
-                            <td>
-                                <div class="btn-group">
-                                    @{
-                                        if (!StatusAtoFinalizado.Contains(item.StatusAto))
-                                        {
-                                            <a href="@Url.Action("EditarAto", "Atos", new { Id = item.Id})" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>
-                                        }
-                                    }
-                                    <a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir Minuta</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" title="Detalhes do ato"><i class="fa fa-cogs"></i> Detalhes</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-    </section>
-    <!-- end widget grid -->
+					<div class="panel-heading">
+						<h4 class="panel-title">
+							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+								<i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
+								<span id="SpanTitFormPesquisa"></span>
+							</a>
+						</h4>
+					</div>
+					<div id="collapseOne" class="panel-collapse collapse in">
+						<div class="panel-body no-padding">
+							<fieldset>
+								<div class="row">
+									<section class="col col-3">
+										<label class="input">
+											<i class="icon-prepend fa fa-calendar"></i>
+											<input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
+										</label>
+									</section>
+									<section class="col col-3">
+										<label class="input">
+											<i class="icon-prepend fa fa-calendar"></i>
+											<input type="text" name="dataFim" id="dataFim" placeholder="Data final">
+										</label>
+									</section>
+									<section class="col col-3">
+										<button type="submit" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+									</section>
+								</div>
+								<div class="row">
+									@Html.ValidationBootstrap()
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row"><br /></div>
+			<table id="tbl-index-ato" class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>
+							Mat./Cód.
+						</th>
+						<th>
+							Prenotação
+						</th>
+						<th>
+							Descrição
+						</th>
+						<th>
+							Data
+						</th>
+						<th>
+							Observação
+						</th>
+						<th>
+							Status
+						</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var item in Model)
+					{
+						<tr id="tbl-row-@item.Id">
+							<td>
+								@Html.DisplayFor(modelItem => item.Codigo)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.IdPrenotacao)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.DescricaoAto)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.DataCadastro)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.Observacao)
+							</td>
+							<td>
+								@Html.DisplayFor(modelItem => item.StatusAto) 
+							</td>
+							<td>
+								<div class="btn-group">
+									@{
+										if (!StatusAtoFinalizado.Contains(item.StatusAto))
+										{
+											<a href="@Url.Action("EditarAto", "Atos", new { Id = item.Id})" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>
+										}
+									}
+									<a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
+									<ul class="dropdown-menu pull-right">
+										<li>
+											<a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir Minuta</a>
+										</li>
+										<li>
+											<a href="javascript:void(0);" title="Detalhes do ato"><i class="fa fa-cogs"></i> Detalhes</a>
+										</li>
+									</ul>
+								</div>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+	</section>
+	<!-- end widget grid -->
 </div>
 <!-- END MAIN CONTENT -->
 
 <!-- scripts pagespecific -------------------------------------------------- -->
 @section pagespecific {
 
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
+	<script type="text/javascript">
+		$(document).ready(function () {
 
-            $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
-            $("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
-            $("#SpanTitFormPesquisa").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
+			$("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
+			$("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
+			$("#SpanTitFormPesquisa").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
 
-            $('#dataIni').datepicker({
-                dateFormat: 'dd/mm/yy',
-                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
-                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#dataFim').datepicker('option', 'minDate', selectedDate);
-                }
-            });
+			$('#dataIni').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataFim').datepicker('option', 'minDate', selectedDate);
+				}
+			});
 
-            $('#dataFim').datepicker({
-                dateFormat: 'dd/mm/yy',
-                dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-                dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
-                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                prevText: '<i class="fa fa-chevron-left"></i>',
-                nextText: '<i class="fa fa-chevron-right"></i>',
-                onSelect: function (selectedDate) {
-                    $('#dataIni').datepicker('option', 'maxDate', selectedDate);
-                }
-            });
+			$('#dataFim').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
+				}
+			});
 
-            var objData = {
-                DataIni: $("#dataIni").val(),
-                DataFim: $("#dataFim").val()
-            };
+			var objData = {
+				DataIni: $("#dataIni").val(),
+				DataFim: $("#dataFim").val()
+			};
 
-            var tabela = $('#tbl-index-ato').dataTable({
-                "language": {
-                    "sEmptyTable":   "Não foi encontrado nenhum registo",
-                    "sLoadingRecords": "A carregar...",
-                    "sProcessing":   "A processar...",
-                    "sLengthMenu":   "Mostrar _MENU_ registos",
-                    "sZeroRecords":  "Não foram encontrados resultados",
-                    "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
-                    "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registos",
-                    "sInfoFiltered": "(filtrado de _MAX_ registos no total)",
-                    "sInfoPostFix":  "",
-                    "sSearch":       "Procurar:",
-                    "sUrl":          "",
-                    "oPaginate": {
-                        "sFirst":    "Primeiro",
-                        "sPrevious": "Anterior",
-                        "sNext":     "Seguinte",
-                        "sLast":     "Último"
-                    },
-                    "oAria": {
-                        "sSortAscending":  ": Ordenar colunas de forma ascendente",
-                        "sSortDescending": ": Ordenar colunas de forma descendente"
-                    },
-                    decimal: ",",
-                    thousands: "."
-                },
+			var tabela = $('#tbl-index-ato').dataTable({
+				"language": {
+					"sEmptyTable":   "Não foi encontrado nenhum registo",
+					"sLoadingRecords": "A carregar...",
+					"sProcessing":   "A processar...",
+					"sLengthMenu":   "Mostrar _MENU_ registos",
+					"sZeroRecords":  "Não foram encontrados resultados",
+					"sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+					"sInfoEmpty":    "Mostrando de 0 até 0 de 0 registos",
+					"sInfoFiltered": "(filtrado de _MAX_ registos no total)",
+					"sInfoPostFix":  "",
+					"sSearch":       "Procurar:",
+					"sUrl":          "",
+					"oPaginate": {
+						"sFirst":    "Primeiro",
+						"sPrevious": "Anterior",
+						"sNext":     "Seguinte",
+						"sLast":     "Último"
+					},
+					"oAria": {
+						"sSortAscending":  ": Ordenar colunas de forma ascendente",
+						"sSortDescending": ": Ordenar colunas de forma descendente"
+					},
+					decimal: ",",
+					thousands: "."
+				},
 
-                "autoWidth": true,
-                columnDefs: [{ targets: [6], orderable: false, searchable: false }],
-                "processing": true, // mostrar a progress bar
-                //"serverSide": true, // processamento no servidor
-                "filter": false, // habilita o filtro(search box)
-                lengthMenu: [
-                    [ 10, 25, 50, -1 ],
-                    [ '10 linhas', '25 linhas', '50 linhas', 'Todos' ]
-                ],
-                "pageLength": 10, // define o tamanho da página
+				"autoWidth": true,
+				columnDefs: [{ targets: [6], orderable: false, searchable: false }],
+				"processing": true, // mostrar a progress bar
+				//"serverSide": true, // processamento no servidor
+				"filter": false, // habilita o filtro(search box)
+				lengthMenu: [
+					[ 10, 25, 50, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', 'Todos' ]
+				],
+				"pageLength": 10, // define o tamanho da página
 
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'pageLength',
-                        text: '<i class="fa fa-table"></i> Paginação &nbsp;',
-                        titleAttr: 'Paginação'
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        text: '&nbsp;<i class="fa fa-file-excel-o"></i> Excel &nbsp;',
-                        titleAttr: 'exportar para Excel',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        text: '&nbsp;<i class="fa fa-file-pdf-o"></i> Pdf &nbsp;',
-                        orientation: 'landscape',
-                        pageSize: 'A4',
-                        title: '',
-                        titleAttr: 'exportar para PDF',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        text: '&nbsp;<i class="fa fa-print"></i> Imprimir &nbsp;',
-                        titleAttr: 'Imprimir',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5]
-                        }
-                    }
-                ]
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'pageLength',
+						text: '<i class="fa fa-table"></i> Paginação &nbsp;',
+						titleAttr: 'Paginação'
+					},
+					{
+						extend: 'excelHtml5',
+						text: '&nbsp;<i class="fa fa-file-excel-o"></i> Excel &nbsp;',
+						titleAttr: 'exportar para Excel',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					},
+					{
+						extend: 'pdfHtml5',
+						text: '&nbsp;<i class="fa fa-file-pdf-o"></i> Pdf &nbsp;',
+						orientation: 'landscape',
+						pageSize: 'A4',
+						title: '',
+						titleAttr: 'exportar para PDF',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					},
+					{
+						extend: 'print',
+						text: '&nbsp;<i class="fa fa-print"></i> Imprimir &nbsp;',
+						titleAttr: 'Imprimir',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					}
+				]
 
-                //"rowCallback": function (row, data, index) {
-                //    if (data[5] == 'AC1') {
-                //        $(row).css('background-color', '#C4E4EF');
-                //    } else if (data[5] == 'AE') {
-                //        $(row).css('background-color', '#E7F4E5');
-                //    }
-                //}
-            });
-        });
-    </script>
+				//"rowCallback": function (row, data, index) {
+				//    if (data[5] == 'AC1') {
+				//        $(row).css('background-color', '#C4E4EF');
+				//    } else if (data[5] == 'AE') {
+				//        $(row).css('background-color', '#E7F4E5');
+				//    }
+				//}
+			});
+
+		});
+	</script>
 }

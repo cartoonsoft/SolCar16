@@ -73,6 +73,7 @@
     <Compile Include="Entities\Cart_11RI\Diversos\DtoReservaImovel.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoTipoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAcao.cs" />
+    <Compile Include="Entities\Cart_11RI\DtoAtoEvento.cs" />
     <Compile Include="Entities\Cart_11RI\DtoModeloDoc.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAto.cs" />
     <Compile Include="Entities\Cart_11RI\DtoAtoDocx.cs" />

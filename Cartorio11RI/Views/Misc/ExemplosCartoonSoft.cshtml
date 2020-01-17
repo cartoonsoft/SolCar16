@@ -1,0 +1,613 @@
+﻿
+@{
+	ViewBag.Title = ViewContext.RouteData.Values["controller"];
+	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
+}
+
+@section styles_especific {
+	<style>
+		/*-- coloque aqui seu código css ------------------------------------ */
+
+	</style>
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+
+	<!-- row -->
+	<div class="row">
+		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+			<h1 class="page-title txt-color-blueDark">
+				<i class="fa-fw fa fa-home"></i>
+				@ViewBag.Title
+				<span>
+					<i class="fa fa-angle-right"></i>@ViewBag.SubTitle
+				</span>
+			</h1>
+		</div>
+	</div>
+	<!-- end row -->
+
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
+
+		<!-- row -->
+		<div class="row">
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-fullscreenbutton="false">
+
+					<header>
+						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+						<h2>CartoonSoft - Exemplos I </h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+							<input class="form-control" type="text">
+						</div>
+						<!-- end widget edit box -->
+						<!-- widget content -->
+						<div class="widget-body">
+
+							<div class="row">
+								<button type="button" id="btnTeste1" class="btn btn-link">teste 1</button>
+								<button type="button" id="btnTeste2" class="btn btn-link">teste 2</button>
+								<button type="button" id="btnTeste3" class="btn btn-link">teste 3</button>
+							</div>
+
+						</div>
+						<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-sm-12 col-md-12 col-lg-6">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-colorbutton="false" data-widget-collapsed="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-hand-o-up"></i> </span>
+						<h2>Basic Buttons</h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+
+						</div>
+						<!-- end widget edit box -->
+						<!-- widget content -->
+						<div class="widget-body">
+							<p class="alert alert-info">
+								The icons below are the most basic ones, without any icons or additional css applied to it
+							</p>
+
+							<p>
+								Buttons come in 6 different default color sets
+								<code>
+									.btn .btn-*
+								</code>
+								<code>
+									.btn-default, .btn-primary, .btn-success... etc
+								</code>
+							</p>
+							<a href="javascript:void(0);" class="btn btn-default">Default</a>
+							<a href="javascript:void(0);" class="btn btn-primary">Primary</a>
+							<a href="javascript:void(0);" class="btn btn-success">Success</a>
+							<a href="javascript:void(0);" class="btn btn-info">Info</a>
+							<a href="javascript:void(0);" class="btn btn-warning">Warning</a>
+							<a href="javascript:void(0);" class="btn btn-danger">Danger</a>
+							<a href="javascript:void(0);" class="btn btn-default disabled">Disabled</a>
+							<a href="javascript:void(0);" class="btn btn-link">Link</a>
+
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+
+			</article>
+			<!-- WIDGET END -->
+
+			<!-- NEW WIDGET START -->
+			<article class="col-sm-12 col-md-12 col-lg-6">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-colorbutton="true" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
+					<header>
+						<span class="widget-icon"> <i class="fa fa-hand-o-up"></i> </span>
+						<h2> Mix and match colors </h2>
+
+					</header>
+
+					<!-- widget div-->
+					<div>
+
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+
+						</div>
+						<!-- end widget edit box -->
+
+						<!-- widget content -->
+						<div class="widget-body">
+							<p class="alert alert-info">
+								Custom buttons with core CSS elements. Mix and match existing classes to come up with unique style buttons.
+								<strong>For example:</strong>
+								<code>
+									.btn .bg-color-blueLight .txt-color-white
+								</code>
+							</p>
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+				</div>
+				<!-- end widget -->
+
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+
+		<!-- row -->
+		<div class="row">
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-fullscreenbutton="false">
+
+					<header>
+						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+						<h2>CartoonSoft - Exemplos II</h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+							<input class="form-control" type="text">
+						</div>
+						<!-- end widget edit box -->
+
+						<!-- widget content -->
+						<div class="widget-body">
+							<div class="panel-group smart-accordion-default" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Filtros de consulta </a></h4>
+									</div>
+									<div id="collapseOne" class="panel-collapse collapse in">
+										<div class="panel-body">
+											@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-tbl-exemplo-1", @name = "frm-tbl-exemplo-1", @novalidate = "novalidate" }))
+											{
+												<fieldset>
+													<div class="row">
+														<section class="col col-2">
+															<label class="input">
+																<i class="icon-prepend fa fa-calendar"></i>
+																<input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
+															</label>
+														</section>
+														<section class="col col-2">
+															<label class="input">
+																<i class="icon-prepend fa fa-calendar"></i>
+																<input type="text" name="dataFim" id="dataFim" placeholder="Data final">
+															</label>
+														</section>
+													</div>
+												</fieldset>
+												<footer>
+													<button type="button" name="submit" class="btn btn-primary">
+														Consultar
+													</button>
+												</footer>
+											}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row padding-10">
+								<table id="tbl-examplo-1" class="table table-striped table-bordered table-hover" style="width:100%">
+									<thead>
+										<tr>
+											<th>Mat./Cód.</th>
+											<th>Prenotação</th>
+											<th>Descrição</th>
+											<th>Data</th>
+											<th>Observação</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+										<tr>
+											<th>Mat./Cód.</th>
+											<th>Prenotação</th>
+											<th>Descrição</th>
+											<th>Data</th>
+											<th>Observação</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+						<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+
+		<!-- row -->
+		<div class="row">
+
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-fullscreenbutton="true">
+
+					<header>
+						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+						<h2>CartoonSoft - Exemplos III</h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+							<input class="form-control" type="text">
+						</div>
+						<!-- end widget edit box -->
+						<!-- widget content -->
+						<div class="widget-body">
+
+							<!-- this is what the user will see -->
+							<form  id="frm-cartoon-soft-exemplo-111" class="smart-form">
+								<fieldset>
+									<div class="row">
+										<section class="col col-6">
+											<label class="label">Name</label>
+											<label class="input">
+												<i class="icon-prepend fa fa-user"></i>
+												<input type="text" name="named" id="named">
+											</label>
+										</section>
+										<section class="col col-6">
+											<label class="label">E-mail</label>
+											<label class="input">
+												<i class="icon-prepend fa fa-envelope-o"></i>
+												<input type="email" name="emaild" id="emaild">
+											</label>
+										</section>
+									</div>
+
+									<section>
+										<label class="label">Subject</label>
+										<label class="input">
+											<i class="icon-append fa fa-tag"></i>
+											<input type="text" name="subject" id="subject">
+										</label>
+									</section>
+
+									<section>
+										<label class="label">Message</label>
+										<label class="textarea">
+											<i class="icon-append fa fa-comment"></i>
+											<textarea rows="4" name="message" id="message"></textarea>
+										</label>
+									</section>
+
+									<section>
+										<label class="checkbox"><input type="checkbox" name="copy" id="copy"><i></i>Send a copy to my e-mail address</label>
+									</section>
+								</fieldset>
+
+								<footer>
+									<button type="submit" class="btn btn-primary">Validate Form</button>
+								</footer>
+
+								<div class="message">
+									<i class="fa fa-thumbs-up"></i>
+									<p>Your message was successfully sent!</p>
+								</div>
+							</form>
+
+						</div>
+						<!-- end widget content -->
+
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+
+			</article>
+			<!-- WIDGET END -->
+
+		</div>
+		<!-- end row -->
+
+	</section>
+	<!-- end widget grid -->
+
+</div>
+<!-- END MAIN CONTENT -->
+
+@section pagespecific {
+
+	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			/*-- coloque aqui seu código javascript ------------------------------*/
+
+			$("#btnTeste1").on("click", function () {
+				var prom = ShowDlgBoxCartorio({
+					headerText: "Aviso importante",
+					messageText: "Olá usuário",
+					alertType: "primary"
+				}).done(function (e) {
+					ShowDlgBoxCartorio({
+						messageText: "Teste",
+						alertType: "success"
+					});
+				});
+			});
+
+			$("#btnTeste2").on("click", function () {
+				ShowDlgBoxCartorio({
+					type: "confirm",
+					headerText: "Favor Confirmar",
+					messageText: "O que é o que é?",
+					alertType: "info"
+				}).done(function (e) {
+					//alert(e);
+					//$("body").append('<div>Callback from confirm ' + e + '</div>');
+					if (e) {
+						ShowDlgBoxCartorio({
+							messageText: "Você digitou: " + e,
+							alertType: "success"
+						});
+
+					} else {
+						ShowDlgBoxCartorio({
+							messageText: "Você digitou: " + e,
+							alertType: "danger"
+						});
+					}
+				});
+			});
+
+			$("#btnTeste3").on("click", function () {
+				ShowDlgBoxCartorio({
+					type: "prompt",
+					headerText: "Entrada de dados",
+					messageText: "Digite algo",
+					alertType: "primary"
+				}).done(function (e) {
+					//alert("vc digitou: " + e)
+					ShowDlgBoxCartorio({
+						messageText: "Você digitou: " + e,
+						alertType: "success"
+					});
+				});
+			});
+
+			$('#dataIni').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataFim').datepicker('option', 'minDate', selectedDate);
+				}
+			});
+
+			$('#dataFim').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
+				}
+			});
+
+			var objData = {
+				DataIni: $("#dataIni").val(),
+				DataFim: $("#dataFim").val()
+			};
+
+			/*-- -------------------------------------------------------------*/
+			var tabela = $('#tbl-examplo-1').dataTable({
+
+				"processing": true, // for show progress bar  
+				"serverSide": true, // for process server side  
+				"orderMulti": false, // for disable multiple column at once  
+				"pageLength": 5,  
+				"autoWidth": true,
+				"filter": false, // habilita o filtro(search box)
+
+				
+				"ajax": {  
+					"url": "/Atos/LoadData",  
+					"type": "POST",  
+					"datatype": "json"  
+				},  
+
+				columnDefs: [{ targets: [6], orderable: false, searchable: false }],
+
+				"columns": [  
+						{ "data": "Codigo",       "title": "Coluna 1", "name": "Codigo", "autoWidth": true },  
+						{ "data": "IdPrenotacao", "title": "Coluna 2", "name": "IdPrenotacao", "autoWidth": true },  
+						{ "data": "DescricaoAto", "title": "Coluna 3", "name": "DescricaoAto", "autoWidth": true },  
+						{ "data": "DataAto",      "title": "Coluna 4", "name": "DataAto", "autoWidth": true },  
+						{ "data": "Observacao",   "title": "Coluna 5", "name": "Observacao", "autoWidth": true },  
+						{ "data": "StatusAto",    "title": "Coluna 6", "name": "StatusAto", "autoWidth": true },  
+						{  
+							"render": function (data, type, full, meta)  
+							{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.Id + '">Editar</a>'; }  
+						},  
+						{  
+							data: null, render: function (data, type, row) {  
+								return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.Id + "'); >Excluir</a>";  
+							}  
+						},  
+				],  
+  
+				"language": {
+					"sEmptyTable": "Não foi encontrado nenhum registo",
+					"sLoadingRecords": "A carregar...",
+					"sProcessing": "A processar...",
+					"sLengthMenu": "Mostrar _MENU_ registos",
+					"sZeroRecords": "Não foram encontrados resultados",
+					"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+					"sInfoEmpty": "Mostrando de 0 até 0 de 0 registos",
+					"sInfoFiltered": "(filtrado de _MAX_ registos no total)",
+					"sInfoPostFix": "",
+					"sSearch": "Procurar:",
+					"sUrl": "",
+					"oPaginate": {
+						"sFirst": "Primeiro",
+						"sPrevious": "Anterior",
+						"sNext": "Seguinte",
+						"sLast": "Último"
+					},
+					"oAria": {
+						"sSortAscending": ": Ordenar colunas de forma ascendente",
+						"sSortDescending": ": Ordenar colunas de forma descendente"
+					},
+					decimal: ",",
+					thousands: "."
+				},
+
+				lengthMenu: [
+					[10, 25, 50, -1],
+					['10 linhas', '25 linhas', '50 linhas', 'Todos']
+				],
+				"pageLength": 10, // define o tamanho da página
+
+				dom: 'Bfrtip',
+				buttons: [
+					{
+						extend: 'pageLength',
+						text: '<i class="fa fa-table"></i> Paginação &nbsp;',
+						titleAttr: 'Paginação'
+					},
+					{
+						extend: 'excelHtml5',
+						text: '&nbsp;<i class="fa fa-file-excel-o"></i> Excel &nbsp;',
+						titleAttr: 'exportar para Excel',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					},
+					{
+						extend: 'pdfHtml5',
+						text: '&nbsp;<i class="fa fa-file-pdf-o"></i> Pdf &nbsp;',
+						orientation: 'landscape',
+						pageSize: 'A4',
+						title: '',
+						titleAttr: 'exportar para PDF',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					},
+					{
+						extend: 'print',
+						text: '&nbsp;<i class="fa fa-print"></i> Imprimir &nbsp;',
+						titleAttr: 'Imprimir',
+						exportOptions: {
+							columns: [0, 1, 2, 3, 4, 5]
+						}
+					}
+				]
+
+				//"rowCallback": function (row, data, index) {
+				//    if (data[5] == 'AC1') {
+				//        $(row).css('background-color', '#C4E4EF');
+				//    } else if (data[5] == 'AE') {
+				//        $(row).css('background-color', '#E7F4E5');
+				//    }
+				//}
+			});
+
+			//InitOverviewDataTable();
+			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
+
+
+			$("#btn-load-tbl-exemplo-1").click(function (e) {
+				e.preventDefault();
+
+			});
+
+		});
+
+		function AutoReloadTblExemplo1() {
+			RefreshTblExemplo1('#HelpdeskOverview', '/Helpdesk/ActiveCases/noacceptancetest');
+
+			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
+		}
+
+
+		function RefreshTblExemplo1(tableId, urlData) {
+			$.getJSON(urlData, null, function (json) {
+				table = $(tableId).dataTable();
+				oSettings = table.fnSettings();
+
+				table.fnClearTable(this);
+
+				for (var i = 0; i < json.aaData.length; i++) {
+					table.oApi._fnAddData(oSettings, json.aaData[i]);
+				}
+
+				oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+				table.fnDraw();
+			});
+		}
+
+
+	</script>
+}		

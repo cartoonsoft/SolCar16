@@ -44,6 +44,8 @@ namespace Domain.CartNew.Interfaces.Repositories
         
         IEnumerable<CampoTipoAto> GetListCamposPessoa(long IdTipoAto, long IdCtaAcessoSist);
 
+        IEnumerable<AtoEvento> GetListHistoricoAto(long? IdAto);
+
         DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
     }
 }

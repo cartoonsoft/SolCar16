@@ -71,6 +71,13 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         }
         #endregion
 
+
+        public override Ato Add(Ato entity)
+        {
+            entity.Ativo = true;
+            return base.Add(entity);
+        }
+
         public bool ExisteAtoCadastrado(string NumMatricula)
         {
             long quantidadeDeAtos = 0;
@@ -176,48 +183,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         public IEnumerable<CampoTipoAto> GetListCamposPessoa(long IdTipoAto, long IdCtaAcessoSist)
         {
             return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "PESSOA");
-        }
-
-        public IEnumerable<Docx> GetListDocxAto(long? IdAto)
-        {
-            List<Docx> lista = new List<Docx>();
-
-            if (IdAto != null)
-            {
-                var qry =
-                    from Doc in this._contextRepository.DbDocx
-                    join AtoDoc in this._contextRepository.DbAtoDocx.Where(ad => ad.IdAto == IdAto) on Doc.Id equals AtoDoc.IdAto
-                    orderby Doc.DataDocx descending
-                    select new
-                    {
-                        IdDocx = Doc.Id,
-                        IdCtaAcessoSist = Doc.IdCtaAcessoSist,
-                        IdUsuarioCadastro = Doc.IdUsuarioCadastro,
-                        IdUsuarioAlteracao = Doc.IdUsuarioAlteracao,
-                        DataCadastro = Doc.DataCadastro,
-                        DataAlteracao = Doc.DataAlteracao,
-                        NumFicha = Doc.NumFicha,
-                        DataDocx = Doc.DataDocx,
-                        NomeArquivo = Doc.NomeArquivo
-                    };
-
-                foreach (var doc in qry)
-                {
-                    lista.Add(new Docx
-                    {
-                        Id = doc.IdDocx,
-                        IdCtaAcessoSist = doc.IdCtaAcessoSist,
-                        IdUsuarioCadastro = doc.IdUsuarioCadastro,
-                        IdUsuarioAlteracao = doc.IdUsuarioAlteracao,
-                        DataCadastro = doc.DataCadastro,
-                        DataAlteracao = doc.DataAlteracao,
-                        NumFicha = doc.NumFicha,
-                        DataDocx = doc.DataDocx, //data cabeçalho docx
-                        NomeArquivo = doc.NomeArquivo
-                    });
-                }
-            }
-            return lista;
         }
 
         public DateTime? DataRegPrenotacao(long IdPrenotacao)
@@ -468,6 +433,55 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             }
 
             return listaPessoaCart11RI;
+        }
+
+        public IEnumerable<Docx> GetListDocxAto(long? IdAto)
+        {
+            List<Docx> lista = new List<Docx>();
+
+            if (IdAto != null)
+            {
+                var qry =
+                    from Doc in this._contextRepository.DbDocx
+                    join AtoDoc in this._contextRepository.DbAtoDocx.Where(ad => ad.IdAto == IdAto) on Doc.Id equals AtoDoc.IdAto
+                    orderby Doc.DataDocx descending
+                    select new
+                    {
+                        IdDocx = Doc.Id,
+                        IdCtaAcessoSist = Doc.IdCtaAcessoSist,
+                        IdUsuarioCadastro = Doc.IdUsuarioCadastro,
+                        IdUsuarioAlteracao = Doc.IdUsuarioAlteracao,
+                        DataCadastro = Doc.DataCadastro,
+                        DataAlteracao = Doc.DataAlteracao,
+                        NumFicha = Doc.NumFicha,
+                        DataDocx = Doc.DataDocx,
+                        NomeArquivo = Doc.NomeArquivo
+                    };
+
+                foreach (var doc in qry)
+                {
+                    lista.Add(new Docx
+                    {
+                        Id = doc.IdDocx,
+                        IdCtaAcessoSist = doc.IdCtaAcessoSist,
+                        IdUsuarioCadastro = doc.IdUsuarioCadastro,
+                        IdUsuarioAlteracao = doc.IdUsuarioAlteracao,
+                        DataCadastro = doc.DataCadastro,
+                        DataAlteracao = doc.DataAlteracao,
+                        NumFicha = doc.NumFicha,
+                        DataDocx = doc.DataDocx, //data cabeçalho docx
+                        NomeArquivo = doc.NomeArquivo
+                    });
+                }
+            }
+            return lista;
+        }
+
+        public IEnumerable<AtoEvento> GetListHistoricoAto(long? IdAto)
+        {
+            List<AtoEvento> listaAtoEvento = this._contextRepository.DbAtoEvento.Where(ae => ae.IdAto == IdAto).ToList();
+
+            return listaAtoEvento;
         }
 
         public PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)

@@ -16,6 +16,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 		{
 			this.ListaPessoasAto = new List<DtoPessoaAto>();
 			this.StatusAto = string.Empty;
+			this.Salvo = false;
 		}
 
 		[Key]
@@ -59,6 +60,10 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
 		[DataType(DataType.MultilineText)]
 		[AllowHtml]
+		public string TextoAnterior { get; set; }
+
+		[DataType(DataType.MultilineText)]
+		[AllowHtml]
 		public string Texto { get; set; }
 
 		public short NumFicha { get; set; }  //numero da fihca informado pelo usuario
@@ -72,6 +77,8 @@ namespace Dto.CartNew.Entities.Cart_11RI
 		public bool ConfTexto { get; set; }
 
 		public bool ConfDocx { get; set; }
+
+		public bool Salvo { get; set; }  // (ato foi salvo)
 
 		public bool Ativo { get; set; }
 

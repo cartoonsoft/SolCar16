@@ -99,7 +99,6 @@ namespace Cartorio11RI.Controllers
 
             return listaAtoViewModel;
         }
-
         #endregion
 
         // GET: Ato
@@ -145,15 +144,12 @@ namespace Cartorio11RI.Controllers
             dados.IdCtaAcessoSist = this.IdCtaAcessoSist;
             dados.IdLivro = 1;
             dados.FolhaFicha = TipoFolhaFicha.Indefinido;
-
             dados.ConfTexto = false;
             dados.ConfDocx = false;
             dados.GeradoFicha = false;
             dados.Salvo = false;
             dados.PodeEditar = true;
             dados.Finalizado = false;
-            dados.InsertMode = true;
-            dados.Ativo = true;
 
             //dados.Pessoas.Add(new PESSOAViewModel { 
             //    IdPessoa = 1,
@@ -280,13 +276,20 @@ namespace Cartorio11RI.Controllers
             {
                 if (Id.HasValue)
                 {
+                    List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
+
+
                     using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
-                        string[] statusEditaveis = appService.StatusEditaveis;
-                        string[] statusCamposReadOnly = appService.StatusCamposReadOnly;
+                        appService.ListaUsuariosSistema = listaUsrSist;
 
-                        ViewBag.StatusEditaveis = statusEditaveis;
-                        ViewBag.StatusCamposReadOnly = statusCamposReadOnly;
+                        string[] StatusEdtTexto = appService.StatusEdtTexto();
+                        string[] StatusEdtDadosImp = appService.StatusEdtDadosImp();
+                        string[] StatusAtoFinalizado = appService.StatusAtoFinalizado();
+
+                        ViewBag.StatusEdtTexto = StatusEdtTexto;
+                        ViewBag.StatusEdtDadosImp = StatusEdtDadosImp;
+                        ViewBag.StatusAtoFinalizado = StatusAtoFinalizado;
 
                         DtoAto ato = appService.GetById(Id);
                          
@@ -296,7 +299,7 @@ namespace Cartorio11RI.Controllers
                         }
 
                         //se não for permitido editar
-                        if (!statusEditaveis.Contains(ato.StatusAto))
+                        if (StatusAtoFinalizado.Contains(ato.StatusAto))
                         {
                             businessError.ListErros.Add("Edição não é permitida para o status atual do ato!");
                         }
@@ -308,6 +311,9 @@ namespace Cartorio11RI.Controllers
                             return RedirectToAction("BusinessError", "Adm", new { descricao = descMsg });
                         }
 
+                        ato.Salvo = true;
+                        atoViewModel = Mapper.Map<DtoAto, AtoViewModel>(ato);
+
                         List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
                         ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
@@ -315,7 +321,13 @@ namespace Cartorio11RI.Controllers
                         List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                         ViewBag.listaTipoAto = listaTipoAto;
 
-                        atoViewModel = Mapper.Map<DtoAto, AtoViewModel>(ato);
+                        //todo: pessoas
+                        //List<DtoPessoaAto> listaPesAto = appService.GetListPessoasAto(Id).ToList();
+
+                        //historico
+                        List<AtoEventoViewModel> listaAtoEvento = Mapper.Map<List<DtoAtoEvento>, List<AtoEventoViewModel>>(appService.GetListHistoricoAto(Id).ToList());
+                        atoViewModel.Historico = listaAtoEvento;
+                        atoViewModel.TextoAnterior = atoViewModel.Texto;
                     }
                 } else {
                     //return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -420,78 +432,6 @@ namespace Cartorio11RI.Controllers
 
         }
         #endregion
-
-        public ActionResult BloquearAto(long? Id)
-        {
-            try
-            {
-                if (Id.HasValue)
-                {
-                    Ato Ato = this.UfwCartNew.Repositories.GenericRepository<Ato>().GetById(Id);
-                    if (Ato == null)
-                    {
-                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-                    }
-                    //else if (Ato.Bloqueado == true)
-                    //{
-                    //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "Não é possível bloquear um ato já bloqueado");
-                    //}
-                    AtoListViewModel atoViewModel = new AtoListViewModel
-                    {
-                        Id = Ato.Id,
-                        Ativo = Ato.Ativo,
-                        //NumSequencia = Ato.NumSequencia,
-                        DataAlteracao = Ato.DataAlteracao,
-                        DataCadastro = Ato.DataCadastro,
-                        //NomeArquivo = Ato.NomeArquivo,
-                        NumMatricula = Ato.NumMatricula,
-                        IdPrenotacao = Ato.IdPrenotacao
-                    };
-
-                    return View(atoViewModel);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-            }
-            catch (Exception ex)
-            {
-                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["excecaoGerada"] = ex;
-                return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
-            }
-        }
-
-        [HttpPost]
-        public void BloquearAto(string NumMatricula, long IdAto)
-        {
-            try
-            {
-                using (var appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
-                {
-                    var resultado = false; // appService.FinalizarAto(IdAto);
-
-                    if (resultado)
-                    {
-                        this.UfwCartNew.SaveChanges();
-                        //todo: ronaldo fazer 
-                        //WordHelper.EscreverAtoPrincipal(Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{NumMatricula}_pendente.docx"), Server.MapPath($"~/App_Data/Arquivos/Atos/{NumMatricula}.docx"));
-                        Response.StatusCode = 200;
-                        Response.Status = "Ato Bloqueado com sucesso!";
-                    } else {
-                        Response.StatusCode = 500;
-                        Response.Status = "Erro ao atualizar o ato!";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
-                TempData["excecaoGerada"] = ex;
-                RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
-            }
-        }
 
         /// <summary>
         /// Lista de Modelos (JSON) por IdTipo
@@ -618,6 +558,48 @@ namespace Cartorio11RI.Controllers
                 resposta = resp,
                 msg = message,
                 listaDtoDadosImovel
+            };
+
+            return Json(resultado);
+        }
+
+
+        /// <summary>
+        /// Essa função retorna uma lista de pessoa por Ato (as pessoas selecionadas na prenotação)
+        /// </summary>
+        /// <param name="IdAto">Id Ato</param>
+        /// <returns>JSON</returns>
+        [HttpPost]
+        public JsonResult GetListPessoasAto(long? IdAto)
+        {
+            bool resp = false;
+            string message = string.Empty;
+            IEnumerable<DtoPessoaAto> listaPes = new List<DtoPessoaAto>();
+
+            try
+            {
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    listaPes = appServiceAtos.GetListPessoasAto(IdAto);
+                    resp = true;
+                    message = "Lista de pessoas do ato, obtida com sucesso!";
+                }
+            }
+            catch (Exception ex)
+            {
+                resp = false;
+                message = string.Format("{0}.{1} [{2} => {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+
+                //    Console.WriteLine(ex);
+                //    Response.StatusCode = 500;
+                //    Response.Status = "Erro ao buscar os dados das pessoas";
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                listaPessoas = listaPes
             };
 
             return Json(resultado);
@@ -834,6 +816,7 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
+        [HttpPost]
         public JsonResult ProcReservarMatImovel(TipoReservaMatImovel TipoReserva, long IdPrenotacao, string NumMatricula) 
         {
             bool resp = false;

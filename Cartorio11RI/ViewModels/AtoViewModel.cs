@@ -17,6 +17,7 @@ namespace Cartorio11RI.ViewModels
             this.DataAto = DateTime.Today;
             this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
+            this.Historico = new List<AtoEventoViewModel>();
         }
 
         [Key]
@@ -84,6 +85,10 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Descrição do ato")]
         public string DescricaoAto { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string TextoAnterior { get; set; }
+
         [Display(Name = "Texto")]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
@@ -119,8 +124,6 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }  // CL (ao cancelar o Ativo = false)
 
-        public bool InsertMode { get; set; }
-
         [ScaffoldColumn(false)]
         public string IpLocal { get; set; }
 
@@ -149,6 +152,8 @@ namespace Cartorio11RI.ViewModels
         public string  IdsPessoasSelecionadas {get; set;} //string com ids das pessoas que forma seleconadas separadaos por ";"
 
         public List<PESSOAViewModel> Pessoas { get; set; }
+
+        public List<AtoEventoViewModel> Historico { get; set; }
 
         public PREIMOViewModel PREIMO { get; set; }
     }

@@ -52,13 +52,22 @@ namespace DomainServ.CartNew.Services
         #region add, Update, InsertOrUpdateAto 
         public override Ato Add(Ato item)
         {
-            //todo: Verificar se existe ato em andamento para matricula.
-            Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula)  &&(_statusAtoFinalizado.Contains(a.StatusAto))).FirstOrDefault();
-
-            if (atoTmp != null)
+            if (item != null)
             {
-                string msg = string.Format(CultureInfo.CurrentCulture, "O Ato {0} para a matricula {1} está em andamento, e deve ser finalizado para que se possa incluir um novo ato para o imóvel!", atoTmp.Id.ToString(), atoTmp.NumMatricula);
-                throw new ArgumentException(msg); 
+                item.Ativo = true;
+                // verificar se prenotacao e matricula já fora salvos
+                if (this.AtoJaCadastrado(item.IdPrenotacao, item.NumMatricula))
+                {
+                    throw new Exception(string.Format(CultureInfo.CurrentCulture, "Já foi gerado um ato para esta Prenotação {0} e a matricula {1} de imóvel!", item.IdPrenotacao, item.NumMatricula));
+                }
+
+                // verificar se existe ato em andamento para matricula.
+                Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula) && (_statusAtoFinalizado.Contains(a.StatusAto))).FirstOrDefault();
+                if (atoTmp != null)
+                {
+                    string msg = string.Format(CultureInfo.CurrentCulture, "O Ato {0} para a matricula {1} está em andamento, e deve ser finalizado para que se possa incluir um novo ato para o imóvel!", atoTmp.Id.ToString(), atoTmp.NumMatricula);
+                    throw new ArgumentException(msg);
+                }
             }
 
             return base.Add(item);
@@ -66,29 +75,15 @@ namespace DomainServ.CartNew.Services
 
         public override void Update(Ato item)
         {
-            Ato atoTmp = null;
-
             if (item != null)
-            {     
-                if (_statusEdtTexto.Contains(item.StatusAto))
+            {
+                if (!_statusEdtTexto.Contains(item.StatusAto))
                 {
-                    atoTmp = item;
-                } else if (_statusEdtDadosImp.Contains(item.StatusAto)) {
-                    atoTmp = this.GetById(item.Id);
-                    atoTmp.StatusAto = item.StatusAto;
-                    atoTmp.IdLivro = item.IdLivro;
-                    atoTmp.NumFicha = item.NumFicha;
-                    atoTmp.NumSequenciaAto = item.NumSequenciaAto;
-                    atoTmp.FolhaFicha = item.FolhaFicha;
-                    atoTmp.DistanciaTopo = item.DistanciaTopo;
-                    atoTmp.DescricaoAto = item.DescricaoAto;
-                    atoTmp.Observacao = item.Observacao;
-                } else {
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "O Ato {0} no status {1} não pode ser atualizado!", atoTmp.Id.ToString(), atoTmp.StatusAto));
+                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "O Ato {0} no status {1} não pode ser atualizado!", item.Id.ToString(), item.StatusAto));
                 }
             }
 
-            base.Update(atoTmp);
+            base.Update(item);
         }
 
         public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
@@ -108,6 +103,7 @@ namespace DomainServ.CartNew.Services
             }
 
             string StatusAnt = atoDto.StatusAto;
+            bool AlterouTexto = atoDto.TextoAnterior != atoDto.Texto;
 
             /*-- status ato ----------------------------------------------------
             AC1	Ato Criado
@@ -128,12 +124,6 @@ namespace DomainServ.CartNew.Services
 
                 if (ato.Id == null)
                 {
-                    //verificar se prenotacao e matricula já fora salvos
-                    if (this.AtoJaCadastrado(ato.IdPrenotacao, ato.NumMatricula))
-                    {
-                        throw new Exception("Já foi gerado um ato para esta Prenotação e matricula de imóvel!");
-                    }
-
                     ato.Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO");
                     ato.StatusAto = "AC1";
                     ato.DataCadastro = DateTime.Now;
@@ -157,6 +147,12 @@ namespace DomainServ.CartNew.Services
                     }
                 } else {
                     execProc.Operacao = DataBaseOperacoes.update;
+                    
+                    if ((StatusAnt == "AC1") || (StatusAnt == "AC2")) 
+                    {
+                        ato.StatusAto = "AE";
+                    }
+
                     ato.DataAlteracao = DateTime.Now;
                     ato.IdUsuarioAlteracao = usuario.IdUsuario;
 
@@ -176,20 +172,23 @@ namespace DomainServ.CartNew.Services
                 }
 
                 //ato evento
-                this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
-                    new AtoEvento
-                    {
-                        Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
-                        IdAto = ato.Id ?? 0,
-                        IdUsuario = usuario.IdUsuario,
-                        TipoEvento = execProc.Operacao,
-                        DataEvento = DateTime.Now,
-                        Descricao = descEvento,
-                        Status = ato.StatusAto,
-                        StatusAnterior = StatusAnt,
-                        Observacoes = ""
-                    }
-                );
+                if ((StatusAnt != ato.StatusAto) ||(AlterouTexto))
+                {
+                    this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
+                        new AtoEvento
+                        {
+                            Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
+                            IdAto = ato.Id ?? 0,
+                            IdUsuario = usuario.IdUsuario,
+                            TipoEvento = execProc.Operacao,
+                            DataEvento = DateTime.Now,
+                            Descricao = descEvento,
+                            Status = ato.StatusAto,
+                            StatusAnterior = StatusAnt,
+                            Observacoes = AlterouTexto? "Texto do ato foi alterado pelo usuário": ""
+                        }
+                    );
+                }
 
                 this.UfwCartNew.SaveChanges();
                 this.UfwCartNew.CommitTransaction();
@@ -257,7 +256,6 @@ namespace DomainServ.CartNew.Services
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
             IEnumerable<DtoDadosImovel> listaDtoImoveis = new List<DtoDadosImovel>();
-
             var listaImoveis = this.UfwCartNew.Repositories.RepositoryAto.GetListImoveisPrenotacao(IdPrenotacao).ToList();
             listaDtoImoveis = Mapper.Map<List<DadosImovel>, List<DtoDadosImovel>>(listaImoveis);
 
@@ -267,7 +265,6 @@ namespace DomainServ.CartNew.Services
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
             List<DtoPessoaAto> lista = new List<DtoPessoaAto>();
-
             List<PessoaAto> listaPessoaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasAto(IdAto).ToList();
             lista = Mapper.Map<List<PessoaAto>, List<DtoPessoaAto>>(listaPessoaAto);
 
@@ -292,24 +289,31 @@ namespace DomainServ.CartNew.Services
             return listaDtoPessoaPesxPre;
         }
 
-        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
-        {
-            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
-            PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
-
-            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
-
-            return dtoPessoaPesxPre;
-        }
-
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {
             List<DtoDocx> listaDtoDocx = new List<DtoDocx>();
-
             var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListDocxAto(IdAto).ToList();
             listaDtoDocx = Mapper.Map<List<Docx>, List<DtoDocx>>(lista);
 
             return listaDtoDocx;
+        }
+
+        public IEnumerable<DtoAtoEvento> GetListHistoricoAto(long? IdAto)
+        {
+            List<DtoAtoEvento> listaDto = new List<DtoAtoEvento>();
+            var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListHistoricoAto(IdAto).ToList();
+            listaDto = Mapper.Map<List<AtoEvento>, List<DtoAtoEvento>>(lista);
+
+            return listaDto;
+        }
+
+        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
+            PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
+            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
+
+            return dtoPessoaPesxPre;
         }
 
         public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)

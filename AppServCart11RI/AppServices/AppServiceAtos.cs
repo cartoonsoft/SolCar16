@@ -19,6 +19,7 @@ using AppServCart11RI.Base;
 using AppServCart11RI.Cartorio;
 using AppServices.Cartorio.Interfaces;
 using DomainServ.CartNew.Interfaces.Factory;
+using AutoMapper;
 
 namespace AppServCart11RI.AppServices
 {
@@ -241,12 +242,17 @@ namespace AppServCart11RI.AppServices
         #region Add, update, InsertOrUpdateAto
         public override void Add(DtoAto dtoItem)
         {
-            base.Add(dtoItem);
+            //regra de negocio insert
+            Ato atoTmp = Mapper.Map<DtoAto, Ato>(dtoItem);
+
+            this.DsFactoryCartNew.AtoDs.Add(atoTmp);
         }
 
         public override void Update(DtoAto dtoItem)
         {
-            base.Update(dtoItem);
+            Ato atoTmp = Mapper.Map<DtoAto, Ato>(dtoItem);
+
+            this.DsFactoryCartNew.AtoDs.Update(atoTmp);
         }
 
         public DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario)
@@ -261,16 +267,6 @@ namespace AppServCart11RI.AppServices
             set { listaUsrSist = value; }
         }
 
-        public bool BloquearAto(long IdAto)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool BloquearMatricula(string NumMatricula)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool ConfirmarAjusteImpressaoAto(long IdAto)
         {
             throw new NotImplementedException();
@@ -279,6 +275,11 @@ namespace AppServCart11RI.AppServices
         public bool ConfirmarFicha(long IdDocx)
         {
             throw new NotImplementedException();
+        }
+
+        public bool AtoJaCadastrado(long idPrenotacao, string numMatricula)
+        {
+            return this.DsFactoryCartNew.AtoDs.AtoJaCadastrado(idPrenotacao, numMatricula);
         }
 
         public void DesativarAto(long IdAto)
@@ -323,15 +324,22 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
             List<DtoDadosImovel> listaImoveis = new List<DtoDadosImovel>();
-
             listaImoveis = this.DsFactoryCartNew.AtoDs.GetListImoveisPrenotacao(IdPrenotacao).ToList();
 
             return listaImoveis;
         }
 
+        /// <summary>
+        /// Lista de pessoa por Ato (as pessoas selecionadas na prenotação)
+        /// </summary>
+        /// <param name="IdAto"></param>
+        /// <returns></returns>
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
-            throw new NotImplementedException();
+            List<DtoPessoaAto> pessoasAto = new List<DtoPessoaAto>();
+            pessoasAto = this.DsFactoryCartNew.AtoDs.GetListPessoasAto(IdAto).ToList();
+
+            return pessoasAto;
         }
 
         /// <summary>
@@ -342,7 +350,6 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<DtoPessoaPesxPre> pessoasPrenotacao = new List<DtoPessoaPesxPre>();
-
             pessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
             return pessoasPrenotacao;
@@ -351,7 +358,6 @@ namespace AppServCart11RI.AppServices
         public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao)
         {
             List<DtoPessoaPesxPre> dtoPessoaPesxPres = new List<DtoPessoaPesxPre>();
-
             dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao).ToList();
 
             foreach (var pessoa in dtoPessoaPesxPres)
@@ -360,6 +366,18 @@ namespace AppServCart11RI.AppServices
             }
 
             return dtoPessoaPesxPres;
+        }
+
+        public IEnumerable<DtoAtoEvento> GetListHistoricoAto(long? IdAto)
+        {
+            List<DtoAtoEvento> listaDtoAtoEvento = DsFactoryCartNew.AtoDs.GetListHistoricoAto(IdAto).ToList();
+
+            foreach (var item in listaDtoAtoEvento)
+            {
+                item.NomeUsuario = this.ListaUsuariosSistema.Where(u => u.IdUsuario == item.IdUsuario).FirstOrDefault().Nome;
+            }
+
+            return listaDtoAtoEvento;
         }
 
         public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
@@ -681,10 +699,7 @@ namespace AppServCart11RI.AppServices
             return textoDoc;
         }
 
-        public bool AtoJaCadastrado(long idPrenotacao, string numMatricula)
-        {
-            return this.DsFactoryCartNew.AtoDs.AtoJaCadastrado(idPrenotacao, numMatricula);
-        }
+
 
     }
 

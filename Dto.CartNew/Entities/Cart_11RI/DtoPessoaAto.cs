@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -11,6 +12,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 {
     public class DtoPessoaAto: DtoBase  //base antiga
     {
+        [Key]
         public long IdPessoa { get; set; }
         public long IdAto { get; set; }
         public long IdPrenotacao { get; set; }
