@@ -7,7 +7,16 @@
 @section styles_especific {
 	<style>
 		/*-- coloque aqui seu código css ------------------------------------ */
-
+		fieldset {
+		  display: block;
+		  margin-left: 2px;
+		  margin-right: 2px;
+		  padding-top: 0.35em;
+		  padding-bottom: 0.625em;
+		  padding-left: 0.75em;
+		  padding-right: 0.75em;
+		  border: 2px groove;
+		}
 	</style>
 }
 
@@ -74,10 +83,8 @@
 
 		<!-- row -->
 		<div class="row">
-
 			<!-- NEW WIDGET START -->
 			<article class="col-sm-12 col-md-12 col-lg-6">
-
 				<!-- Widget ID (each widget will need unique ID)-->
 				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-colorbutton="false" data-widget-collapsed="false" data-widget-editbutton="false" data-widget-custombutton="false" data-widget-sortable="false">
 					<header>
@@ -87,19 +94,18 @@
 
 					<!-- widget div-->
 					<div>
-
 						<!-- widget edit box -->
 						<div class="jarviswidget-editbox">
 							<!-- This area used as dropdown edit box -->
 
 						</div>
 						<!-- end widget edit box -->
+
 						<!-- widget content -->
 						<div class="widget-body">
 							<p class="alert alert-info">
 								The icons below are the most basic ones, without any icons or additional css applied to it
 							</p>
-
 							<p>
 								Buttons come in 6 different default color sets
 								<code>
@@ -198,29 +204,54 @@
 							<div class="panel-group smart-accordion-default" id="accordion">
 								<div class="panel panel-default">
 									<div class="panel-heading">
-										<h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> <i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i> Filtros de consulta </a></h4>
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><i class="fa fa-lg fa-angle-down pull-right"></i><i class="fa fa-lg fa-angle-up pull-right"></i> Filtros de consulta</a>
+										</h4>
 									</div>
 									<div id="collapseOne" class="panel-collapse collapse in">
 										<div class="panel-body">
 											@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-tbl-exemplo-1", @name = "frm-tbl-exemplo-1", @novalidate = "novalidate" }))
 											{
-												<fieldset>
+												<fieldset class="no-padding">
 													<div class="row">
 														<section class="col col-2">
+															<label class="label">Início</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-calendar"></i>
 																<input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
 															</label>
 														</section>
 														<section class="col col-2">
+															<label class="label">Fim</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-calendar"></i>
 																<input type="text" name="dataFim" id="dataFim" placeholder="Data final">
 															</label>
 														</section>
 													</div>
+													<div class="row">
+														<section class="col col-6">
+															<label class="label">Name</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" name="named" id="named">
+															</label>
+														</section>
+														<section class="col col-6">
+															<label class="label">E-mail</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-envelope-o"></i>
+																<input type="email" name="emaild" id="emaild">
+															</label>
+														</section>
+													</div>
 												</fieldset>
-												<footer>
+												<fieldset>
+													<section>
+														<label class="checkbox"><input type="checkbox" name="copy" id="copy"><i></i>exemplo de checkbox</label>
+													</section>
+												</fieldset>
+												<footer class="no-padding no-border bg-color-white">
 													<button type="button" name="submit" class="btn btn-primary">
 														Consultar
 													</button>
@@ -258,6 +289,7 @@
 									</tfoot>
 								</table>
 							</div>
+
 						</div>
 						<!-- end widget content -->
 					</div>
@@ -296,7 +328,8 @@
 						<div class="widget-body">
 
 							<!-- this is what the user will see -->
-							<form  id="frm-cartoon-soft-exemplo-111" class="smart-form">
+							<form id="frm-cartoon-soft-exemplo-111" class="smart-form">
+								@Html.AntiForgeryToken()
 								<fieldset>
 									<div class="row">
 										<section class="col col-6">
@@ -373,7 +406,13 @@
 
 	<script>
 		$(document).ready(function () {
-			/*-- coloque aqui seu código javascript ------------------------------*/
+			/*-- coloque aqui seu código javascript --------------------------*/
+
+			var urlPovoarTbl = '@Url.Action("IndexAtoAjax", "Atos")';
+			var token = $("#__RequestVerificationToken").val();
+
+			$("#dataIni").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date("01/01/2019"));
+			$("#dataFim").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date());
 
 			$("#btnTeste1").on("click", function () {
 				var prom = ShowDlgBoxCartorio({
@@ -456,28 +495,37 @@
 			});
 
 			var objData = {
+				__RequestVerificationToken: token,
 				DataIni: $("#dataIni").val(),
 				DataFim: $("#dataFim").val()
 			};
 
 			/*-- -------------------------------------------------------------*/
+
 			var tabela = $('#tbl-examplo-1').dataTable({
 
 				"processing": true, // for show progress bar  
-				"serverSide": true, // for process server side  
-				"orderMulti": false, // for disable multiple column at once  
-				"pageLength": 5,  
-				"autoWidth": true,
-				"filter": false, // habilita o filtro(search box)
+				//"serverSide": true, // for process server side  
+				//"filter": false, // habilita o filtro(search box)
 
-				
-				"ajax": {  
-					"url": "/Atos/LoadData",  
-					"type": "POST",  
-					"datatype": "json"  
-				},  
+				"ajax": {
+					"type" : "POST",
+					"url" : "/Atos/IndexAtoAjax",
+					"data": objData,
+					"dataSrc": function (dataReturn) {
+						if (dataReturn.resposta) {
+							var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
+							if (dadosValidos) {
+								return dataReturn.ListaAtoViewModel;
+							}
+						}
+					}       
+				},
 
-				columnDefs: [{ targets: [6], orderable: false, searchable: false }],
+				columnDefs: [
+					{ targets: [3], render:function(data){return moment(data).format('DD/MM/YYYY');}},
+					{ targets: [6], orderable: false, searchable: false }
+				],
 
 				"columns": [  
 						{ "data": "Codigo",       "title": "Coluna 1", "name": "Codigo", "autoWidth": true },  
@@ -489,12 +537,7 @@
 						{  
 							"render": function (data, type, full, meta)  
 							{ return '<a class="btn btn-info" href="/Demo/Edit/' + full.Id + '">Editar</a>'; }  
-						},  
-						{  
-							data: null, render: function (data, type, row) {  
-								return "<a href='#' class='btn btn-danger' onclick=DeleteData('" + row.Id + "'); >Excluir</a>";  
-							}  
-						},  
+						}
 				],  
   
 				"language": {
@@ -527,8 +570,8 @@
 					[10, 25, 50, -1],
 					['10 linhas', '25 linhas', '50 linhas', 'Todos']
 				],
-				"pageLength": 10, // define o tamanho da página
 
+				"pageLength": 10, // define o tamanho da página
 				dom: 'Bfrtip',
 				buttons: [
 					{
@@ -574,6 +617,7 @@
 				//}
 			});
 
+
 			//InitOverviewDataTable();
 			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
 
@@ -586,7 +630,7 @@
 		});
 
 		function AutoReloadTblExemplo1() {
-			RefreshTblExemplo1('#HelpdeskOverview', '/Helpdesk/ActiveCases/noacceptancetest');
+			//RefreshTblExemplo1('#HelpdeskOverview', '/Helpdesk/ActiveCases/noacceptancetest');
 
 			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
 		}

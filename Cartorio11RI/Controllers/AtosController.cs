@@ -109,7 +109,8 @@ namespace Cartorio11RI.Controllers
 
             return View(listaAtoViewModel);
         }
-        
+
+        [HttpPost]
         public JsonResult IndexAtoAjax(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             bool resp = false;
@@ -508,8 +509,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"",
-                listaDtoDadosImovel
+                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"", listaDtoDadosImovel
             };
 
             return Json(resultado);
@@ -681,6 +681,7 @@ namespace Cartorio11RI.Controllers
         /// <returns>Download do arquivo DOCX</returns>
         public FileResult DownloadFile([Bind(Include = "Id")]long? Id)
         {
+            //todo: está obsoleto refazer
             string fileName = Id.ToString();
             string filePath = Server.MapPath($"~/App_Data/Arquivos/AtosPendentes/{Id}_pendente.docx");
 
