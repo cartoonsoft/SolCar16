@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.CartNew.Enumerations;
 using Domain.CartNew.Interfaces.Repositories;
-using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.Cart_11RI.TodosCart;
 
 namespace LibFunctions.Functions.FeriadosFunc
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dto.CartNew.Entities.Cart_11RI.Diversos
+namespace Dto.CartNew.Entities.Cart_11RI.TodosCart
 {
     public class DtoExcuteService
     {
@@ -17,5 +17,6 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
         public Guid Id { get; private set; }
         public bool Execute { get; set; }
         public string Message { get; set; }
+        public Object Objeto { get; set; }
     }
 }

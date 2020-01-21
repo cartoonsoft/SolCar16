@@ -91,8 +91,8 @@
     <Compile Include="Entities\Cart_11RI\Diversos\DtoAtoList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoCamposValor.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoDadosImovel.cs" />
-    <Compile Include="Entities\Cart_11RI\Diversos\DtoExcuteService.cs" />
-    <Compile Include="Entities\Cart_11RI\Diversos\DtoFeriado.cs" />
+    <Compile Include="Entities\TodosCart\DtoExcuteService.cs" />
+    <Compile Include="Entities\TodosCart\DtoFeriado.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoMenuAcaoList.cs" />
     <Compile Include="Entities\Cart_11RI\Diversos\DtoPessoaPesxPre.cs" />
     <Compile Include="Interfaces\IDtoEntityBaseModel.cs" />

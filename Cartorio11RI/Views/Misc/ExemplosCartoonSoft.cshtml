@@ -17,10 +17,10 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 			<h1 class="page-title txt-color-blueDark">
-				<i class="fa-fw fa fa-home"></i>
+				<i class="fa-fw fa fa-tasks"></i>
 				@ViewBag.Title
 				<span>
-					<i class="fa fa-angle-right"></i>@ViewBag.SubTitle
+					<i class="fa fa-chevron-right"></i>@ViewBag.SubTitle
 				</span>
 			</h1>
 		</div>
@@ -69,6 +69,7 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
+
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -122,6 +123,7 @@
 
 			</article>
 			<!-- WIDGET END -->
+
 			<!-- NEW WIDGET START -->
 			<article class="col-sm-12 col-md-12 col-lg-6">
 				<!-- Widget ID (each widget will need unique ID)-->
@@ -162,6 +164,7 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
+
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -217,25 +220,25 @@
 															<label class="label">Name</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-user"></i>
-																<input type="text" name="named" id="named">
+																<input type="text" name="named2" id="named2">
 															</label>
 														</section>
 														<section class="col col-6">
 															<label class="label">E-mail</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-envelope-o"></i>
-																<input type="email" name="emaild" id="emaild">
+																<input type="email" name="emaild1" id="emaild1">
 															</label>
 														</section>
 													</div>
 												</fieldset>
 												<fieldset>
 													<section>
-														<label class="checkbox"><input type="checkbox" name="copy" id="copy"><i></i>exemplo de checkbox</label>
+														<label class="checkbox"><input type="checkbox" name="copy1" id="copy1"><i></i>exemplo de checkbox</label>
 													</section>
 												</fieldset>
 												<footer class="no-padding no-border bg-color-white">
-													<button type="button" name="submit" class="btn btn-primary">
+													<button type="button" id="btn-load-tbl-exemplo-1"  class="btn btn-primary">
 														Consultar
 													</button>
 												</footer>
@@ -284,6 +287,7 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
+
 		<!-- row -->
 		<div class="row">
 
@@ -291,7 +295,7 @@
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
 				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-fullscreenbutton="true">
+77				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-fullscreenbutton="true">
 
 					<header>
 						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
@@ -318,14 +322,14 @@
 											<label class="label">Name</label>
 											<label class="input">
 												<i class="icon-prepend fa fa-user"></i>
-												<input type="text" name="named" id="named">
+												<input type="text" name="named1" id="named1">
 											</label>
 										</section>
 										<section class="col col-6">
 											<label class="label">E-mail</label>
 											<label class="input">
 												<i class="icon-prepend fa fa-envelope-o"></i>
-												<input type="email" name="emaild" id="emaild">
+												<input type="email" name="emaild2" id="emaild2">
 											</label>
 										</section>
 									</div>
@@ -347,7 +351,7 @@
 									</section>
 
 									<section>
-										<label class="checkbox"><input type="checkbox" name="copy" id="copy"><i></i>Send a copy to my e-mail address</label>
+										<label class="checkbox"><input type="checkbox" name="copy2" id="copy2"><i></i>Send a copy to my e-mail address</label>
 									</section>
 								</fieldset>
 
@@ -393,11 +397,10 @@
 		$(document).ready(function () {
 			/*-- coloque aqui seu código javascript --------------------------*/
 
-			var urlPovoarTbl = '@Url.Action("IndexAtoAjax", "Atos")';
-			var token = $("#__RequestVerificationToken").val();
-
-			$("#dataIni").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date("01/01/2019"));
+			$("#dataIni").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date("01/01/2019"));
 			$("#dataFim").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date());
+
+			var urlPovoarTbl = '@Url.Action("IndexAtoAjax", "Atos")';
 
 			$("#btnTeste1").on("click", function () {
 				var prom = ShowDlgBoxCartorio({
@@ -477,33 +480,45 @@
 				onSelect: function (selectedDate) {
 					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
 				}
-			});
+            });
 
-			var objData = {
-				__RequestVerificationToken: token,
-				DataIni: $("#dataIni").val(),
-				DataFim: $("#dataFim").val()
-			};
+			/*-- tabela tbl-examplo-1 ------------------------------------*/
+			var tabelaExemplo1 = $('#tbl-examplo-1').DataTable({
+                processing: true, // for show progress bar
+				serverSide: true, // for process server side
+				filter: false, // habilita o filtro(search box)
+                pageLength: 10, // define o tamanho da página
+				destroy: true,
 
-			/*-- -------------------------------------------------------------*/
-
-			var tabela = $('#tbl-examplo-1').dataTable({
-
-				"processing": true, // for show progress bar
-				//"serverSide": true, // for process server side
-				"filter": false, // habilita o filtro(search box)
-
-				"ajax": {
+				ajax: {
 					"type" : "POST",
 					"url" : "/Atos/IndexAtoAjax",
-					"data": objData,
+
+                    "data": function (d) {
+						var objData = {
+							DataIni: $("#dataIni").val(),
+							DataFim: $("#dataFim").val(),
+							__RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+                        };
+                        return objData;
+					},
+
 					"dataSrc": function (dataReturn) {
-						if (dataReturn.resposta) {
-							var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
-							if (dadosValidos) {
-								return dataReturn.ListaAtoViewModel;
-							}
-						}
+                        if (dataReturn.resposta) {
+                            var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
+                            if (dadosValidos) {
+                                return dataReturn.ListaAtoViewModel;
+                            }
+                        } else {
+							ShowDlgBoxCartorio({
+                                headerText: "Retorno do Servidor",
+                                messageText: dataReturn.msg,
+								alertType: "danger"
+							});
+                        }
+                    },
+                    "error": function (xhr, error, thrown) {
+                        alert(thrown.message);
 					}
 				},
 
@@ -512,19 +527,19 @@
 					{ targets: [6], orderable: false, searchable: false }
 				],
 
-				"columns": [
-						{ "data": "Codigo",       "title": "Codigo", "name": "Codigo", "autoWidth": true },
-						{ "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
-						{ "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
-						{ "data": "DataAto",      "title": "Data", "name": "DataAto", "autoWidth": true },
-						{ "data": "Observacao",   "title": "Observações", "name": "Observacao", "autoWidth": true },
-						{ "data": "StatusAto",    "title": "Status", "name": "StatusAto", "autoWidth": true },
-						{
-						  "render": function (data, type, full, meta){ return '<a href="/Atos/EditarAto/' +full.Id+ '" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>'; }
-						}
+				columns: [
+					{ "data": "Codigo",       "title": "Codigo", "name": "Codigo", "autoWidth": true },
+					{ "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
+					{ "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
+					{ "data": "DataAto",      "title": "Data", "name": "DataAto", "autoWidth": true },
+					{ "data": "Observacao",   "title": "Observações", "name": "Observacao", "autoWidth": true },
+					{ "data": "StatusAto",    "title": "Status", "name": "StatusAto", "autoWidth": true },
+					{
+						"render": function (data, type, full, meta){ return '<a href="/Atos/EditarAto/' +full.Id+ '" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>'; }
+					}
 				],
 
-				"language": {
+				language: {
 					"sEmptyTable": "Não foi encontrado nenhum registo",
 					"sLoadingRecords": "A carregar...",
 					"sProcessing": "A processar...",
@@ -555,7 +570,6 @@
 					['10 linhas', '25 linhas', '50 linhas', 'Todos']
 				],
 
-				"pageLength": 10, // define o tamanho da página
 				dom: 'Bfrtip',
 				buttons: [
 					{
@@ -600,23 +614,21 @@
 				//    }
 				//}
 			});
-
-
+	
 			//InitOverviewDataTable();
-			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
-
+			//setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
 
 			$("#btn-load-tbl-exemplo-1").click(function (e) {
-				e.preventDefault();
-
-			});
+                e.preventDefault();
+                tabelaExemplo1.ajax.reload();
+            });
 
 		});
 
 		function AutoReloadTblExemplo1() {
 			//RefreshTblExemplo1('#HelpdeskOverview', '/Helpdesk/ActiveCases/noacceptancetest');
 
-			setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
+			//setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
 		}
 
 

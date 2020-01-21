@@ -64,34 +64,22 @@ namespace Cartorio11RI.Controllers
             bool FlagErro = false;
             List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
 
-            if ((DataIni != null) && (DataFim != null))
+            if (DataIni == null)
             {
-                if (DataIni > DataFim)
-                {
-                    ModelState.AddModelError(Guid.NewGuid().ToString(), "Data inicial deve ser menor o igual à data final!!");
-                    FlagErro = true;
-                }
+                DataIni = DateTime.Today;
+                DataFim = DateTime.Today;
             } else {
-                if (DataIni == null)
+                if (DataFim == null)
                 {
-                    DataIni = DateTime.Today;
-                    DataFim = DateTime.Today;
-                } else {
-                    if (DataFim == null)
-                    {
-                        DataFim = DataIni;
-                    }
+                    DataFim = DataIni;
                 }
             }
 
-            if (!FlagErro)
+            using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
             {
-                using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
-                {
-                    var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
-                    listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista).ToList();
-                    ViewBag.StatusAtoFinalizado = appService.StatusAtoFinalizado();
-                }
+                var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
+                listaAtoViewModel = Mapper.Map<IEnumerable<DtoAto>, IEnumerable<AtoListViewModel>>(lista).ToList();
+                ViewBag.StatusAtoFinalizado = appService.StatusAtoFinalizado();
             }
 
             ViewBag.DataIni = DataIni;
@@ -105,12 +93,21 @@ namespace Cartorio11RI.Controllers
         public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
-            listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
+
+            try
+            {
+                listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(Guid.NewGuid().ToString(), ex.Message);
+            }
 
             return View(listaAtoViewModel);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult IndexAtoAjax(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             bool resp = false;
@@ -121,11 +118,11 @@ namespace Cartorio11RI.Controllers
             {
                 listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
                 resp = true;
-                mesage = "Dados retornados con sucesso";
+                mesage = "Dados retornados com sucesso.";
             }
             catch (Exception ex)
             {
-                mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                mesage = ex.Message;
             }
 
             var resultado = new

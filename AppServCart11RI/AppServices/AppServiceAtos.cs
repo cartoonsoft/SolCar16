@@ -304,7 +304,13 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim)
         {
-            IEnumerable<DtoAto> lista = this.DsFactoryCartNew.AtoDs.GetListAtosPeriodo(DataIni, DataFim);
+            IEnumerable<DtoAto> lista = new List<DtoAto>();
+
+            if (this.VerificarIntervaloDatas(DataIni, DataFim))
+            {
+                lista = this.DsFactoryCartNew.AtoDs.GetListAtosPeriodo(DataIni, DataFim);
+            }
+
             return lista;
         }
 

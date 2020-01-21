@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Domain.CartNew.Entities;
 using AppServ.Core.Interfaces;
 using Dto.CartNew.Entities.Cart_11RI;
+using Dto.CartNew.Entities.Cart_11RI.TodosCart;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace AppServices.Cartorio.Interfaces

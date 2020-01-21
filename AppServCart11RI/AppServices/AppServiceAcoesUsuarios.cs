@@ -10,6 +10,7 @@ using Domain.CartNew.Entities;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.Cart_11RI.TodosCart;
 
 namespace AppServCart11RI.AppServices
 {

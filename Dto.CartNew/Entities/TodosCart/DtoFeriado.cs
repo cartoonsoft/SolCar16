@@ -8,7 +8,7 @@ using Domain.CartNew.Enumerations;
 using Dto.CartNew.Base;
 using Dto.CartNew.Entities.TodosCart;
 
-namespace Dto.CartNew.Entities.Cart_11RI.Diversos
+namespace Dto.CartNew.Entities.Cart_11RI.TodosCart
 {
     public class DtoFeriado : DtoEntityBaseModel
     {

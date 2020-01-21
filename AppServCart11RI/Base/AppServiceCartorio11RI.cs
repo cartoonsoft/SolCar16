@@ -15,5 +15,15 @@ namespace AppServCart11RI.Base
         {
 
         }
+
+        public bool VerificarIntervaloDatas(DateTime DataIni, DateTime DataFim)
+        {
+            if (DataIni > DataFim)
+            {
+                throw new ArgumentOutOfRangeException("DataIni", "Data inicial deve ser menor ou igual à data final!");
+            }
+
+            return true;
+        } 
     }
 }
