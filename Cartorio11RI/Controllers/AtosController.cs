@@ -61,7 +61,6 @@ namespace Cartorio11RI.Controllers
 
         private List<AtoListViewModel> GetListAtos(DateTime? DataIni = null, DateTime? DataFim = null)
         {
-            bool FlagErro = false;
             List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
 
             if (DataIni == null)

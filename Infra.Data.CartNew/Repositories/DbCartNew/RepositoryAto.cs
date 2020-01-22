@@ -161,7 +161,14 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 throw new AccessViolationException("Intervalo de datas inválido!");
             }
 
-            List<Ato> listaAtos = this.GetWhere(a => (a.DataAto >= DataIni) && (a.DataAto <= DataFim)).ToList();
+            DateTime dataFimTmp = DataFim.AddDays(1);
+
+            List<Ato> listaAtos = this.GetWhere(a => 
+                ((a.DataCadastro >= DataIni) && (a.DataCadastro < dataFimTmp) && (a.DataAlteracao == null)) ||
+                ((a.DataAlteracao >= DataIni) && (a.DataAlteracao < dataFimTmp) && (a.DataAlteracao != null))
+                
+            ).OrderByDescending(o => (o.DataAlteracao ?? o.DataCadastro).Ticks).ToList();
+
             return listaAtos;
         }
 

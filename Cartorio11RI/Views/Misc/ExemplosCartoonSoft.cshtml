@@ -20,12 +20,13 @@
 				<i class="fa-fw fa fa-tasks"></i>
 				@ViewBag.Title
 				<span>
-					<i class="fa fa-chevron-right"></i>@ViewBag.SubTitle
+					<i class="fa fa-chevron-right"></i> @ViewBag.SubTitle
 				</span>
 			</h1>
 		</div>
 	</div>
 	<!-- end row -->
+
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
 
@@ -111,7 +112,6 @@
 							<a href="javascript:void(0);" class="btn btn-danger">Danger</a>
 							<a href="javascript:void(0);" class="btn btn-default disabled">Disabled</a>
 							<a href="javascript:void(0);" class="btn btn-link">Link</a>
-
 						</div>
 						<!-- end widget content -->
 
@@ -173,7 +173,7 @@
 				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-fullscreenbutton="false">
 
 					<header>
-						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+						<span class="widget-icon"><i class="fa fa-cogs"></i></span>
 						<h2>CartoonSoft - Exemplos II</h2>
 					</header>
 
@@ -263,15 +263,6 @@
 									<tbody>
 									</tbody>
 									<tfoot>
-										<tr>
-											<th>Mat./Cód.</th>
-											<th>Prenotação</th>
-											<th>Descrição</th>
-											<th>Data</th>
-											<th>Observação</th>
-											<th>Status</th>
-											<th></th>
-										</tr>
 									</tfoot>
 								</table>
 							</div>
@@ -290,12 +281,10 @@
 
 		<!-- row -->
 		<div class="row">
-
 			<!-- NEW WIDGET START -->
 			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-
 				<!-- Widget ID (each widget will need unique ID)-->
-77				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-fullscreenbutton="true">
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-fullscreenbutton="true">
 
 					<header>
 						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
@@ -310,11 +299,12 @@
 							<input class="form-control" type="text">
 						</div>
 						<!-- end widget edit box -->
+
 						<!-- widget content -->
 						<div class="widget-body">
 
 							<!-- this is what the user will see -->
-							<form id="frm-cartoon-soft-exemplo-111" class="smart-form">
+							<form id="frm-cartoon-soft-exemplo-2" class="smart-form">
 								@Html.AntiForgeryToken()
 								<fieldset>
 									<div class="row">
@@ -364,7 +354,6 @@
 									<p>Your message was successfully sent!</p>
 								</div>
 							</form>
-
 						</div>
 						<!-- end widget content -->
 
@@ -396,6 +385,34 @@
 	<script>
 		$(document).ready(function () {
 			/*-- coloque aqui seu código javascript --------------------------*/
+
+			$('#dataIni').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataFim').datepicker('option', 'minDate', selectedDate);
+				}
+			});
+
+			$('#dataFim').datepicker({
+				dateFormat: 'dd/mm/yy',
+				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
+				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
+				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+				prevText: '<i class="fa fa-chevron-left"></i>',
+				nextText: '<i class="fa fa-chevron-right"></i>',
+				onSelect: function (selectedDate) {
+					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
+				}
+            });
 
 			$("#dataIni").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date("01/01/2019"));
 			$("#dataFim").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date());
@@ -454,43 +471,15 @@
 				});
 			});
 
-			$('#dataIni').datepicker({
-				dateFormat: 'dd/mm/yy',
-				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
-				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-				prevText: '<i class="fa fa-chevron-left"></i>',
-				nextText: '<i class="fa fa-chevron-right"></i>',
-				onSelect: function (selectedDate) {
-					$('#dataFim').datepicker('option', 'minDate', selectedDate);
-				}
-			});
-
-			$('#dataFim').datepicker({
-				dateFormat: 'dd/mm/yy',
-				dayNames: ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'],
-				dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S', 'D'],
-				dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
-				monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-				monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-				prevText: '<i class="fa fa-chevron-left"></i>',
-				nextText: '<i class="fa fa-chevron-right"></i>',
-				onSelect: function (selectedDate) {
-					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
-				}
-            });
-
-			/*-- tabela tbl-examplo-1 ------------------------------------*/
+			/*-- tabela tbl-examplo-1 ----------------------------------------*/
 			var tabelaExemplo1 = $('#tbl-examplo-1').DataTable({
-                processing: true, // for show progress bar
-				serverSide: true, // for process server side
-				filter: false, // habilita o filtro(search box)
-                pageLength: 10, // define o tamanho da página
-				destroy: true,
+                "processing": true, // for show progress bar
+				//"serverSide": true, // for process server side
+				"filter": false, // habilita o filtro(search box)
+                "pageLength": 10, // define o tamanho da página
+                "destroy": true,
 
-				ajax: {
+                ajax: {
 					"type" : "POST",
 					"url" : "/Atos/IndexAtoAjax",
 
@@ -523,19 +512,33 @@
 				},
 
 				columnDefs: [
-					{ targets: [3], render:function(data){return moment(data).format('DD/MM/YYYY');}},
 					{ targets: [6], orderable: false, searchable: false }
 				],
 
-				columns: [
-					{ "data": "Codigo",       "title": "Codigo", "name": "Codigo", "autoWidth": true },
-					{ "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
-					{ "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
-					{ "data": "DataAto",      "title": "Data", "name": "DataAto", "autoWidth": true },
-					{ "data": "Observacao",   "title": "Observações", "name": "Observacao", "autoWidth": true },
-					{ "data": "StatusAto",    "title": "Status", "name": "StatusAto", "autoWidth": true },
+                columns: [
+                    { "data": "Codigo", "title": "Codigo", "name": "Codigo", "autoWidth": true },
+                    { "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
+                    { "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
+                    { "title": "Data", "name": "Data", "autoWidth": true,
+                        "render": function (data, type, full, meta) {
+
+                            var strTmp = "";
+                            if (full.DataAlteracao) {
+                                strTmp = moment(full.DataAlteracao).format("DD/MM/YYYY HH:mm");
+                            } else if (full.DataCadastro) {
+                                strTmp = moment(full.DataCadastro).format("DD/MM/YYYY HH:mm");
+                            }
+
+                            return strTmp;
+                        }
+                    },
+                    { "data": "Observacao", "title": "Observações", "name": "Observacao", "autoWidth": true },
+                    { "data": "StatusAto", "title": "Status", "name": "StatusAto", "autoWidth": true },
 					{
-						"render": function (data, type, full, meta){ return '<a href="/Atos/EditarAto/' +full.Id+ '" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>'; }
+                        "render": function (data, type, full, meta) {
+                            var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>';
+                            return tag;
+                        }
 					}
 				],
 
@@ -623,31 +626,7 @@
                 tabelaExemplo1.ajax.reload();
             });
 
-		});
-
-		function AutoReloadTblExemplo1() {
-			//RefreshTblExemplo1('#HelpdeskOverview', '/Helpdesk/ActiveCases/noacceptancetest');
-
-			//setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
-		}
-
-
-		function RefreshTblExemplo1(tableId, urlData) {
-			$.getJSON(urlData, null, function (json) {
-				table = $(tableId).dataTable();
-				oSettings = table.fnSettings();
-
-				table.fnClearTable(this);
-
-				for (var i = 0; i < json.aaData.length; i++) {
-					table.oApi._fnAddData(oSettings, json.aaData[i]);
-				}
-
-				oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-				table.fnDraw();
-			});
-		}
-
+        });
 
 	</script>
 }		
