@@ -26,7 +26,6 @@
 		</div>
 	</div>
 	<!-- end row -->
-
 	<!-- widget grid -->
 	<section id="widget-grid" class="">
 
@@ -52,13 +51,16 @@
 						<!-- end widget edit box -->
 						<!-- widget content -->
 						<div class="widget-body">
-
-							<div class="row">
+							<div class="row padding-10">
 								<button type="button" id="btnTeste1" class="btn btn-link">teste 1</button>
 								<button type="button" id="btnTeste2" class="btn btn-link">teste 2</button>
 								<button type="button" id="btnTeste3" class="btn btn-link">teste 3</button>
 							</div>
-
+							<div class="row padding-10">
+								<button type="button" id="btn-conf-pass-01" class="btn btn-info btn-lg"> Confirmar 1</button>
+								<button type="button" id="btn-conf-pass-02" class="btn btn-info btn-lg" data-toggle="modal" data-target="#div-conf-pass-modal">Confirmar 2</button>
+								<button type="button" id="btn-conf-pass-03" class="btn btn-info btn-lg">Confirmar 3</button>
+							</div>
 						</div>
 						<!-- end widget content -->
 					</div>
@@ -70,7 +72,6 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
-
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -123,7 +124,6 @@
 
 			</article>
 			<!-- WIDGET END -->
-
 			<!-- NEW WIDGET START -->
 			<article class="col-sm-12 col-md-12 col-lg-6">
 				<!-- Widget ID (each widget will need unique ID)-->
@@ -164,7 +164,6 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
-
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -198,6 +197,8 @@
 										<div class="panel-body">
 											@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-tbl-exemplo-1", @name = "frm-tbl-exemplo-1", @novalidate = "novalidate" }))
 											{
+												@Html.AntiForgeryToken()
+
 												<fieldset class="no-padding">
 													<div class="row">
 														<section class="col col-2">
@@ -238,7 +239,7 @@
 													</section>
 												</fieldset>
 												<footer class="no-padding no-border bg-color-white">
-													<button type="button" id="btn-load-tbl-exemplo-1"  class="btn btn-primary">
+													<button type="button" id="btn-load-tbl-exemplo-1" class="btn btn-primary">
 														Consultar
 													</button>
 												</footer>
@@ -247,8 +248,9 @@
 									</div>
 								</div>
 							</div>
+
 							<div class="row padding-10">
-								<table id="tbl-examplo-1" class="table table-striped table-bordered table-hover" style="width:100%">
+								<table id="tbl-exemplo-1" class="table table-striped table-bordered table-hover" style="width:100%">
 									<thead>
 										<tr>
 											<th>Mat./Cód.</th>
@@ -278,7 +280,6 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
-
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -299,7 +300,6 @@
 							<input class="form-control" type="text">
 						</div>
 						<!-- end widget edit box -->
-
 						<!-- widget content -->
 						<div class="widget-body">
 
@@ -375,6 +375,54 @@
 </div>
 <!-- END MAIN CONTENT -->
 
+<div class="modal fade" id="div-conf-pass-modal" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header" align="center">
+				<i class="fa fa-lock fa-4x txt-color-blueDark"></i>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+				</button>
+			</div>
+			<div class="modal-body padding-top-0">
+				<form id="frm-conf-pass-modal" class="smart-form" autocomplete="off">
+					@Html.AntiForgeryToken()
+					<fieldset>
+						<div class="row">
+							<div class="form-group">
+								<label class="label" id="lbl-msg-conf-pass-modal">Mensagem</label>
+							</div>
+						</div>
+						<br />
+						<div class="row">
+							<div class="form-group">
+								<label class="label">Usuário</label>
+								<label class="input">
+									<i class="icon-prepend fa fa-user"></i>
+									<input type="text" id="txt-usuario" value="" placeholder="Usuário">
+								</label>
+							</div>
+						</div>
+						<br />
+						<div class="row">
+							<div class="form-group">
+								<label class="label">Senha</label>
+								<label class="input">
+									<i class="icon-prepend fa fa-unlock-alt"></i>
+									<input type="password" id="txt-pass" value="" placeholder="Senha" onfocus="this.value=''" />
+								</label>
+							</div>
+						</div>
+					</fieldset>
+					<footer>
+						<button type="submit" class="btn btn-primary">Confirmar</button>
+					</footer>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 @section pagespecific {
 
 	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -412,7 +460,7 @@
 				onSelect: function (selectedDate) {
 					$('#dataIni').datepicker('option', 'maxDate', selectedDate);
 				}
-            });
+			});
 
 			$("#dataIni").datepicker({ dateFormat: "dd/mm/yy" }).datepicker("setDate", new Date("01/01/2019"));
 			$("#dataFim").datepicker({dateFormat:"dd/mm/yy"}).datepicker("setDate",new Date());
@@ -471,43 +519,44 @@
 				});
 			});
 
-			/*-- tabela tbl-examplo-1 ----------------------------------------*/
-			var tabelaExemplo1 = $('#tbl-examplo-1').DataTable({
-                "processing": true, // for show progress bar
-				//"serverSide": true, // for process server side
-				"filter": false, // habilita o filtro(search box)
-                "pageLength": 10, // define o tamanho da página
-                "destroy": true,
+			/*-- tabela frm-tbl-exemplo-1 ------------------------------------*/
+			var tabelaExemplo1 = $('#tbl-exemplo-1').DataTable({
+				processing: true,
+				responsive: true,
+				//serverSide: true, // for process server side
+				filter: false, // habilita o filtro(search box)
+				pageLength: 10, // define o tamanho da página
 
-                ajax: {
-					"type" : "POST",
-					"url" : "/Atos/IndexAtoAjax",
-
-                    "data": function (d) {
+				ajax: {
+					"url": "/Atos/IndexAtoAjax",
+					"type": "POST",
+					"dataType": "json",
+					"cache": false,
+					"data": function (d) {
 						var objData = {
 							DataIni: $("#dataIni").val(),
 							DataFim: $("#dataFim").val(),
 							__RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
-                        };
-                        return objData;
+						};
+						return objData;
 					},
 
 					"dataSrc": function (dataReturn) {
-                        if (dataReturn.resposta) {
-                            var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
-                            if (dadosValidos) {
-                                return dataReturn.ListaAtoViewModel;
-                            }
-                        } else {
+						if (dataReturn.resposta) {
+							var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
+							if (dadosValidos) {
+								return dataReturn.ListaAtoViewModel;
+							}
+						} else {
 							ShowDlgBoxCartorio({
-                                headerText: "Retorno do Servidor",
-                                messageText: dataReturn.msg,
+								headerText: "Retorno do Servidor",
+								messageText: dataReturn.msg,
 								alertType: "danger"
 							});
-                        }
-                    },
-                    "error": function (xhr, error, thrown) {
-                        alert(thrown.message);
+						}
+					},
+					"error": function (xhr, error, thrown) {
+						alert(thrown.message);
 					}
 				},
 
@@ -515,30 +564,32 @@
 					{ targets: [6], orderable: false, searchable: false }
 				],
 
-                columns: [
-                    { "data": "Codigo", "title": "Codigo", "name": "Codigo", "autoWidth": true },
-                    { "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
-                    { "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
-                    { "title": "Data", "name": "Data", "autoWidth": true,
-                        "render": function (data, type, full, meta) {
+				columns: [
+					{ "data": "Codigo", "title": "Codigo", "name": "Codigo", "autoWidth": true },
+					{ "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
+					{ "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
+					{ "title": "Data", "name": "Data", "autoWidth": true,
+						"render": function (data, type, full, meta) {
 
-                            var strTmp = "";
-                            if (full.DataAlteracao) {
-                                strTmp = moment(full.DataAlteracao).format("DD/MM/YYYY HH:mm");
-                            } else if (full.DataCadastro) {
-                                strTmp = moment(full.DataCadastro).format("DD/MM/YYYY HH:mm");
-                            }
+							var strTmp = "";
+							if (full.DataAlteracao) {
+								strTmp = moment(full.DataAlteracao).format("DD/MM/YYYY HH:mm");
+							} else if (full.DataCadastro) {
+								strTmp = moment(full.DataCadastro).format("DD/MM/YYYY HH:mm");
+							}
 
-                            return strTmp;
-                        }
-                    },
-                    { "data": "Observacao", "title": "Observações", "name": "Observacao", "autoWidth": true },
-                    { "data": "StatusAto", "title": "Status", "name": "StatusAto", "autoWidth": true },
+							return strTmp;
+						}
+					},
+					{ "data": "Observacao", "title": "Observações", "name": "Observacao", "autoWidth": true },
+					{ "data": "StatusAto", "title": "Status", "name": "StatusAto", "autoWidth": true },
 					{
-                        "render": function (data, type, full, meta) {
-                            var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>';
-                            return tag;
-                        }
+						"render": function (data, type, full, meta) {
+
+							var vetStatusAto = ["AC1", "AC2", "AE", "AR", "CT", "GF", "CI"];
+							var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato" ' + (vetStatusAto.includes(full.StatusAto)? ' ': 'disabled="disabled"') +'><i class="fa fa-pencil"></i></a>';
+							return tag;
+						}
 					}
 				],
 
@@ -617,16 +668,68 @@
 				//    }
 				//}
 			});
-	
+
 			//InitOverviewDataTable();
 			//setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
 
 			$("#btn-load-tbl-exemplo-1").click(function (e) {
-                e.preventDefault();
-                tabelaExemplo1.ajax.reload();
-            });
+				e.preventDefault();
+				tabelaExemplo1.ajax.reload();
+			});
 
-        });
+			$("#btn-conf-pass-01").click(function (e) {
+
+				$.SmartMessageBox({
+					title: "Confirmar com identificação de usuário",
+					content: "Nome usuário",
+					buttons: "[Cancelar][Avançar]",
+					input: "text",
+					inputValue: "",
+					placeholder: "Usuário"
+				}, function (ButtonPress, Value) {
+					if (ButtonPress == "Cancelar") {
+						//alert("Why did you cancel that? :(");
+						return 0;
+					}
+
+					var value1 = Value.toUpperCase();
+					ValueOriginal = Value;
+					$.SmartMessageBox({
+						title: "<strong>" + value1 + ",</strong>",
+						content: "Digite sua senha:",
+						buttons: "[login]",
+						input: "password",
+						placeholder: "Senha"
+					}, function (ButtonPress, Value) {
+						alert("Username: " + ValueOriginal + " and your password is: " + Value);
+					});
+				});
+
+				e.preventDefault();
+			});
+
+			$("#btn-conf-pass-03").click(function (e) {
+				e.preventDefault();
+				ShowUserConfModalDlg("Olá mundo!")
+			});
+
+		});
+
+		/**
+		 * Mostra dialogo de confirmacao de usuario senha
+		 * @@param {any} pMsg
+		 */
+		function ShowUserConfModalDlg(pMsg) {
+
+			$('#lbl-msg-conf-pass-modal').text(pMsg);
+			$('#div-conf-pass-modal').modal({
+				transition: 'scale',
+				centered: true,
+				closable: false,
+				allowMultiple: true,
+				closable: false
+			}).modal('show');
+		}
 
 	</script>
 }		

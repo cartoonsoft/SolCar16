@@ -2825,6 +2825,7 @@
 				content: "Please enter your user name",
 				buttons: "[Accept]",
 				input: "text",
+				inputValue: "",
 				placeholder: "Enter your user name"
 			}, function (ButtonPress, Value) {
 				alert(ButtonPress + " " + Value);
@@ -2867,8 +2868,9 @@
 			$.SmartMessageBox({
 				title: "Login form",
 				content: "Please enter your user name",
-				buttons: "[Cancel][Accept]",
+                buttons: "[Cancel][Accept]",
 				input: "text",
+				inputValue: "",
 				placeholder: "Enter your user name"
 			}, function (ButtonPress, Value) {
 				if (ButtonPress == "Cancel") {
@@ -2883,6 +2885,7 @@
 					content: "And now please provide your password:",
 					buttons: "[Login]",
 					input: "password",
+					inputValue: "",
 					placeholder: "Password"
 				}, function (ButtonPress, Value) {
 					alert("Username: " + ValueOriginal + " and your password is: " + Value);

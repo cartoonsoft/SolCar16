@@ -1,6 +1,4 @@
-﻿@model IEnumerable<Cartorio11RI.ViewModels.AtoListViewModel>
-
-@{
+﻿@{
 	ViewBag.Title = "Atos";
 	ViewBag.SubTitle = "Index";
 	string[] StatusAtoFinalizado = ViewBag.StatusAtoFinalizado;
@@ -47,137 +45,125 @@
 <!-- MAIN CONTENT -->
 <div id="content">
 
+	<!-- row -->
 	<div class="row">
 		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 			<h1 class="page-title txt-color-blueDark">
-				<i class="fa fa-pencil-square-o fa-fw "></i>
+				<i class="fa-fw fa fa-file-text"></i>
 				@ViewBag.Title
 				<span>
-					>
-					@ViewBag.SubTitle
+					<i class="fa fa-chevron-right"></i> @ViewBag.SubTitle
 				</span>
 			</h1>
 		</div>
 	</div>
+	<!-- end row -->
 
 	<!-- widget grid -->
-	<section id="widget-grid" class="">
+	<section id="widget-grid-index-ato" class="">
 
-		@using (Html.BeginForm("IndexAto", "Atos", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-index-ato", @name = "frm-index-ato", @novalidate = "novalidate" }))
-		{
-			@Html.AntiForgeryToken()
-			<div class="panel-group smart-accordion-default" id="accordion">
-				<div class="panel panel-default">
+		<!-- row -->
+		<div class="row">
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-index-ato" data-widget-fullscreenbutton="false">
 
-					<div class="panel-heading">
-						<h4 class="panel-title">
-							<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
-								<i class="fa fa-lg fa-angle-down pull-right"></i> <i class="fa fa-lg fa-angle-up pull-right"></i>
-								<span id="SpanTitFormPesquisa"></span>
-							</a>
-						</h4>
-					</div>
-					<div id="collapseOne" class="panel-collapse collapse in">
-						<div class="panel-body no-padding">
-							<fieldset>
-								<div class="row">
-									<section class="col col-3">
-										<label class="input">
-											<i class="icon-prepend fa fa-calendar"></i>
-											<input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
-										</label>
-									</section>
-									<section class="col col-3">
-										<label class="input">
-											<i class="icon-prepend fa fa-calendar"></i>
-											<input type="text" name="dataFim" id="dataFim" placeholder="Data final">
-										</label>
-									</section>
-									<section class="col col-3">
-										<button type="submit" class="btn btn-primary btn-sm" id="btnPesquisar" data-toggle="tooltip" data-placement="top" title="Pesquisar por perioodo"><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
-									</section>
-								</div>
-								<div class="row">
-									@Html.ValidationBootstrap()
-								</div>
-							</fieldset>
+					<header>
+						<span class="widget-icon"><i class="fa fa-file-text"></i></span>
+						<h2>Consultar atos</h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+							<input class="form-control" type="text">
 						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row"><br /></div>
-			<table id="tbl-index-ato" class="table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>
-							Mat./Cód.
-						</th>
-						<th>
-							Prenotação
-						</th>
-						<th>
-							Descrição
-						</th>
-						<th>
-							Data
-						</th>
-						<th>
-							Observação
-						</th>
-						<th>
-							Status
-						</th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					@foreach (var item in Model)
-					{
-						<tr id="tbl-row-@item.Id">
-							<td>
-								@Html.DisplayFor(modelItem => item.Codigo)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.IdPrenotacao)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.DescricaoAto)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.DataCadastro)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.Observacao)
-							</td>
-							<td>
-								@Html.DisplayFor(modelItem => item.StatusAto) 
-							</td>
-							<td>
-								<div class="btn-group">
-									@{
-										if (!StatusAtoFinalizado.Contains(item.StatusAto))
-										{
-											<a href="@Url.Action("EditarAto", "Atos", new { Id = item.Id})" class="btn btn-primary btn-sm" title="Editar ato"><i class="fa fa-pencil"></i></a>
-										}
-									}
-									<a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" aria-expanded="false"><span class="caret"></span></a>
-									<ul class="dropdown-menu pull-right">
-										<li>
-											<a href="javascript:void(0);" title="Imprimir minuta do ato"><i class="fa fa-print"></i> Imprimir Minuta</a>
-										</li>
-										<li>
-											<a href="javascript:void(0);" title="Detalhes do ato"><i class="fa fa-cogs"></i> Detalhes</a>
-										</li>
-									</ul>
+						<!-- end widget edit box -->
+						<!-- widget content -->
+						<div class="widget-body">
+							<div class="panel-group smart-accordion-default" id="accordion">
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+												<i class="fa fa-lg fa-angle-down pull-right"></i><i class="fa fa-lg fa-angle-up pull-right"></i>
+												<label id="lbl-periodo-index-ato">Filtros de consulta</label>
+											</a>
+										</h4>
+									</div>
+									<div id="collapseOne" class="panel-collapse collapse in">
+										<div class="panel-body">
+											@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-index-ato", @name = "frm-index-ato", @novalidate = "novalidate" }))
+											{
+												@Html.AntiForgeryToken()
+
+												<fieldset class="no-padding">
+													<div class="row">
+														<section class="col col-2">
+															<label class="label">Início</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-calendar"></i>
+																<input type="text" name="dataIni" id="dataIni" placeholder="Data inicial">
+															</label>
+														</section>
+														<section class="col col-2">
+															<label class="label">Fim</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-calendar"></i>
+																<input type="text" name="dataFim" id="dataFim" placeholder="Data final">
+															</label>
+														</section>
+													</div>
+												</fieldset>
+												<footer class="no-padding no-border bg-color-white">
+													<button type="button" id="btn-load-tbl-index-ato" class="btn btn-primary">
+														Consultar
+													</button>
+												</footer>
+											}
+										</div>
+									</div>
 								</div>
-							</td>
-						</tr>
-					}
-				</tbody>
-			</table>
-		}
+							</div>
+
+							<div class="row padding-10">
+								<table id="tbl-index-ato" class="table table-striped table-bordered table-hover" style="width:100%">
+									<thead>
+										<tr>
+											<th>Mat./Cód.</th>
+											<th>Prenotação</th>
+											<th>Descrição</th>
+											<th>Data</th>
+											<th>Observação</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>
+									<tfoot>
+									</tfoot>
+								</table>
+							</div>
+
+						</div>
+						<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+
 	</section>
 	<!-- end widget grid -->
+
 </div>
 <!-- END MAIN CONTENT -->
 
@@ -188,12 +174,11 @@
 	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 
-	<script type="text/javascript">
+	<script>
 		$(document).ready(function () {
 
-			$("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
+            $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
 			$("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
-			$("#SpanTitFormPesquisa").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
 
 			$('#dataIni').datepicker({
 				dateFormat: 'dd/mm/yy',
@@ -223,48 +208,112 @@
 				}
 			});
 
-			var objData = {
-				DataIni: $("#dataIni").val(),
-				DataFim: $("#dataFim").val()
-			};
 
-			var tabela = $('#tbl-index-ato').DataTable({
-				"language": {
-					"sEmptyTable":   "Não foi encontrado nenhum registo",
+			/*-- tabela tbl-examplo-1 ----------------------------------------*/
+			var tbl_index_ato = $("#tbl-index-ato").DataTable({
+				processing: true,
+				responsive: true,
+				//serverSide: true, // for process server side
+                filter: false, // habilita o filtro(search box)
+				pageLength: 10, // define o tamanho da página
+
+				ajax: {
+                    "url": "/Atos/IndexAtoAjax",
+                    "type": "POST",
+                    "dataType": "json",
+					"cache": false,
+                    "data": function (d) {
+						var objData = {
+							DataIni: $("#dataIni").val(),
+							DataFim: $("#dataFim").val(),
+							__RequestVerificationToken: $('input[name=__RequestVerificationToken]').val()
+						};
+						return objData;
+					},
+
+					"dataSrc": function (dataReturn) {
+						if (dataReturn.resposta) {
+							var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
+							if (dadosValidos) {
+								$("#lbl-periodo-index-ato").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
+								return dataReturn.ListaAtoViewModel;
+							}
+						} else {
+							ShowDlgBoxCartorio({
+								headerText: "Retorno do Servidor",
+								messageText: dataReturn.msg,
+								alertType: "danger"
+							});
+						}
+					},
+					"error": function (xhr, error, thrown) {
+						alert(thrown.message);
+					}
+				},
+
+				columnDefs: [
+					{ targets: [6], orderable: false, searchable: false }
+				],
+
+				columns: [
+					{ "data": "Codigo", "title": "Codigo", "name": "Codigo", "autoWidth": true },
+					{ "data": "IdPrenotacao", "title": "Prenotacao", "name": "IdPrenotacao", "autoWidth": true },
+					{ "data": "DescricaoAto", "title": "Descrição", "name": "DescricaoAto", "autoWidth": true },
+					{ "title": "Data", "name": "Data", "autoWidth": true,
+						"render": function (data, type, full, meta) {
+
+							var strTmp = "";
+							if (full.DataAlteracao) {
+								strTmp = moment(full.DataAlteracao).format("DD/MM/YYYY HH:mm");
+							} else if (full.DataCadastro) {
+								strTmp = moment(full.DataCadastro).format("DD/MM/YYYY HH:mm");
+							}
+
+							return strTmp;
+						}
+					},
+					{ "data": "Observacao", "title": "Observações", "name": "Observacao", "autoWidth": true },
+					{ "data": "StatusAto", "title": "Status", "name": "StatusAto", "autoWidth": true },
+					{
+						"render": function (data, type, full, meta) {
+
+							var vetStatusAto = ["AC1", "AC2", "AE", "AR", "CT", "GF", "CI"];
+							var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato" ' + (vetStatusAto.includes(full.StatusAto)? ' ': 'disabled="disabled"') +'><i class="fa fa-pencil"></i></a>';
+							return tag;
+						}
+					}
+				],
+
+				language: {
+					"sEmptyTable": "Não foi encontrado nenhum registo",
 					"sLoadingRecords": "A carregar...",
-					"sProcessing":   "A processar...",
-					"sLengthMenu":   "Mostrar _MENU_ registos",
-					"sZeroRecords":  "Não foram encontrados resultados",
-					"sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
-					"sInfoEmpty":    "Mostrando de 0 até 0 de 0 registos",
+					"sProcessing": "A processar...",
+					"sLengthMenu": "Mostrar _MENU_ registos",
+					"sZeroRecords": "Não foram encontrados resultados",
+					"sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+					"sInfoEmpty": "Mostrando de 0 até 0 de 0 registos",
 					"sInfoFiltered": "(filtrado de _MAX_ registos no total)",
-					"sInfoPostFix":  "",
-					"sSearch":       "Procurar:",
-					"sUrl":          "",
+					"sInfoPostFix": "",
+					"sSearch": "Procurar:",
+					"sUrl": "",
 					"oPaginate": {
-						"sFirst":    "Primeiro",
+						"sFirst": "Primeiro",
 						"sPrevious": "Anterior",
-						"sNext":     "Seguinte",
-						"sLast":     "Último"
+						"sNext": "Seguinte",
+						"sLast": "Último"
 					},
 					"oAria": {
-						"sSortAscending":  ": Ordenar colunas de forma ascendente",
+						"sSortAscending": ": Ordenar colunas de forma ascendente",
 						"sSortDescending": ": Ordenar colunas de forma descendente"
 					},
 					decimal: ",",
 					thousands: "."
 				},
 
-				"autoWidth": true,
-				columnDefs: [{ targets: [6], orderable: false, searchable: false }],
-				"processing": true, // mostrar a progress bar
-				//"serverSide": true, // processamento no servidor
-				"filter": false, // habilita o filtro(search box)
 				lengthMenu: [
-					[ 10, 25, 50, -1 ],
-					[ '10 linhas', '25 linhas', '50 linhas', 'Todos' ]
+					[10, 25, 50, -1],
+					['10 linhas', '25 linhas', '50 linhas', 'Todos']
 				],
-				"pageLength": 10, // define o tamanho da página
 
 				dom: 'Bfrtip',
 				buttons: [
@@ -309,6 +358,15 @@
 				//        $(row).css('background-color', '#E7F4E5');
 				//    }
 				//}
+			});
+	
+			//InitOverviewDataTable();
+			//setTimeout(function () { AutoReloadTblExemplo1(); }, 30000);
+
+			$("#btn-load-tbl-index-ato").click(function (e) {
+				e.preventDefault();
+				tbl_index_ato.ajax.reload();
+				$("#lbl-periodo-index-ato").html("Mostrar Atos de: " + $("#dataIni").val() + " até " + $("#dataFim").val());
 			});
 
 		});

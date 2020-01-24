@@ -74,6 +74,9 @@ namespace Cartorio11RI.Controllers
                 }
             }
 
+            ViewBag.DataIni = DataIni;
+            ViewBag.DataFim = DataFim;
+
             using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
             {
                 var lista = appService.GetListAtosPeriodo((DateTime)DataIni, (DateTime)DataFim).Where(a => a.Ativo == true);
@@ -81,28 +84,15 @@ namespace Cartorio11RI.Controllers
                 ViewBag.StatusAtoFinalizado = appService.StatusAtoFinalizado();
             }
 
-            ViewBag.DataIni = DataIni;
-            ViewBag.DataFim = DataFim;
-
             return listaAtoViewModel;
         }
         #endregion
 
-        // GET: Ato
-        public ActionResult IndexAto(DateTime? DataIni = null, DateTime? DataFim = null)
+        public ActionResult IndexAto()
         {
-            List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
-
-            try
-            {
-                listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
-            }
-            catch (Exception ex)
-            {
-                ModelState.AddModelError(Guid.NewGuid().ToString(), ex.Message);
-            }
-
-            return View(listaAtoViewModel);
+            ViewBag.DataIni = DateTime.Today;
+            ViewBag.DataFim = DateTime.Today;
+            return View();
         }
 
         [HttpPost]

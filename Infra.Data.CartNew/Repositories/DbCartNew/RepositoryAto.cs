@@ -165,7 +165,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             List<Ato> listaAtos = this.GetWhere(a => 
                 ((a.DataCadastro >= DataIni) && (a.DataCadastro < dataFimTmp) && (a.DataAlteracao == null)) ||
-                ((a.DataAlteracao >= DataIni) && (a.DataAlteracao < dataFimTmp) && (a.DataAlteracao != null))
+                ((a.DataAlteracao >= DataIni) && (a.DataAlteracao < dataFimTmp))
                 
             ).OrderByDescending(o => (o.DataAlteracao ?? o.DataCadastro).Ticks).ToList();
 

@@ -62,7 +62,6 @@ namespace Cartorio11RI.Controllers
 
         public ActionResult ExemplosCartoonSoft()
         {
-
             return View();
         }
 
