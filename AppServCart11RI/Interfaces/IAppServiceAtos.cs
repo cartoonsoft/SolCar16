@@ -15,6 +15,15 @@ namespace AppServices.Cartorio.Interfaces
 {
     public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
+
+        string[] StatusEdtTexto();
+
+        string[] StatusEdtDadosImp();
+
+        string[] StatusAtoFinalizado();
+
+        DtoExecProc SetStatusAto(long? idAto, string statusAto, string idUsuario);
+
         bool ExisteAtoCadastrado(string NumMatricula);
 
         long? GetNumSequenciaTipoAto(string NumMatricula, long IdTipoAto);

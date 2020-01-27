@@ -17,6 +17,8 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         short GetUltimoNumFicha(string NumMatricula);
 
+        bool SetStatusAto(long? idAto, string statusAto);
+
         IEnumerable<Docx> GerarFichas(Ato ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<Ato> GetListAtosMatricula(string NumMatricula);

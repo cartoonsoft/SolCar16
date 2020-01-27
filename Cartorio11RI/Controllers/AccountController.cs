@@ -691,5 +691,41 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
+        [HttpPost]
+        public JsonResult ConfirmarUserLoginSenha(string usuario, string pass)
+        {
+            bool resp = false;
+            string message = string.Empty;
+            string idUserTmp = string.Empty;
+
+            try
+            {
+                var user = _userManager.Find(usuario, pass);
+
+                if (user != null)
+                {
+                    resp = true;
+                    idUserTmp = user.Id;
+                    message = "Usuário Confirmado com sucesso!";
+                } else {
+                    message = "Usuário não confirmado!";
+                }
+            }
+            catch (Exception ex)
+            {
+                message = string.Format("Falha confirmação de usuário, erro: {0}", ex.Message);
+
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                idUsuario = idUserTmp
+            };
+
+            return Json(resultado);
+        }
+
     }
 }

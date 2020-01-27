@@ -840,5 +840,37 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
+        [HttpPost]
+        public JsonResult SetStatusAto(long? idAto, string idUsuario, string statusAto)
+        {
+            DtoExecProc execProc = new DtoExecProc();
+            List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
+
+            try
+            {
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    appServiceAtos.ListaUsuariosSistema = listaUsrSist;
+                    execProc = appServiceAtos.SetStatusAto(idAto, statusAto, idUsuario);
+                }
+            }
+            catch (Exception ex)
+            {
+                execProc.Resposta = false;
+                execProc.Msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+            }
+
+            var resultado = new
+            {
+                resposta = execProc.Resposta,
+                operacao = execProc.Operacao,
+                tipoMsg = execProc.TipoMsg,
+                msg = execProc.Msg,
+                msgDetalhe = execProc.MsgDetalhe
+            };
+            
+            return Json(resultado);
+        }
+
     }
 }

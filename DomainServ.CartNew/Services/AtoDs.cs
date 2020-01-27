@@ -49,6 +49,68 @@ namespace DomainServ.CartNew.Services
             return _statusAtoFinalizado;
         }
 
+        public DtoExecProc SetStatusAto(long? idAto, string statusAto, ApplicationUser usuario)
+        {
+            DtoExecProc execProc = new DtoExecProc();
+            bool AlterouStatus = false;
+
+            if (usuario == null)
+            {
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
+            }
+
+            try
+            {
+                if (idAto != null)
+                {
+                    Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetById(idAto);
+
+                    if (ato != null)
+                    {
+                        this.UfwCartNew.BeginTransaction();
+                        execProc.Operacao = DataBaseOperacoes.update;
+                        AlterouStatus = this.UfwCartNew.Repositories.RepositoryAto.SetStatusAto(idAto, usuario.Id);
+                        string codigoAto = ato.NumMatricula + "/" + ato.SiglaSeqAto + ": " + ato.NumSequenciaAto.ToString();
+
+                        if (AlterouStatus)
+                        {
+                            this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
+                                new AtoEvento
+                                {
+                                    Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
+                                    IdAto = idAto ?? 0,
+                                    IdUsuario = usuario.Id,
+                                    TipoEvento = execProc.Operacao,
+                                    DataEvento = DateTime.Now,
+                                    Descricao = string.Format(CultureInfo.CurrentCulture, "Ato {0} alterado para status {1} pelo usuário {2}.", codigoAto, statusAto, usuario.Nome),
+                                    Status = statusAto,
+                                    StatusAnterior = ato.StatusAto
+                                }
+                            );
+
+                            execProc.Resposta = true;
+                            execProc.Msg = string.Format(CultureInfo.CurrentCulture, "Status alterado de {0} para {1} com sucesso!", ato.StatusAto, statusAto);
+                            execProc.TipoMsg = TipoMsgResposta.ok;
+                        }
+
+                        this.UfwCartNew.SaveChanges();
+                        this.UfwCartNew.CommitTransaction();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                if (execProc.Operacao == DataBaseOperacoes.update)
+                {
+                    this.UfwCartNew.RollBackTransaction();
+                }
+                execProc.TipoMsg = TipoMsgResposta.error;
+                execProc.Msg = string.Format(CultureInfo.CurrentCulture, "{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+            }
+
+            return execProc;
+        }
+
         #region add, Update, InsertOrUpdateAto 
         public override Ato Add(Ato item)
         {

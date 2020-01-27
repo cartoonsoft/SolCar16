@@ -573,6 +573,32 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return dadosImovel;
         }
 
+        public bool SetStatusAto(long? idAto, string statusAto) 
+        {
+            long linhasAfetadas = 0;
+
+            string strQuery =
+                @"UPDATE  DEZESSEIS_NEW.TB_ATO SET
+                    STATUS_ATO = :STATUS_ATO
+                WHERE ID_ATO = :ID_ATO";
+
+            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            {
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(strQuery, conn))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.BindByName = true;
+                    command.Parameters.Add(new OracleParameter("STATUS_ATO", OracleDbType.Varchar2, statusAto, System.Data.ParameterDirection.Input));
+                    command.Parameters.Add(new OracleParameter("ID_ATO", OracleDbType.Long, idAto, System.Data.ParameterDirection.Input));
+                    linhasAfetadas = command.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+
+            return linhasAfetadas > 0;
+        }
+
     }
 
 }

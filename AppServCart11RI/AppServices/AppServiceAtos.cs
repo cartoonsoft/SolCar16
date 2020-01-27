@@ -239,6 +239,16 @@ namespace AppServCart11RI.AppServices
             return this.DsFactoryCartNew.AtoDs.StatusAtoFinalizado();
         }
 
+        public DtoExecProc SetStatusAto(long? idAto, string statusAto, string idUsuario) 
+        {
+            DtoExecProc execProc = new DtoExecProc();
+            var usr = this.listaUsrSist.Where(u => u.IdUsuario == idUsuario).FirstOrDefault();
+
+            execProc = this.DsFactoryCartNew.AtoDs.SetStatusAto(idAto, statusAto, usr);
+
+            return execProc;
+        }
+
         #region Add, update, InsertOrUpdateAto
         public override void Add(DtoAto dtoItem)
         {

@@ -27,6 +27,8 @@ namespace DomainServ.CartNew.Interfaces
 
         string[] StatusAtoFinalizado();
 
+        DtoExecProc SetStatusAto(long? idAto, string statusAto, ApplicationUser usuario);
+
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);

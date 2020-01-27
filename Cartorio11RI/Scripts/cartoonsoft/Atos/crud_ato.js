@@ -15,6 +15,8 @@ var urlGetTextoAto = '/Atos/GetTextoAto';
 var urlGetTextoWordDocModelo = '/Atos/GetTextoWordDocModelo';
 var urlInsertOrUpdateAtoAjax = '/Atos/InsertOrUpdateAtoAjax';
 var urlGetDadosPorPrenotacao = '/Atos/GetDadosPorPrenotacao';
+var urlConfirmarUserLoginSenha = '/Account/ConfirmarUserLoginSenha';
+var urlSetStatusAto = '/Atos/SetStatusAto';
 
 var form_para_validar = null;
 
@@ -373,8 +375,10 @@ $(document).ready(function () {
 				//alert("Why did you cancel that? :(");
 				return 0;
 			}
+
 			var value1 = Value.toUpperCase();
 			ValueOriginal = Value;
+
 			$.SmartMessageBox({
 				title: "<strong>" + value1 + ",</strong>",
 				content: "Digite sua senha:",
@@ -384,10 +388,10 @@ $(document).ready(function () {
 				placeholder: "Senha"
 			}, function (ButtonPress, Value) {
 				if (ButtonPress == "Login") {
-					alert("Usuário: " + ValueOriginal + " pass : " + Value);
+					//alert("Usuário: " + ValueOriginal + " pass : " + Value);
+					ConfirmarUserLoginSenha(ValueOriginal, Value, SetStatusAto);
 
 				}
-				return 0;
 			});
 		});
 
@@ -396,22 +400,54 @@ $(document).ready(function () {
 });
 
 /** ----------------------------------------------------------------------------
+ * SetStatusAto
+ * @param {any} pIdUsuario
+----------------------------------------------------------------------------- */
+function SetStatusAto(pIdAto, pIdUsuario, pStatus) {
+	if (pIdUsuario) {
+		//mudar status ato
+		var dados = {
+			idAto: pIdAto,
+			idUsuario: pIdUsuario,
+			statusAto: pStatus
+		}
+
+		$.ajax(urlSetStatusAto, {
+			method: 'POST',
+			dataType: 'json',
+			data: dados,
+			beforeSend: function () {
+				//ShowProgreessBar("Processando requisição...");
+			}
+		}).done(function (dataReturn) {
+			if (dataReturn.resposta) {
+				if (dataReturn.idUsuario) {
+					callBack(dataReturn.idUsuario);
+				}
+			} else {
+				$.smallBox({
+					title: "Não foi possivel processar sua requisição!",
+					content: dataReturn.msg,
+					color: cor_smallBox_erro,
+					icon: "fa fa-thumbs-down bounce animated",
+					timeout: 8000
+				});
+			}
+		}).fail(function (jq, textStatus, error) {
+			alert("Retornou erro: " + textStatus);
+		}).always(function () {
+			//HideProgressBar();
+		});
+	}
+}
+
+/** ----------------------------------------------------------------------------
  * Confirmar login e senha do usuário
  * @param {any} pUser
  * @param {any} pPass
 ----------------------------------------------------------------------------- */
-function ConfirmarUserLoginSenha(pUsuario, pPass) {
-	var resp = false;
-
-	$.smallBox({
-		title: "Valor inválido!",
-		content: "Selecine um modelo da lista.",
-		color: cor_smallBox_aviso,
-		icon: "fa fa-exclamation bounce animated",
-		timeout: 4000
-	});
-
-
+function ConfirmarUserLoginSenha(pUsuario, pPass, callBack)
+{
 	if (Boolean(pUsuario) && Boolean(pPass)) {
 
 		var dados = {
@@ -419,7 +455,7 @@ function ConfirmarUserLoginSenha(pUsuario, pPass) {
 			pass: pPass
 		}
 
-		$.ajax(urlGetTextoWordDocModelo, {
+		$.ajax(urlConfirmarUserLoginSenha, {
 			method: 'POST',
 			dataType: 'json',
 			data: dados,
@@ -428,21 +464,24 @@ function ConfirmarUserLoginSenha(pUsuario, pPass) {
 			}
 		}).done(function (dataReturn) {
 			if (dataReturn.resposta) {
-				var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
-				if (dadosValidos) {
-					CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+				if (dataReturn.idUsuario) {
+					callBack(dataReturn.idUsuario, "CT");
 				}
-				PodeAvancar3 = true;
-				//$("#editor2").val(dataReturn.TextoHtml);
+			} else {
+				$.smallBox({
+					title: "Não foi possivel processar sua requisição!",
+					content: dataReturn.msg,
+					color: cor_smallBox_erro,
+					icon: "fa fa-thumbs-down bounce animated",
+					timeout: 8000
+				});
 			}
 		}).fail(function (jq, textStatus, error) {
-			alert("Erro: " + textStatus);
+			alert("Retornou erro: " + textStatus);
 		}).always(function () {
 			HideProgressBar();
 		});
 	}
-
-	return resp;
 }
 
 /** ----------------------------------------------------------------------------
