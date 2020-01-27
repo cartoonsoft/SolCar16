@@ -697,11 +697,15 @@
 					$.SmartMessageBox({
 						title: "<strong>" + value1 + ",</strong>",
 						content: "Digite sua senha:",
-						buttons: "[login]",
+						buttons: "[Cancelar][Login]",
 						input: "password",
+						inputValue: "",
 						placeholder: "Senha"
 					}, function (ButtonPress, Value) {
-						alert("Username: " + ValueOriginal + " and your password is: " + Value);
+						if (ButtonPress == "Login") {
+								alert("Usuário: " + ValueOriginal + " pass : " + Value);
+						}
+						return 0;
 					});
 				});
 

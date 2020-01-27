@@ -37,9 +37,10 @@ namespace Cartorio11RI.Controllers
             _ufwCartNew = UfwCartNew;
             this._idCtaAcessoSist = MvcApplication.IdCtaAcessoSist;
 
-            var a = _userManager.Users.ToList();
+            //var a = _userManager.Users.ToList();
         }
 
+        #region IDisposable Support
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -56,15 +57,69 @@ namespace Cartorio11RI.Controllers
                     _signInManager = null;
                 }
             }
-            
+
             //MvcApplication.IdCtaAcessoSist
 
             base.Dispose(disposing);
         }
+        #endregion
 
-        public long IdCtaAcessoSist
+        #region privates methods
+        // Used for XSRF protection when adding external logins
+        private const string XsrfKey = "XsrfId";
+
+        private IAuthenticationManager AuthenticationManager
         {
-            get { return this._idCtaAcessoSist; }
+            get
+            {
+                return HttpContext.GetOwinContext().Authentication;
+            }
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("Index", "Home");
+        }
+
+        internal class ChallengeResult : HttpUnauthorizedResult
+        {
+            public ChallengeResult(string provider, string redirectUri)
+                : this(provider, redirectUri, null)
+            {
+            }
+
+            public ChallengeResult(string provider, string redirectUri, string userId)
+            {
+                LoginProvider = provider;
+                RedirectUri = redirectUri;
+                UserId = userId;
+            }
+
+            public string LoginProvider { get; set; }
+            public string RedirectUri { get; set; }
+            public string UserId { get; set; }
+
+            public override void ExecuteResult(ControllerContext context)
+            {
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+                if (UserId != null)
+                {
+                    properties.Dictionary[XsrfKey] = UserId;
+                }
+                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+            }
         }
 
         private void SetClaimsUsuario(string IdUsuario, GrupoUsuarioEnum grupo)
@@ -92,22 +147,9 @@ namespace Cartorio11RI.Controllers
                     break;
             }
         }
+        #endregion
 
-        // GET: /Account/Index
-        [Authorize(Roles = "Admin")]
-        public ActionResult Index()
-        {
-            return View(_userManager.Users.ToList());
-        }
-
-        // GET: /Account/Login
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
-        }
-
+        #region Async Methods
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -147,7 +189,9 @@ namespace Cartorio11RI.Controllers
             {
                 return View("Error");
             }
+
             var user = await _userManager.FindByIdAsync(await _signInManager.GetVerifiedUserIdAsync());
+
             if (user != null)
             {
                 //ViewBag.Status = "DEMO: Caso o código não chegue via " + provider + " o código é: ";
@@ -182,15 +226,6 @@ namespace Cartorio11RI.Controllers
             }
         }
 
-        // GET: /Account/Register
-        [Authorize(Roles = "Admin")]
-        public ActionResult Register()
-        {
-            RegisterViewModel usuarioViewModel = new RegisterViewModel();
-
-            return View(usuarioViewModel);
-        }
-
         // POST: /Account/Register
         [HttpPost]
         [Authorize(Roles = "Admin")]
@@ -204,24 +239,25 @@ namespace Cartorio11RI.Controllers
 
             var usr = _userManager.FindByName(usuarioViewModel.UserName);
 
-            if (usr  != null)
+            if (usr != null)
             {
                 ModelState.AddModelError(usuarioViewModel.UserName, string.Format("Usuário {0} já existe na base!", usuarioViewModel.UserName));
                 return View(usuarioViewModel);
             }
 
-            var usuario = new ApplicationUser {
-                    IdCtaAcessoSist = MvcApplication.IdCtaAcessoSist,
-                    Nome = usuarioViewModel.Nome,
-                    UserName = usuarioViewModel.UserName,
-                    CreateDate = DateTime.Now,
-                    Email = usuarioViewModel.Email,
-                    EmailConfirmed = true,
-                    PhoneNumber = usuarioViewModel.PhoneNumber,
-                    PhoneNumberConfirmed = true,
-                    LockoutEnabled = true, //If you set LockoutEnabled to true and add a LockoutEnd date, you'll prevent that user from logging in again until after the LockoutEnd date is reached.
-                    Ativo = true
-                };
+            var usuario = new ApplicationUser
+            {
+                IdCtaAcessoSist = MvcApplication.IdCtaAcessoSist,
+                Nome = usuarioViewModel.Nome,
+                UserName = usuarioViewModel.UserName,
+                CreateDate = DateTime.Now,
+                Email = usuarioViewModel.Email,
+                EmailConfirmed = true,
+                PhoneNumber = usuarioViewModel.PhoneNumber,
+                PhoneNumberConfirmed = true,
+                LockoutEnabled = true, //If you set LockoutEnabled to true and add a LockoutEnd date, you'll prevent that user from logging in again until after the LockoutEnd date is reached.
+                Ativo = true
+            };
 
             var result = await _userManager.CreateAsync(usuario, usuarioViewModel.Password);
 
@@ -238,54 +274,11 @@ namespace Cartorio11RI.Controllers
                 //await _userManager.SendEmailAsync(usuario.Id, "Confirme sua Conta", "Por favor confirme sua conta clicando neste link: <a href='" + callbackUrl + "'></a>");
                 //ViewBag.Link = callbackUrl;
                 //return View("DisplayEmail");
-            }
-            else
+            } else
             {
                 AddErrors(result);
                 return View(usuarioViewModel);
             }
-        }
-
-        // GET: Usuarios/Edit/5
-        [Authorize(Roles = "Admin")]
-        public ActionResult Edit(string id)
-        {
-            if (string.IsNullOrEmpty(id))
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "IdUsuário é null ou inválido");
-            }
-
-            ApplicationUser applicationUser = _userManager.FindById(id);
-
-            if (applicationUser == null)
-            {
-                return HttpNotFound("Usuário não foi encontrado na base de dados!");
-            }
-
-            RegisterViewModel usuarioViewModel = new RegisterViewModel
-            {
-                Id = Guid.Parse(applicationUser.Id),
-                Nome = applicationUser.Nome,
-                Ativo = applicationUser.Ativo,
-                UserName = applicationUser.UserName,
-                Email = applicationUser.Email,
-                PhoneNumber = applicationUser.PhoneNumber,
-            };
-
-            var claims = _userManager.GetClaims(id).ToList();
-
-            if (claims.Find(c =>  (c.Type == ClaimTypes.Role) && (c.Value == "Admin")) != null)
-            {
-                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.Admin;
-            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "GerenteRI")) != null)
-            {
-                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.GerenteRI;
-            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "UsuarioRI")) != null)
-            {
-                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.UsuarioRI;
-            }
-
-            return View(usuarioViewModel);
         }
 
         // POST: Usuarios/Edit/5
@@ -336,13 +329,6 @@ namespace Cartorio11RI.Controllers
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
 
-        // GET: /Account/ForgotPassword
-        [AllowAnonymous]
-        public ActionResult ForgotPassword()
-        {
-            return View();
-        }
-
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
@@ -371,20 +357,6 @@ namespace Cartorio11RI.Controllers
             return View(model);
         }
 
-        // GET: /Account/ForgotPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
-        {
-            return View();
-        }
-
-        // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
-        {
-            return code == null ? View("Error") : View();
-        }
-
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
@@ -408,23 +380,6 @@ namespace Cartorio11RI.Controllers
             }
             AddErrors(result);
             return View();
-        }
-
-        // GET: /Account/ResetPasswordConfirmation
-        [AllowAnonymous]
-        public ActionResult ResetPasswordConfirmation()
-        {
-            return View();
-        }
-
-        // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
         // GET: /Account/SendCode
@@ -525,6 +480,117 @@ namespace Cartorio11RI.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
+        #endregion
+
+        public long IdCtaAcessoSist
+        {
+            get { return this._idCtaAcessoSist; }
+        }
+
+        // GET: /Account/Index
+        [Authorize(Roles = "Admin")]
+        public ActionResult Index()
+        {
+            return View(_userManager.Users.ToList());
+        }
+
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public ActionResult Login(string returnUrl)
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View();
+        }
+
+        // GET: /Account/Register
+        [Authorize(Roles = "Admin")]
+        public ActionResult Register()
+        {
+            RegisterViewModel usuarioViewModel = new RegisterViewModel();
+
+            return View(usuarioViewModel);
+        }
+
+        // GET: Usuarios/Edit/5
+        [Authorize(Roles = "Admin")]
+        public ActionResult Edit(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest, "IdUsuário é null ou inválido");
+            }
+
+            ApplicationUser applicationUser = _userManager.FindById(id);
+
+            if (applicationUser == null)
+            {
+                return HttpNotFound("Usuário não foi encontrado na base de dados!");
+            }
+
+            RegisterViewModel usuarioViewModel = new RegisterViewModel
+            {
+                Id = Guid.Parse(applicationUser.Id),
+                Nome = applicationUser.Nome,
+                Ativo = applicationUser.Ativo,
+                UserName = applicationUser.UserName,
+                Email = applicationUser.Email,
+                PhoneNumber = applicationUser.PhoneNumber,
+            };
+
+            var claims = _userManager.GetClaims(id).ToList();
+
+            if (claims.Find(c =>  (c.Type == ClaimTypes.Role) && (c.Value == "Admin")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.Admin;
+            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "GerenteRI")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.GerenteRI;
+            } else if (claims.Find(c => (c.Type == ClaimTypes.Role) && (c.Value == "UsuarioRI")) != null)
+            {
+                usuarioViewModel.GrupoUsuario = GrupoUsuarioEnum.UsuarioRI;
+            }
+
+            return View(usuarioViewModel);
+        }
+
+        // GET: /Account/ForgotPassword
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        // GET: /Account/ForgotPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        // GET: /Account/ResetPassword
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string code)
+        {
+            return code == null ? View("Error") : View();
+        }
+
+        // GET: /Account/ResetPasswordConfirmation
+        [AllowAnonymous]
+        public ActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
+
+        // POST: /Account/ExternalLogin
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ExternalLogin(string provider, string returnUrl)
+        {
+            // Request a redirect to the external login provider
+            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        }
+
 
         // POST: /Account/LogOff
         //[HttpPost]
@@ -625,64 +691,5 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
-
-        #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
-
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
-
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
-
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
-
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
-
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
-
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
-
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
-        }
-        #endregion
     }
 }

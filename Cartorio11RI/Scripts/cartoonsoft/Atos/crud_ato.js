@@ -361,13 +361,89 @@ $(document).ready(function () {
 	$("#btn-ato-conf-texto").click(function (e) {
 		e.preventDefault();
 
+		$.SmartMessageBox({
+			title: "Confirmar com identificação de usuário",
+			content: "Nome usuário",
+			buttons: "[Cancelar][Avançar]",
+			input: "text",
+			inputValue: "",
+			placeholder: "Usuário"
+		}, function (ButtonPress, Value) {
+			if (ButtonPress == "Cancelar") {
+				//alert("Why did you cancel that? :(");
+				return 0;
+			}
+			var value1 = Value.toUpperCase();
+			ValueOriginal = Value;
+			$.SmartMessageBox({
+				title: "<strong>" + value1 + ",</strong>",
+				content: "Digite sua senha:",
+				buttons: "[Cancelar][Login]",
+				input: "password",
+				inputValue: "",
+				placeholder: "Senha"
+			}, function (ButtonPress, Value) {
+				if (ButtonPress == "Login") {
+					alert("Usuário: " + ValueOriginal + " pass : " + Value);
 
+				}
+				return 0;
+			});
+		});
 
 	});
 
-
-
 });
+
+/** ----------------------------------------------------------------------------
+ * Confirmar login e senha do usuário
+ * @param {any} pUser
+ * @param {any} pPass
+----------------------------------------------------------------------------- */
+function ConfirmarUserLoginSenha(pUsuario, pPass) {
+	var resp = false;
+
+	$.smallBox({
+		title: "Valor inválido!",
+		content: "Selecine um modelo da lista.",
+		color: cor_smallBox_aviso,
+		icon: "fa fa-exclamation bounce animated",
+		timeout: 4000
+	});
+
+
+	if (Boolean(pUsuario) && Boolean(pPass)) {
+
+		var dados = {
+			usuario: pUsuario,
+			pass: pPass
+		}
+
+		$.ajax(urlGetTextoWordDocModelo, {
+			method: 'POST',
+			dataType: 'json',
+			data: dados,
+			beforeSend: function () {
+				ShowProgreessBar("Processando requisição...");
+			}
+		}).done(function (dataReturn) {
+			if (dataReturn.resposta) {
+				var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
+				if (dadosValidos) {
+					CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+				}
+				PodeAvancar3 = true;
+				//$("#editor2").val(dataReturn.TextoHtml);
+			}
+		}).fail(function (jq, textStatus, error) {
+			alert("Erro: " + textStatus);
+		}).always(function () {
+			HideProgressBar();
+		});
+	}
+
+	return resp;
+}
 
 /** ----------------------------------------------------------------------------
  * 
