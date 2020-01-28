@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Configuration;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -581,8 +582,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 @"UPDATE  DEZESSEIS_NEW.TB_ATO SET
                     STATUS_ATO = :STATUS_ATO
                 WHERE ID_ATO = :ID_ATO";
-
-            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            
+            using (OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings[Context.ContextName].ConnectionString))
             {
                 conn.Open();
                 using (OracleCommand command = new OracleCommand(strQuery, conn))

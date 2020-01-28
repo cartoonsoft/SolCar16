@@ -376,11 +376,11 @@ $(document).ready(function () {
 				return 0;
 			}
 
-			var value1 = Value.toUpperCase();
-			ValueOriginal = Value;
+			var username = Value;
+			var userNameLower = username.toLowerCase(); // toUpperCase();
 
 			$.SmartMessageBox({
-				title: "<strong>" + value1 + ",</strong>",
+				title: "<strong>" + userNameLower + ",</strong>",
 				content: "Digite sua senha:",
 				buttons: "[Cancelar][Login]",
 				input: "password",
@@ -388,10 +388,10 @@ $(document).ready(function () {
 				placeholder: "Senha"
 			}, function (ButtonPress, Value) {
 				if (ButtonPress == "Login") {
-					//alert("Usuário: " + ValueOriginal + " pass : " + Value);
-					ConfirmarUserLoginSenha(ValueOriginal, Value, SetStatusAto);
-
-				}
+					//alert("Usuário: " + username + " pass : " + Value);
+					ConfirmarUserLoginSenha(username, Value, 1, SetStatusAto);
+					}
+					
 			});
 		});
 
@@ -403,13 +403,16 @@ $(document).ready(function () {
  * SetStatusAto
  * @param {any} pIdUsuario
 ----------------------------------------------------------------------------- */
-function SetStatusAto(pIdAto, pIdUsuario, pStatus) {
+function SetStatusAto(pIdAto, pStatus, pIdUsuario) {
+
+	//alert(pIdAto + " " + pStatus + " " + pIdUsuario);
+
 	if (pIdUsuario) {
 		//mudar status ato
 		var dados = {
 			idAto: pIdAto,
+			statusAto: pStatus,
 			idUsuario: pIdUsuario,
-			statusAto: pStatus
 		}
 
 		$.ajax(urlSetStatusAto, {
@@ -421,13 +424,17 @@ function SetStatusAto(pIdAto, pIdUsuario, pStatus) {
 			}
 		}).done(function (dataReturn) {
 			if (dataReturn.resposta) {
-				if (dataReturn.idUsuario) {
-					callBack(dataReturn.idUsuario);
-				}
+				$.smallBox({
+					title: "Texto conferido",
+					content: "<i class='fa fa-check-circle'></i><i> " + dataReturn.msg,
+					color: cor_smallBox_confima,
+					icon: "fa fa-thumbs-up bounce animated",
+					timeout: 8000
+				});
 			} else {
 				$.smallBox({
 					title: "Não foi possivel processar sua requisição!",
-					content: dataReturn.msg,
+					content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
 					color: cor_smallBox_erro,
 					icon: "fa fa-thumbs-down bounce animated",
 					timeout: 8000
@@ -446,7 +453,7 @@ function SetStatusAto(pIdAto, pIdUsuario, pStatus) {
  * @param {any} pUser
  * @param {any} pPass
 ----------------------------------------------------------------------------- */
-function ConfirmarUserLoginSenha(pUsuario, pPass, callBack)
+function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
 {
 	if (Boolean(pUsuario) && Boolean(pPass)) {
 
@@ -465,7 +472,11 @@ function ConfirmarUserLoginSenha(pUsuario, pPass, callBack)
 		}).done(function (dataReturn) {
 			if (dataReturn.resposta) {
 				if (dataReturn.idUsuario) {
-					callBack(dataReturn.idUsuario, "CT");
+					var idAto = $("#Id").val();
+
+					if (pAcao == 1) {
+						callBack(idAto, "CT", dataReturn.idUsuario);
+					}
 				}
 			} else {
 				$.smallBox({

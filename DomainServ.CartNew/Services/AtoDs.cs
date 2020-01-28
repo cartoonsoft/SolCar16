@@ -65,11 +65,22 @@ namespace DomainServ.CartNew.Services
                 {
                     Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetById(idAto);
 
+                    string StatusAnt = ato.StatusAto;
+
+
+                    if ((statusAto == "CT") && !_statusEdtTexto.Contains(ato.StatusAto))
+                    {
+                        throw new ArgumentNullException(
+                            MethodBase.GetCurrentMethod().Name, 
+                            string.Format(CultureInfo.CurrentCulture, "Status atual do ato: {0}, nao permite ser alterado para status {1}!", StatusAnt, statusAto)
+                       );
+                    }
+
                     if (ato != null)
                     {
                         this.UfwCartNew.BeginTransaction();
                         execProc.Operacao = DataBaseOperacoes.update;
-                        AlterouStatus = this.UfwCartNew.Repositories.RepositoryAto.SetStatusAto(idAto, usuario.Id);
+                        AlterouStatus = this.UfwCartNew.Repositories.RepositoryAto.SetStatusAto(idAto, statusAto);
                         string codigoAto = ato.NumMatricula + "/" + ato.SiglaSeqAto + ": " + ato.NumSequenciaAto.ToString();
 
                         if (AlterouStatus)
@@ -82,7 +93,7 @@ namespace DomainServ.CartNew.Services
                                     IdUsuario = usuario.Id,
                                     TipoEvento = execProc.Operacao,
                                     DataEvento = DateTime.Now,
-                                    Descricao = string.Format(CultureInfo.CurrentCulture, "Ato {0} alterado para status {1} pelo usuário {2}.", codigoAto, statusAto, usuario.Nome),
+                                    Descricao = string.Format(CultureInfo.CurrentCulture, "Ato {0} alterado do status {1} para o status {2} pelo usuário {3}.", codigoAto, ato.StatusAto, statusAto, usuario.Nome),
                                     Status = statusAto,
                                     StatusAnterior = ato.StatusAto
                                 }
