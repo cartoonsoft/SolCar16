@@ -181,7 +181,7 @@ $(document).ready(function () {
 			{ name: 'others', groups: ['others'] },
 			{ name: 'about', groups: ['about'] }
 		],
-		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,PasteFromWord,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
 	/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */
@@ -390,7 +390,7 @@ $(document).ready(function () {
 				if (ButtonPress == "Login") {
 					//alert("Usuário: " + username + " pass : " + Value);
 					ConfirmarUserLoginSenha(username, Value, 1, SetStatusAto);
-					}
+				}
 					
 			});
 		});

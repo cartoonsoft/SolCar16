@@ -65,9 +65,11 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
         private TipoPessoaPrenotacao GetTipoPessoa(string relacao)
         {
-            return 
-                relacao == "E" ? TipoPessoaPrenotacao.outorgado :
-                relacao == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido;
+            string rel = relacao == null ? "" : relacao.Trim();
+
+            return
+                rel == "E" ? TipoPessoaPrenotacao.outorgado :
+                rel == "O" ? TipoPessoaPrenotacao.outorgante : TipoPessoaPrenotacao.indefinido;
 
         }
         #endregion
@@ -221,7 +223,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 select new
                 {
                     IdPrenotacao = IdPrenotacao,
-                    NumMatricula = mi.NUMERO,
+                    NumMatricula = pre.MATRI,
                     DataAtualExtenso = dataTmp,
                     APTO = pre.APTO,
                     BLOCO = pre.BLOCO,
@@ -251,26 +253,26 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPrenotacao = imovel.IdPrenotacao,
                     NumMatricula = imovel.NumMatricula.ToString(),
-                    APTO = imovel.APTO.Trim(),
-                    BLOCO = imovel.BLOCO.Trim(),
+                    APTO = imovel.APTO == null?"": imovel.APTO.Trim(),
+                    BLOCO = imovel.BLOCO == null?"": imovel.BLOCO.Trim(),
                     CONTRIB = imovel.CONTRIB,
-                    EDIF = imovel.EDIF.Trim(),
-                    ENDER = imovel.ENDER.Trim(),
+                    EDIF = imovel.EDIF == null?"": imovel.EDIF.Trim(),
+                    ENDER = imovel.ENDER == null?"": imovel.EDIF.Trim(),
                     HIPO = imovel.HIPO,
                     INSCR = imovel.INSCR,
-                    LOTE = imovel.LOTE.Trim(),
+                    LOTE = imovel.LOTE == null?"": imovel.LOTE.Trim(),
                     MATRI = imovel.MATRI,
-                    NUM = imovel.NUM.Trim(),
-                    OUTROS = imovel.OUTROS.Trim(),
-                    QUADRA = imovel.QUADRA.Trim(),
+                    NUM = imovel.NUM == null?"":imovel.NUM.Trim(),
+                    OUTROS = imovel.OUTROS == null?"":imovel.OUTROS.Trim(),
+                    QUADRA = imovel.QUADRA == null?"":imovel.QUADRA.Trim(),
                     RD = imovel.RD,
                     SEQIMO = imovel.SEQIMO,
                     SEQPRE = imovel.SEQPRE,
                     SUBD = imovel.SUBD,
-                    TIPO = imovel.TIPO.Trim(),
-                    TITULO = imovel.TITULO.Trim(),
+                    TIPO = imovel.TIPO == null?"":imovel.TIPO.Trim(),
+                    TITULO = imovel.TITULO == null?"":imovel.TITULO.Trim(),
                     TRANS = imovel.TRANS,
-                    VAGA = imovel.VAGA.Trim()
+                    VAGA = imovel.VAGA == null?"":imovel.VAGA.Trim()
                 });
             }
 
@@ -315,19 +317,19 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                         IdPessoa = pessoa.IdPessoa,
                         IdAto = pessoa.IdAto,
                         IdPrenotacao = pessoa.IdPrenotacao,
-                        Relacao = pessoa.Relacao.Trim(),
+                        Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
                         TipoPessoa = pessoa.TipoPessoa,
-                        Nome = pessoa.Nome.Trim(),
-                        Endereco = pessoa.Endereco.Trim(),
-                        Bairro = pessoa.Bairro.Trim(),
-                        Cidade = pessoa.Cidade.Trim(),
-                        Uf = pessoa.Uf.Trim(),
-                        Cep = pessoa.Cep.ToString().Trim(),
-                        Telefone = pessoa.Telefone.Trim(),
+                        Nome = pessoa.Nome == null?"" : pessoa.Nome.Trim(),
+                        Endereco = pessoa.Endereco == null?"" : pessoa.Endereco.Trim(),
+                        Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
+                        Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
+                        Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
+                        Cep = pessoa.Cep.ToString(),
+                        Telefone = pessoa.Telefone == null ? "" : pessoa.Telefone.Trim(),
                         TipoDoc1 = pessoa.TipoDoc1.ToString(),
-                        TipoDoc2 = pessoa.TipoDoc2.Trim(),
-                        Numero1 = pessoa.Numero1.Trim(),
-                        Numero2 = pessoa.Numero2.Trim()
+                        TipoDoc2 = pessoa.TipoDoc2 == null ? "" : pessoa.TipoDoc2.Trim(),
+                        Numero1 = pessoa.Numero1 == null ? "" : pessoa.Numero1.Trim(),
+                        Numero2 = pessoa.Numero2 == null ? "" : pessoa.Numero2.Trim()
                     });
                 }
             }
@@ -372,19 +374,19 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPessoa = pessoa.IdPessoa,
                     IdPrenotacao = pessoa.IdPrenotacao,
-                    Relacao = pessoa.Relacao.Trim(),
-                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao.Trim()),
-                    Nome = pessoa.Nome.Trim(),
-                    Endereco = pessoa.Endereco.Trim(),
-                    Bairro = pessoa.Bairro.Trim(),
-                    Cidade = pessoa.Cidade.Trim(),
-                    Uf = pessoa.Uf.Trim(),
-                    Cep = pessoa.Cep.ToString().Trim(),
-                    Telefone = pessoa.Telefone.Trim(),
-                    TipoDoc1 = pessoa.TipoDoc1.ToString().Trim(),
-                    Numero1 = pessoa.Numero1.Trim(),
-                    TipoDoc2 = pessoa.TipoDoc2.Trim(),
-                    Numero2 = pessoa.Numero2.Trim()
+                    Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
+                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
+                    Nome = pessoa.Nome == null? "": pessoa.Nome.Trim(),
+                    Endereco = pessoa.Endereco == null? "": pessoa.Endereco.Trim(),
+                    Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
+                    Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
+                    Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
+                    Cep = pessoa.Cep.ToString(),
+                    Telefone = pessoa.Telefone == null ? "" : pessoa.Telefone.Trim(),
+                    TipoDoc1 = pessoa.TipoDoc1.ToString(),
+                    Numero1 = pessoa.Numero1 == null ? "" : pessoa.Numero1.Trim(),
+                    TipoDoc2 = pessoa.TipoDoc2 == null ? "" : pessoa.TipoDoc2.Trim(),
+                    Numero2 = pessoa.Numero2 == null ? "" : pessoa.Numero2.Trim()
                 });
             }
 
@@ -423,20 +425,20 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 listaPessoaCart11RI.Add(new PessoaPesxPre
                 {
                     IdPessoa = pessoa.IdPessoa,
-                    IdPrenotacao = idPrenotacao??0,
-                    Relacao = pessoa.Relacao.Trim(),
-                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao.Trim()),
-                    Nome = pessoa.Nome.Trim(),
-                    Endereco = pessoa.Endereco.Trim(),
-                    Bairro = pessoa.Bairro.Trim(),
-                    Cidade = pessoa.Cidade.Trim(),
-                    Uf = pessoa.Uf.Trim(),
+                    IdPrenotacao = idPrenotacao ?? 0,
+                    Relacao = pessoa.Relacao == null ? "": pessoa.Relacao.Trim(),
+                    TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
+                    Nome = pessoa.Nome == null ? "" : pessoa.Nome.Trim(),
+                    Endereco = pessoa.Endereco == null ? "" : pessoa.Endereco.Trim(),
+                    Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
+                    Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
+                    Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
                     Cep = pessoa.Cep.ToString(),
-                    Telefone = pessoa.Telefone.Trim(),
+                    Telefone = pessoa.Telefone == null ? "" : pessoa.Telefone.Trim(),
                     TipoDoc1 = pessoa.TipoDoc1.ToString(),
-                    Numero1 = pessoa.Numero1.Trim(),
-                    TipoDoc2 = pessoa.TipoDoc2.Trim(),
-                    Numero2 = pessoa.Numero2.Trim()
+                    Numero1 = pessoa.Numero1 == null ? "" : pessoa.Numero1.Trim(),
+                    TipoDoc2 = pessoa.TipoDoc2 == null ? "" : pessoa.TipoDoc2.Trim(),
+                    Numero2 = pessoa.Numero2 == null ? "" : pessoa.Numero2.Trim()
                 });
             }
 
@@ -494,6 +496,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
         public PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
         {
+            PessoaPesxPre pessoaPesxPre = new PessoaPesxPre();
+
             string relacao = string.Empty;
             var pessoa = this._contextRepository.DbPESSOAS.Where(p => p.SEQPES == idPessoa).FirstOrDefault();
 
@@ -503,28 +507,28 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
                 if (pesPrenotacao != null)
                 {
-                    relacao = pesPrenotacao.REL.Trim();
+                    relacao = pesPrenotacao.REL ==null?"": pesPrenotacao.REL.Trim();
                 }
             }
 
-            PessoaPesxPre pessoaPesxPre = new PessoaPesxPre
+            if (pessoa != null) 
             {
-                IdPessoa = pessoa.SEQPES,
-                IdPrenotacao = idPrenotacao??0,
-                Relacao = relacao,
-                TipoPessoa = this.GetTipoPessoa(relacao),
-                Nome = pessoa.NOM.Trim(),
-                Endereco = pessoa.ENDER.Trim(),
-                Bairro = pessoa.BAI.Trim(),
-                Cidade = pessoa.CID.Trim(),
-                Uf = pessoa.UF.Trim(),
-                Cep = pessoa.CEP.ToString(),
-                Telefone = pessoa.TEL.Trim(),
-                TipoDoc1 = pessoa.TIPODOC1.ToString(),
-                Numero1 = pessoa.NRO1.Trim(),
-                TipoDoc2 = pessoa.TIPODOC2.Trim(),
-                Numero2 = pessoa.NRO2.Trim()
-            };
+                pessoaPesxPre.IdPessoa = pessoa.SEQPES;
+                pessoaPesxPre.IdPrenotacao = idPrenotacao ?? 0;
+                pessoaPesxPre.Relacao = relacao;
+                pessoaPesxPre.TipoPessoa = this.GetTipoPessoa(relacao);
+                pessoaPesxPre.Nome = pessoa.NOM == null?"": pessoa.NOM.Trim();
+                pessoaPesxPre.Endereco = pessoa.ENDER == null ? "" : pessoa.ENDER.Trim();
+                pessoaPesxPre.Bairro = pessoa.BAI == null ? "" : pessoa.BAI.Trim();
+                pessoaPesxPre.Cidade = pessoa.CID == null ? "" : pessoa.CID.Trim();
+                pessoaPesxPre.Uf = pessoa.UF == null ? "" : pessoa.UF.Trim();
+                pessoaPesxPre.Cep = pessoa.CEP.ToString();
+                pessoaPesxPre.Telefone = pessoa.TEL == null ? "" : pessoa.TEL.Trim();
+                pessoaPesxPre.TipoDoc1 = pessoa.TIPODOC1.ToString();
+                pessoaPesxPre.Numero1 = pessoa.NRO1 == null ? "" : pessoa.NRO1.Trim();
+                pessoaPesxPre.TipoDoc2 = pessoa.TIPODOC2 == null ? "" : pessoa.TIPODOC2.Trim();
+                pessoaPesxPre.Numero2 = pessoa.NRO2 == null ? "" : pessoa.NRO2.Trim();
+            }
 
             return pessoaPesxPre;
         }
@@ -542,32 +546,31 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             if (long.TryParse(NumMatricula, out mat))
             {
                 var imovel = this._contextRepository.DbPREIMO.Where(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI == mat)).FirstOrDefault();
-
                 dadosImovel.IdPrenotacao = IdPrenotacao;
                 dadosImovel.NumMatricula = NumMatricula;
 
                 if (imovel != null)
                 {
-                    dadosImovel.APTO = imovel.APTO.Trim();
-                    dadosImovel.BLOCO = imovel.BLOCO.Trim();
+                    dadosImovel.APTO = imovel.APTO == null?"": imovel.APTO.Trim();
+                    dadosImovel.BLOCO = imovel.BLOCO == null ? "" : imovel.BLOCO.Trim();
                     dadosImovel.CONTRIB = imovel.CONTRIB;
-                    dadosImovel.EDIF = imovel.EDIF.Trim();
-                    dadosImovel.ENDER = imovel.ENDER.Trim();
+                    dadosImovel.EDIF = imovel.EDIF == null ? "" : imovel.EDIF.Trim();
+                    dadosImovel.ENDER = imovel.ENDER == null ? "" : imovel.ENDER.Trim();
                     dadosImovel.HIPO = imovel.HIPO;
                     dadosImovel.INSCR = imovel.INSCR;
-                    dadosImovel.LOTE = imovel.LOTE.Trim();
+                    dadosImovel.LOTE = imovel.LOTE == null ? "" : imovel.LOTE.Trim();
                     dadosImovel.MATRI = imovel.MATRI;
-                    dadosImovel.NUM = imovel.NUM.Trim();
-                    dadosImovel.OUTROS = imovel.OUTROS.Trim();
-                    dadosImovel.QUADRA = imovel.QUADRA.Trim();
+                    dadosImovel.NUM = imovel.NUM == null ? "" : imovel.NUM.Trim();
+                    dadosImovel.OUTROS = imovel.OUTROS == null ? "" : imovel.OUTROS.Trim();
+                    dadosImovel.QUADRA = imovel.QUADRA == null ? "" : imovel.QUADRA.Trim();
                     dadosImovel.RD = imovel.RD;
                     dadosImovel.SEQIMO = imovel.SEQIMO;
                     dadosImovel.SEQPRE = imovel.SEQPRE;
                     dadosImovel.SUBD = imovel.SUBD;
-                    dadosImovel.TIPO = imovel.TIPO.Trim();
-                    dadosImovel.TITULO = imovel.TITULO.Trim();
+                    dadosImovel.TIPO = imovel.TIPO == null ? "" : imovel.TIPO.Trim();
+                    dadosImovel.TITULO = imovel.TITULO == null ? "" : imovel.TITULO.Trim();
                     dadosImovel.TRANS = imovel.TRANS;
-                    dadosImovel.VAGA = imovel.VAGA.Trim();
+                    dadosImovel.VAGA = imovel.VAGA == null ? "" : imovel.VAGA.Trim();
                 }
             }
 
