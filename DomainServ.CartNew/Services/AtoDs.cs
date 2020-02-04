@@ -34,7 +34,66 @@ namespace DomainServ.CartNew.Services
         public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
+
         }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Validar se pode alterar o status do ato, se sim retorna os dados do ato, se não null
+        /// </summary>
+        /// <param name="idAto"></param>
+        /// <param name="statusAto"></param>
+        /// <returns></returns>
+        private Ato ValidarAto(long? idAto, string statusAto) 
+        {
+            Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetById(idAto);
+            bool altStatusValido = false;
+
+            if (ato != null)
+            {
+                string StatusAnt = ato.StatusAto;
+                if (StatusAnt != statusAto)
+                {
+                    switch (statusAto)
+                    {
+                        case "CT":
+                            altStatusValido = _statusEdtTexto.Contains(ato.StatusAto);
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if (!altStatusValido)
+                    {
+                        throw new ArgumentNullException(
+                            MethodBase.GetCurrentMethod().Name,
+                            string.Format(CultureInfo.CurrentCulture, "Status atual do ato: {0}, nao permite ser alterado para status {1}!", StatusAnt, statusAto)
+                       );
+                    }
+                }
+            }
+
+            return ato;
+        }
+
+        private void InsertAtoEvento(DtoExecProc execProc, ApplicationUser usuario, long idAto, string statusAnt, string statusAto, string descricao)
+        {
+            this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
+                new AtoEvento
+                {
+                    Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
+                    IdAto = idAto,
+                    IdUsuario = usuario.Id,
+                    TipoEvento = execProc.Operacao,
+                    DataEvento = DateTime.Now,
+                    Descricao = descricao,
+                    Status = statusAto,
+                    StatusAnterior = statusAnt
+                }
+            );
+        }
+        #endregion
 
         public string[] StatusEdtTexto()
         {
@@ -49,10 +108,12 @@ namespace DomainServ.CartNew.Services
             return _statusAtoFinalizado;
         }
 
-        public DtoExecProc SetStatusAto(long? idAto, string statusAto, ApplicationUser usuario)
+        public DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
-            bool AlterouStatus = false;
+            Ato ato = null;
+            string statusTmp;
+
 
             if (usuario == null)
             {
@@ -63,49 +124,48 @@ namespace DomainServ.CartNew.Services
             {
                 if (idAto != null)
                 {
-                    Ato ato = this.UfwCartNew.Repositories.RepositoryAto.GetById(idAto);
-
-                    string StatusAnt = ato.StatusAto;
-
-
-                    if ((statusAto == "CT") && !_statusEdtTexto.Contains(ato.StatusAto))
+                    if (conferido)
                     {
-                        throw new ArgumentNullException(
-                            MethodBase.GetCurrentMethod().Name, 
-                            string.Format(CultureInfo.CurrentCulture, "Status atual do ato: {0}, nao permite ser alterado para status {1}!", StatusAnt, statusAto)
-                       );
+                        statusTmp = "CT";
+                    } else {
+                        statusTmp = "AR";
                     }
+
+                    ato = this.ValidarAto(idAto, statusTmp);
 
                     if (ato != null)
                     {
-                        this.UfwCartNew.BeginTransaction();
-                        execProc.Operacao = DataBaseOperacoes.update;
-                        AlterouStatus = this.UfwCartNew.Repositories.RepositoryAto.SetStatusAto(idAto, statusAto);
-                        string codigoAto = ato.NumMatricula + "/" + ato.SiglaSeqAto + ": " + ato.NumSequenciaAto.ToString();
-
-                        if (AlterouStatus)
+                        if (ato.StatusAto != statusTmp) 
                         {
-                            this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
-                                new AtoEvento
-                                {
-                                    Id = this.UfwCartNew.Repositories.RepositoryAto.GetNextValFromOracleSequence("SQ_ATO_EVENTO"),
-                                    IdAto = idAto ?? 0,
-                                    IdUsuario = usuario.Id,
-                                    TipoEvento = execProc.Operacao,
-                                    DataEvento = DateTime.Now,
-                                    Descricao = string.Format(CultureInfo.CurrentCulture, "Ato {0} alterado do status {1} para o status {2} pelo usuário {3}.", codigoAto, ato.StatusAto, statusAto, usuario.Nome),
-                                    Status = statusAto,
-                                    StatusAnterior = ato.StatusAto
-                                }
+                            this.UfwCartNew.BeginTransaction();
+                            execProc.Operacao = DataBaseOperacoes.update;
+                            string statusAnt = ato.StatusAto;
+
+                            ato.ConfTexto = conferido;
+                            ato.StatusAto = statusTmp;
+                            this.UfwCartNew.Repositories.RepositoryAto.Update(ato);
+                            string codigoAto = ato.NumMatricula + "/" + ato.SiglaSeqAto + ": " + ato.NumSequenciaAto.ToString();
+
+                            string desc = string.Format(
+                                CultureInfo.CurrentCulture,
+                                "Ato {0} alterado do status {1} para o status {2} pelo usuário {3}.",
+                                codigoAto,
+                                statusAnt, statusTmp,
+                                usuario.Nome
                             );
 
+                            this.InsertAtoEvento(execProc, usuario, ato.Id ?? 0, ato.StatusAto, "CT", desc);
                             execProc.Resposta = true;
-                            execProc.Msg = string.Format(CultureInfo.CurrentCulture, "Status alterado de {0} para {1} com sucesso!", ato.StatusAto, statusAto);
+                            execProc.Msg = string.Format(CultureInfo.CurrentCulture, "Ato alterado do status {0} para {1} com sucesso!", statusAnt, statusTmp);
                             execProc.TipoMsg = TipoMsgResposta.ok;
-                        }
 
-                        this.UfwCartNew.SaveChanges();
-                        this.UfwCartNew.CommitTransaction();
+                            this.UfwCartNew.SaveChanges();
+                            this.UfwCartNew.CommitTransaction();
+                        } else {
+                            execProc.Resposta = false;
+                            execProc.Msg = string.Format(CultureInfo.CurrentCulture, "Ato já se encontra no status: {0}!", statusTmp);
+                            execProc.TipoMsg = TipoMsgResposta.warning;
+                        }
                     }
                 }
             }
@@ -116,7 +176,8 @@ namespace DomainServ.CartNew.Services
                     this.UfwCartNew.RollBackTransaction();
                 }
                 execProc.TipoMsg = TipoMsgResposta.error;
-                execProc.Msg = string.Format(CultureInfo.CurrentCulture, "{0}.{1} [{2} {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
+                execProc.Msg = string.Format(CultureInfo.CurrentCulture, "{0}", ex.Message);
+                execProc.MsgDetalhe = string.Format(CultureInfo.CurrentCulture, "{0}.{1} [{2}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, (ex.InnerException != null) ? ex.InnerException.Message : "");
             }
 
             return execProc;

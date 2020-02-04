@@ -1148,7 +1148,9 @@
     <Content Include="Views\Atos\_crudAto.cshtml" />
     <Content Include="Views\Atos\_divImovel.cshtml" />
     <Content Include="Views\Atos\_divPessoas.cshtml" />
-    <Content Include="Views\Misc\ExemplosCartoonSoft.cshtml" />
+    <Content Include="Views\Misc\Exemplo1CartoonSoft.cshtml" />
+    <Content Include="Views\Misc\Exemplo2CartoonSoft.cshtml" />
+    <Content Include="Views\Misc\_divPessoas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -27,7 +27,7 @@ namespace DomainServ.CartNew.Interfaces
 
         string[] StatusAtoFinalizado();
 
-        DtoExecProc SetStatusAto(long? idAto, string statusAto, ApplicationUser usuario);
+        DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido);
 
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 

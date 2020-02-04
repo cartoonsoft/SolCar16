@@ -841,7 +841,7 @@ namespace Cartorio11RI.Controllers
         }
 
         [HttpPost]
-        public JsonResult SetStatusAto(long? idAto, string idUsuario, string statusAto)
+        public JsonResult SetTextoConferido(long? idAto, string idUsuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
             List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
@@ -851,7 +851,7 @@ namespace Cartorio11RI.Controllers
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     appServiceAtos.ListaUsuariosSistema = listaUsrSist;
-                    execProc = appServiceAtos.SetStatusAto(idAto, statusAto, idUsuario);
+                    execProc = appServiceAtos.SetTextoConferido(idAto, idUsuario, conferido);
                 }
             }
             catch (Exception ex)
@@ -868,7 +868,7 @@ namespace Cartorio11RI.Controllers
                 msg = execProc.Msg,
                 msgDetalhe = execProc.MsgDetalhe
             };
-            
+
             return Json(resultado);
         }
 

@@ -22,7 +22,7 @@ namespace AppServices.Cartorio.Interfaces
 
         string[] StatusAtoFinalizado();
 
-        DtoExecProc SetStatusAto(long? idAto, string statusAto, string idUsuario);
+        DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido);
 
         bool ExisteAtoCadastrado(string NumMatricula);
 

@@ -12,7 +12,6 @@ namespace Cartorio11RI.Models
 
         }
 
-
         public long Id { get; set; }
     }
 }

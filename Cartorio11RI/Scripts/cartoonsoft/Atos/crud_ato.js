@@ -17,6 +17,7 @@ var urlInsertOrUpdateAtoAjax = '/Atos/InsertOrUpdateAtoAjax';
 var urlGetDadosPorPrenotacao = '/Atos/GetDadosPorPrenotacao';
 var urlConfirmarUserLoginSenha = '/Account/ConfirmarUserLoginSenha';
 var urlSetStatusAto = '/Atos/SetStatusAto';
+var urlSetTextoConferido = '/Atos/SetTextoConferido';
 
 var form_para_validar = null;
 
@@ -359,7 +360,7 @@ $(document).ready(function () {
 		}
 	});
 
-	/*-- ---------------------------------------------------------------------*/
+	/*-- btn-ato-conf-texto --------------------------------------------------*/
 	$("#btn-ato-conf-texto").click(function (e) {
 		e.preventDefault();
 
@@ -389,72 +390,32 @@ $(document).ready(function () {
 			}, function (ButtonPress, Value) {
 				if (ButtonPress == "Login") {
 					//alert("Usuário: " + username + " pass : " + Value);
-					ConfirmarUserLoginSenha(username, Value, 1, SetStatusAto);
+					ConfirmarUserLoginSenha(username, Value, 1, SetTextoConferido);
 				}
-					
 			});
 		});
+	});
 
+	/*-- btn-ato-colocar-edicao --------------------------------------------- */
+	$("#btn-ato-colocar-edicao").click(function (e) {
+		e.preventDefault();
+		//CKEDITOR.instances['ckEditorAto'].setReadOnly(true);
+	});
+
+	/*-- btn-ato-gerar-docx ------------------------------------------------- */
+	$("#btn-ato-gerar-docx").click(function (e) {
+		e.preventDefault();
+		//CKEDITOR.instances['ckEditorAto'].setReadOnly(false);
 	});
 
 });
-
-/** ----------------------------------------------------------------------------
- * SetStatusAto
- * @param {any} pIdUsuario
------------------------------------------------------------------------------ */
-function SetStatusAto(pIdAto, pStatus, pIdUsuario) {
-
-	//alert(pIdAto + " " + pStatus + " " + pIdUsuario);
-
-	if (pIdUsuario) {
-		//mudar status ato
-		var dados = {
-			idAto: pIdAto,
-			statusAto: pStatus,
-			idUsuario: pIdUsuario,
-		}
-
-		$.ajax(urlSetStatusAto, {
-			method: 'POST',
-			dataType: 'json',
-			data: dados,
-			beforeSend: function () {
-				//ShowProgreessBar("Processando requisição...");
-			}
-		}).done(function (dataReturn) {
-			if (dataReturn.resposta) {
-				$.smallBox({
-					title: "Texto conferido",
-					content: "<i class='fa fa-check-circle'></i><i> " + dataReturn.msg,
-					color: cor_smallBox_confima,
-					icon: "fa fa-thumbs-up bounce animated",
-					timeout: 8000
-				});
-			} else {
-				$.smallBox({
-					title: "Não foi possivel processar sua requisição!",
-					content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
-					color: cor_smallBox_erro,
-					icon: "fa fa-thumbs-down bounce animated",
-					timeout: 8000
-				});
-			}
-		}).fail(function (jq, textStatus, error) {
-			alert("Retornou erro: " + textStatus);
-		}).always(function () {
-			//HideProgressBar();
-		});
-	}
-}
 
 /** ----------------------------------------------------------------------------
  * Confirmar login e senha do usuário
  * @param {any} pUser
  * @param {any} pPass
 ----------------------------------------------------------------------------- */
-function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
-{
+function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack) {
 	if (Boolean(pUsuario) && Boolean(pPass)) {
 
 		var dados = {
@@ -475,7 +436,7 @@ function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
 					var idAto = $("#Id").val();
 
 					if (pAcao == 1) {
-						callBack(idAto, "CT", dataReturn.idUsuario);
+						callBack(idAto, dataReturn.idUsuario, true);
 					}
 				}
 			} else {
@@ -494,6 +455,72 @@ function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
 		});
 	}
 }
+
+/** ----------------------------------------------------------------------------
+ * SetTextoConferido - altera status do Ato para CT
+ * @@param {any} pIdAto
+ * @@param {any} pIdUsuario
+ * @@param {any} pConferido
+ ---------------------------------------------------------------------------- */
+function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
+{
+	//alert("IdAto => " +pIdAto + "    Usuario => " + pIdUsuario);
+
+	if (pIdAto && pIdUsuario) {
+		//mudar status ato
+		var dados = {
+			idAto: pIdAto,
+			idUsuario: pIdUsuario,
+			conferido: pConferido
+		}
+
+		$.ajax(urlSetTextoConferido, {
+			method: 'POST',
+			dataType: 'json',
+			data: dados,
+			beforeSend: function () {
+				//ShowProgreessBar("Processando requisição...");
+			}
+		}).done(function (dataReturn) {
+			if (dataReturn.resposta) {
+
+				CKEDITOR.instances['ckEditorAto'].setReadOnly(true);
+
+				$.smallBox({
+					title: "Texto conferido",
+					content: "<i class='fa fa-check-circle'></i><i> " + dataReturn.msg,
+					color: cor_smallBox_confima,
+					icon: "fa fa-thumbs-up bounce animated",
+					timeout: 8000
+				});
+
+			} else {
+				if (dataReturn.tipoMsg == 5) // error
+				{
+					$.smallBox({
+						title: "Não foi possivel processar sua requisição!",
+						content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
+						color: cor_smallBox_erro,
+						icon: "fa fa-thumbs-down bounce animated",
+						timeout: 8000
+					});
+				} else if (dataReturn.tipoMsg == 4) { // warning
+					$.smallBox({
+						title: "Aviso!",
+						content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
+						color: cor_smallBox_aviso,
+						icon: "fa fa-exclamation bounce animated",
+						timeout: 8000
+					});
+				}
+			}
+		}).fail(function (jq, textStatus, error) {
+			alert("Retornou erro: " + textStatus);
+		}).always(function () {
+			//HideProgressBar();
+		});
+	}
+} 
 
 /** ----------------------------------------------------------------------------
  * 
@@ -528,7 +555,7 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 }
 
 /** ----------------------------------------------------------------------------
- * *
+ * 
  * @@param {any} dados
  * @@param {any} url
  ---------------------------------------------------------------------------- */
@@ -559,15 +586,16 @@ function InsertOrUpdateAtoAjax(dados, url)
 					$("#IdUsuarioAlteracao").val(dataReturn.execute.Entidade.IdUsuarioAlteracao);
 					$("#DataAlteracao").val(dataReturn.execute.Entidade.DataAlteracao != null ? ToJavaScriptDate(dataReturn.execute.Entidade.DataAlteracao) : "");
 					$("#StatusAto").val(dataReturn.execute.Entidade.StatusAto);
-				}
+					$("#Salvo").prop('checked', true);
 
-				$.smallBox({
-					title: "Ato salvo com sucesso!",
-					content: dataReturn.msg,
-					color: cor_smallBox_ok,
-					icon: "fa fa-thumbs-up bounce animated",
-					timeout: 4000
-				});
+					$.smallBox({
+						title: "Ato salvo com sucesso!",
+						content: dataReturn.msg,
+						color: cor_smallBox_ok,
+						icon: "fa fa-thumbs-up bounce animated",
+						timeout: 4000
+					});
+				}
 			} else {
 				$.smallBox({
 					title: "Dados não foram salvos!",
@@ -662,3 +690,37 @@ function PovoarSelModelos(selObj, listaModelos)
 	});
 }
 
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} chkObj
+----------------------------------------------------------------------------- */
+function MarcarDesmarcarPessoa(chkObj) {
+	var chkTmp = chkObj;
+	var idTmp = chkObj.value;
+	var idxTmp = ArrayPessoasIndexOfById(idTmp);
+
+	if (idxTmp >= 0) {
+		if (chkObj) {
+			arrayPessoas[idxTmp].Selecionado = true;
+		} else {
+			arrayPessoas[idxTmp].Selecionado = false;
+		}
+	}
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} id
+----------------------------------------------------------------------------- */
+function ArrayPessoasIndexOfById(id) {
+	var idx = -1;
+
+	for (var i = 0, len = arrayPessoas.length; i < len; i++) {
+		if (arrayPessoas[i].IdPessoa == id) {
+			idx = i;
+			break;
+		}
+	}
+
+	return idx;
+}

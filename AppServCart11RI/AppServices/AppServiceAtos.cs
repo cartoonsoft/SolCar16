@@ -239,12 +239,12 @@ namespace AppServCart11RI.AppServices
             return this.DsFactoryCartNew.AtoDs.StatusAtoFinalizado();
         }
 
-        public DtoExecProc SetStatusAto(long? idAto, string statusAto, string idUsuario) 
+        public DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
             var usr = this.listaUsrSist.Where(u => u.IdUsuario == idUsuario).FirstOrDefault();
 
-            execProc = this.DsFactoryCartNew.AtoDs.SetStatusAto(idAto, statusAto, usr);
+            execProc = this.DsFactoryCartNew.AtoDs.SetTextoConferido(idAto, usr, conferido);
 
             return execProc;
         }
@@ -715,8 +715,5 @@ namespace AppServCart11RI.AppServices
             return textoDoc;
         }
 
-
-
     }
-
 }

@@ -12,8 +12,8 @@ var PodeAvancar3 = false;
 
 /*----------------------------------------------------------------------------*/
 var arrayPessoas = [];
-/*----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------*/
 class PessoaPrenotacao
 {
     constructor() {
@@ -311,16 +311,24 @@ $(document).ready(function () {
     /*-- ato_wizard on finished --------------------------------------------- */
     ato_wizard.on('finished', function (e, data) {
         //$("#fuelux-wizard").submit();
-        //console.log("submitted!");
-        $.smallBox({
-            title: "Finalizado!",
-            content: "<i class='fa fa-clock-o'></i> <i>1 Dizer algo</i>",
-            color: "#5F895F",
-            icon: "fa fa-thumbs-up bounce animated",
-            timeout: 4000
-        });
+
+        if ($("#Salvo").prop("checked") == false) {
+            ShowDlgBoxCartorio({
+                type: "confirm",
+                headerText: "Confirme ",
+                messageText: "Salvar os dados do Ato?",
+                alertType: "info"
+            }).done(function (e) {
+                //alert(e);
+                //$("body").append('<div>Callback from confirm ' + e + '</div>');
+                if (e) {
+                    $("#btn-ato-salvar").click();
+                }
+            });
+        }
     });
 
+    /*-- frm-cadastro-ato on submit ----------------------------------------- */
     $('#frm-cadastro-ato').on('submit', function (event) {
         // Prevent the page from reloading
         event.preventDefault();
@@ -679,43 +687,6 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array)
 }
 
 /** ----------------------------------------------------------------------------
- * 
- * @@param {any} chkObj
------------------------------------------------------------------------------ */
-function MarcarDesmarcarPessoa(chkObj)
-{
-    var chkTmp = chkObj;
-    var idTmp = chkObj.value;
-    var idxTmp = ArrayPessoasIndexOfById(idTmp);
-
-    if (idxTmp >= 0) {
-        if (chkObj) {
-            arrayPessoas[idxTmp].Selecionado = true;
-        } else {
-            arrayPessoas[idxTmp].Selecionado = false;
-        }
-    }
-}
-
-/** ----------------------------------------------------------------------------
- * 
- * @@param {any} id
------------------------------------------------------------------------------ */
-function ArrayPessoasIndexOfById(id)
-{
-    var idx = -1;
-
-    for (var i = 0, len = arrayPessoas.length; i < len; i++) {
-        if (arrayPessoas[i].IdPessoa == id) {
-            idx = i;
-            break;
-        }
-    }
-
-    return idx;
-}
-
-/** ----------------------------------------------------------------------------
  * idPrenotacao (IdPrenotacao)
  ---------------------------------------------------------------------------- */
 function PovoarSelecionados(numPrenotacao)
@@ -795,7 +766,8 @@ function PovoarSelImoveis(selObj, listaImoveis)
  * @@param {any} dadosAto
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function GetTextoAto(dadosAto, url) {
+function GetTextoAto(dadosAto, url)
+{
     $.ajax(url, {
         method: 'POST',
         dataType: 'json',

@@ -1,0 +1,672 @@
+﻿
+@{
+	ViewBag.Title = ViewContext.RouteData.Values["controller"];
+	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
+}
+
+@section styles_especific {
+	<style>
+		/*-- coloque aqui seu código css ------------------------------------ */
+	</style>
+}
+
+<!-- MAIN CONTENT -->
+<div id="content">
+
+	<!-- row -->
+	<div class="row">
+		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+			<h1 class="page-title txt-color-blueDark">
+				<i class="fa-fw fa fa-tasks"></i>
+				@ViewBag.Title
+				<span>
+					<i class="fa fa-chevron-right"></i> @ViewBag.SubTitle
+				</span>
+			</h1>
+		</div>
+	</div>
+	<!-- end row -->
+	<!-- widget grid -->
+	<section id="widget-grid" class="">
+		<!-- row -->
+		<div class="row">
+			<!-- NEW WIDGET START -->
+			<article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<!-- Widget ID (each widget will need unique ID)-->
+				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-fullscreenbutton="false">
+
+					<header>
+						<span class="widget-icon"> <i class="fa fa-cogs"></i> </span>
+						<h2>CartoonSoft - Exemplos I </h2>
+					</header>
+
+					<!-- widget div-->
+					<div>
+						<!-- widget edit box -->
+						<div class="jarviswidget-editbox">
+							<!-- This area used as dropdown edit box -->
+							<input class="form-control" type="text">
+						</div>
+						<!-- end widget edit box -->
+						<!-- widget content -->
+						<div class="widget-body">
+
+							<div>
+								<ul id="tab-edt-ato" class="nav nav-tabs bordered">
+									<li class="active">
+										<a href="#tab-edt-tab1" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-file-word-o"></i> Ato</span></a>
+									</li>
+									<li>
+										<a href="#tab-edt-tab2" data-toggle="tab"><span class="txt-color-blueDark"><i class="fa fa-fw fa-lg fa-users"></i> Pessoas</span></a>
+									</li>
+									<li class="pull-right">
+										<a href="javascript:history.back();">
+											<div class="sparkline txt-color-blueDark text-align-right" data-sparkline-height="18px" data-sparkline-width="90px" data-sparkline-barwidth="7">
+												<i class="fa fa-history"></i> Voltar
+											</div>
+										</a>
+									</li>
+								</ul>
+								<div id="tab-edt-ato-content" class="tab-content bg-color-white padding-10">
+									<div class="tab-pane fade in active" id="tab-edt-tab1">
+										<div class="row padding-10">
+											@using (Html.BeginForm("", "", FormMethod.Post, new { @class = "smart-form", @enctype = "multipart/form-data", @id = "frm-cad-exemplo-001", @name = "frm-cad-exemplo-001", @novalidate = "novalidate" }))
+											{
+												<fieldset>
+													@Html.AntiForgeryToken()
+													<div class="row">
+														<section class="col col-2">
+															<label for="IdPrenotacao" class="label">Prenotacao</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" id="IdPrenotacao" value="1232917">
+															</label>
+														</section>
+														<section class="col col-4">
+															<label class="label">Matricula</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" name="name" value="442522">
+															</label>
+														</section>
+														<section class="col col-2">
+															<label class="label">IdModelo</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" name="name" value="1">
+															</label>
+														</section>
+													</div>
+													<div class="row">
+														<section class="col col-6">
+															<label for="IdsPessoasSelecionadas" class="label">Ids Pessoas Sel</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" id="IdsPessoasSelecionadas" readonly>
+															</label>
+														</section>
+													</div>
+												</fieldset>
+												<fieldset>
+													<div class="row">
+														<button class="btn btn-primary btn-lg pull-right" id="btn-ato-gerar-texto">
+															<i class="fa fa-save"></i>
+															Gerar Texto
+														</button>
+													</div>
+												</fieldset>
+											}
+										</div>
+									</div>
+									<div class="tab-pane fade in" id="tab-edt-tab2">
+										<div class="row">
+											<div class="col-md-2">
+												<label>Selecionar outorgante(s)/outorgado(s)</label>
+												<div class="input-group">
+													<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+													<span class="input-group-btn">
+														<button type="button" class="btn btn-primary btn-lg" id="btn-pesq-pessoas" rel="tooltip" data-placement="top" data-original-title="Selecionar outorgantes/outorgados da prenotação.">     selecionar     </button>
+													</span>
+												</div>
+											</div>
+										</div>
+										<hr />
+										@Html.Partial("_divPessoas")
+									</div>
+								</div>
+							</div>
+							<hr />
+							<div class="row padding-10">
+								<div class="btn-toolbar" role="toolbar">
+									<div class="btn-group" role="group">
+										<button type="button" id="btn-ato-conf-texto" class="btn btn-info" rel="tooltip" data-placement="top" data-original-title="Marcar como conferido o texto do ato, habilitando-o para gerar documento no word.">
+											<i class="fa fa-check-circle"></i> Texto conferido
+										</button>
+										<button type="button" class="btn btn-info" id="btn-ato-colocar-edicao" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que gerar docx e confirmar ajuste de impressão novamente.">
+											<i class="fa fa-edit"></i> Em edição
+										</button>
+									</div>
+									<div class="btn-group" role="group">
+										<button type="button" class="btn btn-success" id="btn-ato-gerar-docx" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (docx).">
+											<i class="fa fa-file-word-o"></i> Gerar Ficha
+										</button>
+										<button type="button" class="btn btn-success" id="btn-ato-imp-minuta" rel="tooltip" data-placement="top" data-original-title="Imprimir uma prévia do documento woed para verificar o texto e ajuestes de impressão!">
+											<i class="fa fa-print"></i> Imprimir Doc
+										</button>
+										<button type="button" class="btn btn-success" id="btn-ato-conferir-docx" rel="tooltip" data-placement="top" data-original-title="Marcar como conferir o documento de word gerado (texto e alinhamento).">
+											<i class="fa fa-check-circle"></i> Ficha Conferida
+										</button>
+									</div>
+									<div class="btn-group" role="group">
+										<button type="button" class="btn btn-primary" id="btn-ato-finalizar" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
+											<i class="fa fa-gears"></i> Finalizar
+										</button>
+									</div>
+								</div>
+							</div>
+							<div class="row padding-10">
+								<textarea class="form-control" cols="160" id="ckEditorAto" name="Texto" rows="20">
+		
+								</textarea>
+
+							</div>
+
+						</div>
+						<!-- end widget content -->
+					</div>
+					<!-- end widget div -->
+
+				</div>
+				<!-- end widget -->
+			</article>
+			<!-- WIDGET END -->
+		</div>
+		<!-- end row -->
+
+	</section>
+	<!-- end widget grid -->
+
+</div>
+<!-- END MAIN CONTENT -->
+
+<!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
+<div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
+	<div class="modal-dialog  modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					×
+				</button>
+				<h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<table class="table table-striped" id="tbl-selecao-pessoas">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Tipo</th>
+								<th>DOC</th>
+								<th>Nome</th>
+								<th>Endereço</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
+					<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
+				</button>
+				<button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
+					<i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
+				</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div>
+
+@section pagespecific {
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/styles.js"></script>
+<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
+<script>
+
+	/*----------------------------------------------------------------------------*/
+	var arrayPessoas = [];
+
+	/*----------------------------------------------------------------------------*/
+	class PessoaPrenotacao {
+		constructor() {
+			var _IdPessoa = 0;
+			var _IdPrenotacao = 0;
+			var _TipoPessoa = 0;
+			var _Selecionado = false;
+			var _Nome = "";
+			var _Endereco = "";
+			var _TipoDoc = ""
+			var _NumDoc = "";
+			var _Bairro = "";
+			var _Cidade = "";
+			var _UF = "";
+			var _CEP = "";
+			var _Telefone = "";
+		}
+
+		/*- Gets -----------------------------------------------------------------*/
+		get IdPessoa() {
+			return this._IdPessoa;
+		}
+
+		get IdPrenotacao() {
+			return this._IdPrenotacao;
+		}
+
+		get Selecionado() {
+			return this._Selecionado;
+		}
+
+		get TipoPessoa() {
+			return this._TipoPessoa; /* 1- Outorgante 2-Outorgado*/
+		}
+
+		get Nome() {
+			return this._Nome;
+		}
+
+		get Endereco() {
+			return this._Endereco;
+		}
+
+		get TipoDoc() {
+			return this._TipoDoc;
+		}
+
+		get NumDoc() {
+			return this._NumDoc;
+		}
+
+		get Bairro() {
+			return this._Bairro;
+		}
+		get Cidade() {
+			return this._Cidade;
+		}
+
+		get UF() {
+			return this._UF;
+		}
+		get CEP() {
+			return this._CEP;
+		}
+
+		get Telefone() {
+			return this._Telefone;
+		}
+
+		/*- Sets -----------------------------------------------------------------*/
+		set IdPessoa(value) {
+			this._IdPessoa = value;
+		}
+
+		set IdPrenotacao(value) {
+			this._IdPrenotacao = value;
+		}
+
+		set TipoPessoa(value) {
+			this._TipoPessoa = value; /* 1- Outorgante 2-Outorgado*/
+		}
+
+		set Selecionado(value) {
+
+			this._Selecionado = value;
+		}
+
+		set Nome(value) {
+			this._Nome = value;
+		}
+
+		set Endereco(value) {
+			this._Endereco = value;
+		}
+
+		set TipoDoc(value) {
+			this._TipoDoc = value;
+		}
+
+		set NumDoc(value) {
+			this._NumDoc = value;
+		}
+
+		set Bairro(value) {
+			this._Bairro = value;
+		}
+
+		set Cidade(value) {
+			this._Cidade = value;
+		}
+
+		set UF(value) {
+			this._UF = value;
+		}
+
+		set CEP(value) {
+			this._CEP = value;
+		}
+
+		set Telefone(value) {
+			this._Telefone = value;
+		}
+	}
+
+	var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
+
+	$(document).ready(function () {
+
+		/*-- coloque aqui seu código javascript --------------------------------- */
+		CKEDITOR.replace('ckEditorAto', {
+			width: '100%',
+			height: '360px',
+			language: 'pt-br',
+			uiColor: '#1686E4',
+			contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
+			font_defaultLabel: 'Times New Roman',
+			fontSize_defaultLabel: '14',
+			//startupFocus: true,
+			toolbarGroups: [
+				{ name: 'document', groups: ['mode', 'document', 'doctools'] },
+				{ name: 'clipboard', groups: ['clipboard', 'undo'] },
+				{ name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
+				{ name: 'forms', groups: ['forms'] },
+				{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+				{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
+				{ name: 'links', groups: ['links'] },
+				{ name: 'insert', groups: ['insert'] },
+				{ name: 'styles', groups: ['styles'] },
+				{ name: 'colors', groups: ['colors'] },
+				{ name: 'tools', groups: ['tools'] },
+				{ name: 'others', groups: ['others'] },
+				{ name: 'about', groups: ['about'] }
+			],
+			removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+        });
+
+		$("#btn-ato-gerar-texto").click(function (e) {
+			e.preventDefault();
+
+			var listIdsPessoas = [];
+
+			arrayPessoas.forEach(item => {
+				if (item.Selecionado) {
+					listIdsPessoas.push(item.IdPessoa);
+				}
+			});
+
+			var idAto = $("#Id").val();
+			var idTipoAto = $("#IdTipoAto").val();
+			var idLivro = $("#ddListLivro option:selected").val();
+			var idModeloDoc = $("#IdModeloDoc").val();
+			var idPrenotacao = $("#IdPrenotacao").val();
+			var numMatricula = $("#NumMatricula").val();
+			var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
+			var dataAto = new Date($("#DataAto").val());
+
+			var dados = {
+				IdAto: idAto,
+				IdTipoAto: idTipoAto,
+				IdLivro: idLivro,
+				IdModeloDoc: idModeloDoc,
+				IdPrenotacao: idPrenotacao,
+				NumMatricula: numMatricula,
+				DataRegPrenotacao: dataRegPrenotacao,
+				DataAto: dataAto,
+				ListIdsPessoas: listIdsPessoas
+			};
+
+			GetTextoAto(dados, urlGetTextoAto)
+		});
+
+
+		/*-- pesquisar pessoas -------------------------------------------------- */
+		$("#btn-pesq-pessoas").click(function (e) {
+			e.preventDefault();
+
+			var numPrenotacao = $("#IdPrenotacao").val().trim();
+
+			if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+				$.smallBox({
+					title: "Valor inválido!",
+					content: "Número de prenotação está inválido.",
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			} else {
+				var dadosPrenotacao = {
+					IdPrenotacao: numPrenotacao
+				};
+
+				GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
+			}
+        });
+
+		/*-- btn-dlg-pessoas-ok   ----------------------------------------------- */
+		$("#btn-dlg-pessoas-ok").click(function (e) {
+			e.preventDefault();
+			var povoou = PovoarSelecionados($('#IdPrenotacao').val());
+		});
+
+	});
+
+	/** ----------------------------------------------------------------------------
+		* Busca lista pessoa por prenotação
+		* @@param {any} dadosPrenotacao
+		* @@param {any} url
+		-----------------------------------------------------------------------------*/
+	function GetListPessoasPrenotacao(dadosPrenotacao, url) {
+		$.ajax(url, {
+			method: 'POST',
+			dataType: 'json',
+			data: dadosPrenotacao,
+			beforeSend: function () {
+				ShowProgreessBar("Processando requisição...");
+			}
+		}).done(function (dataReturn) {
+			if (dataReturn.resposta) {
+
+				var dadosValidos = !(typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
+
+				if (dadosValidos) {
+					ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+				} else {
+					$.smallBox({
+						title: "Dados não encontrados!",
+						content: "Lista inválida.",
+						color: cor_smallBox_aviso,
+						icon: "fa fa-exclamation bounce animated",
+						timeout: 4000
+					});
+				}
+
+			} else {
+				$.smallBox({
+					title: "Não foi possivel processar sua requisição!",
+					content: dataReturn.msg,
+					color: cor_smallBox_erro,
+					icon: "fa fa-thumbs-down bounce animated",
+					timeout: 8000
+				});
+			}
+		}).fail(function (jq, textStatus, error) {
+			$.smallBox({
+				title: "Falha na sua requisição!",
+				content: textStatus + "[" + error + "]",
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+
+		}).always(function () {
+			HideProgressBar();
+		});
+	}
+
+	/** ----------------------------------------------------------------------------
+		* Mostra dialogo modal: ShowTblPessoasPrenotacao
+		* @@param listadados
+		-----------------------------------------------------------------------------*/
+	function ShowTblPessoasPrenotacao(listadados) {
+		arrayPessoas = [];
+		$("#tbl-selecao-pessoas").find("tr:gt(0)").remove();
+
+		$.each(listadados, function (index, item) {
+			var pessoa = new PessoaPrenotacao();
+
+			pessoa.IdPessoa = item.IdPessoa;
+			pessoa.IdPrenotacao = item.IdPrenotacao;
+			pessoa.TipoPessoa = item.TipoPessoa;
+			pessoa.Nome = item.Nome;
+			pessoa.Relacao = item.Relacao;
+			pessoa.Endereco = item.Endereco;
+			pessoa.Bairro = item.Bairro;
+			pessoa.Cidade = item.Cidade;
+			pessoa.UF = item.Uf;
+			pessoa.CEP = item.Cep;
+			pessoa.Telefone = item.Telefone;
+			pessoa.TipoDoc1 = item.TipoDoc1;
+			pessoa.Numero1 = item.Numero1;
+			pessoa.TipoDoc2 = item.TipoDoc2;
+			pessoa.Numero2 = item.Numero2;
+
+			arrayPessoas.push(pessoa)
+		});
+
+		arrayPessoas.forEach(InserirLinhasSelecaoPessoas);
+
+		$('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
+		$('#div-dlg-pessoas').modal('show');
+	}
+
+	/** ----------------------------------------------------------------------------
+		*
+		* @@param {any} pessoa
+		* @@param {any} index
+		* @@param {any} array
+	----------------------------------------------------------------------------- */
+	function InserirLinhasSelecaoPessoas(pessoa, index, array)
+	{
+		var doc = pessoa.Numero1.trim();
+
+		if (doc == "") {
+			doc = pessoa.Numero2.trim();
+		}
+
+		$("#tbl-selecao-pessoas tbody").append(
+			'<tr>' +
+			'<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" class="checkbox-selecao-pessoas" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
+			'<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
+			'<td>' + doc + '</td>' +
+			'<td>' + pessoa.Nome + '</td>' +
+			'<td>' + pessoa.Endereco + '</td>' +
+			'</tr>'
+		);
+    }
+
+	/** ----------------------------------------------------------------------------
+	 * idPrenotacao (IdPrenotacao)
+	 ---------------------------------------------------------------------------- */
+	function PovoarSelecionados(numPrenotacao)
+	{
+		var povoou = false;
+		var IdsSel = ""; 
+
+		$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
+
+		for (var i = 0, len = arrayPessoas.length; i < len; i++) {
+			if (arrayPessoas[i].Selecionado) {
+
+				var doc = arrayPessoas[i].Numero1.trim();
+
+				if (doc == "") {
+					doc = arrayPessoas[i].Numero2.trim();
+				}
+
+				IdsSel += arrayPessoas[i].IdPessoa.toString() +";";
+            
+				$("#tbl-pessoas-selecionadas tbody").append(
+					'<tr>' +
+					'<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
+					'<td>' + doc + '</td>' +
+					'<td>' + arrayPessoas[i].Nome + '</td>' +
+					'<td>' + arrayPessoas[i].Bairro + '</td>' +
+					'<td>' + arrayPessoas[i].Endereco + '</td>' +
+					'<td>' + arrayPessoas[i].Cidade + '</td>' +
+					'<td>' + arrayPessoas[i].UF + '</td>' +
+					'<td>' + arrayPessoas[i].CEP + '</td>' +
+					'<td>' + arrayPessoas[i].Telefone + '</td>' +
+					'</tr>'
+				);
+
+				povoou = true;
+			}
+		}
+
+		$("#IdsPessoasSelecionadas").val(IdsSel.substring(0, IdsSel.length -1));
+		$('#div-dlg-pessoas').modal('hide');
+
+		return povoou;
+	}
+
+	/** ----------------------------------------------------------------------------
+	 * 
+	 * @@param {any} tipoPesso
+	----------------------------------------------------------------------------- */
+	function GetDescTipoPessoaPrenotacao(tipoPessoa)
+	{
+		return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
+	}
+
+	/** ----------------------------------------------------------------------------
+	 * 
+	 * @@param {any} chkObj
+	----------------------------------------------------------------------------- */
+	function MarcarDesmarcarPessoa(chkObj) {
+		var chkTmp = chkObj;
+		var idTmp = chkObj.value;
+		var idxTmp = ArrayPessoasIndexOfById(idTmp);
+
+		if (idxTmp >= 0) {
+			if (chkObj) {
+				arrayPessoas[idxTmp].Selecionado = true;
+			} else {
+				arrayPessoas[idxTmp].Selecionado = false;
+			}
+		}
+	}
+
+	/** ----------------------------------------------------------------------------
+	 * 
+	 * @@param {any} id
+	----------------------------------------------------------------------------- */
+	function ArrayPessoasIndexOfById(id) {
+		var idx = -1;
+
+		for (var i = 0, len = arrayPessoas.length; i < len; i++) {
+			if (arrayPessoas[i].IdPessoa == id) {
+				idx = i;
+				break;
+			}
+		}
+
+		return idx;
+	}
+
+
+</script>
+}		

@@ -1,7 +1,7 @@
 ﻿<!-- _crudAto -------------------------------------------------------------- -->
 @model Cartorio11RI.ViewModels.AtoViewModel
-
 @Html.HiddenFor(model => model.TextoAnterior)
+@{ string[] statusEditaveis = { "AC1", "Ac2", "AE", "AR" }; }
 
 <div class=" float-left">
     <div class="row">
@@ -233,7 +233,12 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="form-group">
-                    @Html.TextAreaFor(model => model.Texto, new { @id = "ckEditorAto", @name = "ckEditorAto", @class = "form-control", @cols = 160, @rows = 20 })
+                    @if (statusEditaveis.Contains(Model.StatusAto))
+                    {
+                        @Html.TextAreaFor(model => model.Texto, new { @id = "ckEditorAto", @name = "ckEditorAto", @class = "form-control", @cols = 160, @rows = 20 })
+                    } else {
+                        @Html.TextAreaFor(model => model.Texto, new { @id = "ckEditorAto", @name = "ckEditorAto", @class = "form-control", @cols = 160, @rows = 20, @disabled = "disabled" })
+                    }
                 </div>
             </div>
             <div class="col-md-4">
