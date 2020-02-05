@@ -677,7 +677,7 @@ function InserirLinhasSelecaoPessoas(pessoa, index, array)
 
     $("#tbl-selecao-pessoas tbody").append(
         '<tr>' +
-        '<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" class="checkbox-selecao-pessoas" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
+        '<td>' + '<input type="checkbox" id="chk-selecao-pessoa_' + pessoa.IdPessoa + '" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
         '<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
         '<td>' + doc + '</td>' +
         '<td>' + pessoa.Nome + '</td>' +

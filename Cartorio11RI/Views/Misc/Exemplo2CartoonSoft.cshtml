@@ -7,6 +7,12 @@
 @section styles_especific {
 	<style>
 		/*-- coloque aqui seu código css ------------------------------------ */
+		.btn span.glyphicon {    			
+			opacity: 0;				
+		}
+		.btn.active span.glyphicon {				
+			opacity: 1;				
+		}
 	</style>
 }
 
@@ -74,7 +80,17 @@
 											{
 												<fieldset>
 													@Html.AntiForgeryToken()
+													@Html.Hidden("Id", null)
+													@Html.Hidden("IdCtaAcessoSist", 1)
+													@Html.Hidden("IpLocal")
 													<div class="row">
+														<section class="col col-2">
+															<label for="IdPrenotacao" class="label">Livro</label>
+															<label class="input">
+																<i class="icon-prepend fa fa-user"></i>
+																<input type="text" id="IdLivro" value="1">
+															</label>
+														</section>
 														<section class="col col-2">
 															<label for="IdPrenotacao" class="label">Prenotacao</label>
 															<label class="input">
@@ -82,18 +98,18 @@
 																<input type="text" id="IdPrenotacao" value="1232917">
 															</label>
 														</section>
-														<section class="col col-4">
+														<section class="col col-2">
 															<label class="label">Matricula</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-user"></i>
-																<input type="text" name="name" value="442522">
+																<input type="text" id="NumMatricula" value="442522">
 															</label>
 														</section>
 														<section class="col col-2">
 															<label class="label">IdModelo</label>
 															<label class="input">
 																<i class="icon-prepend fa fa-user"></i>
-																<input type="text" name="name" value="1">
+																<input type="text" id="IdModeloDoc" value="1">
 															</label>
 														</section>
 													</div>
@@ -204,7 +220,7 @@
 					<table class="table table-striped" id="tbl-selecao-pessoas">
 						<thead>
 							<tr>
-								<th></th>
+								<th><input type="checkbox" id="chk-selecao-pessoas-todos" onclick="PessoasSelTodos(this);" data-toggle="tooltip" data-placement="top" title="Selecionar todos."></th>
 								<th>Tipo</th>
 								<th>DOC</th>
 								<th>Nome</th>
@@ -395,7 +411,7 @@
 				{ name: 'about', groups: ['about'] }
 			],
 			removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
-        });
+		});
 
 		$("#btn-ato-gerar-texto").click(function (e) {
 			e.preventDefault();
@@ -409,17 +425,15 @@
 			});
 
 			var idAto = $("#Id").val();
-			var idTipoAto = $("#IdTipoAto").val();
-			var idLivro = $("#ddListLivro option:selected").val();
+			var idLivro = $("#IdLivro").val();
 			var idModeloDoc = $("#IdModeloDoc").val();
 			var idPrenotacao = $("#IdPrenotacao").val();
 			var numMatricula = $("#NumMatricula").val();
-			var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
-			var dataAto = new Date($("#DataAto").val());
+			var dataRegPrenotacao = new Date();
+			var dataAto = new Date();
 
 			var dados = {
 				IdAto: idAto,
-				IdTipoAto: idTipoAto,
 				IdLivro: idLivro,
 				IdModeloDoc: idModeloDoc,
 				IdPrenotacao: idPrenotacao,
@@ -431,7 +445,6 @@
 
 			GetTextoAto(dados, urlGetTextoAto)
 		});
-
 
 		/*-- pesquisar pessoas -------------------------------------------------- */
 		$("#btn-pesq-pessoas").click(function (e) {
@@ -454,7 +467,7 @@
 
 				GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
 			}
-        });
+		});
 
 		/*-- btn-dlg-pessoas-ok   ----------------------------------------------- */
 		$("#btn-dlg-pessoas-ok").click(function (e) {
@@ -569,14 +582,14 @@
 
 		$("#tbl-selecao-pessoas tbody").append(
 			'<tr>' +
-			'<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" class="checkbox-selecao-pessoas" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
+			'<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
 			'<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
 			'<td>' + doc + '</td>' +
 			'<td>' + pessoa.Nome + '</td>' +
 			'<td>' + pessoa.Endereco + '</td>' +
 			'</tr>'
 		);
-    }
+	}
 
 	/** ----------------------------------------------------------------------------
 	 * idPrenotacao (IdPrenotacao)
@@ -587,6 +600,7 @@
 		var IdsSel = ""; 
 
 		$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
+		$("#chk-selecao-pessoas-todos").prop('checked', false);
 
 		for (var i = 0, len = arrayPessoas.length; i < len; i++) {
 			if (arrayPessoas[i].Selecionado) {
@@ -598,7 +612,7 @@
 				}
 
 				IdsSel += arrayPessoas[i].IdPessoa.toString() +";";
-            
+			
 				$("#tbl-pessoas-selecionadas tbody").append(
 					'<tr>' +
 					'<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
@@ -667,6 +681,21 @@
 		return idx;
 	}
 
+	/** ---------------------------------------------------------------------------
+	 * 
+	 * @@param chkObj
+	 -------------------------------------------------------------------------   */
+	function PessoasSelTodos(chkObj)
+	{
+		if (chkObj)
+		{
+			$("#tbl-selecao-pessoas tbody").find('input[type=checkbox]').each(function () {
+				var chk = chkObj.checked;
+				this.checked = chk;
+				MarcarDesmarcarPessoa(this);
+			});
+		}
+	}
 
 </script>
 }		

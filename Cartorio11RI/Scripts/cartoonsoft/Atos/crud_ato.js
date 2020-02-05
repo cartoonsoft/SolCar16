@@ -280,7 +280,6 @@ $(document).ready(function () {
 		});
 
 		var idAto = $("#Id").val();
-		var idTipoAto = $("#IdTipoAto").val();
 		var idLivro = $("#ddListLivro option:selected").val();
 		var idModeloDoc = $("#IdModeloDoc").val();
 		var idPrenotacao = $("#IdPrenotacao").val();
@@ -290,7 +289,6 @@ $(document).ready(function () {
 
 		var dados = {
 			IdAto: idAto,
-			IdTipoAto: idTipoAto,
 			IdLivro: idLivro,
 			IdModeloDoc: idModeloDoc,
 			IdPrenotacao: idPrenotacao,
