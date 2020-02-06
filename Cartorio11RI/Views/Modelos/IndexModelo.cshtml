@@ -2,8 +2,9 @@
 
 @{
 	ViewBag.Title = ViewContext.RouteData.Values["controller"];
-	ViewBag.SubTitle = "Index";
+	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
 }
+
 
 @section styles_especific {
 
@@ -17,23 +18,23 @@
 			width: 100%;
 		}
 
-		#tbl-modelosdocx tr td:nth-child(1) {
-			width: 5%;
-		}
+			#tbl-modelosdocx tr td:nth-child(1) {
+				width: 5%;
+			}
 
-		#tbl-modelosdocx tr td:nth-child(2) {
-			width: 50%;
-		}
+			#tbl-modelosdocx tr td:nth-child(2) {
+				width: 50%;
+			}
 
-		#tbl-modelosdocx tr td:nth-child(3) {
-			width: 20%;
-		}
+			#tbl-modelosdocx tr td:nth-child(3) {
+				width: 20%;
+			}
 
-		#tbl-modelosdocx tr td:nth-child(4) {
-			text-align: right;
-			align-content: flex-end;
-			margin-left: 1em;
-		}
+			#tbl-modelosdocx tr td:nth-child(4) {
+				text-align: right;
+				align-content: flex-end;
+				margin-left: 1em;
+			}
 
 		/**********************************************************************/
 		.desaparecer {
@@ -52,13 +53,10 @@
 	<div class="row">
 		<div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
 			<h1 class="page-title txt-color-blueDark">
-
-				<!-- PAGE HEADER -->
-				<i class="fa-fw fa fa-user"></i>
+				<i class="fa-fw fa fa-file-word-o"></i>
 				@ViewBag.Title
 				<span>
-					>
-					@ViewBag.SubTitle
+					<i class="fa fa-chevron-right"></i> @ViewBag.SubTitle
 				</span>
 			</h1>
 		</div>
@@ -178,7 +176,7 @@
 					thousands: "."
 				},
 				"processing": true,
-				//"serverSide": true, 
+				//"serverSide": true,
 				"filter": false,
 				"autoWidth": true
 			});

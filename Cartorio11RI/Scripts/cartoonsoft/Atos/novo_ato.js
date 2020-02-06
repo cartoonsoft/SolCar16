@@ -341,6 +341,22 @@ $(document).ready(function () {
 });
 
 /** ----------------------------------------------------------------------------
+ * 
+------------------------------------------------------------------------------*/
+function DesabilitarProximo() {
+    $('#btn-proximo').attr('disabled', 'disabled');
+    $('#btn-proximo').removeClass('active');
+}
+
+/** ----------------------------------------------------------------------------
+ *
+------------------------------------------------------------------------------*/
+function HabilitarProximo() {
+    $('#btn-proximo').removeAttr('disabled');
+    $('#btn-proximo').addClass('active');
+}
+
+/** ----------------------------------------------------------------------------
  * Pesquisa por prenotação e busca dados do imovel
  * @@param {any} numPrenotacao
  * @@param {any} selObj select que será povoado se retornar matriculas de imoveis
@@ -729,18 +745,6 @@ function PovoarSelecionados(numPrenotacao)
     $('#div-dlg-pessoas').modal('hide');
 
     return povoou;
-}
-
-function DesabilitarProximo()
-{
-    $('#btn-proximo').attr('disabled', 'disabled');
-    $('#btn-proximo').removeClass('active');
-}
-
-function HabilitarProximo()
-{
-    $('#btn-proximo').removeAttr('disabled');
-    $('#btn-proximo').addClass('active');
 }
 
 /** ----------------------------------------------------------------------------
