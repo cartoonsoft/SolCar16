@@ -12,16 +12,16 @@
 		<div class="col-md-4">
 			<div class="form-group">
 				@Html.LabelFor(model => model.DescricaoTipoAto)
-				<select id="sel-tipo-ato" class="form-control selectpicker show-tick">
+				<select id="sel-tipo-ato-modelo" class="form-control selectpicker">
 					@foreach (var item in ViewBag.listaTipoAto)
 					{
 						<optgroup label="@item.Descricao">
 							<option hidden>Selecione um tipo...</option>
 							@if (item.ListaTipoAtosFihos.Count > 0)
-                            {
-                                foreach (var item2 in item.ListaTipoAtosFihos)
-                                {
-									<option onclick="SelecionarTipoAto(this, @item2.Id);" @(item2.Id ==  Model.IdTipoAto ? "selected": "")>@item2.Descricao</option>
+							{
+								foreach (var item2 in item.ListaTipoAtosFihos)
+								{
+									<option value="@item2.Id" @(item2.Id ==  Model.IdTipoAto ? "selected": "")>@item2.Descricao</option>
 								}
 							}
 						</optgroup>
@@ -39,9 +39,9 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
-				@Html.LabelFor(model => model.DescricaoTipoAto)
+				<label>Campo</label>
 				<div class="input-group">
-					<select class="form-control">
+					<select id="sel-campo-tipo-ato-modelo" class="form-control">
 					</select>
 					<div class="input-group-btn">
 						<button class="btn btn-info" type="button">

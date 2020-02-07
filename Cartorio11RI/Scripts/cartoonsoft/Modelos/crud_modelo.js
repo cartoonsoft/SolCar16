@@ -6,13 +6,45 @@ Cartoonsoft: Modelos.*
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
+var urlGetListCamposTipoAto = '/Modelos/GetListCamposTipoAto';
+
 var form_para_validar = null;
 
 $(document).ready(function () {
 
-	$("#sel-tipo-ato").selectpicker({
+	$("#sel-tipo-ato-modelo").selectpicker({
 		liveSearch: true,
 		language: 'pt-br'
+	});
+
+	form_para_validar = $("#frm-cadastro-modelo-docx");
+
+	/*-- validate ----------------------------------------------------------- */
+	$("#frm-cadastro-modelo-docx").validate({
+		// Rules for form validation
+		rules: {
+			DescricaoTipoAto: {
+				required: true
+			},
+			DescricaoModelo: {
+				required: true
+			}
+		},
+
+		// Messages for form validation
+		messages: {
+			DescricaoTipoAto: {
+				required: "Selecione tipo de ato"
+			},
+			DescricaoModelo: {
+				required: "Digite um nome para o modelo"
+			}
+		},
+
+		// Do not change code below
+		errorPlacement: function (error, element) {
+			error.insertAfter(element.parent());
+		}
 	});
 
 	/*-- coloque aqui seu código javascript --------------------------------- */
@@ -43,34 +75,6 @@ $(document).ready(function () {
 		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
-	/*-- validate ----------------------------------------------------------- */
-	var form_para_validar = $("#frm-cadastro-modelo-docx").validate({
-		// Rules for form validation
-		rules: {
-			DescricaoTipoAto: {
-				required: true
-			},
-			DescricaoModelo: {
-				required: true
-			}
-		},
-
-		// Messages for form validation
-		messages: {
-			DescricaoTipoAto: {
-				required: "Selecione tipo de ato"
-			},
-			DescricaoModelo: {
-				required: "Digite um nome para o modelo"
-			}
-		},
-
-		// Do not change code below
-		errorPlacement: function (error, element) {
-			error.insertAfter(element.parent());
-		}
-	});
-
 	$("#frm-cadastro-modelo-docx").submit(function (e) {
 		e.preventDefault();
 		var frm_valid = form_para_validar.valid();
@@ -78,34 +82,55 @@ $(document).ready(function () {
 		return frm_valid;
 	});
 
-	var ControllerModelValid = ("@ViewBag.ControllerModelValid" == "true");
-	var success = ("@ViewBag.success" == "true");
-	var msg = "@ViewBag.msg";
-	var divMsg = $("#articleMesssagensCrud");
-
-	if (ControllerModelValid) {
-		if (success) {
-			ShowMessageCrud(divMsg, "Modelo salvo com sucesso", msg, true);
-		} else {
-			ShowMessageCrud(divMsg, "Não foi possível salvar", msg, false);
-		}
-	}
+	$('#sel-tipo-ato-modelo').change(function (e) {
+		//alert(e.target.value);
+		var idTipoAto = e.target.value;
+		$("#IdTipoAto").val(idTipoAto);
+		GetListCamposTipoAto(urlGetListCamposTipoAto, idTipoAto);
+	});
 
 });
 
-/**
- * /
- * @@param btnObj
- * @@param idTipoAto
- */
-function SelecionarTipoAto(btnObj, idTipoAto)
+/** ----------------------------------------------------------------------------
+ * 
+ * 
+ ---------------------------------------------------------------------------- */
+function GetListCamposTipoAto(url, IdTipoAto)
 {
-	var btn = btnObj;
-	var idTmp = idTipoAto;
+	var dados = {
+		IdTipoAto: IdTipoAto
+	};
 
-	if (typeof btn !== 'undefined' || btn !== null) {
-		var txtTipoAto = btn.innerText.trim();
-		$("#IdTipoAto").val(idTipoAto);
-	}
+	$("#sel-campo-tipo-ato-modelo").empty();
+
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dados,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+			if (dataReturn.ListaCamposTipoAto) {
+				$.each(dataReturn.ListaCamposTipoAto, function (index, item) {
+					$("#sel-campo-tipo-ato-modelo").append('<option value="' + item.Id + '" >' + item.NomeCampo + '</option>');
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+
+	}).always(function () {
+		HideProgressBar();
+	});
 }
-

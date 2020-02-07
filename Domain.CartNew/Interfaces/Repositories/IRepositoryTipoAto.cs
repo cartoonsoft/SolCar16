@@ -12,5 +12,9 @@ namespace Domain.CartNew.Interfaces.Repositories
     public interface IRepositoryTipoAto : IRepositoryBaseReadWrite<TipoAto>
     {
         IEnumerable<TipoAtoList> GetListTipoAtos(long? idTipoAtoPai);
+
+        IEnumerable<string> GetListEntidadesTipoAto(long? IdTipoAto, long IdCtaAcessoSist);
+
+        IEnumerable<CampoTipoAto> GetListCamposTipoAto(long? IdTipoAto, long IdCtaAcessoSist, string entidade = null);
     }
 }

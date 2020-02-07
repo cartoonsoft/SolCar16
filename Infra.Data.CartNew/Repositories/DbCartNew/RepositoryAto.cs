@@ -209,7 +209,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return dataTmp;
         }
 
-
         public IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
             List<DadosImovel> lista = new List<DadosImovel>();

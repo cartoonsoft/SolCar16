@@ -326,6 +326,34 @@ namespace Cartorio11RI.Controllers
             }
         }
 
+        [HttpPost]
+        public JsonResult GetListCamposTipoAto(long? IdTipoAto, string entidade = null)
+        {
+            List<CampoTipoAto> lista = new List<CampoTipoAto>();
+            bool resp = false;
+            string message = string.Empty;
+            
+            try
+            {
+                lista = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListCamposTipoAto(IdTipoAto, this.IdCtaAcessoSist, entidade).ToList();
+                resp = true;
+            }
+            catch (Exception ex)
+            {
+                resp = false;
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                ListaCamposTipoAto = lista
+            };
+
+            return Json(resultado);
+        }
+
     }
 
 }
