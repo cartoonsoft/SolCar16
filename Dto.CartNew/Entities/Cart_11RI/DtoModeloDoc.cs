@@ -51,7 +51,6 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Required]
         public bool Ativo { get; set; }
 
-
         public string IpLocal { get; set; }
     }
 }

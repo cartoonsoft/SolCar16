@@ -27,9 +27,6 @@ namespace Domain.CartNew.Entities
         [Column("IP")]
         public string IP { get; set; }
 
-        [Column("TP_LOG_ARQ_MOD_DOCX")]
-        public TipoLogModeloDoc TipoLogModeloDoc { get; set; }
-
         [Column("DTH_LOG")]
         public DateTime DataHora { get; set; }
 

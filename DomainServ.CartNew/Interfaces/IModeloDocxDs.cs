@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using DomainServ.CartNew.Interfaces.Base;
 using Domain.CartNew.Entities;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
+using Dto.CartNew.Entities.Cart_11RI;
 
 namespace DomainServ.CartNew.Interfaces
 {
     public interface IModeloDocxDs : IDomainServiceCartNew<ModeloDoc>
     {
-        long? NovoModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario);
+        long? NovoModelo(DtoModeloDoc dtoModeloDoc);
 
-        long? EditarModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario);
+        void EditarModelo(DtoModeloDoc dtoModeloDoc);
 
         bool Desativar(long Id, string IdUsuario);
 

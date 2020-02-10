@@ -10,77 +10,111 @@ using Domain.CartNew.Interfaces.Repositories;
 using Domain.CartNew.Interfaces.UnitOfWork;
 using DomainServ.CartNew.Base;
 using DomainServ.CartNew.Interfaces;
+using Dto.CartNew.Entities.Cart_11RI;
 using Dto.CartNew.Entities.Cart_11RI.Diversos;
 
 namespace DomainServ.CartNew.Services
 {
     public class ModeloDocxDs: DomainServiceCartNew<ModeloDoc>, IModeloDocxDs
     {
-        private readonly IRepositoryModeloDoc _repositoryModeloDocx;
-        private readonly IRepositoryLogModeloDoc _repositoryLogModeloDocx;
-
         public ModeloDocxDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
-            _repositoryModeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx;
-            _repositoryLogModeloDocx = this.UfwCartNew.Repositories.RepositoryLogModeloDocx;
+            //
         }
 
-        public long? NovoModelo(ModeloDoc modeloDocx, LogModeloDoc logModeloDocx, string IdUsuario)
+        public long? NovoModelo(DtoModeloDoc dtoModeloDoc)
         {
             long? NovoId = null; 
 
-            if (modeloDocx != null)
+            if (dtoModeloDoc != null)
             {
                 UfwCartNew.BeginTransaction();
                 NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
 
-                modeloDocx.Id = NovoId;
+                // Criando objeto do arquivo 
+                ModeloDoc modeloDoc = new ModeloDoc
+                {
+                    Id = NovoId,
+                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
+                    IdTipoAto = dtoModeloDoc.IdTipoAto,
+                    IdUsuarioCadastro = dtoModeloDoc.IdUsuarioCadastro,
+                    DataCadastro = dtoModeloDoc.DataCadastro,
+                    Descricao = dtoModeloDoc.Descricao,
+                    Texto = dtoModeloDoc.Texto,
+                    Orientacao = dtoModeloDoc.Orientacao,
+                    Ativo = dtoModeloDoc.Ativo
+                };
 
-                this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDocx);
+                // Registro de Log                
+                LogModeloDoc logModeloDocx = new LogModeloDoc()
+                {
+                    Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX"),
+                    IdModeloDoc = modeloDoc.Id ?? 0,
+                    IdUsuario = dtoModeloDoc.IdUsuarioCadastro,
+                    DataHora = DateTime.Now,
+                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
+                    IP = dtoModeloDoc.IpLocal
+                };
+
+                this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDoc);
+                this.UfwCartNew.Repositories.RepositoryLogModeloDocx.Add(logModeloDocx);
+
                 UfwCartNew.SaveChanges();
-
-                if (logModeloDocx != null) {
-                    logModeloDocx.Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-                    logModeloDocx.IdModeloDoc = modeloDocx.Id ?? 0;
-
-                    _repositoryLogModeloDocx.Add(logModeloDocx);
-                    UfwCartNew.SaveChanges();
-                }
                 UfwCartNew.CommitTransaction();
             }
 
             return NovoId;
         }
 
-        public long? EditarModelo(ModeloDoc arquivoModeloDocx, LogModeloDoc logArquivoModeloDocx, string IdUsuario)
+        public void EditarModelo(DtoModeloDoc dtoModeloDoc)
         {
-            long? NovoId = null;
-
-            if (logArquivoModeloDocx != null)
+            if (dtoModeloDoc != null)
             {
                 UfwCartNew.BeginTransaction();
 
-                logArquivoModeloDocx.Id = _repositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX");
-                _repositoryLogModeloDocx.Add(logArquivoModeloDocx);
-                UfwCartNew.SaveChanges();
+                ModeloDoc modeloDoc = new ModeloDoc
+                {
+                    Id = dtoModeloDoc.Id,
+                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
+                    Ativo = dtoModeloDoc.Ativo,
+                    IdTipoAto = dtoModeloDoc.IdTipoAto,
+                    IdUsuarioAlteracao = dtoModeloDoc.IdUsuarioAlteracao,
+                    DataAlteracao = dtoModeloDoc.DataAlteracao,
+                    Descricao = dtoModeloDoc.Descricao,
+                    Texto = dtoModeloDoc.Texto,
+                    Orientacao = dtoModeloDoc.Orientacao
+                };
 
+                // Registro de Log                
+                LogModeloDoc logModeloDocx = new LogModeloDoc()
+                {
+                    Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX"),
+                    IdModeloDoc = dtoModeloDoc.Id ?? 0,
+                    IdUsuario = dtoModeloDoc.IdUsuarioAlteracao,
+                    DataHora = dtoModeloDoc.DataAlteracao ?? DateTime.Now,
+                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
+                    IP = dtoModeloDoc.IpLocal
+                };
+
+                this.UfwCartNew.Repositories.RepositoryModeloDocx.Update(modeloDoc);
+                this.UfwCartNew.Repositories.RepositoryLogModeloDocx.Add(logModeloDocx);
+
+                UfwCartNew.SaveChanges();
                 UfwCartNew.CommitTransaction();
             }
-
-            return NovoId;
         }
 
         public bool Desativar(long Id, string IdUsuario)
         {
             bool resultado = false;
 
-            ModeloDoc modeloDocx = _repositoryModeloDocx.GetById(Id);
+            ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
 
             if (modeloDocx != null)
             {
                 modeloDocx.Ativo = false;
                 modeloDocx.IdUsuarioAlteracao = IdUsuario;
-                _repositoryModeloDocx.Update(modeloDocx);
+                this.UfwCartNew.Repositories.RepositoryModeloDocx.Update(modeloDocx);
                 UfwCartNew.SaveChanges();
                 resultado = true;
             }
@@ -92,7 +126,7 @@ namespace DomainServ.CartNew.Services
         {
             IEnumerable<DtoModeloDocxList> listaModeloDocxList = new List<DtoModeloDocxList>();
 
-            List<ModeloDocxList> lista = _repositoryModeloDocx.GetListModelosDocx(IdTipoAto).ToList();
+            List<ModeloDocxList> lista = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetListModelosDocx(IdTipoAto).ToList();
             listaModeloDocxList = Mapper.Map<List<ModeloDocxList>, List<DtoModeloDocxList>>(lista);
 
             return listaModeloDocxList;

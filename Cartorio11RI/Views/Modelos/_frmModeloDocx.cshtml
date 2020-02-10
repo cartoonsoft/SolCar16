@@ -7,6 +7,7 @@
 @Html.HiddenFor(model => model.IdTipoAto)
 @Html.HiddenFor(model => model.IpLocal)
 
+
 <fieldset>
 	<div class="row">
 		<div class="col-md-4">
@@ -39,10 +40,9 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
-				<label>Campo</label>
+				@Html.LabelFor(model => model.IdCampoTipoAto)
 				<div class="input-group">
-					<select id="sel-campo-tipo-ato-modelo" class="form-control">
-					</select>
+					@Html.DropDownListFor(model => model.IdCampoTipoAto, @ViewBag.listaCampoTipoAto as SelectList, new { @id = "sel-campo-tipo-ato-modelo", @class = "form-control" })
 					<div class="input-group-btn">
 						<button class="btn btn-info" type="button">
 							Inserir
@@ -60,10 +60,10 @@
 	</div>
 	<div class="row">
 		<div class="col-md-9">
-			@Html.TextAreaFor(model => model.Texto, new { @id = "ckeditor-modelo-ato", @name = "ckeditor-modelo-ato", @class = "form-control", @placeholder="Texto do modelo", @cols = 160, @rows = 20 })
+			@Html.TextAreaFor(model => model.Texto, new { @id = "ckeditor-modelo-ato", @class = "form-control", @placeholder="Texto do modelo", @cols = 160, @rows = 20 })
 		</div>
 		<div class="col-md-3">
-			@Html.TextAreaFor(model => model.Texto, new { @id = "tx-area-orientacao-modelo-ato", @name = "tx-area-orientacao-modelo-ato", @class = "form-control", @placeholder = "Orientações sobre o modelo", @rows = 12 })
+			@Html.TextAreaFor(model => model.Orientacao, new { @class = "form-control", @placeholder = "Orientações sobre o modelo", @rows = 12 })
 		</div>
 	</div>
 </fieldset>

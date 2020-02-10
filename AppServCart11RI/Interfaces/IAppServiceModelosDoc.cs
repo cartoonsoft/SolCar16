@@ -18,9 +18,9 @@ namespace AppServices.Cartorio.Interfaces
         /// <param name="dtoArq"></param>
         /// <param name="IdUsuario"></param>
         /// <returns></returns>
-        long? NovoModelo(DtoModeloDoc dtoArq, string IdUsuario);
+        long? NovoModelo(DtoModeloDoc dtoArq);
 
-        void EditarModelo(DtoModeloDoc dtoArq, string IdUsuario);
+        void EditarModelo(DtoModeloDoc dtoArq);
 
         bool Desativar(long Id, string IdUsuario);
 

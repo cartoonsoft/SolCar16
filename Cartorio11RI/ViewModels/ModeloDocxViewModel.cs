@@ -23,6 +23,9 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Tipo de ato")]
         public long IdTipoAto { get; set; }
 
+        [Display(Name = "Campo")]
+        public long IdCampoTipoAto { get; set; }
+
         public string IdUsuarioCadastro { get; set; }
 
         public string IdUsuarioAlteracao { get; set; }

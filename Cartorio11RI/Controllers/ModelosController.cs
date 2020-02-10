@@ -72,10 +72,9 @@ namespace Cartorio11RI.Controllers
             try
             {
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
-                ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
-
+                ViewBag.listaTipoAto = listaTipoAto; 
+                ViewBag.listaCampoTipoAto = new SelectList(new List<CampoTipoAto>(), "Id", "NomeCampo");
                 model.IdCtaAcessoSist = this.IdCtaAcessoSist;
-                model.IdUsuarioCadastro = this.UsuarioAtual.Id;
             }
             catch (Exception ex)
             {
@@ -90,8 +89,7 @@ namespace Cartorio11RI.Controllers
         // POST: Modelo/Novo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NovoModelo([Bind(Include = "Id,IdCtaAcessoSist,IdTipoAto,IdUsuarioCadastro,IdUsuarioAlteracao,DataCadastro,DataAlteracao,DescricaoModelo," +
-            "DescricaoTipoAto,Files,CaminhoEArquivo,IpLocal,Ativo")] ModeloDocxViewModel modeloDocxViewModel)
+        public ActionResult NovoModelo(ModeloDocxViewModel modeloDocxViewModel)
         {
             bool ControllerModelValid = ModelState.IsValid;
             bool success = false;
@@ -100,8 +98,6 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                //throw new Exception("Deu errro :(");
-
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
@@ -116,13 +112,16 @@ namespace Cartorio11RI.Controllers
                             {
                                 IdCtaAcessoSist = this.IdCtaAcessoSist,
                                 IdTipoAto = modeloDocxViewModel.IdTipoAto,
+                                IdUsuarioCadastro = this.UsuarioAtual.Id,
+                                DataCadastro = DateTime.Now,
                                 Descricao = modeloDocxViewModel.Descricao,
+                                Texto = modeloDocxViewModel.Texto,
+                                Orientacao = modeloDocxViewModel.Orientacao,
                                 UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                                 IpLocal = modeloDocxViewModel.IpLocal,
                                 Ativo = true
-                            },
-                            this.UsuarioAtual.Id
-                        );
+                            }
+                        ); 
                     }
 
                     //ModelState.AddModelError(Guid.NewGuid().ToString(), "Erro generico");
@@ -132,10 +131,6 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                //System.Diagnostics.Debug.WriteLine("ArquivosController Exception: " + ex.Message);
-                //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                //return RedirectToAction("InternalServerError", "Adm", new { excecao = ex });
-
                 msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
                 ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
                 TempData["error"] = ex;
@@ -143,13 +138,6 @@ namespace Cartorio11RI.Controllers
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
 
-            //var resultado = new
-            //{
-            //    success = success,
-            //    mensagem = msg
-            //};
-
-            //return Json(resultado, JsonRequestBehavior.AllowGet);
             ViewBag.success = success ? "true" : "false";
             ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
             ViewBag.msg = msg;
@@ -165,8 +153,6 @@ namespace Cartorio11RI.Controllers
                 try
                 {
                     ///povoar tree view
-                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
-                    ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
                     ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
                     ModeloDocxViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocxViewModel>(modeloDocx);
 
@@ -175,13 +161,15 @@ namespace Cartorio11RI.Controllers
                         return new HttpStatusCodeResult(HttpStatusCode.NotFound);
                     }
 
+                    List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
+                    ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
+                    List<CampoTipoAto> listaCampoTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListCamposTipoAto(modeloDocxViewModel.IdTipoAto, this.IdCtaAcessoSist).ToList();
+                    ViewBag.listaCampoTipoAto = new SelectList(listaCampoTipoAto, "Id", "NomeCampo");
+
                     return View(modeloDocxViewModel);
                 }
                 catch (Exception ex)
                 {
-                    //System.Diagnostics.Debug.WriteLine(ex.Message);
-                    //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                    //ModelState.AddModelError(Guid.NewGuid().ToString(), msg);
                     string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
                     TempData["excecaoGerada"] = ex;
                     return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
@@ -210,11 +198,15 @@ namespace Cartorio11RI.Controllers
                             Id = modeloDocxViewModel.Id,
                             IdCtaAcessoSist = this.IdCtaAcessoSist,
                             IdTipoAto = modeloDocxViewModel.IdTipoAto,
+                            IdUsuarioAlteracao = this.UsuarioAtual.Id,
+                            DataAlteracao = DateTime.Now,
                             Descricao = modeloDocxViewModel.Descricao,
+                            Texto = modeloDocxViewModel.Texto,
+                            Orientacao = modeloDocxViewModel.Orientacao,
                             IpLocal = modeloDocxViewModel.IpLocal,
                             UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                             Ativo = modeloDocxViewModel.Ativo
-                        }, UsuarioAtual.Id);
+                        });
                     }
 
                     //UploadArquivo(arquivoModeloDocxViewModel);
@@ -237,22 +229,6 @@ namespace Cartorio11RI.Controllers
         public PartialViewResult PartialFormModeloDoc(ModeloDocxViewModel modeloDocxViewModel)
         {
             return PartialView("_frmModeloDocx", modeloDocxViewModel);
-        }
-
-        private void CadastrarLogDownload(string IP, long Id)
-        {
-            var arquivolog = new LogModeloDoc()
-            {
-                IdModeloDoc = Id,
-                IdUsuario = UsuarioAtual.Id,
-                DataHora = DateTime.Now,
-                IP = IP,
-                TipoLogModeloDoc = TipoLogModeloDoc.Download
-            };
-
-            //todo: Ronaldo criar rotina de cadastro 
-
-            return;
         }
 
         //[ValidateAntiForgeryToken]
@@ -295,7 +271,6 @@ namespace Cartorio11RI.Controllers
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
 
                 //Cadastro de LOG
-                CadastrarLogDownload(ipAddress, dadosPost.Id);
                 return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }
             catch (Exception)

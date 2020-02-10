@@ -20,35 +20,13 @@ namespace AppServCart11RI.AppServices
             
         }
 
-        public long? NovoModelo(DtoModeloDoc dtoModeloDoc, string IdUsuario)
+        public long? NovoModelo(DtoModeloDoc dtoModeloDoc)
         {
             long? NovoId = null;
 
             try
             {
-                // Criando objeto do arquivo 
-                ModeloDoc arquivoModelo = new ModeloDoc
-                {
-                    Id = dtoModeloDoc.Id,
-                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
-                    IdTipoAto = dtoModeloDoc.IdTipoAto,
-                    IdUsuarioCadastro = IdUsuario,
-                    Descricao = dtoModeloDoc.Descricao,
-                    Ativo = dtoModeloDoc.Ativo,
-                };
-
-                // Registro de Log                
-                LogModeloDoc logModeloDocx = new LogModeloDoc()
-                {
-                    IdModeloDoc = arquivoModelo.Id ?? 0,
-                    IdUsuario = IdUsuario,
-                    DataHora = DateTime.Now,
-                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
-                    IP = dtoModeloDoc.IpLocal,
-                    TipoLogModeloDoc = TipoLogModeloDoc.Upload
-                };
-
-                NovoId = this.DsFactoryCartNew.ModeloDocxDs.NovoModelo(arquivoModelo, logModeloDocx, IdUsuario);
+                NovoId = this.DsFactoryCartNew.ModeloDocxDs.NovoModelo(dtoModeloDoc);
             }
             catch (Exception ex)
             {
@@ -58,41 +36,15 @@ namespace AppServCart11RI.AppServices
             return NovoId;
         }
 
-        public void EditarModelo(DtoModeloDoc dtoModeloDoc, string IdUsuario)
+        public void EditarModelo(DtoModeloDoc dtoModeloDoc)
         {
             try
             {
-                ModeloDoc modeloDoc = new ModeloDoc
-                {
-                    Id = dtoModeloDoc.Id,
-                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
-                    Ativo = dtoModeloDoc.Ativo,
-                    IdTipoAto = dtoModeloDoc.IdTipoAto,
-                    IdUsuarioAlteracao = IdUsuario,
-                    Descricao = dtoModeloDoc.Descricao
-                };
-
-                //HttpPostedFileBase arquivo = dtoArq.Files[0];
-
-                // Salva o arquivo fisicamente
-                //arquivo.SaveAs(dtoArq.CaminhoEArquivo);
-
-                // Registro de Log                
-                LogModeloDoc logModeloDocx = new LogModeloDoc()
-                {
-                    IdModeloDoc = dtoModeloDoc.Id??0,
-                    IdUsuario = IdUsuario,
-                    DataHora = DateTime.Now,
-                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
-                    IP = dtoModeloDoc.IpLocal,
-                    TipoLogModeloDoc = TipoLogModeloDoc.Upload
-                };
-
-                //logArquivoModeloDocx.Id = this.DsFactoryCartNew.ArquivoModeloDocxDs.EditarModelo(arquivoModelo, logModeloDocx, IdUsuario);
+                this.DsFactoryCartNew.ModeloDocxDs.EditarModelo(dtoModeloDoc);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                //    
+                throw new Exception(ex.Message);
             }
         }
 
@@ -106,7 +58,7 @@ namespace AppServCart11RI.AppServices
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                //Console.WriteLine(ex.Message);
                 throw new Exception(ex.Message);
             }
 
