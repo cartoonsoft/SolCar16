@@ -76,7 +76,6 @@ namespace Cartorio11RI.Controllers
 
                 model.IdCtaAcessoSist = this.IdCtaAcessoSist;
                 model.IdUsuarioCadastro = this.UsuarioAtual.Id;
-                model.DescricaoTipoAto = "";
             }
             catch (Exception ex)
             {
@@ -109,7 +108,6 @@ namespace Cartorio11RI.Controllers
                 if (ControllerModelValid)
                 {
                     string filePath = string.Empty;
-                    modeloDocxViewModel.CaminhoEArquivo = Server.MapPath("~/App_Data/Arquivos/Modelos/");
 
                     using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
@@ -118,28 +116,13 @@ namespace Cartorio11RI.Controllers
                             {
                                 IdCtaAcessoSist = this.IdCtaAcessoSist,
                                 IdTipoAto = modeloDocxViewModel.IdTipoAto,
-                                CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
-                                ArquivoDocxModelo = modeloDocxViewModel.ArquivoDocxModelo,
-                                DescricaoModelo = modeloDocxViewModel.DescricaoModelo,
+                                Descricao = modeloDocxViewModel.Descricao,
                                 UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                                 IpLocal = modeloDocxViewModel.IpLocal,
                                 Ativo = true
                             },
                             this.UsuarioAtual.Id
                         );
-                    }
-
-                    if (modeloDocxViewModel.ArquivoDocxModelo != null && modeloDocxViewModel.ArquivoDocxModelo.ContentLength > 0)
-                    {
-                        //Pega os dados do arquivo
-                        HttpPostedFileBase arquivo = modeloDocxViewModel.ArquivoDocxModelo;
-
-                        //arquivo.FileName = "Mod_"+arquivoModel.DescricaoTipoAto+DateTime.Now.ToString("yyyyMMddTHHmmss")
-                        var nomeArquivo = Path.GetFileNameWithoutExtension(arquivo.FileName);
-
-                        // Salva o arquivo fisicamente
-                        filePath = Path.Combine(modeloDocxViewModel.CaminhoEArquivo, "modelo_" + NovoId.ToString() + ".docx");
-                        arquivo.SaveAs(filePath);
                     }
 
                     //ModelState.AddModelError(Guid.NewGuid().ToString(), "Erro generico");
@@ -184,10 +167,8 @@ namespace Cartorio11RI.Controllers
                     ///povoar tree view
                     List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                     ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
-
                     ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
                     ModeloDocxViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocxViewModel>(modeloDocx);
-                    modeloDocxViewModel.DescricaoTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.Get().Where(t => t.Id == modeloDocx.IdTipoAto).FirstOrDefault().Descricao;
 
                     if (modeloDocxViewModel == null)
                     {
@@ -229,9 +210,7 @@ namespace Cartorio11RI.Controllers
                             Id = modeloDocxViewModel.Id,
                             IdCtaAcessoSist = this.IdCtaAcessoSist,
                             IdTipoAto = modeloDocxViewModel.IdTipoAto,
-                            CaminhoEArquivo = modeloDocxViewModel.CaminhoEArquivo, // Path.Combine(Server.MapPath("~/App_Data/Arquivos/Modelos/"), NovoId.ToString() + ".docx"),
-                            ArquivoDocxModelo = modeloDocxViewModel.ArquivoDocxModelo,
-                            DescricaoModelo = modeloDocxViewModel.DescricaoModelo,
+                            Descricao = modeloDocxViewModel.Descricao,
                             IpLocal = modeloDocxViewModel.IpLocal,
                             UsuarioSistOperacional = System.Security.Principal.WindowsIdentity.GetCurrent().Name,
                             Ativo = modeloDocxViewModel.Ativo

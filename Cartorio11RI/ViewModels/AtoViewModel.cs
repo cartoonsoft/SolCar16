@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
@@ -53,11 +54,13 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Cadastrado em")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+        [ReadOnly(true)]
         public DateTime DataCadastro { get; set; }
 
         [Display(Name = "Última alteração")]
         [DataType(DataType.DateTime)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+        [ReadOnly(true)]
         public DateTime? DataAlteracao { get; set; }
 
         [Required(ErrorMessage = "Número de matrícula é obrigatório", AllowEmptyStrings = false)]
@@ -69,6 +72,7 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Registrado em")]
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        [ReadOnly(true)]
         public DateTime? DataRegPrenotacao{ get; set; }  //data registro "R" da prenotacao onzeri.premad
 
         [Display(Name = "Data do ato")]
@@ -89,6 +93,8 @@ namespace Cartorio11RI.ViewModels
         [AllowHtml]
         public string TextoAnterior { get; set; }
 
+        [MaxLength(2048)]
+        [StringLength(2048, ErrorMessage = "Máximo de {0} caracteres.")]
         [Display(Name = "Texto")]
         [DataType(DataType.MultilineText)]
         [AllowHtml]
@@ -96,11 +102,12 @@ namespace Cartorio11RI.ViewModels
 
         [MaxLength(512)]
         [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]
-        [Display(Name = "Observações")]
         [DataType(DataType.MultilineText)]
+        [Display(Name = "Observações")]
         public string Observacao { get; set; }
 
         [Display(Name = "Status")]
+        [ReadOnly(true)]
         public string StatusAto { get; set; }
 
         [Display(Name = "Conferido Texto", Description = "Conferido texto do ato")]

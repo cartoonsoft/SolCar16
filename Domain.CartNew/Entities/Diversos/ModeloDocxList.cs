@@ -26,7 +26,7 @@ namespace Domain.CartNew.Entities.Diversos
 
         public DateTime? DataAlteracao { get; set; }
 
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
         public string DescricaoTipo { get; set; }  //TB_TP_ATO
 

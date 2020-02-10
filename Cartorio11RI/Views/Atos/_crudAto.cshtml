@@ -1,7 +1,7 @@
 ﻿<!-- _crudAto -------------------------------------------------------------- -->
 @model Cartorio11RI.ViewModels.AtoViewModel
 @Html.HiddenFor(model => model.TextoAnterior)
-@{ string[] statusEditaveis = { "AC1", "Ac2", "AE", "AR" }; }
+@{ string[] statusEditaveis = { "AC1", "AC2", "AE", "AR" }; }
 
 <div class=" float-left">
     <div class="row">
@@ -83,19 +83,19 @@
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(model => model.DataCadastro, new { @class = "control-label" })
-                        @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @type = "text", @class = "form-control", @readonly = "readonly", @title = "colocar nome usuario" } })
+                        @Html.EditorFor(model => model.DataCadastro, new { htmlAttributes = new { @type = "text", @class = "form-control", @title = "colocar nome usuario" } })
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(model => model.DataAlteracao, new { @class = "control-label" })
-                        @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @type = "text", @class = "form-control", @readonly = "readonly" } })
+                        @Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @type = "text", @class = "form-control", @title = "colocar nome usuario" } })
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
                         @Html.LabelFor(model => model.StatusAto, new { @class = "control-label" })
-                        @Html.EditorFor(model => model.StatusAto, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.EditorFor(model => model.StatusAto, new { htmlAttributes = new { @class = "form-control" } })
                     </div>
                 </div>
             </div>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Mvc;
 using Domain.CartNew.Attributes;
 using Dto.CartNew.Base;
 using Dto.CartNew.Entities.TodosCart;
@@ -16,42 +17,40 @@ namespace Dto.CartNew.Entities.Cart_11RI
         [Key]
         public override long? Id { get; set; }
 
+        [Required(ErrorMessage = "Selecione cont de acesso", AllowEmptyStrings = false)]
+        [Range(minimum: 1, maximum: long.MaxValue, ErrorMessage = "Erro IdCtaAcessoSist cdeve ser maior que zero")]
         public long IdCtaAcessoSist { get; set; }
 
-        [Display(Name = "Tipo de ato")]
-        [Required(ErrorMessage = "Selecione um tipo")]
+        [Required(ErrorMessage = "Selecione algum tipo", AllowEmptyStrings = false)]
         public long IdTipoAto { get; set; }
 
         public string IdUsuarioCadastro { get; set; }
 
         public string IdUsuarioAlteracao { get; set; }
 
-        public DateTime DataCadastro { get; }
+        public DateTime DataCadastro { get; set; }
 
-        public DateTime? DataAlteracao { get; }
+        public DateTime? DataAlteracao { get; set; }
 
-        [Display(Name = "Descrição do modelo")]
         [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
-        [Display(Name = "Orientações")]
+        [MaxLength(2048)]
+        [StringLength(2048, ErrorMessage = "Máximo de {0} caracteres.")]
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string Texto { get; set; }
+
+        [MaxLength(512)]
+        [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]
+        [DataType(DataType.MultilineText)]
         public string Orientacao { get; set; }
 
-        [Display(Name = "Arquivo")]
-        [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
-        [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
-        public HttpPostedFileBase ArquivoDocxModelo { get; set; }
+        public string UsuarioSistOperacional { get; set; }
 
-        [Display(Name = "Caminho e Arquivo")]
-        public string CaminhoEArquivo { get; set; }
-
-        [Display(Name = "Bytes Arquivo")]
-        public byte[] ArquivoByte { get; set; }
-
-        [Display(Name = "Ativo")]
+        [Required]
         public bool Ativo { get; set; }
 
-        public string UsuarioSistOperacional { get; set; }
 
         public string IpLocal { get; set; }
     }

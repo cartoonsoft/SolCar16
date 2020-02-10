@@ -27,7 +27,7 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public DateTime? DataAlteracao { get; set; }
 
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
         public string DescricaoTipo { get; set; }  //TB_TP_ATO
 
@@ -35,7 +35,6 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
         public string Orientacao { get; set; }
 
-        public string CaminhoEArquivo { get; set; }
 
         public bool Ativo { get; set; }
     }

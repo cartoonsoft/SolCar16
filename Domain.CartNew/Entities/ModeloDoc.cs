@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Domain.Core.Entities.Base;
 
 namespace Domain.CartNew.Entities
@@ -38,11 +39,14 @@ namespace Domain.CartNew.Entities
         [Column("DESCRICAO")]
         public string Descricao { get; set; }
 
-        [Column("ORIENTACAO")]
-        public string Orientacao { get; set; }
+        [Column("TEXTO")]
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string Texto { get; set; }
 
-        [Column("ARQUIVO")]
-        public string CaminhoEArquivo { get; set; }
+        [Column("ORIENTACAO")]
+        [DataType(DataType.MultilineText)]
+        public string Orientacao { get; set; }
 
         //[Column("ARQ_BYTES")]
         //[DataType("BLOB")]

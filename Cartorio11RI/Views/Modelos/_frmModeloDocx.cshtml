@@ -11,7 +11,7 @@
 	<div class="row">
 		<div class="col-md-4">
 			<div class="form-group">
-				@Html.LabelFor(model => model.DescricaoTipoAto)
+				@Html.LabelFor(model => model.IdTipoAto)
 				<select id="sel-tipo-ato-modelo" class="form-control selectpicker">
 					@foreach (var item in ViewBag.listaTipoAto)
 					{
@@ -31,8 +31,8 @@
 		</div>
 		<div class="col-md-8">
 			<div class="form-group">
-				@Html.LabelFor(model => model.DescricaoModelo)
-				@Html.TextBoxFor(model => model.DescricaoModelo, null, new { @class = "form-control", @placeholder = "Digite o nome do modelo" })
+				@Html.LabelFor(model => model.Descricao)
+				@Html.TextBoxFor(model => model.Descricao, null, new { @class = "form-control", @placeholder = "Digite a descrição do modelo" })
 			</div>
 		</div>
 	</div>
@@ -51,10 +51,19 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				@Html.LabelFor(model => model.DataAlteracao, new { @class = "control-label" })
+				@Html.EditorFor(model => model.DataAlteracao, new { htmlAttributes = new { @type = "text", @class = "form-control", @readonly = "readonly" } })
+			</div>
+		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
-			<textarea class="form-control" cols="160" id="ckeditor-modelo-ato" name="Texto" rows="20"></textarea>
+		<div class="col-md-9">
+			@Html.TextAreaFor(model => model.Texto, new { @id = "ckeditor-modelo-ato", @name = "ckeditor-modelo-ato", @class = "form-control", @placeholder="Texto do modelo", @cols = 160, @rows = 20 })
+		</div>
+		<div class="col-md-3">
+			@Html.TextAreaFor(model => model.Texto, new { @id = "tx-area-orientacao-modelo-ato", @name = "tx-area-orientacao-modelo-ato", @class = "form-control", @placeholder = "Orientações sobre o modelo", @rows = 12 })
 		</div>
 	</div>
 </fieldset>

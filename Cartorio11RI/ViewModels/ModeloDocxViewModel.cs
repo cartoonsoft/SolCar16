@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using Domain.CartNew.Attributes;
+using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace Cartorio11RI.ViewModels
 {
@@ -25,24 +27,36 @@ namespace Cartorio11RI.ViewModels
 
         public string IdUsuarioAlteracao { get; set; }
 
+        [Display(Name = "Cadastrado em")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+        [ReadOnly(true)]
         public DateTime DataCadastro { get; set; }
 
+        [Display(Name = "Última alteração")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
+        [ReadOnly(true)]
         public DateTime? DataAlteracao { get; set; }
 
         [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
         [Display(Name = "Descrição do modelo")]
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
-        [Required(ErrorMessage = "O campo Tipo de ato do modelo é obrigatório", AllowEmptyStrings = false)]
-        [Display(Name = "Descrição tipo ato")]
-        public string DescricaoTipoAto { get; set; }
+        [MaxLength(2048)]
+        [StringLength(2048, ErrorMessage = "Máximo de {0} caracteres.")]
+        [Display(Name = "Texto")]
+        [DataType(DataType.MultilineText)]
+        [AllowHtml]
+        public string Texto { get; set; }
 
-        [RequiredHttpPostedFileBase(ErrorMessage = "Selecione um arquivo.")]
-        [IsWordFile(ErrorMessage = "O arquivo deve ser do tipo '.docx' ")]
-        [Display(Name = "Fazer upload do modelo")]
-        public HttpPostedFileBase ArquivoDocxModelo { get; set; }
+        [MaxLength(512)]
+        [StringLength(512, ErrorMessage = "Máximo de {0} caracteres.")]
+        [Display(Name = "Orientações")]
+        [DataType(DataType.MultilineText)]
+        public string Orientacao { get; set; }
 
-        public string CaminhoEArquivo { get; set; }
+        public string UsuarioSistOperacional { get; set; }
 
         [Required]
         public bool Ativo { get; set; }

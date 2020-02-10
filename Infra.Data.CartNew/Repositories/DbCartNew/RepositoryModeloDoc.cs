@@ -67,9 +67,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdUsuarioAlteracao = M.IdUsuarioAlteracao,
                     DataCadastro = M.DataCadastro,
                     DataAlteracao = M.DataAlteracao,
-                    DescricaoModelo = M.Descricao,
+                    Descricao = M.Descricao,
                     Orientacao = M.Orientacao,
-                    CaminhoEArquivo = M.CaminhoEArquivo,
                     DescricaoTipo = TA.Descricao,
                     SiglaSeqAto = TA.SiglaSeqAto,
                     Ativo = M.Ativo
@@ -86,7 +85,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdUsuarioAlteracao = modelo.IdUsuarioAlteracao,
                     DataCadastro = modelo.DataCadastro,
                     DataAlteracao = modelo.DataAlteracao,
-                    DescricaoModelo = modelo.DescricaoModelo,
+                    Descricao  = modelo.Descricao,
                     Orientacao = modelo.Orientacao,
                     CaminhoEArquivo = modelo.CaminhoEArquivo,
                     DescricaoTipo = modelo.DescricaoTipo,
@@ -117,8 +116,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     DOC.DT_CAD,
                     DOC.DT_ALTER,
                     DOC.DESCRICAO,
+                    DOC.TEXTO,
                     DOC.ORIENTACAO,
-                    DOC.ARQUIVO,
                     DOC.ATIVO,
                     TA.ID_TP_ATO_PAI,
                     TA.DESCRICAO DESC_TP_ATO,
@@ -167,7 +166,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                                 IdUsuarioAlteracao = row.GetOracleString(row.GetOrdinal("ID_USR_ALTER")).ToString(),  //DOC.ID_USR_ALTER
                                 DataCadastro = row.GetOracleDate(row.GetOrdinal("DT_CAD")).Value, //DOC.DT_CAD,
                                 DataAlteracao = (DateTime?)(row.IsDBNull(row.GetOrdinal("DT_ALTER")) ? null : row.GetValue(row.GetOrdinal("DT_ALTER"))), //DT_ALTER
-                                DescricaoModelo = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,
+                                Descricao = row.GetOracleString(row.GetOrdinal("DESCRICAO")).ToString(), //DOC.DESCRICAO,
                                 DescricaoTipo = row.GetOracleString(row.GetOrdinal("DESC_TP_ATO")).ToString(), //TA.DESC_TP_ATO,
                                 Orientacao = row.GetOracleString(row.GetOrdinal("ORIENTACAO")).ToString(), // DOC.ORIENTACAO,
                                 CaminhoEArquivo = row.GetOracleString(row.GetOrdinal("ARQUIVO")).ToString(), //DOC.ARQUIVO,

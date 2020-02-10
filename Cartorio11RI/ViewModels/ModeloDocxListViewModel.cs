@@ -26,19 +26,18 @@ namespace Cartorio11RI.ViewModels
 
         public DateTime? DataAlteracao { get; set; }
 
+        [Display(Name = "Tipo")]
+        public string DescricaoTipo { get; set; }
+
+        public string SiglaSeqAto { get; set; } //TB_TP_ATO
+
         [Display(Name = "Descrição modelo")]
-        public string DescricaoModelo { get; set; }
+        public string Descricao { get; set; }
 
         [Display(Name = "Orientações")]
         public string Orientacao { get; set; }
 
-        [Display(Name = "Nome arquivo")]
-        public string CaminhoEArquivo { get; set; }
-
         [Display(Name = "Ativo")]
         public bool Ativo { get; set; }
-
-        [Display(Name = "Descrição tipo ato")]
-        public string DescricaoTipoAto { get; set; }
     }
 }

@@ -23,14 +23,21 @@
 			}
 
 			#tbl-modelosdocx tr td:nth-child(2) {
-				width: 50%;
+				width: 45%;
 			}
 
 			#tbl-modelosdocx tr td:nth-child(3) {
-				width: 20%;
+				width: 5%;
+			}
+			#tbl-modelosdocx tr td:nth-child(4) {
+				width: 10%;
 			}
 
-			#tbl-modelosdocx tr td:nth-child(4) {
+			#tbl-modelosdocx tr td:nth-child(5) {
+				width: 15%;
+			}
+
+			#tbl-modelosdocx tr td:nth-child(6) {
 				text-align: right;
 				align-content: flex-end;
 				margin-left: 1em;
@@ -106,7 +113,13 @@
 										Nome
 									</th>
 									<th>
+										Sigla
+									</th>
+									<th>
 										Tipo
+									</th>
+									<th>
+										Orientações
 									</th>
 									<th></th>
 								</tr>
@@ -119,10 +132,16 @@
 											@Html.DisplayFor(modelItem => item.Id)
 										</td>
 										<td>
-											@Html.DisplayFor(modelItem => item.DescricaoModelo)
+											@Html.DisplayFor(modelItem => item.Descricao)
 										</td>
 										<td>
-											@Html.DisplayFor(modelItem => item.DescricaoTipoAto)
+											@Html.DisplayFor(modelItem => item.SiglaSeqAto)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.DescricaoTipo)
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.Orientacao)
 										</td>
 										<td>
 											@Html.ActionLink("Editar", "EditarModelo", new { Id = item.Id }, new { @class = "btn btn-primary" })

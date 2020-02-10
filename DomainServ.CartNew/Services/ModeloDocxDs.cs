@@ -35,7 +35,6 @@ namespace DomainServ.CartNew.Services
                 NovoId = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_MODELO_DOC");
 
                 modeloDocx.Id = NovoId;
-                modeloDocx.CaminhoEArquivo = modeloDocx.CaminhoEArquivo + "modelo_" + modeloDocx.Id.ToString() + ".docx";
 
                 this.UfwCartNew.Repositories.RepositoryModeloDocx.Add(modeloDocx);
                 UfwCartNew.SaveChanges();

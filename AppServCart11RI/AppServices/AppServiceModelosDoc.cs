@@ -33,9 +33,7 @@ namespace AppServCart11RI.AppServices
                     IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
                     IdTipoAto = dtoModeloDoc.IdTipoAto,
                     IdUsuarioCadastro = IdUsuario,
-                    //ArquivoBytes = dtoArq.ArquivoByte,
-                    CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
-                    Descricao = dtoModeloDoc.DescricaoModelo,
+                    Descricao = dtoModeloDoc.Descricao,
                     Ativo = dtoModeloDoc.Ativo,
                 };
 
@@ -71,9 +69,7 @@ namespace AppServCart11RI.AppServices
                     Ativo = dtoModeloDoc.Ativo,
                     IdTipoAto = dtoModeloDoc.IdTipoAto,
                     IdUsuarioAlteracao = IdUsuario,
-                    //ArquivoBytes = dtoArq.ArquivoByte,
-                    CaminhoEArquivo = dtoModeloDoc.CaminhoEArquivo,
-                    Descricao = dtoModeloDoc.DescricaoModelo
+                    Descricao = dtoModeloDoc.Descricao
                 };
 
                 //HttpPostedFileBase arquivo = dtoArq.Files[0];
