@@ -23,9 +23,6 @@ $(document).ready(function () {
 	$("#frm-cadastro-modelo-docx").validate({
 		// Rules for form validation
 		rules: {
-			DescricaoTipoAto: {
-				required: true
-			},
 			DescricaoModelo: {
 				required: true
 			}
@@ -76,8 +73,9 @@ $(document).ready(function () {
 	});
 
 	$("#frm-cadastro-modelo-docx").submit(function (e) {
-		e.preventDefault();
+		//e.preventDefault();
 		var frm_valid = form_para_validar.valid();
+		alert(frm_valid);
 
 		return frm_valid;
 	});

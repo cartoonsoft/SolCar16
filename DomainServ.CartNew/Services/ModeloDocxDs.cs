@@ -70,37 +70,37 @@ namespace DomainServ.CartNew.Services
         {
             if (dtoModeloDoc != null)
             {
-                UfwCartNew.BeginTransaction();
+                ModeloDoc modeloDoc = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(dtoModeloDoc.Id);
 
-                ModeloDoc modeloDoc = new ModeloDoc
+                if (modeloDoc != null)
                 {
-                    Id = dtoModeloDoc.Id,
-                    IdCtaAcessoSist = dtoModeloDoc.IdCtaAcessoSist,
-                    Ativo = dtoModeloDoc.Ativo,
-                    IdTipoAto = dtoModeloDoc.IdTipoAto,
-                    IdUsuarioAlteracao = dtoModeloDoc.IdUsuarioAlteracao,
-                    DataAlteracao = dtoModeloDoc.DataAlteracao,
-                    Descricao = dtoModeloDoc.Descricao,
-                    Texto = dtoModeloDoc.Texto,
-                    Orientacao = dtoModeloDoc.Orientacao
-                };
+                    UfwCartNew.BeginTransaction();
 
-                // Registro de Log                
-                LogModeloDoc logModeloDocx = new LogModeloDoc()
-                {
-                    Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX"),
-                    IdModeloDoc = dtoModeloDoc.Id ?? 0,
-                    IdUsuario = dtoModeloDoc.IdUsuarioAlteracao,
-                    DataHora = dtoModeloDoc.DataAlteracao ?? DateTime.Now,
-                    UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
-                    IP = dtoModeloDoc.IpLocal
-                };
+                    modeloDoc.IdTipoAto = dtoModeloDoc.IdTipoAto;
+                    modeloDoc.IdUsuarioAlteracao = dtoModeloDoc.IdUsuarioAlteracao;
+                    modeloDoc.DataAlteracao = dtoModeloDoc.DataAlteracao;
+                    modeloDoc.Descricao = dtoModeloDoc.Descricao;
+                    modeloDoc.Texto = dtoModeloDoc.Texto;
+                    modeloDoc.Orientacao = dtoModeloDoc.Orientacao;
+                    modeloDoc.Ativo = dtoModeloDoc.Ativo;
 
-                this.UfwCartNew.Repositories.RepositoryModeloDocx.Update(modeloDoc);
-                this.UfwCartNew.Repositories.RepositoryLogModeloDocx.Add(logModeloDocx);
+                    // Registro de Log                
+                    LogModeloDoc logModeloDocx = new LogModeloDoc()
+                    {
+                        Id = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetNextValFromOracleSequence("SQ_LOG_ARQ_MOD_DOCX"),
+                        IdModeloDoc = dtoModeloDoc.Id ?? 0,
+                        IdUsuario = dtoModeloDoc.IdUsuarioAlteracao,
+                        DataHora = dtoModeloDoc.DataAlteracao ?? DateTime.Now,
+                        UsuarioSistOperacional = dtoModeloDoc.UsuarioSistOperacional,
+                        IP = dtoModeloDoc.IpLocal
+                    };
 
-                UfwCartNew.SaveChanges();
-                UfwCartNew.CommitTransaction();
+                    this.UfwCartNew.Repositories.RepositoryModeloDocx.Update(modeloDoc);
+                    this.UfwCartNew.Repositories.RepositoryLogModeloDocx.Add(logModeloDocx);
+
+                    UfwCartNew.SaveChanges();
+                    UfwCartNew.CommitTransaction();
+                }
             }
         }
 

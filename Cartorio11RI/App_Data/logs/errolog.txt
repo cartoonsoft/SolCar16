@@ -25,3 +25,6 @@
 >>>Log em, 07/01/2020 11:16:38 Class/ Message ==>"Infra.Data.CartNew.UnitsOfWork.DbCartNew: Infra.Data.CartNew.UnitsOfWork.DbCartNew.UnitOfWorkDataBaseCartNew" "An error occurred while updating the entries. See the inner exception for details." 
  > InnerException: "An error occurred while updating the entries. See the inner exception for details."
   >> InnerException: "ORA-01407: cannot update ("DEZESSEIS_NEW"."TB_ATO"."NRO_MATRICULA") to NULL"
+>>>Log em, 11/02/2020 10:01:07 Class/ Message ==>"Infra.Data.CartNew.UnitsOfWork.DbCartNew: Infra.Data.CartNew.UnitsOfWork.DbCartNew.UnitOfWorkDataBaseCartNew" "An error occurred while updating the entries. See the inner exception for details." 
+ > InnerException: "An error occurred while updating the entries. See the inner exception for details."
+  >> InnerException: "ORA-01407: cannot update ("DEZESSEIS_NEW"."TB_MODELO_DOC"."ID_USR_CAD") to NULL"

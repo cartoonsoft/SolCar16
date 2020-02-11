@@ -23,7 +23,7 @@
 			}
 
 			#tbl-modelosdocx tr td:nth-child(2) {
-				width: 45%;
+				width: 40%;
 			}
 
 			#tbl-modelosdocx tr td:nth-child(3) {
@@ -34,10 +34,14 @@
 			}
 
 			#tbl-modelosdocx tr td:nth-child(5) {
-				width: 15%;
+				width: 2%;
 			}
 
 			#tbl-modelosdocx tr td:nth-child(6) {
+				width: 20%;
+			}
+
+			#tbl-modelosdocx tr td:nth-child(7) {
 				text-align: right;
 				align-content: flex-end;
 				margin-left: 1em;
@@ -48,6 +52,11 @@
 			opacity: 0;
 			transition: 0.5s;
 		}
+
+		.btn-width-80px{
+			width: 80px;
+		}
+
 	</style>
 }
 
@@ -106,6 +115,9 @@
 										Tipo
 									</th>
 									<th>
+										Ativo
+									</th>
+									<th>
 										Orientações
 									</th>
 									<th></th>
@@ -128,11 +140,20 @@
 											@Html.DisplayFor(modelItem => item.DescricaoTipo)
 										</td>
 										<td>
+											@Html.DisplayFor(modelItem => item.Ativo)
+										</td>
+										<td>
 											@Html.DisplayFor(modelItem => item.Orientacao)
 										</td>
 										<td>
 											@Html.ActionLink("Editar", "EditarModelo", new { Id = item.Id }, new { @class = "btn btn-primary" })
-											<button class="btn btn-danger desativar" onclick="removeLinha(this)">Desativar</button>
+											@if (item.Ativo)
+											{
+												<button class="btn btn-default btn-width-80px" onclick="removeLinha(this)">Desativar</button>
+											} else
+											{
+												<button class="btn btn-default btn-width-80px">Ativar</button>
+											}
 										</td>
 									</tr>
 								}
@@ -154,7 +175,7 @@
 		$(document).ready(function () {
 			//coloque aqui seu codigo jquery
 			$('#tbl-modelosdocx').dataTable({
-				columnDefs: [{ orderable: false, targets: [3] }],
+				columnDefs: [{ orderable: false, targets: [4,6] }],
 				"language": {
 					"sEmptyTable":   "Não foi encontrado nenhum registo",
 					"sLoadingRecords": "A carregar...",

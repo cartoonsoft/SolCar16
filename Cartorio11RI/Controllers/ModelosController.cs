@@ -50,7 +50,7 @@ namespace Cartorio11RI.Controllers
             {
                 using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListModelosDocx(null).Where(a => a.Ativo == true);
+                    IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListModelosDocx(null);
                     listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
                 }
             }
@@ -209,8 +209,7 @@ namespace Cartorio11RI.Controllers
                         });
                     }
 
-                    //UploadArquivo(arquivoModeloDocxViewModel);
-
+                    
                     //ViewBag.resultado = "Arquivo salvo com sucesso!";
                     return RedirectToActionPermanent(nameof(IndexModelo));
                 }
