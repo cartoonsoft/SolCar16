@@ -61,7 +61,6 @@ namespace Cartorio11RI.ViewModels
 
         public string UsuarioSistOperacional { get; set; }
 
-        [Required]
         public bool Ativo { get; set; }
 
         public string IpLocal { get; set; }

@@ -6,6 +6,7 @@
 @Html.HiddenFor(model => model.IdCtaAcessoSist)
 @Html.HiddenFor(model => model.IdTipoAto)
 @Html.HiddenFor(model => model.IpLocal)
+@Html.HiddenFor(model => model.Ativo)
 
 <fieldset>
 	<div class="row">
@@ -22,16 +23,16 @@
 		<div class="col-md-4">
 			<div class="form-group">
 				@Html.LabelFor(model => model.IdTipoAto)
-				<select id="sel-tipo-ato-modelo" class="form-control selectpicker">
+				<select id="ddlTipoAtoModelo" name="ddlTipoAtoModelo" class="form-control">
 					@foreach (var item in ViewBag.listaTipoAto)
 					{
 						<optgroup label="@item.Descricao">
-							<option hidden>Selecione um tipo...</option>
+							<option value="" hidden>Selecione um tipo...</option>
 							@if (item.ListaTipoAtosFihos.Count > 0)
 							{
 								foreach (var item2 in item.ListaTipoAtosFihos)
 								{
-									<option value="@item2.Id" @(item2.Id ==  Model.IdTipoAto ? "selected": "")>@item2.Descricao</option>
+									<option value="@item2.Id" @(item2.Id == Model.IdTipoAto ? "selected" : "")>@item2.Descricao</option>
 								}
 							}
 						</optgroup>
@@ -53,7 +54,24 @@
 				<div class="input-group">
 					@Html.DropDownListFor(model => model.IdCampoTipoAto, @ViewBag.listaCampoTipoAto as SelectList, new { @id = "sel-campo-tipo-ato-modelo", @class = "form-control" })
 					<div class="input-group-btn">
-						<button class="btn btn-info" type="button">
+						<button type="button" id="btn-insert-campo-modelo" class="btn btn-info">
+							Inserir
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<label for="sel-grupo-modelo">Inserir marcadores de grupo</label>
+				<div class="input-group">
+					<select id="sel-grupo-campo-modelo" class="form-control">
+						<option hidden value="0">selecione umn grupo...</option>
+						<option value="1">Grupo Outorgantes</option>
+						<option value="2">Grupo outorgados</option>
+					</select>
+					<div class="input-group-btn">
+						<button type="button" id="btn-insert-grupo-modelo" class="btn btn-info">
 							Inserir
 						</button>
 					</div>
@@ -69,7 +87,15 @@
 	</div>
 	<div class="row">
 		<div class="col-md-9">
-			@Html.TextAreaFor(model => model.Texto, new { @id = "ckeditor-modelo-ato", @class = "form-control", @placeholder="Texto do modelo", @cols = 160, @rows = 20 })
+			@Html.LabelFor(model => model.Texto, new { @class = "control-label" })
+		</div>
+		<div class="col-md-3">
+			@Html.LabelFor(model => model.Orientacao, new { @class = "control-label" })
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+			@Html.TextAreaFor(model => model.Texto, new { @id = "ckedtModeloAto", @class = "form-control", @required = "required", @placeholder = "Texto do modelo", @cols = 160, @rows = 20 })
 		</div>
 		<div class="col-md-3">
 			@Html.TextAreaFor(model => model.Orientacao, new { @class = "form-control", @placeholder = "Orientações sobre o modelo", @rows = 12 })
@@ -77,11 +103,9 @@
 	</div>
 </fieldset>
 <div class="form-actions">
-	<button type="submit" id="btnSalvarModelo" class="btn btn-primary btn-lg">
+	<button type="submit" id="btn-salvar-modelo" class="btn btn-primary btn-lg">
 		<i class="glyphicon glyphicon-upload"></i>
 		Salvar
 	</button>
 	@Html.ActionLink("Voltar", "IndexModelo", "Modelos", null, new { @class = "btn btn-default btn-lg" })
 </div>
-
-

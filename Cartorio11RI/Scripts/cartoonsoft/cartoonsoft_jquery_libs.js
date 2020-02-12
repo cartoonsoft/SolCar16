@@ -14,9 +14,9 @@ $(document).ready(function () {
 		$("#IpLocal").val(ip); //vc deve criar um input hide com id = IpLocal
 	});
 
-	$.validator.addMethod("valueNotEquals", function (value, element, arg) {
-		return arg !== value;
-	}, "Value must not equal arg.");
+	$.validator.addMethod("valueNotEquals", function (value, element, param) {
+		return value !== param;
+	});
 
 	/*-- somente-numero-sem-decimal ------------------------------------- */
 	$(".somente-numero-sem-decimal").on("keypress keyup blur", function (event) {

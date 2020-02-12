@@ -75,6 +75,7 @@ namespace Cartorio11RI.Controllers
                 ViewBag.listaTipoAto = listaTipoAto; 
                 ViewBag.listaCampoTipoAto = new SelectList(new List<CampoTipoAto>(), "Id", "NomeCampo");
                 model.IdCtaAcessoSist = this.IdCtaAcessoSist;
+                model.Ativo = true;
             }
             catch (Exception ex)
             {
@@ -91,17 +92,16 @@ namespace Cartorio11RI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult NovoModelo(ModeloDocxViewModel modeloDocxViewModel)
         {
-            bool ControllerModelValid = ModelState.IsValid;
-            bool success = false;
-            string msg = "";
+            string msg = string.Empty;
             long? NovoId;
 
             try
             {
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
+                ViewBag.listaCampoTipoAto = new SelectList(new List<CampoTipoAto>(), "Id", "NomeCampo");
 
-                if (ControllerModelValid)
+                if (ModelState.IsValid)
                 {
                     string filePath = string.Empty;
 
@@ -124,9 +124,7 @@ namespace Cartorio11RI.Controllers
                         ); 
                     }
 
-                    //ModelState.AddModelError(Guid.NewGuid().ToString(), "Erro generico");
-                    msg = "Modelo adicionado com sucesso!";
-                    success = true;
+                    return RedirectToActionPermanent(nameof(IndexModelo));
                 }
             }
             catch (Exception ex)
@@ -137,10 +135,6 @@ namespace Cartorio11RI.Controllers
 
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }
-
-            ViewBag.success = success ? "true" : "false";
-            ViewBag.ControllerModelValid = ControllerModelValid ? "true" : "false";
-            ViewBag.msg = msg;
 
             return View(modeloDocxViewModel);
         }
@@ -183,11 +177,10 @@ namespace Cartorio11RI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditarModelo(ModeloDocxViewModel modeloDocxViewModel)
         {
+            string msg = string.Empty;
+
             try
             {
-                List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
-                ViewBag.listaTipoAto = listaTipoAto; // new SelectList(listaTipoAto, "Id", "Descricao");
-
                 if (ModelState.IsValid)
                 {
                     // Fazendo Upload do arquivo
@@ -209,16 +202,15 @@ namespace Cartorio11RI.Controllers
                         });
                     }
 
-                    
-                    //ViewBag.resultado = "Arquivo salvo com sucesso!";
                     return RedirectToActionPermanent(nameof(IndexModelo));
                 }
+
                 return View(modeloDocxViewModel);
             }
             catch (Exception ex)
             {
                 //return new HttpStatusCodeResult(HttpStatusCode.InternalServerError);
-                string msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+                msg = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
                 TempData["excecaoGerada"] = ex;
                 return RedirectToAction("InternalServerError", "Adm", new { descricao = msg });
             }

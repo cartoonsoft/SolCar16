@@ -8,44 +8,57 @@ by Ronaldo Moreira - 2019
 
 var urlGetListCamposTipoAto = '/Modelos/GetListCamposTipoAto';
 
-var form_para_validar = null;
-
 $(document).ready(function () {
 
-	$("#sel-tipo-ato-modelo").selectpicker({
-		liveSearch: true,
-		language: 'pt-br'
-	});
-
-	form_para_validar = $("#frm-cadastro-modelo-docx");
+	//$("#ddlTipoAtoModelo").selectpicker({
+	//	liveSearch: true,
+	//	language: 'pt-br'
+	//});
 
 	/*-- validate ----------------------------------------------------------- */
 	$("#frm-cadastro-modelo-docx").validate({
 		// Rules for form validation
 		rules: {
-			DescricaoModelo: {
+			ddlTipoAtoModelo: {
+				required: true
+			},
+			Descricao: {
 				required: true
 			}
 		},
 
 		// Messages for form validation
 		messages: {
-			DescricaoTipoAto: {
-				required: "Selecione tipo de ato"
+			ddlTipoAtoModelo: {
+				required: "Selecione um Tipo de ato"
 			},
-			DescricaoModelo: {
-				required: "Digite um nome para o modelo"
+			Descricao: {
+				required: "Preencha o campo: Descrição do modelo"
 			}
 		},
 
 		// Do not change code below
+		highlight: function (element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+		},
+		unhighlight: function (element) {
+			$(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+		},
+		errorElement: 'span',
+		errorClass: 'help-block',
 		errorPlacement: function (error, element) {
-			error.insertAfter(element.parent());
+			if (element.parent('.input-group').length) {
+				error.insertAfter(element.parent());
+			} else {
+				error.insertAfter(element);
+			}
 		}
 	});
 
+	form_para_validar = $("#frm-cadastro-modelo-docx");
+
 	/*-- coloque aqui seu código javascript --------------------------------- */
-	CKEDITOR.replace('ckeditor-modelo-ato', {
+	CKEDITOR.replace('ckedtModeloAto', {
 		width: '100%',
 		height: '360px',
 		language: 'pt-br',
@@ -73,18 +86,38 @@ $(document).ready(function () {
 	});
 
 	$("#frm-cadastro-modelo-docx").submit(function (e) {
-		//e.preventDefault();
 		var frm_valid = form_para_validar.valid();
-		alert(frm_valid);
+
+		if (!frm_valid) {
+			e.preventDefault();
+		}	
 
 		return frm_valid;
 	});
 
-	$('#sel-tipo-ato-modelo').change(function (e) {
+	$("#ddlTipoAtoModelo").change(function (e) {
 		//alert(e.target.value);
 		var idTipoAto = e.target.value;
 		$("#IdTipoAto").val(idTipoAto);
 		GetListCamposTipoAto(urlGetListCamposTipoAto, idTipoAto);
+	});
+
+	$("#btn-insert-campo-modelo").click(function (e) {
+		e.preventDefault();
+		var campo = $("#sel-campo-tipo-ato-modelo option:selected").text();
+		CKEDITOR.instances.ckedtModeloAto.insertText("[" + campo + "]");
+	});
+
+
+	$("#btn-insert-grupo-modelo").click(function (e) {
+		e.preventDefault();
+		var campo = $("#sel-grupo-campo-modelo option:selected").val();
+
+		if (campo == 1) {
+			CKEDITOR.instances.ckedtModeloAto.insertText("[GrupoOutorgante] coloque seu texto aqui [FimGrupo]");
+		} else if (campo == 2) {
+			CKEDITOR.instances.ckedtModeloAto.insertText("[GrupoOutorgado] coloque seu texto aqui [FimGrupo]");
+		}
 	});
 
 });
