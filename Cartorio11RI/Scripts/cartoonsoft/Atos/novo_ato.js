@@ -401,11 +401,11 @@ function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url)
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosValidos = !(typeof dataReturn.listaDtoDadosImovel == 'undefined' || dataReturn.listaDtoDadosImovel == null);
+            var dadosValidos = !(typeof dataReturn.ListaDtoDadosImovel == 'undefined' || dataReturn.ListaDtoDadosImovel == null);
             $("#DataRegPrenotacao").val(dataReturn.DataRegPrenotacao);
 
             if (dadosValidos) {
-                PovoarSelImoveis(selObj, dataReturn.listaDtoDadosImovel);
+                PovoarSelImoveis(selObj, dataReturn.ListaDtoDadosImovel);
                 $('#btn-reserva-mat').prop('disabled', false);
                 $('#btn-libera-mat').prop('disabled', false);
             } else {

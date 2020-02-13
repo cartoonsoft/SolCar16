@@ -100,24 +100,24 @@ namespace Cartorio11RI.Controllers
         public JsonResult IndexAtoAjax(DateTime? DataIni = null, DateTime? DataFim = null)
         {
             bool resp = false;
-            string mesage = string.Empty;
+            string message = string.Empty;
             List<AtoListViewModel> listaAtoViewModel = new List<AtoListViewModel>();
 
             try
             {
                 listaAtoViewModel = this.GetListAtos(DataIni, DataFim);
                 resp = true;
-                mesage = "Dados retornados com sucesso.";
+                message = "Dados retornados com sucesso.";
             }
             catch (Exception ex)
             {
-                mesage = ex.Message;
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
             {
                 resposta = resp,
-                msg = mesage,
+                msg = message,
                 ListaAtoViewModel = listaAtoViewModel
             };
 
@@ -428,7 +428,7 @@ namespace Cartorio11RI.Controllers
         public JsonResult GetListModelosDocx(long? IdTipoAto)
         {
             bool resp = false;
-            string mesage = string.Empty;
+            string message = string.Empty;
             List<DtoModeloDocxList> lista = new List<DtoModeloDocxList>();
 
             try
@@ -437,18 +437,18 @@ namespace Cartorio11RI.Controllers
                 {
                     lista = appService.GetListModelosDocx(IdTipoAto).ToList();
                     resp = true;
-                    mesage = "Dados retornados con sucesso";
+                    message = "Dados retornados con sucesso";
                 }
             }
             catch (Exception ex)
             {
-                mesage = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
             {
                 resposta = resp,
-                msg = mesage,
+                msg = message,
                 ListaModelosDocx = lista
             };
 
@@ -488,14 +488,15 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                message = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
             {
                 resposta = resp,
                 msg = message,
-                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"", listaDtoDadosImovel
+                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"", 
+                ListaDtoDadosImovel = listaDtoDadosImovel
             };
 
             return Json(resultado);
@@ -536,7 +537,7 @@ namespace Cartorio11RI.Controllers
             }
             catch (Exception ex)
             {
-                message = "Falha ao obter dados! " + "[" + ex.Message + "]";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
@@ -574,11 +575,7 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 resp = false;
-                message = string.Format("{0}.{1} [{2} => {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
-
-                //    Console.WriteLine(ex);
-                //    Response.StatusCode = 500;
-                //    Response.Status = "Erro ao buscar os dados das pessoas";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
 
             var resultado = new
@@ -615,14 +612,8 @@ namespace Cartorio11RI.Controllers
             catch (Exception ex)
             {
                 resp = false;
-                message = string.Format("{0}.{1} [{2} => {3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? ex.InnerException.Message : "");
-
-                //    Console.WriteLine(ex);
-                //    Response.StatusCode = 500;
-                //    Response.Status = "Erro ao buscar os dados das pessoas";
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
             }
-
-            //JsonConvert.SerializeObject()
 
             var resultado = new
             {
@@ -694,6 +685,7 @@ namespace Cartorio11RI.Controllers
         {
             string fileName = Id.ToString();
             string filePath = Server.MapPath($"~/App_Data/Arquivos/Atos/{Id}.docx");
+
             try
             {
                 byte[] fileBytes = System.IO.File.ReadAllBytes(filePath);
