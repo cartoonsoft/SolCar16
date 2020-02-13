@@ -154,7 +154,7 @@ $(document).ready(function () {
 			{ name: 'others', groups: ['others'] },
 			{ name: 'about', groups: ['about'] }
 		],
-		removeButtons: 'Source,Save,Templates,Cut,Undo,Find,SelectAll,Scayt,Form,NewPage,Copy,Paste,PasteText,PasteFromWord,Redo,Replace,Radio,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,BidiLtr,Link,Anchor,Language,Image,Flash,Unlink,Table,HorizontalRule,Smiley,SpecialChar,PageBreak,Iframe,TextColor,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+		removeButtons: 'Source,Save,Templates,Cut,Copy,Find,Form,HiddenField,ImageButton,NewPage,Paste,PasteText,PasteFromWord,Replace,Radio,TextField,Scayt,Select,SelectAll,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
 	/*-- ckeditor ckEditorAto ----------------------------------------------- */
@@ -184,7 +184,7 @@ $(document).ready(function () {
 			{ name: 'others', groups: ['others'] },
 			{ name: 'about', groups: ['about'] }
 		],
-		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+		removeButtons: 'Source,Save,Templates,Cut,Copy,Find,Form,HiddenField,ImageButton,NewPage,Paste,PasteText,PasteFromWord,Replace,Radio,TextField,Scayt,Select,SelectAll,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
 	/*-- btn-ato-show-hide-frm-data-ato ------------------------------------- */

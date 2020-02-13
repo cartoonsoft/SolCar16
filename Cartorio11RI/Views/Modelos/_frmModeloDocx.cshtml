@@ -13,7 +13,7 @@
 	<div class="row">
 		<div class="col-md-1">
 			<div class="form-group">
-				@Html.TextBoxFor(model => model.Id, null, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
+				@Html.TextBoxFor(model => model.Id, null, new { @class = "form-control", @placeholder = "Código", @readonly = "readonly", @title = "Código" })
 			</div>
 		</div>
 		<div class="col-md-2">

@@ -85,7 +85,7 @@ $(document).ready(function () {
 			{ name: 'others', groups: ['others'] },
 			{ name: 'about', groups: ['about'] }
 		],
-		removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
+		removeButtons: 'Source,Save,Templates,Cut,Copy,Find,Form,HiddenField,ImageButton,NewPage,Paste,PasteText,PasteFromWord,Replace,Radio,TextField,Scayt,Select,SelectAll,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 	});
 
 	$("#frm-cadastro-modelo-docx").submit(function (e) {
