@@ -1,81 +1,152 @@
 ﻿@model Cartorio11RI.ViewModels.ModeloDocxViewModel
 
 @{
-	ViewBag.Title = ViewContext.RouteData.Values["controller"];
-	ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
+    ViewBag.Title = ViewContext.RouteData.Values["controller"];
+    ViewBag.SubTitle = ViewContext.RouteData.Values["action"];
 }
 
 @section styles_especific {
-	<!-- Latest compiled and minified CSS -->
-	<link href="~/Content/css/bootstrap-select.min.css" rel="stylesheet" />
-	<style>
-		/* coloque aqui seu codigo css */
-		.div-container-scroll {
-			width: 480px;
-			height: 480px;
-			overflow-y: auto;
-			overflow-x: auto;
-		}
-	</style>
+    <!-- Latest compiled and minified CSS -->
+    <link href="~/Content/css/bootstrap-select.min.css" rel="stylesheet" />
+    <style>
+        /* coloque aqui seu codigo css */
+        .div-container-scroll {
+            width: 480px;
+            height: 480px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        /* Customize the label (the checkbox-container) */
+        .checkbox-container {
+            display: block;
+            position: relative;
+            padding-top: 8px;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Hide the browser's default checkbox */
+        .checkbox-container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+            position: absolute;
+            top: 5px;
+            left: 0;
+            height: 25px;
+            width: 25px;
+            background-color: #eee;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .checkbox-container:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .checkbox-container input:checked ~ .checkmark {
+            border-radius: 5px;
+            background-color: #57889c;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .checkbox-container input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .checkbox-container .checkmark:after {
+            left: 9px;
+            top: 6px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+    </style>
 }
 <!-- MAIN CONTENT -->
 <div id="content">
-	<!-- widget grid -->
-	<section id="widget-grid" class="">
-		<!-- row -->
-		<div class="row">
-			<!-- NEW WIDGET START -->
-			<article class="col-sm-12 col-md-12 col-lg-12">
-				<!-- Widget ID (each widget will need unique ID)-->
-				<div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-9" data-widget-colorbutton="false" data-widget-editbutton="false">
-					<header>
-						<span class="widget-icon"> <i class="fa fa-file-word-o"></i> </span>
-						<h2>Editar modelo de documento</h2>
-					</header>
-					<!-- widget div-->
-					<div>
-						<!-- widget edit box -->
-						<div class="jarviswidget-editbox">
-							<!-- This area used as dropdown edit box -->
+    <!-- widget grid -->
+    <section id="widget-grid" class="">
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-9" data-widget-colorbutton="false" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-file-word-o"></i> </span>
+                        <h2>Editar modelo de documento</h2>
+                    </header>
+                    <!-- widget div-->
+                    <div>
+                        <!-- widget edit box -->
+                        <div class="jarviswidget-editbox">
+                            <!-- This area used as dropdown edit box -->
 
-						</div>
-						<!-- end widget edit box -->
-						<!-- widget content -->
-						<div class="widget-body">
-							@using (Html.BeginForm("EditarModelo", "Modelos", FormMethod.Post, new { id = "frm-cadastro-modelo-docx", enctype = "multipart/form-data" }))
-							{
-								@Html.Partial("_frmModeloDocx", Model)
-							}
-						</div>
-						<!-- end widget content -->
+                        </div>
+                        <!-- end widget edit box -->
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            @using (Html.BeginForm("EditarModelo", "Modelos", FormMethod.Post, new { id = "frm-cadastro-modelo-docx", enctype = "multipart/form-data" }))
+                            {
+                                @Html.Partial("_frmModeloDocx", Model)
+                            }
+                        </div>
+                        <!-- end widget content -->
 
-					</div>
-					<!-- end widget div -->
-				</div>
-				<!-- end widget -->
-			</article>
-			<!-- WIDGET END -->
-		</div>
-		<!-- end row -->
-	</section>
-	<!-- end widget grid -->
+                    </div>
+                    <!-- end widget div -->
+                </div>
+                <!-- end widget -->
+            </article>
+            <!-- WIDGET END -->
+        </div>
+        <!-- end row -->
+    </section>
+    <!-- end widget grid -->
 
 </div>
 <!-- END MAIN CONTENT -->
 
 @section pagespecific {
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/plugin/bootstrap-select/bootstrap-select.min.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/styles.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
-	<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/Modelos/crud_modelo.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function () {
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/plugin/bootstrap-select/bootstrap-select.min.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/styles.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/Modelos/crud_modelo.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
 
-		});
-	</script>
+        });
+    </script>
 }

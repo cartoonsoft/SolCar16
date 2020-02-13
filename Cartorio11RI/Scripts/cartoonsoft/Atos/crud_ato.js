@@ -166,7 +166,9 @@ $(document).ready(function () {
 		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
 		font_defaultLabel: 'Times New Roman',
 		fontSize_defaultLabel: '14',
-		//startupFocus: true,
+		disableNativeSpellChecker: false,
+		removePlugins: 'liststyle,tabletools,scayt,menubutton,contextmenu',
+		startupFocus: true,
 		toolbarGroups: [
 			{ name: 'document', groups: ['mode', 'document', 'doctools'] },
 			{ name: 'clipboard', groups: ['clipboard', 'undo'] },

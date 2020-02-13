@@ -177,7 +177,7 @@
 	<script>
 		$(document).ready(function () {
 
-            $("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
+			$("#dataIni").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataIni)");
 			$("#dataFim").val("@String.Format("{0:dd/MM/yyyy}", ViewBag.DataFim)");
 
 			$('#dataIni').datepicker({
@@ -211,18 +211,19 @@
 
 			/*-- tabela tbl-examplo-1 ----------------------------------------*/
 			var tbl_index_ato = $("#tbl-index-ato").DataTable({
+				//autoWidth: true,
 				processing: true,
 				responsive: true,
 				//serverSide: true, // for process server side
-                filter: false, // habilita o filtro(search box)
+				filter: false, // habilita o filtro(search box)
 				pageLength: 10, // define o tamanho da página
 
 				ajax: {
-                    "url": "/Atos/IndexAtoAjax",
-                    "type": "POST",
-                    "dataType": "json",
+					"url": "/Atos/IndexAtoAjax",
+					"type": "POST",
+					"dataType": "json",
 					"cache": false,
-                    "data": function (d) {
+					"data": function (d) {
 						var objData = {
 							DataIni: $("#dataIni").val(),
 							DataFim: $("#dataFim").val(),

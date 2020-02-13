@@ -7,6 +7,7 @@ by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
 var urlGetListCamposTipoAto = '/Modelos/GetListCamposTipoAto';
+var form_para_validar = null;
 
 $(document).ready(function () {
 
@@ -66,6 +67,8 @@ $(document).ready(function () {
 		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
 		font_defaultLabel: 'Times New Roman',
 		fontSize_defaultLabel: '14',
+		disableNativeSpellChecker: false,
+		removePlugins: 'liststyle,tabletools,scayt,menubutton,contextmenu',
 		//startupFocus: true,
 		toolbarGroups: [
 			{ name: 'document', groups: ['mode', 'document', 'doctools'] },
@@ -87,6 +90,16 @@ $(document).ready(function () {
 
 	$("#frm-cadastro-modelo-docx").submit(function (e) {
 		var frm_valid = form_para_validar.valid();
+		var txt = CKEDITOR.instances.ckedtModeloAto.getData();
+
+		if (!txt) {
+			frm_valid = false;
+			ShowDlgBoxCartorio({
+				headerText: "Alerta",
+				messageText: "Não é possivel salvar um texto de modelo vazio!",
+				alertType: "danger"
+			});
+		}
 
 		if (!frm_valid) {
 			e.preventDefault();
@@ -107,7 +120,6 @@ $(document).ready(function () {
 		var campo = $("#sel-campo-tipo-ato-modelo option:selected").text();
 		CKEDITOR.instances.ckedtModeloAto.insertText("[" + campo + "]");
 	});
-
 
 	$("#btn-insert-grupo-modelo").click(function (e) {
 		e.preventDefault();

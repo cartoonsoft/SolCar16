@@ -9,14 +9,19 @@
 @Html.HiddenFor(model => model.Ativo)
 
 <fieldset>
+
 	<div class="row">
-		<div class="col-md-2">
-			<div class="checkbox-inline">
-				<label>
-					@Html.CheckBoxFor(model => model.Ativo, new { @value = Model.Ativo, @checked = Model.Ativo, @disabled = "disabled" })
-					@Html.LabelFor(model => model.Ativo, new { @class = "label-checkbox" })
-				</label>
+		<div class="col-md-1">
+			<div class="form-group">
+				@Html.TextBoxFor(model => model.Id, null, new { @class = "form-control", @placeholder = "Código", @disabled = "disabled" })
 			</div>
+		</div>
+		<div class="col-md-2">
+			<label class="checkbox-container">
+				Ativo
+				@Html.CheckBoxFor(model => model.Ativo, new { @value = Model.Ativo, @checked = Model.Ativo, @disabled = "disabled" })
+				<span class="checkmark"></span>
+			</label>
 		</div>
 	</div>
 	<div class="row">
