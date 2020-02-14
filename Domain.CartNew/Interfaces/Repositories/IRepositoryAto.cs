@@ -19,6 +19,12 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         bool SetStatusAto(long? idAto, string statusAto);
 
+        DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
+
+        DateTime? DataRegPrenotacao(long IdPrenotacao);
+
+        PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
+
         IEnumerable<Docx> GerarFichas(Ato ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<Ato> GetListAtosMatricula(string NumMatricula);
@@ -29,14 +35,16 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
+        /// <summary>
+        /// os métodos GetListPessoas, GetPessoa estão aqui pq se referem a pessoas da base onzeri, só são lidos para gerar o ato
+        /// </summary>
+        /// <param name="IdPrenotacao"></param>
+        /// <returns></returns>
         IEnumerable<PessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
-
-        PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 
         IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 
         IEnumerable<Docx> GetListDocxAto(long? IdAto);
-        DateTime? DataRegPrenotacao(long IdPrenotacao);
 
         IEnumerable<CampoTipoAto> GetListCamposAto(long IdTipoAto, long IdCtaAcessoSist);
 
@@ -48,6 +56,6 @@ namespace Domain.CartNew.Interfaces.Repositories
 
         IEnumerable<AtoEvento> GetListHistoricoAto(long? IdAto);
 
-        DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
+        IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao);
     }
 }

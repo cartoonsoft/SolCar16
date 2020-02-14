@@ -369,6 +369,24 @@ namespace DomainServ.CartNew.Services
             throw new NotImplementedException();
         }
 
+        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
+            PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
+            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
+
+            return dtoPessoaPesxPre;
+        }
+
+        public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
+        {
+            DtoDadosImovel dtoImovel = new DtoDadosImovel();
+            DadosImovel imovel = this.UfwCartNew.Repositories.RepositoryAto.GetDadosImovel(IdPrenotacao, NumMatricula);
+            dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
+
+            return dtoImovel;
+        }
+
         public IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula)
         {
             List<DtoAto> listaDtoAto = new List<DtoAto>();
@@ -441,23 +459,12 @@ namespace DomainServ.CartNew.Services
             return listaDto;
         }
 
-        public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
         {
-            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
-            PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
-            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
+            List<string> lista = new List<string>();
+            lista = this.UfwCartNew.Repositories.RepositoryAto.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
 
-            return dtoPessoaPesxPre;
+            return lista;
         }
-
-        public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
-        {
-            DtoDadosImovel dtoImovel = new DtoDadosImovel();
-            DadosImovel imovel = this.UfwCartNew.Repositories.RepositoryAto.GetDadosImovel(IdPrenotacao, NumMatricula);
-            dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
-
-            return dtoImovel;
-        }
-
     }
 }

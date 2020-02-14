@@ -337,6 +337,14 @@ namespace AppServCart11RI.AppServices
             return this.UfwCartNew.Repositories.RepositoryAto.DataRegPrenotacao(IdPrenotacao);
         }
 
+        public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
+        {
+            List<string> listaMatriculas = new List<string>();
+            listaMatriculas = this.DsFactoryCartNew.AtoDs.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
+
+            return listaMatriculas;
+        }
+
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
             List<DtoDadosImovel> listaImoveis = new List<DtoDadosImovel>();

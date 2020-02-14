@@ -14,7 +14,8 @@ var urlProcReservarMatImovel = '/Atos/ProcReservarMatImovel';
 var urlGetTextoAto = '/Atos/GetTextoAto';
 var urlGetTextoWordDocModelo = '/Atos/GetTextoWordDocModelo';
 var urlInsertOrUpdateAtoAjax = '/Atos/InsertOrUpdateAtoAjax';
-var urlGetDadosPorPrenotacao = '/Atos/GetDadosPorPrenotacao';
+var urlGetDadosPrenotacao = '/Atos/GetDadosPrenotacao';
+var urlGetListMatriculasPrenotacao = '/Atos/GetListMatriculasPrenotacao';
 var urlConfirmarUserLoginSenha = '/Account/ConfirmarUserLoginSenha';
 var urlSetStatusAto = '/Atos/SetStatusAto';
 var urlSetTextoConferido = '/Atos/SetTextoConferido';
@@ -232,7 +233,7 @@ $(document).ready(function () {
 
 		var selItem = $("option:selected", this).val();
 
-		if (isNaN(selItem) || (selItem == "")) {
+		if (isNaN(selItem) || !selItem) {
 			$.smallBox({
 				title: "Valor inválido!",
 				content: "Selecine um modelo da lista.",

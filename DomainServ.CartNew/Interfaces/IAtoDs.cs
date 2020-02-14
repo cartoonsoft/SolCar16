@@ -29,6 +29,14 @@ namespace DomainServ.CartNew.Interfaces
 
         DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido);
 
+        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
+
+        DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
+
+        DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario);
+
+        bool AtoJaCadastrado(long idPrenotacao, string numMatricula);
+
         IEnumerable<DtoDocx> GerarFichas(DtoAto ato); //qd cria coisas no banco nome no infinitivo: ex Gerar
 
         IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
@@ -47,12 +55,6 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoAtoEvento> GetListHistoricoAto(long? IdAto);
 
-        DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
-
-        DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
-
-        DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario);
-
-        bool AtoJaCadastrado(long idPrenotacao, string numMatricula);
+        IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao);
     }
 }

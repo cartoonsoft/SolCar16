@@ -172,10 +172,10 @@ $(document).ready(function () {
         e.preventDefault();
 
         var numPrenotacao = $("#IdPrenotacao").val().trim();
-        var sel = $("#ddListImoveisPrenotacao");
+        var sel = $("#ddListMatriculasPrenotacao");
         $("#IdPrenotacao_2").val(numPrenotacao);
 
-        if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+        if (isNaN(numPrenotacao) || !numPrenotacao) {
             $.smallBox({
                 title: "Valor inválido!",
                 content: "Número de prenotação está inválido.",
@@ -184,7 +184,7 @@ $(document).ready(function () {
                 timeout: 4000
             });
         } else {
-            PesquisarPrenotacao(numPrenotacao, sel, urlGetDadosPorPrenotacao);
+            PesquisarPrenotacao(numPrenotacao, sel);
         }
 
     });
@@ -193,7 +193,7 @@ $(document).ready(function () {
     $("#btn-reserva-mat").click(function (e) {
         e.preventDefault();
 
-        var obj = $("#ddListImoveisPrenotacao");
+        var obj = $("#ddListMatriculasPrenotacao");
         var numPrenotacao = $("#IdPrenotacao").val().trim();
         var numMat = $("option:selected", obj).val();
         $("#NumMatricula_2").val(numMat);
@@ -205,7 +205,7 @@ $(document).ready(function () {
     $("#btn-libera-mat").click(function (e) {
         e.preventDefault();
 
-        var obj = $("#ddListImoveisPrenotacao");
+        var obj = $("#ddListMatriculasPrenotacao");
         var numPrenotacao = $("#IdPrenotacao").val().trim();
         var numMat = $("option:selected", obj).val();
 
@@ -218,7 +218,7 @@ $(document).ready(function () {
 
         var numPrenotacao = $("#IdPrenotacao").val().trim();
 
-        if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+        if (isNaN(numPrenotacao) || !numPrenotacao) {
             $.smallBox({
                 title: "Valor inválido!",
                 content: "Número de prenotação está inválido.",
@@ -292,7 +292,7 @@ $(document).ready(function () {
                 return false;
             } else {
                 /*-- -------------------------------------------------------- */
-                if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+                if (isNaN(numPrenotacao) || !numPrenotacao) {
                     $.smallBox({
                         title: "Número de prenotação inválido!",
                         content: "Preencha o número de prenotação...",
@@ -357,18 +357,20 @@ function HabilitarProximo() {
 }
 
 /** ----------------------------------------------------------------------------
- * Pesquisa por prenotação e busca dados do imovel
+ * Pesquisa por prenotação e busca a lista de matriculas desta prenotação
  * @@param {any} numPrenotacao
- * @@param {any} selObj select que será povoado se retornar matriculas de imoveis
+ * @@param {any} selObj select que será povoado com  os núm. de matriculas de imoveis
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function PesquisarPrenotacao(numPrenotacao, selObj, url)
+function PesquisarPrenotacao(numPrenotacao, selObj)
 {
-    if (!isNaN(numPrenotacao)) {
+    if (!isNaN(numPrenotacao) || !numPrenotacao) {
+
         var dadosPrenotacao = {
             IdPrenotacao: numPrenotacao
         };
-        GetDadosPorPrenotacao(dadosPrenotacao, selObj, url);
+
+        GetDadosPrenotacao(dadosPrenotacao, selObj);
     } else {
         $.smallBox({
             title: "Entrada inválida!",
@@ -386,12 +388,8 @@ function PesquisarPrenotacao(numPrenotacao, selObj, url)
  * @@param {any} selObj
  * @@param {any} url
  ---------------------------------------------------------------------------- */
-function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url)
-{
-    $('#btn-reserva-mat').prop('disabled', true);
-    $('#btn-libera-mat').prop('disabled', true);
-
-    $.ajax(url, {
+function GetDadosPrenotacao(dadosPrenotacao, selObj) {
+    $.ajax(urlGetDadosPrenotacao, {
         method: 'POST',
         dataType: 'json',
         data: dadosPrenotacao,
@@ -401,10 +399,54 @@ function GetDadosPorPrenotacao(dadosPrenotacao, selObj, url)
     }).done(function (dataReturn) {
         if (dataReturn.resposta) {
 
-            var dadosValidos = !(typeof dataReturn.ListaDtoDadosImovel == 'undefined' || dataReturn.ListaDtoDadosImovel == null);
-            $("#DataRegPrenotacao").val(dataReturn.DataRegPrenotacao);
+            if (dataReturn.DataRegPrenotacao) {
 
-            if (dadosValidos) {
+                $("#DataRegPrenotacao").val(dataReturn.DataRegPrenotacao);
+            }
+            GetListMatriculasPrenotacao(dadosPrenotacao, selObj);
+        } else {
+            $.smallBox({
+                title: "Não foi possivel processar sua requisição!",
+                content: dataReturn.msg,
+                color: cor_smallBox_erro,
+                icon: "fa fa-thumbs-down bounce animated",
+                timeout: 8000
+            });
+        }
+    }).fail(function (jq, textStatus, error) {
+        HideProgressBar();
+        $.smallBox({
+            title: "Falha na sua requisição!",
+            content: textStatus + "[" + error + "]",
+            color: cor_smallBox_erro,
+            icon: "fa fa-thumbs-down bounce animated",
+            timeout: 8000
+        });
+    }).always(function () {
+        HideProgressBar();
+    });
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} dadosPrenotacao
+ * @@param {any} selObj
+ ---------------------------------------------------------------------------- */
+function GetListMatriculasPrenotacao(dadosPrenotacao, selObj)
+{
+    $('#btn-reserva-mat').prop('disabled', true);
+    $('#btn-libera-mat').prop('disabled', true);
+
+    $.ajax(urlGetListMatriculasPrenotacao, {
+        method: 'POST',
+        dataType: 'json',
+        data: dadosPrenotacao,
+        beforeSend: function () {
+            ShowProgreessBar("Processando requisição...");
+        }
+    }).done(function (dataReturn) {
+        if (dataReturn.resposta) {
+            if (dataReturn.ListaMatriculasPrenotacao) {
                 PovoarSelImoveis(selObj, dataReturn.ListaDtoDadosImovel);
                 $('#btn-reserva-mat').prop('disabled', false);
                 $('#btn-libera-mat').prop('disabled', false);
@@ -748,18 +790,17 @@ function PovoarSelecionados(numPrenotacao)
 }
 
 /** ----------------------------------------------------------------------------
- * PovoarSelImoveis
+ * PovoarSelImoveis - povoar select : ddListMatriculasPrenotacao
  * @@param {any} selObj
  * @@param {any} listaModelos
 ----------------------------------------------------------------------------- */
-function PovoarSelImoveis(selObj, listaImoveis)
+function PovoarSelImoveis(selObj, listaMatriculas)
 {
     var sel = selObj;
 
-    if (!(typeof sel == 'undefined' || sel == null)) {
+    if (sel) {
         $(sel).empty();
-
-        $.each(listaImoveis, function (index, item) {
+        $.each(listaMatriculas, function (index, item) {
             $(sel).append('<option value="' + item.NumMatricula + '" >' + item.NumMatricula + '</option>');
         });
     }

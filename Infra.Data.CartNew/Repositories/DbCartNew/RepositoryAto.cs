@@ -91,7 +91,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     WHERE A.NRO_MATRICULA = :NRO_MATRICULA
                     AND A.ATIVO = 1";
 
-            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            using (OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings[Context.ContextName].ConnectionString))
             {
                 conn.Open();
                 using (OracleCommand command = new OracleCommand(strQuery, conn))
@@ -124,7 +124,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     AND ID_TP_ATO != 3
                     AND A.ATIVO = 1";
 
-            using (OracleConnection conn = new OracleConnection(this.Context.Database.Connection.ConnectionString))
+            using (OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings[Context.ContextName].ConnectionString))
             {
                 conn.Open();
                 using (OracleCommand command = new OracleCommand(strQuery, conn))
@@ -143,7 +143,131 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 }
                 conn.Close();
             }
+
             return NumSequenciaAto;
+        }
+
+        public DateTime? DataRegPrenotacao(long IdPrenotacao)
+        {
+            DateTime? dataTmp = null;
+            var Premad = this._contextRepository.DbPREMAD.Where(pp => (pp.SEQPRE == IdPrenotacao) && (pp.TIPODATA.Trim() == "R")).FirstOrDefault();
+
+            if (Premad != null)
+            {
+                dataTmp = new DateTime(1800, 1, 2, 0, 0, 0);
+                dataTmp = dataTmp.Value.AddDays(Premad.DATA);
+            }
+
+            return dataTmp;
+        }
+
+        public PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        {
+            PessoaPesxPre pessoaPesxPre = new PessoaPesxPre();
+
+            string relacao = string.Empty;
+            var pessoa = this._contextRepository.DbPESSOAS.Where(p => p.SEQPES == idPessoa).FirstOrDefault();
+
+            if (idPrenotacao.HasValue && (idPrenotacao.Value > 0))
+            {
+                var pesPrenotacao = this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (pr.SEQPES == idPessoa) && (PapelPessoaAto.Contains(pr.REL))).FirstOrDefault();
+
+                if (pesPrenotacao != null)
+                {
+                    relacao = pesPrenotacao.REL == null ? "" : pesPrenotacao.REL.Trim();
+                }
+            }
+
+            if (pessoa != null)
+            {
+                pessoaPesxPre.IdPessoa = pessoa.SEQPES;
+                pessoaPesxPre.IdPrenotacao = idPrenotacao ?? 0;
+                pessoaPesxPre.Relacao = relacao;
+                pessoaPesxPre.TipoPessoa = this.GetTipoPessoa(relacao);
+                pessoaPesxPre.Nome = pessoa.NOM == null ? "" : pessoa.NOM.Trim();
+                pessoaPesxPre.Endereco = pessoa.ENDER == null ? "" : pessoa.ENDER.Trim();
+                pessoaPesxPre.Bairro = pessoa.BAI == null ? "" : pessoa.BAI.Trim();
+                pessoaPesxPre.Cidade = pessoa.CID == null ? "" : pessoa.CID.Trim();
+                pessoaPesxPre.Uf = pessoa.UF == null ? "" : pessoa.UF.Trim();
+                pessoaPesxPre.Cep = pessoa.CEP.ToString();
+                pessoaPesxPre.Telefone = pessoa.TEL == null ? "" : pessoa.TEL.Trim();
+                pessoaPesxPre.TipoDoc1 = pessoa.TIPODOC1.ToString();
+                pessoaPesxPre.Numero1 = pessoa.NRO1 == null ? "" : pessoa.NRO1.Trim();
+                pessoaPesxPre.TipoDoc2 = pessoa.TIPODOC2 == null ? "" : pessoa.TIPODOC2.Trim();
+                pessoaPesxPre.Numero2 = pessoa.NRO2 == null ? "" : pessoa.NRO2.Trim();
+            }
+
+            return pessoaPesxPre;
+        }
+
+        public short GetUltimoNumFicha(string NumMatricula)
+        {
+            throw new NotImplementedException();
+        }
+
+        public DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
+        {
+            long mat = 0;
+            DadosImovel dadosImovel = new DadosImovel();
+
+            if (long.TryParse(NumMatricula, out mat))
+            {
+                var imovel = this._contextRepository.DbPREIMO.Where(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI == mat)).FirstOrDefault();
+                dadosImovel.IdPrenotacao = IdPrenotacao;
+                dadosImovel.NumMatricula = NumMatricula;
+
+                if (imovel != null)
+                {
+                    dadosImovel.APTO = imovel.APTO == null ? "" : imovel.APTO.Trim();
+                    dadosImovel.BLOCO = imovel.BLOCO == null ? "" : imovel.BLOCO.Trim();
+                    dadosImovel.CONTRIB = imovel.CONTRIB;
+                    dadosImovel.EDIF = imovel.EDIF == null ? "" : imovel.EDIF.Trim();
+                    dadosImovel.ENDER = imovel.ENDER == null ? "" : imovel.ENDER.Trim();
+                    dadosImovel.HIPO = imovel.HIPO;
+                    dadosImovel.INSCR = imovel.INSCR;
+                    dadosImovel.LOTE = imovel.LOTE == null ? "" : imovel.LOTE.Trim();
+                    dadosImovel.MATRI = imovel.MATRI;
+                    dadosImovel.NUM = imovel.NUM == null ? "" : imovel.NUM.Trim();
+                    dadosImovel.OUTROS = imovel.OUTROS == null ? "" : imovel.OUTROS.Trim();
+                    dadosImovel.QUADRA = imovel.QUADRA == null ? "" : imovel.QUADRA.Trim();
+                    dadosImovel.RD = imovel.RD;
+                    dadosImovel.SEQIMO = imovel.SEQIMO;
+                    dadosImovel.SEQPRE = imovel.SEQPRE;
+                    dadosImovel.SUBD = imovel.SUBD;
+                    dadosImovel.TIPO = imovel.TIPO == null ? "" : imovel.TIPO.Trim();
+                    dadosImovel.TITULO = imovel.TITULO == null ? "" : imovel.TITULO.Trim();
+                    dadosImovel.TRANS = imovel.TRANS;
+                    dadosImovel.VAGA = imovel.VAGA == null ? "" : imovel.VAGA.Trim();
+                }
+            }
+
+            return dadosImovel;
+        }
+
+        public bool SetStatusAto(long? idAto, string statusAto)
+        {
+            long linhasAfetadas = 0;
+
+            string strQuery =
+                @"UPDATE  DEZESSEIS_NEW.TB_ATO SET
+                    STATUS_ATO = :STATUS_ATO
+                WHERE ID_ATO = :ID_ATO";
+
+            using (OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings[Context.ContextName].ConnectionString))
+            {
+                conn.Open();
+                using (OracleCommand command = new OracleCommand(strQuery, conn))
+                {
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.BindByName = true;
+                    command.Parameters.Add(new OracleParameter("STATUS_ATO", OracleDbType.Varchar2, statusAto, System.Data.ParameterDirection.Input));
+                    command.Parameters.Add(new OracleParameter("ID_ATO", OracleDbType.Long, idAto, System.Data.ParameterDirection.Input));
+                    linhasAfetadas = command.ExecuteNonQuery();
+                }
+                conn.Close();
+            }
+
+            return linhasAfetadas > 0;
         }
 
         public IEnumerable<Docx> GerarFichas(Ato ato)
@@ -175,11 +299,11 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaAtos;
         }
 
-        //qd nao sanvou o ato, para gerar o docx
         public IEnumerable<CampoTipoAto> GetListCamposAto(long IdTipoAto, long IdCtaAcessoSist)
         {
             return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "ATO");
         }
+      
         public IEnumerable<CampoTipoAto> GetListCamposPrenotacao(long IdTipoAto, long IdCtaAcessoSist) 
         {
             return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "PRENOTACAO");
@@ -193,20 +317,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         public IEnumerable<CampoTipoAto> GetListCamposPessoa(long IdTipoAto, long IdCtaAcessoSist)
         {
             return this.GetListCampos(IdTipoAto, IdCtaAcessoSist, "PESSOA");
-        }
-
-        public DateTime? DataRegPrenotacao(long IdPrenotacao)
-        {
-            DateTime? dataTmp = null;
-            var Premad = this._contextRepository.DbPREMAD.Where(pp => (pp.SEQPRE == IdPrenotacao) && (pp.TIPODATA.Trim() == "R")).FirstOrDefault();
-
-            if (Premad != null)
-            {
-                dataTmp = new DateTime(1800, 1, 2, 0, 0, 0);
-                dataTmp = dataTmp.Value.AddDays(Premad.DATA);
-            }
-
-            return dataTmp;
         }
 
         public IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
@@ -252,26 +362,26 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPrenotacao = imovel.IdPrenotacao,
                     NumMatricula = imovel.NumMatricula.ToString(),
-                    APTO = imovel.APTO == null?"": imovel.APTO.Trim(),
-                    BLOCO = imovel.BLOCO == null?"": imovel.BLOCO.Trim(),
+                    APTO = imovel.APTO == null ? "" : imovel.APTO.Trim(),
+                    BLOCO = imovel.BLOCO == null ? "" : imovel.BLOCO.Trim(),
                     CONTRIB = imovel.CONTRIB,
-                    EDIF = imovel.EDIF == null?"": imovel.EDIF.Trim(),
-                    ENDER = imovel.ENDER == null?"": imovel.EDIF.Trim(),
+                    EDIF = imovel.EDIF == null ? "" : imovel.EDIF.Trim(),
+                    ENDER = imovel.ENDER == null ? "" : imovel.EDIF.Trim(),
                     HIPO = imovel.HIPO,
                     INSCR = imovel.INSCR,
-                    LOTE = imovel.LOTE == null?"": imovel.LOTE.Trim(),
+                    LOTE = imovel.LOTE == null ? "" : imovel.LOTE.Trim(),
                     MATRI = imovel.MATRI,
-                    NUM = imovel.NUM == null?"":imovel.NUM.Trim(),
-                    OUTROS = imovel.OUTROS == null?"":imovel.OUTROS.Trim(),
-                    QUADRA = imovel.QUADRA == null?"":imovel.QUADRA.Trim(),
+                    NUM = imovel.NUM == null ? "" : imovel.NUM.Trim(),
+                    OUTROS = imovel.OUTROS == null ? "" : imovel.OUTROS.Trim(),
+                    QUADRA = imovel.QUADRA == null ? "" : imovel.QUADRA.Trim(),
                     RD = imovel.RD,
                     SEQIMO = imovel.SEQIMO,
                     SEQPRE = imovel.SEQPRE,
                     SUBD = imovel.SUBD,
-                    TIPO = imovel.TIPO == null?"":imovel.TIPO.Trim(),
-                    TITULO = imovel.TITULO == null?"":imovel.TITULO.Trim(),
+                    TIPO = imovel.TIPO == null ? "" : imovel.TIPO.Trim(),
+                    TITULO = imovel.TITULO == null ? "" : imovel.TITULO.Trim(),
                     TRANS = imovel.TRANS,
-                    VAGA = imovel.VAGA == null?"":imovel.VAGA.Trim()
+                    VAGA = imovel.VAGA == null ? "" : imovel.VAGA.Trim()
                 });
             }
 
@@ -318,8 +428,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                         IdPrenotacao = pessoa.IdPrenotacao,
                         Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
                         TipoPessoa = pessoa.TipoPessoa,
-                        Nome = pessoa.Nome == null?"" : pessoa.Nome.Trim(),
-                        Endereco = pessoa.Endereco == null?"" : pessoa.Endereco.Trim(),
+                        Nome = pessoa.Nome == null ? "" : pessoa.Nome.Trim(),
+                        Endereco = pessoa.Endereco == null ? "" : pessoa.Endereco.Trim(),
                         Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
                         Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
                         Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
@@ -336,11 +446,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaPessoas;
         }
 
-        /// <summary>
-        /// os métodos GetListPessoas, GetPessoa estão aqui pq se referem a pessoas da base onzeri, só são lidos para gerar o ato
-        /// </summary>
-        /// <param name="IdPrenotacao"></param>
-        /// <returns></returns>
         public IEnumerable<PessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
             List<PessoaPesxPre> listaPessoaPesxPre = new List<PessoaPesxPre>();
@@ -375,8 +480,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     IdPrenotacao = pessoa.IdPrenotacao,
                     Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
                     TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
-                    Nome = pessoa.Nome == null? "": pessoa.Nome.Trim(),
-                    Endereco = pessoa.Endereco == null? "": pessoa.Endereco.Trim(),
+                    Nome = pessoa.Nome == null ? "" : pessoa.Nome.Trim(),
+                    Endereco = pessoa.Endereco == null ? "" : pessoa.Endereco.Trim(),
                     Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
                     Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
                     Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
@@ -397,8 +502,8 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             List<PessoaPesxPre> listaPessoaCart11RI = new List<PessoaPesxPre>();
 
             var listaPessoas =
-                from  pes in this._contextRepository.DbPESSOAS.Where(p => idsPessoas.Contains(p.SEQPES))
-                join  pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (PapelPessoaAto.Contains(pr.REL))) on pes.SEQPES equals pre.SEQPES into _pre
+                from pes in this._contextRepository.DbPESSOAS.Where(p => idsPessoas.Contains(p.SEQPES))
+                join pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (PapelPessoaAto.Contains(pr.REL))) on pes.SEQPES equals pre.SEQPES into _pre
                 from pre in _pre.DefaultIfEmpty()
                 orderby pre.REL, pes.NOM
                 select new
@@ -425,7 +530,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                 {
                     IdPessoa = pessoa.IdPessoa,
                     IdPrenotacao = idPrenotacao ?? 0,
-                    Relacao = pessoa.Relacao == null ? "": pessoa.Relacao.Trim(),
+                    Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
                     TipoPessoa = this.GetTipoPessoa(pessoa.Relacao),
                     Nome = pessoa.Nome == null ? "" : pessoa.Nome.Trim(),
                     Endereco = pessoa.Endereco == null ? "" : pessoa.Endereco.Trim(),
@@ -493,115 +598,27 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
             return listaAtoEvento;
         }
 
-        public PessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
+        public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
         {
-            PessoaPesxPre pessoaPesxPre = new PessoaPesxPre();
+            List<string> lista = new List<string>();
 
-            string relacao = string.Empty;
-            var pessoa = this._contextRepository.DbPESSOAS.Where(p => p.SEQPES == idPessoa).FirstOrDefault();
-
-            if (idPrenotacao.HasValue && (idPrenotacao.Value > 0))
-            {
-                var pesPrenotacao = this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (pr.SEQPES == idPessoa) && (PapelPessoaAto.Contains(pr.REL))).FirstOrDefault();
-
-                if (pesPrenotacao != null)
+            var qryImoveis = (
+                from mi in this._contextRepository.DbMATRIMO.Where(m => (m.SEQPRE == IdPrenotacao) && (m.TIPO.Trim() == "1"))
+                orderby mi.NUMERO
+                select new
                 {
-                    relacao = pesPrenotacao.REL ==null?"": pesPrenotacao.REL.Trim();
+                    IdPrenotacao = IdPrenotacao,
+                    NumMatricula = mi.NUMERO
                 }
-            }
+            ).Distinct();
 
-            if (pessoa != null) 
+            foreach (var imovel in qryImoveis)
             {
-                pessoaPesxPre.IdPessoa = pessoa.SEQPES;
-                pessoaPesxPre.IdPrenotacao = idPrenotacao ?? 0;
-                pessoaPesxPre.Relacao = relacao;
-                pessoaPesxPre.TipoPessoa = this.GetTipoPessoa(relacao);
-                pessoaPesxPre.Nome = pessoa.NOM == null?"": pessoa.NOM.Trim();
-                pessoaPesxPre.Endereco = pessoa.ENDER == null ? "" : pessoa.ENDER.Trim();
-                pessoaPesxPre.Bairro = pessoa.BAI == null ? "" : pessoa.BAI.Trim();
-                pessoaPesxPre.Cidade = pessoa.CID == null ? "" : pessoa.CID.Trim();
-                pessoaPesxPre.Uf = pessoa.UF == null ? "" : pessoa.UF.Trim();
-                pessoaPesxPre.Cep = pessoa.CEP.ToString();
-                pessoaPesxPre.Telefone = pessoa.TEL == null ? "" : pessoa.TEL.Trim();
-                pessoaPesxPre.TipoDoc1 = pessoa.TIPODOC1.ToString();
-                pessoaPesxPre.Numero1 = pessoa.NRO1 == null ? "" : pessoa.NRO1.Trim();
-                pessoaPesxPre.TipoDoc2 = pessoa.TIPODOC2 == null ? "" : pessoa.TIPODOC2.Trim();
-                pessoaPesxPre.Numero2 = pessoa.NRO2 == null ? "" : pessoa.NRO2.Trim();
+                lista.Add(imovel.NumMatricula.ToString());
             }
 
-            return pessoaPesxPre;
+            return lista;
         }
-
-        public short GetUltimoNumFicha(string NumMatricula)
-        {
-            throw new NotImplementedException();
-        }
-
-        public DadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
-        {
-            long mat = 0;
-            DadosImovel dadosImovel = new DadosImovel();
-
-            if (long.TryParse(NumMatricula, out mat))
-            {
-                var imovel = this._contextRepository.DbPREIMO.Where(p => (p.SEQPRE == IdPrenotacao) && (p.MATRI == mat)).FirstOrDefault();
-                dadosImovel.IdPrenotacao = IdPrenotacao;
-                dadosImovel.NumMatricula = NumMatricula;
-
-                if (imovel != null)
-                {
-                    dadosImovel.APTO = imovel.APTO == null?"": imovel.APTO.Trim();
-                    dadosImovel.BLOCO = imovel.BLOCO == null ? "" : imovel.BLOCO.Trim();
-                    dadosImovel.CONTRIB = imovel.CONTRIB;
-                    dadosImovel.EDIF = imovel.EDIF == null ? "" : imovel.EDIF.Trim();
-                    dadosImovel.ENDER = imovel.ENDER == null ? "" : imovel.ENDER.Trim();
-                    dadosImovel.HIPO = imovel.HIPO;
-                    dadosImovel.INSCR = imovel.INSCR;
-                    dadosImovel.LOTE = imovel.LOTE == null ? "" : imovel.LOTE.Trim();
-                    dadosImovel.MATRI = imovel.MATRI;
-                    dadosImovel.NUM = imovel.NUM == null ? "" : imovel.NUM.Trim();
-                    dadosImovel.OUTROS = imovel.OUTROS == null ? "" : imovel.OUTROS.Trim();
-                    dadosImovel.QUADRA = imovel.QUADRA == null ? "" : imovel.QUADRA.Trim();
-                    dadosImovel.RD = imovel.RD;
-                    dadosImovel.SEQIMO = imovel.SEQIMO;
-                    dadosImovel.SEQPRE = imovel.SEQPRE;
-                    dadosImovel.SUBD = imovel.SUBD;
-                    dadosImovel.TIPO = imovel.TIPO == null ? "" : imovel.TIPO.Trim();
-                    dadosImovel.TITULO = imovel.TITULO == null ? "" : imovel.TITULO.Trim();
-                    dadosImovel.TRANS = imovel.TRANS;
-                    dadosImovel.VAGA = imovel.VAGA == null ? "" : imovel.VAGA.Trim();
-                }
-            }
-
-            return dadosImovel;
-        }
-
-        public bool SetStatusAto(long? idAto, string statusAto) 
-        {
-            long linhasAfetadas = 0;
-
-            string strQuery =
-                @"UPDATE  DEZESSEIS_NEW.TB_ATO SET
-                    STATUS_ATO = :STATUS_ATO
-                WHERE ID_ATO = :ID_ATO";
-            
-            using (OracleConnection conn = new OracleConnection(ConfigurationManager.ConnectionStrings[Context.ContextName].ConnectionString))
-            {
-                conn.Open();
-                using (OracleCommand command = new OracleCommand(strQuery, conn))
-                {
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.BindByName = true;
-                    command.Parameters.Add(new OracleParameter("STATUS_ATO", OracleDbType.Varchar2, statusAto, System.Data.ParameterDirection.Input));
-                    command.Parameters.Add(new OracleParameter("ID_ATO", OracleDbType.Long, idAto, System.Data.ParameterDirection.Input));
-                    linhasAfetadas = command.ExecuteNonQuery();
-                }
-                conn.Close();
-            }
-
-            return linhasAfetadas > 0;
-        }
-
     }
 
 }

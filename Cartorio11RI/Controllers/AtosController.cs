@@ -455,30 +455,57 @@ namespace Cartorio11RI.Controllers
             return Json(resultado);
         }
 
-        public JsonResult GetDadosPorPrenotacao(long IdPrenotacao) 
+        public JsonResult GetDadosPrenotacao(long IdPrenotacao) 
         {
             bool resp = false;
             string message = string.Empty;
             DateTime? dataReg = null;
-
-            List<DtoDadosImovel> listaDtoDadosImovel = new List<DtoDadosImovel>();
 
             try
             {
                 using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     dataReg = appServAtos.DataRegPrenotacao(IdPrenotacao);
-                    listaDtoDadosImovel = appServAtos.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+                    resp = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+            }
 
-                    if (listaDtoDadosImovel != null)
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString(new CultureInfo("pt-BR")) : "" 
+            };
+
+            return Json(resultado);
+        }
+
+        [HttpPost]
+        public JsonResult GetListMatriculasPrenotacao(long IdPrenotacao)
+        {
+            bool resp = false;
+            string message = string.Empty;
+            List<string> listaMatriculasPrenotacao = new List<string>();
+
+            try
+            {
+                using (AppServiceAtos appServAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    listaMatriculasPrenotacao = appServAtos.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
+
+                    if (listaMatriculasPrenotacao != null)
                     {
-                        if (listaDtoDadosImovel.Count() > 0)
+                        if (listaMatriculasPrenotacao.Count() > 0)
                         {
-                            message = "Dados retornados con sucesso!";
+                            message = "Dados retornados com sucesso!";
                             resp = true;
                         } else
                         {
-                            message = "Número de Prenotação e/ou matrículas não encontradas na base de dados!";
+                            message = "Lista de matriculas inexistentes na base de dados!!";
                         }
                     } else
                     {
@@ -495,8 +522,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                DataRegPrenotacao =  dataReg.HasValue? dataReg.Value.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture) :"", 
-                ListaDtoDadosImovel = listaDtoDadosImovel
+                ListaMatriculasPrenotacao = listaMatriculasPrenotacao
             };
 
             return Json(resultado);

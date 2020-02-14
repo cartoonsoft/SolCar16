@@ -46,21 +46,7 @@ namespace AppServices.Cartorio.Interfaces
 
         DateTime? DataRegPrenotacao(long IdPrenotacao);
 
-        IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
-
-        IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
-
-        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
-
-        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao);
-
         DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
-
-        IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
-
-        IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
-
-        IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
 
         DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula);
 
@@ -71,5 +57,21 @@ namespace AppServices.Cartorio.Interfaces
         StringBuilder GetTextoAto(DtoInfAto dtoInfAto);
 
         DtoExecProc InsertOrUpdateAto(DtoAto ato, ApplicationUser usuario);
+
+        IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula);
+
+        IEnumerable<DtoAto> GetListAtosPeriodo(DateTime DataIni, DateTime DataFim);
+
+        IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
+
+        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao);
+
+        IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao);
+
+        IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto);
+
+        IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
+
+        IEnumerable<DtoDocx> GetListDocxAto(long? IdAto);
     }
 }
