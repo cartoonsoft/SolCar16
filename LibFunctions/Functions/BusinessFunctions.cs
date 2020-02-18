@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
+using LibFunctions.Functions.CommonFunc;
 
 namespace LibFunctions.Functions.BusinessFuncs
 {
@@ -11,6 +12,8 @@ namespace LibFunctions.Functions.BusinessFuncs
     {
         public static bool ValidarCPF(string cpf)
         {
+            cpf = CommonFunctions.SomenteNumeros(cpf);
+
             if (cpf.Length != 11)
                 return false;
 
@@ -58,6 +61,8 @@ namespace LibFunctions.Functions.BusinessFuncs
 
         public static bool ValidarCNPJ(string cnpj)
         {
+            cnpj = CommonFunctions.SomenteNumeros(cnpj);
+
             int[] digitos, soma, resultado;
             int nrDig;
             string ftmt;

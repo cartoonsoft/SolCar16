@@ -20,6 +20,8 @@ using AppServCart11RI.Cartorio;
 using AppServices.Cartorio.Interfaces;
 using DomainServ.CartNew.Interfaces.Factory;
 using AutoMapper;
+using LibFunctions.Functions.BusinessFuncs;
+using LibFunctions.Functions.CommonFunc;
 
 namespace AppServCart11RI.AppServices
 {
@@ -373,8 +375,34 @@ namespace AppServCart11RI.AppServices
         /// <returns></returns>
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
+            string retValTmp = string.Empty;
+
             List<DtoPessoaPesxPre> pessoasPrenotacao = new List<DtoPessoaPesxPre>();
             pessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
+
+            foreach (var pessoa in pessoasPrenotacao)
+            {
+                if (CommonFunctions.SomenteNumeros(pessoa.Numero1).Length == 11)
+                {
+                    pessoa.Valido = BusinessFunctions.ValidarCPF(pessoa.Numero1);
+                    retValTmp = "está com CPF " + (pessoa.Valido ? "Validado" : "Inválido");
+
+                } else if (CommonFunctions.SomenteNumeros(pessoa.Numero1).Length == 14) {  
+                    pessoa.Valido = BusinessFunctions.ValidarCNPJ(pessoa.Numero1);
+                    retValTmp = "está com CNPJ " + (pessoa.Valido ? "Validado" : "Inválido");
+                } else {
+                    pessoa.Valido = false;
+                    retValTmp = "está com CPF/CNPJ indeterminado!";
+                }
+
+                pessoa.RetornoValidacao = string.Format(
+                    "{0} {1}-{2}, {3}.",
+                    pessoa.TipoPessoa == TipoPessoaPrenotacao.outorgado ? "Outorgado" : "Outorgante",
+                    pessoa.IdPessoa,
+                    pessoa.Nome,
+                    retValTmp
+                );
+            }
 
             return pessoasPrenotacao;
         }

@@ -5,6 +5,7 @@
 }
 
 @section styles_especific {
+	<link href="~/Content/css/cartoonsoft_style.css" rel="stylesheet" />
 	<style>
 		/*-- coloque aqui seu código css ------------------------------------ */
 	</style>
@@ -52,6 +53,65 @@
 						<!-- widget content -->
 						<div class="widget-body">
 							<div class="row padding-10">
+								<div class="col-md-2">
+									<div class="checkbox">
+										<label>
+											@Html.CheckBox("chk_teste1", true, new { @class = "chk_cartoon" })
+											@Html.Label("chk_teste1","Bla bla bla 1", new { @class = "control-label padding-left-5 padding-top-5" })
+										</label>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="checkbox">
+										<label>
+											@Html.CheckBox("chk_teste2", true, new { @class = "chk_cartoon", @disabled = "disabled" })
+											@Html.Label("chk_teste2","Bla bla bla 2", new { @class = "control-label padding-left-5 padding-top-5" })
+										</label>
+									</div>
+								</div>
+								<div class="col-md-2">
+									<div class="checkbox">
+										<label>
+											@Html.CheckBox("chk_teste3", false, new { @class = "chk_cartoon" })
+											@Html.Label("chk_teste3", "Bla bla bla 3",  new { @class = "control-label padding-left-5 padding-top-5" })
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row padding-10">
+								<button type="button" class="btn btn-danger" data-dismiss="modal">
+									<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
+								</button>
+								<button type="button" class="btn btn-success">
+									<i class="glyphicon glyphicon-ok"></i>&nbsp;Ok
+								</button>
+
+								<button type="button" class="btn btn-success btn-lg" rel="tooltip" data-placement="top" data-original-title="Olá mundo!">
+									<i class="fa fa-thumbs-up"></i>
+								</button>
+								<button type="button" class="btn btn-success btn-sm" rel="tooltip" data-placement="top" data-original-title="Olá mundo!">
+									<i class="fa fa-thumbs-up"></i>
+								</button>
+								<button type="button" class="btn btn-success btn-xs" rel="tooltip" data-placement="top" data-original-title="Olá mundo!">
+									<i class="fa fa-thumbs-up"></i>
+								</button>
+
+								<button type="button" class="btn btn-danger btn-lg" rel="tooltip" data-placement="top" data-original-title="Descreva o erro.">
+									<i class="fa fa-thumbs-down"></i>
+								</button>
+								<button type="button" class="btn btn-danger btn-sm">
+									<i class="fa fa-thumbs-down"></i>
+								</button>
+								<button type="button" class="btn btn-danger btn-xs">
+									<i class="fa fa-thumbs-down"></i>
+								</button>
+
+							</div>
+							<div class="row padding-10">
+								<i class="fa fa-thumbs-up bg-success" title="Está valido"></i>
+								<i class="fa fa-thumbs-down bg-danger" title="Está inválido"></i>
+							</div>
+							<div class="row padding-10">
 								<button type="button" id="btnTeste1" class="btn btn-link">teste 1</button>
 								<button type="button" id="btnTeste2" class="btn btn-link">teste 2</button>
 								<button type="button" id="btnTeste3" class="btn btn-link">teste 3</button>
@@ -72,7 +132,6 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
-
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->
@@ -125,7 +184,6 @@
 
 			</article>
 			<!-- WIDGET END -->
-
 			<!-- NEW WIDGET START -->
 			<article class="col-sm-12 col-md-12 col-lg-6">
 				<!-- Widget ID (each widget will need unique ID)-->
@@ -166,7 +224,6 @@
 			<!-- WIDGET END -->
 		</div>
 		<!-- end row -->
-
 		<!-- row -->
 		<div class="row">
 			<!-- NEW WIDGET START -->

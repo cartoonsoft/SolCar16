@@ -15,6 +15,10 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
             ListaCamposValor = new List<DtoCamposValor>();
         }
 
+        public bool Valido { get; set; } // se pessoa da prenotaçao pode ser inclusa no ato., cpf válido, cadastro ok, etc
+
+        public string RetornoValidacao { get; set; } //descrição do retorno das rotinas de validação da pessoa
+
         public List<DtoCamposValor> ListaCamposValor { get; set; }
     }
 }

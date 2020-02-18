@@ -523,15 +523,6 @@ function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 	}
 } 
 
-/** ----------------------------------------------------------------------------
- * 
- * @@param {any} tipoPesso
------------------------------------------------------------------------------ */
-function GetDescTipoPessoaPrenotacao(tipoPessoa)
-{
-	return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
-}
-
 /**-----------------------------------------------------------------------------
  *
  * @@param btnObj
@@ -695,33 +686,15 @@ function PovoarSelModelos(selObj, listaModelos)
  * 
  * @@param {any} chkObj
 ----------------------------------------------------------------------------- */
-function MarcarDesmarcarPessoa(chkObj) {
-	var chkTmp = chkObj;
-	var idTmp = chkObj.value;
-	var idxTmp = ArrayPessoasIndexOfById(idTmp);
+function SelTodosPessoasPrenotacao(chkObj) {
+	if (chkObj) {
+		$("#tbl-pessoas-prenotacao tbody").find('input[type=checkbox]').each(function () {
+			var chk = chkObj.checked;
+			var obj = this;
 
-	if (idxTmp >= 0) {
-		if (chkObj) {
-			arrayPessoas[idxTmp].Selecionado = true;
-		} else {
-			arrayPessoas[idxTmp].Selecionado = false;
-		}
+			if (!obj.disabled) {
+				this.checked = chk;
+			}
+		});
 	}
-}
-
-/** ----------------------------------------------------------------------------
- * 
- * @@param {any} id
------------------------------------------------------------------------------ */
-function ArrayPessoasIndexOfById(id) {
-	var idx = -1;
-
-	for (var i = 0, len = arrayPessoas.length; i < len; i++) {
-		if (arrayPessoas[i].IdPessoa == id) {
-			idx = i;
-			break;
-		}
-	}
-
-	return idx;
 }

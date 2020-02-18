@@ -89,7 +89,6 @@ namespace LibFunctions.Functions.StringsFunc
             return toReturn.ToString();
         }
 
-
         public static string Upper(string value)
         {
             if (!string.IsNullOrEmpty(value))

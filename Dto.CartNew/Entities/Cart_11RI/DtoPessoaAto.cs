@@ -12,12 +12,25 @@ namespace Dto.CartNew.Entities.Cart_11RI
 {
     public class DtoPessoaAto: DtoBase  //base antiga
     {
+        private TipoPessoaPrenotacao _tipoPessoa = TipoPessoaPrenotacao.indefinido;
+        private string _descTipoPessoa = string.Empty;
+
         [Key]
         public long IdPessoa { get; set; }
         public long IdAto { get; set; }
         public long IdPrenotacao { get; set; }
         public string Relacao { get; set; }
-        public TipoPessoaPrenotacao TipoPessoa { get; set; }
+        public TipoPessoaPrenotacao TipoPessoa
+        {
+            get { return _tipoPessoa; }
+
+            set {
+                _tipoPessoa = value;
+                this._descTipoPessoa = this.TipoPessoa == TipoPessoaPrenotacao.outorgado ? "Outorgado" : this.TipoPessoa == TipoPessoaPrenotacao.outorgante ? "Outorgante" : "Indefinido";
+            }
+        }
+        public string DescTipoPessoa { get { return _descTipoPessoa; } }
+
         public string Nome { get; set; }
         public string Endereco { get; set; }
         public string Bairro { get; set; }

@@ -5,14 +5,27 @@
 }
 
 @section styles_especific {
+	<link href="~/Content/css/cartoonsoft_style.css" rel="stylesheet" />
 	<style>
 		/*-- coloque aqui seu código css ------------------------------------ */
-		.btn span.glyphicon {    			
-			opacity: 0;				
+		.btn span.glyphicon {
+			opacity: 0;
 		}
-		.btn.active span.glyphicon {				
-			opacity: 1;				
+
+		.btn.active span.glyphicon {
+			opacity: 1;
 		}
+
+		#tbl-pessoas-prenotacao {
+			align-content: center;
+			vertical-align: middle;
+		}
+
+
+		.table td {
+			vertical-align: middle;
+		}
+
 	</style>
 }
 
@@ -204,7 +217,6 @@
 
 </div>
 <!-- END MAIN CONTENT -->
-
 <!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
 <div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
 	<div class="modal-dialog  modal-lg">
@@ -220,7 +232,7 @@
 					<table class="table table-striped" id="tbl-selecao-pessoas">
 						<thead>
 							<tr>
-								<th><input type="checkbox" id="chk-selecao-pessoas-todos" onclick="PessoasSelTodos(this);" data-toggle="tooltip" data-placement="top" title="Selecionar todos."></th>
+								<th><input type="checkbox" id="chk-seltodos-pes-prenotacao" onclick="SelecionarTodos(this);" data-toggle="tooltip" data-placement="top" title="Selecionar todos."></th>
 								<th>Tipo</th>
 								<th>DOC</th>
 								<th>Nome</th>
@@ -245,456 +257,451 @@
 </div>
 
 @section pagespecific {
-<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
-<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/styles.js"></script>
-<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
-<script>
-	/*----------------------------------------------------------------------------*/
-	var arrayPessoas = [];
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+	<script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+	<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
+	<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/ckeditor.js"></script>
+	<script type="text/javascript" language="javascript" src="~/Scripts/plugin/ckeditor/styles.js"></script>
+	<script type="text/javascript" language="javascript" src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
+	<script>
+		/*----------------------------------------------------------------------------*/
+		var arrayPessoas = [];
 
-	/*----------------------------------------------------------------------------*/
-	class PessoaPrenotacao {
-		constructor() {
-			var _IdPessoa = 0;
-			var _IdPrenotacao = 0;
-			var _TipoPessoa = 0;
-			var _Selecionado = false;
-			var _Nome = "";
-			var _Endereco = "";
-			var _TipoDoc = ""
-			var _NumDoc = "";
-			var _Bairro = "";
-			var _Cidade = "";
-			var _UF = "";
-			var _CEP = "";
-			var _Telefone = "";
+		/*----------------------------------------------------------------------------*/
+		class PessoaPrenotacao {
+			constructor() {
+				var _IdPessoa = 0;
+				var _IdPrenotacao = 0;
+				var _TipoPessoa = 0;
+				var _Selecionado = false;
+				var _Nome = "";
+				var _Endereco = "";
+				var _TipoDoc = ""
+				var _NumDoc = "";
+				var _Bairro = "";
+				var _Cidade = "";
+				var _UF = "";
+				var _CEP = "";
+				var _Telefone = "";
+			}
+
+			/*- Gets -----------------------------------------------------------------*/
+			get IdPessoa() {
+				return this._IdPessoa;
+			}
+
+			get IdPrenotacao() {
+				return this._IdPrenotacao;
+			}
+
+			get Selecionado() {
+				return this._Selecionado;
+			}
+
+			get TipoPessoa() {
+				return this._TipoPessoa; /* 1- Outorgante 2-Outorgado*/
+			}
+
+			get Nome() {
+				return this._Nome;
+			}
+
+			get Endereco() {
+				return this._Endereco;
+			}
+
+			get TipoDoc() {
+				return this._TipoDoc;
+			}
+
+			get NumDoc() {
+				return this._NumDoc;
+			}
+
+			get Bairro() {
+				return this._Bairro;
+			}
+			get Cidade() {
+				return this._Cidade;
+			}
+
+			get UF() {
+				return this._UF;
+			}
+			get CEP() {
+				return this._CEP;
+			}
+
+			get Telefone() {
+				return this._Telefone;
+			}
+
+			/*- Sets -----------------------------------------------------------------*/
+			set IdPessoa(value) {
+				this._IdPessoa = value;
+			}
+
+			set IdPrenotacao(value) {
+				this._IdPrenotacao = value;
+			}
+
+			set TipoPessoa(value) {
+				this._TipoPessoa = value; /* 1- Outorgante 2-Outorgado*/
+			}
+
+			set Selecionado(value) {
+
+				this._Selecionado = value;
+			}
+
+			set Nome(value) {
+				this._Nome = value;
+			}
+
+			set Endereco(value) {
+				this._Endereco = value;
+			}
+
+			set TipoDoc(value) {
+				this._TipoDoc = value;
+			}
+
+			set NumDoc(value) {
+				this._NumDoc = value;
+			}
+
+			set Bairro(value) {
+				this._Bairro = value;
+			}
+
+			set Cidade(value) {
+				this._Cidade = value;
+			}
+
+			set UF(value) {
+				this._UF = value;
+			}
+
+			set CEP(value) {
+				this._CEP = value;
+			}
+
+			set Telefone(value) {
+				this._Telefone = value;
+			}
 		}
 
-		/*- Gets -----------------------------------------------------------------*/
-		get IdPessoa() {
-			return this._IdPessoa;
-		}
+		var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
 
-		get IdPrenotacao() {
-			return this._IdPrenotacao;
-		}
+		$(document).ready(function () {
 
-		get Selecionado() {
-			return this._Selecionado;
-		}
-
-		get TipoPessoa() {
-			return this._TipoPessoa; /* 1- Outorgante 2-Outorgado*/
-		}
-
-		get Nome() {
-			return this._Nome;
-		}
-
-		get Endereco() {
-			return this._Endereco;
-		}
-
-		get TipoDoc() {
-			return this._TipoDoc;
-		}
-
-		get NumDoc() {
-			return this._NumDoc;
-		}
-
-		get Bairro() {
-			return this._Bairro;
-		}
-		get Cidade() {
-			return this._Cidade;
-		}
-
-		get UF() {
-			return this._UF;
-		}
-		get CEP() {
-			return this._CEP;
-		}
-
-		get Telefone() {
-			return this._Telefone;
-		}
-
-		/*- Sets -----------------------------------------------------------------*/
-		set IdPessoa(value) {
-			this._IdPessoa = value;
-		}
-
-		set IdPrenotacao(value) {
-			this._IdPrenotacao = value;
-		}
-
-		set TipoPessoa(value) {
-			this._TipoPessoa = value; /* 1- Outorgante 2-Outorgado*/
-		}
-
-		set Selecionado(value) {
-
-			this._Selecionado = value;
-		}
-
-		set Nome(value) {
-			this._Nome = value;
-		}
-
-		set Endereco(value) {
-			this._Endereco = value;
-		}
-
-		set TipoDoc(value) {
-			this._TipoDoc = value;
-		}
-
-		set NumDoc(value) {
-			this._NumDoc = value;
-		}
-
-		set Bairro(value) {
-			this._Bairro = value;
-		}
-
-		set Cidade(value) {
-			this._Cidade = value;
-		}
-
-		set UF(value) {
-			this._UF = value;
-		}
-
-		set CEP(value) {
-			this._CEP = value;
-		}
-
-		set Telefone(value) {
-			this._Telefone = value;
-		}
-	}
-
-	var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
-
-	$(document).ready(function () {
-
-		/*-- coloque aqui seu código javascript --------------------------------- */
-		CKEDITOR.replace('ckEditorAto', {
-			width: '100%',
-			height: '360px',
-			language: 'pt-br',
-			uiColor: '#1686E4',
-			contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
-			font_defaultLabel: 'Times New Roman',
-			fontSize_defaultLabel: '14',
-			//startupFocus: true,
-			toolbarGroups: [
-				{ name: 'document', groups: ['mode', 'document', 'doctools'] },
-				{ name: 'clipboard', groups: ['clipboard', 'undo'] },
-				{ name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
-				{ name: 'forms', groups: ['forms'] },
-				{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
-				{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
-				{ name: 'links', groups: ['links'] },
-				{ name: 'insert', groups: ['insert'] },
-				{ name: 'styles', groups: ['styles'] },
-				{ name: 'colors', groups: ['colors'] },
-				{ name: 'tools', groups: ['tools'] },
-				{ name: 'others', groups: ['others'] },
-				{ name: 'about', groups: ['about'] }
-			],
-			removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
-		});
-
-		$("#btn-ato-gerar-texto").click(function (e) {
-			e.preventDefault();
-
-			var listIdsPessoas = [];
-
-			arrayPessoas.forEach(item => {
-				if (item.Selecionado) {
-					listIdsPessoas.push(item.IdPessoa);
-				}
+			/*-- coloque aqui seu código javascript --------------------------------- */
+			CKEDITOR.replace('ckEditorAto', {
+				width: '100%',
+				height: '360px',
+				language: 'pt-br',
+				uiColor: '#1686E4',
+				contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
+				font_defaultLabel: 'Times New Roman',
+				fontSize_defaultLabel: '14',
+				//startupFocus: true,
+				toolbarGroups: [
+					{ name: 'document', groups: ['mode', 'document', 'doctools'] },
+					{ name: 'clipboard', groups: ['clipboard', 'undo'] },
+					{ name: 'editing', groups: ['find', 'selection', 'spellchecker', 'editing'] },
+					{ name: 'forms', groups: ['forms'] },
+					{ name: 'basicstyles', groups: ['basicstyles', 'cleanup'] },
+					{ name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi', 'paragraph'] },
+					{ name: 'links', groups: ['links'] },
+					{ name: 'insert', groups: ['insert'] },
+					{ name: 'styles', groups: ['styles'] },
+					{ name: 'colors', groups: ['colors'] },
+					{ name: 'tools', groups: ['tools'] },
+					{ name: 'others', groups: ['others'] },
+					{ name: 'about', groups: ['about'] }
+				],
+				removeButtons: 'Source,Save,Templates,Cut,Find,SelectAll,Scayt,Form,NewPage,Copy,Replace,Radio,PasteText,TextField,Select,ImageButton,HiddenField,Subscript,Superscript,RemoveFormat,NumberedList,BulletedList,Outdent,Indent,Blockquote,CreateDiv,BidiLtr,Link,Anchor,Language,Flash,Unlink,Image,Smiley,SpecialChar,PageBreak,Iframe,BGColor,About,Button,Checkbox,Textarea,ShowBlocks'
 			});
 
-			var idAto = $("#Id").val();
-			var idLivro = $("#IdLivro").val();
-			var idModeloDoc = $("#IdModeloDoc").val();
-			var idPrenotacao = $("#IdPrenotacao").val();
-			var numMatricula = $("#NumMatricula").val();
-			var dataRegPrenotacao = new Date();
-			var dataAto = new Date();
+			$("#btn-ato-gerar-texto").click(function (e) {
+				e.preventDefault();
 
-			var dados = {
-				IdAto: idAto,
-				IdLivro: idLivro,
-				IdModeloDoc: idModeloDoc,
-				IdPrenotacao: idPrenotacao,
-				NumMatricula: numMatricula,
-				DataRegPrenotacao: dataRegPrenotacao,
-				DataAto: dataAto,
-				ListIdsPessoas: listIdsPessoas
-			};
+				var listIdsPessoas = [];
 
-			GetTextoAto(dados, urlGetTextoAto)
-		});
-
-		/*-- pesquisar pessoas -------------------------------------------------- */
-		$("#btn-pesq-pessoas").click(function (e) {
-			e.preventDefault();
-
-			var numPrenotacao = $("#IdPrenotacao").val().trim();
-
-			if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
-				$.smallBox({
-					title: "Valor inválido!",
-					content: "Número de prenotação está inválido.",
-					color: cor_smallBox_aviso,
-					icon: "fa fa-exclamation bounce animated",
-					timeout: 4000
+				arrayPessoas.forEach(item => {
+					if (item.Selecionado) {
+						listIdsPessoas.push(item.IdPessoa);
+					}
 				});
-			} else {
-				var dadosPrenotacao = {
-					IdPrenotacao: numPrenotacao
+
+				var idAto = $("#Id").val();
+				var idLivro = $("#IdLivro").val();
+				var idModeloDoc = $("#IdModeloDoc").val();
+				var idPrenotacao = $("#IdPrenotacao").val();
+				var numMatricula = $("#NumMatricula").val();
+				var dataRegPrenotacao = new Date();
+				var dataAto = new Date();
+
+				var dados = {
+					IdAto: idAto,
+					IdLivro: idLivro,
+					IdModeloDoc: idModeloDoc,
+					IdPrenotacao: idPrenotacao,
+					NumMatricula: numMatricula,
+					DataRegPrenotacao: dataRegPrenotacao,
+					DataAto: dataAto,
+					ListIdsPessoas: listIdsPessoas
 				};
 
-				GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
-			}
-		});
+				GetTextoAto(dados, urlGetTextoAto)
+			});
 
-		/*-- btn-dlg-pessoas-ok   ----------------------------------------------- */
-		$("#btn-dlg-pessoas-ok").click(function (e) {
-			e.preventDefault();
-			var povoou = PovoarSelecionados($('#IdPrenotacao').val());
-		});
+			/*-- pesquisar pessoas -------------------------------------------------- */
+			$("#btn-pesq-pessoas").click(function (e) {
+				e.preventDefault();
 
-	});
+				var numPrenotacao = $("#IdPrenotacao").val().trim();
 
-	/** ----------------------------------------------------------------------------
-		* Busca lista pessoa por prenotação
-		* @@param {any} dadosPrenotacao
-		* @@param {any} url
-		-----------------------------------------------------------------------------*/
-	function GetListPessoasPrenotacao(dadosPrenotacao, url) {
-		$.ajax(url, {
-			method: 'POST',
-			dataType: 'json',
-			data: dadosPrenotacao,
-			beforeSend: function () {
-				ShowProgreessBar("Processando requisição...");
-			}
-		}).done(function (dataReturn) {
-			if (dataReturn.resposta) {
-
-				var dadosValidos = !(typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
-
-				if (dadosValidos) {
-					ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
-				} else {
+				if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
 					$.smallBox({
-						title: "Dados não encontrados!",
-						content: "Lista inválida.",
+						title: "Valor inválido!",
+						content: "Número de prenotação está inválido.",
 						color: cor_smallBox_aviso,
 						icon: "fa fa-exclamation bounce animated",
 						timeout: 4000
 					});
-				}
+				} else {
+					var dadosPrenotacao = {
+						IdPrenotacao: numPrenotacao
+					};
 
-			} else {
+					GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
+				}
+			});
+
+			/*-- btn-dlg-pessoas-ok   ----------------------------------------------- */
+			$("#btn-dlg-pessoas-ok").click(function (e) {
+				e.preventDefault();
+				var povoou = PovoarSelecionados($('#IdPrenotacao').val());
+			});
+
+		});
+
+		/** ----------------------------------------------------------------------------
+			* Busca lista pessoa por prenotação
+			* @@param {any} dadosPrenotacao
+			* @@param {any} url
+			-----------------------------------------------------------------------------*/
+		function GetListPessoasPrenotacao(dadosPrenotacao, url) {
+			$.ajax(url, {
+				method: 'POST',
+				dataType: 'json',
+				data: dadosPrenotacao,
+				beforeSend: function () {
+					ShowProgreessBar("Processando requisição...");
+				}
+			}).done(function (dataReturn) {
+				if (dataReturn.resposta) {
+
+					var dadosValidos = !(typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
+
+					if (dadosValidos) {
+						ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
+					} else {
+						$.smallBox({
+							title: "Dados não encontrados!",
+							content: "Lista inválida.",
+							color: cor_smallBox_aviso,
+							icon: "fa fa-exclamation bounce animated",
+							timeout: 4000
+						});
+					}
+
+				} else {
+					$.smallBox({
+						title: "Não foi possivel processar sua requisição!",
+						content: dataReturn.msg,
+						color: cor_smallBox_erro,
+						icon: "fa fa-thumbs-down bounce animated",
+						timeout: 8000
+					});
+				}
+			}).fail(function (jq, textStatus, error) {
 				$.smallBox({
-					title: "Não foi possivel processar sua requisição!",
-					content: dataReturn.msg,
+					title: "Falha na sua requisição!",
+					content: textStatus + "[" + error + "]",
 					color: cor_smallBox_erro,
 					icon: "fa fa-thumbs-down bounce animated",
 					timeout: 8000
 				});
-			}
-		}).fail(function (jq, textStatus, error) {
-			$.smallBox({
-				title: "Falha na sua requisição!",
-				content: textStatus + "[" + error + "]",
-				color: cor_smallBox_erro,
-				icon: "fa fa-thumbs-down bounce animated",
-				timeout: 8000
+
+			}).always(function () {
+				HideProgressBar();
 			});
-
-		}).always(function () {
-			HideProgressBar();
-		});
-	}
-
-	/** ----------------------------------------------------------------------------
-		* Mostra dialogo modal: ShowTblPessoasPrenotacao
-		* @@param listadados
-		-----------------------------------------------------------------------------*/
-	function ShowTblPessoasPrenotacao(listadados) {
-		arrayPessoas = [];
-		$("#tbl-selecao-pessoas").find("tr:gt(0)").remove();
-
-		$.each(listadados, function (index, item) {
-			var pessoa = new PessoaPrenotacao();
-
-			pessoa.IdPessoa = item.IdPessoa;
-			pessoa.IdPrenotacao = item.IdPrenotacao;
-			pessoa.TipoPessoa = item.TipoPessoa;
-			pessoa.Nome = item.Nome;
-			pessoa.Relacao = item.Relacao;
-			pessoa.Endereco = item.Endereco;
-			pessoa.Bairro = item.Bairro;
-			pessoa.Cidade = item.Cidade;
-			pessoa.UF = item.Uf;
-			pessoa.CEP = item.Cep;
-			pessoa.Telefone = item.Telefone;
-			pessoa.TipoDoc1 = item.TipoDoc1;
-			pessoa.Numero1 = item.Numero1;
-			pessoa.TipoDoc2 = item.TipoDoc2;
-			pessoa.Numero2 = item.Numero2;
-
-			arrayPessoas.push(pessoa)
-		});
-
-		arrayPessoas.forEach(InserirLinhasSelecaoPessoas);
-
-		$('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
-		$('#div-dlg-pessoas').modal('show');
-	}
-
-	/** ----------------------------------------------------------------------------
-		*
-		* @@param {any} pessoa
-		* @@param {any} index
-		* @@param {any} array
-	----------------------------------------------------------------------------- */
-	function InserirLinhasSelecaoPessoas(pessoa, index, array)
-	{
-		var doc = pessoa.Numero1.trim();
-
-		if (doc == "") {
-			doc = pessoa.Numero2.trim();
 		}
 
-		$("#tbl-selecao-pessoas tbody").append(
-			'<tr>' +
-			'<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
-			'<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
-			'<td>' + doc + '</td>' +
-			'<td>' + pessoa.Nome + '</td>' +
-			'<td>' + pessoa.Endereco + '</td>' +
-			'</tr>'
-		);
-	}
+		/** ----------------------------------------------------------------------------
+			* Mostra dialogo modal: ShowTblPessoasPrenotacao
+			* @@param listadados
+			-----------------------------------------------------------------------------*/
+		function ShowTblPessoasPrenotacao(listadados) {
+			arrayPessoas = [];
+			$("#tbl-selecao-pessoas").find("tr:gt(0)").remove();
 
-	/** ----------------------------------------------------------------------------
-	 * idPrenotacao (IdPrenotacao)
-	 ---------------------------------------------------------------------------- */
-	function PovoarSelecionados(numPrenotacao)
-	{
-		var povoou = false;
-		var IdsSel = ""; 
+			$.each(listadados, function (index, item) {
+				var pessoa = new PessoaPrenotacao();
 
-		$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
-		$("#chk-selecao-pessoas-todos").prop('checked', false);
+				pessoa.IdPessoa = item.IdPessoa;
+				pessoa.IdPrenotacao = item.IdPrenotacao;
+				pessoa.TipoPessoa = item.TipoPessoa;
+				pessoa.Nome = item.Nome;
+				pessoa.Relacao = item.Relacao;
+				pessoa.Endereco = item.Endereco;
+				pessoa.Bairro = item.Bairro;
+				pessoa.Cidade = item.Cidade;
+				pessoa.UF = item.Uf;
+				pessoa.CEP = item.Cep;
+				pessoa.Telefone = item.Telefone;
+				pessoa.TipoDoc1 = item.TipoDoc1;
+				pessoa.Numero1 = item.Numero1;
+				pessoa.TipoDoc2 = item.TipoDoc2;
+				pessoa.Numero2 = item.Numero2;
 
-		for (var i = 0, len = arrayPessoas.length; i < len; i++) {
-			if (arrayPessoas[i].Selecionado) {
+				arrayPessoas.push(pessoa)
+			});
 
-				var doc = arrayPessoas[i].Numero1.trim();
+			arrayPessoas.forEach(InserirLinhasSelecaoPessoas);
 
-				if (doc == "") {
-					doc = arrayPessoas[i].Numero2.trim();
+			$('#div-dlg-pessoas label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
+			$('#div-dlg-pessoas').modal('show');
+		}
+
+		/** ----------------------------------------------------------------------------
+			*
+			* @@param {any} pessoa
+			* @@param {any} index
+			* @@param {any} array
+		----------------------------------------------------------------------------- */
+		function InserirLinhasSelecaoPessoas(pessoa, index, array) {
+			var doc = pessoa.Numero1.trim();
+
+			if (doc == "") {
+				doc = pessoa.Numero2.trim();
+			}
+
+			$("#tbl-selecao-pessoas tbody").append(
+				'<tr>' +
+				'<td>' + '<input type="checkbox" id="chk-selecao-pessoas_' + pessoa.IdPessoa + '" value="' + pessoa.IdPessoa + '" onclick="MarcarDesmarcarPessoa(this);">' + '</td>' +
+				'<td>' + GetDescTipoPessoaPrenotacao(pessoa.TipoPessoa) + '</td>' +
+				'<td>' + doc + '</td>' +
+				'<td>' + pessoa.Nome + '</td>' +
+				'<td>' + pessoa.Endereco + '</td>' +
+				'</tr>'
+			);
+		}
+
+		/** ----------------------------------------------------------------------------
+		 * idPrenotacao (IdPrenotacao)
+		 ---------------------------------------------------------------------------- */
+		function PovoarSelecionados(numPrenotacao) {
+			var povoou = false;
+			var IdsSel = "";
+
+			$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
+			$("#chk-selecao-pessoas-todos").prop('checked', false);
+
+			for (var i = 0, len = arrayPessoas.length; i < len; i++) {
+				if (arrayPessoas[i].Selecionado) {
+
+					var doc = arrayPessoas[i].Numero1.trim();
+
+					if (doc == "") {
+						doc = arrayPessoas[i].Numero2.trim();
+					}
+
+					IdsSel += arrayPessoas[i].IdPessoa.toString() + ";";
+
+					$("#tbl-pessoas-selecionadas tbody").append(
+						'<tr>' +
+						'<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
+						'<td>' + doc + '</td>' +
+						'<td>' + arrayPessoas[i].Nome + '</td>' +
+						'<td>' + arrayPessoas[i].Bairro + '</td>' +
+						'<td>' + arrayPessoas[i].Endereco + '</td>' +
+						'<td>' + arrayPessoas[i].Cidade + '</td>' +
+						'<td>' + arrayPessoas[i].UF + '</td>' +
+						'<td>' + arrayPessoas[i].CEP + '</td>' +
+						'<td>' + arrayPessoas[i].Telefone + '</td>' +
+						'</tr>'
+					);
+
+					povoou = true;
 				}
+			}
 
-				IdsSel += arrayPessoas[i].IdPessoa.toString() +";";
-			
-				$("#tbl-pessoas-selecionadas tbody").append(
-					'<tr>' +
-					'<td>' + GetDescTipoPessoaPrenotacao(arrayPessoas[i].TipoPessoa) + '</td>' +
-					'<td>' + doc + '</td>' +
-					'<td>' + arrayPessoas[i].Nome + '</td>' +
-					'<td>' + arrayPessoas[i].Bairro + '</td>' +
-					'<td>' + arrayPessoas[i].Endereco + '</td>' +
-					'<td>' + arrayPessoas[i].Cidade + '</td>' +
-					'<td>' + arrayPessoas[i].UF + '</td>' +
-					'<td>' + arrayPessoas[i].CEP + '</td>' +
-					'<td>' + arrayPessoas[i].Telefone + '</td>' +
-					'</tr>'
-				);
+			$("#IdsPessoasSelecionadas").val(IdsSel.substring(0, IdsSel.length - 1));
+			$('#div-dlg-pessoas').modal('hide');
 
-				povoou = true;
+			return povoou;
+		}
+
+		/** ----------------------------------------------------------------------------
+		 *
+		 * @@param {any} tipoPesso
+		----------------------------------------------------------------------------- */
+		function GetDescTipoPessoaPrenotacao(tipoPessoa) {
+			return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
+		}
+
+		/** ----------------------------------------------------------------------------
+		 *
+		 * @@param {any} chkObj
+		----------------------------------------------------------------------------- */
+		function MarcarDesmarcarPessoa(chkObj) {
+			var chkTmp = chkObj;
+			var idTmp = chkObj.value;
+			var idxTmp = ArrayPessoasIndexOfById(idTmp);
+
+			if (idxTmp >= 0) {
+				if (chkObj) {
+					arrayPessoas[idxTmp].Selecionado = true;
+				} else {
+					arrayPessoas[idxTmp].Selecionado = false;
+				}
 			}
 		}
 
-		$("#IdsPessoasSelecionadas").val(IdsSel.substring(0, IdsSel.length -1));
-		$('#div-dlg-pessoas').modal('hide');
+		/** ----------------------------------------------------------------------------
+		 *
+		 * @@param {any} id
+		----------------------------------------------------------------------------- */
+		function ArrayPessoasIndexOfById(id) {
+			var idx = -1;
 
-		return povoou;
-	}
+			for (var i = 0, len = arrayPessoas.length; i < len; i++) {
+				if (arrayPessoas[i].IdPessoa == id) {
+					idx = i;
+					break;
+				}
+			}
 
-	/** ----------------------------------------------------------------------------
-	 * 
-	 * @@param {any} tipoPesso
-	----------------------------------------------------------------------------- */
-	function GetDescTipoPessoaPrenotacao(tipoPessoa)
-	{
-		return (tipoPessoa == 1) ? "Outorgante" : (tipoPessoa == 2) ? "Outorgado" : "Indefinido";
-	}
+			return idx;
+		}
 
-	/** ----------------------------------------------------------------------------
-	 * 
-	 * @@param {any} chkObj
-	----------------------------------------------------------------------------- */
-	function MarcarDesmarcarPessoa(chkObj) {
-		var chkTmp = chkObj;
-		var idTmp = chkObj.value;
-		var idxTmp = ArrayPessoasIndexOfById(idTmp);
-
-		if (idxTmp >= 0) {
+		/** ---------------------------------------------------------------------------
+		 *
+		 * @@param chkObj
+		 -------------------------------------------------------------------------   */
+		function SelecionarTodos(chkObj) {
 			if (chkObj) {
-				arrayPessoas[idxTmp].Selecionado = true;
-			} else {
-				arrayPessoas[idxTmp].Selecionado = false;
-			}
-		}
-	}
-
-	/** ----------------------------------------------------------------------------
-	 * 
-	 * @@param {any} id
-	----------------------------------------------------------------------------- */
-	function ArrayPessoasIndexOfById(id) {
-		var idx = -1;
-
-		for (var i = 0, len = arrayPessoas.length; i < len; i++) {
-			if (arrayPessoas[i].IdPessoa == id) {
-				idx = i;
-				break;
+				$("#tbl-selecao-pessoas tbody").find('input[type=checkbox]').each(function () {
+					var chk = chkObj.checked;
+					this.checked = chk;
+					MarcarDesmarcarPessoa(this);
+				});
 			}
 		}
 
-		return idx;
-	}
-
-	/** ---------------------------------------------------------------------------
-	 * 
-	 * @@param chkObj
-	 -------------------------------------------------------------------------   */
-	function PessoasSelTodos(chkObj)
-	{
-		if (chkObj)
-		{
-			$("#tbl-selecao-pessoas tbody").find('input[type=checkbox]').each(function () {
-				var chk = chkObj.checked;
-				this.checked = chk;
-				MarcarDesmarcarPessoa(this);
-			});
-		}
-	}
-
-</script>
+	</script>
 }		

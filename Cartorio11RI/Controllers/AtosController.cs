@@ -645,7 +645,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                listaPessoas = listaPes
+                ListaPessoasPrenotacao = listaPes
             };
 
             return Json(resultado);

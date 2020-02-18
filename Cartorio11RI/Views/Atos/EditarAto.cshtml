@@ -10,38 +10,9 @@
 
 	<link href="~/Scripts/plugin/ckeditor/skins/moono/dialog.css" rel="stylesheet" />
 	<link href="~/Scripts/plugin/ckeditor/skins/moono/editor.css" rel="stylesheet" />
+	<link href="~/Content/cartoonsoft/css/ato.css" rel="stylesheet" />
 	<style>
 		/*-- coloque aqui seu codigo css ---------------------------------------- */
-		.btn-width-80px{
-			width: 80px;
-		}
-
-		#div-historico-ato {
-			height: 210px;
-			width: 100%;
-			overflow:auto; 
-		}
-
-		#tbl-historico-ato {
-			width: 100%;
-		}
-
-		#tbl-historico-ato tr td:nth-child(1) {
-			width: 15%;
-		}
-
-		#tbl-historico-ato tr td:nth-child(2) {
-			width: 20%;
-		}
-
-		#tbl-historico-ato tr td:nth-child(3) {
-			width: 35%;
-		}
-
-		#tbl-historico-ato tr td:nth-child(4) {
-			width: 30%;
-		}
-
 	</style>
 }
 
@@ -73,6 +44,7 @@
 							<input class="form-control" type="text">
 						</div>
 						<!-- end widget edit box -->
+
 						<!-- widget content -->
 						<div class="widget-body">
 							@using (Html.BeginForm("EditarAto", "Atos", FormMethod.Post, new { id = "frm-cadastro-ato", enctype = "multipart/form-data" }))
@@ -146,10 +118,10 @@
 	<script src="~/Scripts/cartoonsoft/Atos/editar_ato.js"></script>
 
 	<script>
-	$(document).ready(function () {
+		$(document).ready(function () {
 
-		//
+			//
 
-	});
+		});
 	</script>
 }		

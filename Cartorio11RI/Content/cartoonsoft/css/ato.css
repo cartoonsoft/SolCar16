@@ -1,0 +1,92 @@
+﻿/*
+---------1---------2---------3---------4---------5---------6---------7---------8
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+--------------------------------------------------------------------------------
+Cartoonsoft: ato.css
+by Ronaldo Moreira - 2019
+------------------------------------------------------------------------------*/
+
+#tbl-pessoas-prenotacao {
+    /*border: 1px solid #808080; */
+    table-layout: auto;
+    width: 100%;
+}
+
+/*-- tbl-pessoas-prenotacao ----------------------------------------*/
+#tbl-pessoas-prenotacao tr td:nth-child(1) {
+    width: 2%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(2) {
+    width: 4%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(3) {
+    width: 14%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(4) {
+    width: 25%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(5) {
+    width: 15%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(6) {
+    width: 10%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(7) {
+    width: 10%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(8) {
+    width: 4%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(9) {
+    width: 5%;
+}
+
+#tbl-pessoas-prenotacao tr td:nth-child(10) {
+    width: 6%;
+}
+
+#div-historico-ato {
+    height: 210px;
+    width: 100%;
+    overflow: auto;
+}
+
+#tbl-historico-ato {
+    table-layout: auto;
+    width: 100%;
+}
+
+#tbl-historico-ato tr td:nth-child(1) {
+    width: 15%;
+}
+
+#tbl-historico-ato tr td:nth-child(2) {
+    width: 20%;
+}
+
+#tbl-historico-ato tr td:nth-child(3) {
+    width: 35%;
+}
+
+#tbl-historico-ato tr td:nth-child(4) {
+    width: 30%;
+}
+
+.div-container-scroll {
+    width: 580px;
+    height: 480px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.btn-width-80px {
+    width: 80px;
+}

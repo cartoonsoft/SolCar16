@@ -9,94 +9,8 @@
 @section styles_especific {
 	<link href="~/Scripts/plugin/ckeditor/skins/moono/dialog.css" rel="stylesheet" />
 	<link href="~/Scripts/plugin/ckeditor/skins/moono/editor.css" rel="stylesheet" />
-	<style>
-
-		#tbl-pessoas-selecionadas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
-
-		#tbl-selecao-pessoas {
-			/*border: 1px solid #808080; */
-			table-layout: auto;
-			width: 100%;
-		}
-
-		/*-- tbl-pessoas-selecionadas ----------------------------------------*/
-		#tbl-pessoas-selecionadas tr td:nth-child(1) {
-			width: 3%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(2) {
-			width: 15%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(3) {
-			width: 15%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(4) {
-			width: 3%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(5) {
-			width: 3%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(6) {
-			width: 10%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(7) {
-			width: 10%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(8) {
-			width: 3%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(9) {
-			width: 4%;
-		}
-
-		#tbl-pessoas-selecionadas tr td:nth-child(10) {
-			width: 5%;
-		}
-
-		/*-- tbl-selecao-pessoas ---------------------------------------------*/
-		#tbl-selecao-pessoas tr td:nth-child(1) {
-			width: 4%;
-		}
-
-		#tbl-selecao-pessoas tr td:nth-child(2) {
-			width: 6%;
-		}
-
-		#tbl-selecao-pessoas tr td:nth-child(3) {
-			width: 10%;
-		}
-
-		#tbl-selecao-pessoas tr td:nth-child(4) {
-			width: 35%;
-		}
-
-		#tbl-selecao-pessoas tr td:nth-child(5) {
-			width: 35%;
-		}
-
-		.div-container-scroll {
-			width: 580px;
-			height: 480px;
-			overflow-y: auto;
-			overflow-x: auto;
-		}
-
-		.btn-width-80px{
-			width: 80px;
-		}
-
-	</style>
+	<link href="~/Content/css/cartoonsoft_style.css" rel="stylesheet" />
+	<link href="~/Content/cartoonsoft/css/ato.css" rel="stylesheet" />
 }
 
 <div id="content">
@@ -123,45 +37,6 @@
 			</article>
 		</div>
 	</section>
-</div>
-
-<!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
-<div class="modal fade" id="div-dlg-pessoas" role="dialog" aria-hidden="true">
-	<div class="modal-dialog  modal-lg">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					×
-				</button>
-				<h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<table class="table table-striped" id="tbl-selecao-pessoas">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Tipo</th>
-								<th>DOC</th>
-								<th>Nome</th>
-								<th>Endereço</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" id="btn-dlg-pessoas-cancela" class="btn btn-danger" data-dismiss="modal">
-					<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
-				</button>
-				<button type="button" id="btn-dlg-pessoas-ok" class="btn btn-success">
-					<i class="glyphicon glyphicon-ok fa-"></i>&nbsp;Ok
-				</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
 </div>
 
 @section pagespecific {
