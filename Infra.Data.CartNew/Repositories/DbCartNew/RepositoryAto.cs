@@ -13,6 +13,7 @@ using Infra.Data.CartNew.Context;
 using Infra.Data.Core.Repositories;
 using LibFunctions.Functions.DatesFunc;
 using Oracle.ManagedDataAccess.Client;
+using LibFunctions.Functions.StringsFunc;
 
 namespace Infra.Data.CartNew.Repositories.DbCartNew
 {
@@ -485,14 +486,15 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     Bairro = pessoa.Bairro == null ? "" : pessoa.Bairro.Trim(),
                     Cidade = pessoa.Cidade == null ? "" : pessoa.Cidade.Trim(),
                     Uf = pessoa.Uf == null ? "" : pessoa.Uf.Trim(),
-                    Cep = pessoa.Cep.ToString(),
+                    Cep = StringFunctions.ZerosEsquerda(pessoa.Cep.ToString(), 8).Insert(5, "-"),
                     Telefone = pessoa.Telefone == null ? "" : pessoa.Telefone.Trim(),
                     TipoDoc1 = pessoa.TipoDoc1.ToString(),
                     Numero1 = pessoa.Numero1 == null ? "" : pessoa.Numero1.Trim(),
                     TipoDoc2 = pessoa.TipoDoc2 == null ? "" : pessoa.TipoDoc2.Trim(),
                     Numero2 = pessoa.Numero2 == null ? "" : pessoa.Numero2.Trim()
-                });
+                }); ; ; ; ;
             }
+
 
             return listaPessoaPesxPre;
         }

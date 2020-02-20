@@ -8,13 +8,12 @@ by Ronaldo Moreira - 2019
 
 #tbl-pessoas-prenotacao {
     /*border: 1px solid #808080; */
-    table-layout: auto;
-    width: 100%;
+    width: 1380px;
 }
 
 /*-- tbl-pessoas-prenotacao ----------------------------------------*/
 #tbl-pessoas-prenotacao tr td:nth-child(1) {
-    width: 2%;
+    width: 1%;
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(2) {
@@ -22,7 +21,7 @@ by Ronaldo Moreira - 2019
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(3) {
-    width: 14%;
+    width: 15%;
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(4) {
@@ -38,19 +37,19 @@ by Ronaldo Moreira - 2019
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(7) {
-    width: 10%;
+    width: 8%;
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(8) {
-    width: 4%;
+    width: 2%;
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(9) {
-    width: 5%;
+    width: 8%;
 }
 
 #tbl-pessoas-prenotacao tr td:nth-child(10) {
-    width: 6%;
+    width: 12%;
 }
 
 #div-historico-ato {
@@ -89,4 +88,27 @@ by Ronaldo Moreira - 2019
 
 .btn-width-80px {
     width: 80px;
+}
+
+.btn-width-128px {
+    width: 128px;
+}
+
+.div-scroll-pessoas-selecionadaso {
+    width: 100%;
+    height: 600px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.div-scroll-pessoas-prenotacao {
+    width: 100%;
+    height: 510px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.modal-extra-lg {
+    max-width: 85% !important;
+    width: 85% !important;
 }

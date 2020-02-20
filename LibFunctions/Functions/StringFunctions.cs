@@ -71,7 +71,7 @@ namespace LibFunctions.Functions.StringsFunc
             return me.Member.Name;
         }
 
-        public static string OnlyNumbers(string strNumbers)
+        public static string SomenteNumeros(string strNumbers)
         {
             if (strNumbers == null)
                 return null;

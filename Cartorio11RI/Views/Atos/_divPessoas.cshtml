@@ -1,3 +1,88 @@
 ﻿<!-- _divPessoas  ---------------------------------------------------------- -->
 @model Cartorio11RI.ViewModels.AtoViewModel
 
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <label>Selecionar outorgante(s)/outorgado(s)</label><br />
+        <button id="btn-pesq-pessoas-prenotacao" class="btn btn-primary btn-labeled btn-lg" rel="tooltip" data-placement="top" data-original-title="Selecionar outorgantes/outorgados da prenotação.">
+            <span class="btn-label">
+                <i class="glyphicon glyphicon-user"></i>
+            </span> selecionar
+        </button>
+    </div>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <div class="div-scroll-pessoas-selecionadas" >
+            <table id="tbl-pessoas-selecionadas" class="table table-hover table-responsive">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Tipo</th>
+                        <th>N° documento</th>
+                        <th>Nome</th>
+                        <th>Endereço</th>
+                        <th>Bairro</th>
+                        <th>Cidade</th>
+                        <th>UF</th>
+                        <th>CEP</th>
+                        <th>Telefone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- dialogo div-dlg-pessoas ----------------------------------------------- -->
+<div class="modal fade" id="div-dlg-pessoas-prenotacao" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-extra-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title"><label id="lbl-dlg-pessoa-header"></label></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="div-scroll-pessoas-prenotacao">
+                        <table id="tbl-pessoas-prenotacao" class="table table-striped table-hover table-responsive">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" id="chk-seltodos-pes-prenotacao" class="chk_cartoon" title="Selecionar todos" onclick="SelTodosPessoasPrenotacao(this);" /></th>
+                                    <th>Tipo</th>
+                                    <th>N° documento</th>
+                                    <th>Nome</th>
+                                    <th>Endereço</th>
+                                    <th>Bairro</th>
+                                    <th>Cidade</th>
+                                    <th>UF</th>
+                                    <th>CEP</th>
+                                    <th>Telefone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btn-dlg-pes-pre-cancela" class="btn btn-default btn-lg btn-width-128px" data-dismiss="modal">
+                    <i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
+                </button>
+                <button type="button" id="btn-dlg-pes-pre-ok" class="btn btn-success btn-lg btn-width-128px">
+                    <i class="glyphicon glyphicon-ok"></i>&nbsp;Ok
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+
+

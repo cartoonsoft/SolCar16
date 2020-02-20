@@ -6,6 +6,11 @@ Cartoonsoft: Atos.*
 by Ronaldo Moreira - 2019
 ------------------------------------------------------------------------------*/
 
+/* flags para o wizard -------------------------------------------------------*/
+var PodeAvancar1 = false;
+var PodeAvancar2 = false;
+var PodeAvancar3 = false;
+
 /* urls chamadas ajax --------------------------------------------------------*/
 var urlGetDadosImovel = '/Atos/GetListImoveisPrenotacao';
 var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
@@ -21,6 +26,142 @@ var urlSetStatusAto = '/Atos/SetStatusAto';
 var urlSetTextoConferido = '/Atos/SetTextoConferido';
 
 var form_para_validar = null;
+
+/*-----------------------------------------------------------------------------*/
+var listaPessoasPrenotacao   = null;
+var listaPessoasSelecionadas = null; 
+
+/*----------------------------------------------------------------------------*/
+class PessoaPrenotacao {
+	constructor() {
+		var _IdPessoa = 0;
+		var _IdPrenotacao = 0;
+		var _TipoPessoa = 0;
+		var _DescTipoPessoa = "";
+		var _Nome = "";
+		var _Endereco = "";
+		var _TipoDoc = ""
+		var _NumDoc = "";
+		var _Bairro = "";
+		var _Cidade = "";
+		var _UF = "";
+		var _CEP = "";
+		var _Telefone = "";
+	}
+
+	/*- Gets -----------------------------------------------------------------*/
+	get IdPessoa() {
+		return this._IdPessoa;
+	}
+
+	get IdPrenotacao() {
+		return this._IdPrenotacao;
+	}
+
+	get Selecionado() {
+		return this._Selecionado;
+	}
+
+	get TipoPessoa() {
+		return this._TipoPessoa;
+	}
+
+	get DescTipoPessoa() {
+		return this._DescTipoPessoa;
+	}
+
+	get Nome() {
+		return this._Nome;
+	}
+
+	get Endereco() {
+		return this._Endereco;
+	}
+
+	get TipoDoc() {
+		return this._TipoDoc;
+	}
+
+	get NumDoc() {
+		return this._NumDoc;
+	}
+
+	get Bairro() {
+		return this._Bairro;
+	}
+	get Cidade() {
+		return this._Cidade;
+	}
+
+	get UF() {
+		return this._UF;
+	}
+	get CEP() {
+		return this._CEP;
+	}
+
+	get Telefone() {
+		return this._Telefone;
+	}
+
+	/*- Sets -----------------------------------------------------------------*/
+	set IdPessoa(value) {
+		this._IdPessoa = value;
+	}
+
+	set IdPrenotacao(value) {
+		this._IdPrenotacao = value;
+	}
+
+	set TipoPessoa(value) {
+		this._TipoPessoa = value;
+	}
+
+	set Selecionado(value) {
+
+		this._Selecionado = value;
+	}
+
+	set DescTipoPessoa(value) {
+		this._DescTipoPessoa = value;
+	}
+
+	set Nome(value) {
+		this._Nome = value;
+	}
+
+	set Endereco(value) {
+		this._Endereco = value;
+	}
+
+	set TipoDoc(value) {
+		this._TipoDoc = value;
+	}
+
+	set NumDoc(value) {
+		this._NumDoc = value;
+	}
+
+	set Bairro(value) {
+		this._Bairro = value;
+	}
+
+	set Cidade(value) {
+		this._Cidade = value;
+	}
+
+	set UF(value) {
+		this._UF = value;
+	}
+
+	set CEP(value) {
+		this._CEP = value;
+	}
+
+	set Telefone(value) {
+		this._Telefone = value;
+	}
+}
 
 $(document).ready(function () {
 
@@ -276,11 +417,13 @@ $(document).ready(function () {
 
 		var listIdsPessoas = [];
 
-		arrayPessoas.forEach(item => {
-			if (item.Selecionado) {
-				listIdsPessoas.push(item.IdPessoa);
-			}
-		});
+		//ronaldo - verificar
+
+		//listaPessoasPrenotacao.forEach(item => {
+		//	if (item.Selecionado) {
+		//		listIdsPessoas.push(item.IdPessoa);
+		//	}
+		//});
 
 		var idAto = $("#Id").val();
 		var idLivro = $("#ddListLivro option:selected").val();
@@ -409,7 +552,162 @@ $(document).ready(function () {
 		//CKEDITOR.instances['ckEditorAto'].setReadOnly(false);
 	});
 
+
+	/*-- pesquisar pessoas -------------------------------------------------- */
+	$("#btn-pesq-pessoas-prenotacao").click(function (e) {
+		e.preventDefault();
+
+		var numPrenotacao = $("#IdPrenotacao").val().trim();
+
+		if (isNaN(numPrenotacao) || !numPrenotacao) {
+			$.smallBox({
+				title: "Valor inválido!",
+				content: "Número de prenotação está inválido.",
+				color: cor_smallBox_aviso,
+				icon: "fa fa-exclamation bounce animated",
+				timeout: 4000
+			});
+		} else {
+			var dadosPrenotacao = {
+				IdPrenotacao: numPrenotacao
+			};
+
+			GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
+		}
+	});
+
+	/*-- btn-dlg-pes-pre-ok   ----------------------------------------------- */
+	$("#btn-dlg-pes-pre-ok").click(function (e) {
+		e.preventDefault();
+		PodeAvancar2 = PovoartblPessoasSelecionadas();
+
+		if (PodeAvancar2) {
+			$('#div-dlg-pessoas-prenotacao').modal('hide');
+		}
+
+	});
+
 });
+
+/** ----------------------------------------------------------------------------
+ * Pesquisa por prenotação e busca a lista de matriculas desta prenotação
+ * @@param {any} numPrenotacao
+ * @@param {any} selObj select que será povoado com  os núm. de matriculas de imoveis
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function PesquisarPrenotacao(numPrenotacao, selObj) {
+	if (!isNaN(numPrenotacao) || !numPrenotacao) {
+
+		var dadosPrenotacao = {
+			IdPrenotacao: numPrenotacao
+		};
+
+		GetDadosPrenotacao(dadosPrenotacao, selObj);
+	} else {
+		$.smallBox({
+			title: "Entrada inválida!",
+			content: "Número de prenotação está inválido!",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 4000
+		});
+	}
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} dadosPrenotacao
+ * @@param {any} selObj
+ * @@param {any} url
+ ---------------------------------------------------------------------------- */
+function GetDadosPrenotacao(dadosPrenotacao, selObj) {
+	$.ajax(urlGetDadosPrenotacao, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosPrenotacao,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		if (dataReturn.resposta) {
+
+			if (dataReturn.DataRegPrenotacao) {
+
+				$("#DataRegPrenotacao").val(dataReturn.DataRegPrenotacao);
+			}
+			GetListMatriculasPrenotacao(dadosPrenotacao, selObj);
+
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		HideProgressBar();
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} dadosPrenotacao
+----------------------------------------------------------------------------- */
+function GetListPessoasPrenotacao(dadosPrenotacao) {
+	$.ajax(urlGetListPessoasPrenotacao, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosPrenotacao,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		if (dataReturn.resposta) {
+			if (dataReturn.ListaPessoasPrenotacao) {
+				listaPessoasPrenotacao = dataReturn.ListaPessoasPrenotacao;
+				ShowDlgPessoasPrenotacao(listaPessoasPrenotacao);
+			} else {
+				$.smallBox({
+					title: "Pessoas da prenotação não encontradas!",
+					content: dataReturn.msg,
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		HideProgressBar();
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+	}).always(function () {
+		HideProgressBar();
+	});
+}
 
 /** ----------------------------------------------------------------------------
  * Confirmar login e senha do usuário
@@ -684,9 +982,62 @@ function PovoarSelModelos(selObj, listaModelos)
 
 /** ----------------------------------------------------------------------------
  * 
+ * @@param {any} listaPessoasPrenotacao
+----------------------------------------------------------------------------- */
+function PovoarTblPessoasPrenotacao(listaPessoas) {
+	var doc = "";
+	var chkTmp = "";
+	var resp = false;
+	var bgColorLinha = "";
+
+	$("#tbl-pessoas-prenotacao").find("tr:gt(0)").remove();
+
+	if (listaPessoas) {
+
+		$.each(listaPessoas, function (index, item) {
+
+			doc = item.Numero1.trim();
+			if (doc == "") {
+				doc = item.Numero2.trim();
+			}
+
+			if (item.Valido) {
+				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" />';
+				doc = '<button type="button" class="btn btn-success btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-up"></i></button>&nbsp;' + doc;
+			} else {
+				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" disabled />';
+				doc = '<button type="button" class="btn btn-danger btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-down"></i></button>&nbsp;' + doc;
+			}
+
+			$("#tbl-pessoas-prenotacao tbody").append(
+				'<tr>' +
+				'<td>' + chkTmp + '</td>' +
+				'<td>' + item.DescTipoPessoa + '</td>' +
+				'<td>' + doc + '</td>' +
+				'<td>' + item.Nome + '</td>' +
+				'<td>' + item.Endereco + '</td>' +
+				'<td>' + item.Bairro + '</td>' +
+				'<td>' + item.Cidade + '</td>' +
+				'<td>' + item.Uf + '</td>' +
+				'<td>' + item.Cep + '</td>' +
+				'<td>' + item.Telefone + '</td>' +
+				'</tr>'
+			);
+
+		});
+
+		resp = listaPessoas.length > 0;
+	}
+
+	return resp;
+} 
+
+/** ----------------------------------------------------------------------------
+ * 
  * @@param {any} chkObj
 ----------------------------------------------------------------------------- */
-function SelTodosPessoasPrenotacao(chkObj) {
+function SelTodosPessoasPrenotacao(chkObj)
+{
 	if (chkObj) {
 		$("#tbl-pessoas-prenotacao tbody").find('input[type=checkbox]').each(function () {
 			var chk = chkObj.checked;
@@ -698,3 +1049,338 @@ function SelTodosPessoasPrenotacao(chkObj) {
 		});
 	}
 }
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} dadosPrenotacao
+ * @@param {any} selObj
+ ---------------------------------------------------------------------------- */
+function GetListMatriculasPrenotacao(dadosPrenotacao, selObj) {
+	$('#btn-reserva-mat').prop('disabled', true);
+	$('#btn-libera-mat').prop('disabled', true);
+
+	$.ajax(urlGetListMatriculasPrenotacao, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosPrenotacao,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		if (dataReturn.resposta) {
+			if (dataReturn.ListaMatriculasPrenotacao) {
+				PovoarSelMatriculasPrenotacao(selObj, dataReturn.ListaMatriculasPrenotacao);
+				$('#btn-reserva-mat').prop('disabled', false);
+				$('#btn-libera-mat').prop('disabled', false);
+			} else {
+				$.smallBox({
+					title: "Dados não encontrados!",
+					content: dataReturn.msg,
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		HideProgressBar();
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * processar reservar
+ * @@param {any} tipoReserva
+ * @@param {any} idPrenotacao
+ * @@param {any} numMatricula
+----------------------------------------------------------------------------- */
+function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
+	var msg_title = "";
+
+	var dadosReserva = {
+		TipoReserva: tipoReserva,
+		IdPrenotacao: numPrenotacao,
+		NumMatricula: numMatricula
+	};
+
+	if (tipoReserva == 1) {
+		msg_title = "Matrícula reservada!"
+	} else if (tipoReserva == 2) {
+		msg_title = "Matrícula liberada!"
+	}
+
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosReserva,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		if (dataReturn.resposta) {
+
+			//reservar
+			if (tipoReserva == 1) {
+				var dadosValidos = !(typeof dataReturn.Reserva.Imovel == 'undefined' || dataReturn.Reserva.Imovel == null);
+				if (dadosValidos) {
+					PodeAvancar1 = true;
+					HabilitarProximo();
+					PovoarDadosImovel(dataReturn.Reserva.Imovel);
+				}
+			} else {
+				PodeAvancar1 = false;
+				DesabilitarProximo();
+				LimparDadosImovel();
+			}
+
+			if (dataReturn.tipoMsg == 1) {
+				$.smallBox({
+					title: msg_title,
+					content: dataReturn.msg,
+					color: cor_smallBox_ok,
+					icon: "fa fa-thumbs-up bounce animated",
+					timeout: 4000
+				});
+			} else {
+				$.smallBox({
+					title: msg_title,
+					content: dataReturn.msg,
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * PovoarSelMatriculasPrenotacao - povoar select : ddListMatriculasPrenotacao
+ * @@param {any} selObj
+ * @@param {any} listaModelos
+----------------------------------------------------------------------------- */
+function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas) {
+	var sel = selObj;
+
+	if (sel) {
+		$(sel).empty();
+		$.each(listaMatriculas, function (index, item) {
+			$(sel).append('<option value="' + item + '" >' + item + '</option>');
+		});
+	}
+}
+
+/** ----------------------------------------------------------------------------
+ * GerarTextoAto
+ * @@param {any} dadosAto
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function GetTextoAto(dadosAto, url) {
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosAto,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+			var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
+
+			if (dadosValidos) {
+				CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+		HideProgressBar();
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} listaPessoasPrenotacao
+----------------------------------------------------------------------------- */
+function ShowDlgPessoasPrenotacao(listaPessoasPrenotacao)
+{
+	if (listaPessoasPrenotacao) {
+		$('#div-dlg-pessoas-prenotacao label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
+		if (PovoarTblPessoasPrenotacao(listaPessoasPrenotacao)) {
+			$('#div-dlg-pessoas-prenotacao').modal({
+				keyboard: false,
+				focus: true
+			});
+		}
+	}
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} idPrenotacao
+----------------------------------------------------------------------------- */
+function PovoartblPessoasSelecionadas()
+{
+	var doc = "";
+	var resp = false;
+	var pessoaTmp = null;
+
+	listaPessoasSelecionadas = [];
+	$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
+
+	$("#tbl-pessoas-prenotacao tbody").find('input[type=checkbox]').each(function () {
+		var chk = this;
+		pessoaTmp = null;
+
+		if (!chk.disabled && chk.checked)
+		{
+			var idTmp = chk.value;
+
+			if (listaPessoasPrenotacao) {
+
+				for (var i = 0, len = listaPessoasPrenotacao.length; i < len; i++) {
+
+					if (listaPessoasPrenotacao[i].IdPessoa == idTmp) {
+						pessoaTmp = listaPessoasPrenotacao[i];
+						break;
+					}
+				}
+
+				if (pessoaTmp) {
+
+					doc = pessoaTmp.Numero1.trim();
+					if (doc == "") {
+						doc = pessoaTmp.Numero2.trim();
+					}
+
+					if (pessoaTmp.Valido) {
+						doc = '<button type="button" class="btn btn-success btn-xs" title="' + pessoaTmp.RetornoValidacao + '"><i class="fa fa-thumbs-up"></i></button>&nbsp;' + doc;
+					} else {
+						doc = '<button type="button" class="btn btn-danger btn-xs"  title="' + pessoaTmp.RetornoValidacao + '"><i class="fa fa-thumbs-down"></i></button>&nbsp;' + doc;
+					}
+
+					$("#tbl-pessoas-selecionadas tbody").append(
+						'<tr>' +
+						'<td>' + pessoaTmp.IdPessoa + '</td>' +
+						'<td>' + pessoaTmp.DescTipoPessoa + '</td>' +
+						'<td>' + doc + '</td>' +
+						'<td>' + pessoaTmp.Nome + '</td>' +
+						'<td>' + pessoaTmp.Endereco + '</td>' +
+						'<td>' + pessoaTmp.Bairro + '</td>' +
+						'<td>' + pessoaTmp.Cidade + '</td>' +
+						'<td>' + pessoaTmp.Uf + '</td>' +
+						'<td>' + pessoaTmp.Cep + '</td>' +
+						'<td>' + pessoaTmp.Telefone + '</td>' +
+						'</tr>'
+					);
+
+					listaPessoasSelecionadas.push(pessoaTmp);
+					resp = true;
+				}
+			}
+		}
+
+		//var obj = this;
+
+		//if (!obj.disabled) {
+		//	this.checked = chk;
+		//}
+	});
+
+	return resp;
+}
+
+/** ----------------------------------------------------------------------------
+ * Povoar dados do imovel
+ * @@param {any} Imovel
+ ---------------------------------------------------------------------------- */
+function PovoarDadosImovel(Imovel) {
+	$('#NumMatricula').val(Imovel.MATRI);
+	$('#PREIMO_SEQPRE').val(Imovel.SEQPRE);
+
+	$('#PREIMO_ENDER').val(Imovel.ENDER);
+	$('#PREIMO_NUM').val(Imovel.NUM);
+	$('#PREIMO_LOTE').val(Imovel.LOTE);
+	$('#PREIMO_QUADRA').val(Imovel.QUADRA);
+	$('#PREIMO_APTO').val(Imovel.APTO);
+	$('#PREIMO_BLOCO').val(Imovel.BLOCO);
+	$('#PREIMO_EDIF').val(Imovel.EDIF);
+	$('#PREIMO_VAGA').val(Imovel.VAGA);
+	$('#PREIMO_OUTROS').val(Imovel.OUTROS);
+	$('#PREIMO_TRANS').val(Imovel.TRANS);
+	$('#PREIMO_INSCR').val(Imovel.INSCR);
+	$('#PREIMO_HIPO').val(Imovel.HIPO);
+	$('#PREIMO_RD').val(Imovel.RD);
+	$('#PREIMO_CONTRIB').val(Imovel.CONTRIB);
+}
+
+/** ----------------------------------------------------------------------------
+ * limpar dados do imovel
+ * @@param {any} Imovel
+ ---------------------------------------------------------------------------- */
+function LimparDadosImovel() {
+	$('#NumMatricula').val("");
+	$('#PREIMO_SEQPRE').val("");
+
+	$('#PREIMO_ENDER').val("");
+	$('#PREIMO_NUM').val("");
+	$('#PREIMO_LOTE').val("");
+	$('#PREIMO_QUADRA').val("");
+	$('#PREIMO_APTO').val("");
+	$('#PREIMO_BLOCO').val("");
+	$('#PREIMO_EDIF').val("");
+	$('#PREIMO_VAGA').val("");
+	$('#PREIMO_OUTROS').val("");
+	$('#PREIMO_TRANS').val("");
+	$('#PREIMO_INSCR').val("");
+	$('#PREIMO_HIPO').val("");
+	$('#PREIMO_RD').val("");
+	$('#PREIMO_CONTRIB').val("");
+}
+
+
