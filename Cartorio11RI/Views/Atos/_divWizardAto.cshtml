@@ -38,8 +38,6 @@
                 @Html.HiddenFor(model => model.IdUsuarioCadastro)
                 @Html.HiddenFor(model => model.IdUsuarioAlteracao)
                 @Html.HiddenFor(model => model.IpLocal)
-
-                @Html.HiddenFor(model => model.IdsPessoasSelecionadas)
                 <fieldset>
                     @Html.Partial("_divWizardPasso1", Model)
                     @Html.Partial("_divWizardPasso2", Model)

@@ -54,6 +54,13 @@
 						<div class="widget-body">
 							<div class="row padding-10">
 								<div class="col-md-2">
+									<button type="button" class="btn btn-danger btn-xs" rel="tooltip" data-placement="top" data-original-title="Remover">
+										<i class="glyphicon glyphicon-trash"></i>
+									</button>
+								</div>
+							</div>
+							<div class="row padding-10">
+								<div class="col-md-2">
 									<div class="checkbox">
 										<label>
 											@Html.CheckBox("chk_teste1", true, new { @class = "chk_cartoon" })
@@ -79,7 +86,7 @@
 								</div>
 							</div>
 							<div class="row padding-10">
-								<button type="button" class="btn btn-danger" data-dismiss="modal">
+								<button type="button" class="btn btn-danger">
 									<i class="glyphicon glyphicon-remove"></i>&nbsp;Cancela
 								</button>
 								<button type="button" class="btn btn-success">

@@ -169,7 +169,7 @@ $(document).ready(function () {
 
 	/*-- validate ------------------------------------------------------------*/
 	$("#frm-cadastro-ato").validate({
-		// Rules for form validation
+		// Rules
 		rules: {
 			IdPrenotacao: {
 				required: true
@@ -212,7 +212,7 @@ $(document).ready(function () {
 				required: true
 			}
 		},
-		// Messages for form validation
+		// Messages
 		messages: {
 			IdPrenotacao: {
 				required: "Entre com um número de prenotação"
@@ -415,36 +415,47 @@ $(document).ready(function () {
 	$("#btn-ato-gerar-texto").click(function (e) {
 		e.preventDefault();
 
-		var listIdsPessoas = [];
 
-		//ronaldo - verificar
+		//verificar se vc selecionou pesoas
+		if (!listaPessoasSelecionadas || (listaPessoasSelecionadas.length < 1)) {
 
-		//listaPessoasPrenotacao.forEach(item => {
-		//	if (item.Selecionado) {
-		//		listIdsPessoas.push(item.IdPessoa);
-		//	}
-		//});
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
 
-		var idAto = $("#Id").val();
-		var idLivro = $("#ddListLivro option:selected").val();
-		var idModeloDoc = $("#IdModeloDoc").val();
-		var idPrenotacao = $("#IdPrenotacao").val();
-		var numMatricula = $("#NumMatricula").val();
-		var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
-		var dataAto = new Date($("#DataAto").val());
 
-		var dados = {
-			IdAto: idAto,
-			IdLivro: idLivro,
-			IdModeloDoc: idModeloDoc,
-			IdPrenotacao: idPrenotacao,
-			NumMatricula: numMatricula,
-			DataRegPrenotacao: dataRegPrenotacao,
-			DataAto: dataAto,
-			ListIdsPessoas: listIdsPessoas
-		};
+		} else {
 
-		GetTextoAto(dados, urlGetTextoAto)
+			listaPessoasSelecionadas.forEach(item => {
+				listaPes.push(item.IdPessoa);
+			});
+
+			var listaPes = GetListaPessoasSelecionadas();
+			var idAto = $("#Id").val();
+			var idLivro = $("#ddListLivro option:selected").val();
+			var idModeloDoc = $("#IdModeloDoc").val();
+			var idPrenotacao = $("#IdPrenotacao").val();
+			var numMatricula = $("#NumMatricula").val();
+			var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
+			var dataAto = new Date($("#DataAto").val());
+
+			var dados = {
+				IdAto: idAto,
+				IdLivro: idLivro,
+				IdModeloDoc: idModeloDoc,
+				IdPrenotacao: idPrenotacao,
+				NumMatricula: numMatricula,
+				DataRegPrenotacao: dataRegPrenotacao,
+				DataAto: dataAto,
+				ListIdsPessoas: listaPes
+			};
+
+			GetTextoAto(dados, urlGetTextoAto);
+		}
 	});
 
 	/*-- salvar o ato ------------------------------------------------------- */
@@ -452,6 +463,10 @@ $(document).ready(function () {
 		e.preventDefault();
 
 		var frm_valid = form_para_validar.valid();
+
+		listaPessoasSelecionadas.forEach(item => {
+			listaPes.push(item.IdPessoa);
+		});
 
 		if (frm_valid) {
 
@@ -471,7 +486,7 @@ $(document).ready(function () {
 				IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
 				NumMatricula: $("#NumMatricula").val(),
 				DataAlteracao: $("#DataAlteracao").val(),
-				IdsPessoasSelecionadas: $("#IdsPessoasSelecionadas").val(),
+				IdsPessoasSelecionadas: GetListaPessoasSelecionadas(),
 				NumFicha: $("#NumFicha").val(),
 				SiglaSeqAto: $("#SiglaSeqAto").val(),
 				NumSequenciaAto: $("#NumSequenciaAto").val(),
@@ -1249,6 +1264,8 @@ function GetTextoAto(dadosAto, url) {
 ----------------------------------------------------------------------------- */
 function ShowDlgPessoasPrenotacao(listaPessoasPrenotacao)
 {
+	$("#chk-seltodos-pes-prenotacao").prop('checked', false);
+
 	if (listaPessoasPrenotacao) {
 		$('#div-dlg-pessoas-prenotacao label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
 		if (PovoarTblPessoasPrenotacao(listaPessoasPrenotacao)) {
@@ -1269,8 +1286,10 @@ function PovoartblPessoasSelecionadas()
 	var doc = "";
 	var resp = false;
 	var pessoaTmp = null;
+	var htmlAcoes = "";
 
 	listaPessoasSelecionadas = [];
+
 	$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
 
 	$("#tbl-pessoas-prenotacao tbody").find('input[type=checkbox]').each(function () {
@@ -1304,6 +1323,8 @@ function PovoartblPessoasSelecionadas()
 						doc = '<button type="button" class="btn btn-danger btn-xs"  title="' + pessoaTmp.RetornoValidacao + '"><i class="fa fa-thumbs-down"></i></button>&nbsp;' + doc;
 					}
 
+					htmlAcoes = '<button type="button" class="btn btn-danger btn-xs" title="Retirar esta pessoa da seleção" onclick="RemoverPessoaSel(this, ' + pessoaTmp.IdPessoa + ');"><i class="glyphicon glyphicon-trash"></i></button>';
+
 					$("#tbl-pessoas-selecionadas tbody").append(
 						'<tr>' +
 						'<td>' + pessoaTmp.IdPessoa + '</td>' +
@@ -1316,6 +1337,7 @@ function PovoartblPessoasSelecionadas()
 						'<td>' + pessoaTmp.Uf + '</td>' +
 						'<td>' + pessoaTmp.Cep + '</td>' +
 						'<td>' + pessoaTmp.Telefone + '</td>' +
+						'<td>' + htmlAcoes + '</td>' + 
 						'</tr>'
 					);
 
@@ -1325,11 +1347,6 @@ function PovoartblPessoasSelecionadas()
 			}
 		}
 
-		//var obj = this;
-
-		//if (!obj.disabled) {
-		//	this.checked = chk;
-		//}
 	});
 
 	return resp;
@@ -1383,4 +1400,37 @@ function LimparDadosImovel() {
 	$('#PREIMO_CONTRIB').val("");
 }
 
+/**-----------------------------------------------------------------------------
+ * 
+----------------------------------------------------------------------------- */
+function GetListaPessoasSelecionadas()
+{
+	var listaPes = [];
 
+	if (listaPessoasSelecionadas) {
+		listaPessoasSelecionadas.forEach(item => {
+			listaPes.push(item.IdPessoa);
+		});
+	}
+
+	return listaPes;
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @@param {any} idPessoa
+----------------------------------------------------------------------------- */
+function RemoverPessoaSel(objBtn, idPessoa)
+{
+	if (listaPessoasSelecionadas) {
+		for (var i = 0, len = listaPessoasSelecionadas.length; i < len; i++) {
+
+			if (listaPessoasSelecionadas[i].IdPessoa == idPessoa) {
+				//var pessoaTmp = listaPessoasPrenotacao[i];
+				listaPessoasSelecionadas.splice(i, 1);
+				$(objBtn).closest("tr").remove();
+				break;
+			}
+		}
+	}
+}
