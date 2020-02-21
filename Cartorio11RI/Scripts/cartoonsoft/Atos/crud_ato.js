@@ -415,10 +415,8 @@ $(document).ready(function () {
 	$("#btn-ato-gerar-texto").click(function (e) {
 		e.preventDefault();
 
-
 		//verificar se vc selecionou pesoas
 		if (!listaPessoasSelecionadas || (listaPessoasSelecionadas.length < 1)) {
-
 			$.smallBox({
 				title: "Não foi possivel processar sua requisição!",
 				content: dataReturn.msg,
@@ -426,8 +424,6 @@ $(document).ready(function () {
 				icon: "fa fa-thumbs-down bounce animated",
 				timeout: 8000
 			});
-
-
 		} else {
 
 			listaPessoasSelecionadas.forEach(item => {
@@ -469,10 +465,8 @@ $(document).ready(function () {
 		});
 
 		if (frm_valid) {
-
 			var form = $('#frm-cadastro-ato');
 			var token = $('input[name="__RequestVerificationToken"]', form).val();
-
 			var dadosAto = {
 				__RequestVerificationToken: token,
 				Id: $("#Id").val(),
@@ -494,7 +488,7 @@ $(document).ready(function () {
 				DistanciaTopo: $("#DistanciaTopo").val(),
 				DataAto: $("#DataAto").val(),
 				DescricaoAto: $("#DescricaoAto").val(),
-				TextoAnterior: $("#TextoAnterior").val(),  
+				TextoAnterior: $("#TextoAnterior").val(),
 				Texto: CKEDITOR.instances['ckEditorAto'].getData(), //$("#Texto").val(),
 				Observacao: $("#Observacao").val(),
 				StatusAto: $("#StatusAto").val(),
@@ -506,7 +500,8 @@ $(document).ready(function () {
 				Ativo: $("#Ativo").val(),
 				IpLocal: $("#IpLocal").val(),
 				StatusAto: $("#StatusAto").val()
-			}
+			};
+
 			InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
 		} else {
 			$.smallBox({
@@ -594,15 +589,120 @@ $(document).ready(function () {
 	/*-- btn-dlg-pes-pre-ok   ----------------------------------------------- */
 	$("#btn-dlg-pes-pre-ok").click(function (e) {
 		e.preventDefault();
-		PodeAvancar2 = PovoartblPessoasSelecionadas();
 
+		PovoartblPessoasSelecionadas();
+
+		if (listaPessoasSelecionadas) {
+			PodeAvancar2 = (listaPessoasSelecionadas.length > 0);
+		}
+			
 		if (PodeAvancar2) {
 			$('#div-dlg-pessoas-prenotacao').modal('hide');
 		}
-
 	});
 
 });
+
+/** ----------------------------------------------------------------------------
+ * processar reservar
+ * @@param {any} tipoReserva
+ * @@param {any} idPrenotacao
+ * @@param {any} numMatricula
+----------------------------------------------------------------------------- */
+function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
+	var msg_title = "";
+
+	var dadosReserva = {
+		TipoReserva: tipoReserva,
+		IdPrenotacao: numPrenotacao,
+		NumMatricula: numMatricula
+	};
+
+	if (tipoReserva == 1) {
+		msg_title = "Matrícula reservada!"
+	} else if (tipoReserva == 2) {
+		msg_title = "Matrícula liberada!"
+	}
+
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosReserva,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		if (dataReturn.resposta) {
+
+			//reservar
+			if (tipoReserva == 1) {
+				var dadosValidos = !(typeof dataReturn.Reserva.Imovel == 'undefined' || dataReturn.Reserva.Imovel == null);
+				if (dadosValidos) {
+					PodeAvancar1 = true;
+					HabilitarProximo();
+					PovoarDadosImovel(dataReturn.Reserva.Imovel);
+				}
+			} else {
+				PodeAvancar1 = false;
+				DesabilitarProximo();
+				LimparDadosImovel();
+			}
+
+			if (dataReturn.tipoMsg == 1) {
+				$.smallBox({
+					title: msg_title,
+					content: dataReturn.msg,
+					color: cor_smallBox_ok,
+					icon: "fa fa-thumbs-up bounce animated",
+					timeout: 4000
+				});
+			} else {
+				$.smallBox({
+					title: msg_title,
+					content: dataReturn.msg,
+					color: cor_smallBox_aviso,
+					icon: "fa fa-exclamation bounce animated",
+					timeout: 4000
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+
+	}).always(function () {
+		HideProgressBar();
+	});
+}
+
+/** ----------------------------------------------------------------------------
+ * PovoarSelMatriculasPrenotacao - povoar select : ddListMatriculasPrenotacao
+ * @@param {any} selObj
+ * @@param {any} listaModelos
+----------------------------------------------------------------------------- */
+function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas) {
+	var sel = selObj;
+
+	if (sel) {
+		$(sel).empty();
+		$.each(listaMatriculas, function (index, item) {
+			$(sel).append('<option value="' + item + '" >' + item + '</option>');
+		});
+	}
+}
 
 /** ----------------------------------------------------------------------------
  * Pesquisa por prenotação e busca a lista de matriculas desta prenotação
@@ -844,7 +944,7 @@ function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 {
 	var btn = btnObj;
-	var idTmp = idTipoAto;
+	var idTipoAtoTmp = idTipoAto;
 
 	if (typeof btn != 'undefined' || btn != null) {
 		var txtTipoAto = btn.innerText.trim();
@@ -855,7 +955,7 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 		$(btn).addClass("btn-danger");
 		var sel = $("#IdModeloDoc");
 		CKEDITOR.instances.ckEditorPreviewModelo.setData("");
-		BuscarListaModelos(idTmp, sel, '/Atos/GetListModelosDocx');
+		BuscarListaModelos(idTipoAtoTmp, sel, '/Atos/GetListModelosDocx');
 	}
 }
 
@@ -991,7 +1091,7 @@ function PovoarSelModelos(selObj, listaModelos)
 	$(sel).empty();
 
 	$.each(listaModelos, function (index, item) {
-		$(sel).append('<option value="' + item.Id + '" >' + item.DescricaoModelo + '</option>');
+		$(sel).append('<option value="' + item.Id + '" >' + item.Descricao + '</option>');
 	});
 }
 
@@ -1120,107 +1220,6 @@ function GetListMatriculasPrenotacao(dadosPrenotacao, selObj) {
 }
 
 /** ----------------------------------------------------------------------------
- * processar reservar
- * @@param {any} tipoReserva
- * @@param {any} idPrenotacao
- * @@param {any} numMatricula
------------------------------------------------------------------------------ */
-function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
-	var msg_title = "";
-
-	var dadosReserva = {
-		TipoReserva: tipoReserva,
-		IdPrenotacao: numPrenotacao,
-		NumMatricula: numMatricula
-	};
-
-	if (tipoReserva == 1) {
-		msg_title = "Matrícula reservada!"
-	} else if (tipoReserva == 2) {
-		msg_title = "Matrícula liberada!"
-	}
-
-	$.ajax(url, {
-		method: 'POST',
-		dataType: 'json',
-		data: dadosReserva,
-		beforeSend: function () {
-			ShowProgreessBar("Processando requisição...");
-		}
-	}).done(function (dataReturn) {
-		if (dataReturn.resposta) {
-
-			//reservar
-			if (tipoReserva == 1) {
-				var dadosValidos = !(typeof dataReturn.Reserva.Imovel == 'undefined' || dataReturn.Reserva.Imovel == null);
-				if (dadosValidos) {
-					PodeAvancar1 = true;
-					HabilitarProximo();
-					PovoarDadosImovel(dataReturn.Reserva.Imovel);
-				}
-			} else {
-				PodeAvancar1 = false;
-				DesabilitarProximo();
-				LimparDadosImovel();
-			}
-
-			if (dataReturn.tipoMsg == 1) {
-				$.smallBox({
-					title: msg_title,
-					content: dataReturn.msg,
-					color: cor_smallBox_ok,
-					icon: "fa fa-thumbs-up bounce animated",
-					timeout: 4000
-				});
-			} else {
-				$.smallBox({
-					title: msg_title,
-					content: dataReturn.msg,
-					color: cor_smallBox_aviso,
-					icon: "fa fa-exclamation bounce animated",
-					timeout: 4000
-				});
-			}
-		} else {
-			$.smallBox({
-				title: "Não foi possivel processar sua requisição!",
-				content: dataReturn.msg,
-				color: cor_smallBox_erro,
-				icon: "fa fa-thumbs-down bounce animated",
-				timeout: 8000
-			});
-		}
-	}).fail(function (jq, textStatus, error) {
-		$.smallBox({
-			title: "Falha na sua requisição!",
-			content: textStatus + "[" + error + "]",
-			color: cor_smallBox_erro,
-			icon: "fa fa-thumbs-down bounce animated",
-			timeout: 8000
-		});
-
-	}).always(function () {
-		HideProgressBar();
-	});
-}
-
-/** ----------------------------------------------------------------------------
- * PovoarSelMatriculasPrenotacao - povoar select : ddListMatriculasPrenotacao
- * @@param {any} selObj
- * @@param {any} listaModelos
------------------------------------------------------------------------------ */
-function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas) {
-	var sel = selObj;
-
-	if (sel) {
-		$(sel).empty();
-		$.each(listaMatriculas, function (index, item) {
-			$(sel).append('<option value="' + item + '" >' + item + '</option>');
-		});
-	}
-}
-
-/** ----------------------------------------------------------------------------
  * GerarTextoAto
  * @@param {any} dadosAto
  * @@param {any} url
@@ -1268,6 +1267,7 @@ function ShowDlgPessoasPrenotacao(listaPessoasPrenotacao)
 
 	if (listaPessoasPrenotacao) {
 		$('#div-dlg-pessoas-prenotacao label[id*="lbl-dlg-pessoa-header"]').text("Selecionar outorgante(s)/outorgado(s), Prenotação: " + $("#IdPrenotacao").val());
+
 		if (PovoarTblPessoasPrenotacao(listaPessoasPrenotacao)) {
 			$('#div-dlg-pessoas-prenotacao').modal({
 				keyboard: false,
@@ -1289,7 +1289,6 @@ function PovoartblPessoasSelecionadas()
 	var htmlAcoes = "";
 
 	listaPessoasSelecionadas = [];
-
 	$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
 
 	$("#tbl-pessoas-prenotacao tbody").find('input[type=checkbox]').each(function () {
@@ -1432,5 +1431,6 @@ function RemoverPessoaSel(objBtn, idPessoa)
 				break;
 			}
 		}
+		PodeAvancar2 = (listaPessoasSelecionadas.length > 0);
 	}
 }

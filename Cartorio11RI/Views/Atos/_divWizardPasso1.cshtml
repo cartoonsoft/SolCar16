@@ -1,44 +1,43 @@
 ﻿<!-- _divWizardPasso1 Prenotação  ------------------------------------------ -->
 @model Cartorio11RI.ViewModels.AtoViewModel
 
-    <div class="step-pane active" a id="ato-step-1">
-        <br />
-        <hr class="simple" />
-        <div class="row">
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.IdPrenotacao)
-                <div class="input-group">
-                    <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
-                    <div class="icon-addon addon-md">
-                        @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", @placeholder = "Núm. prenotação" })
-                        <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
-                    </div>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao" rel="tooltip" data-placement="top" data-original-title="Pesquisar por número de prenotação."><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
-                    </span>
+<div class="step-pane active" a id="ato-step-1">
+    <br />
+    <hr class="simple" />
+    <div class="row">
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.IdPrenotacao)
+            <div class="input-group">
+                <span class="input-group-addon dropdown"><i class="fa fa-file-text-o"></i></span>
+                <div class="icon-addon addon-md">
+                    @Html.TextBoxFor(model => model.IdPrenotacao, new { @class = "form-control somente-numero-sem-decimal", @placeholder = "Núm. prenotação" })
+                    <label for="IdPrenotacao" class="glyphicon glyphicon-search" rel="tooltip" title="Número de prenotação"></label>
                 </div>
-            </div>
-            <div class="col-md-4">
-                @Html.LabelFor(model => model.NumMatricula)
-                <div class="input-group">
-                    @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListMatriculasPrenotacao", @class = "form-control", @placeholder = "Num. matrícula" })
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" id="btn-reserva-mat" disabled rel="tooltip" data-placement="top" data-original-title="Reservar matrícula para escrita do Ato."><i class="fa fa-lock"></i> Reservar</button>
-                        <button type="button" class="btn btn-primary" id="btn-libera-mat" disabled rel="tooltip" data-placement="top" data-original-title="Liberar matrícula para escrita do Ato."><i class="fa fa-unlock"></i> Liberar</button>
-                    </span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="form-group">
-                    @Html.LabelFor(model => model.DataRegPrenotacao)
-                    @Html.TextBoxFor(model => model.DataRegPrenotacao, new { @class = "form-control", @readonly = "readonly" })
-                </div>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="btn-pesq-prenotacao" rel="tooltip" data-placement="top" data-original-title="Pesquisar por número de prenotação."><i class="glyphicon glyphicon-search"></i> Pesquisar</button>
+                </span>
             </div>
         </div>
-        <hr class="simple" />
-        @Html.Partial("_divImovel", Model)
-        @Html.Partial("_divPessoas", Model)
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.NumMatricula)
+            <div class="input-group">
+                @Html.DropDownListFor(model => model.NumMatricula, new SelectList(new List<SelectListItem>()), new { @id = "ddListMatriculasPrenotacao", @class = "form-control", @placeholder = "Num. matrícula" })
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-primary" id="btn-reserva-mat" disabled rel="tooltip" data-placement="top" data-original-title="Reservar matrícula para escrita do Ato."><i class="fa fa-lock"></i> Reservar</button>
+                    <button type="button" class="btn btn-primary" id="btn-libera-mat" disabled rel="tooltip" data-placement="top" data-original-title="Liberar matrícula para escrita do Ato."><i class="fa fa-unlock"></i> Liberar</button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                @Html.LabelFor(model => model.DataRegPrenotacao)
+                @Html.TextBoxFor(model => model.DataRegPrenotacao, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
     </div>
+    <hr class="simple" />
+    @Html.Partial("_divImovel", Model)
+</div>
 
 
 

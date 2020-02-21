@@ -570,12 +570,14 @@ namespace AppServCart11RI.AppServices
             return reserva;
         }
 
-        public StringBuilder GetTextoWordDocModelo(long IdModeloDoc, string ServerPath)
+        public StringBuilder GetTextoModeloDoc(long IdModeloDoc)
         {
             StringBuilder textoDoc = new StringBuilder();
-            FilesConfig fileConfig = new FilesConfig();
-            string fileName = Path.Combine(ServerPath, fileConfig.GetModeloDocFileName(IdModeloDoc));
 
+
+
+
+            ronaldo arrumar
             using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, this.IdCtaAcessoSist, fileName))
             {
                 foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))

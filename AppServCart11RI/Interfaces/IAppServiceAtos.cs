@@ -52,7 +52,7 @@ namespace AppServices.Cartorio.Interfaces
 
         DtoReservaImovel ProcReservarMatImovel(TipoReservaMatImovel TipoReserva, long IdPrenotacao, string NumMatricula, string IdUsuario);
 
-        StringBuilder GetTextoWordDocModelo(long IdModeloDoc, string ServerPath);
+        StringBuilder GetTextoModeloDoc(long IdModeloDoc);
 
         StringBuilder GetTextoAto(DtoInfAto dtoInfAto);
 
