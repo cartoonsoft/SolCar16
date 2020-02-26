@@ -31,7 +31,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 
         public short IndexParagrafo { get; set; }
 
-        public string TextoHtml { get; set; }
+        public string Texto { get; set; }
 
         public DtoDocx Docx { get; set; } // 1 ..1 em relacao docx
     }

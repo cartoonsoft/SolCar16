@@ -574,16 +574,11 @@ namespace AppServCart11RI.AppServices
         {
             StringBuilder textoDoc = new StringBuilder();
 
+            ModeloDoc modelo = this.DsFactoryCartNew.ModeloDocxDs.GetById(IdModeloDoc);
 
-
-
-            ronaldo arrumar
-            using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, this.IdCtaAcessoSist, fileName))
+            if (modelo != null)
             {
-                foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))
-                {
-                    textoDoc.Append(paragraph.Content.ToString());
-                }
+                textoDoc.Append(modelo.Texto);
             }
 
             return textoDoc;

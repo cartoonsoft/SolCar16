@@ -177,14 +177,14 @@ namespace AppServCart11RI.Cartorio
             return paragraph;
         }
 
-        private string[] GetArryWords(string textoHtml)
+        private string[] GetArryWords(string texto)
         {
             DocumentModel doc = new DocumentModel();
             Section sec = new Section(doc);
             doc.Sections.Add(sec);
 
             Paragraph par = new Paragraph(doc);
-            par.Content.LoadText(textoHtml, LoadOptions.HtmlDefault);
+            par.Content.LoadText(texto, LoadOptions.HtmlDefault);
             sec.Blocks.Add(par);
 
             string strTmp = par.Content.ToString();

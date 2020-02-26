@@ -17,7 +17,7 @@ var urlGetListPessoasPrenotacao = '/Atos/GetListPessoasPrenotacao';
 var urlGetLisModelosDocx = '/Atos/GetLisModelosDocx';
 var urlProcReservarMatImovel = '/Atos/ProcReservarMatImovel';
 var urlGetTextoAto = '/Atos/GetTextoAto';
-var urlGetTextoWordDocModelo = '/Atos/GetTextoWordDocModelo';
+var urlGetTextoModeloDoc = '/Atos/GetTextoModeloDoc';
 var urlInsertOrUpdateAtoAjax = '/Atos/InsertOrUpdateAtoAjax';
 var urlGetDadosPrenotacao = '/Atos/GetDadosPrenotacao';
 var urlGetListMatriculasPrenotacao = '/Atos/GetListMatriculasPrenotacao';
@@ -274,7 +274,7 @@ $(document).ready(function () {
 	/*-- ckeditor ckEditorPreviewModelo ------------------------------------- */
 	CKEDITOR.replace('ckEditorPreviewModelo', {
 		width: '100%',
-		height: '200px',
+		height: '290px',
 		language: 'pt-br',
 		uiColor: '#1686E4',
 		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
@@ -387,7 +387,7 @@ $(document).ready(function () {
 				IdModeloDoc: selItem
 			}
 
-			$.ajax(urlGetTextoWordDocModelo, {
+			$.ajax(urlGetTextoModeloDoc, {
 				method: 'POST',
 				dataType: 'json',
 				data: dados,
@@ -396,12 +396,10 @@ $(document).ready(function () {
 				}
 			}).done(function (dataReturn) {
 				if (dataReturn.resposta) {
-					var dadosValidos = !(typeof dataReturn.TextoHtml === 'undefined' || dataReturn.TextoHtml == null);
-					if (dadosValidos) {
-						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.TextoHtml);
+					if (dataReturn.Texto) {
+						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.Texto);
 					}
 					PodeAvancar3 = true;
-					//$("#editor2").val(dataReturn.TextoHtml);
 				}
 			}).fail(function (jq, textStatus, error) {
 				alert("Erro: " + textStatus);
@@ -636,8 +634,7 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
 
 			//reservar
 			if (tipoReserva == 1) {
-				var dadosValidos = !(typeof dataReturn.Reserva.Imovel == 'undefined' || dataReturn.Reserva.Imovel == null);
-				if (dadosValidos) {
+				if (dataReturn.Reserva.Imovel) {
 					PodeAvancar1 = true;
 					HabilitarProximo();
 					PovoarDadosImovel(dataReturn.Reserva.Imovel);
@@ -977,9 +974,7 @@ function InsertOrUpdateAtoAjax(dados, url)
 		//
 		if (dataReturn.resposta) {
 
-			var dadosValidos = !(typeof dataReturn.execute == 'undefined' || dataReturn.execute == null);
-
-			if (dadosValidos) {
+			if (dataReturn.execute) {
 
 				if (!((typeof dataReturn.execute.Entidade == 'undefined') || (dataReturn.execute.Entidade == null))) {
 					//alert("Id ===> " + dataReturn.execute.Entidade.Id);
@@ -1049,10 +1044,7 @@ function BuscarListaModelos(IdTipoAto, selObj, url)
 	}).done(function (dataReturn) {
 		//
 		if (dataReturn.resposta) {
-
-			var dadosValidos = !(typeof dataReturn.ListaModelosDocx == 'undefined' || dataReturn.ListaModelosDocx == null);
-
-			if (dadosValidos) {
+			if (dataReturn.ListaModelosDocx) {
 				PovoarSelModelos(selObj, dataReturn.ListaModelosDocx);
 			} else {
 				$.smallBox({
@@ -1235,10 +1227,8 @@ function GetTextoAto(dadosAto, url) {
 	}).done(function (dataReturn) {
 		//
 		if (dataReturn.resposta) {
-			var dadosValidos = !(typeof dataReturn.TextoHtml == 'undefined' || dataReturn.TextoHtml == null);
-
-			if (dadosValidos) {
-				CKEDITOR.instances.ckEditorAto.setData(dataReturn.TextoHtml);
+			if (dataReturn.Texto) {
+				CKEDITOR.instances.ckEditorAto.setData(dataReturn.Texto);
 			}
 		} else {
 			$.smallBox({

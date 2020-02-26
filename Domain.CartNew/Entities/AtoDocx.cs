@@ -28,6 +28,6 @@ namespace Domain.CartNew.Entities
         public short IdxParagrago { get; set; }
 
         [Column("TXT_HTML")] //TXT_HTML VARCHAR2(2048),
-        public string TextoHtml { get; set; }
+        public string Texto { get; set; }
     }
 }

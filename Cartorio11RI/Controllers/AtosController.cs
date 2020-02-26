@@ -732,7 +732,7 @@ namespace Cartorio11RI.Controllers
         /// <param name="IdModeloDoc"></param>
         /// <returns></returns>
         [HttpPost]
-        public JsonResult GetTextoWordDocModelo(long IdModeloDoc)
+        public JsonResult GetTextoModeloDoc(long IdModeloDoc)
         {
             bool resp = false;
             StringBuilder texto = new StringBuilder();
@@ -740,11 +740,9 @@ namespace Cartorio11RI.Controllers
 
             try
             {
-                string serverPath = Server.MapPath("~");
-
                 using (AppServiceAtos appServ = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    texto = appServ.GetTextoWordDocModelo(IdModeloDoc, serverPath);
+                    texto = appServ.GetTextoModeloDoc(IdModeloDoc);
                 }
 
                 resp = true;
@@ -758,7 +756,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                TextoHtml = texto.ToString()
+                Texto = texto.ToString()
             };
 
             return Json(resultado);
@@ -814,7 +812,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                TextoHtml = texto
+                Texto = texto
             };
 
             return Json(resultado);

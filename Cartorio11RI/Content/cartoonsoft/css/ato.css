@@ -80,7 +80,7 @@ by Ronaldo Moreira - 2019
 }
 
 .div-container-scroll {
-    width: 580px;
+    width: 100%;
     height: 480px;
     overflow-y: auto;
     overflow-x: auto;

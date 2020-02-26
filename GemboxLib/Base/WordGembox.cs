@@ -197,7 +197,7 @@ namespace GemboxLib.Base
                     break;
             }
 
-            //Paragraph paragraph = new Paragraph(doc, textoHtml);
+            //Paragraph paragraph = new Paragraph(doc, texto);
             //this.doc.Content.End.InsertRange(new SpecialCharacter(this.doc, SpecialCharacterType.LineBreak).Content);
             //this.doc.Content.End.InsertRange(new Paragraph(doc, new SpecialCharacter(doc, SpecialCharacterType.LineBreak)).Content);
             //this.doc.Content.End.LoadText(paragraph.Content.ToString(), LoadOptions.HtmlDefault);
