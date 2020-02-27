@@ -503,10 +503,7 @@
 				}
 			}).done(function (dataReturn) {
 				if (dataReturn.resposta) {
-
-					var dadosValidos = !(typeof dataReturn.listaPessoas == 'undefined' || dataReturn.listaPessoas == null);
-
-					if (dadosValidos) {
+					if (dataReturn.listaPessoas) {
 						ShowTblPessoasPrenotacao(dataReturn.listaPessoas);
 					} else {
 						$.smallBox({

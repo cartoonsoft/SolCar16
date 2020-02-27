@@ -24,6 +24,7 @@ var urlGetListMatriculasPrenotacao = '/Atos/GetListMatriculasPrenotacao';
 var urlConfirmarUserLoginSenha = '/Account/ConfirmarUserLoginSenha';
 var urlSetStatusAto = '/Atos/SetStatusAto';
 var urlSetTextoConferido = '/Atos/SetTextoConferido';
+var urlGetListModelosDocx = '/Atos/GetListModelosDocx';
 
 var form_para_validar = null;
 
@@ -952,7 +953,7 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 		$(btn).addClass("btn-danger");
 		var sel = $("#IdModeloDoc");
 		CKEDITOR.instances.ckEditorPreviewModelo.setData("");
-		BuscarListaModelos(idTipoAtoTmp, sel, '/Atos/GetListModelosDocx');
+		BuscarListaModelos(idTipoAtoTmp, sel, urlGetListModelosDocx);
 	}
 }
 

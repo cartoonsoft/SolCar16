@@ -50,8 +50,6 @@
     <Compile Include="Functions\AppFunctions.cs" />
     <Compile Include="Functions\BusinessFunctions.cs" />
     <Compile Include="Functions\DateTimeFunctions.cs" />
-    <Compile Include="Functions\FeriadosHelper.cs" />
-    <Compile Include="Functions\CommonFunctions.cs" />
     <Compile Include="Functions\IOFunctions.cs" />
     <Compile Include="Functions\StringFunctions.cs" />
     <Compile Include="Functions\word\WordHelperDocument.cs" />

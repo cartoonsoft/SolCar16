@@ -609,8 +609,7 @@
 
 					"dataSrc": function (dataReturn) {
 						if (dataReturn.resposta) {
-							var dadosValidos = !(typeof dataReturn.ListaAtoViewModel === 'undefined' || dataReturn.ListaAtoViewModel == null);
-							if (dadosValidos) {
+							if (dataReturn.ListaAtoViewModel) {
 								return dataReturn.ListaAtoViewModel;
 							}
 						} else {

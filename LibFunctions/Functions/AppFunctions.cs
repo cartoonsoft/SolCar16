@@ -1,4 +1,11 @@
-﻿using Microsoft.CSharp;
+﻿/*
+---------1---------2---------3---------4---------5---------6---------7---------8
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+--------------------------------------------------------------------------------
+Funções do App
+by Ronaldo Moreira - ronaldo.poa.rs@gmail.com
+------------------------------------------------------------------------------*/
+using Microsoft.CSharp;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -8,6 +15,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace LibFunctions.Functions.AppFuncs
@@ -52,17 +60,6 @@ namespace LibFunctions.Functions.AppFuncs
             );
 
             return code;
-        }
-
-        public static List<int> ObtenhaUltimosCincoAnos(int anoReferencia)
-        {
-            List<int> anos = new List<int>();
-            for (int ano = anoReferencia; ano >= (anoReferencia - 5); ano--)
-            {
-                anos.Add(ano);
-            }
-
-            return anos;
         }
 
         public static bool ValideFormula(string expression)
@@ -318,5 +315,14 @@ namespace LibFunctions.Functions.AppFuncs
                 destinatarios.ToString(),
                 files);
         }
+
+        public static long StrtoLong(string valor)
+        {
+            long valorTmp = 0;
+            long.TryParse(Regex.Match(valor, @"\d+").Value, out valorTmp);
+
+            return valorTmp;
+        }
+
     }
 }

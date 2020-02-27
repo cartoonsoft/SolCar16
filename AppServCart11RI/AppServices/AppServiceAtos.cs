@@ -21,7 +21,6 @@ using AppServices.Cartorio.Interfaces;
 using DomainServ.CartNew.Interfaces.Factory;
 using AutoMapper;
 using LibFunctions.Functions.BusinessFuncs;
-using LibFunctions.Functions.CommonFunc;
 
 namespace AppServCart11RI.AppServices
 {
@@ -382,12 +381,12 @@ namespace AppServCart11RI.AppServices
 
             foreach (var pessoa in pessoasPrenotacao)
             {
-                if (CommonFunctions.SomenteNumeros(pessoa.Numero1).Length == 11)
+                if (StringFunctions.SomenteNumeros(pessoa.Numero1).Length == 11)
                 {
                     pessoa.Valido = BusinessFunctions.ValidarCPF(pessoa.Numero1);
                     retValTmp = "está com CPF " + (pessoa.Valido ? "Validado" : "Inválido");
 
-                } else if (CommonFunctions.SomenteNumeros(pessoa.Numero1).Length == 14) {  
+                } else if (StringFunctions.SomenteNumeros(pessoa.Numero1).Length == 14) {  
                     pessoa.Valido = BusinessFunctions.ValidarCNPJ(pessoa.Numero1);
                     retValTmp = "está com CNPJ " + (pessoa.Valido ? "Validado" : "Inválido");
                 } else {

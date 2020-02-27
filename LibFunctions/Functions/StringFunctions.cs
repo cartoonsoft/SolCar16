@@ -1,4 +1,12 @@
-﻿using System;
+﻿/*
+---------1---------2---------3---------4---------5---------6---------7---------8
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+--------------------------------------------------------------------------------
+Funções tratamento de strings
+by Ronaldo Moreira - ronaldo.poa.rs@gmail.com
+------------------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -7,6 +15,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LibFunctions.Functions.StringsFunc
 {
@@ -71,24 +80,6 @@ namespace LibFunctions.Functions.StringsFunc
             return me.Member.Name;
         }
 
-        public static string SomenteNumeros(string strNumbers)
-        {
-            if (strNumbers == null)
-                return null;
-
-            List<char> numbers = new List<char>("0123456789");
-            StringBuilder toReturn = new StringBuilder(strNumbers.Length);
-            CharEnumerator enumerator = strNumbers.GetEnumerator();
-
-            while (enumerator.MoveNext())
-            {
-                if (numbers.Contains(enumerator.Current))
-                    toReturn.Append(enumerator.Current);
-            }
-
-            return toReturn.ToString();
-        }
-
         public static string Upper(string value)
         {
             if (!string.IsNullOrEmpty(value))
@@ -103,16 +94,6 @@ namespace LibFunctions.Functions.StringsFunc
                 return value.ToLower();
             else
                 return null;
-        }
-
-        public static DateTime ConvertaParaDateTime(DateTime data, TimeSpan hora)
-        {
-            return new DateTime(data.Year, data.Month, data.Day, hora.Hours, hora.Minutes, hora.Seconds);
-        }
-
-        public static DateTime ConvertaParaDateTime(DateTime data)
-        {
-            return new DateTime(data.Year, data.Month, data.Day);
         }
 
         public static string AmericaName(string fullName)
@@ -155,18 +136,6 @@ namespace LibFunctions.Functions.StringsFunc
             return Encoding.UTF8.GetString(bytes);
         }
 
-        public static string RemoveAcentos(this string text)
-        {
-            StringBuilder sbReturn = new StringBuilder();
-            var arrayText = text.Normalize(NormalizationForm.FormD).ToCharArray();
-            foreach (char letter in arrayText)
-            {
-                if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
-                    sbReturn.Append(letter);
-            }
-            return sbReturn.ToString();
-        }
-
         public static string TrimNull(this string text)
         {
             if (text != null)
@@ -188,33 +157,6 @@ namespace LibFunctions.Functions.StringsFunc
             return strResult + strString;
         }
 
-        public static string FormatarCpfCnpj(string strCpfCnpj)
-        {
-            if (strCpfCnpj.Length <= 11)
-            {
-                MaskedTextProvider mtpCpf = new MaskedTextProvider(@"000\.000\.000-00");
-                mtpCpf.Set(ZerosEsquerda(strCpfCnpj, 11));
-                return mtpCpf.ToString();
-            }
-            else
-            {
-                MaskedTextProvider mtpCnpj = new MaskedTextProvider(@"00\.000\.000/0000-00");
-                mtpCnpj.Set(ZerosEsquerda(strCpfCnpj, 11));
-                return mtpCnpj.ToString();
-            }
-        }
-
-        public static bool TryParseDateTime(string text, out Nullable<DateTime> nDate)
-        {
-            DateTime date;
-            bool isParsed = System.DateTime.TryParse(text, out date);
-            if (isParsed)
-                nDate = new Nullable<DateTime>(date);
-            else
-                nDate = new Nullable<DateTime>();
-            return isParsed;
-        }
-
         public static IEnumerable<string[]> AdicionePrefixo(IEnumerable<string[]> lista, string prefixo)
         {
             foreach (var item in lista)
@@ -224,25 +166,6 @@ namespace LibFunctions.Functions.StringsFunc
 
             return lista;
         }
-
-        /*
-        public static IEnumerable<string[]> ValideLista<T>(this ICollection<T> lista, string prefixo) where T : class, IValidator
-        {
-            var validationResults = new List<string[]>();
-            if (lista == null) return validationResults;
-
-            var t = typeof(T);
-            int i = 0;
-
-            foreach (var item in lista)
-            {
-                validationResults.AddRange(AdicionePrefixo(item.Validate(), string.Format("{0}[{1}].", prefixo, i)));
-                i++;
-            }
-
-            return validationResults;
-        }
-        */
 
         public static T ConvertaParaEnum<T>(int? valor)
         {
@@ -303,34 +226,6 @@ namespace LibFunctions.Functions.StringsFunc
             return (T)Attribute.GetCustomAttribute(instance, typeof(T));
         }
 
-        public static string GetDiaDaSemana(DateTime? data)
-        {
-            if (data.HasValue)
-            {
-                return Capitalize(new CultureInfo("pt-BR").DateTimeFormat.DayNames[(int)data.Value.DayOfWeek]);
-            }
-
-            return string.Empty;
-        }
-
-        public static string TraduzirDayOfWeek(DayOfWeek? day)
-        {
-            if (day.HasValue)
-            {
-                return Capitalize(new CultureInfo("pt-BR").DateTimeFormat.DayNames[(int)day.Value]);
-            }
-
-            return string.Empty;
-        }
-
-        public static decimal CalculaPorcentagem(decimal total, decimal valor)
-        {
-            if (total == 0)
-                return 0;
-
-            return valor / total * 100;
-        }
-
         public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector)
         {
             HashSet<TKey> seenKeys = new HashSet<TKey>();
@@ -371,5 +266,53 @@ namespace LibFunctions.Functions.StringsFunc
             return new string(chars);
         }
 
+        public static string RemoveAcentos(string strcomAcentos)
+        {
+            string strsemAcentos = strcomAcentos;
+            if (!String.IsNullOrEmpty(strsemAcentos))
+            {
+                strsemAcentos = Regex.Replace(strsemAcentos, "[áàâãª]", "a");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ÁÀÂÃ]", "A");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[éèêë]", "e");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ÉÈÊË]", "E");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[íìî]", "i");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ÍÌÎ]", "I");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[óòôõº]", "o");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ÓÒÔÕ]", "O");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[úùû]", "u");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ÚÙÛ]", "U");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[ç]", "c");
+                strsemAcentos = Regex.Replace(strsemAcentos, "[Ç]", "C");
+            }
+
+            return strsemAcentos;
+        }
+
+        public static string RemoveAcentos2(this string text)
+        {
+            StringBuilder sbReturn = new StringBuilder();
+            var arrayText = text.Normalize(NormalizationForm.FormD).ToCharArray();
+            foreach (char letter in arrayText)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(letter) != UnicodeCategory.NonSpacingMark)
+                    sbReturn.Append(letter);
+            }
+            return sbReturn.ToString();
+        }
+
+        public static string SomenteNumeros(string valor)
+        {
+            string valorTmp = new String(valor.Where(Char.IsDigit).ToArray());
+
+            return valorTmp;
+        }
+
+        public static string SomenteNumeros2(string valor)
+        {
+            if (valor == null) return "";
+            return Regex.Replace(valor, "[^0-9]", "");
+        }
+
     }
+
 }

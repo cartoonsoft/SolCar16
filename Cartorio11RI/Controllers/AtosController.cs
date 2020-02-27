@@ -745,7 +745,11 @@ namespace Cartorio11RI.Controllers
                     texto = appServ.GetTextoModeloDoc(IdModeloDoc);
                 }
 
-                resp = true;
+                resp = texto.ToString().Trim().Length > 0;
+                if (!resp)
+                {
+                    message = "Texto está em branco!";
+                }
             }
             catch (Exception ex)
             {

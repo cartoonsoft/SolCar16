@@ -8,7 +8,7 @@ using Domain.Core.Interfaces.Repositories;
 
 namespace Domain.CartNew.Interfaces.Repositories
 {
-    public interface IRepositoryFeriadoHelper: IRepositoryBaseReadWrite<Feriado>
+    public interface IRepositoryFeriado: IRepositoryBaseReadWrite<Feriado>
     {
         IEnumerable<Feriado> FeriadosDoAno(int Ano);
 

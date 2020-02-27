@@ -122,7 +122,7 @@
     <Compile Include="Interfaces\Repositories\IRepositoriesFactoryCartNew.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryModeloDoc.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryAto.cs" />
-    <Compile Include="Interfaces\Repositories\IRepositoryFeriadoHelper.cs" />
+    <Compile Include="Interfaces\Repositories\IRepositoryFeriado.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryLogModeloDoc.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryMunicipio.cs" />
     <Compile Include="Interfaces\Repositories\IRepositoryTipoAto.cs" />
