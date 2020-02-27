@@ -227,17 +227,22 @@ namespace AppServCart11RI.AppServices
         }
         #endregion
 
-        public string[] StatusEdtTexto()
+        public string[] StatusPodeEditar()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusEdtTexto();
+            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
         }
-        public string[] StatusEdtDadosImp()
+
+        public string[] StatusPodeGerarFicha()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusEdtDadosImp();
+            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
+        }
+        public string[] StatusPodeConfigImp()
+        {
+            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
         }
         public string[] StatusAtoFinalizado()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusAtoFinalizado();
+            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
         }
 
         public DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido)

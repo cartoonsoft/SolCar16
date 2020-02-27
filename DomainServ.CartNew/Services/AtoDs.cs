@@ -22,15 +22,6 @@ namespace DomainServ.CartNew.Services
 {
     public class AtoDs : DomainServiceCartNew<Ato>, IAtoDs
     {
-        //status que permitem a edição do texto do ato, data ato 
-        private readonly string[] _statusEdtTexto = { "AC1", "AC2", "AE", "AR" };
-
-        //status que permitem a edição doos campos: Livro, ficha, num seq., frente/verso, distancia topo, descrição e observaçoes  
-        private readonly string[] _statusEdtDadosImp = { "CT", "GF" };
-
-        //status finais
-        private readonly string[] _statusAtoFinalizado = { "CL", "AF" };
-
         public AtoDs(IUnitOfWorkDataBaseCartNew UfwCartNew) : base(UfwCartNew)
         {
             //
@@ -38,7 +29,6 @@ namespace DomainServ.CartNew.Services
         }
 
         #region Private Methods
-
         /// <summary>
         /// Validar se pode alterar o status do ato, se sim retorna os dados do ato, se não null
         /// </summary>
@@ -58,7 +48,7 @@ namespace DomainServ.CartNew.Services
                     switch (statusAto)
                     {
                         case "CT":
-                            altStatusValido = _statusEdtTexto.Contains(ato.StatusAto);
+                            altStatusValido = this.StatusPodeEditar().Contains(ato.StatusAto);
                             break;
                         default:
                             break;
@@ -95,17 +85,22 @@ namespace DomainServ.CartNew.Services
         }
         #endregion
 
-        public string[] StatusEdtTexto()
+        public string[] StatusPodeEditar()
         {
-            return _statusEdtTexto;
+            return this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar(); 
         }
-        public string[] StatusEdtDadosImp()
+
+        public string[] StatusPodeGerarFicha() 
         {
-            return _statusEdtDadosImp;
+            return this.UfwCartNew.Repositories.RepositoryAto.StatusPodeGerarFicha();
+        }
+        public string[] StatusPodeConfigImp()
+        {
+            return this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
         }
         public string[] StatusAtoFinalizado()
         {
-            return _statusAtoFinalizado;
+            return this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
         }
 
         public DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido)
@@ -196,7 +191,7 @@ namespace DomainServ.CartNew.Services
                 }
 
                 // verificar se existe ato em andamento para matricula.
-                Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula) && (_statusAtoFinalizado.Contains(a.StatusAto))).FirstOrDefault();
+                Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula) && (this.StatusAtoFinalizado().Contains(a.StatusAto))).FirstOrDefault();
                 if (atoTmp != null)
                 {
                     string msg = string.Format(CultureInfo.CurrentCulture, "O Ato {0} para a matricula {1} está em andamento, e deve ser finalizado para que se possa incluir um novo ato para o imóvel!", atoTmp.Id.ToString(), atoTmp.NumMatricula);
@@ -211,7 +206,7 @@ namespace DomainServ.CartNew.Services
         {
             if (item != null)
             {
-                if (!_statusEdtTexto.Contains(item.StatusAto))
+                if (!this.StatusPodeEditar().Contains(item.StatusAto))
                 {
                     throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, "O Ato {0} no status {1} não pode ser atualizado!", item.Id.ToString(), item.StatusAto));
                 }

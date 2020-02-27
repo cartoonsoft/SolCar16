@@ -16,9 +16,11 @@ namespace AppServices.Cartorio.Interfaces
     public interface IAppServiceAtos : IAppServiceCartorio<DtoAto, Ato>
     {
 
-        string[] StatusEdtTexto();
+        string[] StatusPodeEditar();
 
-        string[] StatusEdtDadosImp();
+        string[] StatusPodeGerarFicha();
+
+        string[] StatusPodeConfigImp();
 
         string[] StatusAtoFinalizado();
 

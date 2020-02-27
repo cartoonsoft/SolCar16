@@ -55,7 +55,6 @@ $(document).ready(function () {
         } else {
             PesquisarPrenotacao(numPrenotacao, sel);
         }
-
     });
 
     /*-- btn-reserva-mat ---------------------------------------------------- */

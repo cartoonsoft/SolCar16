@@ -92,6 +92,11 @@ namespace Cartorio11RI.Controllers
         {
             ViewBag.DataIni = DateTime.Today;
             ViewBag.DataFim = DateTime.Today;
+
+            ViewBag.StatusPodeEditar = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar();
+            ViewBag.StatusPodeConfigImp = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
+            ViewBag.StatusAtoFinalizado = this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
+
             return View();
         }
 
@@ -137,6 +142,7 @@ namespace Cartorio11RI.Controllers
             dados.Salvo = false;
             dados.PodeEditar = true;
             dados.Finalizado = false;
+            dados.StatusAto = "AC1";
 
             //dados.Pessoas.Add(new PESSOAViewModel { 
             //    IdPessoa = 1,
@@ -150,7 +156,7 @@ namespace Cartorio11RI.Controllers
                 List<Livro> listaLivro = this.UfwCartNew.Repositories.GenericRepository<Livro>().Get().ToList();
                 ViewBag.listaLivro = new SelectList(listaLivro, "Id", "Descricao");
 
-                //povoar tree view
+                //Povoar tree view
                 List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                 ViewBag.listaTipoAto = listaTipoAto;
 
@@ -159,6 +165,11 @@ namespace Cartorio11RI.Controllers
                     "IdModeloDoc",
                     "NomeModelo"
                 );
+
+                ViewBag.StatusPodeEditar = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar();
+                ViewBag.StatusPodeConfigImp = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
+                ViewBag.StatusAtoFinalizado = this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
+
             }
             catch (Exception ex)
             {
@@ -270,12 +281,12 @@ namespace Cartorio11RI.Controllers
                     {
                         appService.ListaUsuariosSistema = listaUsrSist;
 
-                        string[] StatusEdtTexto = appService.StatusEdtTexto();
-                        string[] StatusEdtDadosImp = appService.StatusEdtDadosImp();
+                        string[] StatusPodeEditar = appService.StatusPodeEditar();
+                        string[] StatusPodeConfigImp = appService.StatusPodeConfigImp();
                         string[] StatusAtoFinalizado = appService.StatusAtoFinalizado();
 
-                        ViewBag.StatusEdtTexto = StatusEdtTexto;
-                        ViewBag.StatusEdtDadosImp = StatusEdtDadosImp;
+                        ViewBag.StatusPodeEditar = StatusPodeEditar;
+                        ViewBag.StatusPodeConfigImp = StatusPodeConfigImp;
                         ViewBag.StatusAtoFinalizado = StatusAtoFinalizado;
 
                         DtoAto ato = appService.GetById(Id);

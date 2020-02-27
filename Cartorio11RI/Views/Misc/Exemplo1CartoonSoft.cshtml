@@ -53,6 +53,39 @@
 						<!-- widget content -->
 						<div class="widget-body">
 							<div class="row padding-10">
+								<div class="col-md-8">
+									<div class="btn-toolbar" role="toolbar">
+										<div class="btn-group" role="group">
+											<button type="button" id="btn-ato-conf-texto" class="btn btn-info btn-xs" rel="tooltip" data-placement="top" data-original-title="Marcar como conferido o texto do ato, habilitando-o para gerar documento no word.">
+												<i class="fa fa-check-circle"></i> Texto conferido
+											</button>
+											<button type="button" id="btn-ato-colocar-edicao" class="btn btn-info btn-xs" rel="tooltip" data-placement="top" data-original-title="Recoloca o ato em edição, você poderá alterar o texto, mas posteriormente terá que gerar docx e confirmar ajuste de impressão novamente.">
+												<i class="fa fa-edit"></i> Recolocar em edição
+											</button>
+										</div>
+										<div class="btn-group" role="group">
+											<button type="button" id="btn-ato-gerar-docx" class="btn btn-success btn-xs" rel="tooltip" data-placement="top" data-original-title="Gerar documento do word (docx).">
+												<i class="fa fa-file-word-o"></i> Gerar Ficha
+											</button>
+											<button type="button" id="btn-ato-imp-minuta" class="btn btn-success btn-xs" rel="tooltip" data-placement="top" data-original-title="Imprimir uma prévia do documento woed para verificar o texto e ajuestes de impressão!">
+												<i class="fa fa-print"></i> Imprimir Ficha
+											</button>
+											<button type="button" id="btn-ato-conferir-docx" class="btn btn-success btn-xs" rel="tooltip" data-placement="top" data-original-title="Marcar como conferir o documento de word gerado (texto e alinhamento).">
+												<i class="fa fa-check-circle"></i> Ficha Conferida
+											</button>
+										</div>
+										<div class="btn-group" role="group">
+											<button type="button" id="btn-ato-finalizar" class="btn btn-success btn-xs" rel="tooltip" data-placement="top" data-original-title="Finalizar processo, e ato é salvo de forma definitiva, não permite mais edições.">
+												<i class="fa fa-gears"></i> Finalizar
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									dfdsfdsfdsf
+								</div>
+							</div>
+							<div class="row padding-10">
 								<div class="col-md-2">
 									<button type="button" class="btn btn-danger btn-xs" rel="tooltip" data-placement="top" data-original-title="Remover">
 										<i class="glyphicon glyphicon-trash"></i>
@@ -64,7 +97,7 @@
 									<div class="checkbox">
 										<label>
 											@Html.CheckBox("chk_teste1", true, new { @class = "chk_cartoon" })
-											@Html.Label("chk_teste1","Bla bla bla 1", new { @class = "control-label padding-left-5 padding-top-5" })
+											@Html.Label("chk_teste1", "Bla bla bla 1", new { @class = "control-label padding-left-5 padding-top-5" })
 										</label>
 									</div>
 								</div>
@@ -72,7 +105,7 @@
 									<div class="checkbox">
 										<label>
 											@Html.CheckBox("chk_teste2", true, new { @class = "chk_cartoon", @disabled = "disabled" })
-											@Html.Label("chk_teste2","Bla bla bla 2", new { @class = "control-label padding-left-5 padding-top-5" })
+											@Html.Label("chk_teste2", "Bla bla bla 2", new { @class = "control-label padding-left-5 padding-top-5" })
 										</label>
 									</div>
 								</div>
@@ -80,7 +113,7 @@
 									<div class="checkbox">
 										<label>
 											@Html.CheckBox("chk_teste3", false, new { @class = "chk_cartoon" })
-											@Html.Label("chk_teste3", "Bla bla bla 3",  new { @class = "control-label padding-left-5 padding-top-5" })
+											@Html.Label("chk_teste3", "Bla bla bla 3", new { @class = "control-label padding-left-5 padding-top-5" })
 										</label>
 									</div>
 								</div>

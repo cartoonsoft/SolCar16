@@ -275,10 +275,10 @@
 					{ "data": "Observacao", "title": "Observações", "name": "Observacao", "autoWidth": true },
 					{ "data": "StatusAto", "title": "Status", "name": "StatusAto", "autoWidth": true },
 					{
-						"render": function (data, type, full, meta) {
-
-							var vetStatusAto = ["AC1", "AC2", "AE", "AR", "CT", "GF", "CI"];
-							var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato" ' + (vetStatusAto.includes(full.StatusAto)? ' ': 'disabled="disabled"') +'><i class="fa fa-pencil"></i></a>';
+						"render": function (data, type, full, meta)
+						{
+							var statusAtoFinalizado = ["CL", "AF"];
+							var tag = '<a href="/Atos/EditarAto/' + full.Id + '" class="btn btn-primary btn-sm" title="Editar ato" ' + (statusAtoFinalizado.includes(full.StatusAto)? 'disabled="disabled"': ' ') +'><i class="fa fa-pencil"></i></a>';
 							return tag;
 						}
 					}

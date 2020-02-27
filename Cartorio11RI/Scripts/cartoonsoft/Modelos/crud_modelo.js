@@ -61,7 +61,7 @@ $(document).ready(function () {
 	/*-- coloque aqui seu código javascript --------------------------------- */
 	CKEDITOR.replace('ckedtModeloAto', {
 		width: '100%',
-		height: '360px',
+		height: '320px',
 		language: 'pt-br',
 		uiColor: '#1686E4',
 		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',

@@ -498,7 +498,6 @@ $(document).ready(function () {
 				Finalizado: $("#Finalizado").val(),
 				Ativo: $("#Ativo").val(),
 				IpLocal: $("#IpLocal").val(),
-				StatusAto: $("#StatusAto").val()
 			};
 
 			InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);

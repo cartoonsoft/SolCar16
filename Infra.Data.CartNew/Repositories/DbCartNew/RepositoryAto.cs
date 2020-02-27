@@ -20,7 +20,21 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
     public class RepositoryAto : RepositoryBaseReadWrite<Ato>, IRepositoryAto
     {
         private readonly ContextMainCartNew _contextRepository;
-        private readonly string[] PapelPessoaAto = { "O", "E" };  // O - outorgante E - outorgado 
+
+        // O - outorgante E - outorgado 
+        private readonly string[] PapelPessoaAto = { "O", "E" };  
+
+        //status que permitem a edição do texto do ato, data ato 
+        private readonly string[] _statusPodeEditar = { "AC1", "AC2", "AE", "AR" };
+
+        //status que pode Gerar Ficha
+        private readonly string[] _statusPodeGerarFicha = { "CT" };
+
+        //status que pode configurar impressão, permitem a edição dos campos: Livro, ficha, num seq., frente/verso, distancia topo   
+        private readonly string[] _statusPodeConfigImp = { "CT", "GF" };
+
+        //status finais
+        private readonly string[] _statusAtoFinalizado = { "CL", "AF" };
 
         public RepositoryAto(ContextMainCartNew contextRepository) : base(contextRepository)
         {
@@ -75,6 +89,25 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
         }
         #endregion
 
+        public string[] StatusPodeEditar()
+        {
+            return _statusPodeEditar;
+        }
+
+        public string[] StatusPodeGerarFicha()
+        {
+            return _statusPodeGerarFicha;
+        }
+
+        public string[] StatusPodeConfigImp()
+        {
+            return _statusPodeConfigImp;
+        }
+
+        public string[] StatusAtoFinalizado()
+        {
+            return _statusAtoFinalizado;
+        }
 
         public override Ato Add(Ato entity)
         {
@@ -621,6 +654,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
 
             return lista;
         }
+
     }
 
 }

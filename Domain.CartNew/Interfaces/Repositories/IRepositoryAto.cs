@@ -13,6 +13,14 @@ namespace Domain.CartNew.Interfaces.Repositories
     {
         bool ExisteAtoCadastrado(string numMatricula);
 
+        string[] StatusPodeEditar();
+
+        string[] StatusPodeGerarFicha();
+
+        string[] StatusPodeConfigImp();
+
+        string[] StatusAtoFinalizado();
+
         long? GetNumSequenciaAto(string NumMatricula);
 
         short GetUltimoNumFicha(string NumMatricula);

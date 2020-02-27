@@ -21,9 +21,11 @@ namespace DomainServ.CartNew.Interfaces
 
         short GetUltimoNumFicha(string NumMatricula);
 
-        string[] StatusEdtTexto();
+        string[] StatusPodeEditar();
 
-        string[] StatusEdtDadosImp();
+        string[] StatusPodeGerarFicha();
+
+        string[] StatusPodeConfigImp();
 
         string[] StatusAtoFinalizado();
 
