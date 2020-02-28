@@ -40,11 +40,11 @@ $(document).ready(function () {
     $("#btn-pesq-prenotacao").click(function (e) {
         e.preventDefault();
 
-        var numPrenotacao = $("#IdPrenotacao").val().trim();
+        var idPrenotacao = $("#IdPrenotacao").val().trim();
         var sel = $("#ddListMatriculasPrenotacao");
-        $("#IdPrenotacao_2").val(numPrenotacao);
+        $("#IdPrenotacao_2").val(idPrenotacao);
 
-        if (isNaN(numPrenotacao) || !numPrenotacao) {
+        if (isNaN(idPrenotacao) || !idPrenotacao) {
             $.smallBox({
                 title: "Valor inválido!",
                 content: "Número de prenotação está inválido.",
@@ -53,7 +53,7 @@ $(document).ready(function () {
                 timeout: 4000
             });
         } else {
-            PesquisarPrenotacao(numPrenotacao, sel);
+            PesquisarPrenotacao(idPrenotacao, sel);
         }
     });
 
@@ -62,11 +62,11 @@ $(document).ready(function () {
         e.preventDefault();
 
         var obj = $("#ddListMatriculasPrenotacao");
-        var numPrenotacao = $("#IdPrenotacao").val().trim();
+        var idPrenotacao = $("#IdPrenotacao").val().trim();
         var numMat = $("option:selected", obj).val();
         $("#NumMatricula_2").val(numMat);
 
-        ProcReservarMatImovel(1, numPrenotacao, numMat, urlProcReservarMatImovel);
+        ProcReservarMatImovel(1, idPrenotacao, numMat, urlProcReservarMatImovel);
     });
 
     /*-- btn-libera-mat ----------------------------------------------------- */
@@ -74,10 +74,10 @@ $(document).ready(function () {
         e.preventDefault();
 
         var obj = $("#ddListMatriculasPrenotacao");
-        var numPrenotacao = $("#IdPrenotacao").val().trim();
+        var idPrenotacao = $("#IdPrenotacao").val().trim();
         var numMat = $("option:selected", obj).val();
 
-        ProcReservarMatImovel(2, numPrenotacao, numMat, urlProcReservarMatImovel);
+        ProcReservarMatImovel(2, idPrenotacao, numMat, urlProcReservarMatImovel);
     });
 
     var ato_wizard = $('#div-wizard-novo-ato').wizard();
@@ -85,7 +85,11 @@ $(document).ready(function () {
     /*-- ato_wizard on change ----------------------------------------------- */
     $(ato_wizard).on('change', function (e, data) {
 
-        var numPrenotacao = $("#IdPrenotacao").val().trim();
+        var idPrenotacao = $("#IdPrenotacao").val();
+        var idModeloDoc = $("#IdModeloDoc").val();
+        var numMatricula = $("#NumMatricula").val();
+        var erro = false;
+        var errMsg = "";
 
         /*-- etapa 1 -------------------------------------------------------- */
         if (data.step === 1 && data.direction === 'next') {
@@ -127,17 +131,61 @@ $(document).ready(function () {
                 });
                 return false;
             } else {
-                /*-- -------------------------------------------------------- */
-                if (isNaN(numPrenotacao) || !numPrenotacao) {
+
+                errMsg = "";
+
+                if (isNaN(idPrenotacao) || !idPrenotacao) {
+                    erro = true;
+                    errMsg += "Número de Prenotação inválido <br/>";
+                }
+
+                if (isNaN(idModeloDoc) || !idModeloDoc) {
+                    erro = true;
+                    errMsg += "Modelo de documento inválido <br/>";
+                }
+
+                if (isNaN(numMatricula) || !numMatricula) {
+                    erro = true;
+                    errMsg += "Matrícula de imóvel inválida<br/>";
+                }
+
+                if (!listaPessoasSelecionadas || (listaPessoasSelecionadas.length < 1)) {
+                    erro = true;
+                    errMsg += "Selecione pelo menos um outorgante/outorgado <br/>";
+                }
+
+                if (erro) {
                     $.smallBox({
-                        title: "Número de prenotação inválido!",
-                        content: "Preencha o número de prenotação...",
-                        color: cor_smallBox_aviso,
-                        icon: "fa fa-exclamation bounce animated",
-                        timeout: 4000
+                        title: "Não foi possivel processar sua requisição!",
+                        content: errMsg,
+                        color: cor_smallBox_erro,
+                        icon: "fa fa-thumbs-down bounce animated",
+                        timeout: 8000
                     });
                     return false;
                 }
+
+                var listaPes = GetListaPessoasSelecionadas();
+                var idAto = $("#Id").val();
+                var idLivro = $("#ddListLivro option:selected").val();
+                var idModeloDoc = $("#IdModeloDoc").val();
+                var idPrenotacao = $("#IdPrenotacao").val();
+                var numMatricula = $("#NumMatricula").val();
+                var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
+                var dataAto = new Date($("#DataAto").val());
+
+                var dados = {
+                    IdAto: idAto,
+                    IdLivro: idLivro,
+                    IdModeloDoc: idModeloDoc,
+                    IdPrenotacao: idPrenotacao,
+                    NumMatricula: numMatricula,
+                    DataRegPrenotacao: dataRegPrenotacao,
+                    DataAto: dataAto,
+                    ListIdsPessoas: listaPes
+                };
+
+                GetTextoAto(dados, urlGetTextoAto);
             }
         }
 

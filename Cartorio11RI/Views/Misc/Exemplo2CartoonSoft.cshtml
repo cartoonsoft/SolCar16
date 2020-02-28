@@ -461,9 +461,9 @@
 			$("#btn-pesq-pessoas").click(function (e) {
 				e.preventDefault();
 
-				var numPrenotacao = $("#IdPrenotacao").val().trim();
+				var idPrenotacao = $("#IdPrenotacao").val().trim();
 
-				if (isNaN(numPrenotacao) || (numPrenotacao == "")) {
+				if (isNaN(idPrenotacao) || !idPrenotacao) {
 					$.smallBox({
 						title: "Valor inválido!",
 						content: "Número de prenotação está inválido.",
@@ -473,7 +473,7 @@
 					});
 				} else {
 					var dadosPrenotacao = {
-						IdPrenotacao: numPrenotacao
+						IdPrenotacao: idPrenotacao
 					};
 
 					GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
@@ -601,7 +601,7 @@
 		/** ----------------------------------------------------------------------------
 		 * idPrenotacao (IdPrenotacao)
 		 ---------------------------------------------------------------------------- */
-		function PovoarSelecionados(numPrenotacao) {
+		function PovoarSelecionados(idPrenotacao) {
 			var povoou = false;
 			var IdsSel = "";
 

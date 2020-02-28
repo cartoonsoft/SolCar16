@@ -169,7 +169,6 @@ namespace Cartorio11RI.Controllers
                 ViewBag.StatusPodeEditar = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar();
                 ViewBag.StatusPodeConfigImp = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
                 ViewBag.StatusAtoFinalizado = this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
-
             }
             catch (Exception ex)
             {
@@ -598,13 +597,13 @@ namespace Cartorio11RI.Controllers
         {
             bool resp = false;
             string message = string.Empty;
-            IEnumerable<DtoPessoaAto> listaPes = new List<DtoPessoaAto>();
+            IEnumerable<DtoPessoaAto> listaPessoas = new List<DtoPessoaAto>();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    listaPes = appServiceAtos.GetListPessoasAto(IdAto);
+                    listaPessoas = appServiceAtos.GetListPessoasAto(IdAto);
                     resp = true;
                     message = "Lista de pessoas do ato, obtida com sucesso!";
                 }
@@ -619,7 +618,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                listaPessoas = listaPes
+                listaPessoas = listaPessoas
             };
 
             return Json(resultado);
@@ -635,13 +634,13 @@ namespace Cartorio11RI.Controllers
         {
             bool resp = false;
             string message = string.Empty;
-            IEnumerable<DtoPessoaPesxPre> listaPes = new List<DtoPessoaPesxPre>();
+            IEnumerable<DtoPessoaPesxPre> listaPessoas = new List<DtoPessoaPesxPre>();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    listaPes = appServiceAtos.GetListPessoasPrenotacao(IdPrenotacao);
+                    listaPessoas = appServiceAtos.GetListPessoasPrenotacao(IdPrenotacao);
                     resp = true;
                     message = "Lista de pessoas da prenotação obtida com sucesso!";
                 }
@@ -656,7 +655,7 @@ namespace Cartorio11RI.Controllers
             {
                 resposta = resp,
                 msg = message,
-                ListaPessoasPrenotacao = listaPes
+                ListaPessoasPrenotacao = listaPessoas
             };
 
             return Json(resultado);
@@ -788,7 +787,8 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string message = string.Empty;
             string texto = string.Empty;
-            
+            //ronaldo arrumar 
+
             try
             {
                 if (dadosAtoViewModel.IdModeloDoc == 0)

@@ -410,58 +410,12 @@ $(document).ready(function () {
 		}
 	});
 
-	/*-- gerar o texto do ato ------------------------------------------------*/
-	$("#btn-ato-gerar-texto").click(function (e) {
-		e.preventDefault();
-
-		//verificar se vc selecionou pesoas
-		if (!listaPessoasSelecionadas || (listaPessoasSelecionadas.length < 1)) {
-			$.smallBox({
-				title: "Não foi possivel processar sua requisição!",
-				content: dataReturn.msg,
-				color: cor_smallBox_erro,
-				icon: "fa fa-thumbs-down bounce animated",
-				timeout: 8000
-			});
-		} else {
-
-			listaPessoasSelecionadas.forEach(item => {
-				listaPes.push(item.IdPessoa);
-			});
-
-			var listaPes = GetListaPessoasSelecionadas();
-			var idAto = $("#Id").val();
-			var idLivro = $("#ddListLivro option:selected").val();
-			var idModeloDoc = $("#IdModeloDoc").val();
-			var idPrenotacao = $("#IdPrenotacao").val();
-			var numMatricula = $("#NumMatricula").val();
-			var dataRegPrenotacao = new Date($("#DataRegPrenotacao").val());
-			var dataAto = new Date($("#DataAto").val());
-
-			var dados = {
-				IdAto: idAto,
-				IdLivro: idLivro,
-				IdModeloDoc: idModeloDoc,
-				IdPrenotacao: idPrenotacao,
-				NumMatricula: numMatricula,
-				DataRegPrenotacao: dataRegPrenotacao,
-				DataAto: dataAto,
-				ListIdsPessoas: listaPes
-			};
-
-			GetTextoAto(dados, urlGetTextoAto);
-		}
-	});
 
 	/*-- salvar o ato ------------------------------------------------------- */
 	$("#btn-ato-salvar").click(function (e) {
 		e.preventDefault();
 
 		var frm_valid = form_para_validar.valid();
-
-		listaPessoasSelecionadas.forEach(item => {
-			listaPes.push(item.IdPessoa);
-		});
 
 		if (frm_valid) {
 			var form = $('#frm-cadastro-ato');
@@ -565,9 +519,9 @@ $(document).ready(function () {
 	$("#btn-pesq-pessoas-prenotacao").click(function (e) {
 		e.preventDefault();
 
-		var numPrenotacao = $("#IdPrenotacao").val().trim();
+		var idPrenotacao = $("#IdPrenotacao").val().trim();
 
-		if (isNaN(numPrenotacao) || !numPrenotacao) {
+		if (isNaN(idPrenotacao) || !idPrenotacao) {
 			$.smallBox({
 				title: "Valor inválido!",
 				content: "Número de prenotação está inválido.",
@@ -577,7 +531,7 @@ $(document).ready(function () {
 			});
 		} else {
 			var dadosPrenotacao = {
-				IdPrenotacao: numPrenotacao
+				IdPrenotacao: idPrenotacao
 			};
 
 			GetListPessoasPrenotacao(dadosPrenotacao, urlGetListPessoasPrenotacao);
@@ -607,12 +561,13 @@ $(document).ready(function () {
  * @@param {any} idPrenotacao
  * @@param {any} numMatricula
 ----------------------------------------------------------------------------- */
-function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
+function ProcReservarMatImovel(tipoReserva, idPrenotacao, numMatricula, url)
+{
 	var msg_title = "";
 
 	var dadosReserva = {
 		TipoReserva: tipoReserva,
-		IdPrenotacao: numPrenotacao,
+		IdPrenotacao: idPrenotacao,
 		NumMatricula: numMatricula
 	};
 
@@ -690,7 +645,8 @@ function ProcReservarMatImovel(tipoReserva, numPrenotacao, numMatricula, url) {
  * @@param {any} selObj
  * @@param {any} listaModelos
 ----------------------------------------------------------------------------- */
-function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas) {
+function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas)
+{
 	var sel = selObj;
 
 	if (sel) {
@@ -703,15 +659,16 @@ function PovoarSelMatriculasPrenotacao(selObj, listaMatriculas) {
 
 /** ----------------------------------------------------------------------------
  * Pesquisa por prenotação e busca a lista de matriculas desta prenotação
- * @@param {any} numPrenotacao
+ * @@param {any} idPrenotacao
  * @@param {any} selObj select que será povoado com  os núm. de matriculas de imoveis
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function PesquisarPrenotacao(numPrenotacao, selObj) {
-	if (!isNaN(numPrenotacao) || !numPrenotacao) {
+function PesquisarPrenotacao(idPrenotacao, selObj)
+{
+	if (!isNaN(idPrenotacao) || !idPrenotacao) {
 
 		var dadosPrenotacao = {
-			IdPrenotacao: numPrenotacao
+			IdPrenotacao: idPrenotacao
 		};
 
 		GetDadosPrenotacao(dadosPrenotacao, selObj);
@@ -732,7 +689,8 @@ function PesquisarPrenotacao(numPrenotacao, selObj) {
  * @@param {any} selObj
  * @@param {any} url
  ---------------------------------------------------------------------------- */
-function GetDadosPrenotacao(dadosPrenotacao, selObj) {
+function GetDadosPrenotacao(dadosPrenotacao, selObj)
+{
 	$.ajax(urlGetDadosPrenotacao, {
 		method: 'POST',
 		dataType: 'json',
@@ -776,7 +734,8 @@ function GetDadosPrenotacao(dadosPrenotacao, selObj) {
  * 
  * @@param {any} dadosPrenotacao
 ----------------------------------------------------------------------------- */
-function GetListPessoasPrenotacao(dadosPrenotacao) {
+function GetListPessoasPrenotacao(dadosPrenotacao)
+{
 	$.ajax(urlGetListPessoasPrenotacao, {
 		method: 'POST',
 		dataType: 'json',
@@ -826,7 +785,8 @@ function GetListPessoasPrenotacao(dadosPrenotacao) {
  * @param {any} pUser
  * @param {any} pPass
 ----------------------------------------------------------------------------- */
-function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack) {
+function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
+{
 	if (Boolean(pUsuario) && Boolean(pPass)) {
 
 		var dados = {
@@ -876,7 +836,6 @@ function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack) {
 function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 {
 	//alert("IdAto => " +pIdAto + "    Usuario => " + pIdUsuario);
-
 	if (pIdAto && pIdUsuario) {
 		//mudar status ato
 		var dados = {
@@ -1091,7 +1050,8 @@ function PovoarSelModelos(selObj, listaModelos)
  * 
  * @@param {any} listaPessoasPrenotacao
 ----------------------------------------------------------------------------- */
-function PovoarTblPessoasPrenotacao(listaPessoas) {
+function PovoarTblPessoasPrenotacao(listaPessoas)
+{
 	var doc = "";
 	var chkTmp = "";
 	var resp = false;
@@ -1162,7 +1122,8 @@ function SelTodosPessoasPrenotacao(chkObj)
  * @@param {any} dadosPrenotacao
  * @@param {any} selObj
  ---------------------------------------------------------------------------- */
-function GetListMatriculasPrenotacao(dadosPrenotacao, selObj) {
+function GetListMatriculasPrenotacao(dadosPrenotacao, selObj)
+{
 	$('#btn-reserva-mat').prop('disabled', true);
 	$('#btn-libera-mat').prop('disabled', true);
 
@@ -1216,7 +1177,8 @@ function GetListMatriculasPrenotacao(dadosPrenotacao, selObj) {
  * @@param {any} dadosAto
  * @@param {any} url
 ----------------------------------------------------------------------------- */
-function GetTextoAto(dadosAto, url) {
+function GetTextoAto(dadosAto, url)
+{
 	$.ajax(url, {
 		method: 'POST',
 		dataType: 'json',
@@ -1345,7 +1307,8 @@ function PovoartblPessoasSelecionadas()
  * Povoar dados do imovel
  * @@param {any} Imovel
  ---------------------------------------------------------------------------- */
-function PovoarDadosImovel(Imovel) {
+function PovoarDadosImovel(Imovel)
+{
 	$('#NumMatricula').val(Imovel.MATRI);
 	$('#PREIMO_SEQPRE').val(Imovel.SEQPRE);
 
@@ -1369,7 +1332,8 @@ function PovoarDadosImovel(Imovel) {
  * limpar dados do imovel
  * @@param {any} Imovel
  ---------------------------------------------------------------------------- */
-function LimparDadosImovel() {
+function LimparDadosImovel()
+{
 	$('#NumMatricula').val("");
 	$('#PREIMO_SEQPRE').val("");
 
