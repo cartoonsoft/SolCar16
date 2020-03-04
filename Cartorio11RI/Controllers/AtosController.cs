@@ -804,6 +804,7 @@ namespace Cartorio11RI.Controllers
                     {
                         IdAto = dadosAtoViewModel.IdAto,
                         IdCtaAcessoSist = this.IdCtaAcessoSist,
+                        IdTipoAto = dadosAtoViewModel.IdTipoAto,
                         IdLivro = dadosAtoViewModel.IdLivro,
                         IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
                         IdModeloDoc = dadosAtoViewModel.IdModeloDoc,

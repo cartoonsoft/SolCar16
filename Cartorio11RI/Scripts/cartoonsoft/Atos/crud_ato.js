@@ -306,7 +306,7 @@ $(document).ready(function () {
 		height: '360px',
 		language: 'pt-br',
 		uiColor: '#1686E4',
-		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
+		contentsCss: 'body { font-family: "Times New Roman, Times, serif"; font-size: large;} p { margin: 2px 0px 0px 0px; }',
 		font_defaultLabel: 'Times New Roman',
 		fontSize_defaultLabel: '14',
 		disableNativeSpellChecker: false,
@@ -902,11 +902,12 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 	var btn = btnObj;
 	var idTipoAtoTmp = idTipoAto;
 
-	if (typeof btn != 'undefined' || btn != null) {
+	$("#IdTipoAto").val(idTipoAtoTmp);
+	$("#SiglaSeqAto").val(SiglaSeqAto);
+
+	if (btn) {
 		var txtTipoAto = btn.innerText.trim();
-		$("#IdTipoAto").val(idTipoAto);
 		$("#DescricaoTipoAto").val(txtTipoAto);
-		$("#SiglaSeqAto").val(SiglaSeqAto);
 		$(".btn-tree-tipo-ato").removeClass("btn-danger");
 		$(btn).addClass("btn-danger");
 		var sel = $("#IdModeloDoc");

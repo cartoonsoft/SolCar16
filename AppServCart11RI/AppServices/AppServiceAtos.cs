@@ -45,7 +45,7 @@ namespace AppServCart11RI.AppServices
         /// <param name="entidade"></param>
         /// <param name="IdTipoAto"></param>
         /// <returns></returns>
-        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DadosAtoSimplificado dadosAto)
+        private List<DtoCamposValor> GetListCamposPovoados(string entidade, DtoDadosAto dadosAto)
         {
             List<DtoCamposValor> listaCamposValor = new List<DtoCamposValor>();
 
@@ -171,60 +171,89 @@ namespace AppServCart11RI.AppServices
             return listaCamposValor;
         }
 
-        private string GetTextoBloco(string strBloco, List<DtoPessoaPesxPre> listaPessoas)
+        private StringBuilder GetTexto(DtoDadosAto dtoDadosAto, string texto) 
         {
-            string resp = string.Empty;
+            StringBuilder textoTmp = new StringBuilder();
+            TipoPessoaPrenotacao tipoPessoaPrenotacao = TipoPessoaPrenotacao.indefinido; ;
+            string strAto = texto;
 
-            foreach (var item in listaPessoas)
+            strAto = PovoarGrpPessoa(dtoDadosAto.Pessoas, TipoPessoaPrenotacao.outorgante, strAto);
+            strAto = PovoarGrpPessoa(dtoDadosAto.Pessoas, TipoPessoaPrenotacao.outorgado, strAto);
+            strAto = PovoarCamposTexto(dtoDadosAto.ListaCamposValor, strAto);
+
+            textoTmp.Append(strAto);
+
+            return textoTmp;
+        }
+
+        private string PovoarGrpPessoa(List<DtoPessoaPesxPre> listaPessoas, TipoPessoaPrenotacao tipoPessoa, string texto)
+        {
+            string nomeGrupo = (tipoPessoa == TipoPessoaPrenotacao.outorgado) ? "[GrupoOutorgado]" : (tipoPessoa == TipoPessoaPrenotacao.outorgante) ? "[GrupoOutorgante]" : "";
+
+            if (!string.IsNullOrEmpty(nomeGrupo))
             {
-                string texto = strBloco;
-
-                if (texto != "")
+                for (int i = 0; i < texto.Length; i++)
                 {
-                    string strAto = string.Empty;
+                    int posIniBloco = texto.IndexOf(nomeGrupo, i);
 
-                    for (int i = 0; i < texto.Length; i++)
+                    if (posIniBloco > 0)
                     {
-                        if (texto[i] == '[')
+                        int posFimBloco = texto.IndexOf("[FimGrupo]", posIniBloco);
+
+                        if (posFimBloco == -1)
                         {
-                            i++;
-                            string nomeCampo = string.Empty;
-                            string resultadoQuery = string.Empty;
-                            while (texto[i] != ']')
-                            {
-                                nomeCampo += texto[i].ToString().Trim();
-                                i++;
-                                if (i >= texto.Length || texto[i] == '[')
-                                {
-                                    throw new FormatException("Arquivo com campos corrompidos, verifique o modelo");
-                                }
-                            }
-
-                            var CampoValor = item.ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
-
-                            if (CampoValor != null)
-                            {
-                                resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
-                            }
-
-                            if (!string.IsNullOrEmpty(resultadoQuery))
-                            {
-                                //atualiza o textoo formatado
-                                strAto += resultadoQuery;
-                            }
-                        } else {
-                            //caso não seja um campo somente adiciona o caractere
-                            strAto += texto[i].ToString();
+                            throw new FormatException("Arquivo com campos corrompidos, verifique o modelo");
                         }
 
+                        posFimBloco += 10;
+                        string strBloco = texto.Substring(posIniBloco, (posFimBloco - posIniBloco));
+                        string strAux = strBloco.Replace(nomeGrupo, string.Empty).Replace("[FimGrupo]", string.Empty);
+                        texto = texto.Replace(strBloco, GetTextoBloco(strAux, listaPessoas, tipoPessoa));
+                        i = posFimBloco;
                     }
-                    // Populando campo de retorno
-                    resp += "<p>{strAto}</p>";
+                }
+            }
+
+            return texto;
+        }
+
+        private string GetTextoBloco(string texto, List<DtoPessoaPesxPre> listaPessoas, TipoPessoaPrenotacao tipoPessoaPrenotacao)
+        {
+            string resp = string.Empty;
+            List<DtoPessoaPesxPre> lista = listaPessoas.Where(p => p.TipoPessoa == tipoPessoaPrenotacao).ToList();
+            int cont = 0;
+            foreach (var item in lista)
+            {
+                cont++;
+                if (!string.IsNullOrEmpty(texto))
+                {
+                    resp += PovoarCamposTexto(item.ListaCamposValor, texto);
+                    if (cont > 0)
+                    {
+                        resp += "</br>";
+                    }
                 }
             }
 
             return resp;
         }
+
+        private string PovoarCamposTexto(List<DtoCamposValor> listaCamposValor, string texto) 
+        {
+            string strAux = texto;
+
+            foreach (var campoValor in listaCamposValor)
+            {
+                string nomeCampo = "[" + campoValor.Campo + "]";
+                if (strAux.Contains(nomeCampo))
+                {
+                    strAux = strAux.Replace(nomeCampo, campoValor.Valor);
+                }
+            }
+
+            return strAux;
+        }
+
         #endregion
 
         public string[] StatusPodeEditar()
@@ -345,16 +374,16 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
         {
-            List<string> listaMatriculas = new List<string>();
-            listaMatriculas = this.DsFactoryCartNew.AtoDs.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
+            _ = new List<string>();
+            List<string> listaMatriculas = DsFactoryCartNew.AtoDs.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
 
             return listaMatriculas;
         }
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
-            List<DtoDadosImovel> listaImoveis = new List<DtoDadosImovel>();
-            listaImoveis = this.DsFactoryCartNew.AtoDs.GetListImoveisPrenotacao(IdPrenotacao).ToList();
+            _ = new List<DtoDadosImovel>();
+            List<DtoDadosImovel> listaImoveis = DsFactoryCartNew.AtoDs.GetListImoveisPrenotacao(IdPrenotacao).ToList();
 
             return listaImoveis;
         }
@@ -366,8 +395,8 @@ namespace AppServCart11RI.AppServices
         /// <returns></returns>
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
-            List<DtoPessoaAto> pessoasAto = new List<DtoPessoaAto>();
-            pessoasAto = this.DsFactoryCartNew.AtoDs.GetListPessoasAto(IdAto).ToList();
+            _ = new List<DtoPessoaAto>();
+            List<DtoPessoaAto> pessoasAto = DsFactoryCartNew.AtoDs.GetListPessoasAto(IdAto).ToList();
 
             return pessoasAto;
         }
@@ -379,22 +408,23 @@ namespace AppServCart11RI.AppServices
         /// <returns></returns>
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
-            string retValTmp = string.Empty;
-
-            List<DtoPessoaPesxPre> pessoasPrenotacao = new List<DtoPessoaPesxPre>();
-            pessoasPrenotacao = this.DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
+            _ = new List<DtoPessoaPesxPre>();
+            List<DtoPessoaPesxPre> pessoasPrenotacao = DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
             foreach (var pessoa in pessoasPrenotacao)
             {
+                string retValTmp;
                 if (StringFunctions.SomenteNumeros(pessoa.Numero1).Length == 11)
                 {
                     pessoa.Valido = BusinessFunctions.ValidarCPF(pessoa.Numero1);
                     retValTmp = "está com CPF " + (pessoa.Valido ? "Validado" : "Inválido");
 
-                } else if (StringFunctions.SomenteNumeros(pessoa.Numero1).Length == 14) {  
+                } else if (StringFunctions.SomenteNumeros(pessoa.Numero1).Length == 14)
+                {
                     pessoa.Valido = BusinessFunctions.ValidarCNPJ(pessoa.Numero1);
                     retValTmp = "está com CNPJ " + (pessoa.Valido ? "Validado" : "Inválido");
-                } else {
+                } else
+                {
                     pessoa.Valido = false;
                     retValTmp = "está com CPF/CNPJ indeterminado!";
                 }
@@ -413,8 +443,8 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao)
         {
-            List<DtoPessoaPesxPre> dtoPessoaPesxPres = new List<DtoPessoaPesxPre>();
-            dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao).ToList();
+            _ = new List<DtoPessoaPesxPre>();
+            List<DtoPessoaPesxPre> dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao).ToList();
 
             foreach (var pessoa in dtoPessoaPesxPres)
             {
@@ -588,10 +618,14 @@ namespace AppServCart11RI.AppServices
             return textoDoc;
         }
 
+        /// <summary>
+        /// Gera o texto a partir de um modelo
+        /// </summary>
+        /// <param name="dtoInfAto"></param>
+        /// <returns></returns>
         public StringBuilder GetTextoAto(DtoInfAto dtoInfAto)
         {
             StringBuilder textoDoc = new StringBuilder();
-            FilesConfig fileConfig = new FilesConfig();
 
             DtoDadosAto dtoDadosAto = new DtoDadosAto {
                 Id = dtoInfAto.IdAto,
@@ -604,149 +638,29 @@ namespace AppServCart11RI.AppServices
                 DataAto = dtoInfAto.DataAto
             };
 
-            DadosAtoSimplificado dadosAto = new DadosAtoSimplificado
+            //pegar texto modelo
+            ModeloDoc modelo = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(dtoDadosAto.IdModeloDoc);
+
+            if (modelo != null) 
             {
-                IdAto = dtoInfAto.IdAto,
-                IdTipoAto = dtoInfAto.IdTipoAto,
-                IdLivro = dtoInfAto.IdLivro,
-                IdModeloDoc = dtoInfAto.IdModeloDoc,
-                IdPrenotacao = dtoInfAto.IdPrenotacao,
-                NumMatricula = dtoInfAto.NumMatricula,
-                DataRegPrenotacao = dtoInfAto.DataRegPrenotacao,
-                DataAto = dtoInfAto.DataAto
-            };
+                string textoModelo = modelo.Texto;
 
-            if (dtoInfAto.IdAto.HasValue && (dtoInfAto.IdAto > 0))
-            {
-                //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
-                //todo: catregar do ato fazer 
-            } else {
-
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dadosAto));
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dadosAto));
-                dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dadosAto));
-                dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
-
-                //obter filename
-                string fileName = Path.Combine(dtoInfAto.ServerPath, fileConfig.GetModeloDocFileName(dtoInfAto.IdModeloDoc));
-
-                //dtoDadosAto.Pessoas = this.GerarFichas
-                using (AtoWordDocx atoWordDocx = new AtoWordDocx(this, dtoInfAto.IdCtaAcessoSist, fileName))
+                if (dtoInfAto.IdAto.HasValue && (dtoInfAto.IdAto > 0))
                 {
-                    StringBuilder textoTmp = new StringBuilder();
+                    //dtoDadosAto = GetDadosAto(dtoInfAto.IdAto ?? 0);
+                    //todo: carregar do ato fazer 
+                } else
+                {
+                    dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dtoDadosAto));
+                    dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dtoDadosAto));
+                    dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dtoDadosAto));
+                    dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
 
-                    // Get content from each paragraph
-                    foreach (Paragraph paragraph in atoWordDocx.WordDocument.GetChildElements(true, ElementType.Paragraph))
-                    {
-                        textoTmp.Append(paragraph.Content.ToString());
-                    }
+                    textoDoc = this.GetTexto(dtoDadosAto, textoModelo);
 
-                    string texto = textoTmp.ToString();
-                    if (texto != "")
-                    {
-                        string strAto = string.Empty;
-                        string strBloco = string.Empty;
-                        bool flagBloco = false;
-                        char tipoPes = '0';
-
-                        for (int i = 0; i < texto.Length; i++)
-                        {
-                            if (texto[i] == '[')
-                            {
-                                i++;
-                                string nomeCampo = string.Empty;
-                                string resultadoQuery = string.Empty;
-                                while (texto[i] != ']')
-                                {
-                                    nomeCampo += texto[i].ToString().Trim();
-                                    i++;
-                                    if (i >= texto.Length || texto[i] == '[')
-                                    {
-                                        throw new FormatException("Arquivo com campos corrompidos, verifique o modelo");
-                                    }
-                                }
-
-                                //Buscar dado da pessoa aqui
-                                //resultadoQuery = "teste query";
-                                var CampoValor = dtoDadosAto.ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
-                                
-                                if (CampoValor != null)
-                                {
-                                    resultadoQuery = StringFunctions.Capitalize(CampoValor.Valor);
-                                } else {
-                                    if ((nomeCampo.Length >= 10) && (nomeCampo.Substring(0, 10) == "Outorgante"))
-                                    {
-                                        var CampoValorOutorgante = dtoDadosAto.Pessoas.Where( p => p.TipoPessoa == TipoPessoaPrenotacao.outorgante).FirstOrDefault()
-                                            .ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
-                                        if (CampoValorOutorgante != null)
-                                        {
-                                            resultadoQuery = StringFunctions.Capitalize(CampoValorOutorgante.Valor);
-                                        }
-                                    }
-
-                                    if ((nomeCampo.Length >= 9 ) && (nomeCampo.Substring(0, 9) == "Outorgado"))
-                                    {
-                                        var CampoValorOutorgado = dtoDadosAto.Pessoas.Where(p => p.TipoPessoa == TipoPessoaPrenotacao.outorgado).FirstOrDefault()
-                                            .ListaCamposValor.Where(c => c.Campo == nomeCampo).FirstOrDefault();
-                                        if (CampoValorOutorgado != null)
-                                        {
-                                            resultadoQuery = StringFunctions.Capitalize(CampoValorOutorgado.Valor);
-                                        }
-                                    }
-                                }
-
-                                if (!string.IsNullOrEmpty(resultadoQuery))
-                                {
-                                    //atualiza o textoo formatado
-                                    strAto += resultadoQuery;
-                                }
-                            }
-                            else if (texto[i] == '<')
-                            {
-                                i++;
-                                string tipoTag = string.Empty;
-
-                                while (texto[i] != '>')
-                                {
-                                    tipoTag += texto[i].ToString().Trim();
-                                    i++;
-                                    if (i >= texto.Length || texto[i] == '<')
-                                    {
-                                        throw new FormatException("Tags de repetição corrompidas, verifique o modelo");
-                                    }
-                                }
-                                i++;
-
-                                if (flagBloco)
-                                {
-                                    strAto += GetTextoBloco(strBloco, dtoDadosAto.Pessoas);
-                                }
-
-                                if (tipoTag.ToLower().Equals("outorgantes"))
-                                {
-                                    tipoPes = '1';
-                                }
-                                else if (tipoTag.Equals("outorgados"))
-                                {
-                                    tipoPes = '2';
-                                }
-
-                                strBloco = string.Empty;
-                                flagBloco = !flagBloco;
-                            }
-                            else
-                            {
-                                //caso não seja um campo somente adiciona o caractere
-                                strAto += texto[i].ToString();
-                            }
-
-                            strBloco += texto[i].ToString();
-                        }
-                        // Populando campo de retorno
-                        textoDoc.Append($"<p>{strAto}</p>");
-                    }
-                    
                 }
+            } else {
+                throw new ArgumentNullException(string.Format("Modelo {0} inválido! Verificar", dtoDadosAto.IdModeloDoc));
             }
 
             return textoDoc;

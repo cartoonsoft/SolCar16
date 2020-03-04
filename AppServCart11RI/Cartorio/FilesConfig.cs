@@ -8,7 +8,6 @@ namespace AppServCart11RI.Cartorio
 {
     public class FilesConfig
     {
-        private readonly string _file_path_modelo_doc = @"App_Data\Arquivos\Modelos\";
         private readonly string _file_path_ri_base = @"App_Data\Arquivos\Reg_Imoveis\Base\";
         private readonly string _file_path_ri_em_escrita = @"App_Data\Arquivos\Reg_Imoveis\EmEscrita\";
         private readonly string _file_path_ri_finalizados = @"App_Data\Arquivos\Reg_Imoveis\Finalizados\";
@@ -17,10 +16,6 @@ namespace AppServCart11RI.Cartorio
         public FilesConfig()
         {
             //
-        }
-
-        public string FilePathModeloDoc {
-            get { return this._file_path_modelo_doc; }
         }
 
         public string FilePathRiBase
@@ -39,10 +34,6 @@ namespace AppServCart11RI.Cartorio
         {
             get { return this._file_ri_base_name; }
         }
-            
-        public string GetModeloDocFileName(long IdModeloDoc)
-        {
-            return Path.Combine(this.FilePathModeloDoc,  "modelo_" + IdModeloDoc + ".docx");
-        }
+           
     }
 }

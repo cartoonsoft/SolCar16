@@ -168,6 +168,7 @@ $(document).ready(function () {
                 var listaPes = GetListaPessoasSelecionadas();
                 var idAto = $("#Id").val();
                 var idLivro = $("#ddListLivro option:selected").val();
+                var idTipoAto = $("#IdTipoAto").val();
                 var idModeloDoc = $("#IdModeloDoc").val();
                 var idPrenotacao = $("#IdPrenotacao").val();
                 var numMatricula = $("#NumMatricula").val();
@@ -177,6 +178,7 @@ $(document).ready(function () {
                 var dados = {
                     IdAto: idAto,
                     IdLivro: idLivro,
+                    IdTipoAto: idTipoAto,
                     IdModeloDoc: idModeloDoc,
                     IdPrenotacao: idPrenotacao,
                     NumMatricula: numMatricula,
