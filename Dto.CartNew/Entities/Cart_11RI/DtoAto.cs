@@ -85,7 +85,7 @@ namespace Dto.CartNew.Entities.Cart_11RI
 		[DataType(DataType.MultilineText)]
 		public string Observacao { get; set; } // VARCHAR2(512)
 
-		public long[] IdsPessoasSelecionadas { get; set; }
+		public List<DtoAtoPessoa> ListaAtoPessoa { get; set; }
 
 		public List<DtoPessoaAto> ListaPessoasAto { get; set; }
 

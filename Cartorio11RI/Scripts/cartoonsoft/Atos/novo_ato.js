@@ -165,7 +165,6 @@ $(document).ready(function () {
                     return false;
                 }
 
-                var listaPes = GetListaPessoasSelecionadas();
                 var idAto = $("#Id").val();
                 var idLivro = $("#ddListLivro option:selected").val();
                 var idTipoAto = $("#IdTipoAto").val();
@@ -184,7 +183,7 @@ $(document).ready(function () {
                     NumMatricula: numMatricula,
                     DataRegPrenotacao: dataRegPrenotacao,
                     DataAto: dataAto,
-                    ListIdsPessoas: listaPes
+                    ListaAtoPessoa: listaPessoasSelecionadas
                 };
 
                 GetTextoAto(dados, urlGetTextoAto);

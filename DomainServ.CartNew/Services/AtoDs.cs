@@ -109,7 +109,6 @@ namespace DomainServ.CartNew.Services
             Ato ato = null;
             string statusTmp;
 
-
             if (usuario == null)
             {
                 throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
@@ -178,7 +177,7 @@ namespace DomainServ.CartNew.Services
             return execProc;
         }
 
-        #region add, Update, InsertOrUpdateAto 
+        #region add, Insert, Update
         public override Ato Add(Ato item)
         {
             if (item != null)
@@ -191,7 +190,8 @@ namespace DomainServ.CartNew.Services
                 }
 
                 // verificar se existe ato em andamento para matricula.
-                Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula) && (this.StatusAtoFinalizado().Contains(a.StatusAto))).FirstOrDefault();
+                var vetStAtoFinalizado = this.StatusAtoFinalizado();
+                Ato atoTmp = this.GetWhere(a => (a.NumMatricula == item.NumMatricula) && (vetStAtoFinalizado.Contains(a.StatusAto))).FirstOrDefault();
                 if (atoTmp != null)
                 {
                     string msg = string.Format(CultureInfo.CurrentCulture, "O Ato {0} para a matricula {1} está em andamento, e deve ser finalizado para que se possa incluir um novo ato para o imóvel!", atoTmp.Id.ToString(), atoTmp.NumMatricula);
@@ -262,15 +262,14 @@ namespace DomainServ.CartNew.Services
                     this.Add(ato);
 
                     //insert pessoas
-                    foreach (var pessoa in atoDto.ListaPessoasAto)
+                    foreach (var atoPessoa in atoDto.ListaAtoPessoa)
                     {
                         this.UfwCartNew.Repositories.GenericRepository<AtoPessoa>().Add(
                             new AtoPessoa
                             {
                                 IdAto = ato.Id ?? 0,
-                                Relacao = pessoa.Relacao,
-                                SeqPes = pessoa.IdPessoa,
-                                TipoPessoa = pessoa.TipoPessoa
+                                SeqPes = atoPessoa.SeqPes,
+                                TipoPessoa = atoPessoa.TipoPessoa
                             }
                         );
                     }
@@ -366,27 +365,24 @@ namespace DomainServ.CartNew.Services
 
         public DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao)
         {
-            DtoPessoaPesxPre dtoPessoaPesxPre = new DtoPessoaPesxPre();
             PessoaPesxPre pessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetPessoa(idPessoa, idPrenotacao);
-            dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
+            DtoPessoaPesxPre dtoPessoaPesxPre = Mapper.Map<PessoaPesxPre, DtoPessoaPesxPre>(pessoaPesxPre);
 
             return dtoPessoaPesxPre;
         }
 
         public DtoDadosImovel GetDadosImovel(long IdPrenotacao, string NumMatricula)
         {
-            DtoDadosImovel dtoImovel = new DtoDadosImovel();
             DadosImovel imovel = this.UfwCartNew.Repositories.RepositoryAto.GetDadosImovel(IdPrenotacao, NumMatricula);
-            dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
+            DtoDadosImovel dtoImovel = Mapper.Map<DadosImovel, DtoDadosImovel>(imovel);
 
             return dtoImovel;
         }
 
         public IEnumerable<DtoAto> GetListAtosMatricula(string NumMatricula)
         {
-            List<DtoAto> listaDtoAto = new List<DtoAto>();
             List<Ato> listaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListAtosMatricula(NumMatricula).ToList();
-            listaDtoAto = Mapper.Map<List<Ato>, List<DtoAto>>(listaAto);
+            List<DtoAto> listaDtoAto = Mapper.Map<List<Ato>, List<DtoAto>>(listaAto);
 
             return listaDtoAto;
         }
@@ -402,62 +398,56 @@ namespace DomainServ.CartNew.Services
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
-            IEnumerable<DtoDadosImovel> listaDtoImoveis = new List<DtoDadosImovel>();
             var listaImoveis = this.UfwCartNew.Repositories.RepositoryAto.GetListImoveisPrenotacao(IdPrenotacao).ToList();
-            listaDtoImoveis = Mapper.Map<List<DadosImovel>, List<DtoDadosImovel>>(listaImoveis);
+            IEnumerable<DtoDadosImovel> listaDtoImoveis = Mapper.Map<List<DadosImovel>, List<DtoDadosImovel>>(listaImoveis);
 
             return listaDtoImoveis;
         }
 
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
-            List<DtoPessoaAto> lista = new List<DtoPessoaAto>();
             List<PessoaAto> listaPessoaAto = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasAto(IdAto).ToList();
-            lista = Mapper.Map<List<PessoaAto>, List<DtoPessoaAto>>(listaPessoaAto);
+            List<DtoPessoaAto> lista = Mapper.Map<List<PessoaAto>, List<DtoPessoaAto>>(listaPessoaAto);
 
             return lista;
         }
 
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
-            List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = new List<DtoPessoaPesxPre>();
             List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoasPrenotacao(IdPrenotacao).ToList();
-            listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
+            List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
 
             return listaDtoPessoaPesxPre;
         }
 
-        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(List<DtoAtoPessoa> listaDtoAtoPessoa, long? idPrenotacao)
         {
-            List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = new List<DtoPessoaPesxPre>();
-            List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoas(idsPessoas, idPrenotacao).ToList();
-            listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
+            List<AtoPessoa> listaAtoPessoas = Mapper.Map<List<DtoAtoPessoa>, List<AtoPessoa>>(listaDtoAtoPessoa);
+            List<PessoaPesxPre> listaPessoaPesxPre = this.UfwCartNew.Repositories.RepositoryAto.GetListPessoas(listaAtoPessoas, idPrenotacao).ToList();
+            List<DtoPessoaPesxPre> listaDtoPessoaPesxPre = Mapper.Map<List<PessoaPesxPre>, List<DtoPessoaPesxPre>>(listaPessoaPesxPre);
 
             return listaDtoPessoaPesxPre;
         }
 
         public IEnumerable<DtoDocx> GetListDocxAto(long? IdAto)
         {
-            List<DtoDocx> listaDtoDocx = new List<DtoDocx>();
             var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListDocxAto(IdAto).ToList();
-            listaDtoDocx = Mapper.Map<List<Docx>, List<DtoDocx>>(lista);
+            List<DtoDocx> listaDtoDocx = Mapper.Map<List<Docx>, List<DtoDocx>>(lista);
 
             return listaDtoDocx;
         }
 
         public IEnumerable<DtoAtoEvento> GetListHistoricoAto(long? IdAto)
         {
-            List<DtoAtoEvento> listaDto = new List<DtoAtoEvento>();
             var lista = this.UfwCartNew.Repositories.RepositoryAto.GetListHistoricoAto(IdAto).ToList();
-            listaDto = Mapper.Map<List<AtoEvento>, List<DtoAtoEvento>>(lista);
+            List<DtoAtoEvento> listaDto = Mapper.Map<List<AtoEvento>, List<DtoAtoEvento>>(lista);
 
             return listaDto;
         }
 
         public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
         {
-            List<string> lista = new List<string>();
-            lista = this.UfwCartNew.Repositories.RepositoryAto.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
+            List<string> lista = UfwCartNew.Repositories.RepositoryAto.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
 
             return lista;
         }

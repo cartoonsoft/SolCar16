@@ -75,6 +75,6 @@ namespace Dto.CartNew.Entities.Cart_11RI.Diversos
 
 		public string ServerPath { get; set; }
 
-		public long[] ListIdsPessoas { get; set; }
+		public List<DtoAtoPessoa> ListaAtoPessoa { get; set; }
 	}
 }

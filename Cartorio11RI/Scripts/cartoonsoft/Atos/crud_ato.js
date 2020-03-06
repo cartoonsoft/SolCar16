@@ -33,134 +33,34 @@ var listaPessoasPrenotacao   = null;
 var listaPessoasSelecionadas = null; 
 
 /*----------------------------------------------------------------------------*/
+
 class PessoaPrenotacao {
 	constructor() {
-		var _IdPessoa = 0;
-		var _IdPrenotacao = 0;
-		var _TipoPessoa = 0;
-		var _DescTipoPessoa = "";
-		var _Nome = "";
-		var _Endereco = "";
-		var _TipoDoc = ""
-		var _NumDoc = "";
-		var _Bairro = "";
-		var _Cidade = "";
-		var _UF = "";
-		var _CEP = "";
-		var _Telefone = "";
+		this.IdAto = 0;
+		this.SeqPes = 0; 
+		this.TipoPessoa = 0;
 	}
 
 	/*- Gets -----------------------------------------------------------------*/
-	get IdPessoa() {
-		return this._IdPessoa;
+	get GetIdAto() {
+		return this.IdAto;
 	}
-
-	get IdPrenotacao() {
-		return this._IdPrenotacao;
+	get GetSeqPes() {
+		return this.SeqPes;
 	}
-
-	get Selecionado() {
-		return this._Selecionado;
-	}
-
-	get TipoPessoa() {
-		return this._TipoPessoa;
-	}
-
-	get DescTipoPessoa() {
-		return this._DescTipoPessoa;
-	}
-
-	get Nome() {
-		return this._Nome;
-	}
-
-	get Endereco() {
-		return this._Endereco;
-	}
-
-	get TipoDoc() {
-		return this._TipoDoc;
-	}
-
-	get NumDoc() {
-		return this._NumDoc;
-	}
-
-	get Bairro() {
-		return this._Bairro;
-	}
-	get Cidade() {
-		return this._Cidade;
-	}
-
-	get UF() {
-		return this._UF;
-	}
-	get CEP() {
-		return this._CEP;
-	}
-
-	get Telefone() {
-		return this._Telefone;
+	get GetTipoPessoa() {
+		return this.TipoPessoa;
 	}
 
 	/*- Sets -----------------------------------------------------------------*/
-	set IdPessoa(value) {
-		this._IdPessoa = value;
+	set SetIdAto(value) {
+		this.IdAto = value;
 	}
-
-	set IdPrenotacao(value) {
-		this._IdPrenotacao = value;
+	set SetSeqPes(value) {
+		this.SeqPes = value;
 	}
-
-	set TipoPessoa(value) {
-		this._TipoPessoa = value;
-	}
-
-	set Selecionado(value) {
-
-		this._Selecionado = value;
-	}
-
-	set DescTipoPessoa(value) {
-		this._DescTipoPessoa = value;
-	}
-
-	set Nome(value) {
-		this._Nome = value;
-	}
-
-	set Endereco(value) {
-		this._Endereco = value;
-	}
-
-	set TipoDoc(value) {
-		this._TipoDoc = value;
-	}
-
-	set NumDoc(value) {
-		this._NumDoc = value;
-	}
-
-	set Bairro(value) {
-		this._Bairro = value;
-	}
-
-	set Cidade(value) {
-		this._Cidade = value;
-	}
-
-	set UF(value) {
-		this._UF = value;
-	}
-
-	set CEP(value) {
-		this._CEP = value;
-	}
-
-	set Telefone(value) {
-		this._Telefone = value;
+	set SetTipoPessoa(value) {
+		this.TipoPessoa = value;
 	}
 }
 
@@ -278,7 +178,7 @@ $(document).ready(function () {
 		height: '290px',
 		language: 'pt-br',
 		uiColor: '#1686E4',
-		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
+		contentsCss: 'body { font-family: "Times New Roman, Times, serif"; font-size: large;} p { margin: 2px 0px 0px 0px; }',
 		font_defaultLabel: 'Times New Roman',
 		fontSize_defaultLabel: '14',
 		//startupFocus: true,
@@ -433,7 +333,6 @@ $(document).ready(function () {
 				IdUsuarioAlteracao: $("#IdUsuarioAlteracao").val(),
 				NumMatricula: $("#NumMatricula").val(),
 				DataAlteracao: $("#DataAlteracao").val(),
-				IdsPessoasSelecionadas: GetListaPessoasSelecionadas(),
 				NumFicha: $("#NumFicha").val(),
 				SiglaSeqAto: $("#SiglaSeqAto").val(),
 				NumSequenciaAto: $("#NumSequenciaAto").val(),
@@ -452,6 +351,7 @@ $(document).ready(function () {
 				Finalizado: $("#Finalizado").val(),
 				Ativo: $("#Ativo").val(),
 				IpLocal: $("#IpLocal").val(),
+				ListaAtoPessoa: listaPessoasSelecionadas
 			};
 
 			InsertOrUpdateAtoAjax(dadosAto, urlInsertOrUpdateAtoAjax);
@@ -546,6 +446,8 @@ $(document).ready(function () {
 
 		if (listaPessoasSelecionadas) {
 			PodeAvancar2 = (listaPessoasSelecionadas.length > 0);
+		} else {
+			PodeAvancar2 = false;
 		}
 			
 		if (PodeAvancar2) {
@@ -554,6 +456,42 @@ $(document).ready(function () {
 	});
 
 });
+
+/** ----------------------------------------------------------------------------
+ * GerarTextoAto
+ * @@param {any} dadosAto
+ * @@param {any} url
+----------------------------------------------------------------------------- */
+function GetTextoAto(dadosAto, url) {
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosAto,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+		//
+		if (dataReturn.resposta) {
+			if (dataReturn.Texto) {
+				CKEDITOR.instances.ckEditorAto.setData(dataReturn.Texto);
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		//
+		HideProgressBar();
+	}).always(function () {
+		HideProgressBar();
+	});
+}
 
 /** ----------------------------------------------------------------------------
  * processar reservar
@@ -1049,59 +987,6 @@ function PovoarSelModelos(selObj, listaModelos)
 
 /** ----------------------------------------------------------------------------
  * 
- * @@param {any} listaPessoasPrenotacao
------------------------------------------------------------------------------ */
-function PovoarTblPessoasPrenotacao(listaPessoas)
-{
-	var doc = "";
-	var chkTmp = "";
-	var resp = false;
-	var bgColorLinha = "";
-
-	$("#tbl-pessoas-prenotacao").find("tr:gt(0)").remove();
-
-	if (listaPessoas) {
-
-		$.each(listaPessoas, function (index, item) {
-
-			doc = item.Numero1.trim();
-			if (doc == "") {
-				doc = item.Numero2.trim();
-			}
-
-			if (item.Valido) {
-				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" />';
-				doc = '<button type="button" class="btn btn-success btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-up"></i></button>&nbsp;' + doc;
-			} else {
-				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" disabled />';
-				doc = '<button type="button" class="btn btn-danger btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-down"></i></button>&nbsp;' + doc;
-			}
-
-			$("#tbl-pessoas-prenotacao tbody").append(
-				'<tr>' +
-				'<td>' + chkTmp + '</td>' +
-				'<td>' + item.DescTipoPessoa + '</td>' +
-				'<td>' + doc + '</td>' +
-				'<td>' + item.Nome + '</td>' +
-				'<td>' + item.Endereco + '</td>' +
-				'<td>' + item.Bairro + '</td>' +
-				'<td>' + item.Cidade + '</td>' +
-				'<td>' + item.Uf + '</td>' +
-				'<td>' + item.Cep + '</td>' +
-				'<td>' + item.Telefone + '</td>' +
-				'</tr>'
-			);
-
-		});
-
-		resp = listaPessoas.length > 0;
-	}
-
-	return resp;
-} 
-
-/** ----------------------------------------------------------------------------
- * 
  * @@param {any} chkObj
 ----------------------------------------------------------------------------- */
 function SelTodosPessoasPrenotacao(chkObj)
@@ -1174,43 +1059,6 @@ function GetListMatriculasPrenotacao(dadosPrenotacao, selObj)
 }
 
 /** ----------------------------------------------------------------------------
- * GerarTextoAto
- * @@param {any} dadosAto
- * @@param {any} url
------------------------------------------------------------------------------ */
-function GetTextoAto(dadosAto, url)
-{
-	$.ajax(url, {
-		method: 'POST',
-		dataType: 'json',
-		data: dadosAto,
-		beforeSend: function () {
-			ShowProgreessBar("Processando requisição...");
-		}
-	}).done(function (dataReturn) {
-		//
-		if (dataReturn.resposta) {
-			if (dataReturn.Texto) {
-				CKEDITOR.instances.ckEditorAto.setData(dataReturn.Texto);
-			}
-		} else {
-			$.smallBox({
-				title: "Não foi possivel processar sua requisição!",
-				content: dataReturn.msg,
-				color: cor_smallBox_erro,
-				icon: "fa fa-thumbs-down bounce animated",
-				timeout: 8000
-			});
-		}
-	}).fail(function (jq, textStatus, error) {
-		//
-		HideProgressBar();
-	}).always(function () {
-		HideProgressBar();
-	});
-}
-
-/** ----------------------------------------------------------------------------
  * 
  * @@param {any} listaPessoasPrenotacao
 ----------------------------------------------------------------------------- */
@@ -1232,6 +1080,59 @@ function ShowDlgPessoasPrenotacao(listaPessoasPrenotacao)
 
 /** ----------------------------------------------------------------------------
  * 
+ * @@param {any} listaPessoasPrenotacao
+----------------------------------------------------------------------------- */
+function PovoarTblPessoasPrenotacao(listaPessoas) {
+	var doc = "";
+	var chkTmp = "";
+	var resp = false;
+	var bgColorLinha = "";
+
+	$("#tbl-pessoas-prenotacao").find("tr:gt(0)").remove();
+
+	if (listaPessoas) {
+
+		$.each(listaPessoas, function (index, item) {
+
+			doc = item.Numero1.trim();
+			if (doc == "") {
+				doc = item.Numero2.trim();
+			}
+
+			if (item.Valido) {
+				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" />';
+				doc = '<button type="button" class="btn btn-success btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-up"></i></button>&nbsp;' + doc;
+			} else {
+				chkTmp = '<input type="checkbox" id="chk_pes_pre_' + item.IdPessoa + '" value="' + item.IdPessoa + '" class="chk_cartoon" disabled />';
+				doc = '<button type="button" class="btn btn-danger btn-xs" title="' + item.RetornoValidacao + '"><i class="fa fa-thumbs-down"></i></button>&nbsp;' + doc;
+			}
+
+			$("#tbl-pessoas-prenotacao tbody").append(
+				'<tr>' +
+				'<td>' + chkTmp + '</td>' +
+				'<td>' + item.DescTipoPessoa + '</td>' +
+				'<td>' + doc + '</td>' +
+				'<td>' + item.Nome + '</td>' +
+				'<td>' + item.Endereco + '</td>' +
+				'<td>' + item.Bairro + '</td>' +
+				'<td>' + item.Cidade + '</td>' +
+				'<td>' + item.Uf + '</td>' +
+				'<td>' + item.Cep + '</td>' +
+				'<td>' + item.Telefone + '</td>' +
+				'</tr>'
+			);
+
+		});
+
+		resp = listaPessoas.length > 0;
+	}
+
+	return resp;
+} 
+
+
+/** ----------------------------------------------------------------------------
+ * 
  * @@param {any} idPrenotacao
 ----------------------------------------------------------------------------- */
 function PovoartblPessoasSelecionadas()
@@ -1240,7 +1141,8 @@ function PovoartblPessoasSelecionadas()
 	var resp = false;
 	var pessoaTmp = null;
 	var htmlAcoes = "";
-
+	var pessoaAto = null;
+	
 	listaPessoasSelecionadas = [];
 	$("#tbl-pessoas-selecionadas").find("tr:gt(0)").remove();
 
@@ -1293,7 +1195,11 @@ function PovoartblPessoasSelecionadas()
 						'</tr>'
 					);
 
-					listaPessoasSelecionadas.push(pessoaTmp);
+					pessoaAto = new PessoaPrenotacao();
+					pessoaAto.SetSeqPes = pessoaTmp.IdPessoa;
+					pessoaAto.SetTipoPessoa = pessoaTmp.TipoPessoa;
+					listaPessoasSelecionadas.push(pessoaAto);
+
 					resp = true;
 				}
 			}
@@ -1354,21 +1260,6 @@ function LimparDadosImovel()
 	$('#PREIMO_CONTRIB').val("");
 }
 
-/**-----------------------------------------------------------------------------
- * 
------------------------------------------------------------------------------ */
-function GetListaPessoasSelecionadas()
-{
-	var listaPes = [];
-
-	if (listaPessoasSelecionadas) {
-		listaPessoasSelecionadas.forEach(item => {
-			listaPes.push(item.IdPessoa);
-		});
-	}
-
-	return listaPes;
-}
 
 /** ----------------------------------------------------------------------------
  * 

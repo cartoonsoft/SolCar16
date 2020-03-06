@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Cartorio11RI.ViewModels
 {
-    public class ModeloDocxListViewModel
+    public class ModeloDocListViewModel
     {
         [Key]
         [Display(Name = "Código")]

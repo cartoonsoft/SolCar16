@@ -49,7 +49,7 @@ namespace DomainServ.CartNew.Interfaces
 
         IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao);
 
-        IEnumerable<DtoPessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+        IEnumerable<DtoPessoaPesxPre> GetListPessoas(List<DtoAtoPessoa> listaAtoPessoa, long? idPrenotacao);
 
         IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 

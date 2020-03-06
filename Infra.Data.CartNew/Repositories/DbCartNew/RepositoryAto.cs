@@ -438,7 +438,6 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                         IdPessoa = Pes.SEQPES,
                         IdAto = AtoPes.IdAto,
                         IdPrenotacao = Atos.IdPrenotacao,
-                        Relacao = AtoPes.Relacao,
                         TipoPessoa = AtoPes.TipoPessoa,
                         Nome = Pes.NOM,
                         Endereco = Pes.ENDER,
@@ -460,7 +459,7 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                         IdPessoa = pessoa.IdPessoa,
                         IdAto = pessoa.IdAto,
                         IdPrenotacao = pessoa.IdPrenotacao,
-                        Relacao = pessoa.Relacao == null ? "" : pessoa.Relacao.Trim(),
+                        Relacao = pessoa.TipoPessoa == TipoPessoaPrenotacao.outorgante ?  "O" : "E",
                         TipoPessoa = pessoa.TipoPessoa,
                         Nome = pessoa.Nome == null ? "" : pessoa.Nome.Trim(),
                         Endereco = pessoa.Endereco == null ? "" : pessoa.Endereco.Trim(),
@@ -525,19 +524,25 @@ namespace Infra.Data.CartNew.Repositories.DbCartNew
                     Numero1 = pessoa.Numero1 == null ? "" : pessoa.Numero1.Trim(),
                     TipoDoc2 = pessoa.TipoDoc2 == null ? "" : pessoa.TipoDoc2.Trim(),
                     Numero2 = pessoa.Numero2 == null ? "" : pessoa.Numero2.Trim()
-                }); ; ; ; ;
+                });
             }
 
 
             return listaPessoaPesxPre;
         }
 
-        public IEnumerable<PessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao)
+        public IEnumerable<PessoaPesxPre> GetListPessoas(List<AtoPessoa> listaAtoPessoa, long? idPrenotacao)
         {
             List<PessoaPesxPre> listaPessoaCart11RI = new List<PessoaPesxPre>();
+            List<long> listaIdsPes = new List<long>();
+
+            foreach (var item in listaAtoPessoa)
+            {
+                listaIdsPes.Add(item.SeqPes);
+            }
 
             var listaPessoas =
-                from pes in this._contextRepository.DbPESSOAS.Where(p => idsPessoas.Contains(p.SEQPES))
+                from pes in this._contextRepository.DbPESSOAS.Where(p => listaIdsPes.Contains(p.SEQPES))
                 join pre in this._contextRepository.DbPESXPRE.Where(pr => (pr.SEQPRE == idPrenotacao) && (PapelPessoaAto.Contains(pr.REL))) on pes.SEQPES equals pre.SEQPES into _pre
                 from pre in _pre.DefaultIfEmpty()
                 orderby pre.REL, pes.NOM

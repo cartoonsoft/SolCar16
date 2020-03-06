@@ -19,6 +19,7 @@ namespace Cartorio11RI.ViewModels
 
         public string NumMatricula { get; set; }
 
-        public long[] ListIdsPessoas { get; set; }
+        public List<AtoPessoaViewModel> ListaAtoPessoa { get; set; }
+
     }
 }

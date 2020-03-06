@@ -44,14 +44,14 @@ namespace Cartorio11RI.Controllers
         // GET: Arquivos
         public ActionResult IndexModelo()
         {
-            IEnumerable<ModeloDocxListViewModel> listaArquivoModeloDocxListViewModel = new List<ModeloDocxListViewModel>();
+            IEnumerable<ModeloDocListViewModel> listaArquivoModeloDocxListViewModel = new List<ModeloDocListViewModel>();
 
             try
             {
                 using (AppServiceModelosDoc appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
                     IEnumerable<DtoModeloDocxList> listaDtoModelosDocx = appService.GetListModelosDocx(null);
-                    listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocxListViewModel>>(listaDtoModelosDocx);
+                    listaArquivoModeloDocxListViewModel = Mapper.Map<IEnumerable<DtoModeloDocxList>, IEnumerable<ModeloDocListViewModel>>(listaDtoModelosDocx);
                 }
             }
             catch (Exception ex)
@@ -67,7 +67,7 @@ namespace Cartorio11RI.Controllers
         // GET: Modelo/Novo
         public ActionResult NovoModelo()
         {
-            ModeloDocxViewModel model = new ModeloDocxViewModel();
+            ModeloDocViewModel model = new ModeloDocViewModel();
 
             try
             {
@@ -90,7 +90,7 @@ namespace Cartorio11RI.Controllers
         // POST: Modelo/Novo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NovoModelo(ModeloDocxViewModel modeloDocxViewModel)
+        public ActionResult NovoModelo(ModeloDocViewModel modeloDocxViewModel)
         {
             string msg = string.Empty;
             long? NovoId;
@@ -148,7 +148,7 @@ namespace Cartorio11RI.Controllers
                 {
                     ///povoar tree view
                     ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
-                    ModeloDocxViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocxViewModel>(modeloDocx);
+                    ModeloDocViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocViewModel>(modeloDocx);
 
                     if (modeloDocxViewModel == null)
                     {
@@ -175,7 +175,7 @@ namespace Cartorio11RI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditarModelo(ModeloDocxViewModel modeloDocxViewModel)
+        public ActionResult EditarModelo(ModeloDocViewModel modeloDocxViewModel)
         {
             string msg = string.Empty;
 
@@ -217,7 +217,7 @@ namespace Cartorio11RI.Controllers
         }
 
         [ChildActionOnly]
-        public PartialViewResult PartialFormModeloDoc(ModeloDocxViewModel modeloDocxViewModel)
+        public PartialViewResult PartialFormModeloDoc(ModeloDocViewModel modeloDocxViewModel)
         {
             return PartialView("_frmModeloDocx", modeloDocxViewModel);
         }

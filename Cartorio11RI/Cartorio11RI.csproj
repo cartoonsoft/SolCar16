@@ -1288,11 +1288,10 @@
     <Compile Include="App_Helpers\DashRouteHandler.cs" />
     <Compile Include="App_Helpers\StringExtensions.cs" />
     <Compile Include="App_Start\AutoMapper\AutoMapperConfigCartorio11RI.cs" />
-    <Compile Include="App_Start\AutoMapper\DomainToViewModelMappingProfile.cs" />
-    <Compile Include="App_Start\AutoMapper\DomainToDtoModelMappingProfile.cs" />
-    <Compile Include="App_Start\AutoMapper\DtoModelToDomainMappingProfile.cs" />
-    <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfileAdminCartorio.cs" />
-    <Compile Include="App_Start\AutoMapper\ViewModelToDtoMappingProfileAdminCartorio.cs" />
+    <Compile Include="App_Start\AutoMapper\DomainToDtoMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\DtoToDomainMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\DtoToViewModelMappingProfile.cs" />
+    <Compile Include="App_Start\AutoMapper\ViewModelToDtoMappingProfile.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Helpers\HtmlHelperExtensions.cs" />
@@ -1323,6 +1322,7 @@
     <Compile Include="ViewModels\AcaoViewModel.cs" />
     <Compile Include="ViewModels\AtoEventoViewModel.cs" />
     <Compile Include="ViewModels\AtoListViewModel.cs" />
+    <Compile Include="ViewModels\AtoPessoaViewModel.cs" />
     <Compile Include="ViewModels\AtoViewModel.cs" />
     <Compile Include="ViewModels\InfAtoViewModel.cs" />
     <Compile Include="ViewModels\DadosPessoaViewModel.cs" />
@@ -1332,8 +1332,8 @@
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
     <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
-    <Compile Include="ViewModels\ModeloDocxListViewModel.cs" />
-    <Compile Include="ViewModels\ModeloDocxViewModel.cs" />
+    <Compile Include="ViewModels\ModeloDocListViewModel.cs" />
+    <Compile Include="ViewModels\ModeloDocViewModel.cs" />
     <Compile Include="ViewModels\PESSOAViewModel.cs" />
     <Compile Include="ViewModels\PREIMOViewModel.cs" />
     <Compile Include="ViewModels\UsuarioAcaoViewModel.cs" />

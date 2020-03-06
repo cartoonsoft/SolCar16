@@ -13,24 +13,26 @@ using Dto.CartNew.Entities.TodosCart;
 
 namespace Cartorio11RI.App_Start.AutoMapper
 {
-    public class DtoModelToDomainMappingProfile: Profile
+    public class DtoToDomainMappingProfile: Profile
     {
-        public DtoModelToDomainMappingProfile()
+        public DtoToDomainMappingProfile()
         {
+            CreateMap<DtoAcao, Acao>();
+            CreateMap<DtoAto, Ato>();
+            CreateMap<DtoAtoEvento, AtoEvento>();
+            CreateMap<DtoAtoPessoa, AtoPessoa>();
+            CreateMap<DtoDadosAto, Ato>();
+            CreateMap<DtoDadosImovel, DadosImovel>();
+            CreateMap<DtoDocx, Docx>();
             CreateMap<DtoMenuAcaoList, MenuAcaoList>();
-            CreateMap<DtoPais, Pais>();
-            CreateMap<DtoUf, Uf>();
-            CreateMap<DtoMunicipio, Municipio>();
-            CreateMap<DtoPessoaCartNew , PessoaCartNew>();
             CreateMap<DtoModeloDoc, ModeloDoc>();
             CreateMap<DtoModeloDocxList, ModeloDocxList>();
+            CreateMap<DtoMunicipio, Municipio>();
             CreateMap<DtoPREIMO, PREIMO>();
-            CreateMap<DtoAto, Ato>();
-            CreateMap<DtoDadosAto, Ato>();
-            CreateMap<DtoAtoEvento, AtoEvento>();
-            CreateMap<DtoDocx, Docx>();
-            CreateMap<DtoDadosImovel, DadosImovel>();
+            CreateMap<DtoPais, Pais>();
+            CreateMap<DtoPessoaCartNew, PessoaCartNew>();
             CreateMap<DtoPessoaPesxPre, PessoaPesxPre>();
+            CreateMap<DtoUf, Uf>();
         }
     }
 }

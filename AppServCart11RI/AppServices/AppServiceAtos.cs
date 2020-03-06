@@ -174,7 +174,6 @@ namespace AppServCart11RI.AppServices
         private StringBuilder GetTexto(DtoDadosAto dtoDadosAto, string texto) 
         {
             StringBuilder textoTmp = new StringBuilder();
-            TipoPessoaPrenotacao tipoPessoaPrenotacao = TipoPessoaPrenotacao.indefinido; ;
             string strAto = texto;
 
             strAto = PovoarGrpPessoa(dtoDadosAto.Pessoas, TipoPessoaPrenotacao.outorgante, strAto);
@@ -247,7 +246,7 @@ namespace AppServCart11RI.AppServices
                 string nomeCampo = "[" + campoValor.Campo + "]";
                 if (strAux.Contains(nomeCampo))
                 {
-                    strAux = strAux.Replace(nomeCampo, campoValor.Valor);
+                    strAux = strAux.Replace(nomeCampo, StringFunctions.Capitalize(campoValor.Valor));
                 }
             }
 
@@ -263,15 +262,15 @@ namespace AppServCart11RI.AppServices
 
         public string[] StatusPodeGerarFicha()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
+            return this.DsFactoryCartNew.AtoDs.StatusPodeGerarFicha();
         }
         public string[] StatusPodeConfigImp()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
+            return this.DsFactoryCartNew.AtoDs.StatusPodeConfigImp();
         }
         public string[] StatusAtoFinalizado()
         {
-            return this.DsFactoryCartNew.AtoDs.StatusPodeEditar();
+            return this.DsFactoryCartNew.AtoDs.StatusAtoFinalizado();
         }
 
         public DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido)
@@ -284,7 +283,7 @@ namespace AppServCart11RI.AppServices
             return execProc;
         }
 
-        #region Add, update, InsertOrUpdateAto
+        #region Add, insert, update
         public override void Add(DtoAto dtoItem)
         {
             //regra de negocio insert
@@ -374,7 +373,6 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<string> GetListMatriculasPrenotacao(long IdPrenotacao)
         {
-            _ = new List<string>();
             List<string> listaMatriculas = DsFactoryCartNew.AtoDs.GetListMatriculasPrenotacao(IdPrenotacao).ToList();
 
             return listaMatriculas;
@@ -382,7 +380,6 @@ namespace AppServCart11RI.AppServices
 
         public IEnumerable<DtoDadosImovel> GetListImoveisPrenotacao(long IdPrenotacao)
         {
-            _ = new List<DtoDadosImovel>();
             List<DtoDadosImovel> listaImoveis = DsFactoryCartNew.AtoDs.GetListImoveisPrenotacao(IdPrenotacao).ToList();
 
             return listaImoveis;
@@ -395,7 +392,6 @@ namespace AppServCart11RI.AppServices
         /// <returns></returns>
         public IEnumerable<DtoPessoaAto> GetListPessoasAto(long? IdAto)
         {
-            _ = new List<DtoPessoaAto>();
             List<DtoPessoaAto> pessoasAto = DsFactoryCartNew.AtoDs.GetListPessoasAto(IdAto).ToList();
 
             return pessoasAto;
@@ -408,7 +404,6 @@ namespace AppServCart11RI.AppServices
         /// <returns></returns>
         public IEnumerable<DtoPessoaPesxPre> GetListPessoasPrenotacao(long IdPrenotacao)
         {
-            _ = new List<DtoPessoaPesxPre>();
             List<DtoPessoaPesxPre> pessoasPrenotacao = DsFactoryCartNew.AtoDs.GetListPessoasPrenotacao(IdPrenotacao).ToList();
 
             foreach (var pessoa in pessoasPrenotacao)
@@ -441,10 +436,9 @@ namespace AppServCart11RI.AppServices
             return pessoasPrenotacao;
         }
 
-        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, long[] idsPessoas, long? idPrenotacao)
+        public IEnumerable<DtoPessoaPesxPre> GetListPessoas(long idTipoAto, List<DtoAtoPessoa> listaAtoPessoa, long? idPrenotacao)
         {
-            _ = new List<DtoPessoaPesxPre>();
-            List<DtoPessoaPesxPre> dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(idsPessoas, idPrenotacao).ToList();
+            List<DtoPessoaPesxPre> dtoPessoaPesxPres = DsFactoryCartNew.AtoDs.GetListPessoas(listaAtoPessoa, idPrenotacao).ToList();
 
             foreach (var pessoa in dtoPessoaPesxPres)
             {
@@ -654,10 +648,9 @@ namespace AppServCart11RI.AppServices
                     dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Ato", dtoDadosAto));
                     dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Prenotacao", dtoDadosAto));
                     dtoDadosAto.ListaCamposValor.AddRange(this.GetListCamposPovoados("Imovel", dtoDadosAto));
-                    dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListIdsPessoas, dtoInfAto.IdPrenotacao).ToList();
+                    dtoDadosAto.Pessoas = this.GetListPessoas(dtoInfAto.IdTipoAto, dtoInfAto.ListaAtoPessoa, dtoInfAto.IdPrenotacao).ToList();
 
                     textoDoc = this.GetTexto(dtoDadosAto, textoModelo);
-
                 }
             } else {
                 throw new ArgumentNullException(string.Format("Modelo {0} inválido! Verificar", dtoDadosAto.IdModeloDoc));

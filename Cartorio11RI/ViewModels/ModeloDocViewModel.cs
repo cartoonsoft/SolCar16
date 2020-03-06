@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace Cartorio11RI.ViewModels
 {
-    public class ModeloDocxViewModel
+    public class ModeloDocViewModel
     {
         [Display(Name = "Código")]
         public long? Id { get; set; }

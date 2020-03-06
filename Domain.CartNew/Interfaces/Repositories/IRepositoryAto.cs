@@ -48,7 +48,7 @@ namespace Domain.CartNew.Interfaces.Repositories
         /// </summary>
         /// <param name="IdPrenotacao"></param>
         /// <returns></returns>
-        IEnumerable<PessoaPesxPre> GetListPessoas(long[] idsPessoas, long? idPrenotacao);
+        IEnumerable<PessoaPesxPre> GetListPessoas(List<AtoPessoa> listaAtoPessoa, long? idPrenotacao);
 
         IEnumerable<DadosImovel> GetListImoveisPrenotacao(long IdPrenotacao);
 

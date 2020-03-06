@@ -800,18 +800,8 @@ namespace Cartorio11RI.Controllers
 
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    DtoInfAto dtoInfAto = new DtoInfAto
-                    {
-                        IdAto = dadosAtoViewModel.IdAto,
-                        IdCtaAcessoSist = this.IdCtaAcessoSist,
-                        IdTipoAto = dadosAtoViewModel.IdTipoAto,
-                        IdLivro = dadosAtoViewModel.IdLivro,
-                        IdPrenotacao = dadosAtoViewModel.IdPrenotacao,
-                        IdModeloDoc = dadosAtoViewModel.IdModeloDoc,
-                        NumMatricula = dadosAtoViewModel.NumMatricula,
-                        ServerPath = serverPath,
-                        ListIdsPessoas = dadosAtoViewModel.ListIdsPessoas
-                    };
+                    DtoInfAto dtoInfAto = new DtoInfAto();
+                    dtoInfAto = Mapper.Map<InfAtoViewModel, DtoInfAto>(dadosAtoViewModel);
 
                     texto = appServiceAtos.GetTextoAto(dtoInfAto).ToString();
                 }

@@ -64,7 +64,7 @@ $(document).ready(function () {
 		height: '320px',
 		language: 'pt-br',
 		uiColor: '#1686E4',
-		contentsCss: 'body { font-family: "Times New Roman, Times, serif";, font-size: 14;}',
+		contentsCss: 'body { font-family: "Times New Roman, Times, serif"; font-size: large;} p { margin: 2px 0px 0px 0px; }',
 		font_defaultLabel: 'Times New Roman',
 		fontSize_defaultLabel: '14',
 		disableNativeSpellChecker: false,

@@ -156,12 +156,13 @@ namespace Cartorio11RI.ViewModels
         [Display(Name = "Frente/Verso")]
         public TipoFolhaFicha FolhaFicha { get; set; }
 
-        public string  IdsPessoasSelecionadas {get; set;} //string com ids das pessoas que forma seleconadas separadaos por ";"
-
         public List<PESSOAViewModel> Pessoas { get; set; }
 
         public List<AtoEventoViewModel> Historico { get; set; }
 
         public PREIMOViewModel PREIMO { get; set; }
+
+        public List<AtoPessoaViewModel> ListaAtoPessoa { get; set; }
+
     }
 }
