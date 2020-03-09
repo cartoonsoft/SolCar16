@@ -16,7 +16,7 @@ function ValidarCPF(strCPF)
     var resto;
 
     soma = 0;
-    strCPF = Infra.Filter.somenteNumeros(strCPF);
+    strCPF = strCPF.match(/\d+/g);
 
     if (strCPF == "00000000000")
         return false;
@@ -52,7 +52,7 @@ function ValidarCPF(strCPF)
  */
 function ValidarCNPJ(strCNPJ)
 {
-    var cnpj = Infra.Filter.somenteNumeros(strCNPJ);
+    var cnpj = strCNPJ.match(/\d+/g);
     var valida = new Array(6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
     var dig1 = new Number;
     var dig2 = new Number;
