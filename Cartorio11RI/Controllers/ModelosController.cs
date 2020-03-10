@@ -142,17 +142,22 @@ namespace Cartorio11RI.Controllers
         // GET: Modelo/Editar/{ID}
         public ActionResult EditarModelo(long? Id)
         {
+            ModeloDocViewModel modeloDocxViewModel = new ModeloDocViewModel();
+
             if (Id.HasValue && Id > 0)
             {
                 try
                 {
-                    ///povoar tree view
-                    ModeloDoc modeloDocx = this.UfwCartNew.Repositories.RepositoryModeloDocx.GetById(Id);
-                    ModeloDocViewModel modeloDocxViewModel = Mapper.Map<ModeloDoc, ModeloDocViewModel>(modeloDocx);
-
-                    if (modeloDocxViewModel == null)
+                    using (var appService = new AppServiceModelosDoc(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
-                        return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                        DtoModeloDoc dtoModelo =  appService.GetById(Id);
+
+                        if (dtoModelo == null)
+                        {
+                            return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+                        }
+
+                        modeloDocxViewModel = Mapper.Map<DtoModeloDoc, ModeloDocViewModel>(dtoModelo);
                     }
 
                     List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();

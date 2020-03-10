@@ -7,7 +7,7 @@ using Domain.CartNew.Enumerations;
 
 namespace Cartorio11RI.ViewModels
 {
-    public class LogModeloDocxViewModel
+    public class LogModeloDocViewModel
     {
         public long Id { get; set; }
 

@@ -284,6 +284,7 @@ $(document).ready(function () {
 				timeout: 4000
 			});
 		} else {
+
 			var dados = {
 				IdModeloDoc: selItem
 			}
@@ -299,6 +300,7 @@ $(document).ready(function () {
 				if (dataReturn.resposta) {
 					if (dataReturn.Texto) {
 						CKEDITOR.instances.ckEditorPreviewModelo.setData(dataReturn.Texto);
+						CKEDITOR.instances.ckEditorPreviewModelo.updateElement();
 					}
 					PodeAvancar3 = true;
 				}
@@ -314,7 +316,7 @@ $(document).ready(function () {
 	/*-- salvar o ato ------------------------------------------------------- */
 	$("#btn-ato-salvar").click(function (e) {
 		e.preventDefault();
-
+		//alert("StatusAto = " + $("#StatusAto").val());
 		var frm_valid = form_para_validar.valid();
 
 		if (frm_valid) {
@@ -370,50 +372,82 @@ $(document).ready(function () {
 	$("#btn-ato-conf-texto").click(function (e) {
 		e.preventDefault();
 
-		$.SmartMessageBox({
-			title: "Confirmar com identificação de usuário",
-			content: "Nome usuário",
-			buttons: "[Cancelar][Avançar]",
-			input: "text",
-			inputValue: "",
-			placeholder: "Usuário"
-		}, function (ButtonPress, Value) {
-			if (ButtonPress == "Cancelar") {
-				//alert("Why did you cancel that? :(");
-				return 0;
-			}
+		var chkSalvo = $("#Salvo").is(":checked");
 
-			var username = Value;
-			var userNameLower = username.toLowerCase(); // toUpperCase();
+		if (chkSalvo) {
 
-			$.SmartMessageBox({
-				title: "<strong>" + userNameLower + ",</strong>",
-				content: "Digite sua senha:",
-				buttons: "[Cancelar][Login]",
-				input: "password",
-				inputValue: "",
-				placeholder: "Senha"
-			}, function (ButtonPress, Value) {
-				if (ButtonPress == "Login") {
-					//alert("Usuário: " + username + " pass : " + Value);
-					ConfirmarUserLoginSenha(username, Value, 1, SetTextoConferido);
+			var statusAto = $("#StatusAto").val();
+			var flag_edt = _statusPodeEditar.includes(statusAto);  
+
+			if (flag_edt) {
+				$.SmartMessageBox({
+					title: "Confirmar com identificação de usuário",
+					content: "Nome usuário",
+					buttons: "[Cancelar][Avançar]",
+					input: "text",
+					inputValue: "",
+					placeholder: "Usuário"
+				}, function (ButtonPress, Value) {
+
+					if (ButtonPress == "Cancelar") {
+						//alert("Why did you cancel that? :(");
+						return 0;
+					}
+
+					var username = Value;
+					var userNameLower = username.toLowerCase(); // toUpperCase();
+
+					$.SmartMessageBox({
+						title: "<strong>" + userNameLower + ",</strong>",
+						content: "Digite sua senha:",
+						buttons: "[Cancelar][Login]",
+						input: "password",
+						inputValue: "",
+						placeholder: "Senha"
+					}, function (ButtonPress, Value) {
+						if (ButtonPress == "Login") {
+							//alert("Usuário: " + username + " pass : " + Value);
+							ConfirmarUserLoginSenha(username, Value, 1, SetTextoConferido);
+						}
+					});
+				});
+			} else {
+				if (statusAto == "CT") {
+					ShowDlgBoxCartorio({
+						headerText: "Aviso",
+						messageText: "Ato já está no Status: CT - Conferido Texto!",
+						alertType: "warning"
+					});
+				} else {
+					ShowDlgBoxCartorio({
+						headerText: "Aviso",
+						messageText: "Status atual não permite alterar para status: CT - Texto conferido!",
+						alertType: "warning"
+					});
 				}
+			}
+		} else {
+			ShowDlgBoxCartorio({
+				headerText: "Aviso",
+				messageText: "Salve o ato antes de prosseguir!",
+				alertType: "warning"
 			});
-		});
+		}
 	});
 
 	/*-- btn-ato-colocar-edicao --------------------------------------------- */
 	$("#btn-ato-colocar-edicao").click(function (e) {
 		e.preventDefault();
 		//CKEDITOR.instances['ckEditorAto'].setReadOnly(true);
+		//CKEDITOR.instances.ckEditorAto.updateElement();
 	});
 
 	/*-- btn-ato-gerar-docx ------------------------------------------------- */
 	$("#btn-ato-gerar-docx").click(function (e) {
 		e.preventDefault();
 		//CKEDITOR.instances['ckEditorAto'].setReadOnly(false);
+		//CKEDITOR.instances.ckEditorAto.updateElement();
 	});
-
 
 	/*-- pesquisar pessoas -------------------------------------------------- */
 	$("#btn-pesq-pessoas-prenotacao").click(function (e) {
@@ -475,6 +509,7 @@ function GetTextoAto(dadosAto, url) {
 		if (dataReturn.resposta) {
 			if (dataReturn.Texto) {
 				CKEDITOR.instances.ckEditorAto.setData(dataReturn.Texto);
+				CKEDITOR.instances.ckEditorAto.updateElement();
 			}
 		} else {
 			$.smallBox({
@@ -774,7 +809,8 @@ function ConfirmarUserLoginSenha(pUsuario, pPass, pAcao, callBack)
 function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 {
 	//alert("IdAto => " +pIdAto + "    Usuario => " + pIdUsuario);
-	if (pIdAto && pIdUsuario) {
+	if (pIdAto && pIdUsuario)
+	{
 		//mudar status ato
 		var dados = {
 			idAto: pIdAto,
@@ -790,10 +826,12 @@ function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 				//ShowProgreessBar("Processando requisição...");
 			}
 		}).done(function (dataReturn) {
-			if (dataReturn.resposta) {
-
+			//
+			if (dataReturn.resposta)
+			{
 				CKEDITOR.instances['ckEditorAto'].setReadOnly(true);
-
+				CKEDITOR.instances.ckEditorAto.updateElement();
+				$("#StatusAto").val("CT");
 				$.smallBox({
 					title: "Texto conferido",
 					content: "<i class='fa fa-check-circle'></i><i> " + dataReturn.msg,
@@ -803,21 +841,21 @@ function SetTextoConferido(pIdAto, pIdUsuario, pConferido)
 				});
 
 			} else {
-				if (dataReturn.tipoMsg == 5) // error
+				if (dataReturn.tipoMsg == 4) // warning
 				{
-					$.smallBox({
-						title: "Não foi possivel processar sua requisição!",
-						content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
-						color: cor_smallBox_erro,
-						icon: "fa fa-thumbs-down bounce animated",
-						timeout: 8000
-					});
-				} else if (dataReturn.tipoMsg == 4) { // warning
 					$.smallBox({
 						title: "Aviso!",
 						content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
 						color: cor_smallBox_aviso,
 						icon: "fa fa-exclamation bounce animated",
+						timeout: 8000
+					});
+				} else if (dataReturn.tipoMsg == 5) { // error
+					$.smallBox({
+						title: "Não foi possivel processar sua requisição!",
+						content: dataReturn.msg + "<br />" + dataReturn.msgDetalhe,
+						color: cor_smallBox_erro,
+						icon: "fa fa-thumbs-down bounce animated",
 						timeout: 8000
 					});
 				}
@@ -850,6 +888,7 @@ function SelecionarTipoAto(btnObj, idTipoAto, SiglaSeqAto)
 		$(btn).addClass("btn-danger");
 		var sel = $("#IdModeloDoc");
 		CKEDITOR.instances.ckEditorPreviewModelo.setData("");
+		CKEDITOR.instances.ckEditorPreviewModelo.updateElement();
 		BuscarListaModelos(idTipoAtoTmp, sel, urlGetListModelosDocx);
 	}
 }
@@ -1129,7 +1168,6 @@ function PovoarTblPessoasPrenotacao(listaPessoas) {
 
 	return resp;
 } 
-
 
 /** ----------------------------------------------------------------------------
  * 

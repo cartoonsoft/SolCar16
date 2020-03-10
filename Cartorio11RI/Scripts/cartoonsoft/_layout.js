@@ -8,8 +8,8 @@ by Ronaldo Moreira - 2019
 
 var cor_smallBox_aviso = "#D99651";
 var cor_smallBox_erro = "#D16E60";
-var cor_smallBox_ok = "#0A97EF";
-var cor_smallBox_confima = "#2A881A";
+var cor_smallBox_ok = "#1F7706";
+var cor_smallBox_confima = "#1A6588";
 
 /** ----------------------------------------------------------------------------
  * Mostrar o progresbar

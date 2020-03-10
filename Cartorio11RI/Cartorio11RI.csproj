@@ -1232,7 +1232,6 @@
     <Content Include="Views\Misc\Exemplo1CartoonSoft.cshtml" />
     <Content Include="Views\Misc\Exemplo2CartoonSoft.cshtml" />
     <Content Include="Views\Misc\_divPessoas.cshtml" />
-    <Content Include="Views\Modelos\_frmModeloDocx_old.cshtml" />
     <Content Include="Scripts\plugin\bootstrap-select\bootstrap-select.min.js.map" />
     <Content Include="Scripts\plugin\bootstrap-select\i18n\defaults-am_ET.js.map" />
     <Content Include="Scripts\plugin\bootstrap-select\i18n\defaults-ar_AR.js.map" />
@@ -1330,7 +1329,7 @@
     <Compile Include="ViewModels\BaseErrorViewModel.cs" />
     <Compile Include="ViewModels\BusinessErrorViewModel.cs" />
     <Compile Include="ViewModels\InternalServerErrorViewModel.cs" />
-    <Compile Include="ViewModels\LogModeloDocxViewModel.cs" />
+    <Compile Include="ViewModels\LogModeloDocViewModel.cs" />
     <Compile Include="ViewModels\MatriculaViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocListViewModel.cs" />
     <Compile Include="ViewModels\ModeloDocViewModel.cs" />

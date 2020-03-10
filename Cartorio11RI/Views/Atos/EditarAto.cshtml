@@ -44,7 +44,6 @@
 							<input class="form-control" type="text">
 						</div>
 						<!-- end widget edit box -->
-
 						<!-- widget content -->
 						<div class="widget-body">
 							@using (Html.BeginForm("EditarAto", "Atos", FormMethod.Post, new { id = "frm-cadastro-ato", enctype = "multipart/form-data" }))
@@ -53,6 +52,7 @@
 								@Html.ValidationBootstrap()
 								@Html.HiddenFor(model => model.Id)
 								@Html.HiddenFor(model => model.IdCtaAcessoSist)
+								@Html.HiddenFor(model => model.IdPrenotacao)
 								@Html.HiddenFor(model => model.IdTipoAto)
 								@Html.HiddenFor(model => model.IdUsuarioCadastro)
 								@Html.HiddenFor(model => model.IdUsuarioAlteracao)
@@ -114,14 +114,11 @@
 	<script src="~/Scripts/plugin/ckeditor/styles.js"></script>
 	<script src="~/Scripts/cartoonsoft/cartoonsoft_libs.js"></script>
 	<script src="~/Scripts/cartoonsoft/cartoonsoft_jquery_libs.js"></script>
+	<script>
+		var _statusPodeEditar    = @Html.Raw(Json.Encode(ViewBag.StatusPodeEditar));
+		var _statusPodeConfigImp = @Html.Raw(Json.Encode(ViewBag.StatusPodeConfigImp));
+		var _statusAtoFinalizado = @Html.Raw(Json.Encode(ViewBag.StatusAtoFinalizado));
+	</script>
 	<script src="~/Scripts/cartoonsoft/Atos/crud_ato.js"></script>
 	<script src="~/Scripts/cartoonsoft/Atos/editar_ato.js"></script>
-
-	<script>
-		$(document).ready(function () {
-
-			//
-
-		});
-	</script>
 }		

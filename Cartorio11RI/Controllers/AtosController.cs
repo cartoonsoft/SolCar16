@@ -233,8 +233,7 @@ namespace Cartorio11RI.Controllers
             string msg = string.Empty;
 
             DtoExecProc execProc = new DtoExecProc();
-            DtoAto ato = new DtoAto();
-            ato = Mapper.Map<AtoViewModel, DtoAto>(atoView);
+            DtoAto ato = Mapper.Map<AtoViewModel, DtoAto>(atoView);
 
             try
             {
@@ -280,9 +279,9 @@ namespace Cartorio11RI.Controllers
                     {
                         appService.ListaUsuariosSistema = listaUsrSist;
 
-                        string[] StatusPodeEditar = appService.StatusPodeEditar();
-                        string[] StatusPodeConfigImp = appService.StatusPodeConfigImp();
-                        string[] StatusAtoFinalizado = appService.StatusAtoFinalizado();
+                        string[] StatusPodeEditar = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar();
+                        string[] StatusPodeConfigImp = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
+                        string[] StatusAtoFinalizado = this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
 
                         ViewBag.StatusPodeEditar = StatusPodeEditar;
                         ViewBag.StatusPodeConfigImp = StatusPodeConfigImp;

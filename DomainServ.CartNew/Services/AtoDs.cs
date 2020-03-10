@@ -122,7 +122,7 @@ namespace DomainServ.CartNew.Services
                     {
                         statusTmp = "CT";
                     } else {
-                        statusTmp = "AR";
+                        statusTmp = "AR";  //recolocado em escrita
                     }
 
                     ato = this.ValidarAto(idAto, statusTmp);
@@ -142,10 +142,8 @@ namespace DomainServ.CartNew.Services
 
                             string desc = string.Format(
                                 CultureInfo.CurrentCulture,
-                                "Ato {0} alterado do status {1} para o status {2} pelo usuário {3}.",
-                                codigoAto,
-                                statusAnt, statusTmp,
-                                usuario.Nome
+                                "Ato {0} passou do status {1} para status {2}, pelo usuário {3}.",
+                                codigoAto, statusAnt, statusTmp, usuario.Nome
                             );
 
                             this.InsertAtoEvento(execProc, usuario, ato.Id ?? 0, ato.StatusAto, "CT", desc);

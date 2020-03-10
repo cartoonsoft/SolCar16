@@ -107,7 +107,6 @@ namespace Cartorio11RI.ViewModels
         public string Observacao { get; set; }
 
         [Display(Name = "Status")]
-        [ReadOnly(true)]
         public string StatusAto { get; set; }
 
         [Display(Name = "Conferido Texto", Description = "Conferido texto do ato")]

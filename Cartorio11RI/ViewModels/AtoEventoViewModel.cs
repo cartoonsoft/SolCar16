@@ -34,6 +34,8 @@ namespace Cartorio11RI.ViewModels
 
         [Required]
         [Display(Name = "Descrição")]
+        [MaxLength(200)]
+        [StringLength(200, ErrorMessage = "Máximo de {0} caracteres.")]
         public string Descricao { get; set; }
 
         [Required]
