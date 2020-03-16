@@ -25,6 +25,7 @@ var urlConfirmarUserLoginSenha = '/Account/ConfirmarUserLoginSenha';
 var urlSetStatusAto = '/Atos/SetStatusAto';
 var urlSetTextoConferido = '/Atos/SetTextoConferido';
 var urlGetListModelosDocx = '/Atos/GetListModelosDocx';
+var urlGetListHistoricoAto = '/Atos/GetListHistoricoAto';
 
 var form_para_validar = null;
 
@@ -256,16 +257,23 @@ $(document).ready(function () {
 		var ele1 = $("#div-ato-frm-dados-ato");
 		var ele2 = $("#div-historico-ato");
 
-		if ($(ele1).is(':visible')) {
-
+		if ($(ele1).is(':visible'))
+		{
 			$(ele1).hide("slow");
 			$(ele2).show("slow");
 			btn.text("Dados");
-
 		} else {
 			$(ele1).show("slow");
 			$(ele2).hide("slow");
 			btn.text("Histórico");
+			//mostrar histórico
+			var idTmp = $("#Id").val();
+			
+			var dadosAto = {
+				idAto: idTmp
+			}
+
+			GetListHistoricoAto(dadosAto, urlGetListHistoricoAto);
 		}
 	});
 
@@ -311,7 +319,6 @@ $(document).ready(function () {
 			});
 		}
 	});
-
 
 	/*-- salvar o ato ------------------------------------------------------- */
 	$("#btn-ato-salvar").click(function (e) {
@@ -1317,4 +1324,61 @@ function RemoverPessoaSel(objBtn, idPessoa)
 		}
 		PodeAvancar2 = (listaPessoasSelecionadas.length > 0);
 	}
+}
+
+/** ----------------------------------------------------------------------------
+ * 
+ * @param {any} dadosAto
+ ---------------------------------------------------------------------------- */
+function GetListHistoricoAto(dadosAto, url)
+{
+
+	$("#tbl-historico-ato").find("tr:gt(0)").remove();
+
+	$.ajax(url, {
+		method: 'POST',
+		dataType: 'json',
+		data: dadosAto,
+		beforeSend: function () {
+			ShowProgreessBar("Processando requisição...");
+		}
+	}).done(function (dataReturn) {
+
+		if (dataReturn.resposta) {
+			if (dataReturn.ListaDtoAtoEvento) {
+				$.each(dataReturn.ListaDtoAtoEvento, function (index, item) {
+
+					$("#tbl-historico-ato tbody").append(
+						'<tr>' +
+						'<td>' + item.DataEvento  + '</td>' +
+						'<td>' + item.NomeUsuario + '</td>' +
+						'<td>' + item.Descricao   + '</td>' +
+						'</tr>'
+					);
+
+				});
+			}
+		} else {
+			$.smallBox({
+				title: "Não foi possivel processar sua requisição!",
+				content: dataReturn.msg,
+				color: cor_smallBox_erro,
+				icon: "fa fa-thumbs-down bounce animated",
+				timeout: 8000
+			});
+		}
+	}).fail(function (jq, textStatus, error) {
+		$.smallBox({
+			title: "Falha na sua requisição!",
+			content: textStatus + "[" + error + "]",
+			color: cor_smallBox_erro,
+			icon: "fa fa-thumbs-down bounce animated",
+			timeout: 8000
+		});
+
+	}).always(function () {
+		HideProgressBar();
+	});
+
+
 }

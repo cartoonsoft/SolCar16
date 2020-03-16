@@ -44,6 +44,8 @@ namespace Cartorio11RI.ViewModels
 
         [Required(ErrorMessage = "O campo Descrição do modelo é obrigatório", AllowEmptyStrings = false)]
         [Display(Name = "Descrição do modelo")]
+        [MaxLength(200)]
+        [StringLength(200, ErrorMessage = "Máximo de {0} caracteres.")]
         public string Descricao { get; set; }
 
         [MaxLength(2048)]

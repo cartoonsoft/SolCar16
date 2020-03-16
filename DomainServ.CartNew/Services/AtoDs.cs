@@ -67,7 +67,7 @@ namespace DomainServ.CartNew.Services
             return ato;
         }
 
-        private void InsertAtoEvento(DtoExecProc execProc, ApplicationUser usuario, long idAto, string statusAnt, string statusAto, string descricao)
+        private void InsertAtoEvento(DtoExecProc execProc, UsuarioIdentity usuario, long idAto, string statusAnt, string statusAto, string descricao)
         {
             this.UfwCartNew.Repositories.GenericRepository<AtoEvento>().Add(
                 new AtoEvento
@@ -103,15 +103,17 @@ namespace DomainServ.CartNew.Services
             return this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
         }
 
-        public DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido)
+        public DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
             Ato ato = null;
             string statusTmp;
 
-            if (usuario == null)
+            UsuarioIdentity usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioIdentity>().GetWhere(u => u.Id == idUsuario).FirstOrDefault();
+
+            if (usr == null)
             {
-                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário inválido. Verifique!");
             }
 
             try
@@ -143,10 +145,10 @@ namespace DomainServ.CartNew.Services
                             string desc = string.Format(
                                 CultureInfo.CurrentCulture,
                                 "Ato {0} passou do status {1} para status {2}, pelo usuário {3}.",
-                                codigoAto, statusAnt, statusTmp, usuario.Nome
+                                codigoAto, statusAnt, statusTmp, usr.Nome
                             );
 
-                            this.InsertAtoEvento(execProc, usuario, ato.Id ?? 0, ato.StatusAto, "CT", desc);
+                            this.InsertAtoEvento(execProc, usr, ato.Id ?? 0, ato.StatusAto, "CT", desc);
                             execProc.Resposta = true;
                             execProc.Msg = string.Format(CultureInfo.CurrentCulture, "Ato alterado do status {0} para {1} com sucesso!", statusAnt, statusTmp);
                             execProc.TipoMsg = TipoMsgResposta.ok;
@@ -180,7 +182,6 @@ namespace DomainServ.CartNew.Services
         {
             if (item != null)
             {
-                item.Ativo = true;
                 // verificar se prenotacao e matricula já fora salvos
                 if (this.AtoJaCadastrado(item.IdPrenotacao, item.NumMatricula))
                 {
@@ -197,7 +198,7 @@ namespace DomainServ.CartNew.Services
                 }
             }
 
-            return base.Add(item);
+            return this.UfwCartNew.Repositories.RepositoryAto.Add(item);
         }
 
         public override void Update(Ato item)
@@ -210,7 +211,7 @@ namespace DomainServ.CartNew.Services
                 }
             }
 
-            base.Update(item);
+            this.UfwCartNew.Repositories.RepositoryAto.Update(item);
         }
 
         public DtoExecProc InsertOrUpdateAto(DtoAto atoDto, ApplicationUser usuario)
@@ -226,7 +227,7 @@ namespace DomainServ.CartNew.Services
 
             if (usuario == null)
             {
-                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário é nulo. Verifique!");
+                throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário inválido. Verifique!");
             }
 
             string StatusAnt = atoDto.StatusAto;

@@ -26,9 +26,6 @@ namespace AppServCart11RI.AppServices
 {
     public class AppServiceAtos : AppServiceCartorio11RI<DtoAto, Ato>, IAppServiceAtos
     {
-        private List<ApplicationUser> listaUsrSist;
-        private List<DtoPessoaPesxPre> listaPessoasPrenotacao = null;  //PESXPRE
-
         /// <summary>
         /// Construtor
         /// </summary>
@@ -276,9 +273,8 @@ namespace AppServCart11RI.AppServices
         public DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
-            var usr = this.listaUsrSist.Where(u => u.IdUsuario == idUsuario).FirstOrDefault();
 
-            execProc = this.DsFactoryCartNew.AtoDs.SetTextoConferido(idAto, usr, conferido);
+            execProc = this.DsFactoryCartNew.AtoDs.SetTextoConferido(idAto, idUsuario, conferido);
 
             return execProc;
         }
@@ -304,12 +300,6 @@ namespace AppServCart11RI.AppServices
             return this.DsFactoryCartNew.AtoDs.InsertOrUpdateAto(ato, usuario);
         }
         #endregion
-
-        public List<ApplicationUser> ListaUsuariosSistema
-        { 
-            get { return listaUsrSist; }
-            set { listaUsrSist = value; }
-        }
 
         public bool ConfirmarAjusteImpressaoAto(long IdAto)
         {
@@ -452,11 +442,6 @@ namespace AppServCart11RI.AppServices
         {
             List<DtoAtoEvento> listaDtoAtoEvento = DsFactoryCartNew.AtoDs.GetListHistoricoAto(IdAto).ToList();
 
-            foreach (var item in listaDtoAtoEvento)
-            {
-                item.NomeUsuario = this.ListaUsuariosSistema.Where(u => u.IdUsuario == item.IdUsuario).FirstOrDefault().Nome;
-            }
-
             return listaDtoAtoEvento;
         }
 
@@ -508,6 +493,14 @@ namespace AppServCart11RI.AppServices
                 reserva.Resposta = false;
                 reserva.Msg = "Ato já foi gerado para esta prenotacao e matrícula!";
             } else {
+
+                UsuarioIdentity usr = this.UfwCartNew.Repositories.GenericRepository<UsuarioIdentity>().GetWhere(u => u.Id == IdUsuario).FirstOrDefault();
+
+                if (usr == null)
+                {
+                    throw new ArgumentNullException(MethodBase.GetCurrentMethod().Name, "Usuário inválido. Verifique!");
+                }
+
                 PreImo = this.UfwCartNew.Repositories.GenericRepository<PrenotacaoImovel>().GetWhere(p =>
                     (p.IdPrenotacao == IdPrenotacao) &&
                     (p.NumMatricula == NumMatricula) &&
@@ -583,14 +576,15 @@ namespace AppServCart11RI.AppServices
                     }
                 } else {
                     reserva.TipoMsg = TipoMsgResposta.error;
+                    UsuarioIdentity usr2 = this.UfwCartNew.Repositories.GenericRepository<UsuarioIdentity>().GetWhere(u => u.Id == PreImo.IdUsuario).FirstOrDefault();
 
-                    if (this.listaUsrSist != null)
+                    if (usr2 != null)
                     {
-                        var usr = this.listaUsrSist.Where(u => u.IdUsuario == PreImo.IdUsuario).FirstOrDefault();
-                        reserva.Msg = string.Format("Imóvel já reservado pelo usuário: {0}!", "[" + usr.LoginName + "] " + usr.Nome);
+                        reserva.Msg = string.Format("Imóvel já reservado pelo usuário: {0}!", "[" + usr2.UserName + "] " + usr.Nome);
                     } else {
                         reserva.Msg = "Imóvel já reservado por outro usuário";
                     }
+
                     reserva.Resposta = false;
                 }
             }

@@ -16,9 +16,7 @@ namespace Cartorio11RI.ViewModels
             this.Id = null;
             this.DataCadastro = DateTime.Now;
             this.DataAto = DateTime.Today;
-            this.Pessoas = new List<PESSOAViewModel>();
             this.PREIMO = new PREIMOViewModel();
-            this.Historico = new List<AtoEventoViewModel>();
         }
 
         [Key]
@@ -154,10 +152,6 @@ namespace Cartorio11RI.ViewModels
 
         [Display(Name = "Frente/Verso")]
         public TipoFolhaFicha FolhaFicha { get; set; }
-
-        public List<PESSOAViewModel> Pessoas { get; set; }
-
-        public List<AtoEventoViewModel> Historico { get; set; }
 
         public PREIMOViewModel PREIMO { get; set; }
 

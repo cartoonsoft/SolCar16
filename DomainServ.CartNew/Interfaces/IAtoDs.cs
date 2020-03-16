@@ -29,7 +29,7 @@ namespace DomainServ.CartNew.Interfaces
 
         string[] StatusAtoFinalizado();
 
-        DtoExecProc SetTextoConferido(long? idAto, ApplicationUser usuario, bool conferido);
+        DtoExecProc SetTextoConferido(long? idAto, string idUsuario, bool conferido);
 
         DtoPessoaPesxPre GetPessoa(long idPessoa, long? idPrenotacao);
 

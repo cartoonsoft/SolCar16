@@ -272,13 +272,9 @@ namespace Cartorio11RI.Controllers
             {
                 if (Id.HasValue)
                 {
-                    List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
-
 
                     using (AppServiceAtos appService = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                     {
-                        appService.ListaUsuariosSistema = listaUsrSist;
-
                         string[] StatusPodeEditar = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeEditar();
                         string[] StatusPodeConfigImp = this.UfwCartNew.Repositories.RepositoryAto.StatusPodeConfigImp();
                         string[] StatusAtoFinalizado = this.UfwCartNew.Repositories.RepositoryAto.StatusAtoFinalizado();
@@ -317,12 +313,6 @@ namespace Cartorio11RI.Controllers
                         List<TipoAtoList> listaTipoAto = this.UfwCartNew.Repositories.RepositoryTipoAto.GetListTipoAtos(null).ToList();
                         ViewBag.listaTipoAto = listaTipoAto;
 
-                        //todo: pessoas
-                        //List<DtoPessoaAto> listaPesAto = appService.GetListPessoasAto(Id).ToList();
-
-                        //historico
-                        List<AtoEventoViewModel> listaAtoEvento = Mapper.Map<List<DtoAtoEvento>, List<AtoEventoViewModel>>(appService.GetListHistoricoAto(Id).ToList());
-                        atoViewModel.Historico = listaAtoEvento;
                         atoViewModel.TextoAnterior = atoViewModel.Texto;
                     }
                 } else {
@@ -829,13 +819,11 @@ namespace Cartorio11RI.Controllers
             bool resp = false;
             string message = string.Empty;
             DtoReservaImovel reservaImovel = new DtoReservaImovel();
-            List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    appServiceAtos.ListaUsuariosSistema = listaUsrSist;
                     reservaImovel = appServiceAtos.ProcReservarMatImovel(TipoReserva, IdPrenotacao, NumMatricula, this.UsuarioAtual.Id);
                 }
 
@@ -864,13 +852,11 @@ namespace Cartorio11RI.Controllers
         public JsonResult SetTextoConferido(long? idAto, string idUsuario, bool conferido)
         {
             DtoExecProc execProc = new DtoExecProc();
-            List<ApplicationUser> listaUsrSist = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().Users.OrderBy(u => u.UserName).ToList();
 
             try
             {
                 using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
                 {
-                    appServiceAtos.ListaUsuariosSistema = listaUsrSist;
                     execProc = appServiceAtos.SetTextoConferido(idAto, idUsuario, conferido);
                 }
             }
@@ -887,6 +873,40 @@ namespace Cartorio11RI.Controllers
                 tipoMsg = execProc.TipoMsg,
                 msg = execProc.Msg,
                 msgDetalhe = execProc.MsgDetalhe
+            };
+
+            return Json(resultado);
+        }
+
+
+        [HttpPost]
+        public JsonResult GetListHistoricoAto(long? idAto) 
+        {
+            bool resp = false;
+            string message = string.Empty;
+
+            List<DtoAtoEvento> listaDtoAtoEvento = new List<DtoAtoEvento>();
+
+            try
+            {
+                using (AppServiceAtos appServiceAtos = new AppServiceAtos(this.UfwCartNew, this.IdCtaAcessoSist))
+                {
+                    listaDtoAtoEvento = appServiceAtos.GetListHistoricoAto(idAto).ToList();
+                    resp = true;
+                    message = "Lista histórioco retornada com sucesso!";
+                }
+            }
+            catch (Exception ex)
+            {
+                resp = false;
+                message = string.Format("Falha em: {0}.{1} [{2}{3}]", GetType().FullName, MethodBase.GetCurrentMethod().Name, ex.Message, (ex.InnerException != null) ? "=>" + ex.InnerException.Message : "");
+            }
+
+            var resultado = new
+            {
+                resposta = resp,
+                msg = message,
+                ListaDtoAtoEvento = listaDtoAtoEvento
             };
 
             return Json(resultado);
